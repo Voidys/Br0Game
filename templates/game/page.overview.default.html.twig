@@ -24,7 +24,7 @@
         
         <div class="infos">
             <div class="planeto">
-                <a href="#" data-dialog="game?page=overview&amp;mode=actions" data-dialog-width="400" title="{{ LNG.ov_planetmenu }}">{{ LNG["type_planet_#{planet_type}"] }} {{ planetname }}</a> ({{ username }})
+                <a href="#" data-dialog="{{ path('game_overview_actions') }}" data-dialog-width="400" title="{{ LNG.ov_planetmenu }}">{{ LNG["type_planet_#{planet_type}"] }} {{ planetname }}</a> ({{ username }})
             </div>
             {{ LNG.ov_server_time }}: <span class="servertime">{{ servertime }}</span>
             <br>
@@ -33,7 +33,7 @@
                 &nbsp;&bull;&nbsp;
                 <a class="colorPositive" href="#" data-action="dialog-pm" data-id="{{ ID }}">{{ Name }}</a>
             {% endfor %}
-            &nbsp;&bull;&nbsp;<a class="colorPositive" href="game?page=ticket">{{ LNG.ov_ticketbot }}</a>&nbsp;&bull;&nbsp;
+            &nbsp;&bull;&nbsp;<a class="colorPositive" href="{{ path('game_ticket_show') }}">{{ LNG.ov_ticketbot }}</a>&nbsp;&bull;&nbsp;
             <br><br>
             {{ LNG.ov_points }} {% if rankInfo %}{{ LNG.format('ov_userrank_info', rankInfo.points, LNG.ov_place, rankInfo.rank, rankInfo.rank, LNG.ov_of, rankInfo.usersCount) }}{% else %}-{% endif %}
             {% if outlawTime %}
@@ -44,7 +44,7 @@
             {% endif %}
             <br><br>
             <span class="bold">
-                {{ LNG.ov_rulesnotify }}&nbsp;<a href="./?page=rules" data-dialog data-dialog-width="820" class="rules-link">[{{ LNG.ov_rules }}]</a>
+                {{ LNG.ov_rulesnotify }}&nbsp;<a href="{{ path('login_rules') }}" data-dialog data-dialog-width="820" class="rules-link">[{{ LNG.ov_rules }}]</a>
             </span>
             {% if is_news %}
                 <div class="hidden-div" id="hidden-div">
@@ -92,7 +92,7 @@
             </div>
             {% if Moon %}
                 <div class="moon">
-                    <a href="game?page=overview&amp;cp={{ Moon.id }}&amp;re=0" title="{{ Moon.name }}">
+                    <a href="{{ path('game_overview_show', {cp: Moon.id, re: 0}) }}" title="{{ Moon.name }}">
                         {% if enablePlanetStyles == 0 %}
                             <img class="inline" src="{{ theme_asset('planeten/' ~ Moon.image ~ '.jpg') }}" height="100" width="100" alt="{{ Moon.name }} {% if Moon.planet_type == 3 %}({{ LNG.fcm_moon }}){% else %}({{ LNG.fcm_planet }}){% endif %}">
                         {% else %}
@@ -148,49 +148,49 @@
                 {{ planetname }}
                 <br>
                 {% if buildInfo.buildings %}
-                    <a href="game?page=buildings">{{ LNG.lm_buildings }}:</a> {{ LNG.tech[buildInfo.buildings['id']] }}{% if buildInfo.buildings['mode'] == 'destroy' %} {{ LNG.bd_dismantle }}{% endif %} ({{ buildInfo.buildings['level'] }})
+                    <a href="{{ path('game_buildings_show') }}">{{ LNG.lm_buildings }}:</a> {{ LNG.tech[buildInfo.buildings['id']] }}{% if buildInfo.buildings['mode'] == 'destroy' %} {{ LNG.bd_dismantle }}{% endif %} ({{ buildInfo.buildings['level'] }})
                     <br>
                     <div class="timer" data-umode="{{ umode }}" data-time="{{ buildInfo.buildings['timeleft'] }}">
                         {{ buildInfo.buildings['starttime'] }}
                     </div>
                 {% else %}
-                    <a href="game?page=buildings">{{ LNG.lm_buildings }}: {{ LNG.ov_free }}</a>
+                    <a href="{{ path('game_buildings_show') }}">{{ LNG.lm_buildings }}: {{ LNG.ov_free }}</a>
                     <br>
                 {% endif %}
                 {% if buildInfo.tech %}
-                    <a href="game?page=research">{{ LNG.lm_research }}:</a> {{ LNG.tech[buildInfo.tech['id']] }} ({{ buildInfo.tech['level'] }})
+                    <a href="{{ path('game_research_show') }}">{{ LNG.lm_research }}:</a> {{ LNG.tech[buildInfo.tech['id']] }} ({{ buildInfo.tech['level'] }})
                     <br>
                     <div class="timer" data-umode="{{ umode }}" data-time="{{ buildInfo.tech['timeleft'] }}">
                         {{ buildInfo.tech['starttime'] }}
                     </div>
                 {% else %}
-                    <a href="game?page=research">{{ LNG.lm_research }}: {{ LNG.ov_free }}</a>
+                    <a href="{{ path('game_research_show') }}">{{ LNG.lm_research }}: {{ LNG.ov_free }}</a>
                     <br>
                 {% endif %}
                 {% if buildInfo.fleet %}
-                    <a href="game?page=shipyard&amp;mode=fleet">{{ LNG.lm_shipshard }}: </a>{{ LNG.tech[buildInfo.fleet['id']] }} ({{ buildInfo.fleet['level'] }})
+                    <a href="{{ path('game_shipyard_show', {kind: 'shipyard'}) }}">{{ LNG.lm_shipshard }}: </a>{{ LNG.tech[buildInfo.fleet['id']] }} ({{ buildInfo.fleet['level'] }})
                     <br>
                     <div class="timer" data-umode="{{ umode }}" data-time="{{ buildInfo.fleet['timeleft'] }}">
                         {{ buildInfo.fleet['starttime'] }}
                     </div>
                 {% else %}
-                    <a href="game?page=shipyard&amp;mode=fleet">{{ LNG.lm_shipshard }}: {{ LNG.ov_free }}</a>
+                    <a href="{{ path('game_shipyard_show', {kind: 'shipyard'}) }}">{{ LNG.lm_shipshard }}: {{ LNG.ov_free }}</a>
                     <br>
                 {% endif %}
                 
-                {% if isModuleAvailable(php_const('MODULE_REPAIR_DOCK')) %}
+                {% if isModuleAvailable(constant('MODULE_REPAIR_DOCK')) %}
                     {% if buildInfo.repair %}
                         {% if buildInfo.repair.repairing %}
-                            <a href="game?page=repairdock">{{ LNG.lm_repairdock }}: </a><span id="repairtext" data-alttext="{{ buildInfo.repair['deploy_text'] }}">{{ buildInfo.repair['text'] }}</span>
+                            <a href="{{ path('game_repairdock_show') }}">{{ LNG.lm_repairdock }}: </a><span id="repairtext" data-alttext="{{ buildInfo.repair['deploy_text'] }}">{{ buildInfo.repair['text'] }}</span>
                         {% else %}
-                            <a href="game?page=repairdock">{{ LNG.lm_repairdock }}: </a><span id="repairtext">{{ buildInfo.repair['deploy_text'] }}</span>
+                            <a href="{{ path('game_repairdock_show') }}">{{ LNG.lm_repairdock }}: </a><span id="repairtext">{{ buildInfo.repair['deploy_text'] }}</span>
                         {% endif %}
                         <br>
                         <div class="timerrepair" data-umode="{{ umode }}" data-time="{{ buildInfo.repair['timeleft'] }}" data-repairing={{ buildInfo.repair['repairing'] }}>
                             {{ buildInfo.repair['starttime'] }}
                         </div>
                     {% else %}
-                        <a href="game?page=repairdock">{{ LNG.lm_repairdock }}: {{ LNG.ov_free }}</a>
+                        <a href="{{ path('game_repairdock_show') }}">{{ LNG.lm_repairdock }}: {{ LNG.ov_free }}</a>
                         <br>
                     {% endif %}
                 {% endif %}
@@ -200,7 +200,7 @@
                 <br>
                 {{ LNG.ov_temperature }}: <a class="tooltip_sticky" data-tooltip-content="{{ LNG.ov_aprox }} {{ planet_temp_min }}{{ LNG.ov_temp_unit }} {{ LNG.ov_to }} {{ planet_temp_max }}{{ LNG.ov_temp_unit }}">{{ planet_temp_max }}{{ LNG.ov_temp_unit }}</a>
                 <br>
-                {{ LNG.ov_position }}: <a href="game?page=galaxy&amp;galaxy={{ galaxy }}&amp;system={{ system }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a>
+                {{ LNG.ov_position }}: <a href="{{ path('game_galaxy_show', {galaxy: galaxy, system: system}) }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a>
             </div>
             &nbsp;<br>
         </div>
@@ -213,7 +213,7 @@
                 {% for PlanetRow in AllPlanets %}
                     {% if (loop.index % themeSettings.PLANET_ROWS_ON_OVERVIEW) == 1 %}{% endif %}
                     <div class="planetl">
-                        <a href="game?page=overview&amp;cp={{ PlanetRow.id }}" title="{{ PlanetRow.name }}">
+                        <a href="{{ path('game_overview_show', {cp: PlanetRow.id}) }}" title="{{ PlanetRow.name }}">
                             {% if enablePlanetStyles == 0 %}
                                 <img class="planet-thumb" src="{{ theme_asset('planeten/' ~ PlanetRow.image ~ '.jpg') }}" width="100" height="100" alt="{{ PlanetRow.name }}">
                             {% else %}

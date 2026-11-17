@@ -8,11 +8,10 @@
 
 namespace App\Controller\Game;
 
-use App\Game\Core\Database;
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /** Ends the player's rebuild protection early (XHR). */
-#[\App\Routing\GamePage('game', 'rebuildProtectionAjax')]
 class RebuildProtectionAjaxController extends AbstractGameController
 {
     public function initialize(): void
@@ -24,7 +23,8 @@ class RebuildProtectionAjaxController extends AbstractGameController
     /**
      * Ends the player's rebuild protection early (XHR): clears the protection fields on the user row.
      */
-    public function show()
+    #[GameRoute('game', 'game/rebuild-protection', 'rebuildProtectionAjax', methods: ['POST'])]
+    public function show(): Response
     {
         $USER = $this->state->USER;
         $db = $this->db;
@@ -33,5 +33,7 @@ class RebuildProtectionAjaxController extends AbstractGameController
         $db->update($sql, [
             ':userID' => $USER['id'],
         ]);
+
+        return new Response();
     }
 }

@@ -9,10 +9,10 @@
         <td>
             <table>
                 <tr>
-                    <td><a href='?page=alliance&amp;mode=info&amp;id={{ currentPlanet.alliance.id }}'>{{ LNG.gl_alliance_page }}</a></td>
+                    <td><a href='{{ path('game_alliance_info', {id: currentPlanet.alliance.id}) }}'>{{ LNG.gl_alliance_page }}</a></td>
                 </tr>
                 <tr>
-                    <td><a href='?page=statistics&amp;start={{ currentPlanet.alliance.rank }}&amp;who=2'>{{ LNG.gl_see_on_stats }}</a></td>
+                    <td><a href='{{ path('game_statistics_show', {start: currentPlanet.alliance.rank, who: 2}) }}'>{{ LNG.gl_see_on_stats }}</a></td>
                 </tr>
                 {% if currentPlanet.alliance.web %}
                     <tr>

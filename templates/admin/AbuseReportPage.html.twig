@@ -1,5 +1,5 @@
 {% include 'admin/overall_header.html.twig' %}
-{% macro player(id, name) %}<a href="admin?page=accountData&amp;id_u={{ id }}">{{ name }}</a>{% endmacro %}
+{% macro player(id, name) %}<a href="{{ path('admin_account_data_detail', {id_u: id}) }}">{{ name }}</a>{% endmacro %}
 {% macro links(row) %}
   {% if row.ip %}<span class="badge badge--danger">{{ LNG.abuse_link_ip }}</span>{% endif %}
   {% if row.device %}<span class="badge badge--danger">{{ LNG.abuse_link_device }}</span>{% endif %}
@@ -11,7 +11,6 @@
   <form action="" method="get" class="card">
     <div class="card__body">
       <div class="toolbar">
-        <input type="hidden" name="page" value="abuseReport">
         <div class="field field--fixed-8">
           <label for="abuse-days">{{ LNG.abuse_days }}</label>
           <input id="abuse-days" type="number" name="days" min="1" max="{{ maxDays }}" value="{{ days }}">

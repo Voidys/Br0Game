@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 /**
- * Module switch of a game page (see PageModeDispatch): the page is only available while the module is active.
+ * Module switch of a game page (enforced for every route by GameControllerListener, see GuardsModule): the page is only available while the module is active.
  * The MODULE_* constant is given by name, because it only exists once the game is bootstrapped.
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]

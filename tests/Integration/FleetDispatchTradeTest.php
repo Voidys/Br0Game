@@ -12,6 +12,7 @@ use App\Tests\Support\GameTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use App\Game\Enum\Mission;
 
 /**
  * Fleet dispatch step 3 for the trade mission: the server enforces what the UI pre-check does, a resource offer
@@ -46,7 +47,10 @@ final class FleetDispatchTradeTest extends GameTestCase
         parent::tearDown();
     }
 
-    /** @param array<string, mixed> $input posted resources */
+    /**
+     * @param array<string, mixed> $input posted resources
+     * @return array<mixed>
+     */
     private function dispatchTrade(array $input): array
     {
         $resource = $this->elements()->columnMap();
@@ -61,7 +65,7 @@ final class FleetDispatchTradeTest extends GameTestCase
             'fleetSpeed' => 10, 'ownPlanet' => $planet['id'],
         ]];
         $session->save();
-        $this->state->requestInput = $input + ['token' => 'tok', 'mission' => MISSION_TRADE, 'markettype' => 0, 'resEx' => 3, 'exchange' => 100, 'staytime' => 1, 'visibility' => 0, 'maxFlightTime' => 0];
+        $this->state->requestInput = $input + ['token' => 'tok', 'mission' => Mission::Trade->value, 'markettype' => 0, 'resEx' => 3, 'exchange' => 100, 'staytime' => 1, 'visibility' => 0, 'maxFlightTime' => 0];
 
         return (new FleetDispatch($this->db, $this->configs, $this->state))->dispatch();
     }
@@ -80,7 +84,7 @@ final class FleetDispatchTradeTest extends GameTestCase
     {
         $result = $this->dispatchTrade(['metal' => 100]);
 
-        $this->assertSame('game?page=fleetTable', $result['goto']);
+        $this->assertSame('game_fleet_table_show', $result['goto']);
         $trade = $this->db->selectSingle('SELECT * FROM %%TRADES%% ORDER BY seller_fleet_id DESC LIMIT 1;');
         $this->fleetIds[] = (int) $trade['seller_fleet_id'];
         $this->assertEquals(100, $trade['resource_amount']);

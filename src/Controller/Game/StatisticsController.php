@@ -17,27 +17,18 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\AuthLevel;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
-use App\Game\Core\Config;
-use App\Game\Cronjob\Cronjob;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
 
 /**
  * Highscore pages for players and alliances (points, fleet, research, buildings, defense).
  */
-#[\App\Routing\GamePage('game', 'statistics')]
 #[\App\Controller\RequireModule('MODULE_STATISTICS')]
 class StatisticsController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Highscore. Request: who (STATS_PLAYERS or STATS_ALLIANCES), type (points, fleet, research, buildings, defense, units, honor; unknown = total points),
      * range (first rank of the 100-row page). With the spy-tech dependent stats module active, non-admins only get a category when their spy tech allows
@@ -46,12 +37,13 @@ class StatisticsController extends AbstractGameController
      * rank, points and the rank change (old rank - rank) and mark buddies and diplomatic partners; alliance rows list the alliances. Passes the
      * selectors, the page ranges and the time of the last statistic cron run to the template.
      */
+    #[GameRoute('game', 'game/statistics', 'statistics')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $who = $this->http()->_GP('who', STATS_PLAYERS);
-        $type = $this->http()->_GP('type', STATS_TYPE_POINTS);
-        $range = $this->http()->_GP('range', 1);
+        $who = $this->input()->int('who', STATS_PLAYERS);
+        $type = $this->input()->int('type', STATS_TYPE_POINTS);
+        $range = $this->input()->int('range', 1);
         [$Order, $Points, $Rank, $OldRank] = $this->rankColumns($type);
 
         $RangeList = [];
@@ -78,7 +70,7 @@ class StatisticsController extends AbstractGameController
         ];
         $Selector['type'] = $this->typeSelector();
 
-        $this->assign([
+        return $this->render('game/page.statistics.default.html.twig', [
             'Selectors'   => $Selector,
             'who'         => $who,
             'type'        => $type,
@@ -99,14 +91,12 @@ class StatisticsController extends AbstractGameController
                 'member'        => $LNG['gl_short_member'],
             ],
         ]);
-
-        return $this->render('game/page.statistics.default.html.twig');
     }
 
     /** Whether the stat categories are limited by the viewer's spy tech (module active and the viewer is no staff). */
     private function limitedBySpyTech(): bool
     {
-        return $this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS) && $this->state->USER['authlevel'] <= 0;
+        return $this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS) && $this->state->USER['authlevel'] <= AuthLevel::User->value;
     }
 
     /**
@@ -221,11 +211,11 @@ class StatisticsController extends AbstractGameController
 
         $rows = [];
         foreach ($query as $StatRow) {
-            $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($StatRow));
+            $IsNoobProtec = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($StatRow));
             $rows[] = [
                 'id'                => $StatRow['id'],
                 'name'              => $StatRow['username'],
-                'class'             => $this->playerUtil()->userStatus($StatRow, $IsNoobProtec),
+                'class'             => $this->protectionRules()->userStatus($StatRow, $IsNoobProtec),
                 'isBuddy'           => $StatRow['buddy'] != null,
                 'is_leader'         => $StatRow['is_leader'],
                 'is_diplo'          => $StatRow['is_diplo'],
@@ -255,7 +245,13 @@ class StatisticsController extends AbstractGameController
         $db = $this->db;
         $config = $this->configs->get();
 
-        // $Order is one of the fixed "<type>_rank ASC" strings chosen above, never request input
+        // The page (staff filter, order, limit) is cut from STATPOINTS first, on the (universe, stat_type, <type>_rank) index,
+        // so the many joins below only run for the 100 shown rows. $Order is one of the fixed "<type>_rank ASC" strings
+        // chosen above, never request input; $start is an int.
+        $page = 'SELECT ps.* FROM ' . $db->table('STATPOINTS') . ' ps INNER JOIN ' . $db->table('USERS') . ' pu ON pu.id = ps.id_owner'
+            . ' WHERE ps.universe = :universe AND ps.stat_type = 1'
+            . ($config->stat == 2 ? ' AND pu.authlevel < :authLevel' : '')
+            . ' ORDER BY ps.' . $Order . ' LIMIT 100 OFFSET ' . $start;
         $rankingQuery = $db->qb()
             ->select(
                 'DISTINCT s.*',
@@ -276,22 +272,18 @@ class StatisticsController extends AbstractGameController
                 'd.level AS diploLevel',
                 's.honor_title',
             )
-            ->from($db->table('STATPOINTS'), 's')
+            ->from('(' . $page . ')', 's')
             ->innerJoin('s', $db->table('USERS'), 'u', 'u.id = s.id_owner')
             ->leftJoin('s', $db->table('ALLIANCE'), 'a', 'a.id = s.id_ally')
             ->leftJoin('s', $db->table('ALLIANCE_RANK'), 'r', 'r.allianceID = s.id_ally AND r.rankID = u.ally_rank_id')
             ->leftJoin('a', $db->table('DIPLO'), 'd', '((d.owner_1 = :allianceId AND d.owner_2 = a.id) OR (d.owner_1 = a.id AND d.owner_2 = :allianceId)) AND d.accept = 1')
             ->leftJoin('u', $db->table('BUDDY'), 'buddy', '((buddy.sender = :userId AND buddy.owner = u.id) OR (buddy.sender = u.id AND buddy.owner = :userId)) AND u.id != :userId')
-            ->where('s.universe = :universe')
-            ->andWhere('s.stat_type = 1')
             ->setParameter('allianceId', $this->state->USER['ally_id'])
             ->setParameter('userId', $this->state->USER['id'])
             ->setParameter('universe', $this->universe()->current())
-            ->orderBy($Order)
-            ->setFirstResult($start)
-            ->setMaxResults(100);
+            ->orderBy('s.' . $Order);
         if ($config->stat == 2) {
-            $rankingQuery->andWhere('u.authlevel < :authLevel')->setParameter('authLevel', $config->stat_level);
+            $rankingQuery->setParameter('authLevel', $config->stat_level);
         }
         return $db->fetchAll($rankingQuery);
 

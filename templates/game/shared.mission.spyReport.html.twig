@@ -1,6 +1,6 @@
 <div class="spyRaport">
 	<div class="spyRaportHead" coords="{{ targetPlanet.galaxy }}:{{ targetPlanet.system }}:{{ targetPlanet.planet }}">
-		<a href="game?page=galaxy&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}">{{ title }}</a>
+		<a href="game/galaxy/{{ targetPlanet.galaxy }}/{{ targetPlanet.system }}">{{ title }}</a>
 	</div>
     {% if stbEnabled %}
 		<div class="spyRaportContainer" name="scavengeruwu">
@@ -66,14 +66,14 @@
 			</div>
 			<div class="spyRaportContainerRow clearfix">
 				<div class="spyRaportContainerCell spy-cell-half {{ dangerClass }}">
-					<a href="game?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission=1&#35;ship_input[202]={{ smallCargoNeeded }}" target="_blank">
+					<a href="game/fleet?galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission=1&#35;ship_input[202]={{ smallCargoNeeded }}" target="_blank">
 						<button type="button">
               				⚔️ {{ pretty_number(smallCargoNeeded) }} {{ LNG.spy_small_transporter }} ⚔️
 						</button>
 					</a>
 				</div>
 				<div class="spyRaportContainerCell spy-cell-half {{ dangerClass }}">
-					<a href="game?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission=1&#35;ship_input[203]={{ largeCargoNeeded }}" target="_blank">
+					<a href="game/fleet?galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission=1&#35;ship_input[203]={{ largeCargoNeeded }}" target="_blank">
 						<button type="button">
               				⚔️ {{ pretty_number(largeCargoNeeded) }} {{ LNG.spy_large_transporter }} ⚔️
 						</button>
@@ -94,19 +94,19 @@
 					<a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip max-lg:hidden' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
 				</div>
 				<div class="spyRaportContainerCell" data-info="{{ Class }}_{{ elementID }}">
-					{{ pretty_number(amount) }}{% if isset(repair_order[elementID]) %} <span class="colorPositive">(+ {{ repair_order[elementID] }})</span>{% endif %}
+					{{ pretty_number(amount) }}{% if repair_order[elementID] is defined and repair_order[elementID] is not null %} <span class="colorPositive">(+ {{ repair_order[elementID] }})</span>{% endif %}
 				</div>
 				{% if (loop.index % 2) == 0 or loop.last %}</div>{% endif %}
 			{% endfor %}
-			{% if not empty(repair_order) and Class == 200 %}
+			{% if repair_order and Class == 200 %}
 				<div><span class="colorPositive">(+ X)</span> {{ LNG.sys_mess_spy_repair_order }}</div>
 			{% endif %}
   			<br>
 		</div>
 	{% endfor %}
 	<div class="spyRaportFooter">
-		<a href="game?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission={% if targetPlanet.planet_type < 4 %}1">{{ LNG.type_mission_1 }}{% else %}20">{{ LNG.type_mission_20 }}{% endif %}</a>
+		<a href="game/fleet?galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission={{ targetPlanet.planet_type < 4 ? 1 : 20 }}">{% if targetPlanet.planet_type < 4 %}{{ LNG.type_mission_1 }}{% else %}{{ LNG.type_mission_20 }}{% endif %}</a>
 		<br>{% if totalShipDefCount > 0 and targetChance >= spyChance %}<span class="colorNegative">{{ LNG.sys_mess_spy_destroyed }}</span>{% else %}{{ LNG.format('sys_mess_spy_lostproba', targetChance) }}{% endif %}
-		{% if isBattleSim %}<br><a target="_blank" href="game?page=battleSimulator{% for Class, elementIDs in spyData %}{% for elementID, amount in elementIDs %}&amp;im[{{ elementID }}]={{ amount|intval }}{% endfor %}{% endfor %}">{{ LNG.fl_simulate }}</a>{% endif %}
+		{% if isBattleSim %}<br><a target="_blank" href="game/simulator?{% for Class, elementIDs in spyData %}{% for elementID, amount in elementIDs %}im[{{ elementID }}]={{ amount|intval }}&amp;{% endfor %}{% endfor %}">{{ LNG.fl_simulate }}</a>{% endif %}
 	</div>
 </div>

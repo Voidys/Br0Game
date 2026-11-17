@@ -17,12 +17,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Game\Core\Config;
-use App\Game\Core\Singleton;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Shows an admin error message. */
-#[\App\Routing\GamePage('admin', 'error')]
 class ErrorController extends AbstractAdminController
 {
     protected $message = '';
@@ -32,13 +29,11 @@ class ErrorController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $this->assign([
+        return $this->render('admin/ShowErrorPage.html.twig', [
             'game_name'    => $this->configs->get()->game_name,
             'adm_cp_title' => $LNG['adm_cp_title'],
             'message' => $this->message,
         ]);
-
-        return $this->render('admin/ShowErrorPage.html.twig');
     }
 
     public function setMessage(string $message): void

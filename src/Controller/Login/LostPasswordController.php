@@ -18,16 +18,9 @@
 namespace App\Controller\Login;
 
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\AccountUtil;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Mail;
-use App\Game\Core\Session;
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
 
 /** Lost password: requests a reset mail and sets a new password from the mail link (modes: show, send, newPassword). */
-#[\App\Routing\GamePage('index', 'lostPassword')]
 class LostPasswordController extends AbstractLoginController
 {
     /** seconds a reset link stays valid */
@@ -44,35 +37,27 @@ class LostPasswordController extends AbstractLoginController
     }
 
     /** message page for an unknown, used or expired key */
-    private function invalidKey(): never
+    private function invalidKey(): Response
     {
-        $this->printMessage($this->state->LNG['passwordValidInValid'], [[
+        return $this->messageResponse($this->state->LNG['passwordValidInValid'], [[
             'label'	=> $this->state->LNG['passwordBack'],
             'url'	=> './',
         ]]);
     }
 
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Lost-password form; redirects to the start page when mail is not enabled in the universe config.
      */
+    #[GameRoute('index', 'lost-password', 'lostPassword')]
     public function show(): Response
     {
         if (!$this->configs->get()->mail_active) {
-            $this->redirectTo('./');
+            return $this->redirectResponse('./');
         }
 
-        $universeSelect	= $this->getUniverseSelector();
-
-        $this->assign([
-            'universeSelect'	=> $universeSelect,
+        return $this->render('login/page.lostPassword.default.html.twig', [
+            'universeSelect'	=> $this->getUniverseSelector(),
         ]);
-
-        return $this->render('login/page.lostPassword.default.html.twig');
     }
 
     /**
@@ -83,11 +68,12 @@ class LostPasswordController extends AbstractLoginController
      * revokes the other sessions of the account and mails the result (on systems without working mail the new password
      * is shown on the page).
      */
-    public function newPassword()
+    #[GameRoute('index', 'lost-password/reset', 'lostPassword', 'newPassword', ['GET', 'POST'])]
+    public function newPassword(): Response
     {
         $LNG = $this->state->LNG;
-        $accountID		= (int) $this->http()->_GP('u', 0);
-        $validationKey	= $this->http()->_GP('k', '');
+        $accountID		= $this->input()->int('u');
+        $validationKey	= $this->input()->string('k');
 
         $db = $this->db;
 
@@ -100,12 +86,10 @@ class LostPasswordController extends AbstractLoginController
                 ':time'				=> $oldest,
             ], 'state');
             if (empty($isValid)) {
-                $this->invalidKey();
+                return $this->invalidKey();
             }
 
-            $this->assign(['accountID' => $accountID, 'validationKey' => $validationKey]);
-
-            return $this->render('login/page.lostPassword.confirm.html.twig');
+            return $this->render('login/page.lostPassword.confirm.html.twig', ['accountID' => $accountID, 'validationKey' => $validationKey]);
         }
 
         // single use: only the request that flips hasChanged gets to set the password
@@ -116,7 +100,7 @@ class LostPasswordController extends AbstractLoginController
             ':time'				=> $oldest,
         ]);
         if ($db->rowCount() !== 1) {
-            $this->invalidKey();
+            return $this->invalidKey();
         }
 
         $newPassword	= bin2hex(random_bytes(6));
@@ -153,16 +137,16 @@ class LostPasswordController extends AbstractLoginController
             $subject	= $LNG->format('passwordChangedMailTitle', $config->game_name);
             $this->mailer()->send($accountData['mail'], $accountData['accountname'], $subject, $MailContent);
 
-            $this->printMessage($LNG['passwordChangedMailSend'], [[
-                'label'	=> $LNG['passwordNext'],
-                'url'	=> './',
-            ]]);
-        } else {
-            $this->printMessage(new \Twig\Markup(nl2br(htmlspecialchars((string) $MailContent, ENT_QUOTES, 'UTF-8', false)), 'UTF-8'), [[
+            return $this->messageResponse($LNG['passwordChangedMailSend'], [[
                 'label'	=> $LNG['passwordNext'],
                 'url'	=> './',
             ]]);
         }
+
+        return $this->messageResponse(new \Twig\Markup(nl2br(htmlspecialchars((string) $MailContent, ENT_QUOTES, 'UTF-8', false)), 'UTF-8'), [[
+            'label'	=> $LNG['passwordNext'],
+            'url'	=> './',
+        ]]);
     }
 
     /**
@@ -171,11 +155,12 @@ class LostPasswordController extends AbstractLoginController
      * Stores a key in LOSTPASSWORD and mails a link (mode=newPassword). Unknown accounts and repeated requests get the same
      * answer as a successful one, so account names cannot be enumerated.
      */
-    public function send()
+    #[GameRoute('index', 'lost-password', 'lostPassword', 'send', ['POST'])]
+    public function send(): Response
     {
         $LNG = $this->state->LNG;
-        $accountname	= $this->http()->_GP('username', '', UTF8_SUPPORT);
-        $mail		= $this->http()->_GP('mail', '', true);
+        $accountname	= $this->input()->string('username', '', UTF8_SUPPORT);
+        $mail		= $this->input()->string('mail', '', true);
 
         $errorMessages	= [];
 
@@ -191,23 +176,27 @@ class LostPasswordController extends AbstractLoginController
 
         // without working mail the reset link would have to be shown on screen to whoever asks
         if (!$config->mail_active || empty($config->smtp_host)) {
-            $this->redirectTo('./');
+            return $this->redirectResponse('./');
         }
 
-        $this->requireBotCheck('./?page=lostPassword', $LNG['passwordBack']);
+        $formUrl = $this->router->generate('login_lost_password_show');
+        if ($failure = $this->botCheckFailure($formUrl, $LNG['passwordBack'])) {
+            return $failure;
+        }
 
         if (!$this->rateLimits->allowLostPassword($this->sessions()->getClientIp())) {
-            $this->printMessage($LNG['login_error_4'], [[
+            return $this->messageResponse($LNG['login_error_4'], [[
                 'label'	=> $LNG['passwordBack'],
-                'url'	=> './?page=lostPassword',
+                'url'	=> $formUrl,
             ]]);
         }
 
         if (!empty($errorMessages)) {
             $message	= new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errorMessages)), 'UTF-8');
-            $this->printMessage($message, [[
+
+            return $this->messageResponse($message, [[
                 'label'	=> $LNG['passwordBack'],
-                'url'	=> './?page=lostPassword',
+                'url'	=> $formUrl,
             ]]);
         }
 
@@ -235,7 +224,7 @@ class LostPasswordController extends AbstractLoginController
             });
         }
 
-        $this->printMessage($LNG['passwordValidMailSend'], [[
+        return $this->messageResponse($LNG['passwordValidMailSend'], [[
             'label'	=> $LNG['passwordNext'],
             'url'	=> './',
         ]]);
@@ -267,7 +256,7 @@ class LostPasswordController extends AbstractLoginController
     }
 
     /**
-     * Mails the reset link (`?page=lostPassword&mode=newPassword&u=<account>&k=<key>`, canonical absolute URL) to the
+     * Mails the reset link (`lost-password/reset?u=<account>&k=<key>`, canonical absolute URL) to the
      * account's second address.
      */
     private function sendResetMail(string $accountname, string $mail, mixed $accountID, string $validationKey): void
@@ -275,7 +264,7 @@ class LostPasswordController extends AbstractLoginController
         $LNG = $this->state->LNG;
         $config = $this->configs->get();
 
-        $url = $this->canonicalUrl->forPage($this->state->runtime, './?page=lostPassword&mode=newPassword&u=' . $accountID . '&k=' . $validationKey);
+        $url = $this->canonicalUrl->forPage($this->state->runtime, 'lost-password/reset?u=' . $accountID . '&k=' . $validationKey);
         if ($url === null) {
             return;
         }

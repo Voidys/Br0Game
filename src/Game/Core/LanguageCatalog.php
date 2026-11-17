@@ -8,11 +8,13 @@ namespace App\Game\Core;
  */
 class LanguageCatalog
 {
+    /** @var array<mixed> */
     private static array $allLanguages = [];
 
     /**
      * Languages the game offers.
      * @param bool $OnlyKey true: codes only; false: code => display name.
+     * @return array<mixed>
      */
     public function getAllowedLangs(bool $OnlyKey = true): array
     {

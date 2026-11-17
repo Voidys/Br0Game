@@ -143,6 +143,7 @@ class BattleHallFilter
      * joined as "A & B". QueryBuilder query: base conditions (universe, 6 hour delay) plus the optional memorial, time,
      * galaxy and diplomacy filters; attacker and defender are correlated subselects over topkb_users.
      * @param int $limit maximum number of reports.
+     * @return array<mixed>
      */
     public function getTopKBs(int $limit = 100): array
     {

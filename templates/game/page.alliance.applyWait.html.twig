@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_research }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=alliance&amp;mode=cancelApply" method="post">
+<form action="{{ path('game_alliance_cancel_apply') }}" method="post">
 	<table>
 	<tr>
 		<th>{{ LNG.al_your_request_title }}</th>

@@ -17,36 +17,32 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\AuthLevel;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\AccountUtil;
 use App\Game\Core\Database;
-use App\Game\Core\HTTP;
 use App\Game\Core\Log;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /**
  * Quick editor for single planets and players (resources, buildings, fleets, authlevel, ...).
  */
-#[\App\Routing\GamePage('admin', 'quickEditor')]
 class QuickEditorController extends AbstractAdminController
 {
     /**
-     * Quick editor (admin?page=quickEditor, loaded as a dialog). Request: edit (`planet` or `player`), id, action=send. Without `action` renders the form
-     * (planet: resources, field limit, buildings, fleet, defense; player: name, password, attack flag, research) with the current values. With action=send the
-     * changes are saved by savePlanet() / savePlayer(): only fields present in the POST are written. Any other `edit` value returns an empty page.
+     * Quick editor form (loaded as a dialog). Request: edit (`planet` or `player`), id. Renders the form (planet: resources, field limit,
+     * buildings, fleet, defense; player: name, password, attack flag, research) with the current values. Any other `edit` value returns an
+     * empty page.
      */
+    #[GameRoute('admin', 'admin/quick-edit/{edit}/{id}', 'quickEditor', 'show', requirements: ['id' => '\d+'])]
     public function show(): Response
     {
-        $action = $this->http()->_GP('action', '');
-        $edit = $this->http()->_GP('edit', '');
-        $id = $this->http()->_GP('id', 0);
+        $id = $this->input()->int('id');
 
-        switch ($edit) {
+        switch ($this->input()->string('edit')) {
             case 'planet':
-                return $this->planetForm($action, $id);
+                return $this->planetForm($id);
             case 'player':
-                return $this->playerForm($action, $id);
+                return $this->playerForm($id);
         }
 
         // nothing selected to edit: empty page, as before
@@ -54,10 +50,30 @@ class QuickEditorController extends AbstractAdminController
     }
 
     /**
-     * Planet editor: loads the planet (element columns from the resource table), saves it first on action=send (ends the
-     * request), then renders the form with owner name, resources and the building/fleet/defense lists.
+     * Saves the quick editor form (POST, same request as the form): the changes are written by savePlanet() / savePlayer(), only fields
+     * present in the POST are written. Answers with the success message (shown in the dialog).
      */
-    private function planetForm(mixed $action, mixed $id): Response
+    #[GameRoute('admin', 'admin/quick-edit/{edit}/{id}', 'quickEditor', 'save', ['POST'], ['id' => '\d+'])]
+    public function save(): Response
+    {
+        $id = $this->input()->int('id');
+
+        switch ($this->input()->string('edit')) {
+            case 'planet':
+                return $this->saveFromPlanetForm($id);
+            case 'player':
+                return $this->saveFromPlayerForm($id);
+        }
+
+        return new Response();
+    }
+
+    /**
+     * The planet row with the element columns (from the game's resource table) and the element ids the form may edit.
+     *
+     * @return array{0: array<string, mixed>|false, 1: int[]}
+     */
+    private function loadPlanet(int $id): array
     {
         $e = $this->elements();
         $db = $this->db;
@@ -77,12 +93,31 @@ class QuickEditorController extends AbstractAdminController
                 ->setParameter('planetID', $id),
         );
 
-        if ($action == 'send') {
-            if (!is_array($PlanetData) || !$this->mayActOn((int) $PlanetData['id_owner'], true)) {
-                $this->deny();
-            }
-            $this->savePlanet((int) $id, $PlanetData, $DataIDs);
+        return [$PlanetData, $DataIDs];
+    }
+
+    /** Planet form POST: saves the planet (the actor must be allowed to act on its owner) and answers with the success message. */
+    private function saveFromPlanetForm(int $id): Response
+    {
+        [$PlanetData, $DataIDs] = $this->loadPlanet($id);
+
+        if (!is_array($PlanetData) || !$this->mayActOn((int) $PlanetData['id_owner'], true)) {
+            return $this->denyResponse();
         }
+
+        return $this->savePlanet($id, $PlanetData, $DataIDs);
+    }
+
+    /**
+     * Planet editor: loads the planet (element columns from the resource table) and renders the form with owner name,
+     * resources and the building/fleet/defense lists.
+     */
+    private function planetForm(int $id): Response
+    {
+        $e = $this->elements();
+        $db = $this->db;
+
+        [$PlanetData] = $this->loadPlanet($id);
 
         $sql = "SELECT `username` FROM %%USERS%%
         WHERE `id` = :userID AND universe = :universe;";
@@ -95,7 +130,7 @@ class QuickEditorController extends AbstractAdminController
         $fleet = $this->elementRows($e->ids('fleet'), $PlanetData);
         $defense = $this->elementRows($e->ids('defense'), $PlanetData);
 
-        $this->assign([
+        return $this->render('admin/QuickEditorPlanet.html.twig', [
             'build'        => $build,
             'fleet'        => $fleet,
             'defense'      => $defense,
@@ -117,17 +152,18 @@ class QuickEditorController extends AbstractAdminController
             'crystal_c'    => $this->viewHelpers()->prettyNumber($PlanetData['crystal']),
             'deuterium_c'  => $this->viewHelpers()->prettyNumber($PlanetData['deuterium']),
         ]);
-        return $this->render('admin/QuickEditorPlanet.html.twig');
     }
 
     /**
-     * Player editor: loads the player (research columns from the resource table), saves on action=send (ends the
-     * request), then renders the form with the home planet name and the research list.
+     * The player row with the research columns (from the game's resource table), the research element ids the form may edit and whether
+     * the actor may change the password. The password belongs to the account, so every player of the account (all universes) must rank
+     * below the actor.
+     *
+     * @return array{0: array<string, mixed>|false, 1: int[], 2: bool}
      */
-    private function playerForm(mixed $action, mixed $id): Response
+    private function loadPlayer(int $id): array
     {
         $USER = $this->state->USER;
-        $LNG = $this->state->LNG;
         $e = $this->elements();
         $db = $this->db;
 
@@ -144,7 +180,6 @@ class QuickEditorController extends AbstractAdminController
                 ->where('`id` = :userID')
                 ->setParameter('userID', $id),
         );
-        // the password belongs to the account, so every player of the account (all universes) must rank below the actor
         $accountTop = (int) $db->selectSingle(
             'SELECT MAX(u.`authlevel`) AS top FROM %%ACCOUNTS_TO_USERS%% au INNER JOIN %%ACCOUNTS_TO_USERS%% other ON other.account_id = au.account_id INNER JOIN %%USERS%% u ON u.id = other.user_id WHERE au.user_id = :userID;',
             [':userID' => $id],
@@ -152,12 +187,33 @@ class QuickEditorController extends AbstractAdminController
         );
         $ChangePW = $USER['id'] == ROOT_USER || ($id != ROOT_USER && $USER['authlevel'] > max((int) $UserData['authlevel'], $accountTop));
 
-        if ($action == 'send') {
-            if (!$this->mayActOn((int) $id, true)) {
-                $this->deny();
-            }
-            $this->savePlayer((int) $id, $UserData, $DataIDs, $ChangePW);
+        return [$UserData, $DataIDs, $ChangePW];
+    }
+
+    /** Player form POST: saves the player (the actor must be allowed to act on it) and answers with the success message. */
+    private function saveFromPlayerForm(int $id): Response
+    {
+        [$UserData, $DataIDs, $ChangePW] = $this->loadPlayer($id);
+
+        if (!$this->mayActOn($id, true)) {
+            return $this->denyResponse();
         }
+
+        return $this->savePlayer($id, $UserData, $DataIDs, $ChangePW);
+    }
+
+    /**
+     * Player editor: loads the player (research columns from the resource table) and renders the form with the home planet
+     * name and the research list.
+     */
+    private function playerForm(int $id): Response
+    {
+        $LNG = $this->state->LNG;
+        $e = $this->elements();
+        $db = $this->db;
+
+        [$UserData, , $ChangePW] = $this->loadPlayer($id);
+
         $sql = "SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetID AND `universe` = :universe;";
         $PlanetInfo = $db->selectSingle($sql, [
             ':planetID' => $UserData['id_planet'],
@@ -166,7 +222,7 @@ class QuickEditorController extends AbstractAdminController
 
         $tech = $this->elementRows($e->ids('tech'), $UserData);
 
-        $this->assign([
+        return $this->render('admin/QuickEditorUser.html.twig', [
             'tech'         => $tech,
             'id'           => $id,
             'planetid'     => $UserData['id_planet'],
@@ -181,7 +237,6 @@ class QuickEditorController extends AbstractAdminController
             'ChangePW'     => $ChangePW,
             'yesorno'      => [1 => $LNG['one_is_yes_1'], 0 => $LNG['one_is_yes_0']],
         ]);
-        return $this->render('admin/QuickEditorUser.html.twig');
     }
 
     /**
@@ -207,6 +262,7 @@ class QuickEditorController extends AbstractAdminController
         }
         return $rows;
     }
+
     /** True when the request carries a value for $name (a missing field means "leave unchanged"). */
     private function has(string $name): bool
     {
@@ -223,16 +279,16 @@ class QuickEditorController extends AbstractAdminController
     }
 
     /**
-     * Saves the planet form (action=send): only the fields present in the request are written, everything else keeps
+     * Saves the planet form: only the fields present in the request are written, everything else keeps
      * its value. Building levels are clamped to 0..255, fleet/defense counts to 0..2^64-1, resources to >= 0.
      * Column names come from the $resource whitelist (build/fleet/defense ids), all values are bound parameters.
      * Recalculates `field_current` from the changed buildings that use fields on this planet type, clears `eco_hash`
-     * and writes an admin log entry (type 2) with old and new values. Ends the request with the success message.
+     * and writes an admin log entry (type 2) with old and new values. Answers with the success message.
      *
      * @param array<string, mixed> $PlanetData the planet row as loaded before the edit
      * @param int[] $DataIDs element ids (fleet, buildings, defense) that the form may edit
      */
-    private function savePlanet(int $id, array $PlanetData, array $DataIDs): never
+    private function savePlanet(int $id, array $PlanetData, array $DataIDs): Response
     {
         $LNG = $this->state->LNG;
         $e = $this->elements();
@@ -251,7 +307,7 @@ class QuickEditorController extends AbstractAdminController
                 continue;
             }
 
-            $level = max(0, round($this->http()->_GP($column, 0.0)));
+            $level = max(0, round($this->input()->float($column)));
             $level = $e->isBuilding($ID) ? min($level, 255) : $level;
             if ($e->isAllowedOn($ID, (int) $PlanetData['planet_type'])) {
                 $fields += $level - $PlanetData[$column];
@@ -266,17 +322,17 @@ class QuickEditorController extends AbstractAdminController
             $old[$ID] = $PlanetData[$column];
             $new[$ID] = $PlanetData[$column];
             if ($this->has($column)) {
-                $values[$column] = $this->digits(max(0, round($this->http()->_GP($column, 0.0))));
+                $values[$column] = $this->digits(max(0, round($this->input()->float($column))));
                 $new[$ID] = $values[$column];
             }
         }
 
         $old['field_max'] = $new['field_max'] = $PlanetData['field_max'];
         if ($this->has('field_max')) {
-            $values['field_max'] = $new['field_max'] = $this->http()->_GP('field_max', 0);
+            $values['field_max'] = $new['field_max'] = $this->input()->int('field_max');
         }
         if ($this->has('name')) {
-            $values['name'] = $this->http()->_GP('name', '', UTF8_SUPPORT);
+            $values['name'] = $this->input()->string('name', '', UTF8_SUPPORT);
         }
 
         $values['field_current'] = (int) $fields;
@@ -289,7 +345,7 @@ class QuickEditorController extends AbstractAdminController
         $LOG->new = $new;
         $LOG->save();
 
-        throw new \App\Game\Core\EndOfRequest($LNG->format(
+        return new Response($LNG->format(
             'qe_edit_planet_sucess',
             $PlanetData['name'],
             $PlanetData['galaxy'],
@@ -299,18 +355,18 @@ class QuickEditorController extends AbstractAdminController
     }
 
     /**
-     * Saves the player form (action=send): only fields present in the request are written. Tech levels are clamped
+     * Saves the player form: only fields present in the request are written. Tech levels are clamped
      * to 0..255 (column names from the $resource whitelist), the password is hashed, stored on the player's account and only changed when the
      * acting admin may (root, or an admin of higher authlevel than the target), the "attack allowed" checkbox
      * stores the player's own authlevel (0 for plain users or when off). The checkbox is absent from the POST when
      * unchecked, so it counts as submitted whenever the form's `name` field is present too. Writes an admin log
      * entry (type 1) with old and new values; skips update and log when the request carries no editable field.
-     * Ends the request with the success message.
+     * Answers with the success message.
      *
      * @param array<string, mixed> $UserData the user row as loaded before the edit
      * @param int[] $DataIDs research element ids the form may edit
      */
-    private function savePlayer(int $id, array $UserData, array $DataIDs, bool $ChangePW): never
+    private function savePlayer(int $id, array $UserData, array $DataIDs, bool $ChangePW): Response
     {
         $LNG = $this->state->LNG;
         $e = $this->elements();
@@ -325,22 +381,22 @@ class QuickEditorController extends AbstractAdminController
             $old[$ID] = $UserData[$column];
             $new[$ID] = $UserData[$column];
             if ($this->has($column)) {
-                $values[$column] = $new[$ID] = min(abs($this->http()->_GP($column, 0)), 255);
+                $values[$column] = $new[$ID] = min(abs($this->input()->int($column)), 255);
             }
         }
 
         if (!empty($this->state->requestPost['password']) && $ChangePW) {
-            $newPasswordHash = $this->accountUtil()->cryptPassword($this->http()->rawInput('password'));
+            $newPasswordHash = $this->accountUtil()->cryptPassword($this->input()->rawString('password'));
         }
 
         $old['username'] = $new['username'] = $UserData['username'];
         if ($this->has('name')) {
-            $values['username'] = $new['username'] = $this->http()->_GP('name', '', UTF8_SUPPORT);
+            $values['username'] = $new['username'] = $this->input()->string('name', '', UTF8_SUPPORT);
         }
 
         $old['authattack'] = $new['authattack'] = $UserData['authattack'];
         if ($this->has('authattack') || $this->has('name')) {
-            $values['authattack'] = $new['authattack'] = ($UserData['authlevel'] != AUTH_USR && $this->http()->_GP('authattack', '') == 'on' ? $UserData['authlevel'] : 0);
+            $values['authattack'] = $new['authattack'] = ($UserData['authlevel'] != AuthLevel::User->value && $this->input()->string('authattack') == 'on' ? $UserData['authlevel'] : 0);
         }
 
         if ($newPasswordHash !== null) {
@@ -363,6 +419,6 @@ class QuickEditorController extends AbstractAdminController
             $LOG->save();
         }
 
-        throw new \App\Game\Core\EndOfRequest($LNG->format('qe_edit_player_sucess', $UserData['username'], $id));
+        return new Response($LNG->format('qe_edit_player_sucess', $UserData['username'], $id));
     }
 }

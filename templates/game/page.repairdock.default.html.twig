@@ -8,7 +8,7 @@
     {% if busy %}
       <p class="repair-infobox">{{ LNG.bd_repairdock_busy }}</p><br><br>
     {% endif %}
-    {% if not empty(List) %}
+    {% if List %}
       <div class="infos1 repair-list">
         {% set ctime = 0 %}
         <div class="repairb">
@@ -24,8 +24,7 @@
         <div class="repaira">
           <div id="time" data-time="{{ List.time }}"><br></div>
           {% if umode == 0 %}
-            <form action="game?page=repairdock" method="post" class="build_form">
-              <input type="hidden" name="cmd" value="deploy">
+            <form action="{{ path('game_repairdock_deploy') }}" method="post" class="build_form">
               <button type="submit" class="build_submit onlist" id="deployRepaired" style="display:none">{{ LNG.bd_deploy }}</button>
             </form>
           {% else %}
@@ -40,7 +39,7 @@
       <div class="planeto">
         <span class="segmented" role="group"><button id="ship1">{{ LNG.fm_civil }}</button><button id="ship2">{{ LNG.fm_military }}</button><button id="ship3">{{ LNG.fm_all }}</button></span>
       </div>
-      <form action="game?page=repairdock" method="post">
+      <form action="{{ path('game_repairdock_start') }}" method="post">
         {% if not busy %}
           <br>
           <div class="planeto">
@@ -56,7 +55,7 @@
             </div>
             <div class="repairShipContainer">
               <a class="repair-element-link" href="#" data-action="dialog-info" data-id="{{ ID }}">
-                <img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" alt="{{ LNG.tech[ID] }}" width="120" height="120">
+                <img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" alt="{{ LNG.tech[ID] }}" width="120" height="120" loading="lazy" decoding="async">
               </a>
               <div class="repairShipContainerContent">
                 <span>

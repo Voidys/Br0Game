@@ -26,30 +26,40 @@ use App\Game\Admin\AccountEditor\ResearchTab;
 use App\Game\Admin\AccountEditor\ResourcesTab;
 use App\Game\Admin\AccountEditor\ShipsTab;
 use App\Game\Admin\ClosureAdminResponder;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Edits a player: resources, ships, defenses, buildings, research, personal data, planets and alliance. Each tab
- * (`edit=<tab>`) is handled by its class in App\Game\Admin\AccountEditor; this controller picks the tab.
+ * (`admin/accounts/edit/<tab>`) is handled by its class in App\Game\Admin\AccountEditor; this controller picks the tab.
  */
-#[\App\Routing\GamePage('admin', 'accountEditor')]
 class AccountEditorController extends AbstractAdminController
 {
     /**
-     * Menu of the account editor (admin?page=accounteditor): checks that the acting admin may edit and renders the tab links. The
-     * tabs (resources, ships, buildings, research, personal data, planets, alliances ...) are classes under App\Game\Admin\AccountEditor.
+     * Menu of the account editor (admin/accounts/edit): renders the tab links. The tabs (resources, ships, buildings,
+     * research, personal data, planets, alliances ...) are classes under App\Game\Admin\AccountEditor.
      */
+    #[GameRoute('admin', 'admin/accounts/edit', 'accountEditor')]
     public function show(): Response
     {
-        if (!isset($this->state->requestQuery['edit'])) {
-            $this->state->requestQuery['edit'] = '';
-        }
+        return $this->render('admin/AccountEditorPageMenu.html.twig');
+    }
+
+    /**
+     * One tab of the account editor: checks that the acting admin may edit the target (staff boundary), then the tab shows
+     * its form (GET) or applies it (POST, with a message page).
+     */
+    #[GameRoute('admin', 'admin/accounts/edit/{tab}', 'accountEditor', 'tab', requirements: ['tab' => 'resources|ships|defenses|buildings|researchs|personal|planets|alliances'])]
+    #[GameRoute('admin', 'admin/accounts/edit/{tab}', 'accountEditor', 'save', ['POST'], ['tab' => 'resources|ships|defenses|buildings|researchs|personal|planets|alliances'])]
+    public function tab(): Response
+    {
+        $name = $this->input()->string('tab');
         $responder = new ClosureAdminResponder(
             fn(string|\Twig\Markup $message, string|false $redirect, int $delay, bool $fatal) => $this->message($message, $redirect, $delay, $fatal),
             fn(array $variables) => $this->assign($variables),
             fn(string $template): Response => $this->render($template),
         );
-        $tab = match ($this->state->requestQuery['edit']) {
+        $tab = match ($name) {
             'resources' => ResourcesTab::class,
             'ships' => ShipsTab::class,
             'defenses' => DefensesTab::class,
@@ -58,13 +68,10 @@ class AccountEditorController extends AbstractAdminController
             'personal' => PersonalTab::class,
             'planets' => PlanetsTab::class,
             'alliances' => AlliancesTab::class,
-            default => null,
+            default => throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException(),
         };
-        if ($tab === null) {
-            return $this->render('admin/AccountEditorPageMenu.html.twig');
-        }
 
-        $this->guardTarget($this->state->requestQuery['edit']);
+        $this->guardTarget($name);
 
         return (new $tab($this->db, $this->configs, $this->state, $responder))->handle();
     }
@@ -76,7 +83,7 @@ class AccountEditorController extends AbstractAdminController
      */
     private function guardTarget(string $tab): void
     {
-        $id = (int) $this->http()->_GP('id', 0);
+        $id = $this->input()->int('id');
         $userIds = [];
         switch ($tab) {
             case 'researchs':
@@ -101,8 +108,8 @@ class AccountEditorController extends AbstractAdminController
                 foreach ($this->db->select('SELECT `id` FROM %%USERS%% WHERE `ally_id` = :id;', [':id' => $id]) as $member) {
                     $userIds[] = (int) $member['id'];
                 }
-                $userIds[] = (int) $this->http()->_GP('changeleader', 0);
-                $userIds[] = (int) $this->http()->_GP('delete_u', 0);
+                $userIds[] = $this->input()->int('changeleader');
+                $userIds[] = $this->input()->int('delete_u');
                 break;
         }
         foreach ($userIds as $userId) {

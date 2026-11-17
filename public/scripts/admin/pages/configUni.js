@@ -3,9 +3,9 @@
  * (2) the flight time preview below the distance settings. Data from the JSON island #config-uni-data
  * ({preview: {speedFactor, shipSpeed, gameSpeed, fleetSpeedFactor, minDuration}, text: {...messages}}).
  */
-import { readPageData } from '../../page/config.js';
+import { pageData } from '../../app/core.js';
 
-const data = readPageData('config-uni-data') ?? {};
+const data = pageData('config-uni-data');
 
 /** keep the sliders balanced: moving one distributes the difference over the following ones */
 function balancedSliders(ids) {

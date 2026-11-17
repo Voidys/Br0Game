@@ -17,34 +17,53 @@
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /**
  * Switches the game modules (config `moduls`) of the emulated universe on or off.
  */
-#[\App\Routing\GamePage('admin', 'module')]
 class ModuleController extends AbstractAdminController
 {
-    /**
-     * Module switches of the emulated universe. With mode aktiv/inaktiv and id (module id) the module is turned on or off in the config
-     * (`moduls`), saved and the caches cleared; always lists all modules with their state.
-     */
+    /** Lists all modules of the emulated universe with their state. */
+    #[GameRoute('admin', 'admin/modules', 'module')]
     public function show(): Response
     {
-        $LNG = $this->state->LNG;
+        return $this->renderModules();
+    }
+
+    /** Turns the module `id` on in the config (`moduls`), saves it and clears the caches. */
+    #[GameRoute('admin', 'admin/modules/{id}/activate', 'module', 'activate', ['POST'], ['id' => '\d+'])]
+    public function activate(): Response
+    {
+        return $this->switchModule(1);
+    }
+
+    /** Turns the module `id` off in the config (`moduls`), saves it and clears the caches. */
+    #[GameRoute('admin', 'admin/modules/{id}/deactivate', 'module', 'deactivate', ['POST'], ['id' => '\d+'])]
+    public function deactivate(): Response
+    {
+        return $this->switchModule(0);
+    }
+
+    /** Sets the state (1 on, 0 off) of the module `id` in the config, saves it, clears the caches and renders the list. */
+    private function switchModule(int $state): Response
+    {
         $config = $this->configs->get($this->universe()->getEmulated());
         $module = $config->moduls;
+        $module[$this->input()->int('id')] = $state;
+        $config->moduls = $module;
+        $config->saveModules();
+        $this->maintenance()->clearCache();
 
-        if (isset($this->state->requestQuery['mode'])) {
-            $module[$this->http()->_GP('id', 0)] = ($this->state->requestQuery['mode'] == 'aktiv') ? 1 : 0;
-            $config->moduls = $module;
-            $config->saveModules();
-            $this->maintenance()->clearCache();
-        }
+        return $this->renderModules();
+    }
+
+    /** Renders the module list (name and state of every module of the emulated universe, sorted by name). */
+    private function renderModules(): Response
+    {
+        $LNG = $this->state->LNG;
+        $module = $this->configs->get($this->universe()->getEmulated())->moduls;
 
         $Modules = [];
         foreach ($module as $ID => $state) {
@@ -55,7 +74,7 @@ class ModuleController extends AbstractAdminController
         }
 
         asort($Modules);
-        $this->assign([
+        return $this->render('admin/ModulePage.html.twig', [
             'Modules'             => $Modules,
             'mod_module'          => $LNG['mod_module'],
             'mod_info'            => $LNG['mod_info'],
@@ -64,7 +83,5 @@ class ModuleController extends AbstractAdminController
             'mod_change_active'   => $LNG['mod_change_active'],
             'mod_change_deactive' => $LNG['mod_change_deactive'],
         ]);
-
-        return $this->render('admin/ModulePage.html.twig');
     }
 }

@@ -18,36 +18,28 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
 
 /** Ship dealer: sells ships of the current planet for resources (modes: show, send). */
-#[\App\Routing\GamePage('game', 'fleetDealer')]
 #[\App\Controller\RequireModule('MODULE_FLEET_TRADER')]
 class FleetDealerController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Sells ships (request: shipID, count) of the current planet: only ships listed in `trade_allowed_ships`, not in vacation mode, with the
      * planet row locked. Pays the ship cost minus the `trade_charge` percent in resources and removes the ships.
      */
-    public function send()
+    #[GameRoute('game', 'game/fleet-dealer', 'fleetDealer', 'send', ['POST'])]
+    public function send(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         $e = $this->elements();
-        $shipID = $this->http()->_GP('shipID', 0);
-        $Count = max(0, round($this->http()->_GP('count', 0.0)));
+        $shipID = $this->input()->int('shipID');
+        $Count = max(0, round($this->input()->float('count')));
         $allowedShipIDs = explode(',', $this->configs->get()->trade_allowed_ships);
 
         if ($USER['urlaubs_modus'] == 1) {
-            $this->backToDealer($LNG['fl_vacation_mode_active']);
+            return $this->backToDealer($LNG['fl_vacation_mode_active']);
         }
 
         if (
@@ -55,7 +47,7 @@ class FleetDealerController extends AbstractGameController
             || empty($Count)
             || !in_array($shipID, $allowedShipIDs)
         ) {
-            $this->backToDealer($LNG['tr_exchange_error']);
+            return $this->backToDealer($LNG['tr_exchange_error']);
         }
 
         $shipColumn = $e->column($shipID);
@@ -68,7 +60,8 @@ class FleetDealerController extends AbstractGameController
 
         if (empty($lockedPlanet) || $lockedPlanet[$shipColumn] < $Count) {
             $db->rollback();
-            $this->backToDealer($LNG['tr_exchange_error']);
+
+            return $this->backToDealer($LNG['tr_exchange_error']);
         }
 
         $tradeCharge = 1 - (min(max((float) $this->configs->get()->trade_charge, 0), 90) / 100);
@@ -89,25 +82,26 @@ class FleetDealerController extends AbstractGameController
 
         if ($db->rowCount() !== 1) {
             $db->rollback();
-            $this->backToDealer($LNG['tr_exchange_error']);
+
+            return $this->backToDealer($LNG['tr_exchange_error']);
         }
 
         $this->ecoObj->addResources($this->state->PLANET['id'], $resources, $this->state->PLANET);
         $this->state->PLANET[$shipColumn] = $lockedPlanet[$shipColumn] - $Count;
         $db->commit();
 
-        $this->backToDealer($LNG['tr_exchange_done'], 'sys_forward');
+        return $this->backToDealer($LNG['tr_exchange_done'], 'sys_forward');
     }
 
     /**
      * Ends the request with $message and a link back to the dealer page (label sys_back, or $labelKey for the success message).
      */
-    private function backToDealer(mixed $message, string $labelKey = 'sys_back'): never
+    private function backToDealer(mixed $message, string $labelKey = 'sys_back'): Response
     {
-        $this->printMessage($message, [
+        return $this->messageResponse($message, [
             [
                 'label' => $this->state->LNG[$labelKey],
-                'url'   => 'game?page=fleetDealer',
+                'url'   => $this->router->generate('game_fleet_dealer_show'),
             ],
         ]);
     }
@@ -115,6 +109,7 @@ class FleetDealerController extends AbstractGameController
     /**
      * Ship dealer form with the tradeable ships and the charge.
      */
+    #[GameRoute('game', 'game/fleet-dealer', 'fleetDealer')]
     public function show(): Response
     {
         $PLANET = $this->state->PLANET;
@@ -131,10 +126,10 @@ class FleetDealerController extends AbstractGameController
         }
 
         if (empty($Cost)) {
-            $this->printMessage($LNG['ft_empty'], [
+            return $this->messageResponse($LNG['ft_empty'], [
                 [
                     'label' => $LNG['sys_back'],
-                    'url'   => 'game?page=fleetDealer',
+                    'url'   => $this->router->generate('game_fleet_dealer_show'),
                 ],
             ]);
         }
@@ -144,13 +139,11 @@ class FleetDealerController extends AbstractGameController
             $shipImg[$shipID] = $this->state->THEME->asset('gebaeude/' . $shipID . '.gif');
         }
 
-        $this->assign([
+        return $this->render('game/page.fleetDealer.default.html.twig', [
             'shipIDs'   => $allowedShipIDs,
             'shipImg'   => $shipImg,
             'CostInfos' => $Cost,
             'Charge'    => $this->configs->get()->trade_charge,
         ]);
-
-        return $this->render('game/page.fleetDealer.default.html.twig');
     }
 }

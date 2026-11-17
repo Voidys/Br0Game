@@ -1,7 +1,7 @@
 /**
  * Forms that post in the background and report the server's answer in the modal dialog.
  *
- *   <form data-ajax-dialog="admin?page=reshuffle&action=send">  submit goes to that URL via fetch(POST,
+ *   <form data-ajax-dialog="{{ path('admin_reshuffle_send') }}">  submit goes to that URL via fetch(POST,
  *                                                               form data); the answer text is shown in
  *                                                               Dialog.alert, closing it reloads the page
  *

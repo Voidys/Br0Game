@@ -2,14 +2,12 @@
 
 namespace App\Game\Fleet;
 
-use App\Game\AdvancedStats\AdvancedStatsEnum;
-use App\Game\AdvancedStats\AdvancedStatsHandler;
+use App\Game\Enum\Mission;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
 use App\Game\Core\Singleton;
 use App\Security\FleetDailyCaps;
-use Exception;
 
 /**
  * Fleet dispatch, step 3: validates the prepared fleet (form token of step 2) against the target and the player's
@@ -17,7 +15,7 @@ use Exception;
  * records its market offer. Runs inside one database transaction that locks the user and the start planet.
  *
  * Every refusal is thrown as FleetDispatchRefused (message and back buttons); the controller shows it as message page.
- * Collaborators: FleetFunctions (rules, slots, send), PlayerUtil (noob protection), SessionManager (form token).
+ * Collaborators: FleetFunctions (rules, slots, send), ProtectionRules (noob protection), SessionManager (form token).
  */
 class FleetDispatch
 {
@@ -78,7 +76,7 @@ class FleetDispatch
         $USER = $this->state->USER;
 
         if (IsVacationMode($USER)) {
-            $this->fleetFunctions()->gotoFleetPage(0);
+            throw FleetDispatchRefused::backToFleetPage(0);
         }
 
         $db = $this->db;
@@ -119,7 +117,7 @@ class FleetDispatch
     }
 
     /**
-     * Refuses the dispatch with a message and a single "back" button to the given page.
+     * Refuses the dispatch with a message and a single "back" button to the given page ($url is a route name).
      *
      * @throws FleetDispatchRefused always
      */
@@ -144,17 +142,17 @@ class FleetDispatch
     /** Reads the request and the prepared fleet form (token from step 2) from the session; refuses when the token is unknown (back to step 1) or older than 10 minutes. */
     private function loadForm(): void
     {
-        $this->targetMission = $this->http()->_GP('mission', MISSION_TRANSPORT);
-        $this->TransportMetal = max(0, round($this->http()->_GP('metal', 0.0)));
-        $this->TransportCrystal = max(0, round($this->http()->_GP('crystal', 0.0)));
-        $this->TransportDeuterium = max(0, round($this->http()->_GP('deuterium', 0.0)));
-        $this->WantedResourceType = $this->http()->_GP('resEx', 0);
-        $this->WantedResourceAmount = max(0, round($this->http()->_GP('exchange', 0.0)));
-        $this->markettype = $this->http()->_GP('markettype', 0);
-        $this->visibility = $this->http()->_GP('visibility', 0);
-        $this->maxFlightTime = $this->http()->_GP('maxFlightTime', 0);
-        $this->stayTime = $this->http()->_GP('staytime', 0);
-        $this->token = $this->http()->_GP('token', '');
+        $this->targetMission = $this->input()->typed('mission', Mission::Transport->value);
+        $this->TransportMetal = max(0, round($this->input()->float('metal')));
+        $this->TransportCrystal = max(0, round($this->input()->float('crystal')));
+        $this->TransportDeuterium = max(0, round($this->input()->float('deuterium')));
+        $this->WantedResourceType = $this->input()->int('resEx');
+        $this->WantedResourceAmount = max(0, round($this->input()->float('exchange')));
+        $this->markettype = $this->input()->int('markettype');
+        $this->visibility = $this->input()->int('visibility');
+        $this->maxFlightTime = $this->input()->int('maxFlightTime');
+        $this->stayTime = $this->input()->int('staytime');
+        $this->token = $this->input()->string('token');
 
         $this->config = $this->configs->get();
 
@@ -162,14 +160,14 @@ class FleetDispatch
         $fleet = $session->fleet;
 
         if (!isset($fleet[$this->token])) {
-            $this->fleetFunctions()->gotoFleetPage(1);
+            throw FleetDispatchRefused::backToFleetPage(1);
         }
 
         if ($fleet[$this->token]['time'] < $this->state->runtime->timestamp - 600) {
             unset($fleet[$this->token]);
             $session->fleet = $fleet;
             $session->save();
-            $this->fleetFunctions()->gotoFleetPage(0);
+            throw FleetDispatchRefused::backToFleetPage(0);
         }
 
         $session = $this->sessions()->load();
@@ -198,10 +196,10 @@ class FleetDispatch
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
         if ($this->ownPlanet != $PLANET['id']) {
-            $this->refuse($LNG['fl_own_planet_error'], 'game?page=fleetStep1');
+            $this->refuse($LNG['fl_own_planet_error'], 'game_fleet_step1_show');
         }
 
-        if ($this->targetMission != MISSION_ACS) {
+        if ($this->targetMission != Mission::Acs->value) {
             $this->fleetGroup = 0;
         }
 
@@ -209,7 +207,7 @@ class FleetDispatch
             $PLANET['galaxy'] == $this->targetGalaxy && $PLANET['system'] == $this->targetSystem
             && $PLANET['planet'] == $this->targetPlanet && $PLANET['planet_type'] == $this->targetType
         ) {
-            $this->refuse($LNG['fl_error_same_planet'], 'game?page=fleetStep1');
+            $this->refuse($LNG['fl_error_same_planet'], 'game_fleet_step1_show');
         }
 
         if (
@@ -218,52 +216,52 @@ class FleetDispatch
             || $this->targetPlanet < 1 || $this->targetPlanet > ($this->config->max_planets + 3)
             || ($this->targetType !== 1 && $this->targetType !== 2 && $this->targetType !== 3)
         ) {
-            $this->refuse($LNG['fl_invalid_target'], 'game?page=fleetStep1');
+            $this->refuse($LNG['fl_invalid_target'], 'game_fleet_step1_show');
         }
 
-        if ($this->targetMission == MISSION_TRADE) {
+        if ($this->targetMission == Mission::Trade->value) {
             // Whitelist the trade parameters (the AJAX pre-check in step 2 can be skipped with a crafted request)
             $this->WantedResourceType = (int) $this->WantedResourceType;
             $this->markettype = (int) $this->markettype;
             if (!in_array($this->WantedResourceType, [1, 2, 3], true) || !in_array($this->markettype, [0, 1], true)) {
-                $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetStep2');
+                $this->refuse($LNG['fl_invalid_mission'], 'game_fleet_step2_show');
             }
         }
 
         // Transport and market type 0 have to contain resources
         if (
-            ($this->targetMission == MISSION_TRANSPORT || ($this->targetMission == MISSION_TRADE && $this->markettype == 0))
+            ($this->targetMission == Mission::Transport->value || ($this->targetMission == Mission::Trade->value && $this->markettype == 0))
             && $this->TransportMetal + $this->TransportCrystal + $this->TransportDeuterium < 1
         ) {
-            $this->refuse($LNG['fl_no_noresource'], 'game?page=fleetStep2');
+            $this->refuse($LNG['fl_no_noresource'], 'game_fleet_step2_show');
         }
         // A trade offer carries exactly one resource (the offer stores only that one; the UI pre-check enforces it too)
         if (
-            $this->targetMission == MISSION_TRADE
+            $this->targetMission == Mission::Trade->value
             && (($this->TransportMetal > 0) + ($this->TransportCrystal > 0) + ($this->TransportDeuterium > 0)) > 1
         ) {
-            $this->refuse($LNG['fl_trade_to_many_resources_loaded'], 'game?page=fleetStep2');
+            $this->refuse($LNG['fl_trade_to_many_resources_loaded'], 'game_fleet_step2_show');
         }
         // Market typ 1 cannot contain resources
         if (
-            $this->targetMission == MISSION_TRADE && $this->markettype == 1
+            $this->targetMission == Mission::Trade->value && $this->markettype == 1
             && $this->TransportMetal + $this->TransportCrystal + $this->TransportDeuterium != 0
         ) {
-            $this->refuse($LNG['fl_resources'], 'game?page=fleetStep2');
+            $this->refuse($LNG['fl_resources'], 'game_fleet_step2_show');
         }
 
-        if ($this->targetMission == MISSION_TRADE && $this->WantedResourceAmount < 1) {
-            $this->refuse($LNG['fl_no_noresource_exchange'], 'game?page=fleetStep2');
+        if ($this->targetMission == Mission::Trade->value && $this->WantedResourceAmount < 1) {
+            $this->refuse($LNG['fl_no_noresource_exchange'], 'game_fleet_step2_show');
         }
 
-        if ($this->targetMission == MISSION_TRADE && $this->WantedResourceAmount > pow(10, 50)) {
-            $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetStep2');
+        if ($this->targetMission == Mission::Trade->value && $this->WantedResourceAmount > pow(10, 50)) {
+            $this->refuse($LNG['fl_invalid_mission'], 'game_fleet_step2_show');
         }
 
         $ActualFleets = $this->fleetFunctions()->getCurrentFleets($USER['id']);
 
         if ($this->fleetFunctions()->getMaxFleetSlots($USER) <= $ActualFleets) {
-            $this->refuse($LNG['fl_no_slots'], 'game?page=fleetTable');
+            $this->refuse($LNG['fl_no_slots'], 'game_fleet_table_show');
         }
     }
 
@@ -304,7 +302,7 @@ class FleetDispatch
 
             if (empty($this->ACSTime)) {
                 $this->fleetGroup = 0;
-                $this->targetMission = MISSION_ATTACK;
+                $this->targetMission = Mission::Attack->value;
             }
         }
     }
@@ -319,31 +317,31 @@ class FleetDispatch
         $db = $this->db;
         $this->targetPlanetData = $this->fetchTargetRow();
 
-        if ($this->targetMission == MISSION_COLONISATION) {
+        if ($this->targetMission == Mission::Colonisation->value) {
             if (!empty($this->targetPlanetData)) {
-                $this->refuse($LNG['fl_target_exists'], 'game?page=fleetStep1');
+                $this->refuse($LNG['fl_target_exists'], 'game_fleet_step1_show');
             }
 
             if ($this->targetType != 1) {
-                $this->refuse($LNG['fl_only_planets_colonizable'], 'game?page=fleetStep1');
+                $this->refuse($LNG['fl_only_planets_colonizable'], 'game_fleet_step1_show');
             }
         }
 
-        if ($this->targetMission == MISSION_COLONISATION || $this->targetMission == MISSION_EXPEDITION || $this->targetMission == MISSION_TRADE) {
+        if ($this->targetMission == Mission::Colonisation->value || $this->targetMission == Mission::Expedition->value || $this->targetMission == Mission::Trade->value) {
             $this->targetPlanetData = ['id' => 0, 'id_owner' => 0, 'planettype' => 1];
         } else {
-            if (!empty($this->targetPlanetData["destruyed"]) && $this->targetMission != MISSION_RECYCLING) {
-                $this->refuse($LNG['fl_no_target'], 'game?page=fleetStep1');
+            if (!empty($this->targetPlanetData["destruyed"]) && $this->targetMission != Mission::Recycling->value) {
+                $this->refuse($LNG['fl_no_target'], 'game_fleet_step1_show');
             }
 
             if (empty($this->targetPlanetData)) {
-                $this->refuse($LNG['fl_no_target'], 'game?page=fleetStep1');
+                $this->refuse($LNG['fl_no_target'], 'game_fleet_step1_show');
             }
         }
         $this->containsOnlyProbes = true;
         foreach ($this->fleetArray as $Ship => $Count) {
             if ($Count > ($PLANET[$elements->find((int) $Ship)?->column] ?? null)) {
-                $this->refuse($LNG['fl_not_all_ship_avalible'], 'game?page=fleetTable');
+                $this->refuse($LNG['fl_not_all_ship_avalible'], 'game_fleet_table_show');
             }
             if ($Ship != SHIP_PROBE) {
                 $this->containsOnlyProbes = false;
@@ -358,7 +356,7 @@ class FleetDispatch
                 ':acsID' => $this->fleetGroup,
             ], 'target');
             if ((int) $acsTarget !== (int) ($this->targetPlanetData['id'] ?? 0)) {
-                $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetStep2');
+                $this->refuse($LNG['fl_invalid_mission'], 'game_fleet_step2_show');
             }
         }
     }
@@ -405,15 +403,15 @@ class FleetDispatch
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        if ($this->targetMission == MISSION_EXPEDITION) {
-            $activeExpedition = $this->fleetFunctions()->getCurrentFleets($USER['id'], MISSION_EXPEDITION, true);
+        if ($this->targetMission == Mission::Expedition->value) {
+            $activeExpedition = $this->fleetFunctions()->getCurrentFleets($USER['id'], Mission::Expedition->value, true);
             $maxExpedition = $this->fleetFunctions()->getExpeditionLimit($USER);
 
             if ($activeExpedition >= $maxExpedition) {
-                $this->refuse($LNG['fl_no_expedition_slot'], 'game?page=fleetTable');
+                $this->refuse($LNG['fl_no_expedition_slot'], 'game_fleet_table_show');
             }
             if ($this->containsOnlyProbes) {
-                $this->refuse($LNG['fl_no_probe_expos'], 'game?page=fleetTable');
+                $this->refuse($LNG['fl_no_probe_expos'], 'game_fleet_table_show');
             }
         }
     }
@@ -428,7 +426,7 @@ class FleetDispatch
         $myPlanet = $usedPlanet && $this->targetPlanetData['id_owner'] == $USER['id'];
         $this->targetPlayerData = [];
 
-        if ($this->targetMission == MISSION_COLONISATION || $this->targetMission == MISSION_EXPEDITION || $this->targetMission == MISSION_TRADE) {
+        if ($this->targetMission == Mission::Colonisation->value || $this->targetMission == Mission::Expedition->value || $this->targetMission == Mission::Trade->value) {
             $this->targetPlayerData = [
                 'id'                    => 0,
                 'onlinetime'            => $this->state->runtime->timestamp,
@@ -450,7 +448,7 @@ class FleetDispatch
         }
 
         if (empty($this->targetPlayerData)) {
-            $this->refuse($LNG['fl_empty_target'], 'game?page=fleetStep1');
+            $this->refuse($LNG['fl_empty_target'], 'game_fleet_step1_show');
         }
     }
 
@@ -470,14 +468,14 @@ class FleetDispatch
         $this->consumption = $this->fleetFunctions()->fleetConsumptionFor($this->fleetArray, $this->duration, $this->distance, $userModel, $SpeedFactor);
 
         if ($this->state->PLANET[$elements->column(903)] < $this->consumption) {
-            $this->refuse($LNG['fl_not_enough_deuterium'], 'game?page=fleetTable');
+            $this->refuse($LNG['fl_not_enough_deuterium'], 'game_fleet_table_show');
         }
 
         $this->StayDuration = 0;
 
-        if ($this->targetMission == MISSION_HOLD || $this->targetMission == MISSION_EXPEDITION || $this->targetMission == MISSION_TRADE) {
+        if ($this->targetMission == Mission::Hold->value || $this->targetMission == Mission::Expedition->value || $this->targetMission == Mission::Trade->value) {
             if (!isset($this->availableMissions['StayBlock'][$this->stayTime])) {
-                $this->refuse($LNG['fl_hold_time_not_exists'], 'game?page=fleetTable');
+                $this->refuse($LNG['fl_hold_time_not_exists'], 'game_fleet_table_show');
             }
 
             $this->StayDuration = round($this->availableMissions['StayBlock'][$this->stayTime] * 3600, 0);
@@ -496,11 +494,11 @@ class FleetDispatch
         $StorageNeeded = max(array_sum($this->fleetResource), $this->WantedResourceAmount);
 
         if ($StorageNeeded > $this->fleetStorage) {
-            $this->refuse($LNG['fl_not_enough_space'], 'game?page=fleetTable');
+            $this->refuse($LNG['fl_not_enough_space'], 'game_fleet_table_show');
         }
 
 
-        if ($this->targetMission == MISSION_TRANSFER) {
+        if ($this->targetMission == Mission::Transfer->value) {
             $attack = $USER[$elements->column(109)] * 10;
             $shield = $USER[$elements->column(110)] * 10;
             $defensive = $USER[$elements->column(111)] * 10;
@@ -510,7 +508,7 @@ class FleetDispatch
             $defensive_targ = $this->targetPlayerData[$elements->column(111)] * 10;
 
             if ($attack < $attack_targ || $defensive < $defensive_targ || $shield < $shield_targ) {
-                $this->refuse($LNG['fl_stronger_techs'], 'game?page=fleetTable');
+                $this->refuse($LNG['fl_stronger_techs'], 'game_fleet_table_show');
             }
         }
 
@@ -525,7 +523,7 @@ class FleetDispatch
             if ($timeDifference != 0) {
                 // A joiner may delay the whole ACS by at most 30% of its remaining time
                 if ($timeDifference > max(0, $this->ACSTime - $this->state->runtime->timestamp) * 0.3) {
-                    $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetTable');
+                    $this->refuse($LNG['fl_invalid_mission'], 'game_fleet_table_show');
                 }
                 $this->fleetFunctions()->setACSTime($timeDifference, $this->fleetGroup);
             } else {
@@ -545,7 +543,7 @@ class FleetDispatch
         // last check: a refused launch must not use up the daily quota (audit F-14)
         $capped = $this->dailyCaps?->consume((int) $USER['id'], $this->targetMission);
         if ($capped !== null) {
-            $this->refuse($this->state->LNG->format($capped['key'], $capped['limit'], $capped['hours'], $capped['minutes']), 'game?page=fleetTable');
+            $this->refuse($this->state->LNG->format($capped['key'], $capped['limit'], $capped['hours'], $capped['minutes']), 'game_fleet_table_show');
         }
         $id = $this->fleetFunctions()->sendFleet(
             $this->fleetArray,
@@ -579,7 +577,7 @@ class FleetDispatch
     private function recordTradeOffer(mixed $id): void
     {
         $db = $this->db;
-        if ($this->targetMission == MISSION_TRADE) {
+        if ($this->targetMission == Mission::Trade->value) {
             if ($this->fleetResource[901] > 0) {
                 $resourceType = 1;
                 $resourceAmount = $this->fleetResource[901];
@@ -639,11 +637,11 @@ class FleetDispatch
 
         $keySender = 'type_planet_short_' . $PLANET['planet_type'];
         $startTypeLetter = ' (' . $LNG[$keySender] . ')';
-        $this->targetType = $this->targetMission == MISSION_RECYCLING ? 2 : $this->targetType;
+        $this->targetType = $this->targetMission == Mission::Recycling->value ? 2 : $this->targetType;
         $keyTarget = 'type_planet_short_' . $this->targetType;
         $targetTypeLetter = ' (' . $LNG[$keyTarget] . ')';
         return [
-            'goto'              => 'game?page=fleetTable',
+            'goto'              => 'game_fleet_table_show',
             'gotoinsec'         => 3,
             'targetMission'     => $this->targetMission,
             'distance'          => $this->distance,

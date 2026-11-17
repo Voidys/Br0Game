@@ -8,11 +8,11 @@
 
 namespace App\Controller\Game;
 
-use App\Game\Core\HTTP;
 use App\Game\Core\Session;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /** Fleet dispatch helper (XHR): drops the fleet prepared in the session when the dispatch pages are left. */
-#[\App\Routing\GamePage('game', 'fleetStepAjax')]
 class FleetStepAjaxController extends AbstractGameController
 {
     public $returnData = [];
@@ -30,16 +30,12 @@ class FleetStepAjaxController extends AbstractGameController
      * CheckTarget() and CheckResources() are called by forms of Sttep1 and 2 to proceed, which is also a page change.
      * To avoid deleting the fleet token, removeBeforeUnload() is called within them.
      * On failed checks addBeforeUnload() is called again.
-     *
-     * @return void
      */
-    public function show()
+    #[GameRoute('game', 'game/fleet/step-ajax', 'fleetStepAjax', 'show', ['POST'])]
+    public function show(): Response
     {
         // state-changing: POST only (the beacon is one) and thereby covered by the central CSRF check
-        if (($this->state->requestServer['REQUEST_METHOD'] ?? '') !== 'POST') {
-            return;
-        }
-        $token = $this->http()->_GP('token', '');
+        $token = $this->input()->string('token');
         $session = $this->sessions()->load();
         $fleet = $session->fleet;
         if (isset($fleet[$token])) {
@@ -47,5 +43,7 @@ class FleetStepAjaxController extends AbstractGameController
             $session->fleet = $fleet;
             $session->save();
         }
+
+        return new Response();
     }
 }

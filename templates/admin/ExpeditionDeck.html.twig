@@ -59,7 +59,7 @@
     </section>
   </div>
 
-  <form method="POST" action="admin?page=expeditiondeck&amp;action=update&amp;uniID={{ universe }}" data-track-dirty>
+  <form method="POST" action="{{ path('admin_expedition_deck_update', {uniID: universe}) }}" data-track-dirty>
     <section class="card">
       <header class="card__head"><h2 class="card__title">{{ icon('pencil') }}{{ LNG.exp_deck_edit }}</h2></header>
       <div class="card__body stack">

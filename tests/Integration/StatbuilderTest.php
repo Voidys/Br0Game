@@ -53,7 +53,10 @@ final class StatbuilderTest extends GameTestCase
         return [(int) $a['id'], (int) $b['id'], (int) $c['id'], (int) $banned['id'], $allyId];
     }
 
-    /** @return array<string, array<string, mixed>> statpoints rows of the fixture keyed by "<type>:<index>" */
+    /**
+     * @param array<mixed> $ids
+     * @return array<string, array<string, mixed>> statpoints rows of the fixture keyed by "<type>:<index>"
+     */
     private function statRows(array $ids): array
     {
         $rows = [];

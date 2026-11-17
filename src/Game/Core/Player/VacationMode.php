@@ -2,6 +2,7 @@
 
 namespace App\Game\Core\Player;
 
+use App\Game\Enum\Mission;
 use App\Game\Core\StoredData;
 use App\Game\Core\Database;
 use App\Game\Core\ConfigRegistry;
@@ -32,8 +33,8 @@ class VacationMode
      * in vacation, mine/plant percentages are reset to 10 and the resources are recalculated for every planet.
      * Does nothing if the user is not in vacation or urlaubs_until is still in the future.
      *
-     * @param array $USER user row, updated in place
-     * @param array|null $PLANET current planet row, updated in place
+     * @param array<string, mixed> $USER user row, updated in place
+     * @param array<string, mixed>|null $PLANET current planet row, updated in place
      */
     public function disable_vmode(array &$USER, ?array &$PLANET = null): void
     {
@@ -94,7 +95,7 @@ class VacationMode
      * Postpones the research queue by the length of the vacation (end times + b_tech).
      * Side effects: UPDATE users (b_tech, b_tech_queue); $USER is updated in place.
      *
-     * @param array $USER user row (b_tech, b_tech_queue, id)
+     * @param array<string, mixed> $USER user row (b_tech, b_tech_queue, id)
      * @param int $umode_delta seconds spent in vacation mode
      */
     private function shiftResearchQueue(array &$USER, int $umode_delta): void
@@ -124,7 +125,7 @@ class VacationMode
      * Postpones the building queue of the planet the player is on by the vacation length (in memory only; the
      * row is written later by resumeOtherPlanets()/the caller).
      *
-     * @param array $PLANET planet row (b_building, b_building_id), updated in place
+     * @param array<string, mixed> $PLANET planet row (b_building, b_building_id), updated in place
      * @param int $umode_delta seconds spent in vacation mode
      */
     private function shiftBuildQueue(array &$PLANET, int $umode_delta): void
@@ -205,8 +206,8 @@ class VacationMode
      * Starts vacation mode: sets urlaubs_modus/start (and urlaubs_until = now + vmode_min_time, or 0 when
      * caused by a ban), zeroes production and energy on all planets and sends back fleets that hold at the user's planets.
      *
-     * @param array $USER user row
-     * @param array|null $PLANET current planet row, zeroed in place
+     * @param array<string, mixed> $USER user row
+     * @param array<string, mixed>|null $PLANET current planet row, zeroed in place
      * @param bool $byBan vacation imposed by a ban (no minimum duration)
      */
     public function enable_vmode(array &$USER, ?array &$PLANET, bool $byBan = false): void
@@ -235,7 +236,7 @@ class VacationMode
             AND `target_owner` = :id;';
         $FleetsRAW = $db->select($sql, [
             ':universe'     => $this->universe()->current(),
-            ':fleet_mision' => MISSION_HOLD,
+            ':fleet_mision' => Mission::Hold->value,
             ':id'           => $USER['id'],
         ]);
         foreach ($FleetsRAW as $Fleet) {

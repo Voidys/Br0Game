@@ -17,6 +17,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Runtime\SafeFile;
 use App\Content\HtmlContent;
@@ -26,63 +27,58 @@ use App\Runtime\ProjectPaths;
 /**
  * News editor: list, create, edit and delete the news shown on the login page.
  */
-#[\App\Routing\GamePage('admin', 'news')]
 class NewsController extends AbstractAdminController
 {
     /** widths of the srcset variants made for an uploaded news image */
     private const IMAGE_WIDTHS = [480, 800, 1200];
 
-    /**
-     * News editor for the login page. `action` (GET): edit (id; form of an existing item), create (empty form); default is the list, filter = all,
-     * published or drafts. POST action=save with id (0 = new), title, summary, text (sanitized rich text), status, pinned, date, optional image upload and
-     * remove_image: needs a title and text (otherwise the form is shown again with an error), inserts or updates NEWS, stores or replaces the image under
-     * public/uploads/news/ and redirects to the editor with saved=1 (an image error re-renders the form instead). POST action=delete with id removes the
-     * item and its image and redirects with deleted=1.
-     */
+    /** The news list (filter: all, published, drafts); `deleted` shows a notice. */
+    #[GameRoute('admin', 'admin/news', 'news')]
     public function show(): Response
     {
-        $LNG = $this->state->LNG;
-        $html = new HtmlContent();
-        $now = $this->state->runtime->timestamp;
-        $isPost = ($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST';
-        $post = $this->state->requestPost ?? [];
-        $action = (string) $this->http()->_GP('action', '');
-
-        if ($isPost && $action === 'save') {
-            return $this->saveNews($html, $post);
-        }
-
-        if ($isPost && $action === 'delete') {
-            $this->deleteNews($post);
-        }
-
-        if ($action === 'edit') {
-            $id = (int) $this->http()->_GP('id', 0);
-            $row = $this->db->selectSingle("SELECT * FROM %%NEWS%% WHERE id = :id;", [':id' => $id]);
-            if (!empty($row)) {
-                $content = $row['format'] === 'text' ? $html->fromPlainText($row['text']) : $html->rich($row['text']);
-                return $this->renderEditor($id, [
-                    'title' => $row['title'], 'summary' => $row['summary'], 'text' => $content,
-                    'status' => (int) $row['status'], 'pinned' => (int) $row['pinned'], 'date' => (int) $row['date'], 'image' => (string) $row['image'],
-                ], null, $this->http()->_GP('saved', 0) ? $LNG['nws_saved'] : null);
-            }
-        } elseif ($action === 'create') {
-            return $this->renderEditor(0, [
-                'title' => '', 'summary' => '', 'text' => '', 'status' => 0, 'pinned' => 0, 'date' => $now, 'image' => '',
-            ]);
-        }
-
         return $this->newsList();
     }
 
-    /**
-     * POST action=save: reads and sanitizes the form, re-shows the editor with an error when title or text is empty,
-     * inserts or updates the NEWS row, applies the image upload/removal and redirects to the editor with saved=1
-     * (an image error re-renders the editor instead).
-     */
-    private function saveNews(HtmlContent $html, array $post): Response
+    /** The empty editor of a new item. */
+    #[GameRoute('admin', 'admin/news/new', 'news', 'create')]
+    public function create(): Response
+    {
+        return $this->renderEditor(0, [
+            'title' => '', 'summary' => '', 'text' => '', 'status' => 0, 'pinned' => 0, 'date' => $this->state->runtime->timestamp, 'image' => '',
+        ]);
+    }
+
+    /** The editor of the item `id` (`saved` shows a notice); an unknown item shows the list. */
+    #[GameRoute('admin', 'admin/news/{id}/edit', 'news', 'edit', requirements: ['id' => '\d+'])]
+    public function edit(): Response
     {
         $LNG = $this->state->LNG;
+        $html = new HtmlContent();
+        $id = $this->input()->int('id');
+        $row = $this->db->selectSingle("SELECT * FROM %%NEWS%% WHERE id = :id;", [':id' => $id]);
+        if (empty($row)) {
+            return $this->newsList();
+        }
+
+        $content = $row['format'] === 'text' ? $html->fromPlainText($row['text']) : $html->rich($row['text']);
+
+        return $this->renderEditor($id, [
+            'title' => $row['title'], 'summary' => $row['summary'], 'text' => $content,
+            'status' => (int) $row['status'], 'pinned' => (int) $row['pinned'], 'date' => (int) $row['date'], 'image' => (string) $row['image'],
+        ], null, $this->input()->int('saved') !== 0 ? $LNG['nws_saved'] : null);
+    }
+
+    /**
+     * POST: reads and sanitizes the form (id 0 = new, title, summary, text (sanitized rich text), status, pinned, date, optional image upload and
+     * remove_image), re-shows the editor with an error when title or text is empty, inserts or updates the NEWS row, applies the image
+     * upload/removal and redirects to the editor with saved=1 (an image error re-renders the editor instead).
+     */
+    #[GameRoute('admin', 'admin/news/save', 'news', 'save', ['POST'])]
+    public function save(): Response
+    {
+        $LNG = $this->state->LNG;
+        $html = new HtmlContent();
+        $post = $this->state->requestPost ?? [];
         $db = $this->db;
         $now = $this->state->runtime->timestamp;
 
@@ -113,7 +109,8 @@ class NewsController extends AbstractAdminController
                 'status' => $status, 'pinned' => $pinned, 'date' => $date, 'image' => $image,
             ], $imageError, $LNG['nws_saved']);
         }
-        $this->http()->redirectTo('admin?page=news&action=edit&id=' . $id . '&saved=1');
+
+        return $this->redirectToRoute('admin_news_edit', ['id' => $id, 'saved' => 1]);
     }
 
     /**
@@ -161,6 +158,7 @@ class NewsController extends AbstractAdminController
      * replacing the old file, max width 1600, plus the srcset width variants `-<w>w.webp` of IMAGE_WIDTHS) and the NEWS.image update when it changed. Upload errors are returned,
      * not thrown.
      *
+     * @param array<mixed> $post
      * @return array{0: string, 1: string} stored image name (empty = none) and the error text (empty = none)
      */
     private function applyNewsImage(int $id, string $oldImage, array $post): array
@@ -193,14 +191,13 @@ class NewsController extends AbstractAdminController
         return [$image, $imageError];
     }
 
-    /**
-     * POST action=delete: removes the news item with its image and redirects to the list with deleted=1.
-     */
-    private function deleteNews(array $post): void
+    /** POST: removes the news item `id` with its image and redirects to the list with deleted=1. */
+    #[GameRoute('admin', 'admin/news/delete', 'news', 'delete', ['POST'])]
+    public function delete(): Response
     {
         $db = $this->db;
 
-        $delId = (int) ($post['id'] ?? 0);
+        $delId = $this->input()->int('id');
         $img = (string) ($db->selectSingle("SELECT image FROM %%NEWS%% WHERE id = :id;", [':id' => $delId], 'image') ?? '');
         if ($img !== '') {
             $this->removeImage($img);
@@ -208,7 +205,8 @@ class NewsController extends AbstractAdminController
         $db->delete("DELETE FROM %%NEWS%% WHERE `id` = :id;", [
             ':id' => $delId,
         ]);
-        $this->http()->redirectTo('admin?page=news&deleted=1');
+
+        return $this->redirectToRoute('admin_news_show', ['deleted' => 1]);
     }
 
     /**
@@ -221,7 +219,7 @@ class NewsController extends AbstractAdminController
         $db = $this->db;
         $now = $this->state->runtime->timestamp;
 
-        $filter = (string) $this->http()->_GP('filter', 'all');
+        $filter = $this->input()->string('filter', 'all');
         $where = match ($filter) {
             'published' => 'WHERE `status` = 1',
             'drafts' => 'WHERE `status` = 0',
@@ -246,12 +244,11 @@ class NewsController extends AbstractAdminController
             ];
         }
 
-        $this->assign([
+        return $this->render('admin/NewsPage.html.twig', [
             'NewsList'   => $NewsList,
             'newsFilter' => $filter,
-            'newsNotice' => $this->http()->_GP('deleted', 0) ? $LNG['nws_deleted'] : null,
+            'newsNotice' => $this->input()->int('deleted') !== 0 ? $LNG['nws_deleted'] : null,
         ]);
-        return $this->render('admin/NewsPage.html.twig');
     }
 
     /**
@@ -263,7 +260,7 @@ class NewsController extends AbstractAdminController
     private function renderEditor(int $id, array $data, ?string $error = null, ?string $notice = null): Response
     {
         $LNG = $this->state->LNG;
-        $this->assign([
+        return $this->render('admin/NewsPage.html.twig', [
             'editor'      => true,
             'news_id'     => $id,
             'nws_head'    => $id ? $LNG->format('nws_head_edit', htmlspecialchars($data['title'], ENT_QUOTES, 'UTF-8')) : $LNG['nws_head_create'],
@@ -279,7 +276,6 @@ class NewsController extends AbstractAdminController
             'newsError'   => $error,
             'newsNotice'  => $notice,
         ]);
-        return $this->render('admin/NewsPage.html.twig');
     }
 
     private function removeImage(string $name): void

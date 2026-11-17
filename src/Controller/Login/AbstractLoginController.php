@@ -18,24 +18,25 @@
 namespace App\Controller\Login;
 
 use App\Controller\GameControllerInterface;
-use App\Controller\PageModeDispatch;
+use App\Controller\GuardsModule;
+use App\Controller\ModuleGuard;
 use App\Controller\RendersPages;
 use App\Game\Core\EndOfRequest;
 
 /**
- * Base for the public pages (start page, registration, news, hall of fame, ...: /?page=...).
+ * Base for the public pages (start page, registration, news, hall of fame, ...).
  *
  * The window is $defaultWindow ("normal", the start page frame), or "ajax" for XHR requests.
- * ?mode= is dispatched by PageModeDispatch; pages render with RendersPages and get the game name,
+ * Every action has its own route (GameRoute); pages render with RendersPages and get the game name,
  * language and universe data of the login layout. save() runs before every response.
  */
-abstract class AbstractLoginController implements GameControllerInterface
+abstract class AbstractLoginController implements GameControllerInterface, ModuleGuard
 {
     use \App\Game\Core\GameUtilities;
 
     use \App\Controller\GameServices;
 
-    use PageModeDispatch;
+    use GuardsModule;
 
     use RendersPages {
         render as private renderPage;
@@ -46,6 +47,7 @@ abstract class AbstractLoginController implements GameControllerInterface
         return 'login';
     }
 
+    /** Error page of the area for GuardsModule (module inactive); ends the request. */
     protected function printPageError(string $message): never
     {
         $this->printMessage($message);
@@ -76,19 +78,18 @@ abstract class AbstractLoginController implements GameControllerInterface
     }
 
     /**
-     * Refuses the request with a message page (and a way back to the form) unless the form carries a valid bot-check
-     * solution (field `pow`) and an empty honeypot (field `website`); see BotProtection.
+     * The message page (with a way back to the form) unless the form carries a valid bot-check solution (field `pow`)
+     * and an empty honeypot (field `website`), see BotProtection; null when the check passed.
      */
-    protected function requireBotCheck(string $backUrl, string $backLabel): void
+    protected function botCheckFailure(string $backUrl, string $backLabel): ?\Symfony\Component\HttpFoundation\Response
     {
         $passed = $this->botProtection->passes(
-            $this->http()->rawInput(\App\Security\BotProtection::FIELD),
-            $this->http()->rawInput(\App\Security\BotProtection::HONEYPOT),
+            $this->input()->rawString(\App\Security\BotProtection::FIELD),
+            $this->input()->rawString(\App\Security\BotProtection::HONEYPOT),
             $this->sessions()->getClientIp(),
         );
-        if (!$passed) {
-            $this->printMessage($this->state->LNG['powFailed'], [['label' => $backLabel, 'url' => $backUrl]]);
-        }
+
+        return $passed ? null : $this->messageResponse($this->state->LNG['powFailed'], [['label' => $backLabel, 'url' => $backUrl]]);
     }
 
     /**
@@ -104,49 +105,43 @@ abstract class AbstractLoginController implements GameControllerInterface
     }
 
     /**
-     * Query string (page, mode) of the current request, e.g. for the language switch links.
-     */
-    protected function getQueryString()
-    {
-        $queryString	= [];
-        $page			= $this->http()->_GP('page', '');
-
-        if (!empty($page)) {
-            $queryString['page']	= $page;
-        }
-
-        $mode			= $this->http()->_GP('mode', '');
-        if (!empty($mode)) {
-            $queryString['mode']	= $mode;
-        }
-
-        return http_build_query($queryString);
-    }
-
-    /**
-     * Shows a message page and ends the request.
+     * The message page of the area.
      *
      * @param string|\Twig\Markup $message plain text is escaped, pass Twig\Markup for HTML
      * @param list<array{url: string, label: string}>|null $redirectButtons links under the message
      * @param array{0: string, 1: int}|null $redirect [url, seconds] automatic redirect
      * @param bool $fullSide false: popup window
      */
-    protected function printMessage($message, $redirectButtons = null, $redirect = null, $fullSide = true): never
+    protected function messageResponse($message, $redirectButtons = null, $redirect = null, $fullSide = true): \Symfony\Component\HttpFoundation\Response
     {
-        $this->assign([
+        $context = [
             'message'			=> $message,
             'redirectButtons'	=> $redirectButtons,
-        ]);
+        ];
 
         if (isset($redirect)) {
-            $this->assign(['goto' => $redirect[0], 'gotoinsec' => $redirect[1]]);
+            $context += ['goto' => $redirect[0], 'gotoinsec' => $redirect[1]];
         }
 
         if (!$fullSide) {
             $this->setWindow('popup');
         }
 
-        $this->display('login/error.default.html.twig');
+        return $this->render('login/error.default.html.twig', $context);
+    }
+
+    /**
+     * Ends the request with the message page: for initialize() and helpers that cannot return the Response (an action
+     * returns messageResponse()).
+     *
+     * @param string|\Twig\Markup $message
+     * @param list<array{url: string, label: string}>|null $redirectButtons
+     * @param array{0: string, 1: int}|null $redirect
+     * @param bool $fullSide false: popup window
+     */
+    protected function printMessage($message, $redirectButtons = null, $redirect = null, $fullSide = true): never
+    {
+        throw EndOfRequest::withResponse($this->messageResponse($message, $redirectButtons, $redirect, $fullSide));
     }
 
     /**
@@ -176,12 +171,19 @@ abstract class AbstractLoginController implements GameControllerInterface
 
     /**
      * Saves the game state and renders the template inside the public layout.
+     *
+     * @param array<string, mixed> $context
      */
-    protected function render(string $template): \Symfony\Component\HttpFoundation\Response
+    protected function render(string $template, array $context = []): \Symfony\Component\HttpFoundation\Response
     {
         $this->save();
 
-        return $this->renderPage($template);
+        return $this->renderPage($template, $context);
+    }
+
+    protected function beforeResponse(): void
+    {
+        $this->save();
     }
 
     /**
@@ -230,22 +232,18 @@ abstract class AbstractLoginController implements GameControllerInterface
     }
 
     /**
-     * Sends $data as a JSON response and ends the request (EndOfRequest).
+     * Ends the request with a JSON answer (helpers; an action returns jsonResponse()).
      */
     protected function sendJSON($data): never
     {
-        $this->save();
-        echo json_encode($data);
-        throw new EndOfRequest();
+        throw EndOfRequest::withResponse($this->jsonResponse($data));
     }
 
     /**
-     * Redirects to $url and ends the request.
+     * Ends the request with a redirect to $url (initialize() and helpers; an action returns redirectResponse()).
      */
     protected function redirectTo($url): never
     {
-        $this->save();
-        $this->http()->redirectTo($url);
-        throw new EndOfRequest();
+        throw EndOfRequest::withResponse($this->redirectResponse($url));
     }
 }

@@ -9,7 +9,7 @@
 	</tr>
 	{% for searchRow in searchList %}
 	<tr>
-		<td><a href="game?page=alliance&amp;mode=info&amp;id={{ searchRow.allyid }}">{{ searchRow.allytag }}</a></td>
+		<td><a href="{{ path('game_alliance_info', {id: searchRow.allyid}) }}">{{ searchRow.allytag }}</a></td>
 		<td>{{ searchRow.allyname }}</td>
 		<td class="num">{{ searchRow.allymembers }}</td>
 		<td class="num">{{ searchRow.allypoints }}</td>

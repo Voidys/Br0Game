@@ -17,10 +17,10 @@
 
 namespace App\Controller\Login;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Public ban list. */
-#[\App\Routing\GamePage('index', 'banList')]
 #[\App\Controller\RequireModule('MODULE_BANLIST')]
 class BanListController extends AbstractLoginController
 {
@@ -29,13 +29,12 @@ class BanListController extends AbstractLoginController
     /**
      * Ban list of the universe; start and end of the bans in the universe timezone.
      */
+    #[GameRoute('index', 'banlist', 'banList')]
     public function show(): Response
     {
-        $this->assign([
+        return $this->render('login/page.banList.default.html.twig', [
             'universeSelect' => $this->getUniverseSelector(),
             ...$this->banListData($this->configs->get()->timezone),
         ]);
-
-        return $this->render('login/page.banList.default.html.twig');
     }
 }

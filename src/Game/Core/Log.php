@@ -26,6 +26,7 @@ class Log
 {
     use \App\Game\Core\GameUtilities;
 
+    /** @var array<mixed> */
     private array $data = [];
 
     public function __construct(

@@ -17,7 +17,11 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
+use App\Game\Enum\MessageType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 use App\Game\Core\MarketManager;
 use App\Game\Messages\MessageComposer;
 use App\Game\Messages\MessageListing;
@@ -26,13 +30,16 @@ use App\Game\Messages\MessageMailbox;
 /**
  * Message center: category list, paged message list (grouped, favourites, search), mark/delete actions, and the write and forward popups.
  */
-#[\App\Routing\GamePage('game', 'messages')]
 #[\App\Controller\RequireModule('MODULE_MESSAGES')]
 class MessagesController extends AbstractGameController
 {
-    public function initialize(): void
+    private ?CacheInterface $spyReportCache = null;
+
+    /** render cache of the spy reports in the message list */
+    #[Required]
+    public function setSpyReportCache(CacheInterface $cache): void
     {
-        parent::initialize();
+        $this->spyReportCache = $cache;
     }
 
     private function mailbox(): MessageMailbox
@@ -45,9 +52,9 @@ class MessagesController extends AbstractGameController
         return new MessageComposer($this->db, $this->configs, $this->state);
     }
 
-    private function sendData($Code, $Message)
+    private function sendData($Code, $Message): Response
     {
-        $this->sendJSON([
+        return $this->jsonResponse([
             'code' => $Code,
             'mess' => $Message,
         ]);
@@ -56,167 +63,174 @@ class MessagesController extends AbstractGameController
     /**
      * Toggles the favourite flag of a message (XHR, request: favMessID); answers JSON.
      */
-    public function favMessage()
+    #[GameRoute('game', 'game/messages/favorite', 'messages', 'favorite', ['POST'])]
+    public function favMessage(): Response
     {
         $LNG = $this->state->LNG;
 
         $this->setWindow('ajax');
 
-        $favMessID = $this->http()->_GP('favMessID', 0);
+        $favMessID = $this->input()->int('favMessID');
 
         if (empty($favMessID)) {
-            $this->sendData(0, $LNG['error']);
+            return $this->sendData(0, $LNG['error']);
         }
 
-        $this->sendData($this->mailbox()->toggleFavorite($favMessID), 'OK');
+        return $this->sendData($this->mailbox()->toggleFavorite($favMessID), 'OK');
     }
 
     /**
      * Deletes a message of the player (XHR, request: delMessID); answers JSON.
      */
-    public function deleteMessage()
+    #[GameRoute('game', 'game/messages/delete', 'messages', 'delete', ['POST'])]
+    public function deleteMessage(): Response
     {
         $LNG = $this->state->LNG;
 
         $this->setWindow('ajax');
 
-        $delMessID  = $this->http()->_GP('delMessID', 0);
+        $delMessID  = $this->input()->int('delMessID');
 
         if (empty($delMessID)) {
-            $this->sendData(0, $LNG['error']);
+            return $this->sendData(0, $LNG['error']);
         }
 
         $this->mailbox()->delete($delMessID);
 
-        $this->sendData($delMessID, $LNG['mg_deleted']);
+        return $this->sendData($delMessID, $LNG['mg_deleted']);
     }
 
     /**
      * Bulk action on messages (form post): messcat (category), site (page), messageID[] and action, applied by the mailbox service. Without an action
      * nothing happens; redirects back to the same category page.
      */
-    public function action()
+    #[GameRoute('game', 'game/messages/action', 'messages', 'action', ['POST'])]
+    public function action(): Response
     {
-        $MessCategory  	= $this->http()->_GP('messcat', MESSAGE_TYPE_ALL);
-        $page		 	= $this->http()->_GP('site', 1);
-        $messageIDs		= $this->http()->_GP('messageID', []);
-        $action	        = $this->http()->_GP('action', "");
-        $redirectUrl	= 'game?page=messages&category=' . $MessCategory . '&site=' . $page;
+        $MessCategory  	= $this->input()->int('messcat', MessageType::All->value);
+        $page		 	= $this->input()->int('site', 1);
+        $messageIDs		= $this->input()->intMap('messageID');
+        $action	        = $this->input()->string('action');
 
-        if ($action == "") {
-            $this->redirectTo($redirectUrl);
+        if ($action != "") {
+            $this->mailbox()->applyAction($action, $MessCategory, $messageIDs);
         }
 
-        $this->mailbox()->applyAction($action, $MessCategory, $messageIDs);
-        $this->redirectTo($redirectUrl);
+        return $this->redirectToRoute('game_messages_show', ['category' => $MessCategory, 'site' => $page]);
     }
 
-    public function loadUser()
+    /** Receiver search of the write dialog (JSON list of id and username). */
+    #[GameRoute('game', 'game/messages/users', 'messages', 'loadUser')]
+    public function loadUser(): Response
     {
-        $searchtext		= $this->http()->_GP('searchtext', '', true);
-        $this->sendJSON($this->mailbox()->searchRecipients($searchtext));
+        $searchtext		= $this->input()->string('searchtext', '', true);
+
+        return $this->jsonResponse($this->mailbox()->searchRecipients($searchtext));
     }
 
     /**
      * Forwards an own message to other players (XHR, request: to[] receivers, id message); validates ownership and receivers, answers JSON.
      */
-    public function sendForward()
+    #[GameRoute('game', 'game/messages/forward', 'messages', 'sendForward', ['POST'])]
+    public function sendForward(): Response
     {
         $LNG = $this->state->LNG;
-        $receiver   = $this->http()->_GP('to', []);
-        $messageID  = $this->http()->_GP('id', 0);
+        $receiver   = $this->input()->stringList('to');
+        $messageID  = $this->input()->int('id');
         $composer = $this->composer();
 
         if (empty($receiver) || empty($messageID)) {
-            $this->sendJSON($LNG['mg_error']);
+            return $this->jsonResponse($LNG['mg_error']);
         }
 
         if ($composer->tooManyRecipients($receiver)) {
-            $this->sendJSON(sprintf($LNG['mg_too_many_recipients'], MessageComposer::MAX_RECIPIENTS));
+            return $this->jsonResponse(sprintf($LNG['mg_too_many_recipients'], MessageComposer::MAX_RECIPIENTS));
         }
 
         if (!$composer->ownsMessage($messageID)) {
-            $this->sendJSON($LNG['mg_error']);
+            return $this->jsonResponse($LNG['mg_error']);
         }
 
         if (!$this->rateLimits->allowPrivateMessage((int) $this->state->USER['id'])) {
-            $this->sendJSON($LNG['mg_rate_limited']);
+            return $this->jsonResponse($LNG['mg_rate_limited']);
         }
 
         $receiverList = $composer->deliverableReceivers($receiver);
 
         if (empty($receiverList)) {
-            $this->sendJSON($LNG['mg_error']);
+            return $this->jsonResponse($LNG['mg_error']);
         }
 
         $composer->forward($receiverList, $messageID);
 
-        $this->sendJSON($LNG['mg_message_send']);
+        return $this->jsonResponse($LNG['mg_message_send']);
     }
 
     /**
      * Sends a new message (XHR, request: to[] receivers, subject, text, groupid). Needs receivers and text; receivers who block messages are dropped (all
      * blocked: error). Answers JSON with the result text.
      */
-    public function send()
+    #[GameRoute('game', 'game/messages/send', 'messages', 'send', ['POST'])]
+    public function send(): Response
     {
         $LNG = $this->state->LNG;
-        $receiver   = $this->http()->_GP('to', []);
-        $subject    = $this->http()->_GP('subject', $LNG['mg_no_subject'], true);
-        $text       = $this->http()->_GP('text', '', true);
-        $groupKey   = $this->http()->_GP('groupid', "", true);
+        $receiver   = $this->input()->stringList('to');
+        $subject    = $this->input()->string('subject', $LNG['mg_no_subject'], true);
+        $text       = $this->input()->string('text', '', true);
+        $groupKey   = $this->input()->string('groupid', "", true);
 
         // the subject field allows 40 typed characters: cut the decoded text, so no entity is split and the column (255) holds it
         $subject    = htmlspecialchars(mb_substr(html_entity_decode((string) $subject, ENT_QUOTES | ENT_HTML5, 'UTF-8'), 0, 40), ENT_QUOTES, 'UTF-8');
         $text		= makebr($text);
 
         if (empty($receiver) || empty($text)) {
-            $this->sendJSON($LNG['mg_error']);
+            return $this->jsonResponse($LNG['mg_error']);
         }
 
         $composer = $this->composer();
         if ($composer->tooManyRecipients($receiver)) {
-            $this->sendJSON(sprintf($LNG['mg_too_many_recipients'], MessageComposer::MAX_RECIPIENTS));
+            return $this->jsonResponse(sprintf($LNG['mg_too_many_recipients'], MessageComposer::MAX_RECIPIENTS));
         }
         if ($composer->textTooLong((string) $text)) {
-            $this->sendJSON(sprintf($LNG['mg_text_too_long'], MessageComposer::MAX_TEXT_LENGTH));
+            return $this->jsonResponse(sprintf($LNG['mg_text_too_long'], MessageComposer::MAX_TEXT_LENGTH));
         }
         if (!$this->rateLimits->allowPrivateMessage((int) $this->state->USER['id'])) {
-            $this->sendJSON($LNG['mg_rate_limited']);
+            return $this->jsonResponse($LNG['mg_rate_limited']);
         }
 
         $receiverList = $composer->deliverableReceivers($receiver);
 
         if (empty($receiverList)) {
-            $this->sendJSON($LNG['mg_blocked']);
+            return $this->jsonResponse($LNG['mg_blocked']);
         }
 
         $composer->send($receiverList, $receiver, $subject, $text, $groupKey);
 
-        $this->sendJSON($LNG['mg_message_send']);
+        return $this->jsonResponse($LNG['mg_message_send']);
     }
 
     /**
      * Compose form prefilled with the text of message `id` (to forward it).
      */
+    #[GameRoute('game', 'game/messages/forward', 'messages', 'forward')]
     public function forward(): Response
     {
         $this->setWindow('popup');
 
-        $messageID  = $this->http()->_GP('id', 0);
+        $messageID  = $this->input()->int('id');
 
         $this->addScript('message.js');
-        $this->assign([
+
+        return $this->render('game/page.messages.write.html.twig', [
             'messageID' => $messageID,
             'action' => 'forward',
         ]);
-
-        return $this->render('game/page.messages.write.html.twig');
     }
 
     /**
      * Compose popup. Request: receivers[] (player ids), subject, message, groupid. Looks up the receivers' home coordinates and names and whether they block PMs.
      */
+    #[GameRoute('game', 'game/messages/write', 'messages', 'write')]
     public function write(): Response
     {
         $LNG = $this->state->LNG;
@@ -225,14 +239,10 @@ class MessagesController extends AbstractGameController
 
         $db = $this->db;
 
-        $receivers      = $this->http()->_GP('receivers', [], true);
-        $Subject        = $this->http()->_GP('subject', $LNG['mg_no_subject'], true);
-        $Message        = $this->http()->_GP('message', "", true);
-        $messageGroup   = $this->http()->_GP('groupid', "", true);
-
-        if (!is_array($receivers)) {
-            $receivers = [$receivers];
-        }
+        $receivers      = $this->input()->stringList('receivers', true);
+        $Subject        = $this->input()->string('subject', $LNG['mg_no_subject'], true);
+        $Message        = $this->input()->string('message', "", true);
+        $messageGroup   = $this->input()->string('groupid', "", true);
 
         $receiverIds = array_slice(array_values(array_unique(array_filter(array_map('intval', $receivers)))), 0, \App\Game\Messages\MessageComposer::MAX_RECIPIENTS);
 
@@ -250,28 +260,28 @@ class MessagesController extends AbstractGameController
         }
 
         $this->addScript('message.js');
-        $this->assign([
+
+        return $this->render('game/page.messages.write.html.twig', [
             'subject'       => $Subject,
             'receiverList'  => $receiverList,
             'message'       => $Message,
             'messageGroup'  => $messageGroup,
             'action' => 'write',
         ]);
-
-        return $this->render('game/page.messages.write.html.twig');
     }
 
     /**
      * Message center. Request: category (-1 = category overview), site (page), fav (1 = favourites only), searchtext. The list comes from MessageListing;
      * the grouping (cookie msgGrouping), the player's simulator display settings and the market reference ratios are passed to the template.
      */
+    #[GameRoute('game', 'game/messages', 'messages')]
     public function show(): Response
     {
         $USER = $this->state->USER;
-        $MessCategory = $this->http()->_GP('category', -1);
-        $page = $this->http()->_GP('site', 1);
-        $fav = $this->http()->_GP('fav', 0);
-        $searchtext = $this->http()->_GP('searchtext', '', true);
+        $MessCategory = $this->input()->int('category', -1);
+        $page = $this->input()->int('site', 1);
+        $fav = $this->input()->int('fav');
+        $searchtext = $this->input()->string('searchtext', '', true);
 
         $grp = isset($this->state->requestCookies['msgGrouping']) ? (int) $this->state->requestCookies['msgGrouping'] : 0;
 
@@ -280,17 +290,18 @@ class MessagesController extends AbstractGameController
         $uniType = $this->configs->get()->uni_type;
         $maxGalaxy = $this->configs->get()->max_galaxy;
 
-        $stbSettings2 = $this->playerUtil()->player_stb_settings($USER);
+        $stbSettings2 = $this->playerLookup()->player_stb_settings($USER);
 
         $combustion_tech = $USER["combustion_tech"];
         $impulse_motor_tech = $USER["impulse_motor_tech"];
 
-        $list = (new MessageListing($this->db, $this->configs, $this->state))->listPage($MessCategory, $page, $fav, $searchtext, $grp);
+        $list = (new MessageListing($this->db, $this->configs, $this->state, $this->spyReportCache))->listPage($MessCategory, $page, $fav, $searchtext, $grp);
 
         $pMarket = new MarketManager($this->db, $this->configs, $this->state);
         $refrates = $pMarket->getReferenceRatios();
         $this->addScript('message.js');
-        $this->assign([
+
+        return $this->render('game/page.messages.default.html.twig', [
             'MessID'		                => $MessCategory,
             'MessageList'	                => $list['MessageList'],
             'CategoryList'	                => $list['CategoryList'],
@@ -316,7 +327,5 @@ class MessagesController extends AbstractGameController
             'maxGalaxy'                     => $maxGalaxy,
             'spyReportsCollapsed'           => $USER['spyReportsCollapsed'],
         ]);
-
-        return $this->render('game/page.messages.default.html.twig');
     }
 }

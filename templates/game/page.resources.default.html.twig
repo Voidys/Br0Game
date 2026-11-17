@@ -5,8 +5,7 @@
 	data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: id})|e('html_attr') }}">{{ LNG.tech[id] }}</a>{% endmacro %}
 {% macro val(v) %}<span class="{% if v > 0 %}colorPositive prod-pos{% elseif v < 0 %}colorNegative prod-neg{% else %}white prod-zero{% endif %}">{{ pretty_number(v) }}</span>{% endmacro %}
 {% block content %}
-	<form action="?page=resources" method="post" class="prod-form">
-		<input type="hidden" name="mode" value="send">
+	<form action="{{ path('game_resources_send') }}" method="post" class="prod-form">
 		<div class="prod-head">
 			<h2>{{ header }}</h2>
 			<div class="prod-actions">

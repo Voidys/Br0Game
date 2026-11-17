@@ -8,6 +8,7 @@ use App\Game\Core\Database;
 use App\Game\Core\FleetFunctions;
 use App\Game\Missions\MissionCaseColonisation;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * Colonisation arrivals: a taken position is refused, and the planet position is unique in the database, so racing
@@ -17,7 +18,11 @@ final class ColonisationTest extends GameTestCase
 {
     private const TARGET = [4, 321, 9];
 
-    /** @return array<string, mixed> fleet row of a colony ship that arrived at the target position */
+    /**
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $user
+     * @return array<string, mixed> fleet row of a colony ship that arrived at the target position
+     */
     private function colonyFleet(array $user, array $planet): array
     {
         $now = time();
@@ -26,7 +31,7 @@ final class ColonisationTest extends GameTestCase
         [$galaxy, $system, $slot] = self::TARGET;
         $id = (new FleetFunctions($this->db, $this->configs, $this->state))->sendFleet(
             [208 => 1],
-            MISSION_COLONISATION,
+            Mission::Colonisation->value,
             (int) $user['id'],
             (int) $planet['id'],
             (int) $planet['galaxy'],

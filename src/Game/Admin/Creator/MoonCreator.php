@@ -15,9 +15,9 @@ class MoonCreator extends CreatorTab
         if ($this->state->requestPost) {
             $db = $this->db;
 
-            $PlanetID = $this->http()->_GP('add_moon', 0);
-            $MoonName = $this->http()->_GP('name', '', UTF8_SUPPORT);
-            $Diameter = $this->http()->_GP('diameter', 0);
+            $PlanetID = $this->input()->int('add_moon');
+            $MoonName = $this->input()->string('name', '', UTF8_SUPPORT);
+            $Diameter = $this->input()->int('diameter');
 
             $MoonPlanet = $db->selectSingle(
                 "SELECT temp_max, temp_min, id_luna, galaxy, `system`, planet, planet_type, destruyed, id_owner FROM %%PLANETS%% WHERE id = :planetId AND universe = :universe AND planet_type = 1 AND destruyed = 0;",
@@ -28,10 +28,10 @@ class MoonCreator extends CreatorTab
             );
 
             if (!isset($MoonPlanet)) {
-                $this->responder->message($LNG['mo_planet_doesnt_exist'], '?page=creator&mode=moon', 3, true);
+                $this->responder->message($LNG['mo_planet_doesnt_exist'], 'admin/creator/moon', 3, true);
             }
 
-            $moonId = $this->playerUtil()->createMoon(
+            $moonId = $this->planetManager()->createMoon(
                 $this->universe()->getEmulated(),
                 $MoonPlanet['galaxy'],
                 $MoonPlanet['system'],
@@ -43,9 +43,9 @@ class MoonCreator extends CreatorTab
             );
 
             if ($moonId > 0) { // createMoon() returns 0 when the planet already has a moon
-                $this->responder->message($LNG['mo_moon_added'], '?page=creator&mode=moon', 3, true);
+                $this->responder->message($LNG['mo_moon_added'], 'admin/creator/moon', 3, true);
             } else {
-                $this->responder->message($LNG['mo_moon_unavaible'], '?page=creator&mode=moon', 3, true);
+                $this->responder->message($LNG['mo_moon_unavaible'], 'admin/creator/moon', 3, true);
             }
         }
 

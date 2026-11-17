@@ -7,7 +7,6 @@ use App\Game\Core\ServerInfo\ServerInfoFormat;
 use App\Game\Core\ServerInfo\ServerInfoGame;
 use App\Game\Core\ServerInfo\ServerInfoLogs;
 use App\Game\Core\ServerInfo\ServerInfoSystem;
-use App\Runtime\SafeFile;
 
 /**
  * Data behind the admin information page: health checks, server, database, game statistics,
@@ -35,22 +34,22 @@ class ServerInfo
 
     private function systemInfo(): ServerInfoSystem
     {
-        return $this->system ??= new ServerInfoSystem($this->db, $this->configs, $this->state);
+        return $this->system ??= new ServerInfoSystem($this->state);
     }
 
     private function databaseInfo(): ServerInfoDatabase
     {
-        return $this->database ??= new ServerInfoDatabase($this->db, $this->configs, $this->state);
+        return $this->database ??= new ServerInfoDatabase($this->db, $this->state);
     }
 
     private function gameInfo(): ServerInfoGame
     {
-        return $this->game ??= new ServerInfoGame($this->db, $this->configs, $this->state, $this->databaseInfo());
+        return $this->game ??= new ServerInfoGame($this->db, $this->state, $this->databaseInfo());
     }
 
     private function logInfo(): ServerInfoLogs
     {
-        return $this->logs ??= new ServerInfoLogs($this->db, $this->configs, $this->state);
+        return $this->logs ??= new ServerInfoLogs($this->state);
     }
 
     // ------------------------------------------------------------------------------ health

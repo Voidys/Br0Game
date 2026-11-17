@@ -5,11 +5,10 @@
  * #login-config ({isMultiUniverse, unisWildcast, referralEnable, basePath}) of the layout.
  */
 import '../app/csrf.js';
-import { qs, qsa, on, ready, cookie } from '../app/core.js';
+import { qs, qsa, on, ready, cookie, pageData } from '../app/core.js';
 import { initLightbox } from './lightbox.js';
-import { readPageData } from '../page/config.js';
 
-const config = readPageData('login-config') ?? {};
+const config = pageData('login-config');
 
 function fbLinks() {
   return qsa('.fb_login');

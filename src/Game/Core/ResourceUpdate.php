@@ -17,6 +17,8 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\PlanetType;
+
 /**
  * Brings a planet (and its owner) up to date: finishes shipyard, building and research queues in order of their end
  * times, integrates the resource production up to the target time and optionally saves the result.
@@ -122,8 +124,8 @@ class ResourceUpdate
      * and research queues in end-time order (each finished element may start the next one), then produces resources.
      * Does nothing for users in vacation mode, closed/registration-only universes and destroyed planets.
      *
-     * @param array $USER user row
-     * @param array $PLANET planet row
+     * @param array<string, mixed> $USER user row
+     * @param array<string, mixed> $PLANET planet row
      * @param bool $SAVE write the result to the DB (ResourcePersistence::savePlanet)
      * @param int|null $TIME target time, default: request timestamp
      * @param bool $HASH true: rebuild production only when the eco hash changed; false: always rebuild
@@ -136,10 +138,7 @@ class ResourceUpdate
         $this->st->time = is_null($TIME) ? $this->state->runtime->timestamp : $TIME;
         $this->config = $this->configs->get($this->st->user['universe']);
 
-        if ($this->st->user['urlaubs_modus'] == 1
-            || $this->config->uni_status == STATUS_CLOSED
-            || $this->config->uni_status == STATUS_REG_ONLY
-            || $this->st->planet['destruyed'] != 0) {
+        if (!$this->isUpdatable($this->st->user, $this->st->planet)) {
             return $this->ReturnVars();
         }
 
@@ -174,6 +173,38 @@ class ResourceUpdate
     }
 
     /**
+     * True when CalcResource($USER, $PLANET, true, $TIME) would process something, and therefore write: the planet is
+     * processed at all (not vacation mode, closed or registration-only universe, destroyed planet) and its last update
+     * lies before the target time. Callers that only want the update for a locked read-modify-write can skip the
+     * transaction and the row locks when this is false: nothing is queued, produced or saved then.
+     *
+     * @param array<string, mixed> $USER user row
+     * @param array<string, mixed> $PLANET planet row
+     * @param int|null $TIME target time, default: request timestamp
+     */
+    public function wouldUpdate($USER, $PLANET, $TIME = null): bool
+    {
+        $time = is_null($TIME) ? $this->state->runtime->timestamp : $TIME;
+        $this->config = $this->configs->get($USER['universe']);
+
+        return $this->isUpdatable($USER, $PLANET) && $time - $PLANET['last_update'] > 0;
+    }
+
+    /**
+     * Vacation mode, closed or registration-only universes and destroyed planets are never updated.
+     *
+     * @param array<string, mixed> $USER
+     * @param array<string, mixed> $PLANET
+     */
+    private function isUpdatable(array $USER, array $PLANET): bool
+    {
+        return !($USER['urlaubs_modus'] == 1
+            || $this->config->uni_status == STATUS_CLOSED
+            || $this->config->uni_status == STATUS_REG_ONLY
+            || $PLANET['destruyed'] != 0);
+    }
+
+    /**
      * Brings the stock of the working planet to $TIME: rebuilds the production values (always when $HASH is false,
      * otherwise only when the eco hash changed) and integrates the production since last_update.
      */
@@ -193,7 +224,7 @@ class ResourceUpdate
                     $this->ReBuildCache();
                 }
             }
-            if ($this->st->planet['planet_type'] != 3) { // moons produce nothing
+            if ($this->st->planet['planet_type'] != PlanetType::Moon->value) { // moons produce nothing
                 $produced = $this->production()->produceFor($this->models()->planet($this->st->planet), $ProductionTime, $this->config);
                 $elements = $this->elements();
                 foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceId) {
@@ -264,37 +295,57 @@ class ResourceUpdate
         return $result;
     }
 
-    /** @see ResourcePersistence::removeResources() */
+    /**
+     * @param array<string, mixed> $planet
+     * @param array<mixed> $resources
+     * @see ResourcePersistence::removeResources()
+     */
     public function removeResources(int $planetId, array $resources, ?array &$planet = null)
     {
         $this->persistence()->removeResources($planetId, $resources, $planet);
     }
 
-    /** @see ResourcePersistence::addResources() */
+    /**
+     * @param array<string, mixed> $planet
+     * @param array<mixed> $resources
+     * @see ResourcePersistence::addResources()
+     */
     public function addResources(int $planetId, array $resources, ?array &$planet = null, float $factor = 1)
     {
         $this->persistence()->addResources($planetId, $resources, $planet, $factor);
     }
 
-    /** @see ResourcePersistence::saveResources() */
+    /**
+     * @param array<string, mixed> $PLANET
+     * @see ResourcePersistence::saveResources()
+     */
     public function saveResources(array $PLANET)
     {
         $this->persistence()->saveResources($PLANET);
     }
 
-    /** @see ResourcePersistence::saveTechQueue() */
+    /**
+     * @param array<string, mixed> $USER
+     * @see ResourcePersistence::saveTechQueue()
+     */
     public function saveTechQueue(array $USER)
     {
         $this->persistence()->saveTechQueue($USER);
     }
 
-    /** @see ResourcePersistence::saveBuilingQueue() */
+    /**
+     * @param array<string, mixed> $PLANET
+     * @see ResourcePersistence::saveBuilingQueue()
+     */
     public function saveBuilingQueue(array $PLANET)
     {
         $this->persistence()->saveBuilingQueue($PLANET);
     }
 
-    /** @see ResourcePersistence::saveShipyardQueue() */
+    /**
+     * @param array<string, mixed> $PLANET
+     * @see ResourcePersistence::saveShipyardQueue()
+     */
     public function saveShipyardQueue(array $PLANET)
     {
         $this->persistence()->saveShipyardQueue($PLANET);

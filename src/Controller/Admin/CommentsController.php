@@ -2,14 +2,11 @@
 
 namespace App\Controller\Admin;
 
-use Exception;
-use App\Game\Core\Database;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Lists the admin comments stored on players of the universe. */
-#[\App\Routing\GamePage('admin', 'comments')]
 class CommentsController extends AbstractAdminController
 {
     /**
@@ -27,6 +24,7 @@ class CommentsController extends AbstractAdminController
     /**
      * Lists the admin comments (USERS_COMMENTS) stored on players of the universe with player and alliance names.
      */
+    #[GameRoute('admin', 'admin/comments', 'comments')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -46,9 +44,8 @@ class CommentsController extends AbstractAdminController
             $Data['created_at'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $Data['created_at']);
         }
 
-        $this->assign([
+        return $this->render('admin/Comments.html.twig', [
             'comments'     => $comments,
         ]);
-        return $this->render('admin/Comments.html.twig');
     }
 }

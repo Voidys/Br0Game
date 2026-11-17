@@ -6,7 +6,7 @@
     <header class="card__head">
       <h2 class="card__title">{{ icon('trophy') }}{{ LNG.hof_head }} <span class="badge badge--muted">{{ hofUni }}</span></h2>
       <div class="card__actions">
-        {% if hofExists %}<a class="button btn--small" href="./?page=HoF&amp;universe={{ hofUni }}" target="_blank" rel="noopener">{{ icon('external-link') }}{{ LNG.hof_view }}</a>{% endif %}
+        {% if hofExists %}<a class="button btn--small" href="{{ path('login_hof_show', {universe: hofUni}) }}" target="_blank" rel="noopener">{{ icon('external-link') }}{{ LNG.hof_view }}</a>{% endif %}
       </div>
     </header>
     <div class="card__body">
@@ -22,17 +22,17 @@
     </div>
     {% if hofExists %}
     <footer class="card__foot">
-      <form method="POST" action="?page=hallOfFame&amp;action=export" class="inline-form">
+      <form method="POST" action="{{ path('admin_hall_of_fame_export') }}" class="inline-form">
         <button type="submit" class="button btn--small">{{ icon('download') }}{{ LNG.hof_export }}</button>
       </form>
-      <form method="POST" action="?page=hallOfFame&amp;action=clear" class="inline-form">
+      <form method="POST" action="{{ path('admin_hall_of_fame_clear') }}" class="inline-form">
         <button type="submit" class="btn--small btn--danger" data-confirm-danger data-confirm="{{ LNG.hof_confirm_clear|e('html_attr') }}">{{ icon('trash-2') }}{{ LNG.hof_clear }}</button>
       </form>
     </footer>
     {% endif %}
   </section>
 
-  <form method="POST" action="?page=hallOfFame&amp;action=import" class="card" enctype="multipart/form-data">
+  <form method="POST" action="{{ path('admin_hall_of_fame_import') }}" class="card" enctype="multipart/form-data">
     <header class="card__head"><h2 class="card__title">{{ icon('upload') }}{{ LNG.hof_import }}</h2></header>
     <div class="card__body">
       <div class="form-grid">

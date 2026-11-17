@@ -17,20 +17,16 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\MessageType;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
 use App\Game\Core\Discord;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 use App\Game\Core\SupportTickets;
 use App\Game\Core\Universe;
 
 /**
  * Support ticket overview and ticket view/answer for admins.
  */
-#[\App\Routing\GamePage('admin', 'support')]
 class SupportController extends AbstractAdminController
 {
     private $ticketObj;
@@ -46,16 +42,11 @@ class SupportController extends AbstractAdminController
     }
 
     /**
-     * Ticket overview of the emulated universe with answer counts. `mode` other than show dispatches to the method of that name (view, send).
+     * Ticket overview of the emulated universe with answer counts.
      */
+    #[GameRoute('admin', 'admin/support', 'support')]
     public function show(): Response
     {
-        //TODO: temporary fix for 2Moons 1.7TO1.6 PageClass Wrapper
-        $ACTION = $this->http()->_GP('mode', 'show');
-        if (in_array($ACTION, ['view', 'send'], true)) {
-            return $this->{$ACTION}();
-        }
-
         $LNG = $this->state->LNG;
         $db = $this->db;
 
@@ -81,28 +72,27 @@ class SupportController extends AbstractAdminController
             9 => $LNG['adm_ti_debug_errors'],
         ];
 
-        $this->assign([
+        return $this->render('admin/page.ticket.default.html.twig', [
             'ticketList' => $ticketList,
             'categories' => $categories,
         ]);
-
-        return $this->render('admin/page.ticket.default.html.twig');
     }
 
     /**
-     * Answers a ticket (mode=send): request id, message and change_status. change_status toggles open (1) and closed (2); an answer and/or
+     * Answers a ticket: request id, message and change_status. change_status toggles open (1) and closed (2); an answer and/or
      * the status change is stored through SupportTickets::createAnswer, the Discord ticket hook is notified and the ticket owner gets an
      * in-game message. Redirects to the ticket, or to the overview after closing.
      */
-    public function send(): never
+    #[GameRoute('admin', 'admin/support/reply', 'support', 'send', ['POST'])]
+    public function send(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         $db = $this->db;
         $config = $this->configs->get();
-        $ticketID = $this->http()->_GP('id', 0);
-        $message = $this->http()->_GP('message', '', true);
-        $change = $this->http()->_GP('change_status', 0);
+        $ticketID = $this->input()->int('id');
+        $message = $this->input()->string('message', '', true);
+        $change = $this->input()->int('change_status');
 
         $sql = 'SELECT `ownerID`, `subject`, `status` 
             FROM %%TICKETS%% 
@@ -114,7 +104,7 @@ class SupportController extends AbstractAdminController
         $status = ($change ? ($ticketDetail['status'] <= 1 ? 2 : 1) : 1);
 
         if (!$change && empty($message)) {
-            $this->http()->redirectTo('admin?page=support&mode=view&id=' . $ticketID);
+            return $this->redirectToRoute('admin_support_view', ['id' => $ticketID]);
         }
 
         $subject = "RE: " . $ticketDetail['subject'];
@@ -129,7 +119,7 @@ class SupportController extends AbstractAdminController
             if (isset($config->discord_tickets_hook) && !empty($config->discord_tickets_hook)) {
                 $this->discord()->sendMessage($config->discord_tickets_hook, 'Admin answer', [
                     'Universe' => $this->universe()->current(),
-                    'Ticket-ID' => '[' . $ticketID . '](' . $this->state->runtime->protocol . $this->state->runtime->httpHost . '/admin?page=support&mode=view&id=' . $ticketID . ')',
+                    'Ticket-ID' => '[' . $ticketID . '](' . $this->routeUrl('admin_support_view', ['id' => $ticketID]) . ')',
                     'User' => $USER['username'] . ' (' . $USER['id'] . ')',
                     'Subject' => $subject,
                     'Message' => $message,
@@ -143,7 +133,7 @@ class SupportController extends AbstractAdminController
             if (isset($config->discord_tickets_hook) && !empty($config->discord_tickets_hook)) {
                 $this->discord()->sendMessage($config->discord_tickets_hook, 'Ticket Closed', [
                     'Universe' => $this->universe()->current(),
-                    'Ticket-ID' => '[' . $ticketID . '](' . $this->state->runtime->protocol . $this->state->runtime->httpHost . '/admin?page=support&mode=view&id=' . $ticketID . ')',
+                    'Ticket-ID' => '[' . $ticketID . '](' . $this->routeUrl('admin_support_view', ['id' => $ticketID]) . ')',
                     'User' => $USER['username'] . ' (' . $USER['id'] . ')',
                     'Subject' => $subject,
                 ]);
@@ -153,11 +143,11 @@ class SupportController extends AbstractAdminController
         $subject = $LNG->format('sp_answer_message_title', $ticketID);
         $text = $LNG->format('sp_answer_message', $ticketID);
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $ticketDetail['ownerID'],
             $USER['id'],
             $USER['username'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $subject,
             $text,
             $this->state->runtime->timestamp,
@@ -165,19 +155,20 @@ class SupportController extends AbstractAdminController
             $this->universe()->getEmulated(),
         );
 
-        $this->http()->redirectTo('admin?page=support');
+        return $this->redirectToRoute('admin_support_show');
     }
 
     /**
      * One ticket (request: id) with the conversation (TICKETS_ANSWER).
      */
+    #[GameRoute('admin', 'admin/support/{id}', 'support', 'view', requirements: ['id' => '\d+'])]
     public function view(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         $db = $this->db;
 
-        $ticketID = $this->http()->_GP('id', 0);
+        $ticketID = $this->input()->int('id');
 
         $sql = 'SELECT a.*, t.`categoryID`, t.`status`
             FROM %%TICKETS_ANSWER%% a
@@ -203,13 +194,11 @@ class SupportController extends AbstractAdminController
 
         $categoryList = $this->ticketObj->getCategoryList();
 
-        $this->assign([
+        return $this->render('admin/page.ticket.view.html.twig', [
             'ticketID'		=> $ticketID,
             'ticket_status' => $ticket_status,
             'categoryList'	=> $categoryList,
             'answerList'	=> $answerList,
         ]);
-
-        return $this->render('admin/page.ticket.view.html.twig');
     }
 }

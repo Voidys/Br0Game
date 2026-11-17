@@ -139,7 +139,7 @@ registerActions({
   'dialog-ach': (element) => { Dialog.ach(id(element)); return false; },
   /** data-target: id of hidden markup on the page that is shown as modal, data-width in px */
   'dialog-show': (element) => { Dialog.show(document.getElementById(element.dataset.target), { width: Number(element.dataset.width) || undefined }); return false; },
-  /** data-url (game URL or "?page=…"), data-width: a game page as modal */
+  /** data-url (game URL, e.g. rendered with path()), data-width: a game page as modal */
   popup: (element) => { OpenPopup(element.dataset.url, '', element.dataset.width); return false; },
   /** auto-submitting form control (select) */
   'submit-form': (element) => { element.form?.requestSubmit(); },
@@ -164,7 +164,7 @@ registerActions({
     qsa(`[data-filter-group="${filterGroup}"]`).forEach((other) => other.classList.toggle('selected', other === button));
   },
   /** missile silo information page: destroy the missiles typed into .missile fields */
-  'destroy-missiles': () => { DestroyMissiles(); },
+  'destroy-missiles': (button) => { DestroyMissiles(button.dataset.url); },
   /** data-url: opened in a new window; the click itself carries on (a submit button still submits) */
   'open-url': (element) => { window.open(element.dataset.url, '_blank', 'noopener,noreferrer'); return true; },
   /** reloads the page */

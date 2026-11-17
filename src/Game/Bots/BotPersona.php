@@ -98,6 +98,7 @@ class BotPersona
     // ------------------------------------------------------------------------------------------------
 
     /**
+     * @param array<mixed> $profile
      * @return array{nickname:string, persona:array}
      */
     public function generate(int $universe, array $profile): array
@@ -157,7 +158,7 @@ class BotPersona
     public function renamePlanet(int $planetId, string $name): void
     {
         $name = trim($name);
-        if ($name === '' || !$this->playerUtil()->isNameValid($name, true) || mb_strlen($name) > 32) {
+        if ($name === '' || !$this->playerRegistration()->isNameValid($name, true) || mb_strlen($name) > 32) {
             return;
         }
 
@@ -241,7 +242,11 @@ class BotPersona
         return true;
     }
 
-    /** Persona as array: arrays pass through, JSON strings are decoded, anything else gives []. */
+    /**
+     * Persona as array: arrays pass through, JSON strings are decoded, anything else gives [].
+     *
+     * @return array<mixed>
+     */
     public static function decode(mixed $persona): array
     {
         if (is_array($persona)) {
@@ -278,7 +283,7 @@ class BotPersona
         return $text === '' || preg_match('/\b(as an ai|language model|i cannot|i can\'t assist|als ki|sprachmodell|openai|anthropic)\b/i', $text) === 1;
     }
 
-    /** Same treatment HTTP::_GP gives user input: escape, trim; optionally newline to <br>. */
+    /** Same treatment RequestInput::typed() gives user input: escape, trim; optionally newline to <br>. */
     public static function escapeForStorage(string $text, bool $br = true): string
     {
         $text = trim(htmlspecialchars($text, ENT_QUOTES, 'UTF-8'));
@@ -305,7 +310,11 @@ class BotPersona
         }, $text);
     }
 
-    /** Normalized profile key (lowercase, spaces to underscores) from profile_key, name or key; defaults to 'office_worker'. */
+    /**
+     * Normalized profile key (lowercase, spaces to underscores) from profile_key, name or key; defaults to 'office_worker'.
+     *
+     * @param array<mixed> $profile
+     */
     public static function profileKey(array $profile): string
     {
         $key = (string) ($profile['profile_key'] ?? $profile['name'] ?? $profile['key'] ?? '');
@@ -407,7 +416,7 @@ class BotPersona
         if ($len < 3 || $len > self::MAX_NICK || $nick !== trim($nick)) {
             return false;
         }
-        if (!$this->playerUtil()->isNameValid($nick) || preg_match(self::BAD_NICK, $nick)) {
+        if (!$this->playerRegistration()->isNameValid($nick) || preg_match(self::BAD_NICK, $nick)) {
             return false;
         }
         $db = $this->db;
@@ -521,7 +530,7 @@ class BotPersona
     {
         $len = mb_strlen($name);
 
-        return $len >= 2 && $len <= 20 && $this->playerUtil()->isNameValid($name, true) && strip_tags($name) === $name;
+        return $len >= 2 && $len <= 20 && $this->playerRegistration()->isNameValid($name, true) && strip_tags($name) === $name;
     }
 
     /** Planet name from the fixed lists; colonies sometimes get a number 2-9 appended; max 20 characters. */

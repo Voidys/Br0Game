@@ -17,27 +17,17 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\Mission;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
+use App\Routing\GameRoute;
 use App\Game\Core\FleetFunctions;
-use App\Game\Core\HTTP;
 use App\Game\Core\MarketManager;
-use App\Game\Core\PlayerUtil;
 use App\Game\Core\Session;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /** Fleet dispatch, step 2: mission, cargo and trade options (modes: show, checkResources). */
-#[\App\Routing\GamePage('game', 'fleetStep2')]
 #[\App\Controller\RequireModule('MODULE_FLEET_TABLE')]
 class FleetStep2Controller extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Fleet dispatch step 2 (mission choice). Request: token (fleet stored by step 1; unknown tokens go back to the fleet page), galaxy/system/planet/type
      * (target), speed (percent, validated against the allowed speeds), target_mission (-1 = pick), group (public id of an alliance combat group the
@@ -48,6 +38,7 @@ class FleetStep2Controller extends AbstractGameController
      * Builds the confirmation questions (outlaw, diplomatic partner, buddy, colony warning), the stay times and the trade market rates for trade
      * missions, refuses missing ships and expeditions with probes only, and renders the form.
      */
+    #[GameRoute('game', 'game/fleet/step2', 'fleetStep2', 'show', ['GET', 'POST'])]
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -55,19 +46,19 @@ class FleetStep2Controller extends AbstractGameController
         $LNG = $this->state->LNG;
         $this->addScript('flotten.js');
 
-        $targetGalaxy = $this->http()->_GP('galaxy', 0);
-        $targetSystem = $this->http()->_GP('system', 0);
-        $targetPlanet = $this->http()->_GP('planet', 0);
-        $targetType = $this->http()->_GP('type', 0);
-        $targetMission = $this->http()->_GP('target_mission', -1);
-        $fleetSpeed = $this->http()->_GP('speed', 0);
-        $fleetGroupPublicId = $this->http()->_GP('group', '');
-        $token = $this->http()->_GP('token', '');
+        $targetGalaxy = $this->input()->int('galaxy');
+        $targetSystem = $this->input()->int('system');
+        $targetPlanet = $this->input()->int('planet');
+        $targetType = $this->input()->int('type');
+        $targetMission = $this->input()->int('target_mission', -1);
+        $fleetSpeed = $this->input()->int('speed');
+        $fleetGroupPublicId = $this->input()->string('group');
+        $token = $this->input()->string('token');
 
         $session = $this->sessions()->load();
         $fleet = $session->fleet;
         if (!isset($fleet[$token])) {
-            $this->fleetFunctions()->gotoFleetPage();
+            return $this->redirectResponse($this->fleetFunctions()->fleetPageUrl());
         }
 
         $fleetArray = $fleet[$token]['fleet'];
@@ -75,19 +66,22 @@ class FleetStep2Controller extends AbstractGameController
         [$targetPlanetData, $fleetGroup] = $this->loadTarget($targetGalaxy, $targetSystem, $targetPlanet, $targetType, $fleetGroupPublicId);
 
         $MissionOutput = $this->possibleMissions($targetPlanetData, $fleetArray, $fleetGroup, $targetGalaxy, $targetSystem, $targetPlanet, $targetType);
+        if ($MissionOutput instanceof Response) {
+            return $MissionOutput;
+        }
 
         if ($targetMission == -1) {
             $targetMission = $this->preferredMission($MissionOutput['MissionSelector'], $targetMission);
         }
         // validate the speed first: the flight duration divides by it
         if (!$this->fleetFunctions()->checkUserSpeed((int) $fleetSpeed)) {
-            $this->fleetFunctions()->gotoFleetPage(0);
+            return $this->redirectResponse($this->fleetFunctions()->fleetPageUrl(0));
         }
 
         [$MaxFleetSpeed, $distance, $duration, $consumption] = $this->flightPlan($fleetArray, $targetGalaxy, $targetSystem, $targetPlanet, $fleetSpeed);
 
         if ($consumption > $PLANET['deuterium']) {
-            $this->backToFleetTable($LNG['fl_not_enough_deuterium']);
+            return $this->backToFleetTable($LNG['fl_not_enough_deuterium']);
         }
 
         $fleet[$token] = array_merge($fleet[$token], [
@@ -108,8 +102,8 @@ class FleetStep2Controller extends AbstractGameController
             $targetMission = $this->guessMission($MissionOutput['MissionSelector'], $targetPlanetData, $fleetArray);
         }
 
-        if (!empty($fleetGroup) && $targetMission == MISSION_ATTACK) {
-            $targetMission  = MISSION_ACS;
+        if (!empty($fleetGroup) && $targetMission == Mission::Attack->value) {
+            $targetMission  = Mission::Acs->value;
         }
 
         $questionList = $this->confirmationQuestions($targetPlanetData, $targetGalaxy, $targetSystem);
@@ -121,27 +115,27 @@ class FleetStep2Controller extends AbstractGameController
 
         $tradeMarket = empty($MissionOutput['Exchange']) ? null : $this->tradeMarketData($fleetArray);
 
-        $this->assign($this->formVariables($questionList, $fleetData, $consumption, $targetMission, $MissionOutput, $tradeMarket, $token, $duration, $fleet[$token]['predefinedResources']));
+        if ($unavailable = $this->checkShipsAvailable($fleetArray, $targetMission)) {
+            return $unavailable;
+        }
 
-        $this->checkShipsAvailable($fleetArray, $targetMission);
-
-        return $this->render('game/page.fleetStep2.default.html.twig');
+        return $this->render('game/page.fleetStep2.default.html.twig', $this->formVariables($questionList, $fleetData, $consumption, $targetMission, $MissionOutput, $tradeMarket, $token, $duration, $fleet[$token]['predefinedResources']));
     }
 
     /**
-     * Asks FleetFunctions which missions are possible against the target. Ends the request with a message when the target
+     * Asks FleetFunctions which missions are possible against the target. Returns the message page when the target
      * is an empty debris field or when no mission is possible.
      *
      * @param array<string, mixed> $targetPlanetData target row from loadTarget() (empty = nothing there)
      * @param array<int, int|float> $fleetArray ship id => count
-     * @return array<string, mixed> MissionSelector, StayBlock, Exchange
+     * @return array<string, mixed>|Response MissionSelector, StayBlock, Exchange
      */
-    private function possibleMissions(array $targetPlanetData, array $fleetArray, int $fleetGroup, mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $targetType): array
+    private function possibleMissions(array $targetPlanetData, array $fleetArray, int $fleetGroup, mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $targetType): array|Response
     {
         $LNG = $this->state->LNG;
         if ($targetType == 2 && !empty($targetPlanetData) && ($targetPlanetData['der_metal'] + $targetPlanetData['der_crystal']) == 0
             && $targetPlanetData['tf_active'] == 0) {
-            $this->backToFleetTable($LNG['fl_error_empty_derbis']);
+            return $this->backToFleetTable($LNG['fl_error_empty_derbis']);
         }
 
         $MissionOutput = $this->fleetFunctions()->getFleetMissions($this->state->USER, [
@@ -154,7 +148,7 @@ class FleetStep2Controller extends AbstractGameController
         ], $targetPlanetData);
 
         if (empty($MissionOutput['MissionSelector'])) {
-            $this->backToFleetTable($LNG['fl_empty_target']);
+            return $this->backToFleetTable($LNG['fl_empty_target']);
         }
 
         return $MissionOutput;
@@ -219,13 +213,13 @@ class FleetStep2Controller extends AbstractGameController
     }
 
     /**
-     * Ends the request with $message and a back link to the fleet page.
+     * The message page with $message and a back link to the fleet page.
      */
-    private function backToFleetTable(mixed $message): void
+    private function backToFleetTable(mixed $message): Response
     {
-        $this->printMessage($message, [[
+        return $this->messageResponse($message, [[
             'label' => $this->state->LNG['sys_back'],
-            'url'   => 'game?page=fleetTable',
+            'url'   => $this->router->generate('game_fleet_table_show'),
         ]]);
     }
 
@@ -369,19 +363,19 @@ class FleetStep2Controller extends AbstractGameController
             return $missionSelector[0];
         }
         if (!empty($targetPlanetData) && $targetPlanetData['id_owner'] == $this->state->USER['id']) {
-            return MISSION_TRANSPORT;
+            return Mission::Transport->value;
         }
         if (count($fleetArray) == 1 && isset($fleetArray[SHIP_PROBE])) {
-            return MISSION_SPY;
+            return Mission::Spy->value;
         }
         if (empty($targetPlanetData)) {
-            return MISSION_ATTACK;
+            return Mission::Attack->value;
         }
 
         $targetAllianceData = $this->alliedAllianceOf($targetPlanetData['id_owner']);
         $buddy = $this->buddyCount($targetPlanetData['id_owner']);
 
-        return ($targetAllianceData || $buddy['anz'] > 0) ? MISSION_TRANSPORT : MISSION_ATTACK;
+        return ($targetAllianceData || $buddy['anz'] > 0) ? Mission::Transport->value : Mission::Attack->value;
     }
 
     /**
@@ -405,8 +399,8 @@ class FleetStep2Controller extends AbstractGameController
 
             if ($config->noob_protection_outlaw) {
 
-                $targetPlayerData = $this->playerUtil()->getPlayerById($targetPlanetData['id_owner']);
-                $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetPlayerData));
+                $targetPlayerData = $this->playerLookup()->getPlayerById($targetPlanetData['id_owner']);
+                $IsNoobProtec = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetPlayerData));
 
                 if ($IsNoobProtec['StrongPlayer']) {
                     $question = $LNG->format(
@@ -423,8 +417,8 @@ class FleetStep2Controller extends AbstractGameController
                         'fl_spy_confirm_outlaw',
                         $targetPlayerData['username'],
                     );
-                    $questionList[MISSION_HOLD] = $questionHold;
-                    $questionList[MISSION_SPY] = $questionSpy;
+                    $questionList[Mission::Hold->value] = $questionHold;
+                    $questionList[Mission::Spy->value] = $questionSpy;
                 }
             } elseif ($targetAllianceData) {
                 $question = $LNG->format(
@@ -436,9 +430,9 @@ class FleetStep2Controller extends AbstractGameController
                 $question = $LNG['fl_attack_confirm_buddy'];
             }
 
-            $questionList[MISSION_ATTACK] = $question;
-            $questionList[MISSION_ACS] = $question;
-            $questionList[MISSION_DESTRUCTION] = $question;
+            $questionList[Mission::Attack->value] = $question;
+            $questionList[Mission::Acs->value] = $question;
+            $questionList[Mission::Destruction->value] = $question;
 
         }
 
@@ -457,7 +451,7 @@ class FleetStep2Controller extends AbstractGameController
                 ':system' => $targetSystem,
             ]);
             if ($coloniesInSys['anz'] >= 2) {
-                $questionList[MISSION_COLONISATION] = $LNG['fl_colonize_confirm'];
+                $questionList[Mission::Colonisation->value] = $LNG['fl_colonize_confirm'];
             }
         }
 
@@ -488,27 +482,29 @@ class FleetStep2Controller extends AbstractGameController
     }
 
     /**
-     * Last sanity checks before the form is rendered; ends the request with a message when the planet no longer has
-     * the ships, or when an expedition would be sent with probes only.
+     * Last sanity checks before the form is rendered: the message page when the planet no longer has
+     * the ships, or when an expedition would be sent with probes only; null when all is fine.
      *
      * @param array<int, int> $fleetArray ship id => count
      */
-    private function checkShipsAvailable(array $fleetArray, mixed $targetMission): void
+    private function checkShipsAvailable(array $fleetArray, mixed $targetMission): ?Response
     {
         $e = $this->elements();
         $LNG = $this->state->LNG;
         $containsOnlyProbes = true;
         foreach ($fleetArray as $Ship => $Count) {
             if ($Count > $this->state->PLANET[$e->column($Ship)]) {
-                $this->backToFleetTable($LNG['fl_not_all_ship_avalible']);
+                return $this->backToFleetTable($LNG['fl_not_all_ship_avalible']);
             }
             if ($Ship != SHIP_PROBE) {
                 $containsOnlyProbes = false;
             }
         }
-        if ($targetMission == MISSION_EXPEDITION && $containsOnlyProbes) {
-            $this->backToFleetTable($LNG['fl_no_probe_expos']);
+        if ($targetMission == Mission::Expedition->value && $containsOnlyProbes) {
+            return $this->backToFleetTable($LNG['fl_no_probe_expos']);
         }
+
+        return null;
     }
 
     /**
@@ -517,33 +513,34 @@ class FleetStep2Controller extends AbstractGameController
      * for the flight on top of the cargo, too little cargo space, or invalid trade setups (nothing or several resources loaded, wanting the loaded
      * resource). An unknown token gives {message, error: true}.
      */
-    public function checkResources(): void
+    #[GameRoute('game', 'game/fleet/step2/check-resources', 'fleetStep2', 'checkResources')]
+    public function checkResources(): Response
     {
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
 
-        $targetMission = $this->http()->_GP('mission', MISSION_TRANSPORT);
-        $TransportMetal = max(0, round($this->http()->_GP('metal', 0.0)));
-        $TransportCrystal = max(0, round($this->http()->_GP('crystal', 0.0)));
-        $TransportDeuterium = max(0, round($this->http()->_GP('deuterium', 0.0)));
-        $WantedResourceType = $this->http()->_GP('resEx', 0);
-        $WantedResourceAmount = max(0, round($this->http()->_GP('exchange', 0.0)));
-        $markettype = $this->http()->_GP('markettype', 0); //0 = resources, 1 = ships
+        $targetMission = $this->input()->int('mission', Mission::Transport->value);
+        $TransportMetal = max(0, round($this->input()->float('metal')));
+        $TransportCrystal = max(0, round($this->input()->float('crystal')));
+        $TransportDeuterium = max(0, round($this->input()->float('deuterium')));
+        $WantedResourceType = $this->input()->int('resEx');
+        $WantedResourceAmount = max(0, round($this->input()->float('exchange')));
+        $markettype = $this->input()->int('markettype'); //0 = resources, 1 = ships
 
         if ($PLANET['metal'] < $TransportMetal) {
-            $this->sendJSON($LNG->format('fl_not_enough', $LNG['tech'][RESOURCE_METAL]));
+            return $this->jsonResponse($LNG->format('fl_not_enough', $LNG['tech'][RESOURCE_METAL]));
         }
         if ($PLANET['crystal'] < $TransportCrystal) {
-            $this->sendJSON($LNG->format('fl_not_enough', $LNG['tech'][RESOURCE_CRYSTAL]));
+            return $this->jsonResponse($LNG->format('fl_not_enough', $LNG['tech'][RESOURCE_CRYSTAL]));
         }
 
-        $token = $this->http()->_GP('token', '');
+        $token = $this->input()->string('token');
         $session = $this->sessions()->load();
         $fleet = $session->fleet;
         if (!isset($fleet[$token]) || !isset($fleet[$token]['fleet']) || !isset($fleet[$token]['distance'])
             || !isset($fleet[$token]['fleetSpeed']) || !isset($fleet[$token]['fleetRoom'])) {
-            $this->sendJSON(['message' => $LNG['fl_error'], 'error' => true]);
+            return $this->jsonResponse(['message' => $LNG['fl_error'], 'error' => true]);
         }
         $formData = $fleet[$token];
         $fleetArray = $formData['fleet'];
@@ -558,34 +555,34 @@ class FleetStep2Controller extends AbstractGameController
         $consumption = $this->fleetFunctions()->fleetConsumptionFor($fleetArray, $duration, $distance, $userModel, $GameSpeedFactor);
 
         if ($PLANET['deuterium'] < $TransportDeuterium + $consumption) {
-            $this->sendJSON($LNG->format('fl_not_enough', $LNG['tech'][RESOURCE_DEUT]));
+            return $this->jsonResponse($LNG->format('fl_not_enough', $LNG['tech'][RESOURCE_DEUT]));
         }
 
         if ($fleetStorage < $TransportMetal + $TransportCrystal + $TransportDeuterium + $consumption || $fleetStorage < $WantedResourceAmount) {
-            $this->sendJSON($LNG['fl_not_enough_space']);
+            return $this->jsonResponse($LNG['fl_not_enough_space']);
         }
 
-        if ($targetMission == MISSION_TRADE) {
+        if ($targetMission == Mission::Trade->value) {
             $anz = 0;
             $anz += $TransportMetal > 0 ? 1 : 0;
             $anz += $TransportCrystal > 0 ? 1 : 0;
             $anz += $TransportDeuterium > 0 ? 1 : 0;
 
             if ($anz == 0 && $markettype == 0) {
-                $this->sendJSON($LNG['fl_trade_no_resource_loaded']);
+                return $this->jsonResponse($LNG['fl_trade_no_resource_loaded']);
             } elseif ($anz > 1) {
-                $this->sendJSON($LNG['fl_trade_to_many_resources_loaded']);
+                return $this->jsonResponse($LNG['fl_trade_to_many_resources_loaded']);
             }
 
             if ($TransportMetal > 0 && $WantedResourceType == 1) {
-                $this->sendJSON($LNG->format('fl_trade_same_resource', $LNG['tech'][RESOURCE_METAL], $LNG['tech'][RESOURCE_METAL]));
+                return $this->jsonResponse($LNG->format('fl_trade_same_resource', $LNG['tech'][RESOURCE_METAL], $LNG['tech'][RESOURCE_METAL]));
             } elseif ($TransportCrystal > 0 && $WantedResourceType == 2) {
-                $this->sendJSON($LNG->format('fl_trade_same_resource', $LNG['tech'][RESOURCE_CRYSTAL], $LNG['tech'][RESOURCE_CRYSTAL]));
+                return $this->jsonResponse($LNG->format('fl_trade_same_resource', $LNG['tech'][RESOURCE_CRYSTAL], $LNG['tech'][RESOURCE_CRYSTAL]));
             } elseif ($TransportDeuterium > 0 && $WantedResourceType == 3) {
-                $this->sendJSON($LNG->format('fl_trade_same_resource', $LNG['tech'][RESOURCE_DEUT], $LNG['tech'][RESOURCE_DEUT]));
+                return $this->jsonResponse($LNG->format('fl_trade_same_resource', $LNG['tech'][RESOURCE_DEUT], $LNG['tech'][RESOURCE_DEUT]));
             }
         }
 
-        $this->sendJSON('OK');
+        return $this->jsonResponse('OK');
     }
 }

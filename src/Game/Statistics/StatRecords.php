@@ -22,7 +22,11 @@ class StatRecords
         private readonly array $catalogs,
     ) {}
 
-    /** Records of the highest research levels of the (non-hidden) players of a universe, per tech. */
+    /**
+     * Records of the highest research levels of the (non-hidden) players of a universe, per tech.
+     *
+     * @return array<mixed>
+     */
     private function getHighestUser(string $type, int $uni): array
     {
         $elements = $this->catalogs[$uni];
@@ -37,7 +41,11 @@ class StatRecords
         return $this->getHighestRows('USERS', 'id', $columns, $uni);
     }
 
-    /** Records of the highest building levels of the (non-hidden) players' planets of a universe, per building. */
+    /**
+     * Records of the highest building levels of the (non-hidden) players' planets of a universe, per building.
+     *
+     * @return array<mixed>
+     */
     private function getHighestPlanet(string $type, int $uni): array
     {
         $elements = $this->catalogs[$uni];
@@ -57,8 +65,8 @@ class StatRecords
      *
      * @param string $table        USERS (rows are users) or PLANETS (rows are planets, owner by id_owner)
      * @param string $idColumn     column of $table that identifies the user
-     * @param array  $columns      element id => column name
-     * @return array list (per element with a level above 0) of rows [id, level, 0 => element id]
+     * @param array<mixed>  $columns      element id => column name
+     * @return array<mixed> list (per element with a level above 0) of rows [id, level, 0 => element id]
      */
     private function getHighestRows(string $table, string $idColumn, array $columns, int $uni): array
     {
@@ -132,7 +140,7 @@ class StatRecords
     /**
      * Inserts the record rows of a universe into the records table (in chunks of 1000 rows).
      *
-     * @param array $records list per element of rows [id, level, 0 => element id]
+     * @param array<mixed> $records list per element of rows [id, level, 0 => element id]
      */
     private function insertQueries(array $records, int $uni): void
     {

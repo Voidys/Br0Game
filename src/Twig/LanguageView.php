@@ -96,13 +96,21 @@ final class LanguageView implements \ArrayAccess, \IteratorAggregate, \Countable
         return count($this->values ?? []);
     }
 
-    /** the plain values (for PHP functions that need a real array, e.g. `LNG.months.toArray`) */
+    /**
+     * the plain values (for PHP functions that need a real array, e.g. `LNG.months.toArray`)
+     *
+     * @return array<mixed>
+     */
     public function toArray(): array
     {
         return $this->values ?? [];
     }
 
-    /** `LNG.months|json_encode` encodes the plain list */
+    /**
+     * `LNG.months|json_encode` encodes the plain list
+     *
+     * @return array<mixed>
+     */
     public function jsonSerialize(): array
     {
         return $this->toArray();
@@ -121,7 +129,11 @@ final class LanguageView implements \ArrayAccess, \IteratorAggregate, \Countable
         return new Markup($language->formatHtml($key, ...$arguments), 'UTF-8');
     }
 
-    /** language methods, e.g. `LNG.getLanguage()` */
+    /**
+     * language methods, e.g. `LNG.getLanguage()`
+     *
+     * @param array<mixed> $arguments
+     */
     public function __call(string $name, array $arguments): mixed
     {
         $language = $this->language() ?? throw new \LogicException('No language loaded.');

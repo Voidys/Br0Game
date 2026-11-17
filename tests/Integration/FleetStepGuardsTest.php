@@ -7,12 +7,12 @@ namespace App\Tests\Integration;
 use App\Controller\Game\FleetStep1Controller;
 use App\Controller\Game\FleetStep3Controller;
 use App\Controller\Game\FleetStepAjaxController;
-use App\Game\Core\EndOfRequest;
 use App\Game\Core\Language;
 use App\Tests\Support\GameTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use App\Game\Enum\Mission;
 
 /**
  * The fleet dispatch steps only act on what they should: step 3 sends only on POST, the release beacon (fleetStepAjax)
@@ -48,7 +48,10 @@ final class FleetStepGuardsTest extends GameTestCase
         $this->state->requestQuery = $method === 'POST' ? [] : $input;
         $this->state->requestServer['REQUEST_METHOD'] = $method;
 
-        return (new $class())->withGameServices($this->db, $this->configs, $this->state);
+        $controller = (new $class())->withGameServices($this->db, $this->configs, $this->state);
+        $controller->setRouter(self::container()->get('router'));
+
+        return $controller;
     }
 
     private function session(object $controller): object
@@ -66,18 +69,14 @@ final class FleetStepGuardsTest extends GameTestCase
     {
         [$user, $planet] = $this->createPlayer([], ['small_ship_cargo' => 5, 'deuterium' => 100000]);
         [, $target] = $this->createPlayer();
-        $input = ['token' => 'tok', 'mission' => MISSION_TRANSPORT, 'metal' => 0, 'crystal' => 0, 'deuterium' => 0];
+        $input = ['token' => 'tok', 'mission' => Mission::Transport->value, 'metal' => 0, 'crystal' => 0, 'deuterium' => 0];
         $controller = $this->controller(FleetStep3Controller::class, $user, $planet, $input, 'GET');
         $session = $this->session($controller);
         $session->fleet = ['tok' => $this->prepared() + ['target' => $target['id']]];
         $session->save();
 
-        try {
-            $controller->show();
-            $this->fail('a GET must end in the redirect to the fleet table');
-        } catch (EndOfRequest) {
-            // redirect to fleetTable
-        }
+        $response = $controller->show();
+        $this->assertTrue($response->isRedirection(), 'a GET must end in the redirect to the fleet table');
 
         $this->assertSame(0, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%FLEETS%% WHERE owner = :o;', [':o' => $user['id']], 'c'));
         $this->assertSame(5, (int) $this->db->selectSingle('SELECT small_ship_cargo AS c FROM %%PLANETS%% WHERE id = :id;', [':id' => $planet['id']], 'c'));
@@ -87,13 +86,13 @@ final class FleetStepGuardsTest extends GameTestCase
     public function testReleaseBeaconDropsThePreparedFleetOnlyByPost(): void
     {
         [$user, $planet] = $this->createPlayer();
-        $controller = $this->controller(FleetStepAjaxController::class, $user, $planet, ['token' => 'tok'], 'GET');
+        $methods = self::container()->get('router')->getRouteCollection()->get('game_fleet_step_ajax_show')?->getMethods();
+        $this->assertSame(['POST'], $methods, 'the release route does not answer GET');
+
+        $controller = $this->controller(FleetStepAjaxController::class, $user, $planet, ['token' => 'tok'], 'POST');
         $session = $this->session($controller);
         $session->fleet = ['tok' => $this->prepared()];
         $session->save();
-
-        $controller->show();
-        $this->assertArrayHasKey('tok', $this->session($controller)->fleet, 'GET leaves the prepared fleet alone');
 
         $post = $this->controller(FleetStepAjaxController::class, $user, $planet, ['token' => 'tok'], 'POST');
         $post->show();
@@ -105,12 +104,9 @@ final class FleetStepGuardsTest extends GameTestCase
         [$user, $planet] = $this->createPlayer([], ['small_ship_cargo' => 2]);
         $controller = $this->controller(FleetStep1Controller::class, $user, $planet, ['ship202' => 50], 'POST');
 
-        try {
-            $controller->show();
-            $this->fail('step 1 must refuse ships the planet does not have');
-        } catch (EndOfRequest) {
-            // message page
-        }
+        $response = $controller->show();
+        $this->assertFalse($response->isRedirection(), 'a message page is shown');
+        $this->assertStringContainsString($this->state->LNG['fl_not_all_ship_avalible'], html_entity_decode((string) $response->getContent(), ENT_QUOTES));
 
         $this->assertEmpty($this->session($controller)->fleet ?? [], 'no token is stored for a refused fleet');
     }

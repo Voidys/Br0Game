@@ -15,12 +15,12 @@
 
 namespace App\Controller\Login;
 
+use App\Routing\GameRoute;
 use App\Community\HallOfFame;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Service\Attribute\Required;
 
 /** Public hall of fame: the rankings imported per universe (admin page hallOfFame). */
-#[\App\Routing\GamePage('index', 'hoF')]
 class HofController extends AbstractLoginController
 {
     private HallOfFame $hallOfFame;
@@ -35,6 +35,7 @@ class HofController extends AbstractLoginController
      * Hall of fame of one universe. Request: universe (int; default the highest universe that has data). The dropdown lists
      * only universes with data; without any data the page shows an empty notice.
      */
+    #[GameRoute('index', 'hall-of-fame', 'hof')]
     public function show(): Response
     {
         $withData = $this->hallOfFame->universesWithData();
@@ -44,17 +45,15 @@ class HofController extends AbstractLoginController
             $universeSelect[$uni] = $name !== '' ? $name : 'Uni ' . $uni;
         }
 
-        $universe = (int) $this->http()->_GP('universe', 0);
+        $universe = $this->input()->int('universe');
         if (!in_array($universe, $withData, true)) {
             $universe = $withData === [] ? 0 : max($withData);
         }
 
-        $this->assign([
+        return $this->render('login/page.hof.default.html.twig', [
             'universe' => $universe,
             'universeSelect' => $universeSelect,
             'hof' => $universe > 0 ? $this->hallOfFame->find($universe) : null,
         ]);
-
-        return $this->render('login/page.hof.default.html.twig');
     }
 }

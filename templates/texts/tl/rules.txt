@@ -7,7 +7,7 @@
 <hr>
 <h2>3. Pushing</h2>
 <p>Pangkalahatang ipinagbabawal ang pushing. Kasama sa pushing, halimbawa, ang lahat ng resource transport at moon shot na walang angkop na kabayaran mula sa mga account na mas mababa ang puntos papunta sa mga account na mas mataas ang puntos.<br>
-Dapat makumpleto ang isang trade sa loob ng 24 oras. Ang mga eksepsyon ay dapat aprubahan nang maaga ng mga moderator sa pamamagitan ng Discord ticket o in-game private message. <a href="./?page=team">Makikita mo ang team dito.</a>.<br>
+Dapat makumpleto ang isang trade sa loob ng 24 oras. Ang mga eksepsyon ay dapat aprubahan nang maaga ng mga moderator sa pamamagitan ng Discord ticket o in-game private message. <a href="./team">Makikita mo ang team dito.</a>.<br>
 Ang hindi pagkuha ng pahintulot o pagbalewala sa patakaran ay maaaring humantong sa ban.</p>
 
 <h2>3.1 Trading at mga atake</h2>

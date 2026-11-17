@@ -1,13 +1,13 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_notes }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=notes&amp;mode=delete" method="post">
+<form action="{{ path('game_notes_delete') }}" method="post">
 	<table>
 		<tr>
 			<th colspan="4">{{ LNG.nt_notes }}</th>
 		</tr>
 		<tr>
-			<td colspan="4"><a href="game?page=notes&amp;mode=detail">{{ LNG.nt_create_new_note }}</a></td>
+			<td colspan="4"><a href="{{ path('game_notes_new') }}">{{ LNG.nt_create_new_note }}</a></td>
 		</tr>
 		<tr>
 			<th class="ctr">{{ LNG.nt_dlte_note }}</th>
@@ -19,7 +19,7 @@
 		<tr>
 			<td class="ctr"><input name="delmes[{{ notesID }}]" type="checkbox"></td>
 			<td>{{ notesRow.time }}</td>
-			<td><a href="game?page=notes&amp;mode=detail&amp;id={{ notesID }}">
+			<td><a href="{{ path('game_notes_detail', {id: notesID}) }}">
 			{% if notesRow.priority == 0 %}
 			<span class="colorPositive">{{ notesRow.title }}</span>
 			{% elseif notesRow.priority == 2 %}

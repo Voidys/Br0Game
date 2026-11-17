@@ -15,16 +15,11 @@
 
 namespace App\Controller\Admin;
 
-use Exception;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Per-position planet defaults: temperature, fields and production bonuses. */
-#[\App\Routing\GamePage('admin', 'configPlanets')]
 class ConfigPlanetsController extends AbstractAdminController
 {
     /**
@@ -40,16 +35,12 @@ class ConfigPlanetsController extends AbstractAdminController
     }
 
     /**
-     * Saves the per-position planet defaults (mode=send): temperature, fields and production bonuses per planet position, stored in
-     * PLANET_DATA (insert for new positions, update for existing ones).
+     * Saves the per-position planet defaults: temperature, fields and production bonuses per planet position, stored in
+     * PLANET_DATA (insert for new positions, update for existing ones), then shows the table again.
      */
-    public function send(): void
+    #[GameRoute('admin', 'admin/config/planets', 'configPlanets', 'send', ['POST'])]
+    public function send(): Response
     {
-        $action = $this->http()->_GP('mode', '');
-
-        if ($action != "send") {
-            return;
-        }
         $db = $this->db;
         $sql = "SELECT * FROM %%PLANET_DATA%% WHERE universe = :universe ORDER BY planet_position ASC";
         $planetDataDefault = $db->select($sql, [
@@ -65,6 +56,8 @@ class ConfigPlanetsController extends AbstractAdminController
 
             $this->savePlanetPosition($i, $planetData[$i]);
         }
+
+        return $this->show();
     }
 
     /**
@@ -80,13 +73,13 @@ class ConfigPlanetsController extends AbstractAdminController
             $planetData[$i] = [
                 'universe'              => 0,
                 'planet_position'       => $i + 1,
-                'temp_min'              => $this->http()->_GP("temp_min_" . $i + 1, $planetDataDefault[$i]['temp_min']),
-                'temp_max'              => $this->http()->_GP("temp_max_" . $i + 1, $planetDataDefault[$i]['temp_max']),
-                'fields_min'            => $this->http()->_GP("fields_min_" . $i + 1, $planetDataDefault[$i]['fields_min']),
-                'fields_max'            => $this->http()->_GP("fields_max_" . $i + 1, $planetDataDefault[$i]['fields_max']),
-                'metalBonusPercent'     => $this->http()->_GP("metalBonusPercent_" . $i + 1, $planetDataDefault[$i]['metalBonusPercent']),
-                'crystalBonusPercent'   => $this->http()->_GP("crystalBonusPercent_" . $i + 1, $planetDataDefault[$i]['crystalBonusPercent']),
-                'deuteriumBonusPercent' => $this->http()->_GP("deuteriumBonusPercent_" . $i + 1, $planetDataDefault[$i]['deuteriumBonusPercent']),
+                'temp_min'              => $this->input()->int("temp_min_" . $i + 1, (int) $planetDataDefault[$i]['temp_min']),
+                'temp_max'              => $this->input()->int("temp_max_" . $i + 1, (int) $planetDataDefault[$i]['temp_max']),
+                'fields_min'            => $this->input()->int("fields_min_" . $i + 1, (int) $planetDataDefault[$i]['fields_min']),
+                'fields_max'            => $this->input()->int("fields_max_" . $i + 1, (int) $planetDataDefault[$i]['fields_max']),
+                'metalBonusPercent'     => $this->input()->float("metalBonusPercent_" . $i + 1, (float) $planetDataDefault[$i]['metalBonusPercent']),
+                'crystalBonusPercent'   => $this->input()->float("crystalBonusPercent_" . $i + 1, (float) $planetDataDefault[$i]['crystalBonusPercent']),
+                'deuteriumBonusPercent' => $this->input()->float("deuteriumBonusPercent_" . $i + 1, (float) $planetDataDefault[$i]['deuteriumBonusPercent']),
             ];
         }
 
@@ -165,17 +158,13 @@ class ConfigPlanetsController extends AbstractAdminController
     /**
      * Renders the table of per-position planet defaults.
      */
+    #[GameRoute('admin', 'admin/config/planets', 'configPlanets')]
     public function show(): Response
     {
-        $this->send();
+        $mergedArray = $this->planetManager()->getPlanetDataPlanetConfig();
 
-
-        $mergedArray = $this->playerUtil()->getPlanetDataPlanetConfig();
-
-        $this->assign([
+        return $this->render('admin/ConfigBodyPlanets.html.twig', [
             'planet_data'  => $mergedArray,
         ]);
-
-        return $this->render('admin/ConfigBodyPlanets.html.twig');
     }
 }

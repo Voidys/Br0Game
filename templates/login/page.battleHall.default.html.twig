@@ -3,7 +3,7 @@
 {% block title %}{{ LNG.siteTitleBattleHall }}{{ parent() }}{% endblock %}
 {% block content %}
 {% if isMultiUniverse %}
-  <form class="filter-bar" name="stats" id="stats" method="post" action="">
+  <form class="filter-bar" name="stats" id="stats" method="get" action="">
     <select name="universe" id="universe" class="changeUni" data-autosubmit>{{ forms.html_options({'options': universeSelect, 'selected': universe}) }}</select>
     <select name="memorial" id="memorial" class="changeUni" data-autosubmit>{{ forms.html_options({'options': memorialSelect, 'selected': memorial}) }}</select>
   </form>
@@ -22,7 +22,7 @@
       {% for hallRow in hallList %}
         <tr>
           <td>{{ loop.index }}</td>
-          <td><a href="game?page=raport&amp;raport={{ hallRow.rid }}" target="_blank" rel="noopener">
+          <td><a href="{{ path('game_raport_show', {raport: hallRow.rid}) }}" target="_blank" rel="noopener">
             {% if hallRow.result == "a" %}
               <span class="colorPositive">{{ hallRow.attacker }}</span> <b class="vs">VS</b> <span class="colorNegative">{{ hallRow.defender }}</span>
             {% elseif hallRow.result == "r" %}

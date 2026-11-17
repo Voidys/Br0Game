@@ -11,7 +11,9 @@ use App\Game\Models\StatPoints;
  */
 class StatPointsWriter
 {
-    /** Rows queued by queue(), waiting for flush() */
+    /**
+     * @var array<mixed> Rows queued by queue(), waiting for flush()
+     */
     private array $pendingStatRows = [];
 
     private const STAT_COLUMNS = [

@@ -5,49 +5,69 @@ declare(strict_types=1);
 namespace App\Controller\Game;
 
 use App\Game\Core\AllianceDepotRefused;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Alliance Depot of the current planet: lists the friendly fleets that hold here and extends their stay for deuterium
- * (rules in AllianceDepot). POST action=supply with fleet and hours supplies one fleet.
+ * (rules in AllianceDepot). POST supply with fleet and hours supplies one fleet.
  */
-#[\App\Routing\GamePage('game', 'allianceDepot')]
 class AllianceDepotController extends AbstractGameController
 {
-    public static $defaultController = 'show';
+    /**
+     * The alliance depot of the current planet: the fleets holding at it with their extension form.
+     */
+    #[GameRoute('game', 'game/alliance-depot', 'allianceDepot')]
+    public function show(): Response
+    {
+        return $this->depotPage(false);
+    }
 
     /**
-     * Depot page. Without a depot on the planet the page ends in a message; a supply request is answered with a
-     * result message (back button to the depot), otherwise the holding fleets are listed with the hours that can be added.
+     * Pays deuterium to extend the hold time of an allied fleet (request: fleet, hours); not in vacation mode. Answers with a message page.
      */
-    public function show(): Response
+    #[GameRoute('game', 'game/alliance-depot/supply', 'allianceDepot', 'supply', ['GET', 'POST'])]
+    public function supply(): Response
+    {
+        if ($redirect = $this->redirectUnlessPost('game_alliance_depot_show')) {
+            return $redirect;
+        }
+
+        return $this->depotPage(true);
+    }
+
+    /**
+     * The depot page, or the result message of the supply request.
+     */
+    private function depotPage(bool $supply): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
         $level = (int) ($PLANET[$this->elements()->column(34)] ?? 0);
-        $back = [['label' => $LNG['bd_continue'], 'url' => 'game?page=allianceDepot']];
+        $back = [['label' => $LNG['bd_continue'], 'url' => $this->router->generate('game_alliance_depot_show')]];
 
         if ($level < 1) {
-            $this->printMessage($LNG['depot_err_no_depot'], [['label' => $LNG['lm_buildings'], 'url' => 'game?page=buildings']]);
+            return $this->messageResponse($LNG['depot_err_no_depot'], [['label' => $LNG['lm_buildings'], 'url' => $this->router->generate('game_buildings_show')]]);
         }
 
-        if ($this->http()->_GP('action', '') === 'supply' && ($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST') {
+        if ($supply) {
             if ($USER['urlaubs_modus'] == 1) {
-                $this->printMessage($LNG['fa_vacation_mode_current'], $back);
+                return $this->messageResponse($LNG['fa_vacation_mode_current'], $back);
             }
             try {
                 $extension = $this->allianceDepot()->extend(
                     (int) $PLANET['id'],
                     (int) $USER['id'],
-                    (int) $this->http()->_GP('fleet', 0),
-                    (int) $this->http()->_GP('hours', 0),
+                    $this->input()->int('fleet'),
+                    $this->input()->int('hours'),
                 );
             } catch (AllianceDepotRefused $refused) {
-                $this->printMessage($LNG->format($refused->getMessage(), ...$refused->arguments), $back);
+                return $this->messageResponse($LNG->format($refused->getMessage(), ...$refused->arguments), $back);
             }
             $this->allianceDepot()->notifyFleetOwner($extension, (string) $USER['username']);
-            $this->printMessage(
+
+            return $this->messageResponse(
                 $LNG->format('depot_done', $extension['hours'], $this->viewHelpers()->prettyNumber($extension['cost'])),
                 $back,
             );
@@ -69,14 +89,13 @@ class AllianceDepotController extends AbstractGameController
             ];
         }
 
-        $this->assign([
+        $this->addScript('allianceDepot.js');
+
+        return $this->render('game/page.allianceDepot.default.html.twig', [
             'depotLevel' => $level,
             'fleets' => $fleets,
             'deuterium' => $PLANET[$this->elements()->column(RESOURCE_DEUT)],
             'maxStay' => $this->allianceDepot()->maxRemainingStayHours(),
         ]);
-        $this->addScript('allianceDepot.js');
-
-        return $this->render('game/page.allianceDepot.default.html.twig');
     }
 }

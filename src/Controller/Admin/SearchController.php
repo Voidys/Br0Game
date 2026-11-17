@@ -17,18 +17,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\AuthLevel;
 use Doctrine\DBAL\Query\QueryBuilder;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /**
  * Admin search over players, planets, alliances, messages and the like.
  */
-#[\App\Routing\GamePage('admin', 'search')]
 class SearchController extends AbstractAdminController
 {
     /**
@@ -37,20 +34,20 @@ class SearchController extends AbstractAdminController
      * (ASC/DESC), limit (page size from 1..500), side (page). Builds the field list and WHERE parts per type and delegates to
      * MyCrazyLittleSearch().
      */
+    #[GameRoute('admin', 'admin/search', 'search')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $this->handleDelete();
 
-        $SearchFile = $this->http()->_GP('search', '');
-        $SearchFor = $this->http()->_GP('search_in', '');
-        $SearchMethod = $this->http()->_GP('fuki', '');
-        $SearchKey = $this->http()->_GP('key_user', '', UTF8_SUPPORT);
-        $Page = $this->http()->_GP('side', 0);
-        $Order = $this->http()->_GP('key_order', '');
-        $OrderBY = $this->http()->_GP('key_acc', '');
+        $SearchFile = $this->input()->string('search');
+        $SearchFor = $this->input()->string('search_in');
+        $SearchMethod = $this->input()->string('fuki');
+        $SearchKey = $this->input()->string('key_user', '', UTF8_SUPPORT);
+        $Page = $this->input()->int('side');
+        $Order = $this->input()->string('key_order');
+        $OrderBY = $this->input()->string('key_acc');
         // page size: only the values offered in the form (an empty or foreign value meant LIMIT x,0 and a division by zero)
-        $limit = $this->http()->_GP('limit', 25);
+        $limit = $this->input()->int('limit', 25);
         if (!in_array($limit, [1, 5, 10, 15, 20, 25, 50, 100, 200, 500], true)) {
             $limit = 25;
         }
@@ -85,7 +82,7 @@ class SearchController extends AbstractAdminController
             $OrderBYParse = '';
         }
         $RESULT ??= null;
-        $this->assign([
+        return $this->render('admin/SearchPage.html.twig', [
             'Selector'             => $Selector,
             'limit'                => $limit,
             'search'               => $SearchKey,
@@ -105,59 +102,68 @@ class SearchController extends AbstractAdminController
             'se_search_order'      => $LNG['se_search_order'],
             'result'               => $RESULT,
         ]);
-
-        return $this->render('admin/SearchPage.html.twig');
     }
 
     /**
-     * Handles the delete links of the result list (`delete=user&user=<id>` / `delete=planet&planet=<id>`): deletes the
-     * player or planet and ends the request with a message. An unknown player, an unknown planet or a main planet
-     * (not deletable) ends with the "not found" message instead.
+     * Deletes the player `id` (admins only, in the emulated universe, never user 1, yourself or an equal/higher level) and answers with a
+     * message. An unknown player or a player of another universe gives the "not found" message instead.
      */
-    private function handleDelete(): void
+    #[GameRoute('admin', 'admin/search/user/{id}/delete', 'search', 'deleteUser', ['POST'], ['id' => '\d+'])]
+    public function deleteUser(): Response
     {
         $LNG = $this->state->LNG;
-        if (!isset($this->state->requestQuery['delete'])) {
-            $this->state->requestQuery['delete'] = '';
+        if ((int) $this->state->USER['authlevel'] !== AuthLevel::Admin->value) {
+            return $this->denyResponse();
         }
-        if ($this->state->requestQuery['delete'] !== '') {
-            // deleting is for admins only (the buttons are), as POST, in the emulated universe, never user 1, yourself or an equal/higher level
-            $isPost = ($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST';
-            if (!$isPost || (int) $this->state->USER['authlevel'] !== AUTH_ADM) {
-                $this->deny();
-            }
+
+        $back = $this->router->generate('admin_search_show', ['search' => 'users', 'minimize' => 'on']);
+        $targetId = $this->input()->int('id');
+        $inUniverse = $this->db->selectSingle(
+            'SELECT `id` FROM %%USERS%% WHERE `id` = :id AND `universe` = :universe;',
+            [':id' => $targetId, ':universe' => $this->universe()->getEmulated()],
+        );
+        if (!empty($inUniverse) && !$this->mayActOn($targetId)) {
+            return $this->denyResponse();
         }
-        if ($this->state->requestQuery['delete'] == 'user') {
-            $targetId = (int) ($this->state->requestQuery['user'] ?? 0);
-            $inUniverse = $this->db->selectSingle(
-                'SELECT `id` FROM %%USERS%% WHERE `id` = :id AND `universe` = :universe;',
-                [':id' => $targetId, ':universe' => $this->universe()->getEmulated()],
-            );
-            if (!empty($inUniverse) && !$this->mayActOn($targetId)) {
-                $this->deny();
-            }
-            if (empty($inUniverse) || !$this->playerUtil()->deletePlayer($targetId)) {
-                $this->message($LNG['se_delete_not_found'], '?page=search&search=users&minimize=on', 2);
-            }
-            $this->message($LNG['se_delete_succes_p'], '?page=search&search=users&minimize=on', 2);
-        } elseif ($this->state->requestQuery['delete'] == 'planet') {
-            $planetId = (int) $this->state->requestQuery['planet'];
-            $planetUniverse = $this->db->selectSingle('SELECT `universe` FROM %%PLANETS%% WHERE `id` = :id;', [':id' => $planetId], 'universe');
-            // the same condition deletePlanet() applies (it throws for unknown planets and main planets)
-            $deletable = $this->db->selectSingle(
-                'SELECT `id` FROM %%PLANETS%% WHERE `id` = :planetId AND `id` NOT IN (SELECT `id_planet` FROM %%USERS%%);',
-                [':planetId' => $planetId],
-            );
-            if (empty($deletable) || (int) $planetUniverse !== (int) $this->universe()->getEmulated()) {
-                $this->message($LNG['se_delete_not_found'], '?page=search&search=planet&minimize=on', 2);
-            }
-            $this->playerUtil()->deletePlanet($planetId);
-            $this->message($LNG['se_delete_succes_p'], '?page=search&search=planet&minimize=on', 2);
+        if (empty($inUniverse) || !$this->playerDeletion()->deletePlayer($targetId)) {
+            return $this->messageResponse($LNG['se_delete_not_found'], $back, 2);
         }
+
+        return $this->messageResponse($LNG['se_delete_succes_p'], $back, 2);
+    }
+
+    /**
+     * Deletes the planet `id` (admins only) and answers with a message. An unknown planet, a planet of another universe or a main planet
+     * (not deletable) gives the "not found" message instead.
+     */
+    #[GameRoute('admin', 'admin/search/planet/{id}/delete', 'search', 'deletePlanet', ['POST'], ['id' => '\d+'])]
+    public function deletePlanet(): Response
+    {
+        $LNG = $this->state->LNG;
+        if ((int) $this->state->USER['authlevel'] !== AuthLevel::Admin->value) {
+            return $this->denyResponse();
+        }
+
+        $back = $this->router->generate('admin_search_show', ['search' => 'planet', 'minimize' => 'on']);
+        $planetId = $this->input()->int('id');
+        $planetUniverse = $this->db->selectSingle('SELECT `universe` FROM %%PLANETS%% WHERE `id` = :id;', [':id' => $planetId], 'universe');
+        // the same condition deletePlanet() applies (it throws for unknown planets and main planets)
+        $deletable = $this->db->selectSingle(
+            'SELECT `id` FROM %%PLANETS%% WHERE `id` = :planetId AND `id` NOT IN (SELECT `id_planet` FROM %%USERS%%);',
+            [':planetId' => $planetId],
+        );
+        if (empty($deletable) || (int) $planetUniverse !== (int) $this->universe()->getEmulated()) {
+            return $this->messageResponse($LNG['se_delete_not_found'], $back, 2);
+        }
+        $this->planetManager()->deletePlanet($planetId);
+
+        return $this->messageResponse($LNG['se_delete_succes_p'], $back, 2);
     }
 
     /**
      * Option lists of the search form (list types, search in, match type, direction, page sizes), translated.
+     *
+     * @return array<mixed>
      */
     private function selectorOptions(): array
     {
@@ -238,7 +244,7 @@ class SearchController extends AbstractAdminController
     /**
      * Picks the search definition of the chosen list (players, planets/moons, bans or alliances).
      *
-     * @return array see userSearchSpec()
+     * @return array<mixed> see userSearchSpec()
      */
     private function searchSpec(string $SearchFile, mixed $SearchFor): array
     {
@@ -476,6 +482,9 @@ class SearchController extends AbstractAdminController
      * key is a bound parameter, the sort column must be in $ArrayOSec (unknown ones fall back to the first column) and the
      * direction is limited to ASC/DESC. Computes paging from $Page and $Limit and fills the result table (column names and
      * links) for the template.
+     *
+     * @param array<mixed> $SpecialSpecify
+     * @param array<mixed> $SpecifyItems
      */
     public function MyCrazyLittleSearch(
         array $SpecifyItems,
@@ -532,7 +541,7 @@ class SearchController extends AbstractAdminController
         $columns = array_slice($NameLang, 0, $CountArray);
         $canInfo = $Table === 'USERS' && $this->viewHelpers()->allowedTo('ShowQuickEditorPage');
         $canEditPlanet = $Table === 'PLANETS' && $this->viewHelpers()->allowedTo('ShowQuickEditorPage');
-        $isAdmin = $USER['authlevel'] == AUTH_ADM;
+        $isAdmin = $USER['authlevel'] == AuthLevel::Admin->value;
 
         $rows = [];
         foreach ($sqlResult as $WhileResult) {
@@ -558,6 +567,7 @@ class SearchController extends AbstractAdminController
      * Builds the filter shared by the page query and the count query: the table (planets joined with their owner for
      * the name), the search condition with the bound key and the extra conditions (values bound).
      *
+     * @param array<mixed> $SpecialSpecify
      * @return \Closure(QueryBuilder): QueryBuilder
      */
     private function searchFilter(string $Table, string $WhereItem, string $SpecifyWhere, mixed $SpecifySearchKey, array $SpecialSpecify): \Closure
@@ -588,8 +598,7 @@ class SearchController extends AbstractAdminController
     private function searchPageUrl(mixed $SearchFile, mixed $Limit): string
     {
         $input = $this->state->requestInput;
-        return '?' . http_build_query([
-            'page' => 'search',
+        return $this->router->generate('admin_search_show', [
             'search' => $SearchFile,
             'search_in' => $input['search_in'] ?? '',
             'fucki' => $input['fucki'] ?? '',
@@ -603,6 +612,9 @@ class SearchController extends AbstractAdminController
     /**
      * Formats one result row for display: dates, relative times, rank names and yes/no badges depending on the table
      * (USERS, USERS_BANNED, ALLIANCE, PLANETS). Column order is kept (the template shows the cells in order).
+     *
+     * @param array<mixed> $WhileResult
+     * @return array<mixed>
      */
     private function formatSearchRow(string $Table, array $WhileResult): array
     {
@@ -612,7 +624,7 @@ class SearchController extends AbstractAdminController
         $no = new \Twig\Markup('<span class="muted">' . $LNG['one_is_yes_0'] . '</span>', 'UTF-8');
 
         if ($Table === 'USERS') {
-            if (isset($this->state->requestQuery['search']) && $this->state->requestQuery['search'] == 'online') {
+            if ($this->input()->string('search') == 'online') {
                 $WhileResult['onlinetime'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['onlinetime']);
             } else {
                 $WhileResult['onlinetime'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['onlinetime'], $USER['timezone']);
@@ -643,6 +655,9 @@ class SearchController extends AbstractAdminController
     /**
      * Action links of one result row: edit (quick editor) for players/planets the admin may edit and delete links for
      * players (not self, not the root user) and planets (ADM only).
+     *
+     * @param array<mixed> $WhileResult
+     * @return array<mixed>
      */
     private function searchRowActions(string $Table, array $WhileResult, bool $canInfo, bool $canEditPlanet, bool $isAdmin): array
     {
@@ -656,7 +671,7 @@ class SearchController extends AbstractAdminController
         if ($Table === 'USERS' && $isAdmin && $WhileResult['id'] != $USER['id'] && $WhileResult['id'] != ROOT_USER) {
             $actions[] = [
                 'type' => 'delete',
-                'href' => '?page=search&delete=user&user=' . $WhileResult['id'],
+                'href' => $this->router->generate('admin_search_delete_user', ['id' => $WhileResult['id']]),
                 'confirm' => $LNG['ul_sure_you_want_dlte'] . ' ' . $WhileResult['username'] . '?',
                 'label' => $LNG['button_delete'],
             ];
@@ -667,7 +682,7 @@ class SearchController extends AbstractAdminController
         if ($Table === 'PLANETS' && $isAdmin) {
             $actions[] = [
                 'type' => 'delete',
-                'href' => '?page=search&delete=planet&planet=' . $WhileResult['id'],
+                'href' => $this->router->generate('admin_search_delete_planet', ['id' => $WhileResult['id']]),
                 'confirm' => $LNG['se_confirm_planet'] . ' ' . $WhileResult['name'],
                 'label' => $LNG['button_delete'],
             ];

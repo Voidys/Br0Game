@@ -177,7 +177,7 @@ sys_mess_spy_destroyed: Casus sondaların yok edildi!
 sys_mess_spy_ennemyfleet_1: '%s gezegeninden gelen düşman casus sondaları %s yakınında görüldü.'
 sys_mess_spy_ennemyfleet_3: '%s ayından gelen düşman casus sondaları %s yakınında görüldü.'
 sys_mess_spy_link: >-
-  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: 'Casus sondaların fark edilme şansı: %%%d'
 sys_mess_spy_qg: Casusluk dairesi
@@ -208,7 +208,7 @@ sys_stat_mess_stay: Konuşlanan filo
 sys_stealed_ressources: Yağmaladıkları
 sys_trade_mess_arr_success: >-
   Ticaret filon şuraya dönmeye hazır: %1$s %2$s (dönüş uçuşu: %5$s). <form
-  action="game?page=fleetTable&amp;action=sendfleetback"
+  action="game/fleet/recall"
   method="post"><input name="fleetID" value="%3$s" type="hidden"><input
   value="%4$s" type="submit"></form>
 sys_trade_mess_back: Ticaret filon %s %s konumuna eli boş döndü.

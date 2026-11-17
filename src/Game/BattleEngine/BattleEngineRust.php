@@ -4,8 +4,6 @@ namespace App\Game\BattleEngine;
 
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
-use App\Game\Core\Config;
-use App\Game\Core\Singleton;
 
 /**
  * Rust battle engine. bin/battlerust (a small launcher built from tools/battlerust-cli/) loads
@@ -367,6 +365,8 @@ class BattleEngineRust extends AbstractBattleEngine
      *
      * @param array<string, array> $stats from collectKillStats(), changed in place
      * @param array<int|string, array> $maps
+     * @param array<mixed> $maps
+     * @param array<mixed> $stats
      */
     private function addDestroyed(array &$stats, string $side, array $maps): void
     {
@@ -395,6 +395,7 @@ class BattleEngineRust extends AbstractBattleEngine
      * @param array<string, int|float> $totalLost out: lost value per side
      * @param array<string, array<int|string, int|float>> $unitsLost out: lost value per user and side
      * @param array<string, array<int|string, int|float>> $capacityLost out: lost capacity per user and side
+     * @param array<mixed> $stats
      */
     private function applyAttackerLosses(array $stats, array $attackers, array $defenders, bool $sim, AdvancedStatsHandler $statsHandler, object $config, array &$debris, array &$totalLost, array &$unitsLost, array &$capacityLost): void
     {
@@ -455,6 +456,7 @@ class BattleEngineRust extends AbstractBattleEngine
      * @param array<string, array<int|string, int|float>> $unitsLost out
      * @param array<string, array<int|string, int|float>> $capacityLost out
      * @param array{lost: int|float} $defendingPlayer out: lost value of the planet's ships
+     * @param array<mixed> $stats
      * @return array{0: array<int, array{units: int|float, percent: int|float}>, 1: array<int, int|float>} repaired defense, wreck field candidates
      */
     private function applyDefenderLosses(array $stats, array $rounds, array $defenders, bool $sim, AdvancedStatsHandler $statsHandler, object $config, array &$debris, array &$totalLost, array &$unitsLost, array &$capacityLost, array &$defendingPlayer): array

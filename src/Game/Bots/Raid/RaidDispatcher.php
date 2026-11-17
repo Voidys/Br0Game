@@ -2,6 +2,8 @@
 
 namespace App\Game\Bots\Raid;
 
+use App\Game\Enum\AuthLevel;
+use App\Game\Enum\Mission;
 use App\Game\Bots\BotActions;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
@@ -34,7 +36,7 @@ class RaidDispatcher
      *
      * @param array<string, mixed> $planet start planet row of the bot (`BotActions::$planets`), updated in place
      * @param array<int, int> $fleet ship id => count
-     * @param int $mission MISSION_ATTACK or MISSION_SPY
+     * @param int $mission Mission::Attack->value or Mission::Spy->value
      * @param int $targetPlanetId id of the planet to hit
      * @param int $targetUserId owner the bot decided to hit (a changed owner refuses)
      * @param array<int, int|float> $cargo resources to carry (901 / 902 / 903 => amount), for a transport to an own planet
@@ -115,6 +117,8 @@ class RaidDispatcher
     /**
      * All checks of a dispatch; the reason of the first failing one, or the loaded target rows when everything passes.
      *
+     * @param array<string, mixed> $fleet
+     * @param array<string, mixed> $planet
      * @return string|array{0: array<string, mixed>, 1: array<string, mixed>} refusal text, or [target planet row, target user row]
      */
     private function refusal(BotActions $ctx, array $planet, array $fleet, int $mission, int $targetPlanetId, int $targetUserId): string|array
@@ -142,7 +146,7 @@ class RaidDispatcher
             return 'target gone';
         }
         $own = (int) $target['id_owner'] === (int) $user['id'];
-        if ($own && !in_array($mission, [MISSION_TRANSPORT, MISSION_STATION], true)) {
+        if ($own && !in_array($mission, [Mission::Transport->value, Mission::Station->value], true)) {
             return 'own planet';
         }
         $targetUser = $this->db->selectSingle(
@@ -178,14 +182,14 @@ class RaidDispatcher
         if (IsVacationMode($targetUser)) {
             return 'target in vacation mode';
         }
-        if ((int) $targetUser['authlevel'] > 0 || ($this->configs->get()->adm_attack == 1 && $targetUser['authattack'] > $user['authlevel'])) {
+        if ((int) $targetUser['authlevel'] > AuthLevel::User->value || ($this->configs->get()->adm_attack == 1 && $targetUser['authattack'] > $user['authlevel'])) {
             return 'target is protected staff';
         }
-        if ($mission === MISSION_ATTACK && (count($fleet) !== 1 || !array_key_exists(SHIP_PROBE, $fleet)) && $this->bash((int) $target['id'], $user)) {
+        if ($mission === Mission::Attack->value && (count($fleet) !== 1 || !array_key_exists(SHIP_PROBE, $fleet)) && $this->bash((int) $target['id'], $user)) {
             return 'bash limit';
         }
 
-        $noob = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($user), $this->models()->user($targetUser));
+        $noob = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($user), $this->models()->user($targetUser));
         if ($noob['NoobPlayer']) {
             return 'target under noob protection';
         }

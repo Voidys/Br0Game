@@ -9,6 +9,7 @@ use App\Game\Alliance\AllianceRights;
 use App\Game\Alliance\AllianceServices;
 use App\Game\Alliance\AllianceText;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\DiploType;
 
 /**
  * Pins the rules of the alliance services (App\Game\Alliance): founding, applying and accepting, rank rights,
@@ -35,6 +36,9 @@ final class AllianceServicesTest extends GameTestCase
         parent::tearDown();
     }
 
+    /**
+     * @param array<mixed> $actor
+     */
     private function services(array $actor): AllianceServices
     {
         $this->state->USER = $actor;
@@ -48,7 +52,11 @@ final class AllianceServicesTest extends GameTestCase
         return $this->createPlayer()[0];
     }
 
-    /** Founds an alliance with a fresh player; returns [owner row, alliance row]. */
+    /**
+     * Founds an alliance with a fresh player; returns [owner row, alliance row].
+     *
+     * @return array<mixed>
+     */
     private function foundAlliance(string $tag, string $name): array
     {
         $owner = $this->player();
@@ -63,12 +71,21 @@ final class AllianceServicesTest extends GameTestCase
         return $this->db->selectSingle('SELECT * FROM %%ALLIANCE%% WHERE ally_tag = :tag AND ally_universe = 1;', [':tag' => $tag]);
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function reloadAlliance(int|string $id): array|false
     {
         return $this->db->selectSingle('SELECT * FROM %%ALLIANCE%% WHERE id = :id;', [':id' => $id]);
     }
 
-    /** Adds an existing player to an alliance (with an optional rank id) and fixes the counter. */
+    /**
+     * Adds an existing player to an alliance (with an optional rank id) and fixes the counter.
+     *
+     * @param array<string, mixed> $alliance
+     * @param array<mixed> $player
+     * @return array<mixed>
+     */
     private function join(array $player, array $alliance, int $rankId = 0): array
     {
         $this->db->update('UPDATE %%USERS%% SET ally_id = :a, ally_rank_id = :r, ally_register_time = 1 WHERE id = :u;', [
@@ -79,7 +96,12 @@ final class AllianceServicesTest extends GameTestCase
         return $this->loadUser((int) $player['id']);
     }
 
-    /** Inserts a rank with the given rights switched on; returns its rank id. */
+    /**
+     * Inserts a rank with the given rights switched on; returns its rank id.
+     *
+     * @param array<string, mixed> $alliance
+     * @param array<mixed> $rights
+     */
     private function rank(array $alliance, string $name, array $rights = []): int
     {
         $this->db->insert('INSERT INTO %%ALLIANCE_RANK%% SET rankName = :n, allianceID = :a;', [':n' => $name, ':a' => $alliance['id']]);
@@ -91,7 +113,11 @@ final class AllianceServicesTest extends GameTestCase
         return $rankId;
     }
 
-    /** @return array<string, bool|int|string> */
+    /**
+     * @param array<string, mixed> $alliance
+     * @param array<string, mixed> $user
+     * @return array<string, bool|int|string>
+     */
     private function rights(array $user, array $alliance): array
     {
         return $this->services($user)->repository()->rightsOf($user, $alliance);
@@ -158,7 +184,7 @@ final class AllianceServicesTest extends GameTestCase
         self::assertSame(AllianceException::MESSAGE, $this->exitOf(fn() => $membership->found('TAG', str_repeat('n', 31)))->kind);
         $duplicate = $this->exitOf(fn() => $membership->found('DUP', 'Other Name'));
         self::assertSame(AllianceException::MESSAGE, $duplicate->kind);
-        self::assertSame('?page=alliance&mode=create', $duplicate->buttons[0]['url']);
+        self::assertSame('game_alliance_create', $duplicate->buttons[0]['url']);
         self::assertSame(0, (int) $this->loadUser((int) $second['id'])['ally_id']);
     }
 
@@ -177,7 +203,7 @@ final class AllianceServicesTest extends GameTestCase
 
         $exit = $this->exitOf(fn() => $this->services($owner)->membership()->assertMayFound());
         self::assertSame(AllianceException::MESSAGE, $exit->kind);
-        self::assertSame('?page=alliance', $exit->buttons[0]['url']);
+        self::assertSame('game_alliance_show', $exit->buttons[0]['url']);
     }
 
     // ---- applications ---------------------------------------------------------------------------------------
@@ -556,7 +582,9 @@ final class AllianceServicesTest extends GameTestCase
 
     // ---- diplomacy ----------------------------------------------------------------------------------------
 
-    /** @return array{0: array, 1: array, 2: array, 3: array} owner A, alliance A, owner B, alliance B */
+    /**
+     * @return array{0: array, 1: array, 2: array, 3: array} owner A, alliance A, owner B, alliance B
+     */
     private function twoAlliances(): array
     {
         [$ownerA, $allianceA] = $this->foundAlliance('DPA', 'Diplo A');
@@ -640,12 +668,12 @@ final class AllianceServicesTest extends GameTestCase
     {
         [$ownerA, $allianceA, $ownerB, $allianceB] = $this->twoAlliances();
 
-        $this->services($ownerA)->diplomacy()->create($allianceA, $allianceB['id'], DIPLO_WAR, 'war');
+        $this->services($ownerA)->diplomacy()->create($allianceA, $allianceB['id'], DiploType::War->value, 'war');
         $war = $this->treatyId($allianceA['id'], $allianceB['id']);
         self::assertSame(1, (int) $this->db->selectSingle('SELECT accept FROM %%DIPLO%% WHERE id = :id;', [':id' => $war], 'accept'));
 
         // peace may be offered during a war, by either side
-        $this->services($ownerB)->diplomacy()->create($allianceB, $allianceA['id'], DIPLO_PEACE, 'enough');
+        $this->services($ownerB)->diplomacy()->create($allianceB, $allianceA['id'], DiploType::Peace->value, 'enough');
         $peace = $this->treatyId($allianceB['id'], $allianceA['id']);
         self::assertGreaterThan(0, $peace);
         // the proposer cannot accept; the recipient can, which removes war and peace rows
@@ -657,19 +685,19 @@ final class AllianceServicesTest extends GameTestCase
     public function testDiplomacyViewsGroupTreatiesByStatus(): void
     {
         [$ownerA, $allianceA, $ownerB, $allianceB] = $this->twoAlliances();
-        $this->services($ownerA)->diplomacy()->create($allianceA, $allianceB['id'], DIPLO_TRADE_PACT, '');
+        $this->services($ownerA)->diplomacy()->create($allianceA, $allianceB['id'], DiploType::TradePact->value, '');
         $treaty = $this->treatyId($allianceA['id'], $allianceB['id']);
 
         $sent = $this->services($ownerA)->diplomacy()->overview($allianceA);
-        self::assertSame([$treaty => 'Diplo B'], $sent[2][DIPLO_TRADE_PACT]);
+        self::assertSame([$treaty => 'Diplo B'], $sent[2][DiploType::TradePact->value]);
         $received = $this->services($ownerB)->diplomacy()->overview($allianceB);
-        self::assertSame([$treaty => 'Diplo A'], $received[1][DIPLO_TRADE_PACT]);
+        self::assertSame([$treaty => 'Diplo A'], $received[1][DiploType::TradePact->value]);
         self::assertArrayHasKey(6, $this->services($ownerA)->diplomacy()->relations($allianceA));
         self::assertArrayHasKey(5, $this->services($ownerB)->diplomacy()->relations($allianceB));
 
         $this->services($ownerB)->diplomacy()->accept($allianceB, $treaty);
         $accepted = $this->services($ownerA)->diplomacy()->overview($allianceA);
-        self::assertSame([$treaty => 'Diplo B'], $accepted[0][DIPLO_TRADE_PACT]);
+        self::assertSame([$treaty => 'Diplo B'], $accepted[0][DiploType::TradePact->value]);
     }
 
     // ---- circular, lists, settings ------------------------------------------------------------------------
@@ -723,7 +751,7 @@ final class AllianceServicesTest extends GameTestCase
         $membersB = [$this->join($this->player(), $allianceB), $this->join($this->player(), $allianceB)];
         $allianceA = $this->reloadAlliance($allianceA['id']);
 
-        $this->services($ownerA)->diplomacy()->create($allianceA, $allianceB['id'], DIPLO_WAR, 'war');
+        $this->services($ownerA)->diplomacy()->create($allianceA, $allianceB['id'], DiploType::War->value, 'war');
 
         foreach ([$ownerA, $ownerB, ...$membersA, ...$membersB] as $user) {
             self::assertSame(1, $this->messageCount($user['id']), 'user ' . $user['id']);

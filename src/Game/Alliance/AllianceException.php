@@ -29,27 +29,31 @@ final class AllianceException extends \RuntimeException
         parent::__construct($kind);
     }
 
-    /** Redirect to `game?page=alliance` (missing rights, invalid target, ...). */
+    /** Redirect to the alliance home, route `game_alliance_show` (missing rights, invalid target, ...). */
     public static function home(): self
     {
         return new self(self::HOME);
     }
 
     /**
-     * Redirect to a URL relative to the game root.
+     * Redirect to a route (name, e.g. `game_alliance_admin_diplomacy`).
      */
     public static function redirect(string $url): self
     {
         return new self(self::REDIRECT, $url);
     }
 
-    /** Message page with a single button (label is the already translated text). */
+    /** Message page with a single button (label is the already translated text, `url` a route name). */
     public static function message(string|Markup $text, string $label, string $url): self
     {
         return new self(self::MESSAGE, $text, [['label' => $label, 'url' => $url]]);
     }
 
-    /** JSON answer of the ajax dialogs (circular, diplomacy create). */
+    /**
+     * JSON answer of the ajax dialogs (circular, diplomacy create).
+     *
+     * @param array<string, mixed> $data
+     */
     public static function json(array $data): self
     {
         return new self(self::JSON, $data);

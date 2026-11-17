@@ -13,9 +13,9 @@
 	<tr>
 		<td><a href="#" data-action="dialog-playercard" data-id="{{ searchRow.userid }}">{{ searchRow.username }}</a></td>
 		<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ searchRow.userid }}" title="{{ LNG.sh_write_message }}"><img class="inline" src="{{ theme_asset('img/m.gif') }}"/></a>&nbsp;<a href="#" data-action="dialog-buddy" data-id="{{ searchRow.userid }}" title="{{ LNG.sh_buddy_request }}"><img class="inline" src="{{ theme_asset('img/b.gif') }}" border="0"></a></td>
-		<td>{% if searchRow.allyname %}<a href="game?page=alliance&amp;mode=info&amp;id={{ searchRow.allyid }}">{{ searchRow.allyname }}</a>{% else %}-{% endif %}</td>
+		<td>{% if searchRow.allyname %}<a href="{{ path('game_alliance_info', {id: searchRow.allyid}) }}">{{ searchRow.allyname }}</a>{% else %}-{% endif %}</td>
 		<td>{{ searchRow.planetname }}</td>
-		<td class="ctr"><a href="game?page=galaxy&amp;galaxy={{ searchRow.galaxy }}&amp;system={{ searchRow.system }}">[{{ searchRow.galaxy }}:{{ searchRow.system }}:{{ searchRow.planet }}]</a></td>
+		<td class="ctr"><a href="{{ path('game_galaxy_show', {galaxy: searchRow.galaxy, system: searchRow.system}) }}">[{{ searchRow.galaxy }}:{{ searchRow.system }}:{{ searchRow.planet }}]</a></td>
 		<td class="num">{{ searchRow.rank }}</td>
 	</tr>
 	{% endfor %}

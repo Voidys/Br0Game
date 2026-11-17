@@ -1,4 +1,4 @@
-{% if not empty(tutorial) %}
+{% if tutorial %}
     <div id="tutorial-header" class="tutorial-header">
         <span id="tutorial-toggle">▲</span> <b>Tutorial:</b> {{ tutorial.title }}
     </div>
@@ -7,15 +7,15 @@
             {{ tutorial.text }}<br>
         </div>
         <div class="tutorial-goals">
-            {% if not empty(tutorial.goals) %}
+            {% if tutorial.goals %}
                 <b>{{ LNG.tutorial_goals_header }}</b><br>
                 <ul>
                     {% for elementID, goal in tutorial.goals %}
-                        <li>{{ goal.name }}&nbsp;:&nbsp;{{ goal.owned }}/{{ goal.ammount }}{% if goal.skippable %} <a data-method="post" href="?page=tutorial&amp;mode=skip&amp;goal={{ elementID }}">{{ LNG.tutorial_goals_ignore }}</a>{% endif %}</li>
+                        <li>{{ goal.name }}&nbsp;:&nbsp;{{ goal.owned }}/{{ goal.ammount }}{% if goal.skippable %} <a data-method="post" href="{{ path('game_tutorial_skip', {goal: elementID}) }}">{{ LNG.tutorial_goals_ignore }}</a>{% endif %}</li>
                     {% endfor %}
                 </ul>
             {% endif %}
-            {% if not empty(tutorial.rewards) %}
+            {% if tutorial.rewards %}
                 <b>{{ LNG.tutorial_rewards_header }}</b><br>
                 <ul>
                     {% for elementID, reward in tutorial.rewards %}
@@ -26,17 +26,17 @@
         </div>
         <div class="tutorial-buttons">
             {% if tutorial.fullfilled and tutorial.last %}
-                <a data-method="post" href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_finalize }}</button></a>
-            {% elseif tutorial.fullfilled and not empty(tutorial.rewards) %}
-                <a data-method="post" href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_claim }}</button></a>
+                <a data-method="post" href="{{ path('game_tutorial_claim') }}"><button>{{ LNG.tutorial_buttons_finalize }}</button></a>
+            {% elseif tutorial.fullfilled and tutorial.rewards %}
+                <a data-method="post" href="{{ path('game_tutorial_claim') }}"><button>{{ LNG.tutorial_buttons_claim }}</button></a>
             {% elseif tutorial.fullfilled %}
-                <a data-method="post" href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_continue }}</button></a>
+                <a data-method="post" href="{{ path('game_tutorial_claim') }}"><button>{{ LNG.tutorial_buttons_continue }}</button></a>
             {% elseif tutorial.skippable %}
-                <a data-method="post" href="?page=tutorial&amp;mode=skip"><button>{{ LNG.tutorial_buttons_skip }}</button></a>
+                <a data-method="post" href="{{ path('game_tutorial_skip') }}"><button>{{ LNG.tutorial_buttons_skip }}</button></a>
                 &nbsp;
-                <a data-method="post" href="?page=tutorial&amp;mode=skipAll" data-confirm="{{ LNG.tutorial_buttons_skipAll_confirm|e('html_attr') }}"><button >{{ LNG.tutorial_buttons_skipAll }}</button></a>
+                <a data-method="post" href="{{ path('game_tutorial_skip_all') }}" data-confirm="{{ LNG.tutorial_buttons_skipAll_confirm|e('html_attr') }}"><button >{{ LNG.tutorial_buttons_skipAll }}</button></a>
             {% else %}
-                <a data-method="post" href="?page=tutorial&amp;mode=skipAll" data-confirm="{{ LNG.tutorial_buttons_skipAll_confirm|e('html_attr') }}"><button>{{ LNG.tutorial_buttons_skipAll }}</button></a>
+                <a data-method="post" href="{{ path('game_tutorial_skip_all') }}" data-confirm="{{ LNG.tutorial_buttons_skipAll_confirm|e('html_attr') }}"><button>{{ LNG.tutorial_buttons_skipAll }}</button></a>
             {% endif %}
         </div>
     </div>

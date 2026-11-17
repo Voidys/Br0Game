@@ -17,6 +17,7 @@
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\MessageType;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\BattleEngine\BattleResult;
 use App\Game\Core\BattleReportStore;
@@ -96,11 +97,11 @@ trait BattleReporting
                     $this->viewHelpers()->prettyNumber($debris[902]),
                 );
 
-                $this->playerUtil()->sendMessage(
+                $this->playerMessenger()->sendMessage(
                     $userID,
                     0,
                     $LNG['sys_mess_tower'],
-                    MESSAGE_TYPE_BATTLE_REPORT,
+                    MessageType::BattleReport->value,
                     $LNG['sys_mess_attack_report'],
                     $message,
                     $this->_fleet['arrival_time'],
@@ -171,11 +172,11 @@ trait BattleReporting
                     GetTargetAddressLink($this->_fleet),
                 );
 
-                $this->playerUtil()->sendMessage(
+                $this->playerMessenger()->sendMessage(
                     $userID,
                     0,
                     $LNG['sys_mess_tower'],
-                    MESSAGE_TYPE_BATTLE_REPORT,
+                    MessageType::BattleReport->value,
                     $LNG['sys_mess_attack_report'],
                     $message,
                     $this->state->runtime->timestamp,
@@ -201,7 +202,7 @@ trait BattleReporting
 	<table>
 		<tr>
 			<td colspan="2">
-			<a href="game?page=raport&raport=%s" target="_blank"><span class="%s">%s %s (%s)</span></a>
+			<a href="report/%s" target="_blank"><span class="%s">%s %s (%s)</span></a>
 			</td>
 		</tr>
 		<tr>

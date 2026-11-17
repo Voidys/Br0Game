@@ -20,6 +20,7 @@ use App\Tests\Support\GameTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use App\Game\Enum\Mission;
 
 /**
  * Admin settings from the abuse audit (F-02, F-17, F-18, F-20): each default reproduces the former behaviour, the
@@ -86,7 +87,7 @@ final class BalanceSettingsTest extends GameTestCase
         $this->db->insert('INSERT INTO %%DIPLO%% SET owner_1 = :a, owner_2 = :b, level = 5, accept = 1, accept_text = \'\', request_time = :t, universe = 1;', [':a' => $allies[1], ':b' => $allies[2], ':t' => $now - 2 * ONE_DAY]);
         $this->db->insert(
             'INSERT INTO %%LOG_FLEETS%% SET id = :id, `group` = 0, universe = 1, mission = :m, owner = :o, target_owner = :t, start_id = 0, end_id = :e, ships = \'204,5\', arrival_time = :at, hasCanceled = 0;',
-            [':id' => mt_rand(1000000, 99999999), ':m' => MISSION_ATTACK, ':o' => $attacker['id'], ':t' => $victim['id'], ':e' => $planet['id'], ':at' => $now - 100],
+            [':id' => mt_rand(1000000, 99999999), ':m' => Mission::Attack->value, ':o' => $attacker['id'], ':t' => $victim['id'], ':e' => $planet['id'], ':at' => $now - 100],
         );
         $this->state->USER = $attacker;
 
@@ -190,7 +191,7 @@ final class BalanceSettingsTest extends GameTestCase
      *
      * @param array<string, mixed> $config universe settings
      */
-    private function transport(array $config, bool $toOwnPlanet = false, int $returnedMetal = 0, int $sentBeforeMetal = 0, string $sentBeforeShips = '', int $sentBeforeMission = MISSION_TRANSPORT): ?string
+    private function transport(array $config, bool $toOwnPlanet = false, int $returnedMetal = 0, int $sentBeforeMetal = 0, string $sentBeforeShips = '', int $sentBeforeMission = Mission::Transport->value): ?string
     {
         $lng = new Language($this->configs, 'en');
         $lng->includeData(['L18N', 'INGAME', 'TECH', 'FLEET', 'CUSTOM']);
@@ -211,7 +212,7 @@ final class BalanceSettingsTest extends GameTestCase
             [':id' => mt_rand(100000000, 900000000), ':m' => $mission, ':o' => $from, ':t' => $to, ':s' => $ships, ':st' => $this->state->runtime->timestamp - 3 * ONE_DAY, ':metal' => $metal],
         );
         if ($returnedMetal > 0) {
-            $log((int) $other['id'], (int) $user['id'], MISSION_TRANSPORT, '202,1', $returnedMetal);
+            $log((int) $other['id'], (int) $user['id'], Mission::Transport->value, '202,1', $returnedMetal);
         }
         if ($sentBeforeMetal > 0 || $sentBeforeShips !== '') {
             $log((int) $user['id'], (int) $other['id'], $sentBeforeMission, $sentBeforeShips ?: '202,1', $sentBeforeMetal);
@@ -225,7 +226,7 @@ final class BalanceSettingsTest extends GameTestCase
             'fleetSpeed' => 10, 'ownPlanet' => $planet['id'],
         ]];
         $session->save();
-        $this->state->requestInput = ['token' => 'tok', 'mission' => MISSION_TRANSPORT, 'metal' => 100000, 'crystal' => 0, 'deuterium' => 0, 'staytime' => 1];
+        $this->state->requestInput = ['token' => 'tok', 'mission' => Mission::Transport->value, 'metal' => 100000, 'crystal' => 0, 'deuterium' => 0, 'staytime' => 1];
         try {
             (new FleetDispatch($this->db, $this->configs, $this->state))->dispatch();
         } catch (FleetDispatchRefused $refused) {
@@ -297,7 +298,7 @@ final class BalanceSettingsTest extends GameTestCase
     {
         // 20 large cargos handed over earlier are worth more than the limit, so even a small transport is refused
         $config = ['transport_push_check' => 1, 'transport_push_limit' => 150000];
-        $message = $this->transport($config, false, 0, 0, '203,20', MISSION_TRANSFER);
+        $message = $this->transport($config, false, 0, 0, '203,20', Mission::Transfer->value);
         $this->assertSame($this->state->LNG['fl_push_guard'], $message);
     }
 
@@ -326,7 +327,7 @@ final class BalanceSettingsTest extends GameTestCase
             $reflection = new \ReflectionProperty($dispatch, $property);
             $reflection->setValue($dispatch, $value);
         };
-        $set('targetMission', MISSION_TRANSFER);
+        $set('targetMission', Mission::Transfer->value);
         $set('targetPlayerData', $other);
         $set('fleetResource', [901 => 0, 902 => 0, 903 => 0]);
         $set('fleetArray', [203 => 20]);

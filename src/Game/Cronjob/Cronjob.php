@@ -143,10 +143,18 @@ class Cronjob
      */
     public function getLastExecutionTime(string $cronjobName): int|false
     {
-        $sql = 'SELECT MAX(executionTime) as executionTime FROM %%CRONJOBS_LOG%% INNER JOIN %%CRONJOBS%% USING(cronjobId) WHERE name = :cronjobName;';
-        $lastTime = $this->db->selectSingle($sql, [
-            ':cronjobName' => $cronjobName,
-        ], 'executionTime');
+        // one lookup per job id: an equality on the leading index column lets MySQL read MAX(executionTime) from the index end
+        // without scanning the (ever growing) log of the job
+        $lastTime = null;
+        $ids = $this->db->select('SELECT cronjobID FROM %%CRONJOBS%% WHERE name = :cronjobName;', [':cronjobName' => $cronjobName]);
+        foreach ($ids as $row) {
+            $time = $this->db->selectSingle('SELECT MAX(executionTime) as executionTime FROM %%CRONJOBS_LOG%% WHERE cronjobId = :cronjobId;', [
+                ':cronjobId' => $row['cronjobID'],
+            ], 'executionTime');
+            if ($time !== null && $time !== false && ($lastTime === null || $time > $lastTime)) {
+                $lastTime = $time;
+            }
+        }
 
         if (empty($lastTime)) {
             return false;

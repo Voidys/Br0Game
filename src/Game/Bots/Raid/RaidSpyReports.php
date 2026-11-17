@@ -2,6 +2,7 @@
 
 namespace App\Game\Bots\Raid;
 
+use App\Game\Enum\MessageType;
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
 
@@ -34,7 +35,7 @@ class RaidSpyReports
             WHERE message_owner = :bot AND message_type = :type AND message_group = :grp AND message_universe = :uni
               AND message_time >= :since AND message_deleted IS NULL
             ORDER BY message_time DESC, message_id DESC LIMIT 1;',
-            [':bot' => $botId, ':type' => MESSAGE_TYPE_SPY_REPORT, ':grp' => 'm_' . $planetId, ':uni' => $universe, ':since' => $since],
+            [':bot' => $botId, ':type' => MessageType::SpyReport->value, ':grp' => 'm_' . $planetId, ':uni' => $universe, ':since' => $since],
         );
         if (empty($row)) {
             return null;

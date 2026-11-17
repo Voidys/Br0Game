@@ -6,7 +6,9 @@ use App\Runtime\GameConfig;
 use App\Runtime\LanguagePacks;
 use App\Runtime\ProjectPaths;
 use App\Runtime\RuntimeContext;
+use App\Runtime\SafeFile;
 use App\Security\CspNonce;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\Markup;
@@ -32,6 +34,9 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
         private readonly LanguagePacks $languagePacks,
         private readonly RuntimeContext $runtime,
         private readonly CspNonce $nonce,
+        // debug (dev): scan the files on every request, so an edited module is versioned at once
+        #[Autowire('%kernel.debug%')]
+        private readonly bool $debug = true,
     ) {}
 
     /** @return list<TwigFunction> game_config(key), languages(), import_map(), data_island(id, data) */
@@ -54,7 +59,9 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
     /**
      * `<script type="importmap">` mapping every file under public/scripts to the same path with `?v=<mtime>`, so ES
      * module imports are cache-busted per file. Must precede every module script of the page (import maps apply to
-     * later module loads only). The directory scan runs once per process; the tag carries the CSP nonce.
+     * later module loads only). Outside debug the map is built once and kept in var/game/cache.importmap.php under a
+     * key of the git version and the modification times of the script directories (a new or removed file, a new
+     * deployment; an edit alone keeps the old versions until var/game/ is cleared); the admin "clear cache" and a deploy that clears var/game/ rebuild it. The tag carries the CSP nonce.
      */
     public function importMap(): Markup
     {
@@ -64,6 +71,17 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
         }
 
         $root = ProjectPaths::ROOT . 'public/scripts/';
+        $cacheFile = ProjectPaths::CACHE . 'cache.importmap.php';
+        $key = $this->debug ? null : $this->importMapKey($root);
+        if ($key !== null && is_file($cacheFile)) {
+            $cached = include $cacheFile;
+            if (is_array($cached) && ($cached['key'] ?? null) === $key && is_string($cached['json'] ?? null)) {
+                $json = $cached['json'];
+
+                return $this->importMapTag($json);
+            }
+        }
+
         $imports = [];
         $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS));
         foreach ($files as $file) {
@@ -76,8 +94,25 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
         ksort($imports);
 
         $json = json_encode(['imports' => $imports], JSON_UNESCAPED_SLASHES | JSON_HEX_TAG);
+        if ($key !== null) {
+            SafeFile::write($cacheFile, '<?php return ' . var_export(['key' => $key, 'json' => $json], true) . ';');
+            if (function_exists('opcache_invalidate')) {
+                opcache_invalidate($cacheFile, true);
+            }
+        }
 
         return $this->importMapTag($json);
+    }
+
+    /** git version plus the modification times of the script directory and its subdirectories (added/removed files) */
+    private function importMapKey(string $root): string
+    {
+        $parts = [$this->runtime->gitVersion, SafeFile::mtime($root)];
+        foreach (glob($root . '*', GLOB_ONLYDIR) ?: [] as $dir) {
+            $parts[] = SafeFile::mtime($dir) . $dir;
+        }
+
+        return md5(implode('|', $parts));
     }
 
     /**

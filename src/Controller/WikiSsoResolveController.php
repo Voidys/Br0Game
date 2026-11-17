@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Wiki single sign-on, server-to-server part (formerly internal_sso_resolve.php): the wiki
- * resolves a one-time code (created by game?page=wikiLogin) into the game account.
+ * resolves a one-time code (created by game/wiki-login) into the game account.
  * Authenticated by the shared secret $wikiSsoInternalToken (header X-Internal-Auth).
  */
 final class WikiSsoResolveController

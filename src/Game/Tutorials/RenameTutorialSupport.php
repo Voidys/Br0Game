@@ -8,13 +8,15 @@
 
 namespace App\Game\Tutorials;
 
-use App\Game\Core\Singleton;
-
 /**
  * Step "get settled": goals are renaming the main planet, sending a buddy request and applying to or joining an alliance; verified from planet name, buddy and alliance request tables.
  */
 class RenameTutorialSupport extends AbstractTutorialSupport
 {
+    /**
+     * @param array<string, mixed> $USER
+     * @param array<mixed> $tutorialStep
+     */
     public function __construct(
         \App\Game\Core\Database $db,
         \App\Game\Core\ConfigRegistry $configs,
@@ -44,7 +46,7 @@ class RenameTutorialSupport extends AbstractTutorialSupport
      *
      * Can be disabled by table enty
      *
-     * @return array
+     * @return array<mixed>
      */
     public function listGoals(): array
     {

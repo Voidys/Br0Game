@@ -6,6 +6,7 @@ namespace App\EventListener;
 
 use App\Security\Account;
 use App\Security\GameRateLimits;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +32,7 @@ final class RateLimitListener
     public function __construct(
         private readonly GameRateLimits $limits,
         private readonly TokenStorageInterface $tokens,
+        #[Autowire(lazy: true)]
         private readonly TranslatorInterface $translator,
     ) {}
 

@@ -17,47 +17,39 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\Mission;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 use Exception;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /** Interplanetary missile attack: validates the target and launches the missiles. */
-#[\App\Routing\GamePage('game', 'fleetMissile')]
 #[\App\Controller\RequireModule('MODULE_MISSILEATTACK')]
 class FleetMissileController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Interplanetary missile launch (request: galaxy, system, planet, type = planet type of the target, SendMI = number of missiles, Target
      * = primary target defense id). Validates silo level, missile range, protections and counts, then creates the missile fleet event and
      * deducts the missiles and ends with a message page. Direct GET visits with empty input end in the error message (the galaxy form POSTs the launch).
      */
-    public function show()
+    #[GameRoute('game', 'game/missiles', 'fleetMissile', 'show', ['GET', 'POST'])]
+    public function show(): Response
     {
-        // Planet selector keeps page=fleetMissile and only adds cp=. A GET then
+        // Planet selector keeps the URL and only adds cp=. A GET then
         // re-enters this action with empty coords/SendMI and always hits the
         // error template. Galaxy already POSTs the launch form.
         if (($this->state->requestServer['REQUEST_METHOD'] ?? '') !== 'POST') {
-            $this->redirectTo('game?page=galaxy');
+            return $this->redirectToRoute('game_galaxy_show');
         }
 
         $LNG = $this->state->LNG;
-        $targetGalaxy       = $this->http()->_GP('galaxy', 0);
-        $targetSystem       = $this->http()->_GP('system', 0);
-        $targetPlanet       = $this->http()->_GP('planet', 0);
-        $targetType         = $this->http()->_GP('type', 0);
-        $requested          = $this->http()->_GP('SendMI', 0);
-        $primaryTarget      = $this->http()->_GP('Target', 0);
+        $targetGalaxy       = $this->input()->int('galaxy');
+        $targetSystem       = $this->input()->int('system');
+        $targetPlanet       = $this->input()->int('planet');
+        $targetType         = $this->input()->int('type');
+        $requested          = $this->input()->int('SendMI');
+        $primaryTarget      = $this->input()->int('Target');
 
         $planet = $this->state->PLANET;
         $sent = null;
@@ -89,7 +81,7 @@ class FleetMissileController extends AbstractGameController
 
             if ($error == "") {
                 // last check: a refused launch must not use up the daily quota (audit F-14)
-                $capped = $this->fleetCaps->consume((int) $this->state->USER['id'], MISSION_MISSILE);
+                $capped = $this->fleetCaps->consume((int) $this->state->USER['id'], Mission::Missile->value);
                 if ($capped !== null) {
                     return $LNG->format($capped['key'], $capped['limit'], $capped['hours'], $capped['minutes']);
                 }
@@ -101,10 +93,10 @@ class FleetMissileController extends AbstractGameController
         });
 
         if ($error != "") {
-            $this->printMessage($error);
+            return $this->messageResponse($error);
         }
 
-        $this->launchMessage($targetGalaxy, $targetSystem, $primaryTarget, (int) $sent);
+        return $this->launchMessage($targetGalaxy, $targetSystem, $primaryTarget, (int) $sent);
     }
 
     /**
@@ -233,7 +225,7 @@ class FleetMissileController extends AbstractGameController
     private function protectionError(array|false|null $target): ?string
     {
         $LNG = $this->state->LNG;
-        $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($target));
+        $IsNoobProtec = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($target));
 
         if ($IsNoobProtec['NoobPlayer']) {
             return $LNG['fl_week_player'];
@@ -303,15 +295,15 @@ class FleetMissileController extends AbstractGameController
     }
 
     /**
-     * Ends the request with the "missiles sent" message and a redirect to the target system after 3 seconds.
+     * The "missiles sent" message with a redirect to the target system after 3 seconds.
      */
-    private function launchMessage(mixed $targetGalaxy, mixed $targetSystem, mixed $primaryTarget, int $anz): never
+    private function launchMessage(mixed $targetGalaxy, mixed $targetSystem, mixed $primaryTarget, int $anz): Response
     {
         $LNG = $this->state->LNG;
         $DefenseLabel   = ($primaryTarget == 0) ? $LNG['ma_all'] : $LNG['tech'][$primaryTarget];
-        $url = 'game?page=galaxy&galaxy=' . $targetGalaxy . '&system=' . $targetSystem;
+        $url = $this->router->generate('game_galaxy_show', ['galaxy' => $targetGalaxy, 'system' => $targetSystem]);
         // the amount is numeric, the texts are translations (trusted markup)
-        $this->printMessage(new \Twig\Markup('<b>' . (int) $anz . '</b>' . $LNG['ma_missiles_sended'] . $DefenseLabel, 'UTF-8'), [[
+        return $this->messageResponse(new \Twig\Markup('<b>' . (int) $anz . '</b>' . $LNG['ma_missiles_sended'] . $DefenseLabel, 'UTF-8'), [[
             'label' => $LNG['sys_back'],
             'url'   => $url,
         ]], [

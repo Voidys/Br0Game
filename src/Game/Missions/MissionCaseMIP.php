@@ -21,10 +21,7 @@
 
 namespace App\Game\Missions;
 
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
+use App\Game\Enum\MessageType;
 
 /**
  * Mission "missile attack" (10): interplanetary missiles hit the defenses of a planet; the missiles are used up
@@ -32,6 +29,9 @@ use App\Game\Core\Singleton;
  */
 class MissionCaseMIP extends MissionFunctions implements MissionInterface
 {
+    /**
+     * @param array<mixed> $Fleet
+     */
     public function __construct(array $Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
     {
         parent::__construct($db, $configs, $state);
@@ -248,11 +248,11 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
      */
     private function sendReports(array $senderData, array $targetData): void
     {
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $senderData['LNG']['sys_mess_tower'],
-            MESSAGE_TYPE_BATTLE_REPORT,
+            MessageType::BattleReport->value,
             $senderData['LNG']['sys_irak_subject'],
             $senderData['MSG'],
             $this->_fleet['arrival_time'],
@@ -261,11 +261,11 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
             $this->_fleet['end_id'],
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['target_owner'],
             0,
             $targetData['LNG']['sys_mess_tower'],
-            MESSAGE_TYPE_BATTLE_REPORT,
+            MessageType::BattleReport->value,
             $targetData['LNG']['sys_irak_subject'],
             $targetData['MSG'],
             $this->_fleet['arrival_time'],

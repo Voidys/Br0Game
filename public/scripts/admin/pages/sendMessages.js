@@ -27,5 +27,5 @@ form.addEventListener('submit', async (event) => {
     return;
   }
   if (!(await Dialog.confirm(`${form.dataset.confirmText}\n${recipientSummary()}`))) return;
-  postToDialog(form, 'admin?page=sendMessages&action=send&ajax=1');
+  postToDialog(form, form.action);
 });

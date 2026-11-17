@@ -2,12 +2,14 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\MessageType;
+
 /**
  * Builds and sends the "queue element could not be started" messages of the building and research queues
  * (not enough resources, no more levels, no more fields) to the player's build-list inbox.
  *
- * Collaborators: PlayerUtil (language lookup, sendMessage), ViewHelpers (number formatting).
- * Side effect: inserts a MESSAGE_TYPE_BUILD_LIST message; callers only use it when the user wants these messages
+ * Collaborators: PlayerLookup, PlayerMessenger (language lookup, sendMessage), ViewHelpers (number formatting).
+ * Side effect: inserts a MessageType::BuildList->value message; callers only use it when the user wants these messages
  * (users.hof == 1).
  */
 class QueueFailureNotifier
@@ -25,7 +27,7 @@ class QueueFailureNotifier
      */
     public function language(int|string $userId): Language
     {
-        $LNG = $this->playerUtil()->getLanguage(null, $userId);
+        $LNG = $this->playerLookup()->getLanguage(null, $userId);
         if (empty($LNG)) {
             // Fallback language
             $LNG = new Language($this->configs, 'en');
@@ -81,7 +83,7 @@ class QueueFailureNotifier
     public function noMoreFields(Language $LNG, array $planet, int|string $element): string
     {
         return sprintf(
-            '%s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a>: %s (%s)',
+            '%s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a>: %s (%s)',
             $planet['name'],
             $planet['id'],
             $planet['galaxy'],
@@ -97,11 +99,11 @@ class QueueFailureNotifier
      */
     public function send(Language $LNG, int|string $userId, string $subjectKey, string $message, int|float $time): void
     {
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $userId,
             0,
             $LNG[$subjectKey],
-            MESSAGE_TYPE_BUILD_LIST,
+            MessageType::BuildList->value,
             $LNG['sys_buildlist_fail'],
             $message,
             $time,

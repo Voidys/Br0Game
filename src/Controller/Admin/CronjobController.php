@@ -21,69 +21,30 @@ use DateTime;
 use DirectoryIterator;
 use Exception;
 use App\Game\Cronjob\Cronjob;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Manages the cronjob table: list, edit, lock, enable and run jobs. */
-#[\App\Routing\GamePage('admin', 'cronjob')]
 class CronjobController extends AbstractAdminController
 {
     /**
-     * Dispatches on `action` (default overview): edit, delete, lock, unlock, detail, enable, run, overview. Request: id (cronjob id).
-     * Mutating actions end with a redirect to admin?page=cronjob.
+     * Edit/create form handler. POST (name, class and the schedule fields min, hours, dom, month, dow) validates and updates
+     * the job `id`, or inserts a new one when there is none (`admin/cron/new`); then redirects to the list. Errors show the form again.
      */
-    public function show(): Response
-    {
-        $cronId = $this->http()->_GP('id', 0);
-
-        switch ($this->http()->_GP('action', 'overview')) {
-            case 'edit':
-                return $this->ShowCronjobEdit($cronId);
-                // the following actions end the request with a redirect
-            case 'delete':
-                $this->ShowCronjobDelete($cronId);
-                // no break
-            case 'lock':
-                $this->ShowCronjobLock($cronId);
-                // no break
-            case 'unlock':
-                $this->ShowCronjobUnlock($cronId);
-                // no break
-            case 'detail':
-                return $this->ShowCronjobDetail($cronId);
-            case 'enable':
-                $this->ShowCronjobEnable($cronId);
-                // no break
-            case 'run':
-                $this->ShowCronjobRun($cronId);
-                // no break
-            case 'overview':
-            default:
-                return $this->ShowCronjobOverview();
-        }
-    }
-
-    /**
-     * Edit/create form handler. With POST (name, class and the schedule fields min, hours, dom, month, dow) validates and updates
-     * the job `$post_id`, or inserts a new one when it is 0; then redirects to the list. Without POST it renders the form.
-     */
-    public function ShowCronjobEdit($post_id): Response
+    #[GameRoute('admin', 'admin/cron/{id}', 'cronjob', 'save', ['POST'], ['id' => '\d+'])]
+    #[GameRoute('admin', 'admin/cron/new', 'cronjob', 'create', ['POST'])]
+    public function save(): Response
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        if (($this->state->requestServer['REQUEST_METHOD'] ?? '') !== 'POST') {
-            // GET only shows the form (action=edit is exempt from the GET token rules); changes need POST (with token)
-            return $this->ShowCronjobDetail($post_id);
-        }
-        $post_name = $this->http()->_GP('name', '');
+        $post_id = $this->input()->int('id');
+        $post_name = $this->input()->string('name');
         $post_min = $this->checkPostData('min', 59);
         $post_hours = $this->checkPostData('hours', 23);
         $post_month = $this->checkPostData('month', 12);
         $post_dow = $this->checkPostData('dow', 6);
         $post_dom = $this->checkPostData('dom', 31);
-        $post_class = $this->http()->_GP('class', '');
+        $post_class = $this->input()->string('class');
         $error_msg = [];
 
         if ($post_name == '') {
@@ -140,17 +101,19 @@ class CronjobController extends AbstractAdminController
                 );
             }
 
-            $this->http()->redirectTo('admin?page=cronjob');
-        } else {
-            return $this->ShowCronjobDetail($post_id, $error_msg);
+            return $this->redirectToRoute('admin_cronjob_show');
         }
+
+        return $this->renderDetail($post_id, $error_msg);
     }
 
     /**
      * Deletes the cronjob and its log rows, then redirects to the list.
      */
-    public function ShowCronjobDelete($cronjobId): never
+    #[GameRoute('admin', 'admin/cron/{id}/delete', 'cronjob', 'delete', ['POST'], ['id' => '\d+'])]
+    public function delete(): Response
     {
+        $cronjobId = $this->input()->int('id');
         $db = $this->db;
         $db->delete(
             "DELETE FROM %%CRONJOBS%% WHERE cronjobID = :cronjobID;",
@@ -164,14 +127,16 @@ class CronjobController extends AbstractAdminController
                 ':cronjobID' => $cronjobId,
             ],
         );
-        $this->http()->redirectTo('admin?page=cronjob');
+        return $this->redirectToRoute('admin_cronjob_show');
     }
 
     /**
      * Locks the job (`lock` = hash of the current time) so the cron runner skips it, then redirects.
      */
-    public function ShowCronjobLock($cronjobId): never
+    #[GameRoute('admin', 'admin/cron/{id}/lock', 'cronjob', 'lock', ['POST'], ['id' => '\d+'])]
+    public function lock(): Response
     {
+        $cronjobId = $this->input()->int('id');
         $db = $this->db;
         $db->update(
             "UPDATE %%CRONJOBS%% SET `lock` = MD5(UNIX_TIMESTAMP()) WHERE cronjobID = :cronjobID;",
@@ -179,14 +144,16 @@ class CronjobController extends AbstractAdminController
                 ':cronjobID' => $cronjobId,
             ],
         );
-        $this->http()->redirectTo('admin?page=cronjob');
+        return $this->redirectToRoute('admin_cronjob_show');
     }
 
     /**
      * Removes the lock of the job (e.g. after a crashed run), then redirects.
      */
-    public function ShowCronjobUnlock($cronjobId): never
+    #[GameRoute('admin', 'admin/cron/{id}/unlock', 'cronjob', 'unlock', ['POST'], ['id' => '\d+'])]
+    public function unlock(): Response
     {
+        $cronjobId = $this->input()->int('id');
         $db = $this->db;
         $db->update(
             "UPDATE %%CRONJOBS%% SET `lock` = NULL WHERE cronjobID = :cronjobID;",
@@ -194,14 +161,16 @@ class CronjobController extends AbstractAdminController
                 ':cronjobID' => $cronjobId,
             ],
         );
-        $this->http()->redirectTo('admin?page=cronjob');
+        return $this->redirectToRoute('admin_cronjob_show');
     }
 
     /**
      * Runs the job once now (through Cronjob::execute), removes its lock, shows a message and redirects.
      */
-    public function ShowCronjobRun($cronjobId): never
+    #[GameRoute('admin', 'admin/cron/{id}/run', 'cronjob', 'run', ['POST'], ['id' => '\d+'])]
+    public function run(): Response
     {
+        $cronjobId = $this->input()->int('id');
         $db = $this->db;
 
         // Clear any stale lock first so a manual run is never blocked by a previous crashed/interrupted execution.
@@ -217,39 +186,42 @@ class CronjobController extends AbstractAdminController
         } catch (Exception $e) {
             // Cronjob::execute() handles failures of the job's own run() internally
             // But here we are catching inactive/unknown jobs.
-            $this->message($e->getMessage(), 'admin?page=cronjob');
+            return $this->messageResponse($e->getMessage(), $this->router->generate('admin_cronjob_show'));
         }
 
-        $this->http()->redirectTo('admin?page=cronjob');
+        return $this->redirectToRoute('admin_cronjob_show');
     }
 
     /**
      * Switches the job on or off (request: enable = 1/0 -> `isActive`), then redirects.
      */
-    public function ShowCronjobEnable($cronjobId): never
+    #[GameRoute('admin', 'admin/cron/{id}/enable', 'cronjob', 'enable', ['POST'], ['id' => '\d+'])]
+    public function enable(): Response
     {
+        $cronjobId = $this->input()->int('id');
         $db = $this->db;
         $db->update(
             "UPDATE %%CRONJOBS%% SET `isActive` = :isActive WHERE cronjobID = :cronjobID;",
             [
-                ':isActive' => $this->http()->_GP('enable', 0),
+                ':isActive' => $this->input()->int('enable'),
                 ':cronjobID' => $cronjobId,
             ],
         );
-        $this->http()->redirectTo('admin?page=cronjob');
+        return $this->redirectToRoute('admin_cronjob_show');
     }
 
     /**
      * List of all cronjobs with their schedule, state and the time of the last run (from CRONJOBS_LOG).
      */
-    public function ShowCronjobOverview(): Response
+    #[GameRoute('admin', 'admin/cron', 'cronjob')]
+    public function show(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
         $db = $this->db;
         $data = $db->select("SELECT * FROM %%CRONJOBS%%;");
         if (!$data) {
-            $this->message($LNG['cronjob_no_data']);
+            return $this->messageResponse($LNG['cronjob_no_data']);
         }
         $CronjobArray = [];
         foreach ($data as $CronjobRow) {
@@ -276,17 +248,32 @@ class CronjobController extends AbstractAdminController
                 'lock'          => !empty($CronjobRow['lock']),
             ];
         }
-        $this->assign([
+        return $this->render('admin/CronjobOverview.html.twig', [
             'CronjobArray' => $CronjobArray,
         ]);
-        return $this->render('admin/CronjobOverview.html.twig');
+    }
+
+    /** Edit form of the job `id`. */
+    #[GameRoute('admin', 'admin/cron/{id}', 'cronjob', 'detail', requirements: ['id' => '\d+'])]
+    public function detail(): Response
+    {
+        return $this->renderDetail($this->input()->int('id'));
+    }
+
+    /** The empty form of a new job. */
+    #[GameRoute('admin', 'admin/cron/new', 'cronjob', 'new')]
+    public function new(): Response
+    {
+        return $this->renderDetail(0);
     }
 
     /**
      * Edit form of one job (or an empty form): lists the job classes found in src/Game/Cronjob/ and fills the schedule fields. The
      * optional $error_msg is shown above the form after a failed save.
+     *
+     * @param list<string>|null $error_msg
      */
-    public function ShowCronjobDetail($detail, $error_msg = null): Response
+    private function renderDetail(int $detail, ?array $error_msg = null): Response
     {
         $USER = $this->state->USER;
         $db = $this->db;
@@ -300,7 +287,7 @@ class CronjobController extends AbstractAdminController
             }
         }
 
-        $this->assign(['avalibleCrons' => $avalibleCrons]);
+        $context = ['avalibleCrons' => $avalibleCrons];
 
         if ($detail != 0) {
             $CronjobRow = $db->selectSingle(
@@ -309,41 +296,42 @@ class CronjobController extends AbstractAdminController
                     ':cronjobID' => $detail,
                 ],
             );
-            $this->assign([
+            $context += [
                 'id'           => $CronjobRow['cronjobID'],
-                'name'         => isset($this->state->requestPost['name']) ? $this->http()->_GP('name', '') : $CronjobRow['name'],
+                'name'         => isset($this->state->requestPost['name']) ? $this->input()->string('name') : $CronjobRow['name'],
                 'min'          => isset($this->state->requestPost['min_all']) ? [0 => '*'] : (
-                    isset($this->state->requestPost['min']) ? $this->http()->_GP('min', []) : $this->getCronjobTimes($CronjobRow['min'], 59)
+                    isset($this->state->requestPost['min']) ? $this->input()->stringList('min') : $this->getCronjobTimes($CronjobRow['min'], 59)
                 ),
                 'hours'        => isset($this->state->requestPost['hours_all']) ? [0 => '*'] : (
-                    isset($this->state->requestPost['hours']) ? $this->http()->_GP('hours', []) : $this->getCronjobTimes($CronjobRow['hours'], 23)
+                    isset($this->state->requestPost['hours']) ? $this->input()->stringList('hours') : $this->getCronjobTimes($CronjobRow['hours'], 23)
                 ),
                 'dom'          => isset($this->state->requestPost['dom_all']) ? [0 => '*'] : (
-                    isset($this->state->requestPost['dom']) ? $this->http()->_GP('dom', []) : $this->getCronjobTimes($CronjobRow['dom'], 31)
+                    isset($this->state->requestPost['dom']) ? $this->input()->stringList('dom') : $this->getCronjobTimes($CronjobRow['dom'], 31)
                 ),
                 'month'        => isset($this->state->requestPost['month_all']) ? [0 => '*'] : (
-                    isset($this->state->requestPost['month']) ? $this->http()->_GP('month', []) : $this->getCronjobTimes($CronjobRow['month'], 12)
+                    isset($this->state->requestPost['month']) ? $this->input()->stringList('month') : $this->getCronjobTimes($CronjobRow['month'], 12)
                 ),
                 'dow'          => isset($this->state->requestPost['dow_all']) ? [0 => '*'] : (
-                    isset($this->state->requestPost['dow']) ? $this->http()->_GP('dow', []) : $this->getCronjobTimes($CronjobRow['dow'], 6)
+                    isset($this->state->requestPost['dow']) ? $this->input()->stringList('dow') : $this->getCronjobTimes($CronjobRow['dow'], 6)
                 ),
-                'class'        => isset($this->state->requestPost['class']) ? $this->http()->_GP('class', '') : $CronjobRow['class'],
+                'class'        => isset($this->state->requestPost['class']) ? $this->input()->string('class') : $CronjobRow['class'],
                 'error_msg'    => $error_msg,
-            ]);
+            ];
         } else {
-            $this->assign([
+            $context += [
                 'id'           => 'add',
-                'name'         => $this->http()->_GP('name', ''),
-                'min'          => isset($this->state->requestPost['min_all']) ? [0 => '*'] : $this->http()->_GP('min', []),
-                'hours'        => isset($this->state->requestPost['hours_all']) ? [0 => '*'] : $this->http()->_GP('hours', []),
-                'dom'          => isset($this->state->requestPost['dom_all']) ? [0 => '*'] : $this->http()->_GP('dom', []),
-                'month'        => isset($this->state->requestPost['month_all']) ? [0 => '*'] : $this->http()->_GP('month', []),
-                'dow'          => isset($this->state->requestPost['dow_all']) ? [0 => '*'] : $this->http()->_GP('dow', []),
-                'class'        => $this->http()->_GP('class', ''),
+                'name'         => $this->input()->string('name'),
+                'min'          => isset($this->state->requestPost['min_all']) ? [0 => '*'] : $this->input()->stringList('min'),
+                'hours'        => isset($this->state->requestPost['hours_all']) ? [0 => '*'] : $this->input()->stringList('hours'),
+                'dom'          => isset($this->state->requestPost['dom_all']) ? [0 => '*'] : $this->input()->stringList('dom'),
+                'month'        => isset($this->state->requestPost['month_all']) ? [0 => '*'] : $this->input()->stringList('month'),
+                'dow'          => isset($this->state->requestPost['dow_all']) ? [0 => '*'] : $this->input()->stringList('dow'),
+                'class'        => $this->input()->string('class'),
                 'error_msg'    => $error_msg,
-            ]);
+            ];
         }
-        return $this->render('admin/CronjobDetail.html.twig');
+
+        return $this->render('admin/CronjobDetail.html.twig', $context);
     }
 
     /**
@@ -358,6 +346,9 @@ class CronjobController extends AbstractAdminController
         return is_string($times) && $times !== '*' ? [$times] : $times;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getCronjobTimes($row, $max): array|string
     {
         $arr = explode(',', $row);
@@ -379,12 +370,12 @@ class CronjobController extends AbstractAdminController
      */
     private function checkPostData($column, $max): false|string
     {
-        $all = $this->http()->_GP($column . '_all', 0);
+        $all = $this->input()->int($column . '_all');
         if ($all) {
             return '*';
         }
 
-        $post = $this->http()->_GP($column, []);
+        $post = $this->input()->stringList($column);
         $post = array_filter($post, 'is_numeric');
         if (empty($post)) {
             return false;

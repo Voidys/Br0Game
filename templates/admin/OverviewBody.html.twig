@@ -1,6 +1,6 @@
 {% include 'admin/overall_header.html.twig' %}
 <div class="stack">
-  {% if not empty(Messages) %}
+  {% if Messages %}
     <div class="notice notice--danger" role="alert">
       {{ icon('triangle-alert') }}
       <div>
@@ -26,19 +26,19 @@
   {% endif %}
 
   <div class="stats">
-    <a class="stat" href="admin?page=search&amp;search=online">
+    <a class="stat" href="{{ path('admin_search_show', {search: 'online'}) }}">
       <span class="stat__label">{{ icon('wifi') }}{{ LNG.adm_dash_online }}</span>
       <span class="stat__value">{{ pretty_number(stats.online) }}</span>
     </a>
-    <a class="stat" href="admin?page=search&amp;search=users">
+    <a class="stat" href="{{ path('admin_search_show', {search: 'users'}) }}">
       <span class="stat__label">{{ icon('users') }}{{ LNG.adm_dash_players }}</span>
       <span class="stat__value">{{ pretty_number(stats.players) }}</span>
     </a>
-    <a class="stat{% if adminOpenTickets > 0 %} stat--alert{% endif %}" href="admin?page=support">
+    <a class="stat{% if adminOpenTickets > 0 %} stat--alert{% endif %}" href="{{ path('admin_support_show') }}">
       <span class="stat__label">{{ icon('ticket') }}{{ LNG.adm_dash_tickets }}</span>
       <span class="stat__value">{{ pretty_number(adminOpenTickets) }}</span>
     </a>
-    <a class="stat" href="admin?page=flyingFleet">
+    <a class="stat" href="{{ path('admin_flying_fleet_show') }}">
       <span class="stat__label">{{ icon('send') }}{{ LNG.adm_dash_fleets }}</span>
       <span class="stat__value">{{ pretty_number(stats.fleets) }}</span>
     </a>
@@ -52,7 +52,7 @@
         <div class="quick-links">
           {% for group in adminMenu %}
             {% for item in group.items %}
-              {% set itemPage = item.href|split('page=')|last|split('&')|first %}
+              {% set itemPage = item.page %}
               {% if itemPage in quickPages %}
                 <a class="quick-link" href="{{ item.href }}">{{ icon(item.icon) }}<span>{{ item.label }}</span>{% if item.badge %}<span class="admin-nav__badge">{{ item.badge }}</span>{% endif %}</a>
               {% endif %}

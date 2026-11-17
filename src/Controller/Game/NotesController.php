@@ -17,17 +17,13 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Doctrine\DBAL\ArrayParameterType;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /**
  * Personal notes of the player (list, edit popup, delete).
  */
-#[\App\Routing\GamePage('game', 'notes')]
 #[\App\Controller\RequireModule('MODULE_NOTICE')]
 class NotesController extends AbstractGameController
 {
@@ -43,6 +39,7 @@ class NotesController extends AbstractGameController
     /**
      * List of the player's notes, highest priority first, newest first.
      */
+    #[GameRoute('game', 'game/notes', 'notes')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -65,21 +62,21 @@ class NotesController extends AbstractGameController
             ];
         }
 
-        $this->assign([
+        return $this->render('game/page.notes.default.html.twig', [
             'notesList'	=> $notesList,
         ]);
-
-        return $this->render('game/page.notes.default.html.twig');
     }
 
     /**
      * Edit popup of one note (request: id; 0 = new note).
      */
+    #[GameRoute('game', 'game/notes/new', 'notes', 'new')]
+    #[GameRoute('game', 'game/notes/{id}', 'notes', 'detail', requirements: ['id' => '\d+'])]
     public function detail(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        $noteID		= $this->http()->_GP('id', 0);
+        $noteID		= $this->input()->int('id');
 
         if (!empty($noteID)) {
             $db = $this->db;
@@ -98,26 +95,25 @@ class NotesController extends AbstractGameController
             ];
         }
 
-        $this->assign([
+        return $this->render('game/page.notes.detail.html.twig', [
             'PriorityList'	=> [2 => $LNG['nt_important'], 1 => $LNG['nt_normal'], 0 => $LNG['nt_unimportant']],
             'noteDetail'	=> $noteDetail,
         ]);
-
-        return $this->render('game/page.notes.detail.html.twig');
     }
 
     /**
      * Saves a note (request: id, priority, title, text); id 0 inserts, otherwise the player's own note is updated. The encoded title is cut to
      * 32 characters without leaving a broken entity. Redirects to the list.
      */
-    public function insert()
+    #[GameRoute('game', 'game/notes/save', 'notes', 'insert', ['POST'])]
+    public function insert(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        $priority 	= $this->http()->_GP('priority', 1);
-        $title 		= $this->http()->_GP('title', '', true);
-        $text 		= $this->http()->_GP('text', '', true);
-        $id			= $this->http()->_GP('id', 0);
+        $priority 	= $this->input()->int('priority', 1);
+        $title 		= $this->input()->string('title', '', true);
+        $text 		= $this->input()->string('text', '', true);
+        $id			= $this->input()->int('id');
         $title 		= !empty($title) ? $title : $LNG['nt_no_title'];
         $text 		= !empty($text) ? $text : $LNG['nt_no_text'];
         // the title is stored encoded (e.g. & -> &amp;); cut it so that it fits into varchar(32)
@@ -136,7 +132,7 @@ class NotesController extends AbstractGameController
         if ($id == 0) {
             $count = $db->selectSingle('SELECT COUNT(*) AS count FROM %%NOTES%% WHERE owner = :userID;', [':userID' => $USER['id']], 'count');
             if ($count >= self::MAX_NOTES) {
-                $this->printMessage($LNG->format('nt_limit_reached', self::MAX_NOTES));
+                return $this->messageResponse($LNG->format('nt_limit_reached', self::MAX_NOTES));
             }
 
             $sql = "INSERT INTO %%NOTES%% SET owner = :userID, time = :time, priority = :priority, title = :title, text = :text, universe = :universe;";
@@ -160,18 +156,18 @@ class NotesController extends AbstractGameController
             ]);
         }
 
-        $this->redirectTo('game?page=notes');
+        return $this->redirectToRoute('game_notes_show');
     }
 
     /**
      * Deletes the selected notes (request: delmes[<id>]); only the player's own notes are affected. Redirects to the list.
      */
-    public function delete()
+    #[GameRoute('game', 'game/notes/delete', 'notes', 'delete', ['POST'])]
+    public function delete(): Response
     {
         $USER = $this->state->USER;
 
-        $deleteIds	= $this->http()->_GP('delmes', []);
-        $deleteIds	= array_keys($deleteIds);
+        $deleteIds	= array_keys($this->input()->intMap('delmes'));
         $deleteIds	= array_map('intval', array_filter($deleteIds, 'is_numeric'));
 
         if (!empty($deleteIds)) {
@@ -185,6 +181,7 @@ class NotesController extends AbstractGameController
                     ->setParameter('userID', $USER['id']),
             );
         }
-        $this->redirectTo('game?page=notes');
+
+        return $this->redirectToRoute('game_notes_show');
     }
 }

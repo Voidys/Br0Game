@@ -17,20 +17,15 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /**
  * Player card popup with statistics, battle record and the player's achievements.
  */
-#[\App\Routing\GamePage('game', 'playerCard')]
 #[\App\Controller\RequireModule('MODULE_PLAYERCARD')]
 class PlayerCardController extends AbstractGameController
 {
@@ -38,23 +33,19 @@ class PlayerCardController extends AbstractGameController
 
     // protected $disableEcoSystem = true;
 
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Player card popup (request: id; a missing or unknown id shows the "player does not exist" message): player data, total points and the stats blocks below, plus achievements and the block status. Buildings need
-     * the viewer's spy tech level 2, techs level 4, defense/fleet/battle record/honor level 6 (PlayerUtil::spyTechAllowedFor), otherwise those blocks are
+     * the viewer's spy tech level 2, techs level 4, defense/fleet/battle record/honor level 6 (ProtectionRules::spyTechAllowedFor), otherwise those blocks are
      * zeroed.
      */
+    #[GameRoute('game', 'game/player-card', 'playerCard')]
     public function show(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         $this->setWindow('popup');
 
-        $PlayerID 	= (int) $this->http()->_GP('id', 0);
+        $PlayerID 	= $this->input()->int('id');
 
         $exists = $this->db->selectSingle('SELECT id FROM %%USERS%% WHERE id = :playerID AND universe = :universe;', [
             ':playerID' => $PlayerID,
@@ -62,19 +53,19 @@ class PlayerCardController extends AbstractGameController
         ], 'id');
         if (!$exists) {
             // missing or unknown id: the game's usual message page instead of an exception
-            $this->printMessage($LNG['bu_player_not_exist']);
+            return $this->messageResponse($LNG['bu_player_not_exist']);
         }
 
         $stats = $this->get_stats($PlayerID);
         $showPlayer = true;
         $showTotal = true;
         $viewer = $this->models()->user($USER);
-        $showBuild = $this->playerUtil()->spyTechAllowedFor(2, $PlayerID, $viewer);
-        $showTech = $this->playerUtil()->spyTechAllowedFor(4, $PlayerID, $viewer);
-        $showDef = $this->playerUtil()->spyTechAllowedFor(6, $PlayerID, $viewer);
-        $showFleet = $this->playerUtil()->spyTechAllowedFor(6, $PlayerID, $viewer);
-        $showBattle = $this->playerUtil()->spyTechAllowedFor(6, $PlayerID, $viewer);
-        $showHonor = $this->playerUtil()->spyTechAllowedFor(6, $PlayerID, $viewer);
+        $showBuild = $this->protectionRules()->spyTechAllowedFor(2, $PlayerID, $viewer);
+        $showTech = $this->protectionRules()->spyTechAllowedFor(4, $PlayerID, $viewer);
+        $showDef = $this->protectionRules()->spyTechAllowedFor(6, $PlayerID, $viewer);
+        $showFleet = $this->protectionRules()->spyTechAllowedFor(6, $PlayerID, $viewer);
+        $showBattle = $this->protectionRules()->spyTechAllowedFor(6, $PlayerID, $viewer);
+        $showHonor = $this->protectionRules()->spyTechAllowedFor(6, $PlayerID, $viewer);
 
         $player_data = $this->get_player_data($stats, $showPlayer);
         $total_data = $this->get_total_data($stats, $showTotal);
@@ -85,11 +76,11 @@ class PlayerCardController extends AbstractGameController
         $battle_stats = $this->get_battle_stats($stats, $showBattle);
         $units = $this->get_units($stats, $showBattle);
         $real_units = $this->get_real_units($stats, $showBattle);
-        $blocked = $this->playerUtil()->get_block_status($PlayerID, $USER['id']);
-        $authlevel = $this->playerUtil()->get_authlevel($PlayerID);
+        $blocked = $this->playerLookup()->get_block_status($PlayerID, $USER['id']);
+        $authlevel = $this->playerLookup()->get_authlevel($PlayerID);
         $honor_data = $this->get_honor_data($PlayerID, $stats, $showHonor);
 
-        $this->assign(array_merge(
+        $context = array_merge(
             $this->identityVariables($PlayerID, $player_data),
             $this->rankingVariables($total_data, $tech_data, $build_data, $def_data, $fleet_data),
             $this->battleVariables($player_data, $battle_stats, $units, $real_units),
@@ -106,8 +97,9 @@ class PlayerCardController extends AbstractGameController
                 'targetRights'          => $authlevel,
             ],
             $this->honorVariables($battle_stats, $honor_data),
-        ));
-        return $this->render('game/page.playerCard.default.html.twig');
+        );
+
+        return $this->render('game/page.playerCard.default.html.twig', $context);
     }
 
     /**
@@ -538,16 +530,17 @@ class PlayerCardController extends AbstractGameController
      *
      * returns staus code 200 on success
      */
-    public function toggleBlock()
+    #[GameRoute('game', 'game/player-card/block', 'playerCard', 'toggleBlock', ['POST'])]
+    public function toggleBlock(): Response
     {
         $USER = $this->state->USER;
         $db = $this->db;
 
         $this->setWindow('ajax');
 
-        $PlayerID 	    = $this->http()->_GP('id', 0);
-        $blockTrade     = min(1, max(0, $this->http()->_GP('blockTrade', 0)));
-        $blockDm        = min(1, max(0, $this->http()->_GP('blockDm', 0)));
+        $PlayerID 	    = $this->input()->int('id');
+        $blockTrade     = min(1, max(0, $this->input()->int('blockTrade')));
+        $blockDm        = min(1, max(0, $this->input()->int('blockDm')));
 
         $sql = "SELECT id FROM %%USERS_BLOCKLIST%% 
                 WHERE blocking_user = :userID AND blocked_user = :targetID;";
@@ -574,7 +567,7 @@ class PlayerCardController extends AbstractGameController
                 ':targetID'           => $PlayerID,
             ]);
         } elseif (!$this->canBlock((int) $PlayerID)) {
-            $this->sendData(400, 'Invalid player');
+            return $this->sendData(400, 'Invalid player');
         } else {
             $sql = "INSERT INTO %%USERS_BLOCKLIST%% SET
                 blocking_user	= :userID,
@@ -588,7 +581,7 @@ class PlayerCardController extends AbstractGameController
                 ':block_trade'  => $blockTrade,
             ]);
         }
-        $this->sendData(200, 'Successfully changed block settings');
+        return $this->sendData(200, 'Successfully changed block settings');
     }
 
     /**
@@ -613,11 +606,11 @@ class PlayerCardController extends AbstractGameController
     }
 
     /**
-     * sends json data to client
+     * json answer
      */
-    private function sendData($Code, $Message)
+    private function sendData($Code, $Message): Response
     {
-        $this->sendJSON([
+        return $this->jsonResponse([
             'code' => $Code,
             'mess' => $Message,
         ]);

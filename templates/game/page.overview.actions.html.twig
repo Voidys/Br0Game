@@ -15,7 +15,7 @@
 				<td><input type="text" name="name" id="name" maxlength="20" autocomplete="off"></td>
 			</tr>
 			<tr>
-				<td colspan="2" class="form-actions"><input type="button" data-action="rename-planet" value="{{ LNG.ov_planet_rename }}"></td>
+				<td colspan="2" class="form-actions"><input type="button" data-action="rename-planet" data-url="{{ path('game_overview_rename') }}" value="{{ LNG.ov_planet_rename }}"></td>
 			</tr>
 		</table>
 	</div>
@@ -29,7 +29,7 @@
 					<td><input name="password" id="password" maxlength="20" autocomplete="off"></td>
 				</tr>
 				<tr>
-					<td colspan="2" class="form-actions"><input type="button" data-action="delete-planet" value="{{ LNG.ov_delete_planet }}"></td>
+					<td colspan="2" class="form-actions"><input type="button" data-action="delete-planet" data-url="{{ path('game_overview_delete') }}" value="{{ LNG.ov_delete_planet }}"></td>
 				</tr>
 			</table>
 		</div>
@@ -37,6 +37,6 @@
 </div>
 {% endblock %}
 {% block script %}{{ parent() }}
-	{{ data_island('overview-actions-data', {mainPlanet: mainPlanet}) }}
+	{{ data_island('overview-actions-data', {mainPlanet: mainPlanet, overviewUrl: path('game_overview_show')}) }}
 	<script type="module" src="./scripts/game/overview.actions.js?v={{ asset_version }}"></script>
 {% endblock %}

@@ -176,7 +176,7 @@ sys_mess_spy_control: 中央情报局
 sys_mess_spy_destroyed: 你的间谍探测器被摧毁了！
 sys_mess_spy_ennemyfleet_1: 发现来自星球 %s 的敌方间谍探测器出没于 %s 附近。
 sys_mess_spy_ennemyfleet_3: 发现来自月球 %s 的敌方间谍探测器出没于 %s 附近。
-sys_mess_spy_link: <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_link: <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: 间谍探测器被发现的几率为：%d%%
 sys_mess_spy_qg: 间谍部门
 sys_mess_spy_repair_order: 修复船坞里正在修复舰船。
@@ -204,7 +204,7 @@ sys_spy_fleet: 舰队
 sys_stat_mess: 你来自 %s %s 的舰队抵达了 %s %s %s，并运送了 %s %s、%s %s 和 %s %s。%s
 sys_stat_mess_stay: 停驻的舰队
 sys_stealed_ressources: 他们掠夺了
-sys_trade_mess_arr_success: 你的商人舰队已准备好返回 %1$s %2$s（返程飞行：%5$s）。<form action="game?page=fleetTable&amp;action=sendfleetback" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>
+sys_trade_mess_arr_success: 你的商人舰队已准备好返回 %1$s %2$s（返程飞行：%5$s）。<form action="game/fleet/recall" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>
 sys_trade_mess_back: 你的商人舰队无功而返，已回到 %s %s。
 sys_trade_mess_back_success: 你的商人舰队成功返回 %4$s %5$s，带回了 %1$s 金属、%2$s 晶体和 %3$s 重氢。
 sys_tran_mess_back: 你的舰队已返回 %s %s。

@@ -17,24 +17,16 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /**
  * Search for players, planets and alliances (form, result list).
  */
-#[\App\Routing\GamePage('game', 'search')]
 #[\App\Controller\RequireModule('MODULE_SEARCH')]
 class SearchController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Completes a search query: the (code-chosen) column must contain the text, exact matches come first, then
      * alphabetical by that column. The text is bound as a `%text%` pattern; $maxResult -1 means no row limit.
@@ -196,14 +188,15 @@ class SearchController extends AbstractGameController
     /**
      * Result list (ajax fragment). Request: type, search; at most SEARCH_LIMIT rows; alliance searches use the alliance template.
      */
+    #[GameRoute('game', 'game/search/result', 'search', 'result')]
     public function result(): Response
     {
         $THEME = $this->state->THEME;
 
         $this->setWindow('ajax');
 
-        $seachMode 	= $this->http()->_GP('type', 'playername');
-        $searchText	= $this->http()->_GP('search', '', UTF8_SUPPORT);
+        $seachMode 	= $this->input()->string('type', 'playername');
+        $searchText	= $this->input()->string('search', '', UTF8_SUPPORT);
 
         $searchList	= [];
 
@@ -211,29 +204,27 @@ class SearchController extends AbstractGameController
             $searchList	= $this->_getSearchList($seachMode, $searchText, SEARCH_LIMIT);
         }
 
-        $this->assign([
+        $templateSuffix	= ($seachMode === "allyname" || $seachMode === "allytag") ? "ally" : "default";
+
+        return $this->render('game/page.search.result.' . $templateSuffix . '.html.twig', [
             'searchList'	=> $searchList,
             'dpath'			=> $THEME->getTheme(),
             'themeCssPath' => $THEME->getThemeCssPath(),
         ]);
-
-        $templateSuffix	= ($seachMode === "allyname" || $seachMode === "allytag") ? "ally" : "default";
-
-        return $this->render('game/page.search.result.' . $templateSuffix . '.html.twig');
     }
 
     /**
      * Search form with the mode selector (request: type preselects the mode).
      */
+    #[GameRoute('game', 'game/search', 'search')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         $modeSelector	= ['playername' => $LNG['sh_player_name'], 'planetname' => $LNG['sh_planet_name'], 'allytag' => $LNG['sh_alliance_tag'], 'allyname' => $LNG['sh_alliance_name']];
         $this->addScript('search.js');
-        $this->assign([
+
+        return $this->render('game/page.search.default.html.twig', [
             'modeSelector'	=> $modeSelector,
         ]);
-
-        return $this->render('game/page.search.default.html.twig');
     }
 }

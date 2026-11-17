@@ -17,18 +17,14 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
+use App\Game\Enum\MessageType;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
 use App\Game\Core\Language;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /**
  * Buddy list: friends, friend requests (send, accept, reject, delete).
  */
-#[\App\Routing\GamePage('game', 'buddyList')]
 #[\App\Controller\RequireModule('MODULE_BUDDYLIST')]
 class BuddyListController extends AbstractGameController
 {
@@ -36,24 +32,20 @@ class BuddyListController extends AbstractGameController
     private const MAX_REQUESTS_PER_WINDOW = 5;
     private const REQUEST_WINDOW = 600;
 
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Request form for a buddy (request: id of the player); refuses yourself, existing buddies and existing requests.
      */
+    #[GameRoute('game', 'game/buddies/request', 'buddyList', 'request')]
     public function request(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         $this->setWindow('popup');
 
-        $id	= $this->http()->_GP('id', 0);
+        $id	= $this->input()->int('id');
 
         if ($id == $USER['id']) {
-            $this->printMessage($LNG['bu_cannot_request_yourself']);
+            return $this->messageResponse($LNG['bu_cannot_request_yourself']);
         }
 
         $db = $this->db;
@@ -65,7 +57,7 @@ class BuddyListController extends AbstractGameController
         ], 'count');
 
         if ($exists != 0) {
-            $this->printMessage($LNG['bu_request_exists']);
+            return $this->messageResponse($LNG['bu_request_exists']);
         }
 
         $sql = "SELECT username, galaxy, system, planet FROM %%USERS%% WHERE id = :friendID AND universe = :universe;";
@@ -75,18 +67,16 @@ class BuddyListController extends AbstractGameController
         ]);
 
         if (empty($userData)) {
-            $this->printMessage($LNG['bu_player_not_exist']);
+            return $this->messageResponse($LNG['bu_player_not_exist']);
         }
 
-        $this->assign([
+        return $this->render('game/page.buddyList.request.html.twig', [
             'username'	=> $userData['username'],
             'galaxy'	=> $userData['galaxy'],
             'system'	=> $userData['system'],
             'planet'	=> $userData['planet'],
             'id'		=> $id,
         ]);
-
-        return $this->render('game/page.buddyList.request.html.twig');
     }
 
     /**
@@ -122,7 +112,8 @@ class BuddyListController extends AbstractGameController
      * Stores a buddy request (request: id, text): refused for yourself, a player who blocks direct messages (either direction), an unknown player or an existing
      * request. Inserts BUDDY and BUDDY_REQUEST (the text) and sends the target a system message in his own language.
      */
-    public function send()
+    #[GameRoute('game', 'game/buddies/send', 'buddyList', 'send', ['POST'])]
+    public function send(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
@@ -130,16 +121,16 @@ class BuddyListController extends AbstractGameController
         // the result message closes its dialog after two seconds (data-auto-close, scripts/app/actions.js)
         $this->assign(['autoCloseMs' => 2000]);
 
-        $id		= $this->http()->_GP('id', 0);
-        $text	= $this->http()->_GP('text', '', UTF8_SUPPORT);
+        $id		= $this->input()->int('id');
+        $text	= $this->input()->string('text', '', UTF8_SUPPORT);
 
         if ($id == $USER['id']) {
-            $this->printMessage($LNG['bu_cannot_request_yourself']);
+            return $this->messageResponse($LNG['bu_cannot_request_yourself']);
         }
-        $blocked    = $this->playerUtil()->get_block_status($USER['id'], $id);
-        $blockedInverted = $this->playerUtil()->get_block_status($id, $USER['id']);
+        $blocked    = $this->playerLookup()->get_block_status($USER['id'], $id);
+        $blockedInverted = $this->playerLookup()->get_block_status($id, $USER['id']);
         if ($blocked['block_dm'] == 1 || $blockedInverted['block_dm'] == 1) {
-            $this->printMessage($LNG['mg_blocked']);
+            return $this->messageResponse($LNG['mg_blocked']);
         }
         $db = $this->db;
 
@@ -152,11 +143,11 @@ class BuddyListController extends AbstractGameController
 
         if (!$targetExists) {
             // unknown player, or one who switched private messages (and with them requests) off
-            $this->printMessage($LNG['bu_player_not_exist']);
+            return $this->messageResponse($LNG['bu_player_not_exist']);
         }
 
         if (!$this->allowRequest()) {
-            $this->printMessage($LNG['bu_request_limit']);
+            return $this->messageResponse($LNG['bu_request_limit']);
         }
 
         $sql = "SELECT COUNT(*) as count FROM %%BUDDY%% WHERE (sender = :userID AND owner = :friendID) OR (owner = :userID AND sender = :friendID);";
@@ -166,7 +157,7 @@ class BuddyListController extends AbstractGameController
         ], 'count');
 
         if ($exists != 0) {
-            $this->printMessage($LNG['bu_request_exists']);
+            return $this->messageResponse($LNG['bu_request_exists']);
         }
 
         $sql = "INSERT INTO %%BUDDY%% SET sender = :userID,	owner = :friendID, universe = :universe;";
@@ -196,20 +187,21 @@ class BuddyListController extends AbstractGameController
             $Friend_LNG->includeData(['INGAME']);
         }
 
-        $this->playerUtil()->sendMessage($id, $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Friend_LNG['bu_new_request_title'], $Friend_LNG->formatHtml('bu_new_request_body', $row['username'], $USER['username']), $this->state->runtime->timestamp);
+        $this->playerMessenger()->sendMessage($id, $USER['id'], $USER['username'], MessageType::System->value, $Friend_LNG['bu_new_request_title'], $Friend_LNG->formatHtml('bu_new_request_body', $row['username'], $USER['username']), $this->state->runtime->timestamp);
 
-        $this->printMessage($LNG['bu_request_send']);
+        return $this->messageResponse($LNG['bu_request_send']);
     }
 
     /**
      * Removes a buddy or withdraws/rejects a pending request (request: id of the BUDDY row; only its two parties may). For a pending request the other
      * player gets a system message. Deletes the BUDDY and BUDDY_REQUEST rows; redirects to the list.
      */
-    public function delete()
+    #[GameRoute('game', 'game/buddies/{id}/delete', 'buddyList', 'delete', ['POST'], ['id' => '\d+'])]
+    public function delete(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $id	= $this->http()->_GP('id', 0);
+        $id	= $this->input()->int('id');
         $db = $this->db;
 
         $sql = "SELECT COUNT(*) as count FROM %%BUDDY%% WHERE id = :id AND (sender = :userID OR owner = :userID);";
@@ -242,7 +234,7 @@ class BuddyListController extends AbstractGameController
                     $Enemy_LNG->includeData(['INGAME']);
                 }
 
-                $this->playerUtil()->sendMessage($requestData['id'], $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Enemy_LNG['bu_rejected_request_title'], $Enemy_LNG->formatHtml('bu_rejected_request_body', $requestData['username'], $USER['username']), $this->state->runtime->timestamp);
+                $this->playerMessenger()->sendMessage($requestData['id'], $USER['id'], $USER['username'], MessageType::System->value, $Enemy_LNG['bu_rejected_request_title'], $Enemy_LNG->formatHtml('bu_rejected_request_body', $requestData['username'], $USER['username']), $this->state->runtime->timestamp);
             }
 
             $sql = "DELETE b.*, r.* FROM %%BUDDY%% b LEFT JOIN %%BUDDY_REQUEST%% r USING (id) WHERE b.id = :id;";
@@ -250,18 +242,19 @@ class BuddyListController extends AbstractGameController
                 ':id'       => $id,
             ]);
         }
-        $this->redirectTo("game?page=buddyList");
+        return $this->redirectToRoute('game_buddy_list_show');
     }
 
     /**
      * Accepts a pending request (request: id of the BUDDY row; only its recipient may): deletes the BUDDY_REQUEST row, which turns the BUDDY row into a
      * friendship, and sends the requester a system message; redirects to the list.
      */
-    public function accept()
+    #[GameRoute('game', 'game/buddies/{id}/accept', 'buddyList', 'accept', ['POST'], ['id' => '\d+'])]
+    public function accept(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $id	= $this->http()->_GP('id', 0);
+        $id	= $this->input()->int('id');
         $db = $this->db;
 
         // Only the recipient of a still pending request may accept it
@@ -273,7 +266,7 @@ class BuddyListController extends AbstractGameController
         ], 'count');
 
         if (!$isAllowed) {
-            $this->redirectTo("game?page=buddyList");
+            return $this->redirectToRoute('game_buddy_list_show');
         }
 
         $sql = "DELETE FROM %%BUDDY_REQUEST%% WHERE id = :id;";
@@ -293,14 +286,15 @@ class BuddyListController extends AbstractGameController
             $Friend_LNG->includeData(['INGAME']);
         }
 
-        $this->playerUtil()->sendMessage($sender['sender'], $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Friend_LNG['bu_accepted_request_title'], $Friend_LNG->formatHtml('bu_accepted_request_body', $sender['username'], $USER['username']), $this->state->runtime->timestamp);
+        $this->playerMessenger()->sendMessage($sender['sender'], $USER['id'], $USER['username'], MessageType::System->value, $Friend_LNG['bu_accepted_request_title'], $Friend_LNG->formatHtml('bu_accepted_request_body', $sender['username'], $USER['username']), $this->state->runtime->timestamp);
 
-        $this->redirectTo("game?page=buddyList");
+        return $this->redirectToRoute('game_buddy_list_show');
     }
 
     /**
      * Buddy list: friends with online state and alliance, incoming and outgoing requests.
      */
+    #[GameRoute('game', 'game/buddies', 'buddyList')]
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -330,12 +324,10 @@ class BuddyListController extends AbstractGameController
             }
         }
 
-        $this->assign([
+        return $this->render('game/page.buddyList.default.html.twig', [
             'myBuddyList'		=> $myBuddyList,
             'myRequestList'			=> $myRequestList,
             'otherRequestList'	=> $otherRequestList,
         ]);
-
-        return $this->render('game/page.buddyList.default.html.twig');
     }
 }

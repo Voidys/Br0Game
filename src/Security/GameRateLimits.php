@@ -12,7 +12,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
  * Generic in-game request budget per account (audit F-14/F-23), applied by App\EventListener\RateLimitListener to
  * the game and account areas:
  *
- * - state-changing requests (every unsafe method, plus the GET links of CsrfPolicy::GET_RULES) use the
+ * - state-changing requests (every unsafe method, plus the GET links of CsrfPolicy::GET_ROUTES) use the
  *   "game_actions" token bucket;
  * - expensive reads (galaxy, player card, search, statistics, battle hall, battle reports, records, and the read-only
  *   AJAX modes of the fleet steps and the message player search) use "game_reads";
@@ -24,23 +24,24 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
  */
 final class GameRateLimits
 {
-    /** lower-case page names ("page") or page and mode ("page:mode") of the expensive reads */
-    private const EXPENSIVE_PAGES = [
-        'galaxy', 'playercard', 'search', 'statistics', 'battlehall', 'raport', 'records',
-        'fleetstep1:checktarget', 'fleetstep2:checkresources', 'messages:loaduser',
+    /** route names of the expensive reads */
+    private const EXPENSIVE_ROUTES = [
+        'game_galaxy_show', 'game_galaxy_rows', 'game_player_card_show', 'game_search_show', 'game_search_result', 'game_statistics_show',
+        'game_battle_hall_show', 'game_raport_show', 'game_records_show',
+        'game_fleet_step1_check_target', 'game_fleet_step2_check_resources', 'game_messages_load_user',
     ];
 
-    /** pages (lower case) that can be opened without a login */
-    private const ANONYMOUS_PAGES = [['game', 'raport'], ['account', 'board']];
+    /** route names that can be opened without a login */
+    private const ANONYMOUS_ROUTES = ['game_raport_show', 'account_board_show', 'account_board_post'];
 
     private const LIMITED_AREAS = ['game', 'account'];
 
     public function __construct(
-        #[Autowire(service: 'limiter.game_actions')]
+        #[Autowire(service: 'limiter.game_actions', lazy: true)]
         private readonly RateLimiterFactoryInterface $actions,
-        #[Autowire(service: 'limiter.game_reads')]
+        #[Autowire(service: 'limiter.game_reads', lazy: true)]
         private readonly RateLimiterFactoryInterface $reads,
-        #[Autowire(service: 'limiter.game_anonymous')]
+        #[Autowire(service: 'limiter.game_anonymous', lazy: true)]
         private readonly RateLimiterFactoryInterface $anonymous,
         private readonly CsrfPolicy $policy,
         #[Autowire('%app.game_rate_limit.enabled%')]
@@ -58,12 +59,12 @@ final class GameRateLimits
         if (!$this->enabled || $accountId <= 0 || !$this->policy->isGameRequest($request)) {
             return null;
         }
-        [$area, $page] = $this->policy->areaAndPage($request);
+        [$area] = $this->policy->areaAndPage($request);
         if (!in_array($area, self::LIMITED_AREAS, true)) {
             return null;
         }
 
-        if ($area === 'game' && $this->isExpensive($request, $page)) {
+        if ($area === 'game' && in_array($request->attributes->get('_route'), self::EXPENSIVE_ROUTES, true)) {
             $factory = $this->reads;
         } elseif ($this->policy->requiresToken($request)) {
             $factory = $this->actions;
@@ -90,7 +91,7 @@ final class GameRateLimits
         if (!$this->enabled || $ip === null || !$this->policy->isGameRequest($request)) {
             return null;
         }
-        if (!in_array($this->policy->areaAndPage($request), self::ANONYMOUS_PAGES, true)) {
+        if (!in_array($request->attributes->get('_route'), self::ANONYMOUS_ROUTES, true)) {
             return null;
         }
         $limit = $this->anonymous->create($ip)->consume();
@@ -99,15 +100,5 @@ final class GameRateLimits
         }
 
         return max(1, $limit->getRetryAfter()->getTimestamp() - time());
-    }
-
-    private function isExpensive(Request $request, string $page): bool
-    {
-        if (in_array($page, self::EXPENSIVE_PAGES, true)) {
-            return true;
-        }
-        $mode = $this->policy->queryValue($request, 'mode');
-
-        return $mode !== null && in_array($page . ':' . $mode, self::EXPENSIVE_PAGES, true);
     }
 }

@@ -14,7 +14,8 @@ use App\Controller\Game\ResourcesController;
 use App\Controller\Game\ShipyardController;
 use App\Game\Core\EndOfRequest;
 use App\Game\Core\Language;
-use App\Game\Core\PlayerUtil;
+use App\Game\Core\Player\PlanetManager;
+use App\Game\Core\Player\VacationMode;
 use App\Game\Core\ResourceUpdate;
 use App\Game\Cronjob\DailyCronjob;
 use App\Game\Cronjob\InactiveMailCronjob;
@@ -24,6 +25,7 @@ use App\Tests\Support\GameTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use App\Game\Enum\Mission;
 
 /**
  * Regression tests of the economy / player pages review (round 2, R2-ECO-01 ... 16): vacation exit rebuilds production,
@@ -45,12 +47,21 @@ final class EconomyReviewFixesTest extends GameTestCase
         $this->state->time = ['start' => microtime(true), 'end_common' => microtime(true), 'db' => 0];
     }
 
-    private function players(): PlayerUtil
+    private function planets(): PlanetManager
     {
-        return new PlayerUtil($this->db, $this->configs, $this->state);
+        return new PlanetManager($this->db, $this->configs, $this->state);
     }
 
-    /** @param array<string, mixed> $user @param array<string, mixed> $planet @param array<string, mixed> $input */
+    private function vacation(): VacationMode
+    {
+        return new VacationMode($this->db, $this->configs, $this->state);
+    }
+
+    /**
+     * @param array<string, mixed> $user @param array<string, mixed> $planet @param array<string, mixed> $input
+     * @param array<mixed> $input
+     * @param array<string, mixed> $planet
+     */
     private function prepare(array $user, array $planet, array $input, string $method = 'POST'): void
     {
         $this->state->USER = $user + ['messages' => 0, 'signalColors' => '', 'colors' => ''];
@@ -69,7 +80,9 @@ final class EconomyReviewFixesTest extends GameTestCase
         $property->setValue($controller, new ResourceUpdate($this->db, $this->configs, $this->state));
         ob_start();
         try {
-            $controller->withGameServices($this->db, $this->configs, $this->state)->$action();
+            $controller->withGameServices($this->db, $this->configs, $this->state);
+            $controller->setRouter(self::container()->get('router'));
+            $controller->$action();
         } catch (EndOfRequest) {
         } finally {
             ob_end_clean();
@@ -85,7 +98,7 @@ final class EconomyReviewFixesTest extends GameTestCase
         [$user, $planet] = (new ResourceUpdate($this->db, $this->configs, $this->state))->CalcResource($user, $planet, true);
         $this->assertGreaterThan(0, (float) $this->loadPlanet((int) $planet['id'])['metal_perhour']);
 
-        $players = $this->players();
+        $players = $this->vacation();
         $user = $this->loadUser((int) $user['id']);
         $planet = $this->loadPlanet((int) $planet['id']);
         $players->enable_vmode($user, $planet);
@@ -186,6 +199,10 @@ final class EconomyReviewFixesTest extends GameTestCase
         return [$user, $planet];
     }
 
+    /**
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $user
+     */
     private function sendBuddyRequest(array $user, array $planet, int $targetId): void
     {
         $this->prepare($user, $planet, ['id' => $targetId, 'text' => 'hi']);
@@ -299,13 +316,13 @@ final class EconomyReviewFixesTest extends GameTestCase
     public function testAbandoningAPlanetRecallsForeignFleetsHeadingThere(): void
     {
         [$owner] = $this->createPlayer();
-        $colonyId = $this->players()->createPlanet(2, 21, 6, 1, (int) $owner['id'], 'Colony');
+        $colonyId = $this->planets()->createPlanet(2, 21, 6, 1, (int) $owner['id'], 'Colony');
         $colony = $this->loadPlanet($colonyId);
         [$sender, $senderPlanet] = $this->createPlayer([], ['small_ship_cargo' => 20, 'metal' => 10000, 'crystal' => 10000, 'deuterium' => 10000]);
         $now = $this->state->runtime->timestamp;
         $fleetId = (new \App\Game\Core\FleetLauncher($this->db, $this->configs, $this->state))->sendFleet(
             [202 => 5],
-            MISSION_TRANSPORT,
+            Mission::Transport->value,
             (int) $sender['id'],
             (int) $senderPlanet['id'],
             (int) $senderPlanet['galaxy'],
@@ -328,7 +345,7 @@ final class EconomyReviewFixesTest extends GameTestCase
             50.0,
         );
 
-        $this->players()->deletePlanet($colonyId);
+        $this->planets()->deletePlanet($colonyId);
 
         $fleet = $this->db->selectSingle('SELECT status FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
         $this->assertSame(FLEET_RETURN, (int) $fleet['status'], 'the foreign transport turned around');
@@ -393,7 +410,7 @@ final class EconomyReviewFixesTest extends GameTestCase
     public function testNoMoonIsCreatedForADestroyedPlanet(): void
     {
         [$user] = $this->createPlayer();
-        $players = $this->players();
+        $players = $this->planets();
         $colonyId = $players->createPlanet(2, 22, 6, 1, (int) $user['id'], 'Colony');
         $this->db->update('UPDATE %%PLANETS%% SET destruyed = :t WHERE id = :id;', [':t' => time() + 86400, ':id' => $colonyId]);
 
@@ -409,7 +426,7 @@ final class EconomyReviewFixesTest extends GameTestCase
         [$user, $planet] = $this->createPlayer([$resource[COMBUSTION_TECH] => 2], [$resource[SHIPYARD] => 2, 'metal' => 100000, 'crystal' => 100000, 'deuterium' => 100000]);
 
         $this->prepare($user, $planet, ['fmenge' => ['202.0' => 3, '202abc' => 3, 202 => 2]]);
-        $this->call(new ShipyardController(), 'show');
+        $this->call(new ShipyardController(), 'order');
 
         $queue = (string) $this->loadPlanet((int) $planet['id'])['b_hangar_id'];
         $this->assertSame('[[202,2]]', str_replace(['.0', ' '], '', $queue), 'only the clean key is queued: ' . $queue);

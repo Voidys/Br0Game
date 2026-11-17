@@ -2,6 +2,7 @@
 
 namespace App\Game\Alliance;
 
+use App\Game\Enum\MessageType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -64,7 +65,11 @@ class AllianceApplicationService
         return $searchList;
     }
 
-    /** the alliance the acting user applied at (id, ally_name, ally_tag) */
+    /**
+     * the alliance the acting user applied at (id, ally_name, ally_tag)
+     *
+     * @return array<mixed>
+     */
     public function pendingTarget(): array|false|null
     {
         $sql = "SELECT a.id, a.ally_name, a.ally_tag
@@ -100,11 +105,11 @@ class AllianceApplicationService
         }
 
         if ($allianceResult['ally_request_notallow'] == 1) {
-            throw AllianceException::message($LNG['al_alliance_closed'], $LNG['sys_forward'], '?page=alliance');
+            throw AllianceException::message($LNG['al_alliance_closed'], $LNG['sys_forward'], 'game_alliance_show');
         }
 
         if ($allianceResult['ally_members'] >= $allianceResult['ally_max_members']) {
-            throw AllianceException::message($LNG['al_alliance_full'], $LNG['sys_forward'], '?page=alliance');
+            throw AllianceException::message($LNG['al_alliance_full'], $LNG['sys_forward'], 'game_alliance_show');
         }
 
         if ($allianceResult['ally_request_min_points'] > 0) {
@@ -113,7 +118,7 @@ class AllianceApplicationService
                 throw AllianceException::message(
                     $LNG->format('al_alliance_min_points', $allianceResult['ally_request_min_points']),
                     $LNG['sys_forward'],
-                    '?page=alliance',
+                    'game_alliance_show',
                 );
             }
         }
@@ -245,7 +250,7 @@ class AllianceApplicationService
             return null;
         }
 
-        $LNG = $this->playerUtil()->getLanguage(null, $userId);
+        $LNG = $this->playerLookup()->getLanguage(null, $userId);
         if ($answer == 'yes') {
             $db->startTransaction();
             // The applicant may have joined another alliance since applying
@@ -257,7 +262,7 @@ class AllianceApplicationService
                     ':applyID' => $applyID,
                 ]);
                 $db->commit();
-                throw AllianceException::redirect('game?page=alliance&mode=admin&action=manageApply');
+                throw AllianceException::redirect('game_alliance_admin_manage_apply');
             }
             $sql = "SELECT COUNT(*) as member_count FROM %%USERS%% WHERE ally_id = :allianceId FOR UPDATE";
             $memberCount = $db->selectSingle($sql, [':allianceId' => $alliance['id']], 'member_count');
@@ -303,7 +308,7 @@ class AllianceApplicationService
 
         $senderName = $LNG['al_the_alliance'] . $alliance['ally_name'] . ' ['
             . $alliance['ally_tag'] . ']';
-        $this->playerUtil()->sendMessage($userId, $USER['id'], $senderName, MESSAGE_TYPE_ALLIANCE, $subject, $text, $this->state->runtime->timestamp);
+        $this->playerMessenger()->sendMessage($userId, $USER['id'], $senderName, MessageType::Alliance->value, $subject, $text, $this->state->runtime->timestamp);
 
         return $answer == 'yes' ? 'yes' : 'no';
     }
@@ -327,11 +332,11 @@ class AllianceApplicationService
         $showPlayer = true;
         $showTotal = true;
         $viewer = $this->models()->user($USER);
-        $showBuild = $this->playerUtil()->spyTechAllowedFor(2, $targetUserId, $viewer);
-        $showTech = $this->playerUtil()->spyTechAllowedFor(4, $targetUserId, $viewer);
-        $showDef = $this->playerUtil()->spyTechAllowedFor(6, $targetUserId, $viewer);
-        $showFleet = $this->playerUtil()->spyTechAllowedFor(6, $targetUserId, $viewer);
-        $showBattle = $this->playerUtil()->spyTechAllowedFor(6, $targetUserId, $viewer);
+        $showBuild = $this->protectionRules()->spyTechAllowedFor(2, $targetUserId, $viewer);
+        $showTech = $this->protectionRules()->spyTechAllowedFor(4, $targetUserId, $viewer);
+        $showDef = $this->protectionRules()->spyTechAllowedFor(6, $targetUserId, $viewer);
+        $showFleet = $this->protectionRules()->spyTechAllowedFor(6, $targetUserId, $viewer);
+        $showBattle = $this->protectionRules()->spyTechAllowedFor(6, $targetUserId, $viewer);
 
         $player_data = $playerCard->get_player_data($stats, $showPlayer);
         $total_data = $playerCard->get_total_data($stats, $showTotal);
@@ -394,6 +399,9 @@ class AllianceApplicationService
         ];
     }
 
+    /**
+     * @param array<string, mixed> $alliance
+     */
     private function deleteRequest(array $alliance, int|string $applyID): void
     {
         $sql = "DELETE FROM %%ALLIANCE_REQUEST%% WHERE applyID = :applyID AND allianceId = :allianceId";

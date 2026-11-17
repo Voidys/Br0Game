@@ -13,6 +13,10 @@ namespace App\Game\Tutorials;
  */
 class DefaultTutorialSupport extends AbstractTutorialSupport
 {
+    /**
+     * @param array<string, mixed> $USER
+     * @param array<mixed> $tutorialStep
+     */
     public function __construct(
         \App\Game\Core\Database $db,
         \App\Game\Core\ConfigRegistry $configs,

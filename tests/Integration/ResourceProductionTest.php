@@ -139,6 +139,10 @@ final class ResourceProductionTest extends GameTestCase
     ];
     // GOLDEN-END
 
+    /**
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $user
+     */
     private function economy(array $user, array $planet, int $hours): ResourceUpdate
     {
         $eco = new ResourceUpdate($this->db, $this->configs, $this->state);
@@ -147,7 +151,11 @@ final class ResourceProductionTest extends GameTestCase
         return $eco;
     }
 
-    /** @return array<string, mixed> the economy figures the game derives from the building/research levels */
+    /**
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $user
+     * @return array<string, mixed> the economy figures the game derives from the building/research levels
+     */
     private function figures(array $user, array $planet, int $hours = 1): array
     {
         [, $after] = $this->economy($user, $planet, $hours)->getData();

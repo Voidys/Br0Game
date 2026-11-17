@@ -16,7 +16,7 @@ trait BanListPage
 
         $banCount = $this->db->selectSingle('SELECT COUNT(*) as count FROM %%USERS_BANNED%% WHERE universe = :universe;', [':universe' => $universe], 'count');
         $maxPage = ceil($banCount / BANNED_USERS_PER_PAGE);
-        $page = max(1, min($this->http()->_GP('side', 1), $maxPage));
+        $page = max(1, min($this->input()->int('side', 1), $maxPage));
 
         $banResult = $this->db->select('SELECT * FROM %%USERS_BANNED%% WHERE universe = :universe ORDER BY time DESC LIMIT :offset, :limit;', [
             ':universe' => $universe,

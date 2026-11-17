@@ -209,6 +209,7 @@ class ResearchQueueProcessor
      *
      * @param array<string, mixed> $PLANET planet the durations are computed for
      * @param array<int, array> $queue
+     * @param array<mixed> $queue
      * @return array<int, array>
      */
     private function retimeQueue(QueueState $st, array $PLANET, array $queue, int|float $baseTime): array

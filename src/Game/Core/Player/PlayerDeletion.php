@@ -30,7 +30,7 @@ class PlayerDeletion
      * the member count is reduced. Side effects: updates/deletes alliance, rank, request and statpoints rows,
      * resets the user's ally_id/ally_rank_id/ally_register_time.
      *
-     * @param array $userData user row with at least `id` and `ally_id`
+     * @param array<mixed> $userData user row with at least `id` and `ally_id`
      */
     public function removeFromAlliance(array $userData): void
     {
@@ -82,7 +82,7 @@ class PlayerDeletion
      * member count is reduced. Side effects: UPDATE users (rank 0 of the new leader), UPDATE alliance
      * (owner, ally_members - 1).
      *
-     * @param array $userData removed player (id, ally_id)
+     * @param array<mixed> $userData removed player (id, ally_id)
      */
     private function handOverAllianceLeadership(array $userData): void
     {

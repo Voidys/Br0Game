@@ -51,7 +51,7 @@ class MiscAchievement
      * Dude, Where's My Debris?: Have 250+ Recyclers return with no debris
      *
      * @param int	 		$userId       		The id of the User
-     * @param array			$collectedGoods     The resource array
+     * @param array<mixed>			$collectedGoods     The resource array
      * @param int	 		$recCount       	The number of recyclers
      */
     public function checkRecAchievements($userId, $collectedGoods, $recCount)

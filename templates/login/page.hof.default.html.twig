@@ -8,7 +8,7 @@
   <p class="empty">{{ LNG.hof_empty }}</p>
 {% else %}
   {% if universeSelect|length > 1 %}
-  <form class="filter-bar" name="stats" id="stats" method="post" action="">
+  <form class="filter-bar" name="stats" id="stats" method="get" action="">
     <select name="universe" id="universe" class="changeUni" data-autosubmit>{{ forms.html_options({'options': universeSelect, 'selected': universe}) }}</select>
   </form>
   {% endif %}

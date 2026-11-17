@@ -260,7 +260,7 @@ al_diplo_accept_yes_confirm: Dit verdrag accepteren?
 al_diplo_accept_yes_mes: Het verdrag (%s) tussen de allianties <b>%s</b> en <b>%s</b> is ondertekend!
 al_diplo_ally: Alliantie
 al_diplo_ask: Verdragsverzoek
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Een verdragsverzoek]</a> (%s) is verstuurd van <b>%s</b> naar <b>%s</b>.<br>Reden: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[Een verdragsverzoek]</a> (%s) is verstuurd van <b>%s</b> naar <b>%s</b>.<br>Reden: %s'
 al_diplo_confirm_delete: Dit verdrag beëindigen?
 al_diplo_create: Verdrag aanvragen
 al_diplo_create_done: Verdragsverzoek verstuurd.
@@ -268,7 +268,7 @@ al_diplo_delete: Verdrag beëindigd
 al_diplo_delete_mes: Het verdrag (%s) tussen de allianties <b>%s</b> en <b>%s</b> is beëindigd.
 al_diplo_exists: Je hebt al een actief of lopend verdrag met %s.
 al_diplo_head: Diplomatiebeheer
-al_diplo_info: '<p>Op deze pagina beheer je de diplomatieke verdragen van je alliantie.</p><p>De soorten verdragen staan hieronder. Meer informatie: <a href="game?page=questions">FAQ</a> of de <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+al_diplo_info: '<p>Op deze pagina beheer je de diplomatieke verdragen van je alliantie.</p><p>De soorten verdragen staan hieronder. Meer informatie: <a href="game/faq">FAQ</a> of de <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
 al_diplo_level:
 - Hoofd
 - Vleugel
@@ -287,7 +287,7 @@ al_diplo_text: Verzoek/reden
 al_diplo_war: Oorlogsverklaring
 al_diplo_war_end: Vredesverklaring
 al_diplo_war_end_mes: De %s tussen de allianties <b>%s</b> en <b>%s</b> is zojuist beëindigd.
-al_diplo_war_mes: 'De alliantie <b>%1$s</b> heeft %3$s verklaard aan <b>%2$s</b>! <br>Reden:<br>%4$s<br><br>Informatie: De oorlog begint over <b>24 uur</b>, waarna de bashregel wordt opgeschort.<br>Raadpleeg voor meer informatie de <a href="./?page=rules&lang=en" target="_blank">[Regels]</a>.'
+al_diplo_war_mes: 'De alliantie <b>%1$s</b> heeft %3$s verklaard aan <b>%2$s</b>! <br>Reden:<br>%4$s<br><br>Informatie: De oorlog begint over <b>24 uur</b>, waarna de bashregel wordt opgeschort.<br>Raadpleeg voor meer informatie de <a href="./rules?lang=en" target="_blank">[Regels]</a>.'
 al_diplo_withdraw: Verdragsverzoek ingetrokken.
 al_diplo_withdraw_confirm: Dit verdragsverzoek intrekken?
 al_diplo_withdraw_mes: Het verdragsverzoek (%s) tussen de allianties <b>%s</b> en <b>%s</b> is ingetrokken.
@@ -337,7 +337,7 @@ al_name: Alliantienaam wijzigen
 al_name_required: Voer een alliantienaam in.
 al_link_too_long: De link is te lang (maximaal 255 tekens).
 al_name_tag_too_long: De tag mag maximaal 8 tekens hebben en de naam 30.
-al_new_apply: Je alliantie heeft <a href="?page=alliance&mode=admin&action=manageApply">[een sollicitatie]</a> ontvangen van speler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_apply: Je alliantie heeft <a href="game/alliance/admin/applications">[een sollicitatie]</a> ontvangen van speler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Nieuw lid
 al_new_requests: '%d in behandeling'
 al_newname_specialchar: Alliantienamen en -tags mogen alleen letters, cijfers, spaties, underscores, streepjes en punten bevatten.
@@ -1167,7 +1167,7 @@ ov_temp_unit: °C
 ov_temperature: Temperatuur
 ov_ticketbot: Ticketbot
 ov_to: tot
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Verkeerde naam!
 ov_wrong_pass: Verkeerd wachtwoord!
 own: Eigen
@@ -1334,7 +1334,7 @@ sys_forward: Volgende
 sys_game_is_setup: <h1>Registratie voltooid!</h1><br><p>We bereiden je universum voor!</p><!--discord_url--><p>Kom ondertussen naar onze Discord, zodat je niets mist:</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Deze module is inactief
 sys_nomore_level: Je hebt geen %s om te slopen.
-sys_notenough_money: 'Niet genoeg grondstoffen op %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> om %s te bouwen. <br>Je hebt: %s %s, %s %s en %s %s. <br>Het kost: %s %s, %s %s en %s %s.'
+sys_notenough_money: 'Niet genoeg grondstoffen op %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> om %s te bouwen. <br>Je hebt: %s %s, %s %s en %s %s. <br>Het kost: %s %s, %s %s en %s %s.'
 sys_refferal_from: Systeem
 sys_refferal_text: De speler %s, door jou geronseld, heeft %s punten bereikt.
 sys_refferal_title: Spelersbonus %s

@@ -15,6 +15,7 @@ use App\Game\Bots\Raid\RaidSpyReports;
 use App\Game\Bots\Raid\RaidTargetFinder;
 use App\Game\Missions\MissionCaseSpy;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * Raiding bots on the test database: the target filter (what a bot may even look at), the profit decision with crafted spy
@@ -37,7 +38,11 @@ final class BotRaidTest extends GameTestCase
         ]);
     }
 
-    /** @return array{0: array<string, mixed>, 1: array<string, mixed>} user and planet row of a player placed in galaxy 7 */
+    /**
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $user
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>} user and planet row of a player placed in galaxy 7
+     */
     private function player(array $user = [], array $planet = [], int $points = 100000): array
     {
         $this->slot++;
@@ -47,7 +52,13 @@ final class BotRaidTest extends GameTestCase
         return [$u, $p];
     }
 
-    /** A bot with ships and fuel; returns the user row (bot_players row written). */
+    /**
+     * A bot with ships and fuel; returns the user row (bot_players row written).
+     *
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $user
+     * @return array<mixed>
+     */
     private function bot(array $user = [], array $planet = []): array
     {
         $r = $this->elements()->columnMap();
@@ -68,6 +79,9 @@ final class BotRaidTest extends GameTestCase
         );
     }
 
+    /**
+     * @param array<string, mixed> $bot
+     */
     private function ctx(array $bot): BotActions
     {
         $ctx = new BotActions(1, $this->db, $this->configs, $this->state, self::container()->get(BotPersona::class));
@@ -76,25 +90,42 @@ final class BotRaidTest extends GameTestCase
         return $ctx;
     }
 
-    /** @return array<string, mixed> lunatic profile settings with raid values for the tests */
+    /**
+     * @param array<mixed> $override
+     * @return array<string, mixed> lunatic profile settings with raid values for the tests
+     */
     private function settings(array $override = []): array
     {
         return $override + self::container()->get(BotProfiles::class)->defaults()['lunatic']['settings'];
     }
 
-    /** @return array<string, mixed> parsed spy report like RaidSpyReports::parse() gives */
+    /**
+     * @param array<mixed> $defense
+     * @param array<string, mixed> $fleet
+     * @param array<mixed> $resources
+     * @param array<mixed> $techs
+     * @return array<string, mixed> parsed spy report like RaidSpyReports::parse() gives
+     */
     private function report(array $resources, ?array $fleet, ?array $defense, ?array $techs = null): array
     {
         return ['planet_id' => 1, 'time' => time(), 'resources' => [901 => $resources[0], 902 => $resources[1], 903 => $resources[2]], 'fleet' => $fleet, 'defense' => $defense, 'buildings' => null, 'techs' => $techs, 'name' => 'x', 'coords' => '7:1:8'];
     }
 
-    /** @return array<string, mixed> scouted target at the planet row's coordinates */
+    /**
+     * @param array<mixed> $extra
+     * @param array<string, mixed> $planet
+     * @return array<string, mixed> scouted target at the planet row's coordinates
+     */
     private function targetOf(array $planet, array $extra = []): array
     {
         return $extra + ['planet_id' => (int) $planet['id'], 'user_id' => (int) $planet['id_owner'], 'name' => 'target', 'galaxy' => (int) $planet['galaxy'], 'system' => (int) $planet['system'], 'planet' => (int) $planet['planet'], 'coords' => $planet['galaxy'] . ':' . $planet['system'] . ':' . $planet['planet'], 'activity_minutes' => null, 'is_bot' => false];
     }
 
-    /** @return array<string, mixed> */
+    /**
+     * @param array<string, mixed> $bot
+     * @param array<string, mixed> $settings
+     * @return array<string, mixed>
+     */
     private function scout(array $bot, array $settings = []): array
     {
         $ctx = $this->ctx($bot);
@@ -102,7 +133,10 @@ final class BotRaidTest extends GameTestCase
         return self::container()->get(RaidTargetFinder::class)->scout($ctx, $this->settings($settings), []);
     }
 
-    /** @return list<int> user ids of the candidates */
+    /**
+     * @param array<mixed> $found
+     * @return list<int> user ids of the candidates
+     */
     private function candidateUsers(array $found): array
     {
         return array_column($found['candidates'], 'user_id');
@@ -198,7 +232,7 @@ final class BotRaidTest extends GameTestCase
         $resource = $this->elements()->columnMap();
         $results = [];
         for ($i = 0; $i < 3; $i++) {
-            $results[] = $dispatcher->send($ctx, $ctx->planets[$botPlanet['id']], [206 => 2, 203 => 2], MISSION_ATTACK, (int) $targetPlanet['id'], (int) $target['id']);
+            $results[] = $dispatcher->send($ctx, $ctx->planets[$botPlanet['id']], [206 => 2, 203 => 2], Mission::Attack->value, (int) $targetPlanet['id'], (int) $target['id']);
         }
         $this->assertTrue($results[0]['ok'], $results[0]['reason']);
         $this->assertTrue($results[1]['ok'], $results[1]['reason']);
@@ -227,18 +261,18 @@ final class BotRaidTest extends GameTestCase
         $d = self::container()->get(RaidDispatcher::class);
         $send = fn(array $p, array $u, array $fleet, int $mission) => $d->send($ctx, $ctx->planets[$botPlanet['id']], $fleet, $mission, (int) $p['id'], (int) $u['id']);
 
-        $this->assertSame('target under noob protection', $send($noobPlanet, $noob, [206 => 1], MISSION_ATTACK)['reason']);
-        $this->assertSame('target under noob protection', $send($noobPlanet, $noob, [210 => 1], MISSION_SPY)['reason'], 'a probe is no way around the protection');
-        $this->assertSame('target in vacation mode', $send($vacPlanet, $vac, [206 => 1], MISSION_ATTACK)['reason']);
-        $this->assertSame('target is protected staff', $send($adminPlanet, $admin, [206 => 1], MISSION_ATTACK)['reason']);
-        $this->assertSame('mission not available for this target', $send($okPlanet, $ok, [206 => 1], MISSION_SPY)['reason'], 'spying needs a probe-only fleet');
-        $this->assertSame('ships not on the planet', $send($okPlanet, $ok, [206 => 999], MISSION_ATTACK)['reason']);
-        $this->assertSame('target gone', $d->send($ctx, $ctx->planets[$botPlanet['id']], [206 => 1], MISSION_ATTACK, (int) $okPlanet['id'], (int) $noob['id'])['reason'], 'the owner changed');
+        $this->assertSame('target under noob protection', $send($noobPlanet, $noob, [206 => 1], Mission::Attack->value)['reason']);
+        $this->assertSame('target under noob protection', $send($noobPlanet, $noob, [210 => 1], Mission::Spy->value)['reason'], 'a probe is no way around the protection');
+        $this->assertSame('target in vacation mode', $send($vacPlanet, $vac, [206 => 1], Mission::Attack->value)['reason']);
+        $this->assertSame('target is protected staff', $send($adminPlanet, $admin, [206 => 1], Mission::Attack->value)['reason']);
+        $this->assertSame('mission not available for this target', $send($okPlanet, $ok, [206 => 1], Mission::Spy->value)['reason'], 'spying needs a probe-only fleet');
+        $this->assertSame('ships not on the planet', $send($okPlanet, $ok, [206 => 999], Mission::Attack->value)['reason']);
+        $this->assertSame('target gone', $d->send($ctx, $ctx->planets[$botPlanet['id']], [206 => 1], Mission::Attack->value, (int) $okPlanet['id'], (int) $noob['id'])['reason'], 'the owner changed');
 
-        $sent = $send($okPlanet, $ok, [206 => 1], MISSION_ATTACK);
+        $sent = $send($okPlanet, $ok, [206 => 1], Mission::Attack->value);
         $this->assertTrue($sent['ok'], json_encode($sent));
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $sent['id']]);
-        $this->assertSame((int) MISSION_ATTACK, (int) $fleet['mission']);
+        $this->assertSame((int) Mission::Attack->value, (int) $fleet['mission']);
         $this->assertSame((int) $bot['id'], (int) $fleet['owner']);
         $this->assertEquals(29, $ctx->planets[$botPlanet['id']][$this->elements()->column(206)], 'the in-memory planet follows');
         $this->assertSame(29, (int) $this->loadPlanet((int) $botPlanet['id'])[$this->elements()->column(206)], 'ships and fuel are taken from the planet in the database');
@@ -253,9 +287,9 @@ final class BotRaidTest extends GameTestCase
         $d = self::container()->get(RaidDispatcher::class);
         $slots = $ctx->freeFleetSlots();
         for ($i = 0; $i < $slots; $i++) {
-            $this->assertTrue($d->send($ctx, $ctx->planets[$botPlanet['id']], [210 => 1], MISSION_SPY, (int) $targetPlanet['id'], (int) $target['id'])['ok']);
+            $this->assertTrue($d->send($ctx, $ctx->planets[$botPlanet['id']], [210 => 1], Mission::Spy->value, (int) $targetPlanet['id'], (int) $target['id'])['ok']);
         }
-        $this->assertSame('no free fleet slot', $d->send($ctx, $ctx->planets[$botPlanet['id']], [210 => 1], MISSION_SPY, (int) $targetPlanet['id'], (int) $target['id'])['reason']);
+        $this->assertSame('no free fleet slot', $d->send($ctx, $ctx->planets[$botPlanet['id']], [210 => 1], Mission::Spy->value, (int) $targetPlanet['id'], (int) $target['id'])['reason']);
     }
 
     public function testSpyReportIsReducedToWhatItShows(): void
@@ -394,6 +428,9 @@ final class BotRaidTest extends GameTestCase
         (new MissionCaseSpy($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function actionLog(int $botId): array
     {
         return array_column($this->db->select('SELECT action, detail FROM %%BOT_LOG%% WHERE user_id = :u ORDER BY id;', [':u' => $botId]), 'detail', 'action');
@@ -414,7 +451,7 @@ final class BotRaidTest extends GameTestCase
         // tick 1: scouts the galaxy and sends probes
         $ctx = $this->ctx($bot);
         $raids->play($ctx, $botRow, $settings, $personality, $session, time());
-        $spies = $this->db->select('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => MISSION_SPY]);
+        $spies = $this->db->select('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => Mission::Spy->value]);
         $this->assertCount(1, $spies, 'one probe flight to the only possible target');
         $this->assertSame((int) $targetPlanet['id'], (int) $spies[0]['end_id']);
         $this->assertSame((int) $target['id'], (int) $spies[0]['target_owner']);
@@ -423,7 +460,7 @@ final class BotRaidTest extends GameTestCase
         $this->arrive((int) $spies[0]['id']);
         $ctx = $this->ctx($bot);
         $raids->play($ctx, $botRow, $settings, $personality, $session, max(array_column($personality['_raid']['spies'], 'arrive')) + 10);
-        $attacks = $this->db->select('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => MISSION_ATTACK]);
+        $attacks = $this->db->select('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => Mission::Attack->value]);
         $this->assertCount(1, $attacks, json_encode($this->actionLog((int) $bot['id'])));
         $this->assertSame((int) $targetPlanet['id'], (int) $attacks[0]['end_id']);
         $log = $this->actionLog((int) $bot['id']);
@@ -445,7 +482,7 @@ final class BotRaidTest extends GameTestCase
         $raids->maintain($ctx, $botRow, $settings, $personality, time());
         $this->assertSame('probing', $personality['_raid']['attacks'][$attackId]['state']);
         $probe = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $personality['_raid']['attacks'][$attackId]['probe_id']]);
-        $this->assertSame((int) MISSION_SPY, (int) $probe['mission']);
+        $this->assertSame((int) Mission::Spy->value, (int) $probe['mission']);
         $this->arrive((int) $probe['id']);
         $personality['_raid']['attacks'][$attackId]['read_at'] = time();
         $ctx = $this->ctx($bot);
@@ -472,10 +509,10 @@ final class BotRaidTest extends GameTestCase
         $session = ['left' => 5, 'raid' => true];
         $ctx = $this->ctx($bot);
         $raids->play($ctx, $botRow, $settings, $personality, $session, time());
-        $spy = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => MISSION_SPY]);
+        $spy = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => Mission::Spy->value]);
         $this->arrive((int) $spy['id']);
         $raids->play($this->ctx($bot), $botRow, $settings, $personality, $session, max(array_column($personality['_raid']['spies'], 'arrive')) + 10);
-        $attack = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => MISSION_ATTACK]);
+        $attack = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => Mission::Attack->value]);
         $attackId = (int) $attack['id'];
 
         $personality['_raid']['attacks'][$attackId]['state'] = 'scheduled';

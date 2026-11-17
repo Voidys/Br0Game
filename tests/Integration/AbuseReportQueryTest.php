@@ -6,6 +6,7 @@ namespace App\Tests\Integration;
 
 use App\Game\Admin\AbuseReport\AbuseReportQuery;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * Admin abuse report: one-sided transports, repeated trades, rebuild-protection grants and recalls after arrival show up
@@ -27,7 +28,7 @@ final class AbuseReportQueryTest extends GameTestCase
     {
         $id = ++self::$fleetId;
         $row = $values + [
-            'id' => $id, 'universe' => 1, 'mission' => MISSION_TRANSPORT, 'owner' => 0, 'target_owner' => 0, 'start_id' => 1, 'end_id' => 2,
+            'id' => $id, 'universe' => 1, 'mission' => Mission::Transport->value, 'owner' => 0, 'target_owner' => 0, 'start_id' => 1, 'end_id' => 2,
             'start_time' => self::NOW - 3600, 'arrival_time' => self::NOW - 1800, 'stay_time' => 0, 'hasCanceled' => 0,
             'resource_metal' => 0, 'resource_crystal' => 0, 'resource_deuterium' => 0,
         ];
@@ -96,11 +97,12 @@ final class AbuseReportQueryTest extends GameTestCase
         [$b] = $this->createPlayer(['user_lastip' => '10.3.3.3']);
         $a = (int) $a['id'];
         $b = (int) $b['id'];
-        $multiId = $this->db->insert('INSERT INTO %%MULTI%% SET `universe` = 1, `lastActivity` = 1, `allowed` = 0;', []);
+        $this->db->insert('INSERT INTO %%MULTI%% SET `universe` = 1, `lastActivity` = 1, `allowed` = 0;', []);
+        $multiId = (int) $this->db->lastInsertId();
         foreach ([$a, $b] as $id) {
             $this->db->insert('INSERT INTO %%MULTI_TO_USERS%% SET `multiID` = :m, `userID` = :u, `lastActivity` = 1, `allowed` = 1;', [':m' => $multiId, ':u' => $id]);
         }
-        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'resource_deuterium' => 2000, 'mission' => MISSION_HOLD]);
+        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'resource_deuterium' => 2000, 'mission' => Mission::Hold->value]);
 
         $transfers = $this->query()['transfers'];
 
@@ -122,9 +124,9 @@ final class AbuseReportQueryTest extends GameTestCase
         $each = $cost->metal + $cost->crystal * $weights['crystal'] + $cost->deuterium * $weights['deuterium'];
         $this->assertGreaterThan(0.0, $each);
 
-        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => MISSION_TRANSFER, 'ships' => '202,10', 'resource_metal' => 100]);
+        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => Mission::Transfer->value, 'ships' => '202,10', 'resource_metal' => 100]);
         // a recalled transfer is ignored
-        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => MISSION_TRANSFER, 'ships' => '202,10', 'hasCanceled' => 1]);
+        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => Mission::Transfer->value, 'ships' => '202,10', 'hasCanceled' => 1]);
 
         $transfers = $this->query()['transfers'];
 
@@ -196,7 +198,7 @@ final class AbuseReportQueryTest extends GameTestCase
             "INSERT INTO %%RW%% SET `rid` = 'abuse-test-report', `raport` = '', `time` = :time, `attacker` = :a, `defender` = :d;",
             [':time' => $fight, ':a' => (string) $raider, ':d' => (string) $victim],
         );
-        $this->logFleet(['owner' => $raider, 'target_owner' => $victim, 'mission' => MISSION_ATTACK, 'report_id' => 'abuse-test-report', 'gained_metal' => 4000, 'gained_deuterium' => 100]);
+        $this->logFleet(['owner' => $raider, 'target_owner' => $victim, 'mission' => Mission::Attack->value, 'report_id' => 'abuse-test-report', 'gained_metal' => 4000, 'gained_deuterium' => 100]);
 
         $report = $this->query();
         $protections = $report['protections'];
@@ -217,8 +219,8 @@ final class AbuseReportQueryTest extends GameTestCase
         $a = (int) $a['id'];
         $b = (int) $b['id'];
         // recalled 30 s after the arrival time, and a normal recall before arrival
-        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => MISSION_ATTACK, 'hasCanceled' => 1, 'arrival_time' => self::NOW - 600, 'stay_time' => self::NOW - 570]);
-        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => MISSION_ATTACK, 'hasCanceled' => 1, 'arrival_time' => self::NOW - 600, 'stay_time' => self::NOW - 900]);
+        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => Mission::Attack->value, 'hasCanceled' => 1, 'arrival_time' => self::NOW - 600, 'stay_time' => self::NOW - 570]);
+        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => Mission::Attack->value, 'hasCanceled' => 1, 'arrival_time' => self::NOW - 600, 'stay_time' => self::NOW - 900]);
 
         $recalls = $this->query()['recalls'];
 
@@ -263,7 +265,7 @@ final class AbuseReportQueryTest extends GameTestCase
                 'INSERT INTO %%TRADES%% SET `seller_fleet_id` = :s, `buyer_fleet_id` = :b, `buy_time` = :t, `transaction_type` = 0, `resource_type` = 1, `resource_amount` = 2000, `ex_resource_type` = 1, `ex_resource_amount` = 1000;',
                 [':s' => $seller, ':b' => $buyer, ':t' => $time],
             );
-            $this->logFleet(['owner' => $c, 'target_owner' => $b, 'mission' => MISSION_ATTACK, 'gained_metal' => 2000]);
+            $this->logFleet(['owner' => $c, 'target_owner' => $b, 'mission' => Mission::Attack->value, 'gained_metal' => 2000]);
             // too old for the 30 day window
             $this->logFleet(['owner' => $c, 'target_owner' => $a, 'resource_metal' => 90000, 'start_time' => self::NOW - 40 * 86400]);
         }

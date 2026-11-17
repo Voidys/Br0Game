@@ -42,8 +42,7 @@
                 {% if fleet.maxHours < 1 %}
                   <span class="colorNeutral">{{ LNG.depot_full }}</span>
                 {% else %}
-                  <form action="game?page=allianceDepot" method="post" class="depot-form" data-hourly="{{ fleet.hourlyCost }}">
-                    <input type="hidden" name="action" value="supply">
+                  <form action="{{ path('game_alliance_depot_supply') }}" method="post" class="depot-form" data-hourly="{{ fleet.hourlyCost }}">
                     <input type="hidden" name="fleet" value="{{ fleet.id }}">
                     <select name="hours" data-depot-hours>
                       {% for hour in 1..fleet.maxHours %}

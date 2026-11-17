@@ -2,6 +2,7 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\Mission;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 
@@ -24,9 +25,9 @@ class FleetLauncher
 
     /**
      * Number of the user's flights: all except $fleetMission (default expeditions) or, with $thisMission, only those.
-     * Used for the fleet slot and expedition slot limits. By rule, missile flights (MISSION_MISSILE) never occupy a fleet slot.
+     * Used for the fleet slot and expedition slot limits. By rule, missile flights (Mission::Missile->value) never occupy a fleet slot.
      */
-    public function getCurrentFleets(int $userId, int $fleetMission = MISSION_MISSILE, bool $thisMission = false): int
+    public function getCurrentFleets(int $userId, int $fleetMission = Mission::Missile->value, bool $thisMission = false): int
     {
         if ($thisMission) {
             $sql = 'SELECT COUNT(*) as state
@@ -54,6 +55,7 @@ class FleetLauncher
      * Not recallable: unknown or cannotCancel flights, foreign flights, flights already returning, missiles, and
      * outward flights whose arrival time has passed (the arrival event has not been processed yet).
      *
+     * @param array<string, mixed> $USER
      * @return bool false when the recall is not allowed
      */
     public function sendFleetBack(array $USER, int $FleetID): bool
@@ -77,12 +79,12 @@ class FleetLauncher
         }
 
         // Interplanetary missiles cannot be recalled (their return event does nothing)
-        if ($fleetResult['mission'] == MISSION_MISSILE) {
+        if ($fleetResult['mission'] == Mission::Missile->value) {
             return false;
         }
 
         if (
-            ($fleetResult['mission'] == MISSION_HOLD || $fleetResult['mission'] == MISSION_TRADE)
+            ($fleetResult['mission'] == Mission::Hold->value || $fleetResult['mission'] == Mission::Trade->value)
             && $fleetResult['status'] == FLEET_HOLD
         ) {
             $endTime = ($fleetResult['arrival_time'] - $fleetResult['start_time']) + $this->state->runtime->timestamp;
@@ -90,9 +92,9 @@ class FleetLauncher
             $endTime = ($this->state->runtime->timestamp - $fleetResult['start_time']) + $this->state->runtime->timestamp;
         }
 
-        // Group rule: only an attack fleet that belongs to a group (the creator's lead fleet, joiners fly as MISSION_ACS)
+        // Group rule: only an attack fleet that belongs to a group (the creator's lead fleet, joiners fly as Mission::Acs->value)
         // recalls the whole group. A joiner's recall turns that joiner's own fleet only.
-        $groupId = ($fleetResult['mission'] == MISSION_ATTACK) ? (int) $fleetResult['group'] : 0;
+        $groupId = ($fleetResult['mission'] == Mission::Attack->value) ? (int) $fleetResult['group'] : 0;
         if ($groupId !== 0 && $this->groupHasParticipants($groupId)) {
             return $this->recallGroup($groupId);
         }

@@ -264,7 +264,7 @@ al_diplo_accept_yes_confirm: Прийняти цей пакт?
 al_diplo_accept_yes_mes: Пакт (%s) між альянсами <b>%s</b> і <b>%s</b> підписано!
 al_diplo_ally: Альянс
 al_diplo_ask: Запит на пакт
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Запит на пакт]</a> (%s) надіслано від <b>%s</b> до <b>%s</b>.<br>Причина: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[Запит на пакт]</a> (%s) надіслано від <b>%s</b> до <b>%s</b>.<br>Причина: %s'
 al_diplo_confirm_delete: Розірвати цей пакт?
 al_diplo_create: Запросити пакт
 al_diplo_create_done: Запит на пакт надіслано.
@@ -272,7 +272,7 @@ al_diplo_delete: Пакт розірвано
 al_diplo_delete_mes: Пакт (%s) між альянсами <b>%s</b> і <b>%s</b> розірвано.
 al_diplo_exists: У тебе вже є чинний або очікуваний пакт із %s.
 al_diplo_head: Керування дипломатією
-al_diplo_info: '<p>На цій сторінці можна керувати дипломатичними пактами свого альянсу.</p><p>Типи пактів наведено нижче. Докладніше: <a href="game?page=questions">FAQ</a> або <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">вікі</a>.</p>'
+al_diplo_info: '<p>На цій сторінці можна керувати дипломатичними пактами свого альянсу.</p><p>Типи пактів наведено нижче. Докладніше: <a href="game/faq">FAQ</a> або <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">вікі</a>.</p>'
 al_diplo_level:
 - Основний
 - Крило
@@ -291,7 +291,7 @@ al_diplo_text: Запит/причина
 al_diplo_war: Оголошення війни
 al_diplo_war_end: Оголошення миру
 al_diplo_war_end_mes: Стан «%s» між альянсами <b>%s</b> і <b>%s</b> щойно завершився.
-al_diplo_war_mes: 'Альянс <b>%1$s</b> оголосив %3$s альянсу <b>%2$s</b>! <br>Причина:<br>%4$s<br><br>Інформація: війна розпочнеться через <b>24 години</b>, і тоді правило башингу буде призупинено.<br>Докладніше читай у <a href="./?page=rules&lang=uk" target="_blank">Правилах</a>.'
+al_diplo_war_mes: 'Альянс <b>%1$s</b> оголосив %3$s альянсу <b>%2$s</b>! <br>Причина:<br>%4$s<br><br>Інформація: війна розпочнеться через <b>24 години</b>, і тоді правило башингу буде призупинено.<br>Докладніше читай у <a href="./rules?lang=uk" target="_blank">Правилах</a>.'
 al_diplo_withdraw: Запит на пакт відкликано.
 al_diplo_withdraw_confirm: Відкликати цей запит на пакт?
 al_diplo_withdraw_mes: Запит на пакт (%s) між альянсами <b>%s</b> і <b>%s</b> відкликано.
@@ -341,7 +341,7 @@ al_name: Змінити назву альянсу
 al_name_required: Введи назву альянсу.
 al_link_too_long: Посилання занадто довге (не більше 255 символів).
 al_name_tag_too_long: Тег може містити щонайбільше 8 символів, а назва — 30.
-al_new_apply: Твій альянс отримав <a href="?page=alliance&mode=admin&action=manageApply">[заявку]</a> від гравця <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_apply: Твій альянс отримав <a href="game/alliance/admin/applications">[заявку]</a> від гравця <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Новачок
 al_new_requests: 'Очікують: %d'
 al_newname_specialchar: Назви й теги альянсів можуть містити лише літери, цифри, пробіли, підкреслення, дефіси й крапки.
@@ -1171,7 +1171,7 @@ ov_temp_unit: °C
 ov_temperature: Температура
 ov_ticketbot: Тікет-бот
 ov_to: до
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Хибна назва!
 ov_wrong_pass: Хибний пароль!
 own: Власні
@@ -1338,7 +1338,7 @@ sys_forward: Далі
 sys_game_is_setup: <h1>Реєстрацію завершено!</h1><br><p>Ми готуємо твій всесвіт!</p><!--discord_url--><p>А тим часом, щоб нічого не пропустити, приєднуйся до нас у</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Цей модуль неактивний
 sys_nomore_level: У тебе немає %s для зносу.
-sys_notenough_money: 'Бракує ресурсів на %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> для будівництва: %s. <br>У тебе є: %s %s, %s %s і %s %s. <br>Коштує: %s %s, %s %s і %s %s.'
+sys_notenough_money: 'Бракує ресурсів на %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> для будівництва: %s. <br>У тебе є: %s %s, %s %s і %s %s. <br>Коштує: %s %s, %s %s і %s %s.'
 sys_refferal_from: Система
 sys_refferal_text: Гравець %s, якого ти запросив, набрав %s очок.
 sys_refferal_title: Бонус за гравця %s

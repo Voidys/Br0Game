@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpClient\MockHttpClient;
+use App\Game\Enum\AuthLevel;
 
 /**
  * Server-side limits of the admin tools: what the menu hides must also be refused when the request is built by hand
@@ -27,6 +28,11 @@ use Symfony\Component\HttpClient\MockHttpClient;
  */
 final class AdminAuthorizationTest extends GameTestCase
 {
+    /**
+     * @param array<mixed> $post
+     * @param array<mixed> $query
+     * @param array<string, mixed> $user
+     */
     private function asUser(array $user, array $post = [], array $query = [], string $method = 'POST'): void
     {
         $this->state->USER = $user;
@@ -37,10 +43,11 @@ final class AdminAuthorizationTest extends GameTestCase
         $this->state->requestServer = ['REQUEST_METHOD' => $method] + ($this->state->requestServer ?? []);
     }
 
-    private function show(object $controller): ?string
+    private function show(object $controller, string $method = 'show'): ?string
     {
+        $controller->setRouter(self::container()->get('router'));
         try {
-            $controller->show();
+            $controller->{$method}();
         } catch (EndOfRequest) {
             return 'ended';
         } catch (\Throwable $e) {
@@ -63,15 +70,15 @@ final class AdminAuthorizationTest extends GameTestCase
     private function editAccount(array $actor, string $tab, array $post): ?string
     {
         $this->withBrowserSession();
-        $this->asUser($actor, $post + ['add' => 1], ['page' => 'accountEditor', 'edit' => $tab]);
+        $this->asUser($actor, $post + ['add' => 1], ['tab' => $tab]);
 
-        return $this->show((new AccountEditorController())->withGameServices($this->db, $this->configs, $this->state));
+        return $this->show((new AccountEditorController())->withGameServices($this->db, $this->configs, $this->state), 'tab');
     }
 
     public function testAccountEditorRefusesHigherRankedAndRootTargets(): void
     {
-        [$mod] = $this->createPlayer(['authlevel' => AUTH_MOD]);
-        [$admin, $adminPlanet] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$mod] = $this->createPlayer(['authlevel' => AuthLevel::Moderator->value]);
+        [$admin, $adminPlanet] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         $metal = (float) $adminPlanet['metal'];
         $name = $admin['username'];
 
@@ -88,7 +95,7 @@ final class AdminAuthorizationTest extends GameTestCase
 
     public function testAccountEditorStillEditsNormalPlayers(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [$victim, $planet] = $this->createPlayer();
         $metal = (float) $planet['metal'];
 
@@ -99,12 +106,12 @@ final class AdminAuthorizationTest extends GameTestCase
 
     public function testModeratorCannotSwapAccountsWithAnAdmin(): void
     {
-        [$mod] = $this->createPlayer(['authlevel' => AUTH_MOD]);
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$mod] = $this->createPlayer(['authlevel' => AuthLevel::Moderator->value]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         $before = $this->db->selectSingle('SELECT account_id FROM %%ACCOUNTS_TO_USERS%% WHERE user_id = :u;', [':u' => $admin['id']], 'account_id');
 
-        $this->asUser($mod, ['action' => 'swap', 'user1' => $mod['id'], 'user2' => $admin['id']]);
-        $this->show((new AccountswapController())->withGameServices($this->db, $this->configs, $this->state));
+        $this->asUser($mod, ['user1' => $mod['id'], 'user2' => $admin['id']]);
+        $this->show((new AccountswapController())->withGameServices($this->db, $this->configs, $this->state), 'swap');
 
         $after = $this->db->selectSingle('SELECT account_id FROM %%ACCOUNTS_TO_USERS%% WHERE user_id = :u;', [':u' => $admin['id']], 'account_id');
         $this->assertSame($before, $after);
@@ -112,34 +119,34 @@ final class AdminAuthorizationTest extends GameTestCase
 
     public function testModeratorCannotDeleteViaSearchAndGetIsRefused(): void
     {
-        [$mod] = $this->createPlayer(['authlevel' => AUTH_MOD]);
+        [$mod] = $this->createPlayer(['authlevel' => AuthLevel::Moderator->value]);
         [$victim] = $this->createPlayer();
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
-        [$otherAdmin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
+        [$otherAdmin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
 
-        $this->asUser($mod, [], ['page' => 'search', 'delete' => 'user', 'user' => $victim['id']]);
-        $this->show((new SearchController())->withGameServices($this->db, $this->configs, $this->state));
+        $this->asUser($mod, [], ['id' => $victim['id']]);
+        $this->show((new SearchController())->withGameServices($this->db, $this->configs, $this->state), 'deleteUser');
         $this->assertTrue($this->exists((int) $victim['id']), 'moderator must not delete');
 
-        $this->asUser($admin, [], ['page' => 'search', 'delete' => 'user', 'user' => $victim['id']], 'GET');
-        $this->show((new SearchController())->withGameServices($this->db, $this->configs, $this->state));
-        $this->assertTrue($this->exists((int) $victim['id']), 'GET must not delete');
+        // a GET never reaches the action: the route only answers POST
+        $route = self::container()->get('router')->getRouteCollection()->get('admin_search_delete_user');
+        $this->assertSame(['POST'], $route?->getMethods());
 
-        $this->asUser($admin, [], ['page' => 'search', 'delete' => 'user', 'user' => $otherAdmin['id']]);
-        $this->show((new SearchController())->withGameServices($this->db, $this->configs, $this->state));
+        $this->asUser($admin, [], ['id' => $otherAdmin['id']]);
+        $this->show((new SearchController())->withGameServices($this->db, $this->configs, $this->state), 'deleteUser');
         $this->assertTrue($this->exists((int) $otherAdmin['id']), 'an admin must not delete an equal level');
 
-        $this->asUser($admin, [], ['page' => 'search', 'delete' => 'user', 'user' => ROOT_USER]);
-        $this->show((new SearchController())->withGameServices($this->db, $this->configs, $this->state));
+        $this->asUser($admin, [], ['id' => ROOT_USER]);
+        $this->show((new SearchController())->withGameServices($this->db, $this->configs, $this->state), 'deleteUser');
 
-        $this->asUser($admin, [], ['page' => 'search', 'delete' => 'user', 'user' => $victim['id']]);
-        $this->show((new SearchController())->withGameServices($this->db, $this->configs, $this->state));
+        $this->asUser($admin, [], ['id' => $victim['id']]);
+        $this->show((new SearchController())->withGameServices($this->db, $this->configs, $this->state), 'deleteUser');
         $this->assertFalse($this->exists((int) $victim['id']), 'admin POST deletes a lower player');
     }
 
     public function testRightsPageIsAdminOnly(): void
     {
-        [$mod] = $this->createPlayer(['authlevel' => AUTH_OPS, 'rights' => '{"ShowRightsPage":1}']);
+        [$mod] = $this->createPlayer(['authlevel' => AuthLevel::Operator->value, 'rights' => '{"ShowRightsPage":1}']);
         $this->asUser($mod);
         $controller = (new RightsController())->withGameServices($this->db, $this->configs, $this->state);
 
@@ -156,17 +163,13 @@ final class AdminAuthorizationTest extends GameTestCase
 
     public function testRefusedActionAnswersWith403Page(): void
     {
-        [$mod] = $this->createPlayer(['authlevel' => AUTH_MOD]);
+        [$mod] = $this->createPlayer(['authlevel' => AuthLevel::Moderator->value]);
         [$victim] = $this->createPlayer();
         $this->withBrowserSession();
-        $this->asUser($mod, [], ['page' => 'search', 'delete' => 'user', 'user' => $victim['id']]);
+        $this->asUser($mod, [], ['id' => $victim['id']]);
 
-        try {
-            (new SearchController())->withGameServices($this->db, $this->configs, $this->state)->show();
-            $this->fail('expected a refusal');
-        } catch (EndOfRequest $end) {
-            $this->assertSame(403, $end->getResponse()?->getStatusCode());
-        }
+        $response = (new SearchController())->withGameServices($this->db, $this->configs, $this->state)->deleteUser();
+        $this->assertSame(403, $response->getStatusCode());
     }
 
     private function withBrowserSession(): void
@@ -178,8 +181,8 @@ final class AdminAuthorizationTest extends GameTestCase
 
     public function testCreatorNeverGivesAHigherLevelThanTheCreators(): void
     {
-        [$mod] = $this->createPlayer(['authlevel' => AUTH_MOD]);
-        $this->asUser($mod, ['name' => 'evilnew', 'password' => 'secret12', 'password2' => 'secret12', 'email' => 'evilnew@example.com', 'email2' => 'evilnew@example.com', 'authlevel' => AUTH_ADM, 'lang' => 'en']);
+        [$mod] = $this->createPlayer(['authlevel' => AuthLevel::Moderator->value]);
+        $this->asUser($mod, ['name' => 'evilnew', 'password' => 'secret12', 'password2' => 'secret12', 'email' => 'evilnew@example.com', 'email2' => 'evilnew@example.com', 'authlevel' => AuthLevel::Admin->value, 'lang' => 'en']);
         $responder = new ClosureAdminResponder(
             static function (): never {
                 throw new EndOfRequest();
@@ -193,7 +196,7 @@ final class AdminAuthorizationTest extends GameTestCase
         }
 
         $level = $this->db->selectSingle('SELECT authlevel FROM %%ACCOUNTS%% WHERE accountname = :n;', [':n' => 'evilnew'], 'authlevel');
-        $this->assertSame(AUTH_MOD, (int) $level);
+        $this->assertSame(AuthLevel::Moderator->value, (int) $level);
     }
 
     public function testDumpRefusesUnknownTablesAndOptions(): void

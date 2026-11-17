@@ -10,7 +10,7 @@ use App\Game\Core\Singleton;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Base of the tabs of the admin account editor (menu page=accountEditor, `edit=<tab>`): one class per tab, each with the
+ * Base of the tabs of the admin account editor (`admin/accounts/edit/<tab>`): one class per tab, each with the
  * form display and the save of that tab. Pages and messages go through the AdminPageResponder of the controller.
  */
 abstract class AccountEditorTab

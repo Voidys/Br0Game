@@ -2,6 +2,8 @@
 
 namespace App\Game\Market;
 
+use App\Game\Enum\MessageType;
+use App\Game\Enum\Mission;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -31,18 +33,16 @@ class MarketPurchase
     }
 
     /**
-     * Buys the offer given by the request parameters `fleetID` and `shipType` (1 = prefer small cargo, else large cargo).
+     * Buys the offer $FleetID (shipType: 1 = prefer small cargo, else large cargo).
      *
      * Side effects: deducts the paid resources and fuel from the current planet (in memory), creates the buyer's fleet,
      * updates fleets/log_fleets/fleets_event/trades of the seller's fleet and sends two system messages.
      *
      * @return string translated message for the player (success or the reason the purchase was refused)
      */
-    public function buy(): string
+    public function buy(int $FleetID, string $shipType): string
     {
         $LNG = $this->state->LNG;
-        $FleetID = $this->http()->_GP('fleetID', 0);
-        $shipType = $this->http()->_GP('shipType', "");
 
         $this->lockBuyer();
 
@@ -124,7 +124,7 @@ class MarketPurchase
         $fleetResult = $this->db->selectSingle($sql, [
             ':id' => $FleetID,
             ':fleetState' => FLEET_HOLD,
-            ':mission' => MISSION_TRADE,
+            ':mission' => Mission::Trade->value,
             ':universe' => $this->universe()->current(),
             ':now' => $this->state->runtime->timestamp,
         ]);
@@ -371,7 +371,7 @@ class MarketPurchase
         $PLANET = $this->state->PLANET;
         $marketplace = $trip['marketplace'];
 
-        $buyerMission = $isFleetTrade ? MISSION_TRANSPORT : MISSION_TRADE;
+        $buyerMission = $isFleetTrade ? Mission::Transport->value : Mission::Trade->value;
         $targetGalaxy = $isFleetTrade ? $fleetResult['start_galaxy'] : $PLANET['galaxy'];
         $targetSystem = $isFleetTrade ? $fleetResult['start_system'] : $PLANET['system'];
         $targetPlanet = $isFleetTrade ? $fleetResult['start_planet'] : $marketplace;
@@ -461,7 +461,7 @@ class MarketPurchase
         $PLANET = $this->state->PLANET;
         $db = $this->db;
         $route = [
-            'mission' => $fleetResult['transaction_type'] == 0 ? MISSION_TRADE : MISSION_TRANSFER,
+            'mission' => $fleetResult['transaction_type'] == 0 ? Mission::Trade->value : Mission::Transfer->value,
             'target_owner' => $USER['id'],
             'start_time' => $times['start'],
             'arrival_time' => $times['arrival'],
@@ -536,11 +536,11 @@ class MarketPurchase
             $consumption,
             $LNG['tech'][RESOURCE_DEUT],
         );
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $USER['id'],
             0,
             $LNG['market_msg_trade_from'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['market_msg_trade_topic'],
             $Message,
             $this->state->runtime->timestamp,
@@ -549,7 +549,7 @@ class MarketPurchase
         );
 
         // To salesmen
-        $LNG_SALESMEN = $this->playerUtil()->getLanguage($USER_2['lang']);
+        $LNG_SALESMEN = $this->playerLookup()->getLanguage($USER_2['lang']);
         $Message = $LNG_SALESMEN->format(
             'market_msg_trade_sold',
             $PLANET['galaxy'] . ":" . $PLANET['system'] . ":" . ($isFleetTrade ? $marketplace : $PLANET['planet']),
@@ -560,11 +560,11 @@ class MarketPurchase
             $fleetResult['resource_deuterium'],
             $LNG_SALESMEN['tech'][RESOURCE_DEUT],
         );
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $fleetResult['owner'],
             0,
             $LNG_SALESMEN['market_msg_trade_from'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG_SALESMEN['market_msg_trade_topic'],
             $Message,
             $this->state->runtime->timestamp,

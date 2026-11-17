@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Integration;
 
 use App\Game\Core\BuildFunctions;
-use App\Game\Core\PlayerUtil;
+use App\Game\Core\Player\ProtectionRules;
 use App\Tests\Support\GameTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -364,8 +364,8 @@ final class BuildFunctionsTest extends GameTestCase
         }
         $this->db->insert('INSERT INTO %%RECORDS%% (userID, elementID, level, universe) VALUES (:u, 1, 20, 1), (:u, 106, 12, 1);', [':u' => $leader['id']]);
 
-        $players = new PlayerUtil($this->db, $this->configs, $this->state);
-        $this->goldenAssert('catch-up factor', $players->getCatchUpFactor($user));
+        $players = new ProtectionRules($this->db, $this->configs, $this->state);
+        $this->goldenAssert('catch-up factor', $players->catchUpFactorFor((new \App\Game\Model\ModelFactory($this->state))->user($user)));
         $this->goldenAssert('catch-up price mine 5 (record 20)', $this->build->getElementPrice($user, $planet, 1, false, 5));
         $this->goldenAssert('catch-up price mine 19 (one below record)', $this->build->getElementPrice($user, $planet, 1, false, 19));
         $this->goldenAssert('catch-up price mine 20 (at record)', $this->build->getElementPrice($user, $planet, 1, false, 20));

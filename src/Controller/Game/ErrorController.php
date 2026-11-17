@@ -18,11 +18,10 @@
 namespace App\Controller\Game;
 
 /**
- * Error page of the game area: shows a message inside the game layout and ends the request.
+ * Error page of the game area: shows a message inside the game layout (no route of its own: built with `new` by the entry fallbacks).
  */
-#[\App\Routing\GamePage('game', 'error')]
 class ErrorController extends AbstractGameController
 {
-    use \App\Controller\Shared\ErrorPage;
+    use \App\Controller\Shared\ErrorResponsePage;
     protected $disableEcoSystem = true;
 }

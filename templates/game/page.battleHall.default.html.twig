@@ -8,7 +8,7 @@
     <p class="bh__lead">{{ LNG.tkb_gratz }}</p>
   </header>
 
-  <form class="bh__filters" name="stats" id="stats" method="post" action="">
+  <form class="bh__filters" name="stats" id="stats" method="get" action="{{ path('game_battle_hall_show') }}">
     <label class="bh__filter">{{ LNG.tkb_memorial }}<select name="memorial" id="memorial" data-on-change="submit-form">{{ forms.html_options({'options': Selectors.memorial, 'selected': memorial}) }}</select></label>
     <label class="bh__filter">{{ LNG.tkb_timeframe }}<select name="timeframe" id="timeframe" data-on-change="submit-form">{{ forms.html_options({'options': Selectors.timeframe, 'selected': timeframe}) }}</select></label>
     <label class="bh__filter">{{ LNG.tkb_diplomacy }}<select name="diplomacy" id="diplomacy" data-on-change="submit-form">{{ forms.html_options({'options': Selectors.diplomacy, 'selected': diplomacy}) }}</select></label>
@@ -33,7 +33,7 @@
         <tr>
           <td class="bh__rank"><span class="bh__place{% if loop.index <= 3 %} bh__place--{{ loop.index }}{% endif %}">{{ loop.index }}</span></td>
           <td>
-            <a class="bh__battle" href="game?page=raport&amp;raport={{ row.rid }}" target="_blank" rel="noopener">
+            <a class="bh__battle" href="{{ path('game_raport_show', {raport: row.rid}) }}" target="_blank" rel="noopener">
               <span class="{{ attackerClass }}">{{ row.attacker }}</span>
               {{ icon('swords', null, 'bh__vs') }}
               <span class="{{ defenderClass }}">{{ row.defender }}</span>

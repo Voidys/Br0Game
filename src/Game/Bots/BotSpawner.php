@@ -207,7 +207,7 @@ class BotSpawner
         );
 
         try {
-            [$userId, $planetId] = $this->playerUtil()->createPlayer(
+            [$userId, $planetId] = $this->playerRegistration()->createPlayer(
                 $accountId,
                 $universe,
                 $name,
@@ -241,7 +241,7 @@ class BotSpawner
             'account_id',
         );
 
-        $this->playerUtil()->deletePlayer($userId);
+        $this->playerDeletion()->deletePlayer($userId);
 
         if ($accountId > 0) {
             $others = (int) $db->selectSingle(

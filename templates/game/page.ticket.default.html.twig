@@ -6,7 +6,7 @@
 		<th colspan="5">{{ LNG.ti_header }}</th>
 	</tr>
 	<tr>
-		<td colspan="5"><a href="game?page=ticket&amp;mode=create">{{ LNG.ti_new }}</a></td>
+		<td colspan="5"><a href="{{ path('game_ticket_create') }}">{{ LNG.ti_new }}</a></td>
 	</tr>
 	<tr>
 		<th class="num">{{ LNG.ti_id }}</th>
@@ -17,8 +17,8 @@
 	</tr>
 	{% for TicketID, TicketInfo in ticketList %}	
 	<tr>
-		<td class="num"><a href="game?page=ticket&amp;mode=view&amp;id={{ TicketID }}">#{{ TicketID }}</a></td>
-		<td><a href="game?page=ticket&amp;mode=view&amp;id={{ TicketID }}">{{ TicketInfo.subject }}</a></td>
+		<td class="num"><a href="{{ path('game_ticket_view', {id: TicketID}) }}">#{{ TicketID }}</a></td>
+		<td><a href="{{ path('game_ticket_view', {id: TicketID}) }}">{{ TicketInfo.subject }}</a></td>
 		<td class="num">{{ TicketInfo.answer - 1 }}</td>
 		<td>{{ TicketInfo.time }}</td>
 		<td class="ctr">{% if TicketInfo.status == 0 %}<span class="color-green">{{ LNG.ti_status_open }}</span>{% elseif TicketInfo.status == 1 %}<span class="color-orange">{{ LNG.ti_status_answer }}</span>{% else %}<span class="colorNegative">{{ LNG.ti_status_closed }}</span>{% endif %}</td>

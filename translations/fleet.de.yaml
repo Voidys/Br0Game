@@ -430,7 +430,7 @@ sys_mess_spy_ennemyfleet_1: >-
 sys_mess_spy_ennemyfleet_3: >-
   Feindliche Spionagesonden vom Mond %s wurden in der Nähe von %s gesichtet.
 sys_mess_spy_link: >-
-  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: Die Chance, dass deine Sonden entdeckt werden, lag bei %d%%.
 sys_mess_spy_qg: Spionageabteilung
@@ -471,7 +471,7 @@ sys_stat_mess: >-
 sys_stat_mess_stay: Stationierte Flotte
 sys_stealed_ressources: Der Angreifer erbeutet
 sys_trade_mess_arr_success: >-
-  Eine deiner Handelsflotten ist bereit zur Rückkehr zum Planeten %1$s %2$s (Rückflug: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback"
+  Eine deiner Handelsflotten ist bereit zur Rückkehr zum Planeten %1$s %2$s (Rückflug: %5$s). <form action="game/fleet/recall"
   method="post"><input name="fleetID" value="%3$s" type="hidden"><input
   value="%4$s" type="submit"></form>
 sys_trade_mess_back: Eine deiner Handelsflotten kehrte erfolglos zum Planeten %s %s zurück.

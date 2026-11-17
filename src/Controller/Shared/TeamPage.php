@@ -10,10 +10,8 @@ trait TeamPage
     /** Lists the members from TEAM_MEMBERS (edited in the admin team page). */
     public function show(): Response
     {
-        $this->assign([
+        return $this->render(static::templateArea() . '/page.team.default.html.twig', [
             'members' => $this->db->select('SELECT name, position, description, contact FROM %%TEAM_MEMBERS%% ORDER BY sort ASC, id ASC;'),
         ]);
-
-        return $this->render(static::templateArea() . '/page.team.default.html.twig');
     }
 }

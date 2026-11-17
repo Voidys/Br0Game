@@ -2,9 +2,7 @@
 
 namespace App\Game\Missions;
 
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
+use App\Game\Enum\MessageType;
 
 /**
  * Mission "transfer" (17): gives ships and cargo to another player's planet. Everything is handed over (the
@@ -85,11 +83,11 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $Message   	.= '<br>' . $LNG['tech'][$elementID] . ': ' . $this->viewHelpers()->prettyNumber($amount);
         }
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_TRANSPORT,
+            MessageType::Transport->value,
             $LNG['sys_mess_transport'],
             $Message,
             $this->_fleet['arrival_time'],
@@ -126,11 +124,11 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $Message   	.= '<br>' . $LNG['tech'][$elementID] . ': ' . $this->viewHelpers()->prettyNumber($amount);
         }
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['target_owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_TRANSPORT,
+            MessageType::Transport->value,
             $LNG['sys_mess_transport'],
             $Message,
             $this->_fleet['arrival_time'],
@@ -181,11 +179,11 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $stationShips,
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['return_time'],

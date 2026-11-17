@@ -35,13 +35,13 @@ security:
                 path: app_logout
                 target: /
 
-    # Game, account and admin area need a login; a battle report link (game?page=raport&raport=…)
-    # and the board (account?page=board, read only for guests, BoardController guards the writes)
+    # Game, account and admin area need a login; a battle report link (report/<id>, outside /game)
+    # and the board (account/board, read only for guests, BoardController guards the writes)
     # stay public. The admin area additionally asks for the admin password (game session flag).
     access_control:
-        - { path: '^/(uni\d+/)?account$', allow_if: "is_authenticated() or request.query.get('page') == 'board'" }
-        - { path: '^/(uni\d+/)?admin$', roles: IS_AUTHENTICATED }
-        - { path: '^/(uni\d+/)?game$', allow_if: "is_authenticated() or (request.query.get('page') == 'raport' and request.query.has('raport') and request.query.count() == 2)" }
+        - { path: '^/(uni\d+/)?account(/|$)', allow_if: "is_authenticated() or request.attributes.get('_route') in ['account_board_show', 'account_board_post']" }
+        - { path: '^/(uni\d+/)?admin(/|$)', roles: IS_AUTHENTICATED }
+        - { path: '^/(uni\d+/)?game(/|$)', roles: IS_AUTHENTICATED }
 
 when@test:
     security:

@@ -157,7 +157,9 @@ Afterwards:
   optional fleet driver every few seconds: `while true; do php bin/console app:fleets:run --quiet; sleep 5; done` (systemd/supervisor, see step 7)
 * **HTTPS:** e.g. `certbot --nginx`.
 
-OPcache preloading saves a few milliseconds per request, see [PERFORMANCE.md](PERFORMANCE.md).
+Production OPcache settings (`opcache.validate_timestamps=0` with a PHP-FPM reload on every deploy, preloading, authoritative
+class map) save about 20 % per request, see [PERFORMANCE.md](PERFORMANCE.md#production-tuning-measured-tuned-column-above).
+After a deploy or after editing the config tables by hand, clear `var/game/` (admin "clear cache") so the cached configuration is read again.
 
 ---
 

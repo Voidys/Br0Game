@@ -4,10 +4,6 @@ namespace App\Game\BattleEngine;
 
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
-use App\Game\Core\Config;
-use App\Game\Core\Singleton;
-use App\Game\Missions\MissionFunctions;
-use App\Game\Core\FleetFunctions;
 
 /**
  * PHP battle engine (the OGame-style per-ship simulation, fallback when the Rust engine is unavailable).
@@ -505,7 +501,12 @@ class BattleEngineSteemNova extends AbstractBattleEngine
             || $lostValue / $planetFleet['currentTotalFleetState']['totalUnits'] < ($config->wreckfield_min_percent / 100));
     }
 
-    /** Fleet data without the per-ship arrays (only needed while fighting, never read from the report rounds). */
+    /**
+     * Fleet data without the per-ship arrays (only needed while fighting, never read from the report rounds).
+     *
+     * @param array<mixed> $fleets
+     * @return array<mixed>
+     */
     private function withoutUnits(array $fleets): array
     {
         foreach ($fleets as $fleetID => $fleet) {
@@ -515,7 +516,12 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         return $fleets;
     }
 
-    /** Converts the result of a fight on scaled fleets back to the real amounts. */
+    /**
+     * Converts the result of a fight on scaled fleets back to the real amounts.
+     *
+     * @param array<mixed> $realUnits
+     * @param array<mixed> $scaledUnits
+     */
     private function scaleBack(&$attackers, &$defenders, &$ROUND, &$advancedStats, array $realUnits, array $scaledUnits, int $scale)
     {
         $factor = static function ($real, $scaled) {
@@ -567,7 +573,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
     /**
      * One round: all attackers shoot, then all defenders shoot (damage is applied immediately on the victim, but
      * destruction is only settled afterwards by destroy()).
-     * @param array $advancedStats by-ref kill counter [shooterUserId][victimUserId][unitId] => ships destroyed.
+     * @param array<mixed> $advancedStats by-ref kill counter [shooterUserId][victimUserId][unitId] => ships destroyed.
      * @return array|\Ds\Map|false per-side damage dealt and shield damage absorbed (keys attack, defense,
      * attackShield, defShield), or false when the memory guard trips.
      */
@@ -651,7 +657,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
      * value N the shooter fires again with probability (N-1)/N (recursive).
      * Side effects: updates damage totals in $ad and kill statistics in $advancedStats.
      * @param int $attacker user id of the shooter (0 = pirates / expedition NPC).
-     * @param array $unit shooter ship entry (unit id, att, ...).
+     * @param array<mixed> $unit shooter ship entry (unit id, att, ...).
      */
     private function shoot($attacker, $unit, &$defenders, &$ad, $sim, &$advancedStats)
     {

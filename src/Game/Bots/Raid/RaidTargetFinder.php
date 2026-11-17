@@ -2,6 +2,8 @@
 
 namespace App\Game\Bots\Raid;
 
+use App\Game\Enum\AuthLevel;
+use App\Game\Enum\Mission;
 use App\Game\Bots\BotActions;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
@@ -12,7 +14,7 @@ use App\Game\Core\Singleton;
  * Scouting: what a player sees when he browses the galaxy view around his planets, and the choice of whom to look at closer.
  *
  * A bot sees what the galaxy page shows: owner name, points, alliance, the activity marker (planet or moon updated within 15
- * minutes, minutes up to an hour, nothing later), the status classes of PlayerUtil::userStatus() (vacation, banned,
+ * minutes, minutes up to an hour, nothing later), the status classes of ProtectionRules::userStatus() (vacation, banned,
  * inactive 7 days / long inactive 28 days, noob / strong protection) and the diplomacy and buddy marks relative to the bot.
  * Not visible to a player, so not used here: exact last online time, resources, fleet, research.
  *
@@ -101,7 +103,7 @@ class RaidTargetFinder
             'SELECT target_owner, COUNT(*) AS c FROM %%LOG_FLEETS%%
             WHERE owner = :bot AND mission IN (:att, :acs, :dest) AND arrival_time > :since AND hasCanceled = 0
             GROUP BY target_owner;',
-            [':bot' => $botId, ':att' => MISSION_ATTACK, ':acs' => MISSION_ACS, ':dest' => MISSION_DESTRUCTION, ':since' => $this->state->runtime->timestamp - BASH_TIME],
+            [':bot' => $botId, ':att' => Mission::Attack->value, ':acs' => Mission::Acs->value, ':dest' => Mission::Destruction->value, ':since' => $this->state->runtime->timestamp - BASH_TIME],
         );
         foreach ($rows as $row) {
             $out[(int) $row['target_owner']] = (int) $row['c'];
@@ -171,7 +173,7 @@ class RaidTargetFinder
         $now = $this->state->runtime->timestamp;
         $me = $ctx->user;
         $reason = match (true) {
-            (int) $row['authlevel'] > 0 => 'staff',
+            (int) $row['authlevel'] > AuthLevel::User->value => 'staff',
             (int) $row['urlaubs_modus'] === 1 => 'vacation',
             (int) $row['banaday'] > $now => 'banned',
             (int) $me['ally_id'] > 0 && (int) $row['ally_id'] === (int) $me['ally_id'] => 'own alliance',
@@ -185,7 +187,7 @@ class RaidTargetFinder
             return $reason;
         }
 
-        $noob = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($me), $this->models()->user($row));
+        $noob = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($me), $this->models()->user($row));
         if ($noob['NoobPlayer']) {
             return 'noob protection';
         }
@@ -207,7 +209,7 @@ class RaidTargetFinder
     {
         $now = $this->state->runtime->timestamp;
         $minutes = (int) floor(($now - max((int) $row['p_last_update'], (int) $row['m_last_update'])) / 60);
-        $status = $this->playerUtil()->userStatus($row);
+        $status = $this->protectionRules()->userStatus($row);
         $distance = $this->systemDistance($ctx, $row);
         $myPoints = max(1.0, (float) ($ctx->user['total_points'] ?? 1));
         $points = (float) ($row['total_points'] ?? 0);
@@ -240,7 +242,11 @@ class RaidTargetFinder
         ];
     }
 
-    /** Systems between the target and the nearest own planet in its galaxy (a planet of another galaxy counts as 1000). */
+    /**
+     * Systems between the target and the nearest own planet in its galaxy (a planet of another galaxy counts as 1000).
+     *
+     * @param array<string, mixed> $row
+     */
     private function systemDistance(BotActions $ctx, array $row): int
     {
         $best = 1000;

@@ -52,7 +52,7 @@ final class LocaleSubscriber implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event): void
     {
         // The legacy entry scripts pick their language themselves.
-        if (!$event->isMainRequest() || str_starts_with((string) $event->getRequest()->attributes->get('_route'), 'game_')) {
+        if (!$event->isMainRequest() || $event->getRequest()->attributes->has('_area')) {
             return;
         }
 

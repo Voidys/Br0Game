@@ -2,6 +2,7 @@
 
 namespace App\Game\Fleet;
 
+use App\Game\Enum\Mission;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use Exception;
@@ -29,17 +30,17 @@ trait FleetDispatchMissionRules
         $this->availableMissions = $this->fleetFunctions()->getFleetMissions($this->state->USER, $MisInfo, $this->targetPlanetData);
 
         if (!in_array($this->targetMission, $this->availableMissions['MissionSelector'])) {
-            $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetStep2');
+            $this->refuse($LNG['fl_invalid_mission'], 'game_fleet_step2_show');
         }
 
-        if ($this->targetMission != MISSION_RECYCLING && IsVacationMode($this->targetPlayerData)) {
-            $this->refuse($LNG['fl_target_exists'], 'game?page=fleetStep1');
+        if ($this->targetMission != Mission::Recycling->value && IsVacationMode($this->targetPlayerData)) {
+            $this->refuse($LNG['fl_target_exists'], 'game_fleet_step1_show');
         }
 
-        if ($this->targetMission == MISSION_ATTACK || $this->targetMission == MISSION_ACS || $this->targetMission == MISSION_DESTRUCTION) {
+        if ($this->targetMission == Mission::Attack->value || $this->targetMission == Mission::Acs->value || $this->targetMission == Mission::Destruction->value) {
             if (count($this->fleetArray) != 1 || !array_key_exists(210, $this->fleetArray)) {
                 if ($this->fleetFunctions()->checkBash($this->targetPlanetData['id'], $this->fleetGroup)) {
-                    $this->refuse($LNG['fl_bash_protection'], 'game?page=fleetTable');
+                    $this->refuse($LNG['fl_bash_protection'], 'game_fleet_table_show');
                 }
             }
         }
@@ -52,7 +53,7 @@ trait FleetDispatchMissionRules
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        if ($this->targetMission == MISSION_HOLD || $this->targetMission == MISSION_TRANSFER) {
+        if ($this->targetMission == Mission::Hold->value || $this->targetMission == Mission::Transfer->value) {
             if ($this->targetPlayerData['ally_id'] != $this->state->USER['ally_id'] || $this->state->USER['ally_id'] == 0) {
                 $sql = "SELECT COUNT(*) as state FROM %%BUDDY%%
                     WHERE `id` NOT IN (SELECT `id` FROM %%BUDDY_REQUEST%% WHERE %%BUDDY_REQUEST%%.`id` = %%BUDDY%%.`id`) 
@@ -63,18 +64,18 @@ trait FleetDispatchMissionRules
                 ], 'state');
 
                 if ($buddy == 0) {
-                    $this->refuse($LNG['fl_no_same_alliance'], 'game?page=fleetTable');
+                    $this->refuse($LNG['fl_no_same_alliance'], 'game_fleet_table_show');
                 }
             }
         }
 
-        if ($this->targetMission == MISSION_HOLD) {
+        if ($this->targetMission == Mission::Hold->value) {
             $sql = "SELECT COUNT(id) AS anz
                 FROM %%FLEETS%%
                 WHERE `end_id` = :planetID AND `mission` = :mission AND `status` IN (:stateOutward, :stateHold);";
             $fleetCount = $db->selectSingle($sql, [
                 ':planetID' => $this->targetPlanetData['id'],
-                ':mission'  => MISSION_HOLD,
+                ':mission'  => Mission::Hold->value,
                 ':stateOutward' => FLEET_OUTWARD,
                 ':stateHold' => FLEET_HOLD,
             ], "anz");
@@ -84,16 +85,16 @@ trait FleetDispatchMissionRules
                   AND `owner` != :userID;";
             $playerCount = $db->selectSingle($sql, [
                 ':planetID' => $this->targetPlanetData['id'],
-                ':mission'  => MISSION_HOLD,
+                ':mission'  => Mission::Hold->value,
                 ':stateOutward' => FLEET_OUTWARD,
                 ':stateHold' => FLEET_HOLD,
                 ':userID' => $this->state->USER['id'],
             ], "anz");
 
             if (($fleetCount + 1) >= $this->config->max_fleets_per_acs) {
-                $this->refuse($LNG['fl_hold_max_fleets'], 'game?page=fleetTable');
+                $this->refuse($LNG['fl_hold_max_fleets'], 'game_fleet_table_show');
             } elseif (($playerCount + 1) >= $this->config->max_participants_per_acs) {
-                $this->refuse($LNG['fl_hold_max_user'], 'game?page=fleetTable');
+                $this->refuse($LNG['fl_hold_max_user'], 'game_fleet_table_show');
             }
         }
     }
@@ -110,7 +111,7 @@ trait FleetDispatchMissionRules
         $limit = (float) $config->transport_push_limit;
         if (
             !$config->transport_push_check || $limit <= 0
-            || !in_array($this->targetMission, [MISSION_TRANSPORT, MISSION_HOLD, MISSION_TRANSFER])
+            || !in_array($this->targetMission, [Mission::Transport->value, Mission::Hold->value, Mission::Transfer->value])
             || ($this->targetPlayerData['id'] ?? 0) == $this->state->USER['id']
         ) {
             return;
@@ -122,14 +123,14 @@ trait FleetDispatchMissionRules
             902 => $this->fleetResource[902],
             903 => $this->fleetResource[903],
         ]);
-        if ($this->targetMission == MISSION_TRANSFER) {
+        if ($this->targetMission == Mission::Transfer->value) {
             $balance += $market->getFleetValue($this->fleetArray);
         }
         $senderId = (int) $this->state->USER['id'];
         $targetId = (int) $this->targetPlayerData['id'];
         $balance += $this->pushValue($market, $senderId, $targetId) - $this->pushValue($market, $targetId, $senderId);
         if ($balance > $limit) {
-            $this->refuse($this->state->LNG['fl_push_guard'], 'game?page=fleetTable');
+            $this->refuse($this->state->LNG['fl_push_guard'], 'game_fleet_table_show');
         }
     }
 
@@ -143,9 +144,9 @@ trait FleetDispatchMissionRules
             [
                 ':from' => $from,
                 ':to' => $to,
-                ':transport' => MISSION_TRANSPORT,
-                ':hold' => MISSION_HOLD,
-                ':transfer' => MISSION_TRANSFER,
+                ':transport' => Mission::Transport->value,
+                ':hold' => Mission::Hold->value,
+                ':transfer' => Mission::Transfer->value,
                 ':since' => $this->state->runtime->timestamp - 7 * ONE_DAY,
             ],
         );
@@ -156,7 +157,7 @@ trait FleetDispatchMissionRules
                 902 => (float) $row['resource_crystal'],
                 903 => (float) $row['resource_deuterium'],
             ]);
-            if ((int) $row['mission'] === MISSION_TRANSFER) {
+            if ((int) $row['mission'] === Mission::Transfer->value) {
                 $value += $market->getFleetValue((new \App\Game\Core\FleetString())->unserialize((string) $row['ships']));
             }
         }
@@ -171,11 +172,11 @@ trait FleetDispatchMissionRules
         $db = $this->db;
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
         if (
-            $this->targetMission == MISSION_ATTACK || $this->targetMission == MISSION_ACS || $this->targetMission == MISSION_HOLD || $this->targetMission == MISSION_SPY
-            || $this->targetMission == MISSION_DESTRUCTION
+            $this->targetMission == Mission::Attack->value || $this->targetMission == Mission::Acs->value || $this->targetMission == Mission::Hold->value || $this->targetMission == Mission::Spy->value
+            || $this->targetMission == Mission::Destruction->value
         ) {
             if ($this->configs->get()->adm_attack == 1 && $this->targetPlayerData['authattack'] > $this->state->USER['authlevel']) {
-                $this->refuse($LNG['fl_admin_attack'], 'game?page=fleetTable');
+                $this->refuse($LNG['fl_admin_attack'], 'game_fleet_table_show');
             }
 
             $sql = 'SELECT `total_points`
@@ -190,10 +191,10 @@ trait FleetDispatchMissionRules
             } catch (Exception $exception) {
             }
 
-            $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($this->targetPlayerData));
+            $IsNoobProtec = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($this->targetPlayerData));
 
             if ($IsNoobProtec['NoobPlayer']) {
-                $this->refuse($LNG['fl_player_is_noob'], 'game?page=fleetTable');
+                $this->refuse($LNG['fl_player_is_noob'], 'game_fleet_table_show');
             }
 
             if ($IsNoobProtec['StrongPlayer']) {
@@ -204,7 +205,7 @@ trait FleetDispatchMissionRules
                     ]);
                     $statsHandler->increment($this->state->USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
                 } else {
-                    $this->refuse($LNG['fl_player_is_strong'], 'game?page=fleetTable');
+                    $this->refuse($LNG['fl_player_is_strong'], 'game_fleet_table_show');
                 }
             }
         }

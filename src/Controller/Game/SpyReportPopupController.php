@@ -2,20 +2,15 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
+use App\Game\Enum\PlanetType;
+use App\Game\Enum\MessageType;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
 use App\Game\Core\MarketManager;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
-use App\Game\Core\SpyReport;
-use App\Game\Core\Universe;
 
 /**
  * Popup with the latest spy reports of a coordinate (opened from the galaxy view).
  */
-#[\App\Routing\GamePage('game', 'spyReportPopup')]
 #[\App\Controller\RequireModule('MODULE_MESSAGES')]
 class SpyReportPopupController extends AbstractGameController
 {
@@ -25,16 +20,17 @@ class SpyReportPopupController extends AbstractGameController
      * Popup with up to the 10 latest spy reports of the coordinates (request: galaxy, system, planet, planettype) from the player's own, not deleted
      * messages of the spy-report category.
      */
+    #[GameRoute('game', 'game/spy-reports', 'spyReportPopup')]
     public function show(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         $this->setWindow('popup');
 
-        $galaxy = $this->http()->_GP('galaxy', 0);
-        $system = $this->http()->_GP('system', 0);
-        $planet = $this->http()->_GP('planet', 0);
-        $planetType = $this->http()->_GP('planettype', 1);
+        $galaxy = $this->input()->int('galaxy');
+        $system = $this->input()->int('system');
+        $planet = $this->input()->int('planet');
+        $planetType = $this->input()->int('planettype', 1);
 
         $spyReports = $this->latestSpyReports($galaxy, $system, $planet, $planetType);
 
@@ -44,7 +40,7 @@ class SpyReportPopupController extends AbstractGameController
         $uniType = $config->uni_type;
         $maxGalaxy = $config->max_galaxy;
 
-        $stbSettings2 = $this->playerUtil()->player_stb_settings($USER);
+        $stbSettings2 = $this->playerLookup()->player_stb_settings($USER);
 
         $combustion_tech = $USER["combustion_tech"];
         $impulse_motor_tech = $USER["impulse_motor_tech"];
@@ -53,12 +49,12 @@ class SpyReportPopupController extends AbstractGameController
         $refrates = $pMarket->getReferenceRatios();
 
         $PlanetSelect = [];
-        foreach ($this->playerUtil()->getPlanets($USER) as $PlanetQuery) {
-            $PlanetSelect[$PlanetQuery['id']] = $PlanetQuery['name'] . (($PlanetQuery['planet_type'] == 3) ? " (" . $LNG['fcm_moon'] . ")" : "") . " [" . $PlanetQuery['galaxy'] . ":" . $PlanetQuery['system'] . ":" . $PlanetQuery['planet'] . "]";
+        foreach ($this->planetQueries()->getPlanets($USER) as $PlanetQuery) {
+            $PlanetSelect[$PlanetQuery['id']] = $PlanetQuery['name'] . (($PlanetQuery['planet_type'] == PlanetType::Moon->value) ? " (" . $LNG['fcm_moon'] . ")" : "") . " [" . $PlanetQuery['galaxy'] . ":" . $PlanetQuery['system'] . ":" . $PlanetQuery['planet'] . "]";
         }
 
         $this->addScript('message.js');
-        $this->assign([
+        $context = [
             'spyReports'            => $spyReports,
             'galaxy'                => $galaxy,
             'system'                => $system,
@@ -80,9 +76,9 @@ class SpyReportPopupController extends AbstractGameController
             'uniType'               => $uniType,
             'maxGalaxy'             => $maxGalaxy,
             'PlanetSelect'          => $PlanetSelect,
-        ]);
+        ];
 
-        return $this->render('game/page.spyReportPopup.default.html.twig');
+        return $this->render('game/page.spyReportPopup.default.html.twig', $context);
     }
 
     /**
@@ -91,7 +87,7 @@ class SpyReportPopupController extends AbstractGameController
      *
      * @return list<array{html: mixed, date: string}>
      */
-    private function latestSpyReports(mixed $galaxy, mixed $system, mixed $planet, mixed $planetType): array
+    private function latestSpyReports(int $galaxy, int $system, int $planet, int $planetType): array
     {
         $USER = $this->state->USER;
 
@@ -111,7 +107,7 @@ class SpyReportPopupController extends AbstractGameController
             LIMIT 10;";
 
         $rows = $this->db->select($sql, [
-            ':messageType' => MESSAGE_TYPE_SPY_REPORT,
+            ':messageType' => MessageType::SpyReport->value,
             ':userId'      => $USER['id'],
             ':galaxy'      => $galaxy,
             ':system'      => $system,

@@ -19,20 +19,20 @@
 					<div class="buildn relative">
 						<a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.tech[ID] }}</a>{% if Element.level != 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
 						{% if ID == watch %}
-							<a href="?page=research&watch=0">
+							<a href="{{ path('game_research_show', {watch: 0}) }}">
 								<img class="watchlist-fav-button" src="./styles/theme/nova/img/fav.webp" alt="Unwatch">
 							</a>
 						{% else %}
-							<a href="?page=research&watch={{ ID }}">
+							<a href="{{ path('game_research_show', {watch: ID}) }}">
 								<img class="watchlist-fav-button" src="./styles/theme/nova/img/nofav.webp" alt="Watch">
 							</a>
 						{% endif %}
 					</div>
 					<div class="buildl">
 						<a href="#" data-action="dialog-info" data-id="{{ ID }}">
-							<img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" width="120" height="120">
+							<img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" width="120" height="120" loading="lazy" decoding="async">
 						</a>
-						{% if not empty(Element.requirements) %}
+						{% if Element.requirements %}
 							{{ LNG.tt_requirements }}: </br>
 							{% for requireID, NeedLevel in Element.requirements %}
 								<a href="#" data-action="dialog-info" data-id="{{ requireID }}">
@@ -44,7 +44,7 @@
 						{% else %}
 							{{ LNG.bd_remaining }}:<br>
 							{% for ResType, ResCount in Element.costOverflow %}
-								<a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: ResType})|e('html_attr') }}">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
+								<a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' {{ tooltip(include('game/tooltip.element.html.twig', {id: ResType})) }}>{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
 							{% endfor %}
 							{% if Element.timetobuild!= 0 %}<div>{{ LNG['whenbuildable'] }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></div>{% endif %}
 						{% endif %}
@@ -53,17 +53,17 @@
 					<div class="buildl">
 						<span>
 							{% for RessID, RessAmount in Element.costResources %}
-								<a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: RessID})|e('html_attr') }}">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
+								<a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' {{ tooltip(include('game/tooltip.element.html.twig', {id: RessID})) }}>{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
 							{% endfor %}
 							
-							{% if Element.factor != null and empty(Element.requirements) and Element.buyable %}
+							{% if Element.factor != null and not Element.requirements and Element.buyable %}
 								<span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}"><br>{{ LNG.format('sys_catchup_short', Element.factor) }} %</span>
 							{% endif %}
 						</span>
 						<br><br>
 						{% if vacation %}
 							<span class="colorNeutral">{{ LNG.op_options_vacation_activated }}</span>
-						{% elseif not empty(Element.requirements) %}
+						{% elseif Element.requirements %}
 							<span class="colorNeutral">{{ LNG.bd_requirements }}</span>
 						{% elseif Element.maxLevel == Element.levelToBuild %}
 							<span class="colorNeutral">{{ LNG.bd_maxlevel }}</span>
@@ -74,7 +74,7 @@
 						{% elseif not Element.buyable %}
 							<span class="colorNeutral">{{ LNG.bd_remaining }}</span>
 						{% else %}
-							<form action="game?page=research" method="post" class="build_form">
+							<form action="{{ path('game_research_command') }}" method="post" class="build_form">
 								<input type="hidden" name="cmd" value="insert">
 								<input type="hidden" name="tech" value="{{ ID }}">
 								<button type="submit" class="colorPositive build_submit">{% if Element.level == 0 and Element.levelToBuild == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
@@ -88,9 +88,10 @@
 			{% endif %}
 		{% endfor %}
 	</div>
+  {{ tooltip_templates() }}
 {% endblock %}
 {% block script %}{{ parent() }}
-	{% if not empty(Queue) %}
+	{% if Queue %}
 		<script type="module" src="./scripts/game/research.js"></script>
 	{% endif %}
 {% endblock %}

@@ -39,6 +39,7 @@ class BuildFunctions
         protected \App\Game\Core\Singleton $state,
     ) {}
 
+    /** @var array<mixed> */
     public static array $bonusList = [
         'Attack',
         'Defensive',
@@ -60,6 +61,9 @@ class BuildFunctions
         'MoreFound',
     ];
 
+    /**
+     * @return array<mixed>
+     */
     public function getBonusList(): array
     {
         return self::$bonusList;
@@ -130,7 +134,7 @@ class BuildFunctions
     {
         $elements = $this->elements();
 
-        $catchUpFactor = $this->playerUtil()->catchUpFactorFor($user);
+        $catchUpFactor = $this->protectionRules()->catchUpFactorFor($user);
         $isHangarUnit = $elements->isHangarUnit($element);
         if ($isHangarUnit) {
             $elementLevel = $forLevel ?? 0;
@@ -144,7 +148,7 @@ class BuildFunctions
         } else {
             return [];
         }
-        $catchUpFactor = $this->playerUtil()->getCatchUpFactorForElement($catchUpFactor, $element, $elementLevel);
+        $catchUpFactor = $this->protectionRules()->getCatchUpFactorForElement($catchUpFactor, $element, $elementLevel);
 
         $price = [];
         if (!$elements->has($element)) {
@@ -531,7 +535,7 @@ class BuildFunctions
      */
     public function queueFieldProjectionFor(Planet $planet, array $queue): FieldProjection
     {
-        $planets = $this->playerUtil();
+        $planets = $this->planetQueries();
         $current = $planet->fieldsCurrent;
         $levels = [TERRAFORMER => $planet->count(TERRAFORMER), MOONBASE => $planet->count(MOONBASE)];
         $valid = true;
@@ -576,6 +580,9 @@ class BuildFunctions
      * need a free field of their own at the point they are built.
      *
      * Array adapter of canQueueOnFieldsFor().
+     *
+     * @param array<string, mixed> $PLANET
+     * @param array<mixed> $queue
      */
     public function canQueueBuildingOnFields(array $PLANET, array $queue, bool $addMode = true): bool
     {

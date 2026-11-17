@@ -7,6 +7,8 @@ namespace App\Tests\Integration;
 use App\Game\Core\FleetFunctions;
 use App\Game\Missions\MissionCasePiratebaseSpy;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
+use App\Game\Enum\MessageType;
 
 /**
  * Runs the pirate base espionage mission and pins the report it sends (JSON without the volatile roll and times)
@@ -38,7 +40,7 @@ final class PirateBaseSpyMissionTest extends GameTestCase
         $this->state->PLANET = $senderPlanet;
         $id = (new FleetFunctions($this->db, $this->configs, $this->state))->sendFleet(
             [210 => $probes],
-            MISSION_PIRATEBASE_SPY,
+            Mission::PiratebaseSpy->value,
             (int) $sender['id'],
             (int) $senderPlanet['id'],
             (int) $senderPlanet['galaxy'],
@@ -66,10 +68,13 @@ final class PirateBaseSpyMissionTest extends GameTestCase
         return [$sender, $baseId];
     }
 
-    /** @return array<string, mixed> the report of the sender without the volatile parts */
+    /**
+     * @param array<mixed> $sender
+     * @return array<string, mixed> the report of the sender without the volatile parts
+     */
     private function report(array $sender): array
     {
-        $text = (string) $this->db->selectSingle('SELECT m.message_text FROM %%MESSAGES%% m WHERE m.message_owner = :id AND m.message_type = :type ORDER BY m.message_id DESC LIMIT 1;', [':id' => $sender['id'], ':type' => MESSAGE_TYPE_SPY_REPORT], 'message_text');
+        $text = (string) $this->db->selectSingle('SELECT m.message_text FROM %%MESSAGES%% m WHERE m.message_owner = :id AND m.message_type = :type ORDER BY m.message_id DESC LIMIT 1;', [':id' => $sender['id'], ':type' => MessageType::SpyReport->value], 'message_text');
         $data = json_decode($text, true);
         unset($data['spyChance'], $data['time'], $data['targetPlanet']);
 
@@ -99,6 +104,6 @@ final class PirateBaseSpyMissionTest extends GameTestCase
         [$sender] = $this->spy(10, '202,5', false);
 
         $this->assertEquals(FLEET_RETURN, $this->db->selectSingle('SELECT status FROM %%FLEETS%% WHERE id = :id;', [':id' => $this->fleetId], 'status'));
-        $this->assertSame(0, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%MESSAGES%% WHERE message_owner = :id AND message_type = :t;', [':id' => $sender['id'], ':t' => MESSAGE_TYPE_SPY_REPORT], 'c'), 'no spy report, only the "base gone" notice');
+        $this->assertSame(0, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%MESSAGES%% WHERE message_owner = :id AND message_type = :t;', [':id' => $sender['id'], ':t' => MessageType::SpyReport->value], 'c'), 'no spy report, only the "base gone" notice');
     }
 }

@@ -8,6 +8,8 @@ use App\Game\Core\FleetFunctions;
 use App\Game\Missions\MissionCaseAttack;
 use App\Game\Missions\MissionCaseDestruction;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
+use App\Game\Enum\MessageType;
 
 /**
  * Runs the attack and the moon destruction mission end to end on the test database with fights that need no luck (an
@@ -34,7 +36,7 @@ final class BattleMissionTest extends GameTestCase
         [$defender, $defenderPlanet] = $this->createPlayer([], [$resource[202] => 1, 'metal' => 100000, 'crystal' => 50000, 'deuterium' => 20000]);
         $target = $defenderPlanet;
         if ($moonTarget) {
-            $moonId = (new \App\Game\Core\PlayerUtil($this->db, $this->configs, $this->state))->createMoon(1, (int) $defenderPlanet['galaxy'], (int) $defenderPlanet['system'], (int) $defenderPlanet['planet'], (int) $defender['id'], 20.0, 'Moon', 8000);
+            $moonId = (new \App\Game\Core\Player\PlanetManager($this->db, $this->configs, $this->state))->createMoon(1, (int) $defenderPlanet['galaxy'], (int) $defenderPlanet['system'], (int) $defenderPlanet['planet'], (int) $defender['id'], 20.0, 'Moon', 8000);
             $this->db->update('UPDATE %%PLANETS%% SET ' . $resource[202] . ' = 1, metal = 100000 WHERE id = :id;', [':id' => $moonId]);
             $target = $this->loadPlanet($moonId);
         }
@@ -69,13 +71,18 @@ final class BattleMissionTest extends GameTestCase
         return [$attacker, $defender, $target, (int) $fleetId];
     }
 
-    /** @return array<string, mixed> the pinned result rows of a finished fight */
+    /**
+     * @param array<mixed> $attacker
+     * @param array<mixed> $defender
+     * @param array<string, mixed> $target
+     * @return array<string, mixed> the pinned result rows of a finished fight
+     */
     private function outcome(array $attacker, array $defender, array $target, int $fleetId): array
     {
         $fleet = $this->db->selectSingle('SELECT status, ships, ship_amount, mission FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
         $planet = $this->db->selectSingle('SELECT metal, crystal, deuterium, der_metal, der_crystal, tf_active FROM %%PLANETS%% WHERE id = :id;', [':id' => $target['id']]);
         $rw = (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%RW%% WHERE attacker = :a;', [':a' => $attacker['id']], 'c');
-        $msgs = (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%USERS_TO_MESSAGES%% um JOIN %%MESSAGES%% m ON m.message_id = um.message_id WHERE m.message_type = :t AND um.user_id IN (:a, :d);', [':t' => MESSAGE_TYPE_BATTLE_REPORT, ':a' => $attacker['id'], ':d' => $defender['id']], 'c');
+        $msgs = (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%USERS_TO_MESSAGES%% um JOIN %%MESSAGES%% m ON m.message_id = um.message_id WHERE m.message_type = :t AND um.user_id IN (:a, :d);', [':t' => MessageType::BattleReport->value, ':a' => $attacker['id'], ':d' => $defender['id']], 'c');
         $log = $this->db->selectSingle('SELECT status, ship_amount, report_id FROM %%LOG_FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
         $topkb = (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%TOPKB%%;', [], 'c');
 
@@ -91,7 +98,7 @@ final class BattleMissionTest extends GameTestCase
 
     public function testAttackOnAPlanet(): void
     {
-        [$attacker, $defender, $target, $fleetId] = $this->fight(MISSION_ATTACK);
+        [$attacker, $defender, $target, $fleetId] = $this->fight(Mission::Attack->value);
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
 
         $this->attack($fleet)->TargetEvent();
@@ -101,7 +108,7 @@ final class BattleMissionTest extends GameTestCase
 
     public function testAttackOnAMoon(): void
     {
-        [$attacker, $defender, $target, $fleetId] = $this->fight(MISSION_ATTACK, true);
+        [$attacker, $defender, $target, $fleetId] = $this->fight(Mission::Attack->value, true);
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
 
         $this->attack($fleet)->TargetEvent();
@@ -111,7 +118,7 @@ final class BattleMissionTest extends GameTestCase
 
     public function testDestructionWithoutDeathStarsKeepsTheMoon(): void
     {
-        [$attacker, $defender, $target, $fleetId] = $this->fight(MISSION_DESTRUCTION, true);
+        [$attacker, $defender, $target, $fleetId] = $this->fight(Mission::Destruction->value, true);
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
 
         $this->destruction($fleet, 100)->TargetEvent();
@@ -122,7 +129,7 @@ final class BattleMissionTest extends GameTestCase
 
     public function testDestructionLosesTheFleetWhenTheFleetRollHits(): void
     {
-        [, , $target, $fleetId] = $this->fight(MISSION_DESTRUCTION, true);
+        [, , $target, $fleetId] = $this->fight(Mission::Destruction->value, true);
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
 
         $this->destruction($fleet, 1)->TargetEvent();
@@ -131,7 +138,11 @@ final class BattleMissionTest extends GameTestCase
         $this->assertSame(1, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%PLANETS%% WHERE id = :id;', [':id' => $target['id']], 'c'), 'no death stars: the moon survives');
     }
 
-    /** Destruction mission whose chance rolls always return $roll (100 = no chance hits, 1 = every chance above 0 hits). */
+    /**
+     * Destruction mission whose chance rolls always return $roll (100 = no chance hits, 1 = every chance above 0 hits).
+     *
+     * @param array<string, mixed> $fleet
+     */
     private function destruction(array $fleet, int $roll): MissionCaseDestruction
     {
         return new class ($fleet, $this->db, $this->configs, $this->state, $roll) extends MissionCaseDestruction {
@@ -147,7 +158,11 @@ final class BattleMissionTest extends GameTestCase
         };
     }
 
-    /** Attack mission whose rolls never hit (moon creation stays off whatever the debris). */
+    /**
+     * Attack mission whose rolls never hit (moon creation stays off whatever the debris).
+     *
+     * @param array<string, mixed> $fleet
+     */
     private function attack(array $fleet): MissionCaseAttack
     {
         return new class ($fleet, $this->db, $this->configs, $this->state) extends MissionCaseAttack {

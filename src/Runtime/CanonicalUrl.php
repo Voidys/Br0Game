@@ -41,7 +41,7 @@ final class CanonicalUrl
      * Absolute URL for a mail. Returns null (and logs an error, once per refused mail) when DEFAULT_URI is not
      * configured outside development: the caller then must not send the mail.
      *
-     * @param string $relative page URL relative to the universe directory, e.g. "./?page=vertify&i=1&k=abc"
+     * @param string $relative page URL relative to the universe directory, e.g. "verify?i=1&k=abc"
      */
     public function forPage(RuntimeContext $runtime, string $relative): ?string
     {

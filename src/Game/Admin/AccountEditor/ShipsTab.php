@@ -15,7 +15,7 @@ class ShipsTab extends AccountEditorTab
         $e = $this->elements();
         $db = $this->db;
         if ($this->state->requestPost) {
-            $id = $this->http()->_GP('id', 0);
+            $id = $this->input()->int('id');
             foreach ($e->ids('fleet') as $ID) {
                 $fields[] = "`" . $e->column($ID) . "`";
             }
@@ -31,7 +31,7 @@ class ShipsTab extends AccountEditorTab
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
                 foreach ($e->ids('fleet') as $ID) {
-                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
+                    $count = max(0, round($this->input()->float($e->column($ID))));
                     if ($count > 0) {
                         $QryUpdate[$e->column($ID)] = $count;
                         $afterShips[$ID] = ($beforeShips[$e->column($ID)] ?? 0) + $count;
@@ -43,7 +43,7 @@ class ShipsTab extends AccountEditorTab
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
                 foreach ($e->ids('fleet') as $ID) {
-                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
+                    $count = max(0, round($this->input()->float($e->column($ID))));
                     if ($count > 0) {
                         $QryUpdate[$e->column($ID)] = -$count;
                         $afterShips[$ID] = max(0, ($beforeShips[$e->column($ID)] ?? 0) - $count);
@@ -63,9 +63,9 @@ class ShipsTab extends AccountEditorTab
                 $LOG->save();
             }
             if (isset($this->state->requestPost['add'])) {
-                $this->responder->message($LNG['ad_add_ships_sucess'], '?page=accountEditor&edit=ships');
+                $this->responder->message($LNG['ad_add_ships_sucess'], 'admin/accounts/edit/ships');
             } elseif (isset($this->state->requestPost['delete'])) {
-                $this->responder->message($LNG['ad_delete_ships_sucess'], '?page=accountEditor&edit=ships');
+                $this->responder->message($LNG['ad_delete_ships_sucess'], 'admin/accounts/edit/ships');
             }
         }
 

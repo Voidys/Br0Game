@@ -2,14 +2,12 @@
 
 namespace App\Controller\Game;
 
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Stores a client-side error/report comment of the player (ajax).
  */
-#[\App\Routing\GamePage('game', 'report')]
 class ReportController extends AbstractGameController
 {
     public function initialize(): void
@@ -21,14 +19,13 @@ class ReportController extends AbstractGameController
     /**
      * Stores a client-side report as a player comment (USERS_COMMENTS) through an XHR call. Request: hi, u, o, ts.
      */
-    public function show()
+    #[GameRoute('game', 'game/client-report', 'report', 'show', ['POST'])]
+    public function show(): Response
     {
         $USER = $this->state->USER;
 
-        $humanInteraction = $this->http()->_GP('hi', 0);
-        $uri = $this->http()->_GP('u', '');
-        $outline = $this->http()->_GP('o', '');
-        $timestamp = $this->http()->_GP('ts', 0);
+        $uri = $this->input()->string('u');
+        $outline = $this->input()->string('o');
 
         $db = $this->db;
 
@@ -39,10 +36,10 @@ class ReportController extends AbstractGameController
             ':since' => $this->state->runtime->timestamp - 3600,
         ]);
         if ((int) $counts['recent'] >= 20 || (int) $counts['total'] >= 200) {
-            throw new \App\Game\Core\EndOfRequest('saved');
+            return new Response('saved');
         }
-        $uri = mb_substr((string) $uri, 0, 1000);
-        $outline = mb_substr((string) $outline, 0, 1000);
+        $uri = mb_substr($uri, 0, 1000);
+        $outline = mb_substr($outline, 0, 1000);
 
         $sql = "INSERT INTO %%USERS_COMMENTS%% SET
             `user_id`       = :user,
@@ -57,6 +54,6 @@ class ReportController extends AbstractGameController
             ':timestamp'   => $this->state->runtime->timestamp,
         ]);
 
-        throw new \App\Game\Core\EndOfRequest('saved');
+        return new Response('saved');
     }
 }

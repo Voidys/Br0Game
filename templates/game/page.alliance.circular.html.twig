@@ -25,7 +25,7 @@
 	<tr>
 		<th class="form-actions" colspan="2">
 		<input type="reset" value="{{ LNG.al_circular_reset }}">
-		<input type="button" data-action="alliance-message-send" data-url="game?page=alliance&amp;mode=circular&amp;action=send&amp;ajax=1" data-after="close" data-empty="{{ LNG.mg_empty_text|e('html_attr') }}" name="button" value="{{ LNG.al_circular_send_submit }}">
+		<input type="button" data-action="alliance-message-send" data-url="{{ path('game_alliance_circular_send', {ajax: 1}) }}" data-after="close" data-empty="{{ LNG.mg_empty_text|e('html_attr') }}" name="button" value="{{ LNG.al_circular_send_submit }}">
 		</th>
 	</tr>
 	</table>

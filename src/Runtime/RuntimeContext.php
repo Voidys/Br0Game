@@ -90,8 +90,9 @@ final class RuntimeContext
         }
 
         // directory of the requested page: /uni1/game and /uni1/ both give /uni1/
+        // (pages with readable paths, /news/12, have the GameKernel hand over the root: base path + `uniN/`)
         $path = (string) parse_url($requestUrl, PHP_URL_PATH);
-        $this->httpRoot = substr($path, 0, (int) strrpos($path, '/') + 1) ?: '/';
+        $this->httpRoot = isset($server['GAME_HTTP_ROOT']) ? (string) $server['GAME_HTTP_ROOT'] : (substr($path, 0, (int) strrpos($path, '/') + 1) ?: '/');
         $this->httpPath = $this->protocol . $this->httpHost . $this->httpRoot;
     }
 

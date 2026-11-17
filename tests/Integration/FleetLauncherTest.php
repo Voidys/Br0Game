@@ -13,6 +13,7 @@ use App\Game\Core\ResourceUpdate;
 use App\Game\Core\StoredData;
 use App\Game\Core\WreckfieldMaintenance;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * Behaviour of the services split out of FleetFunctions and ResourceUpdate that the golden suites do not reach:
@@ -35,7 +36,7 @@ final class FleetLauncherTest extends GameTestCase
      *
      * @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>, 3: int} sender, sender planet, target planet, fleet id
      */
-    private function launch(int $mission = MISSION_TRANSPORT, int $group = 0): array
+    private function launch(int $mission = Mission::Transport->value, int $group = 0): array
     {
         [$user, $planet] = $this->createPlayer([], ['small_ship_cargo' => 20, 'metal' => 10000, 'crystal' => 10000, 'deuterium' => 10000]);
         [$targetUser, $target] = $this->createPlayer();
@@ -105,9 +106,9 @@ final class FleetLauncherTest extends GameTestCase
 
         $launcher = $this->launcher();
         $this->assertSame(1, $launcher->getCurrentFleets((int) $user['id']));
-        $this->assertSame(1, $launcher->getCurrentFleets((int) $user['id'], MISSION_EXPEDITION));
-        $this->assertSame(0, $launcher->getCurrentFleets((int) $user['id'], MISSION_EXPEDITION, true));
-        $this->assertSame(1, $launcher->getCurrentFleets((int) $user['id'], MISSION_TRANSPORT, true));
+        $this->assertSame(1, $launcher->getCurrentFleets((int) $user['id'], Mission::Expedition->value));
+        $this->assertSame(0, $launcher->getCurrentFleets((int) $user['id'], Mission::Expedition->value, true));
+        $this->assertSame(1, $launcher->getCurrentFleets((int) $user['id'], Mission::Transport->value, true));
     }
 
     public function testRecallReturnsAfterTheTimeAlreadyFlown(): void
@@ -145,7 +146,7 @@ final class FleetLauncherTest extends GameTestCase
 
     public function testRecallOfAHoldingFleetReturnsAfterItsOutwardDuration(): void
     {
-        [$user, , , $fleetId] = $this->launch(MISSION_HOLD);
+        [$user, , , $fleetId] = $this->launch(Mission::Hold->value);
         $now = $this->state->runtime->timestamp;
         $this->db->update('UPDATE %%FLEETS%% SET start_time = :s, arrival_time = :a, status = :st WHERE id = :id;', [
             ':s' => $now - 1000,
@@ -170,7 +171,7 @@ final class FleetLauncherTest extends GameTestCase
         $this->db->update('UPDATE %%FLEETS%% SET cannotCancel = 1 WHERE id = :id;', [':id' => $fleetId]);
         $this->assertFalse($this->launcher()->sendFleetBack($user, $fleetId));
 
-        $this->db->update('UPDATE %%FLEETS%% SET cannotCancel = 0, mission = :m WHERE id = :id;', [':m' => MISSION_MISSILE, ':id' => $fleetId]);
+        $this->db->update('UPDATE %%FLEETS%% SET cannotCancel = 0, mission = :m WHERE id = :id;', [':m' => Mission::Missile->value, ':id' => $fleetId]);
         $this->assertFalse($this->launcher()->sendFleetBack($user, $fleetId), 'missiles cannot be recalled');
 
         $this->assertFalse($this->launcher()->sendFleetBack($user, 999999), 'unknown flight');
@@ -181,8 +182,8 @@ final class FleetLauncherTest extends GameTestCase
         $now = $this->state->runtime->timestamp;
         $this->db->insert('INSERT INTO %%AKS%% SET public_id = :p, name = :n, target = 1, ankunft = :a;', [':p' => 'abcdefabcdefabcdefabcdefabcdef12', ':n' => 'test', ':a' => $now + 500]);
         $acsId = (int) $this->db->lastInsertId();
-        [$user, , , $first] = $this->launch(MISSION_ATTACK, $acsId);
-        [, , , $second] = $this->launch(MISSION_ACS, $acsId);
+        [$user, , , $first] = $this->launch(Mission::Attack->value, $acsId);
+        [, , , $second] = $this->launch(Mission::Acs->value, $acsId);
         $this->db->insert('INSERT INTO %%USERS_TO_ACS%% SET userID = :u, acsID = :a;', [':u' => $user['id'], ':a' => $acsId]);
         $this->db->update('UPDATE %%FLEETS%% SET start_time = :t WHERE id = :id;', [':t' => $now - 100, ':id' => $first]);
         $this->db->update('UPDATE %%FLEETS%% SET start_time = :t WHERE id = :id;', [':t' => $now - 300, ':id' => $second]);
@@ -203,8 +204,8 @@ final class FleetLauncherTest extends GameTestCase
         $now = $this->state->runtime->timestamp;
         $this->db->insert('INSERT INTO %%AKS%% SET public_id = :p, name = :n, target = 1, ankunft = :a;', [':p' => 'abcdefabcdefabcdefabcdefabcdef34', ':n' => 'test', ':a' => $now + 500]);
         $acsId = (int) $this->db->lastInsertId();
-        [, , , $lead] = $this->launch(MISSION_ATTACK, $acsId);
-        [$joiner, , , $joined] = $this->launch(MISSION_ACS, $acsId);
+        [, , , $lead] = $this->launch(Mission::Attack->value, $acsId);
+        [$joiner, , , $joined] = $this->launch(Mission::Acs->value, $acsId);
         $this->db->insert('INSERT INTO %%USERS_TO_ACS%% SET userID = :u, acsID = :a;', [':u' => $joiner['id'], ':a' => $acsId]);
 
         $this->assertTrue($this->launcher()->sendFleetBack($joiner, $joined));
@@ -221,7 +222,7 @@ final class FleetLauncherTest extends GameTestCase
         $now = $this->state->runtime->timestamp;
         $this->db->insert('INSERT INTO %%AKS%% SET public_id = :p, name = :n, target = 1, ankunft = :a;', [':p' => '12345678123456781234567812345678', ':n' => 'shift', ':a' => $now + 500]);
         $acsId = (int) $this->db->lastInsertId();
-        [, , , $grouped] = $this->launch(MISSION_ACS, $acsId);
+        [, , , $grouped] = $this->launch(Mission::Acs->value, $acsId);
         [, , , $solo] = $this->launch();
 
         $acs = new AcsService($this->db, $this->configs, $this->state);

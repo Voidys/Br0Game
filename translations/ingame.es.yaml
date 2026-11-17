@@ -260,7 +260,7 @@ al_diplo_accept_yes_confirm: ¿Aceptar este pacto?
 al_diplo_accept_yes_mes: ¡El pacto (%s) entre las alianzas <b>%s</b> y <b>%s</b> ha sido firmado!
 al_diplo_ally: 'Alianza '
 al_diplo_ask: Solicitud de pacto
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Solicitud de pacto]</a> (%s) enviada por <b>%s</b> a <b>%s</b>.<br>Motivo: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[Solicitud de pacto]</a> (%s) enviada por <b>%s</b> a <b>%s</b>.<br>Motivo: %s'
 al_diplo_confirm_delete: ¿Disolver este pacto?
 al_diplo_create: Solicitar pacto
 al_diplo_create_done: Solicitud de pacto enviada.
@@ -268,7 +268,7 @@ al_diplo_delete: Pacto terminado
 al_diplo_delete_mes: El pacto (%s) entre las alianzas <b>%s</b> y <b>%s</b> ha terminado.
 al_diplo_exists: Ya tienes un pacto activo o pendiente con %s.
 al_diplo_head: Gestión de diplomacia
-al_diplo_info: '<p>En esta página puedes gestionar los pactos diplomáticos de tu alianza.</p><p>Debajo se enumeran los tipos de pacto. Más información: <a href="game?page=questions">FAQ</a> o la <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+al_diplo_info: '<p>En esta página puedes gestionar los pactos diplomáticos de tu alianza.</p><p>Debajo se enumeran los tipos de pacto. Más información: <a href="game/faq">FAQ</a> o la <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
 al_diplo_level:
 - Principal
 - Ala
@@ -287,7 +287,7 @@ al_diplo_text: Solicitud/motivo
 al_diplo_war: Declaración de guerra
 al_diplo_war_end: Declaración de paz
 al_diplo_war_end_mes: La %s entre las alianzas <b>%s</b> y <b>%s</b> acaba de terminar.
-al_diplo_war_mes: '¡La alianza <b>%1$s</b> ha declarado %3$s a <b>%2$s</b>! <br>Motivo:<br>%4$s<br><br>Información: La guerra empezará en <b>24 horas</b>, y en ese momento se suspende la regla de bashing.<br>Para más información, consulta las <a href="./?page=rules&lang=en" target="_blank">[Reglas]</a>.'
+al_diplo_war_mes: '¡La alianza <b>%1$s</b> ha declarado %3$s a <b>%2$s</b>! <br>Motivo:<br>%4$s<br><br>Información: La guerra empezará en <b>24 horas</b>, y en ese momento se suspende la regla de bashing.<br>Para más información, consulta las <a href="./rules?lang=en" target="_blank">[Reglas]</a>.'
 al_diplo_withdraw: Solicitud de pacto retirada.
 al_diplo_withdraw_confirm: ¿Retirar esta solicitud de pacto?
 al_diplo_withdraw_mes: La solicitud de pacto (%s) entre las alianzas <b>%s</b> y <b>%s</b> ha sido retirada.
@@ -337,7 +337,7 @@ al_name: Cambiar nombre de la alianza
 al_name_required: Introduce un nombre para la alianza.
 al_link_too_long: El enlace es demasiado largo (255 caracteres como máximo).
 al_name_tag_too_long: La etiqueta puede tener 8 caracteres como máximo y el nombre, 30.
-al_new_apply: Tu alianza ha recibido <a href="?page=alliance&mode=admin&action=manageApply">[una solicitud]</a> del jugador <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_apply: Tu alianza ha recibido <a href="game/alliance/admin/applications">[una solicitud]</a> del jugador <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Nuevo miembro
 al_new_requests: '%d pendiente(s)'
 al_newname_specialchar: El nombre y la etiqueta de la alianza solo pueden contener letras, números, espacios, guiones bajos, guiones y puntos.
@@ -1167,7 +1167,7 @@ ov_temp_unit: °C
 ov_temperature: Temperatura
 ov_ticketbot: Ticketbot
 ov_to: hasta
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: ¡Nombre incorrecto!
 ov_wrong_pass: ¡Contraseña incorrecta!
 own: Propio
@@ -1334,7 +1334,7 @@ sys_forward: Siguiente
 sys_game_is_setup: <h1>¡Registro completado!</h1><br><p>¡Estamos preparando tu universo!</p><!--discord_url--><p>Mientras tanto, para que no te pierdas nada, únete a nosotros en</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Este módulo está inactivo
 sys_nomore_level: No tienes ningún nivel de %s que demoler.
-sys_notenough_money: 'No hay recursos suficientes en %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> para construir %s. <br>Tienes: %s %s, %s %s y %s %s. <br>Cuesta: %s %s, %s %s y %s %s.'
+sys_notenough_money: 'No hay recursos suficientes en %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> para construir %s. <br>Tienes: %s %s, %s %s y %s %s. <br>Cuesta: %s %s, %s %s y %s %s.'
 sys_refferal_from: Sistema
 sys_refferal_text: El jugador %s, reclutado por ti, ha alcanzado %s puntos.
 sys_refferal_title: Bonificación de jugador %s

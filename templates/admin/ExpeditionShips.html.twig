@@ -8,7 +8,7 @@
 
   <div class="notice notice--info">{{ icon('info') }}<div>{{ LNG.exp_ships_description }}</div></div>
 
-  <form method="POST" action="admin?page=expeditionShips&amp;action=update&amp;uniID={{ universe }}" data-track-dirty>
+  <form method="POST" action="{{ path('admin_expedition_ships_update', {uniID: universe}) }}" data-track-dirty>
     <section class="card card--flush">
       <header class="card__head">
         <h2 class="card__title">{{ icon('rocket') }}{{ LNG.exp_ships_ship }}</h2>

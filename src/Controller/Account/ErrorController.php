@@ -9,10 +9,9 @@
 namespace App\Controller\Account;
 
 /** Error page of the account area. */
-#[\App\Routing\GamePage('account', 'error')]
 class ErrorController extends AbstractAccountController
 {
-    use \App\Controller\Shared\ErrorPage;
+    use \App\Controller\Shared\ErrorResponsePage;
     protected $disableEcoSystem = true;
 
     /**
@@ -27,7 +26,7 @@ class ErrorController extends AbstractAccountController
             'id'                => $ACCOUNT['id'],
             'username'          => $ACCOUNT['accountname'],
             'authlevel'         => $ACCOUNT['authlevel'],
-            'toplink'           => "account?page=account",
+            'toplink'           => $this->router->generate('account_account_show'),
             'topname'           => $LNG->format('Back'),
         ]);
     }

@@ -9,7 +9,6 @@
 namespace App\Game\Tutorials;
 
 use App\Game\Core\Database;
-use App\Game\Core\Singleton;
 
 /**
  * Tutorial engine of the game: keeps the player's progress rows in sync with the enabled tutorials/goals,
@@ -22,6 +21,12 @@ class TutorialUtil
 
     /** seconds between two syncs of the player's tutorial rows with the enabled tutorials and goals */
     private const SYNC_INTERVAL = 60;
+
+    /**
+     * true: no tutorial step is open for the player (known from the last sync, at most SYNC_INTERVAL seconds old, the
+     * same lag a newly enabled tutorial has before the sync adds its rows), so the popup needs no query at all
+     */
+    private bool $idle = false;
 
     /**
      * Adds the missing users_tutorial and users_tutorial_goal rows (tutorials and goals that were enabled after the player started, or all for a new player); throttled to once per SYNC_INTERVAL seconds per player in the session.
@@ -49,6 +54,7 @@ class TutorialUtil
             && $lastSync['time'] <= $this->state->runtime->timestamp
             && $lastSync['time'] > $this->state->runtime->timestamp - self::SYNC_INTERVAL
         ) {
+            $this->idle = !empty($lastSync['idle']);
             return;
         }
 
@@ -90,7 +96,8 @@ class TutorialUtil
             ]);
         }
 
-        $symfonySession?->set('tutorialSync', ['key' => $syncKey, 'time' => $this->state->runtime->timestamp]);
+        $this->idle = $symfonySession !== null && $this->getCurrentStep((int) $USER['id'], (int) $USER['universe']) === [];
+        $symfonySession?->set('tutorialSync', ['key' => $syncKey, 'time' => $this->state->runtime->timestamp, 'idle' => $this->idle]);
     }
 
     /**
@@ -98,7 +105,7 @@ class TutorialUtil
      *
      * Includes translated title and text, goals, rewards and states
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getTutorialStepDetails(): array
     {
@@ -109,6 +116,10 @@ class TutorialUtil
         $LNG = $this->state->LNG;
         $LNG->includeData(['TUTORIAL']);
         $USER = $this->state->USER;
+
+        if ($this->idle) {
+            return [];
+        }
 
         $tutorialStep = $this->getCurrentStep($USER['id'], $USER['universe']);
         if (empty($tutorialStep)) {
@@ -257,8 +268,8 @@ class TutorialUtil
     /**
      * Creates and includes the AbstractTutorialSupport class for the current tutorial step
      *
-     * @param array $tutorialStep
-     * @param array $USER
+     * @param array<mixed> $tutorialStep
+     * @param array<string, mixed> $USER
      * @return AbstractTutorialSupport
      */
     private function getSupportClass(array $tutorialStep, array $USER): AbstractTutorialSupport
@@ -276,7 +287,7 @@ class TutorialUtil
      *
      * @param integer $userID
      * @param integer $universe
-     * @return array
+     * @return array<mixed>
      */
     private function getCurrentStep(int $userID, int $universe): array
     {

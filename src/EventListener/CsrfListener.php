@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Security\CsrfPolicy;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -31,7 +32,10 @@ final class CsrfListener
 {
     public function __construct(
         private readonly CsrfPolicy $policy,
+        // only a rejected or checked state-changing request needs them: no service graph on a plain page view
+        #[Autowire(lazy: true)]
         private readonly CsrfTokenManagerInterface $tokens,
+        #[Autowire(lazy: true)]
         private readonly TranslatorInterface $translator,
     ) {}
 

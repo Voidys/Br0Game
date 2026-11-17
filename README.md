@@ -172,7 +172,7 @@ Then open **https://br0game.ddev.site/install/**. DDEV runs the cronjobs by itse
   - Git or script installs: `git pull && composer install --no-dev -o`.
   - ZIP installs: back up the database and `config/game.php`, then replace the files except `config/` and `var/`.
   - Database migrations run automatically on the next page load. Details: [docs/INSTALL.md#updating](docs/INSTALL.md#updating).
-- **Performance:** OPcache preloading and an authoritative class map are described in
+- **Performance:** OPcache settings (`validate_timestamps=0`), preloading and an authoritative class map are described in
   [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
 - **Security:** see the checklist in [docs/INSTALL.md#security-checklist](docs/INSTALL.md#security-checklist):
   - HTTPS on;

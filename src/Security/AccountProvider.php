@@ -27,13 +27,34 @@ final class AccountProvider implements UserProviderInterface, PasswordUpgraderIn
     ) {}
 
     /** Loads an account by numeric id (session refresh) or e-mail address (login); @throws UserNotFoundException when unknown. */
+    /** @var array<int, array<string, mixed>> account rows read by loadUserByIdentifier() during this request */
+    private array $rows = [];
+
+    /**
+     * The full accounts row as read by this request's user refresh (null when the account was not loaded). Fresh
+     * for the boot of the request; code that runs after the page changed the account must query again.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function loadedRow(int $accountId): ?array
+    {
+        return $this->rows[$accountId] ?? null;
+    }
+
+    /**
+     * Loads the account by id (all digits) or e-mail and keeps its full row for loadedRow(); throws
+     * UserNotFoundException for an unknown identifier.
+     */
     public function loadUserByIdentifier(string $identifier): Account
     {
         $column = ctype_digit($identifier) ? 'id' : 'email';
         $row = $this->connection->fetchAssociative(
-            sprintf('SELECT id, accountname, email, authlevel, lang, password FROM %s WHERE %s = ?', $this->tables->get('accounts'), $column),
+            sprintf('SELECT * FROM %s WHERE %s = ?', $this->tables->get('accounts'), $column),
             [$column === 'id' ? (int) $identifier : $identifier],
         );
+        if ($row !== false) {
+            $this->rows[(int) $row['id']] = $row;
+        }
 
         if ($row === false) {
             $exception = new UserNotFoundException();

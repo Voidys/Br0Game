@@ -17,28 +17,19 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Player\PlanetQueries;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\HTTP;
 use App\Game\Core\FormulaEvaluator;
-use App\Game\Core\ResourceUpdate;
-use App\Game\Core\Singleton;
 
 /**
- * Element information popup: description, production/storage tables, jump gate and missile actions (modes: show,
+ * Element information popup: description, production/storage tables, jump gate and missile actions (actions: show,
  * sendFleet, destroyMissiles).
  */
-#[\App\Routing\GamePage('game', 'information')]
 #[\App\Controller\RequireModule('MODULE_INFORMATION')]
 class InformationController extends AbstractGameController
 {
     // protected $disableEcoSystem = true;
-
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
 
     /**
      * Timestamp at which a jump gate can be used again. $lastTime = last jump (timestamp), $jumpLevel = gate level: 60 minutes at level 0,
@@ -64,30 +55,30 @@ class InformationController extends AbstractGameController
      * limited to what the planet holds (solar satellites excluded); moves the ships to the target planet in two UPDATEs, sets `last_jump_time` on both
      * and answers JSON {message, error}.
      */
-    public function sendFleet()
+    #[GameRoute('game', 'game/info/jump', 'information', 'sendFleet', ['POST'])]
+    public function sendFleet(): Response
     {
         // both gate planets are locked (lowest id first) and re-read, so parallel jumps cannot pass the cooldown check
-        // on stale values. Every answer ends the request with EndOfRequest; nothing is written before the ships move.
+        // on stale values. Every answer is a JSON response, committed with the transaction; nothing is written before the ships move.
         $db = $this->db;
         $db->startTransaction();
         try {
             $this->lockGatePlanets();
-            $this->jump();
-        } catch (\App\Game\Core\EndOfRequest $end) {
-            $db->commit();
-            throw $end;
+            $response = $this->jump();
         } catch (\Throwable $failure) {
             $db->rollback();
             throw $failure;
         }
         $db->commit();
+
+        return $response;
     }
 
     /** Locks the current planet and the requested target planet (own planets only) and refreshes the current planet copy from the locked row. */
     private function lockGatePlanets(): void
     {
         $current = (int) $this->state->PLANET['id'];
-        $target = (int) $this->http()->_GP('jmpto', $current);
+        $target = $this->input()->int('jmpto', $current);
         $rows = $this->db->select(
             'SELECT * FROM %%PLANETS%% WHERE `id` IN (:current, :target) AND `id_owner` = :userId ORDER BY `id` FOR UPDATE;',
             [':current' => $current, ':target' => $target, ':userId' => $this->state->USER['id']],
@@ -101,40 +92,48 @@ class InformationController extends AbstractGameController
 
     /**
      * The jump itself, run inside the locked transaction of sendFleet(): checks both gates, takes the ships from the
-     * planet state, moves them and answers JSON (ends the request).
+     * planet state, moves them and answers JSON.
      */
-    private function jump(): void
+    private function jump(): Response
     {
         $LNG = $this->state->LNG;
 
         $TargetPlanet = $this->checkJumpGates();
+        if ($TargetPlanet instanceof Response) {
+            return $TargetPlanet;
+        }
         $shipsOut = $this->takeShipsForJump();
 
         if (empty($shipsOut)) {
-            $this->sendJSON([
-                'message' => $LNG['in_jump_gate_error_data'],
-                'error' => true,
-            ]);
+            return $this->jumpError($LNG['in_jump_gate_error_data']);
         }
 
         $this->moveShips($shipsOut, $TargetPlanet);
 
         $this->state->PLANET['last_jump_time']   = $this->state->runtime->timestamp;
         $NextJumpTime   = $this->getNextJumpWaitTime($this->state->PLANET['last_jump_time'], $this->state->PLANET['sprungtor']);
-        $this->sendJSON([
+        return $this->jsonResponse([
             'message' => $LNG->format('in_jump_gate_done', $this->viewHelpers()->prettyTime($NextJumpTime - $this->state->runtime->timestamp)),
             'error' => false,
         ]);
     }
 
+    /** the JSON answer of a refused jump */
+    private function jumpError(string $message): Response
+    {
+        return $this->jsonResponse([
+            'message' => $message,
+            'error' => true,
+        ]);
+    }
+
     /**
      * Checks both ends of a jump: not in vacation mode, the current planet has a jump gate that has cooled down, and the requested
-     * target (request jmpto) is another planet of the player with a jump gate that has cooled down. Answers the error as JSON and ends
-     * the request when a check fails.
+     * target (request jmpto) is another planet of the player with a jump gate that has cooled down.
      *
-     * @return int id of the target planet
+     * @return int|Response id of the target planet, the JSON error answer when a check fails
      */
-    private function checkJumpGates(): int
+    private function checkJumpGates(): int|Response
     {
         $USER = $this->state->USER;
         $e = $this->elements();
@@ -142,30 +141,21 @@ class InformationController extends AbstractGameController
         $db = $this->db;
 
         if (isVacationMode($USER)) {
-            $this->sendJSON([
-                'message'   => $LNG['fa_vacation_mode_current'],
-                'error'     => true,
-            ]);
+            return $this->jumpError($LNG['fa_vacation_mode_current']);
         }
 
         // The source planet needs a jump gate itself
         if ($this->state->PLANET[$e->column(43)] <= 0) {
-            $this->sendJSON([
-                'message'   => $LNG['in_jump_gate_doesnt_have_one'],
-                'error'     => true,
-            ]);
+            return $this->jumpError($LNG['in_jump_gate_doesnt_have_one']);
         }
 
         $NextJumpTime = $this->getNextJumpWaitTime($this->state->PLANET['last_jump_time'], $this->state->PLANET['sprungtor']);
 
         if ($this->state->runtime->timestamp < $NextJumpTime) {
-            $this->sendJSON([
-                'message'   => $LNG['in_jump_gate_already_used'] . ' ' . $this->viewHelpers()->prettyTime($NextJumpTime - $this->state->runtime->timestamp),
-                'error'     => true,
-            ]);
+            return $this->jumpError($LNG['in_jump_gate_already_used'] . ' ' . $this->viewHelpers()->prettyTime($NextJumpTime - $this->state->runtime->timestamp));
         }
 
-        $TargetPlanet = (int) $this->http()->_GP('jmpto', (int) $this->state->PLANET['id']);
+        $TargetPlanet = $this->input()->int('jmpto', (int) $this->state->PLANET['id']);
 
         $sql = "SELECT id, last_jump_time, sprungtor FROM %%PLANETS%% WHERE id = :targetID AND id_owner = :userID AND"
             . " sprungtor > 0;";
@@ -175,19 +165,13 @@ class InformationController extends AbstractGameController
         ]);
 
         if (!isset($TargetGate) || $TargetPlanet == $this->state->PLANET['id']) {
-            $this->sendJSON([
-                'message' => $LNG['in_jump_gate_doesnt_have_one'],
-                'error' => true,
-            ]);
+            return $this->jumpError($LNG['in_jump_gate_doesnt_have_one']);
         }
 
         $NextJumpTime   = $this->getNextJumpWaitTime($TargetGate['last_jump_time'], $TargetGate['sprungtor']);
 
         if ($this->state->runtime->timestamp < $NextJumpTime) {
-            $this->sendJSON([
-                'message' => $LNG['in_jump_gate_not_ready_target'] . ' ' . $this->viewHelpers()->prettyTime($NextJumpTime - $this->state->runtime->timestamp),
-                'error' => true,
-            ]);
+            return $this->jumpError($LNG['in_jump_gate_not_ready_target'] . ' ' . $this->viewHelpers()->prettyTime($NextJumpTime - $this->state->runtime->timestamp));
         }
 
         return $TargetPlanet;
@@ -205,17 +189,14 @@ class InformationController extends AbstractGameController
 
         $ShipArray      = [];
         $shipsOut       = [];
-        $Ships          = $this->http()->_GP('ship', []);
-        if (!is_array($Ships)) {
-            $Ships = [];
-        }
+        $Ships          = $this->input()->intMap('ship');
 
         foreach ($e->ids('fleet') as $Ship) {
             if (!isset($Ships[$Ship]) || $Ship == 212) {
                 continue;
             }
 
-            $ShipArray[$Ship]   = max(0, min((int) $Ships[$Ship], (int) $this->state->PLANET[$e->column($Ship)]));
+            $ShipArray[$Ship]   = max(0, min($Ships[$Ship], (int) $this->state->PLANET[$e->column($Ship)]));
 
             if (empty($ShipArray[$Ship])) {
                 continue;
@@ -286,15 +267,13 @@ class InformationController extends AbstractGameController
      * Removes missiles from the current silo (request: missile[502], missile[503] = interceptor / interplanetary missiles to destroy);
      * answers the remaining counts as JSON.
      */
-    public function destroyMissiles()
+    #[GameRoute('game', 'game/info/destroy-missiles', 'information', 'destroyMissiles', ['POST'])]
+    public function destroyMissiles(): Response
     {
         $e = $this->elements();
         $db = $this->db;
 
-        $Missle = $this->http()->_GP('missile', []);
-        if (!is_array($Missle)) {
-            $Missle = [];
-        }
+        $Missle = $this->input()->intMap('missile');
         $planetId = (int) $this->state->PLANET['id'];
         $columns = ['`' . $e->column(502) . '`', '`' . $e->column(503) . '`'];
 
@@ -309,8 +288,8 @@ class InformationController extends AbstractGameController
                 return [0, 0];
             }
 
-            $interceptor = max(0, min((int) ($Missle[502] ?? 0), (int) $locked['interceptor']));
-            $interplanetary = max(0, min((int) ($Missle[503] ?? 0), (int) $locked['interplanetary']));
+            $interceptor = max(0, min(($Missle[502] ?? 0), (int) $locked['interceptor']));
+            $interplanetary = max(0, min(($Missle[503] ?? 0), (int) $locked['interplanetary']));
 
             $db->update(
                 'UPDATE %%PLANETS%% SET ' . $columns[0] . ' = GREATEST(0, ' . $columns[0] . ' - :interceptor), '
@@ -324,7 +303,7 @@ class InformationController extends AbstractGameController
         $this->state->PLANET[$e->column(502)] = $remaining[0];
         $this->state->PLANET[$e->column(503)] = $remaining[1];
 
-        $this->sendJSON($remaining);
+        return $this->jsonResponse($remaining);
     }
 
     /**
@@ -369,12 +348,12 @@ class InformationController extends AbstractGameController
      * for producers, storage capacity, rapid fire / combat values for ships and defense, missile list for the silo and the jump gate target list
      * for the jump gate. The tables evaluate the formulas from the game data (ProdGrid).
      */
+    #[GameRoute('game', 'game/info/{id}', 'information', requirements: ['id' => '\d+'])]
     public function show(): Response
     {
-
         $LNG = $this->state->LNG;
         $e = $this->elements();
-        $elementID  = $this->http()->_GP('id', 0);
+        $elementID  = $this->input()->int('id');
 
         $this->setWindow('popup');
 
@@ -419,7 +398,7 @@ class InformationController extends AbstractGameController
             ];
         }
 
-        $this->assign([
+        return $this->render('game/page.information.default.html.twig', [
             'elementID'             => $elementID,
             'productionTable'       => $productionTable,
             'CurrentLevel'          => $CurrentLevel,
@@ -428,8 +407,6 @@ class InformationController extends AbstractGameController
             'gateData'              => $gateData,
             'spytechStatsEnabled'   => $this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS),
         ]);
-
-        return $this->render('game/page.information.default.html.twig');
     }
 
     /**

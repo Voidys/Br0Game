@@ -13,7 +13,7 @@ class TestDataCreator extends CreatorTab
         $LNG = $this->state->LNG;
         if ($this->state->requestPost) {
             $this->createTestUser();
-            $this->responder->message($LNG['test_data_success'], '?page=creator', 3, true);
+            $this->responder->message($LNG['test_data_success'], 'admin/creator', 3, true);
         }
         $this->responder->assign([
             'gameStages'          => [
@@ -37,8 +37,8 @@ class TestDataCreator extends CreatorTab
     private function createTestUser(): void
     {
         $db = $this->db;
-        $amount = $this->http()->_GP('amount', 1);
-        $gameStage = $this->http()->_GP('gameStage', 1);
+        $amount = $this->input()->int('amount', 1);
+        $gameStage = $this->input()->int('gameStage', 1);
 
         $universe = $this->universe()->getEmulated();
         $config = $this->configs->get($universe);
@@ -80,7 +80,7 @@ class TestDataCreator extends CreatorTab
             'TestUser' . $number . '-u' . $universe . '@test.com',
             $lang,
         );
-        $player = $this->playerUtil()->createPlayer(
+        $player = $this->playerRegistration()->createPlayer(
             $accountId,
             $universe,
             'TestUser' . $number,
@@ -99,7 +99,7 @@ class TestDataCreator extends CreatorTab
         if ($stage['moons'] > 0 && $config->moon_chance > 0) {
             $sql = "SELECT `galaxy`, `system`, `planet` FROM %%PLANETS%% WHERE `id` = :planetId;";
             $planetData = $this->db->selectSingle($sql, [':planetId' => $planetId]);
-            $moonId = $this->playerUtil()->createMoon(
+            $moonId = $this->planetManager()->createMoon(
                 $universe,
                 $planetData['galaxy'],
                 $planetData['system'],
@@ -123,8 +123,8 @@ class TestDataCreator extends CreatorTab
     private function createTestColonies(int $userId, int $universe, array $stage): void
     {
         for ($j = 1; $j <= $stage['planets']; $j++) {
-            $pos = $this->playerUtil()->getNewPlanetPosition($universe);
-            $newPlanetId = $this->playerUtil()->createPlanet(
+            $pos = $this->planetPositions()->getNewPlanetPosition($universe);
+            $newPlanetId = $this->planetManager()->createPlanet(
                 $pos['galaxy'],
                 $pos['system'],
                 $pos['planet'],
@@ -135,7 +135,7 @@ class TestDataCreator extends CreatorTab
             $this->setTestPlanetData($newPlanetId, $stage);
 
             if ($stage['moons'] > $j) {
-                $moonId = $this->playerUtil()->createMoon(
+                $moonId = $this->planetManager()->createMoon(
                     $universe,
                     $pos['galaxy'],
                     $pos['system'],

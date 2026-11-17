@@ -9,18 +9,18 @@
 		</th>
 	</tr>
 	<tr>
-		{% if isModuleAvailable(php_const('MODULE_MARKET_TRADE')) and isModuleAvailable(php_const('MODULE_MARKET_TRANSFER')) %}
+		{% if isModuleAvailable(constant('MODULE_MARKET_TRADE')) and isModuleAvailable(constant('MODULE_MARKET_TRANSFER')) %}
 			<td>
 				<button id="resourceMBtn" class="marketOption selected">Resource market</button>
 			</td>
 			<td>
 				<button id="fleetMBtn" class="marketOption">Fleet market</button>
 			</td>
-		{% elseif isModuleAvailable(php_const('MODULE_MARKET_TRADE')) %}
+		{% elseif isModuleAvailable(constant('MODULE_MARKET_TRADE')) %}
 			<td colspan="2">
 				<button id="resourceMBtn" class="marketOption selected">Resource market</button>
 			</td>
-		{% elseif isModuleAvailable(php_const('MODULE_MARKET_TRANSFER')) %}
+		{% elseif isModuleAvailable(constant('MODULE_MARKET_TRANSFER')) %}
 			<td colspan="2">
 				<button id="fleetMBtn" class="marketOption selected">Fleet market</button>
 			</td>
@@ -139,7 +139,7 @@
 		<td class="num HC" data-seconds="{{ FlyingFleetRow.to_hc_duration }}">{{ pretty_fly_time(FlyingFleetRow.to_hc_duration) }}</td>
 		<td class="act">
 			{% if FlyingFleetRow.possible_to_buy == true %}
-			<form class="market_form" action="game?page=marketPlace&amp;action=buy" method="post">
+			<form class="market_form" action="{{ path('game_market_place_buy') }}" method="post">
 				<input name="fleetID" value="{{ FlyingFleetRow.id }}" type="hidden">
 				<input value="{{ LNG.market_p_submit }}" type="button" class="market_buy_button">
         <input type="submit" hidden>
@@ -250,7 +250,7 @@
 		<td class="num HC" data-seconds="{{ FlyingFleetRow.to_hc_duration }}">{{ pretty_fly_time(FlyingFleetRow.to_hc_duration) }}</td>
 		<td class="act">
 			{% if FlyingFleetRow.possible_to_buy == true %}
-			<form class="market_form" action="game?page=marketPlace&amp;action=buy" method="post">
+			<form class="market_form" action="{{ path('game_market_place_buy') }}" method="post">
 				<input name="fleetID" value="{{ FlyingFleetRow.id }}" type="hidden">
 				<input value="{{ LNG.market_p_submit }}" type="submit">
 			</form>

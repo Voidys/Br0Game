@@ -17,10 +17,8 @@
 
 namespace App\Game\Cronjob;
 
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\AccountUtil;
-use App\Game\Core\PlayerUtil;
+use App\Game\Enum\AuthLevel;
+use App\Game\Enum\MessageType;
 use App\Game\Core\Universe;
 
 /**
@@ -67,7 +65,7 @@ class CleanerCronjob extends AbstractCronjobTask
             WHERE `deleted_at` < :time OR (um.`created_at` < :time AND (um.`message_favorite` = 0 OR m.`message_type` = :mess_type_spy));';
         $db->delete($sql, [
             ':time'             => $del_messages,
-            ':mess_type_spy'    => MESSAGE_TYPE_SPY_REPORT,
+            ':mess_type_spy'    => MessageType::SpyReport->value,
         ]);
 
         $sql = 'DELETE m
@@ -154,7 +152,7 @@ class CleanerCronjob extends AbstractCronjobTask
                 AND ((`db_deaktjava` != 0 AND `db_deaktjava` < :timeDeleted) OR `onlinetime` < :timeInactive);';
 
             $deleteUserIds = $db->select($sql, [
-                ':authlevel'    => AUTH_USR,
+                ':authlevel'    => AuthLevel::User->value,
                 ':timeDeleted'  => $del_deleted,
                 ':timeInactive' => $del_inactive,
                 ':uni'          => $uni,
@@ -162,7 +160,7 @@ class CleanerCronjob extends AbstractCronjobTask
 
             if (!empty($deleteUserIds)) {
                 foreach ($deleteUserIds as $dataRow) {
-                    $this->playerUtil()->deletePlayer($dataRow['id']);
+                    $this->playerDeletion()->deletePlayer($dataRow['id']);
                 }
             }
         }
@@ -182,7 +180,7 @@ class CleanerCronjob extends AbstractCronjobTask
             (`db_deaktjava` != 0 AND `db_deaktjava` < :timeDeleted);';
 
         $deleteAccountIds = $db->select($sql, [
-            ':authlevel'    => AUTH_USR,
+            ':authlevel'    => AuthLevel::User->value,
             ':timeDeleted'  => $del_deleted,
         ]);
 
@@ -195,7 +193,7 @@ class CleanerCronjob extends AbstractCronjobTask
         //delete accounts without users without activity for 28 days
         $sql = "SELECT * FROM %%ACCOUNTS%% WHERE `id` NOT IN (SELECT DISTINCT(account_id) FROM %%ACCOUNTS_TO_USERS%%) AND `onlinetime` < :inactive AND `authlevel` = :authlevel;";
         $deleteAccountIds = $db->select($sql, [
-            ':authlevel'    => AUTH_USR,
+            ':authlevel'    => AuthLevel::User->value,
             ':inactive'     => $this->state->runtime->timestamp - TIME_1_MONTH,
         ]);
 

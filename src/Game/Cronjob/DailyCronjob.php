@@ -18,10 +18,7 @@
 namespace App\Game\Cronjob;
 
 use App\Game\Core\Config;
-use App\Game\Cronjob\Cronjob;
-use App\Game\Core\Database;
 use App\Game\Core\ResourceUpdate;
-use App\Game\Core\PlayerUtil;
 use App\Game\Core\Universe;
 
 /**
@@ -122,9 +119,9 @@ class DailyCronjob extends AbstractCronjobTask
             $db = $this->db;
             foreach ($players as $player) {
                 $db->startTransaction();
-                $this->playerUtil()->disable_vmode($player);
+                $this->vacationMode()->disable_vmode($player);
                 $db->commit();
-                $this->playerUtil()->clearPlanets($player);
+                $this->planetManager()->clearPlanets($player);
             }
         }
     }
@@ -147,8 +144,8 @@ class DailyCronjob extends AbstractCronjobTask
                 $userData = $db->selectSingle($sql, [
                     ':userId'   => $player['id'],
                 ]);
-                $this->playerUtil()->removeFromAlliance($userData);
-                $this->playerUtil()->removeFromBuddy($player['id']);
+                $this->playerDeletion()->removeFromAlliance($userData);
+                $this->playerDeletion()->removeFromBuddy($player['id']);
             }
         }
     }
@@ -191,7 +188,7 @@ class DailyCronjob extends AbstractCronjobTask
     /**
      * Deletes old battle reports depending on config settings and unit size for battle hall
      *
-     * @param array $universes
+     * @param array<mixed> $universes
      * @return void
      */
     private function cleanReports(array $universes): void

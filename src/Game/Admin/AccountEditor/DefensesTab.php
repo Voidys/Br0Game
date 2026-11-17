@@ -15,7 +15,7 @@ class DefensesTab extends AccountEditorTab
         $e = $this->elements();
         $db = $this->db;
         if ($this->state->requestPost) {
-            $id = $this->http()->_GP('id', 0);
+            $id = $this->input()->int('id');
             foreach ($e->ids('defense') as $ID) {
                 $fields[] = "`" . $e->column($ID) . "`";
             }
@@ -31,7 +31,7 @@ class DefensesTab extends AccountEditorTab
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
                 foreach ($e->ids('defense') as $ID) {
-                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
+                    $count = max(0, round($this->input()->float($e->column($ID))));
                     if ($count > 0) {
                         $QryUpdate[$e->column($ID)] = $count;
                         $afterDef[$ID] = $beforeDef[$e->column($ID)] + $count;
@@ -43,7 +43,7 @@ class DefensesTab extends AccountEditorTab
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
                 foreach ($e->ids('defense') as $ID) {
-                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
+                    $count = max(0, round($this->input()->float($e->column($ID))));
                     if ($count > 0) {
                         $QryUpdate[$e->column($ID)] = -$count;
                         $afterDef[$ID] = max(0, $beforeDef[$e->column($ID)] - $count);
@@ -63,9 +63,9 @@ class DefensesTab extends AccountEditorTab
                 $LOG->save();
             }
             if (isset($this->state->requestPost['add'])) {
-                $this->responder->message($LNG['ad_add_defenses_success'], '?page=accountEditor&edit=defenses');
+                $this->responder->message($LNG['ad_add_defenses_success'], 'admin/accounts/edit/defenses');
             } elseif (isset($this->state->requestPost['delete'])) {
-                $this->responder->message($LNG['ad_delete_defenses_success'], '?page=accountEditor&edit=defenses');
+                $this->responder->message($LNG['ad_delete_defenses_success'], 'admin/accounts/edit/defenses');
             }
         }
 

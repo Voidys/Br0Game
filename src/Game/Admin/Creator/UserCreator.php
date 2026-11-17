@@ -2,6 +2,7 @@
 
 namespace App\Game\Admin\Creator;
 
+use App\Game\Enum\AuthLevel;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Creator tab "user": creates a player (with home planet) for an existing account. */
@@ -26,26 +27,26 @@ class UserCreator extends CreatorTab
     private function createFromPost(): void
     {
         $LNG = $this->state->LNG;
-        $UserName = $this->http()->_GP('name', '', UTF8_SUPPORT);
-        $UserAuth = $this->http()->_GP('authlevel', 0);
+        $UserName = $this->input()->string('name', '', UTF8_SUPPORT);
+        $UserAuth = $this->input()->int('authlevel');
         // nobody can hand out a level above their own (the form only offers the allowed ones)
-        $UserAuth = max(AUTH_USR, min((int) $UserAuth, (int) $this->state->USER['authlevel']));
-        $Galaxy = $this->http()->_GP('galaxy', 0);
-        $System = $this->http()->_GP('system', 0);
-        $Planet = $this->http()->_GP('planet', 0);
-        $Language = $this->http()->_GP('lang', '');
-        $accountID = $this->http()->_GP('accountID', 0);
+        $UserAuth = max(AuthLevel::User->value, min((int) $UserAuth, (int) $this->state->USER['authlevel']));
+        $Galaxy = $this->input()->int('galaxy');
+        $System = $this->input()->int('system');
+        $Planet = $this->input()->int('planet');
+        $Language = $this->input()->string('lang');
+        $accountID = $this->input()->int('accountID');
 
         $config = $this->configs->get($this->universe()->getEmulated());
         $errors = $this->validationErrors($UserName, $accountID, $Galaxy, $System, $Planet, $config);
 
         if (!empty($errors)) {
-            $this->responder->message(new \Twig\Markup($errors, 'UTF-8'), '?page=creator&mode=user', 10, true);
+            $this->responder->message(new \Twig\Markup($errors, 'UTF-8'), 'admin/creator/user', 10, true);
         }
 
         $Language = array_key_exists($Language, $LNG->getAllowedLangs(false)) ? $Language : $config->lang;
 
-        $player = $this->playerUtil()->createPlayer(
+        $player = $this->playerRegistration()->createPlayer(
             $accountID,
             $this->universe()->getEmulated(),
             $UserName,
@@ -57,7 +58,7 @@ class UserCreator extends CreatorTab
             $UserAuth,
         );
 
-        $this->responder->message($LNG->format('new_user_success', $player[0], $player[1]), '?page=creator&mode=user', 5, true);
+        $this->responder->message($LNG->format('new_user_success', $player[0], $player[1]), 'admin/creator/user', 5, true);
     }
 
     /**
@@ -89,7 +90,7 @@ class UserCreator extends CreatorTab
             $errors .= "<br>";
         }
 
-        if (!$this->playerUtil()->isNameValid($UserName)) {
+        if (!$this->playerRegistration()->isNameValid($UserName)) {
             $errors .= $LNG['registerErrorUsernameChar'];
             $errors .= "<br>";
         }
@@ -104,7 +105,7 @@ class UserCreator extends CreatorTab
             $errors .= "<br>";
         }
 
-        if (!$this->playerUtil()->isPositionFree($this->universe()->getEmulated(), $Galaxy, $System, $Planet)) {
+        if (!$this->planetPositions()->isPositionFree($this->universe()->getEmulated(), $Galaxy, $System, $Planet)) {
             $errors .= $LNG['po_complete_all'];
             $errors .= "<br>";
         }
@@ -124,18 +125,18 @@ class UserCreator extends CreatorTab
         $USER = $this->state->USER;
 
         $AUTH = [];
-        $AUTH[AUTH_USR] = $LNG['user_level_' . AUTH_USR];
+        $AUTH[AuthLevel::User->value] = $LNG['user_level_' . AuthLevel::User->value];
 
-        if ($USER['authlevel'] >= AUTH_OPS) {
-            $AUTH[AUTH_OPS] = $LNG['user_level_' . AUTH_OPS];
+        if ($USER['authlevel'] >= AuthLevel::Operator->value) {
+            $AUTH[AuthLevel::Operator->value] = $LNG['user_level_' . AuthLevel::Operator->value];
         }
 
-        if ($USER['authlevel'] >= AUTH_MOD) {
-            $AUTH[AUTH_MOD] = $LNG['user_level_' . AUTH_MOD];
+        if ($USER['authlevel'] >= AuthLevel::Moderator->value) {
+            $AUTH[AuthLevel::Moderator->value] = $LNG['user_level_' . AuthLevel::Moderator->value];
         }
 
-        if ($USER['authlevel'] >= AUTH_ADM) {
-            $AUTH[AUTH_ADM] = $LNG['user_level_' . AUTH_ADM];
+        if ($USER['authlevel'] >= AuthLevel::Admin->value) {
+            $AUTH[AuthLevel::Admin->value] = $LNG['user_level_' . AuthLevel::Admin->value];
         }
 
         $this->responder->assign([

@@ -8,7 +8,7 @@
       <p class="hero__text">{{ LNG.format('loginServerDesc', gameName) }}</p>
       {% if loginAccountName is null %}
         <div class="hero__actions">
-          <a class="button btn--primary btn-hero" href="./?page=register">{{ LNG.buttonRegister }}</a>
+          <a class="button btn--primary btn-hero" href="{{ path('login_register_show') }}">{{ LNG.buttonRegister }}</a>
         </div>
       {% endif %}
       {% if universeStarts %}
@@ -30,7 +30,7 @@
         <div class="login-form login-form--session">
           <p>{{ LNG.format('home_logged_in_as', loginAccountName) }}</p>
           <a class="button btn--primary" href="account">{{ LNG.home_continue }}</a>
-          <a class="button" data-method="post" href="account?page=logout">{{ LNG.lm_logout }}</a>
+          <a class="button" data-method="post" href="{{ path('account_logout_show') }}">{{ LNG.lm_logout }}</a>
         </div>
       </div>
       {% else %}
@@ -39,13 +39,13 @@
         {% if code %}
           <div class="notice notice--danger" role="alert">{{ icon('circle-alert') }}<div>{{ code }}</div></div>
         {% endif %}
-        <form class="login-form" id="login-form" name="login" action="./?page=login" data-action="./?page=login" method="post">
+        <form class="login-form" id="login-form" name="login" action="{{ path('login_login_send') }}" data-action="{{ universe_path('login_login_send') }}" method="post">
           <label>{{ LNG.loginEmail }}<input name="email" id="email" type="email" maxlength="64" autocomplete="username" required></label>
           <label>{{ LNG.loginPassword }}<input name="password" id="password" type="password" autocomplete="current-password" required></label>
           <button type="submit" class="btn--primary">{{ LNG.loginButton }}</button>
         </form>
         <div class="login-meta">
-          {% if mailEnable %}<a href="./?page=lostPassword">{{ LNG.buttonLostPassword }}</a>{% endif %}
+          {% if mailEnable %}<a href="{{ path('login_lost_password_show') }}">{{ LNG.buttonLostPassword }}</a>{% endif %}
           {% set rulesLink %}<a href="{{ rulesUrl }}">{{ LNG.menu_rules }}</a>{% endset %}
           <span>{{ LNG.format('loginInfo', rulesLink) }}</span>
         </div>
@@ -59,10 +59,10 @@
       <div class="panel__body">
         <ul class="news-teasers">
           {% for item in latestNews %}
-            <li><a href="./?page=news&amp;id={{ item.id }}"><span class="news-teasers__title">{{ item.title }}</span><time>{{ item.date }}</time></a></li>
+            <li><a href="{{ path('login_news_article', {id: item.id}) }}"><span class="news-teasers__title">{{ item.title }}</span><time>{{ item.date }}</time></a></li>
           {% endfor %}
         </ul>
-        <a class="news-teasers__all" href="./?page=news">{{ LNG.news_all }} {{ icon('chevron-right') }}</a>
+        <a class="news-teasers__all" href="{{ path('login_news_show') }}">{{ LNG.news_all }} {{ icon('chevron-right') }}</a>
       </div>
     </section>
     {% endif %}
@@ -91,10 +91,10 @@
         <div class="links">
           {% if game_config('discord_url') and not discordWidget %}<a href="{{ game_config('discord_url')|e('html_attr') }}" target="_blank" rel="noopener">{{ icon('message-circle') }}Discord</a>{% endif %}
           {% if game_config('wiki_url') %}<a href="{{ game_config('wiki_url')|e('html_attr') }}" target="_blank" rel="noopener">{{ icon('book-open') }}Wiki</a>{% endif %}
-          <a href="./?page=HoF">{{ icon('trophy') }}{{ LNG.siteTitleHOF }}</a>
-          <a href="./?page=battleHall">{{ icon('swords') }}{{ LNG.menu_battlehall }}</a>
-          <a href="./?page=screens">{{ icon('layers') }}{{ LNG.buttonScreenshot }}</a>
-          <a href="./?page=news">{{ icon('newspaper') }}{{ LNG.menu_news }}</a>
+          <a href="{{ path('login_hof_show') }}">{{ icon('trophy') }}{{ LNG.siteTitleHOF }}</a>
+          <a href="{{ path('login_battle_hall_show') }}">{{ icon('swords') }}{{ LNG.menu_battlehall }}</a>
+          <a href="{{ path('login_screens_show') }}">{{ icon('layers') }}{{ LNG.buttonScreenshot }}</a>
+          <a href="{{ path('login_news_show') }}">{{ icon('newspaper') }}{{ LNG.menu_news }}</a>
         </div>
       </div>
     </section>

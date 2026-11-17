@@ -49,6 +49,8 @@ class Maintenance
             ':ecoHash' => '',
         ]);
         clearstatcache();
+        // var/game/ is wiped above, the generation stamp with it: bump it so no stale reader publishes old rows
+        $this->configs->invalidateCache();
 
         // The release version lives in install/VERSION (year scheme: 1.<yy>.<patch>, e.g. 1.26.0 for 2026).
         $version = trim((string) SafeFile::read($this->state->runtime->rootPath . 'install/VERSION'));
@@ -97,6 +99,8 @@ class Maintenance
     /**
      * The migration files by revision. The directory scan is cached in var/game/ and rebuilt when the
      * directory's modification time changes (a file was added, removed or renamed).
+     *
+     * @return array<mixed>
      */
     private function migrationFiles(): array
     {
@@ -138,10 +142,34 @@ class Maintenance
 
     /**
      * True when at least one migration is pending (triggers the upgrade page).
+     *
+     * "Nothing pending" is remembered in var/game/cache.dbstatus.php under a key of database, table prefix, the
+     * migration directory's modification time and config/game.php, so a normal request skips the `system` query. A new
+     * or removed migration file changes the key and brings the real check back; pending migrations are never cached.
+     * A database restored behind the game's back needs var/game/ cleared (admin "clear cache").
      */
     public function checkDBUpgrade(): bool
     {
-        $migrationFileList = $this->listMigrations();
-        return !empty($migrationFileList);
+        $root = $this->state->runtime->rootPath;
+        $key = md5(implode('|', [
+            $this->db->getDatabaseName(),
+            $this->db->getTablePrefix(),
+            SafeFile::mtime($root . 'install/migrations/'),
+            SafeFile::mtime($root . 'config/game.php'),
+        ]));
+        $cacheFile = $this->state->runtime->cachePath . 'cache.dbstatus.php';
+        if (is_file($cacheFile) && (include $cacheFile) === $key) {
+            return false;
+        }
+
+        $pending = !empty($this->listMigrations());
+        if (!$pending) {
+            SafeFile::write($cacheFile, '<?php return ' . var_export($key, true) . ';');
+            if (function_exists('opcache_invalidate')) {
+                opcache_invalidate($cacheFile, true);
+            }
+        }
+
+        return $pending;
     }
 }

@@ -17,21 +17,14 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Singleton;
 
 /**
  * Game rules page.
  */
-#[\App\Routing\GamePage('game', 'rules')]
 class RulesController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     private \App\Content\ContentPages $contentPages;
     private \App\Content\HtmlContent $htmlContent;
 
@@ -46,18 +39,17 @@ class RulesController extends AbstractGameController
      * Rules page: the same CMS page as the public /rules (edited row, else the default text unless blank rules were
      * chosen) in the player's language; empty rules show a notice.
      */
+    #[GameRoute('game', 'game/rules', 'rules')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         $LNG->includeData(['PUBLIC']);
         $page = $this->contentPages->find('rules', $LNG->getLanguage());
         $empty = $this->htmlContent->isEmpty($page['content']);
-        $this->assign([
+        return $this->render('game/page.rules.default.html.twig', [
             // sanitized CMS HTML (ContentPages) or the trusted default template
             'rules' => $empty ? '' : new \Twig\Markup($page['content'], 'UTF-8'),
             'rulesEmpty' => $empty,
         ]);
-
-        return $this->render('game/page.rules.default.html.twig');
     }
 }

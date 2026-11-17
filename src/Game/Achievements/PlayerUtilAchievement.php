@@ -12,7 +12,6 @@ use App\Game\Core\Achievement;
 use App\Game\Core\StoredData;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
 use App\Game\Core\Statbuilder;
 
 /**
@@ -32,7 +31,7 @@ class PlayerUtilAchievement
     /**
      * Check for achievements in relation to Planet deletion
      *
-     * @param array			$planetData       		The data of the planet
+     * @param array<mixed>			$planetData       		The data of the planet
      * @param int	 		$planetId       		The id of the planet
      */
     public function checkPlayerUtilAchievementsDeletion($planetData, $planetId)
@@ -83,7 +82,7 @@ class PlayerUtilAchievement
      * Check if a player completed the prerequisites for the achievement 26
      * Everything for the achievements: Delete your biggest planet pointwise
      *
-     * @param array    		$planetData       		The data of the planet
+     * @param array<mixed>    		$planetData       		The data of the planet
      * @param Database    	$db       				The database object
      * @param int     		$planetId       		The id of the planet
      */
@@ -114,7 +113,7 @@ class PlayerUtilAchievement
      * Check if a player completed the prerequisites for the achievement 49
      * We're blasting off again: Delete a planet within 60 seconds
      *
-     * @param array    		$planetData       		The data of the planet
+     * @param array<mixed>    		$planetData       		The data of the planet
      * @param Database    	$db       				The database object
      * @param int     		$planetId       		The id of the planet
      */

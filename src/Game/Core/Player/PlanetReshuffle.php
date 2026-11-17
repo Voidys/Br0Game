@@ -2,6 +2,7 @@
 
 namespace App\Game\Core\Player;
 
+use App\Game\Enum\AuthLevel;
 use Exception;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
@@ -46,14 +47,14 @@ class PlanetReshuffle
         ], 'max');
         $uniStatus = $config->uni_status;
 
-        if ($maxPlanetAmount > 1 || $uniStatus != STATUS_CLOSED || $USER['authlevel'] != AUTH_ADM) {
+        if ($maxPlanetAmount > 1 || $uniStatus != STATUS_CLOSED || $USER['authlevel'] != AuthLevel::Admin->value) {
             $result = "";
             $LNG = $this->state->LNG;
             if ($maxPlanetAmount > 1) {
                 $result = $LNG['rp_planet_error'];
             } elseif ($uniStatus != STATUS_CLOSED) {
                 $result = $LNG['rp_universe_error'];
-            } elseif ($USER['authlevel'] != AUTH_ADM) {
+            } elseif ($USER['authlevel'] != AuthLevel::Admin->value) {
                 $result = $LNG['rp_rights_error'];
             }
             return $result;
@@ -65,7 +66,7 @@ class PlanetReshuffle
         ]);
         $sql = 'SELECT `id` FROM %%USERS%% WHERE `authlevel` = :auth AND `universe` = :universe ORDER BY `id`;';
         $userIds = $db->select($sql, [
-            ':auth'      => AUTH_USR,
+            ':auth'      => AuthLevel::User->value,
             ':universe' => $universe,
         ]);
         foreach ($userIds as $userId) {

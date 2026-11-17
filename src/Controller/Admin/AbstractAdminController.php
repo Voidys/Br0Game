@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\AuthLevel;
 use App\Controller\GameControllerInterface;
 use App\Controller\RendersPages;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +37,7 @@ abstract class AbstractAdminController implements GameControllerInterface
     {
         $USER = $this->state->USER;
 
-        if ($USER['authlevel'] == AUTH_USR) {
+        if ($USER['authlevel'] == AuthLevel::User->value) {
             $this->http()->redirectTo('game');
         }
 
@@ -46,11 +47,14 @@ abstract class AbstractAdminController implements GameControllerInterface
         if ($session->adminAccess != 1) {
             // the former page constructor ran the permission check for the login page too
             $this->checkPermission('ShowLoginPage');
+            if ($this instanceof LoginController) {
+                return;
+            }
             throw EndOfRequest::withResponse((new LoginController())->withGameServicesOf($this)->show());
         }
 
-        $uni = $this->http()->_GP('uni', 0);
-        if ($USER['authlevel'] == AUTH_ADM && !empty($uni)) {
+        $uni = $this->input()->int('uni');
+        if ($USER['authlevel'] == AuthLevel::Admin->value && !empty($uni)) {
             $this->universe()->setEmulated($uni);
         }
 
@@ -65,23 +69,6 @@ abstract class AbstractAdminController implements GameControllerInterface
         $this->checkPermission('Show' . preg_replace('/Controller$/', '', $short) . 'Page');
     }
 
-    /**
-     * Route entry: runs show() and returns its Response; a page that printed its own output (downloads, plain text) ends the request through EndOfRequest.
-     */
-    public function __invoke(): Response
-    {
-        $result = $this->show();
-        if ($result instanceof Response) {
-            return $result;
-        }
-
-        // a page that printed its output itself (downloads, plain text)
-        throw new EndOfRequest();
-    }
-
-    /** the page action: returns the rendered page */
-    abstract public function show();
-
     protected static function templateArea(): string
     {
         return 'admin';
@@ -91,6 +78,17 @@ abstract class AbstractAdminController implements GameControllerInterface
     protected function layoutData(string $template): array
     {
         return (new AdminShell($this->db, $this->configs, $this->state))->pageData($template);
+    }
+
+    /**
+     * The admin notice page as a Response (an action returns it).
+     *
+     * @param string|\Twig\Markup $message plain text is escaped, pass Twig\Markup for HTML
+     * @param string|false $redirect URL to continue to after $delay seconds
+     */
+    protected function messageResponse(string|\Twig\Markup $message, string|false $redirect = false, int $delay = 3, bool $fatal = false): Response
+    {
+        return $this->gameView()->messagePage($message, $redirect, $delay, $fatal);
     }
 
     /**
@@ -107,16 +105,22 @@ abstract class AbstractAdminController implements GameControllerInterface
     /** Ends the request with the admin "permission denied" page (HTTP 403) instead of the error page (503). */
     protected function deny(): never
     {
+        throw EndOfRequest::withResponse($this->denyResponse());
+    }
+
+    /** The admin "permission denied" page (HTTP 403) as a Response (an action returns it). */
+    protected function denyResponse(): Response
+    {
         $response = $this->gameView()->messagePage($this->state->LNG['adm_permission_error'], false, 3, true);
         $response->setStatusCode(Response::HTTP_FORBIDDEN);
 
-        throw EndOfRequest::withResponse($response);
+        return $response;
     }
 
     /** Only authlevel ADM may use the page (rights, creator of admins, ...): the menu hides it, this enforces it. */
     protected function requireAdmin(): void
     {
-        if ((int) $this->state->USER['authlevel'] !== AUTH_ADM) {
+        if ((int) $this->state->USER['authlevel'] !== AuthLevel::Admin->value) {
             $this->deny();
         }
     }
@@ -148,7 +152,7 @@ abstract class AbstractAdminController implements GameControllerInterface
         }
 
         $USER = $this->state->USER;
-        if ($USER['authlevel'] == AUTH_USR) {
+        if ($USER['authlevel'] == AuthLevel::User->value) {
             $this->deny();
         }
     }

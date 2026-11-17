@@ -2,6 +2,10 @@
 
 namespace App\Game\Core;
 
+use App\Runtime\ProjectPaths;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+
 /**
  * Renders spy reports for the message list: spy report messages store a JSON blob built by MissionCaseSpy;
  * this class turns it into the message title and the HTML report (Twig template game/shared.mission.spyReport).
@@ -10,11 +14,66 @@ class SpyReport
 {
     use \App\Game\Core\GameUtilities;
 
+    /** seconds a rendered report stays cached (also bounds how long a changed theme image or translation of an unchanged file can show stale) */
+    private const CACHE_TTL = 43200;
+
+    /** bump when the cached value layout or what the render depends on changes */
+    private const CACHE_VERSION = 1;
+
+    private ?string $renderStamp = null;
+
     public function __construct(
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,
         protected \App\Game\Core\Singleton $state,
+        private readonly ?CacheInterface $cache = null,
     ) {}
+
+    /**
+     * Title and HTML of a report message in one go, from the render cache when there is one (the message list shows many
+     * reports per page). Not a report in the JSON format: empty title and the text unchanged.
+     *
+     * @return array{title: string, html: string}
+     */
+    public function titleAndHtml(string $MessageText): array
+    {
+        if ($this->cache === null || !json_validate($MessageText)) {
+            return ['title' => $this->getSpyReportTitle($MessageText), 'html' => $this->getSpyReport($MessageText)];
+        }
+
+        return $this->cache->get($this->cacheKey($MessageText), function (ItemInterface $item) use ($MessageText): array {
+            $item->expiresAfter(self::CACHE_TTL);
+
+            return ['title' => $this->getSpyReportTitle($MessageText), 'html' => $this->getSpyReport($MessageText)];
+        });
+    }
+
+    /**
+     * Cache key of the rendered report: everything the output depends on besides the report data itself, i.e. the language
+     * (and the language files' build time), the templates' modification times, the viewer's theme, time zone and number
+     * format, plus a hash of the stored report.
+     */
+    private function cacheKey(string $MessageText): string
+    {
+        $USER = $this->state->USER;
+        $this->renderStamp ??= (string) max(
+            (int) @filemtime(ProjectPaths::ROOT . 'templates/game/shared.mission.spyReport.html.twig'),
+            (int) @filemtime(ProjectPaths::ROOT . 'templates/game/tooltip.element.html.twig'),
+            (int) @filemtime(rtrim($this->state->runtime->cachePath, '/') . '/languages'),
+        );
+
+        return 'spyreport_' . sha1(implode("\0", [
+            self::CACHE_VERSION,
+            $this->renderStamp,
+            $this->state->LNG->getLanguage(),
+            $USER['dpath'] ?? '',
+            $USER['css_dpath'] ?? '',
+            $this->state->THEME?->getImageThemeName() ?? '',
+            $USER['timezone'] ?? '',
+            $USER['decimal_separator'] ?? '',
+            md5($MessageText),
+        ]));
+    }
 
     /**
      * Title line of a report message (planet, owner, coordinates, spy time) from the JSON text; '' if the text is not valid JSON.

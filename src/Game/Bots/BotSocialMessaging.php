@@ -2,6 +2,8 @@
 
 namespace App\Game\Bots;
 
+use App\Game\Enum\Mission;
+use App\Game\Enum\MessageType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -141,8 +143,8 @@ class BotSocialMessaging
         $replied = false;
 
         $chance = (int) ($ctx['profile']['reply_chance'] ?? 80);
-        $blocked = $this->playerUtil()->get_block_status($bot, $senderId)['block_dm'] == 1
-            || $this->playerUtil()->get_block_status($senderId, $bot)['block_dm'] == 1;
+        $blocked = $this->playerLookup()->get_block_status($bot, $senderId)['block_dm'] == 1
+            || $this->playerLookup()->get_block_status($senderId, $bot)['block_dm'] == 1;
 
         if (empty($config->bot_chatter)) {
             $this->botLog->log($bot, $uni, 'reply', 'chatter off, handled ' . count($msgs) . ' msg of #' . $senderId);
@@ -186,7 +188,7 @@ class BotSocialMessaging
                AND um.deleted_at IS NULL AND m.message_deleted IS NULL AND m.message_time <= :minAge
                AND NOT EXISTS (SELECT 1 FROM %%BOT_PLAYERS%% b WHERE b.user_id = m.message_sender)
              ORDER BY m.message_id ASC LIMIT 300;',
-            [':bot' => $bot, ':bot2' => $bot, ':bot3' => $bot, ':bot4' => $bot, ':type' => MESSAGE_TYPE_USER, ':uni' => $uni, ':last' => (int) ($ctx['row']['last_message_id'] ?? 0), ':minAge' => $now - 30],
+            [':bot' => $bot, ':bot2' => $bot, ':bot3' => $bot, ':bot4' => $bot, ':type' => MessageType::User->value, ':uni' => $uni, ':last' => (int) ($ctx['row']['last_message_id'] ?? 0), ':minAge' => $now - 30],
         );
     }
 
@@ -302,7 +304,7 @@ class BotSocialMessaging
         $attackers = [];
         foreach ($rows as $row) {
             $player = (int) $row['owner'];
-            if ((int) $row['mission'] === 6) {
+            if ((int) $row['mission'] === Mission::Spy->value) {
                 $this->relations->record($bot, $player, $uni, BotRelations::EVENT_PLAYER_SPIED);
             } else {
                 $this->relations->record($bot, $player, $uni, BotRelations::EVENT_PLAYER_ATTACKED);
@@ -351,7 +353,11 @@ class BotSocialMessaging
         return $sent;
     }
 
-    /** Whether the bot may write to the player again: `bot_reply_delay_hours` since its last message to them. */
+    /**
+     * Whether the bot may write to the player again: `bot_reply_delay_hours` since its last message to them.
+     *
+     * @param array<mixed> $relation
+     */
     private function throttleOpen(array $relation, int $uni): bool
     {
         $delay = max(0, (int) ($this->configs->get($uni)->bot_reply_delay_hours ?? 3)) * 3600;
@@ -362,11 +368,16 @@ class BotSocialMessaging
     /** True when either side blocks direct messages. */
     private function dmBlocked(int $bot, int $player): bool
     {
-        return $this->playerUtil()->get_block_status($bot, $player)['block_dm'] == 1
-            || $this->playerUtil()->get_block_status($player, $bot)['block_dm'] == 1;
+        return $this->playerLookup()->get_block_status($bot, $player)['block_dm'] == 1
+            || $this->playerLookup()->get_block_status($player, $bot)['block_dm'] == 1;
     }
 
-    /** Persona language if the phrase set has it, else the target's, else 'de'. */
+    /**
+     * Persona language if the phrase set has it, else the target's, else 'de'.
+     *
+     * @param array<mixed> $ctx
+     * @param array<mixed> $set
+     */
     private function pickLanguage(array $ctx, array $set, string $targetLang): string
     {
         $lang = $ctx['persona']['language'] ?? $targetLang;
@@ -419,9 +430,11 @@ class BotSocialMessaging
     }
 
     /**
-     * Sends a private message from the bot (type MESSAGE_TYPE_USER, sender label "name [g:s:p]"). `$text`/`$subject` are raw text,
+     * Sends a private message from the bot (type MessageType::User->value, sender label "name [g:s:p]"). `$text`/`$subject` are raw text,
      * cleaned (600/60 characters) and escaped here; `$group` continues a conversation. Refuses (returns false) when the text
      * is empty or matches the game's forbidden-text patterns, so a bot never sends what would get a player banned.
+     *
+     * @param array<mixed> $ctx
      */
     public function send(array $ctx, int $receiverId, string $subject, string $text, ?string $group): bool
     {
@@ -448,11 +461,11 @@ class BotSocialMessaging
 
         $me = $ctx['me'];
         $sender = $me['username'] . ' [' . $me['galaxy'] . ':' . $me['system'] . ':' . $me['planet'] . ']';
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $receiverId,
             $ctx['bot'],
             $sender,
-            MESSAGE_TYPE_USER,
+            MessageType::User->value,
             BotPersona::escapeForStorage($subject, false),
             BotPersona::escapeForStorage($text),
             time(),
@@ -464,7 +477,11 @@ class BotSocialMessaging
         return true;
     }
 
-    /** One-sentence status of the bot (rank, points, planet count) for LLM prompts; '' when it cannot be read. */
+    /**
+     * One-sentence status of the bot (rank, points, planet count) for LLM prompts; '' when it cannot be read.
+     *
+     * @param array<mixed> $ctx
+     */
     public function situation(array $ctx): string
     {
         try {
@@ -537,7 +554,11 @@ class BotSocialMessaging
         return in_array($fallback, ['de', 'en'], true) ? $fallback : 'de';
     }
 
-    /** Fixed-phrase reply chosen by keyword intent (attack, trade, alliance, question, greeting, default) and stance (hostile always, friendly for small talk) in the given language, then stylized. */
+    /**
+     * Fixed-phrase reply chosen by keyword intent (attack, trade, alliance, question, greeting, default) and stance (hostile always, friendly for small talk) in the given language, then stylized.
+     *
+     * @param array<mixed> $persona
+     */
     private static function cannedReply(string $incoming, string $lang, array $persona, string $stance = 'neutral'): string
     {
         $t = mb_strtolower($incoming);
@@ -561,7 +582,11 @@ class BotSocialMessaging
         return self::stylize($text, $persona);
     }
 
-    /** Applies the persona's typo rate and the quirks "lowercase" / "no punctuation" (also German wording) to a text. */
+    /**
+     * Applies the persona's typo rate and the quirks "lowercase" / "no punctuation" (also German wording) to a text.
+     *
+     * @param array<mixed> $persona
+     */
     private static function stylize(string $text, array $persona): string
     {
         $text = BotPersona::typos($text, (float) ($persona['typo_rate'] ?? 0));
@@ -576,7 +601,11 @@ class BotSocialMessaging
         return $text;
     }
 
-    /** Random element of a non-empty list. */
+    /**
+     * Random element of a non-empty list.
+     *
+     * @param array<mixed> $list
+     */
     public static function pick(array $list): mixed
     {
         return $list[array_rand($list)];

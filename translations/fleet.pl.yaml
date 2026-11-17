@@ -183,7 +183,7 @@ sys_mess_spy_destroyed: "Twoje sondy szpiegowskie zostały zniszczone!"
 sys_mess_spy_ennemyfleet_1: W pobliżu %2$s wykryto wrogie sondy szpiegowskie z planety %1$s.
 sys_mess_spy_ennemyfleet_3: W pobliżu %2$s zauważono wrogie sondy szpiegowskie z księżyca %1$s.
 sys_mess_spy_link: >-
-  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: "Szansa na wykrycie sond szpiegowskich: %d%%"
 sys_mess_spy_qg: "Wydział szpiegowski"
@@ -216,7 +216,7 @@ sys_spy_fleet: Flota
 sys_stat_mess: Twoja flota z %s %s dociera do %s %s %s i dostarcza %s %s, %s %s i %s %s. %s
 sys_stat_mess_stay: "Flota stacjonująca"
 sys_stealed_ressources: "Zrabowano:"
-sys_trade_mess_arr_success: "Twoja flota handlowa jest gotowa do powrotu na %1$s %2$s (lot powrotny: %5$s). <form action=\"game?page=fleetTable&amp;action=sendfleetback\" method=\"post\"><input name=\"fleetID\" value=\"%3$s\" type=\"hidden\"><input value=\"%4$s\" type=\"submit\"></form>"
+sys_trade_mess_arr_success: "Twoja flota handlowa jest gotowa do powrotu na %1$s %2$s (lot powrotny: %5$s). <form action=\"game/fleet/recall\" method=\"post\"><input name=\"fleetID\" value=\"%3$s\" type=\"hidden\"><input value=\"%4$s\" type=\"submit\"></form>"
 sys_trade_mess_back: "Twoja flota handlowa wróciła na %s %s z niczym."
 sys_trade_mess_back_success: "Twoja flota handlowa wróciła na %4$s %5$s z %1$s Metalu, %2$s Kryształu i %3$s Deuterium."
 sys_tran_mess_back: "Twoja flota wróciła na %s %s."

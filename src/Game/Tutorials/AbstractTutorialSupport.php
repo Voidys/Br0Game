@@ -9,8 +9,6 @@
 namespace App\Game\Tutorials;
 
 use App\Game\Core\Database;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Singleton;
 
 /**
  * Rules of one tutorial step for one player: loads the step's universe settings, the player's goals (with
@@ -26,14 +24,22 @@ abstract class AbstractTutorialSupport
      * @var Database
      */
     protected array $tutorialStep;
+    /** @var array<mixed> */
     protected array $tutorialUniverse;
+    /** @var array<mixed> */
     protected array $tutorialGoals;
+    /** @var array<mixed> */
     protected array $tutorialRewards;
+    /** @var array<mixed> */
     protected array $user;
+    /** @var array<mixed> */
     protected array $planet;
 
     /**
      * Loads tutorial_universe, the player's tutorial goals and the still unclaimed rewards of the step; the goals are checked against the player's main planet.
+     *
+     * @param array<string, mixed> $USER
+     * @param array<mixed> $tutorialStep
      */
     protected function __construct(
         protected \App\Game\Core\Database $db,
@@ -43,7 +49,7 @@ abstract class AbstractTutorialSupport
         array $USER,
     ) {
         $this->user = $USER;
-        $this->planet = $this->playerUtil()->getMainPlanet($USER);
+        $this->planet = $this->planetQueries()->getMainPlanet($USER);
 
         $this->tutorialStep = $tutorialStep;
         $tutorialID = $tutorialStep['id'];
@@ -98,7 +104,7 @@ abstract class AbstractTutorialSupport
      *
      * Can be disabled by table enty
      *
-     * @return array
+     * @return array<mixed>
      */
     public function listGoals(): array
     {
@@ -213,7 +219,7 @@ abstract class AbstractTutorialSupport
      * Can be disabled by module MODULE_TUTORIAL_REWARDS
      * or by table entry
      *
-     * @return array
+     * @return array<mixed>
      */
     public function listRewards(): array
     {
@@ -282,7 +288,7 @@ abstract class AbstractTutorialSupport
     /**
      * Returns the next tutorial step
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getNextStep(): array
     {

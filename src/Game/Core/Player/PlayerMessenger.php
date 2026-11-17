@@ -2,6 +2,7 @@
 
 namespace App\Game\Core\Player;
 
+use App\Game\Enum\MessageType;
 use App\Game\Core\Database;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Singleton;
@@ -70,7 +71,7 @@ class PlayerMessenger
      * @param int|int[] $userId receiver(s)
      * @param int $senderId 0 for the system
      * @param string $senderName
-     * @param int $messageType MESSAGE_TYPE_* constant
+     * @param int $messageType MessageType case value
      * @param string $subject
      * @param string $text
      * @param int $time timestamp
@@ -94,7 +95,7 @@ class PlayerMessenger
             $universe = $this->universe()->current();
         }
 
-        if (!empty($groupKey) && $messageType !== MESSAGE_TYPE_USER && !str_starts_with($groupKey, 'm_')) {
+        if (!empty($groupKey) && $messageType !== MessageType::User->value && !str_starts_with($groupKey, 'm_')) {
             $groupKey = 'm_' . $groupKey;
         }
 
@@ -130,8 +131,8 @@ class PlayerMessenger
         ]);
 
         $lastMessageId = $db->lastInsertId();
-        if (($messageType === MESSAGE_TYPE_USER || $messageType === MESSAGE_TYPE_SYSTEM) && empty($groupKey)) {
-            if ($messageType == MESSAGE_TYPE_USER) {
+        if (($messageType === MessageType::User->value || $messageType === MessageType::System->value) && empty($groupKey)) {
+            if ($messageType == MessageType::User->value) {
                 $groupKey = 'u_' . $lastMessageId;
             } else {
                 $groupKey = 'm_' . $lastMessageId;
@@ -145,7 +146,7 @@ class PlayerMessenger
 
         $this->linkMessageToUsers($userId, $lastMessageId, $senderId, $time);
 
-        if ($messageType === MESSAGE_TYPE_USER) {
+        if ($messageType === MessageType::User->value) {
             $this->notifyAdminsOnDiscord($userId, $universe, $senderId, $senderName, $subject);
         }
 

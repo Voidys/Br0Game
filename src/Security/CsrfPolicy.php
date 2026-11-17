@@ -13,14 +13,15 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * - every unsafe method (POST, PUT, PATCH, DELETE) to a game controller needs the token;
  * - safe methods (GET, HEAD) need it only when they change state. Those few endpoints are listed in
- *   GET_RULES; the front end sends them as POST (data-method="post" links, post() helper), the rule is
+ *   GET_ROUTES; the front end sends them as POST (data-method="post" links, post() helper), the rule is
  *   the safety net for hand-built links (the token may then travel as query parameter "_csrf").
  *
  * The token is a Symfony CSRF token with id TOKEN_ID (per session, masked), submitted as header
  * X-CSRF-Token (fetch/XHR) or as form/query field "_csrf" (see public/scripts/app/csrf.js).
  *
- * Route names of game pages are "game_<area>_<page>" (App\Routing\GamePage), area being one of
- * index (login), game, account, admin.
+ * Pages are routes (App\Routing\GameRoute, names "<area>_<page>_<mode>") known by their route attributes
+ * `_area`, `_page`, `_mode`; their state-changing GET actions are listed in GET_ROUTES, the rest of them are POST-only
+ * routes. Area is one of index (login), game, account, admin.
  */
 final class CsrfPolicy
 {
@@ -30,64 +31,8 @@ final class CsrfPolicy
 
     private const UNSAFE_METHODS = ['POST', 'PUT', 'PATCH', 'DELETE'];
 
-    /**
-     * State-changing GET requests. Each rule: area, page ("*" = any page of the area) and optional
-     * conditions on the query string: "mode"/"action" (value or list of values, case-insensitive), "has"
-     * (any of these parameters present), "unless" (map parameter => values that exempt the request).
-     *
-     * @var list<array{area: string, page: string, mode?: string|list<string>, action?: string|list<string>, has?: list<string>, unless?: array<string, list<string>>}>
-     */
-    private const GET_RULES = [
-        // --- game
-        ['area' => 'game', 'page' => 'logout'],
-        ['area' => 'game', 'page' => 'alliance', 'mode' => ['cancelApply', 'close']],
-        ['area' => 'game', 'page' => 'alliance', 'mode' => 'apply', 'has' => ['text']],
-        ['area' => 'game', 'page' => 'alliance', 'mode' => ['create', 'circular'], 'action' => 'send'],
-        ['area' => 'game', 'page' => 'alliance', 'mode' => 'admin', 'action' => [
-            'close', 'transfer', 'sendAnswerToApply', 'permissionsSend', 'rank', 'membersSave', 'membersKick',
-            'diplomacyAccept', 'diplomacyReject', 'diplomacyDelete', 'diplomacyCreateProcessor',
-        ]],
-        ['area' => 'game', 'page' => 'alliance', 'mode' => 'admin', 'has' => ['send']],
-        ['area' => 'game', 'page' => 'buddyList', 'mode' => ['send', 'delete', 'accept']],
-        ['area' => 'game', 'page' => 'fleetTable', 'action' => ['sendfleetback', 'acs']],
-        ['area' => 'game', 'page' => 'fleetAjax'],
-        ['area' => 'game', 'page' => 'information', 'mode' => ['sendFleet', 'destroyMissiles']],
-        ['area' => 'game', 'page' => 'marketPlace', 'action' => 'buy'],
-        ['area' => 'game', 'page' => 'messages', 'mode' => ['favMessage', 'deleteMessage', 'action', 'send', 'sendForward']],
-        ['area' => 'game', 'page' => 'notes', 'mode' => ['insert', 'delete']],
-        ['area' => 'game', 'page' => 'overview', 'mode' => ['rename', 'delete']],
-        ['area' => 'game', 'page' => 'phalanx'],
-        ['area' => 'game', 'page' => 'playerCard', 'mode' => 'toggleBlock'],
-        ['area' => 'game', 'page' => 'rebuildProtectionAjax'],
-        ['area' => 'game', 'page' => 'repairdock', 'has' => ['cmd']],
-        ['area' => 'game', 'page' => 'report'],
-        ['area' => 'game', 'page' => 'settings', 'mode' => ['send', 'toggleVacation', 'toggleDelete']],
-        ['area' => 'game', 'page' => 'shipyard', 'has' => ['fmenge', 'auftr']],
-        ['area' => 'game', 'page' => 'shipyard', 'mode' => 'saveFilters'],
-        ['area' => 'game', 'page' => 'tutorial', 'mode' => ['skip', 'skipAll', 'claim', 'fullfill']],
-        ['area' => 'game', 'page' => 'resources', 'mode' => 'send'],
-        ['area' => 'game', 'page' => 'fleetDealer', 'mode' => 'send'],
-        ['area' => 'game', 'page' => 'battleSimulator', 'mode' => 'send'],
-        ['area' => 'game', 'page' => 'fleetStep1', 'mode' => 'saveShortcuts'],
-        ['area' => 'game', 'page' => 'ticket', 'mode' => 'send'],
-        // --- account (the board additionally checks its own token on writes)
-        ['area' => 'account', 'page' => 'logout'],
-        ['area' => 'account', 'page' => 'accountSettings', 'mode' => ['send', 'toggleDelete']],
-        ['area' => 'account', 'page' => 'register', 'mode' => 'send'],
-        ['area' => 'account', 'page' => 'account', 'mode' => 'send'],
-        // --- admin: every action of the admin pages except the read-only views
-        ['area' => 'admin', 'page' => 'logout'],
-        ['area' => 'admin', 'page' => 'module', 'has' => ['mode']],
-        ['area' => 'admin', 'page' => 'clearCache'],
-        ['area' => 'admin', 'page' => 'clearLog'],
-        ['area' => 'admin', 'page' => 'statUpdate'],
-        ['area' => 'admin', 'page' => 'flyingFleet', 'has' => ['sendfleetback', 'sendfleetsback', 'lock', 'massunlock']],
-        ['area' => 'admin', 'page' => 'search', 'has' => ['delete']],
-        ['area' => 'admin', 'page' => 'multiIP', 'has' => ['action']],
-        ['area' => 'admin', 'page' => 'rights', 'has' => ['action']],
-        ['area' => 'admin', 'page' => 'support', 'mode' => 'send'],
-        ['area' => 'admin', 'page' => '*', 'has' => ['action'], 'unless' => ['action' => ['overview', 'show', 'detail', 'edit', 'create', 'check', 'getFileList']]],
-    ];
+    /** route names (GameRoute) of state-changing GET actions */
+    private const GET_ROUTES = ['account_logout_show', 'game_phalanx_show', 'game_logout_show'];
 
     /** public pages of the authenticated areas that may be opened from other sites (battle reports, board, wiki login) */
     private const CROSS_SITE_PAGES = ['raport', 'board', 'wikilogin'];
@@ -123,7 +68,7 @@ final class CsrfPolicy
             return true;
         }
 
-        return $this->matchesGetRule($request);
+        return $this->isStateChangingGet($request);
     }
 
     /** The submitted token: header first (fetch/XHR), then body field, then query parameter. */
@@ -140,7 +85,7 @@ final class CsrfPolicy
     /**
      * Cross-site navigation (Sec-Fetch-Site: cross-site, top-level GET) into a page of an authenticated
      * area that is not meant to be linked from outside: the last line of defence against state changes
-     * triggered by a plain link that GET_RULES does not know about. Browsers without Fetch Metadata
+     * triggered by a plain link that GET_ROUTES does not know about. Browsers without Fetch Metadata
      * (header missing) are not affected.
      */
     public function isForeignNavigation(Request $request): bool
@@ -159,75 +104,15 @@ final class CsrfPolicy
     /** @return array{0: string, 1: string} area (index, game, account, admin) and lower-case page of the matched route */
     public function areaAndPage(Request $request): array
     {
-        $route = (string) $request->attributes->get('_route', '');
+        $area = $request->attributes->get('_area');
+        $page = $request->attributes->get('_page');
 
-        return preg_match('/^game_([a-z]+)_([a-z0-9]+)/', $route, $m) === 1 ? [$m[1], $m[2]] : ['', ''];
+        return [is_string($area) ? $area : '', is_string($page) ? $page : ''];
     }
 
-    /**
-     * Whether a GET request matches one of the GET_RULES, i.e. a state-changing action reachable by link that needs
-     * a token. A rule matches by area and page ("*" = any), and optionally requires `mode`/`action` values or the
-     * presence of parameters (`has`), and is skipped when an `unless` parameter has an excluded value.
-     */
-    private function matchesGetRule(Request $request): bool
+    /** Whether a GET request is a state-changing action reachable by link (route listed in GET_ROUTES), which needs a token. */
+    private function isStateChangingGet(Request $request): bool
     {
-        [$area, $page] = $this->areaAndPage($request);
-        foreach (self::GET_RULES as $rule) {
-            if ($rule['area'] !== $area || ($rule['page'] !== '*' && strtolower($rule['page']) !== $page)) {
-                continue;
-            }
-            if (isset($rule['mode']) && !$this->queryIn($request, 'mode', $rule['mode'])) {
-                continue;
-            }
-            if (isset($rule['action']) && !$this->queryIn($request, 'action', $rule['action'])) {
-                continue;
-            }
-            if (isset($rule['has']) && !$this->hasAny($request, $rule['has'])) {
-                continue;
-            }
-            foreach ($rule['unless'] ?? [] as $param => $values) {
-                if ($this->queryIn($request, $param, $values)) {
-                    continue 2;
-                }
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /** @param string|list<string> $values */
-    private function queryIn(Request $request, string $param, string|array $values): bool
-    {
-        $given = $this->queryValue($request, $param);
-
-        return $given !== null && in_array($given, array_map('strtolower', (array) $values), true);
-    }
-
-    /**
-     * A query value the way the game sees it (HTTP::_GP: line breaks unified, "\0" removed, trimmed; html-encoding
-     * does not matter for the compared names), lower-cased. Null when missing or not a scalar.
-     */
-    public function queryValue(Request $request, string $param): ?string
-    {
-        $given = $request->query->all()[$param] ?? null;
-        if (!is_scalar($given)) {
-            return null;
-        }
-
-        return strtolower(trim(str_replace(["\r\n", "\r", "\0"], ["\n", "\n", ''], (string) $given)));
-    }
-
-    /** @param list<string> $params */
-    private function hasAny(Request $request, array $params): bool
-    {
-        foreach ($params as $param) {
-            if ($request->query->has($param)) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array($request->attributes->get('_route'), self::GET_ROUTES, true);
     }
 }

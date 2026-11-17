@@ -17,8 +17,8 @@
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\Mission;
 use App\Game\BattleEngine\BattleFleet;
-use App\Game\Core\ResourceUpdate;
 use OutOfRangeException;
 
 /**
@@ -135,7 +135,7 @@ trait BattleFleetHandling
             AND `stay_time` >= :timeStamp FOR UPDATE;";
 
         return $this->db->select($sql, [
-            ':mission'      => MISSION_HOLD,
+            ':mission'      => Mission::Hold->value,
             ':fleetEndId'   => $this->_fleet['end_id'],
             ':timeStamp'    => $this->_fleet['arrival_time'],
             ':acsFleetId'   => $attackerId,

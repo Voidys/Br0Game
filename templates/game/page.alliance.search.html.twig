@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=alliance&amp;mode=search" method="post">
+<form action="{{ path('game_alliance_search') }}" method="get">
 	<table class="form-table">
 		<tr>
 			<th colspan="2">{{ LNG.al_find_alliances }}</th>
@@ -15,7 +15,7 @@
 		</tr>
 	</table>
 </form>
-{% if not empty(searchList) %}
+{% if searchList %}
 <table>
 	<tr>
 		<th>{{ LNG.al_ally_info_tag }}</th>
@@ -24,9 +24,9 @@
 	</tr>
 	{% for seachRow in searchList %}
 	<tr>
-		<td><a href="game?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.tag }}</a></td>
-		<td><a href="game?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.name }}</a></td>
-		<td class="num"><a href="game?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.members }}</a></td>
+		<td><a href="{{ path('game_alliance_apply', {id: seachRow.id}) }}">{{ seachRow.tag }}</a></td>
+		<td><a href="{{ path('game_alliance_apply', {id: seachRow.id}) }}">{{ seachRow.name }}</a></td>
+		<td class="num"><a href="{{ path('game_alliance_apply', {id: seachRow.id}) }}">{{ seachRow.members }}</a></td>
 	</tr>
 	{% else %}
 	<tr>

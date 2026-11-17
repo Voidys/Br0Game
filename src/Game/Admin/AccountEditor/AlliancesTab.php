@@ -26,8 +26,8 @@ class AlliancesTab extends AccountEditorTab
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        $id = $this->http()->_GP('id', 0);
-        $delete = $this->http()->_GP('delete', '');
+        $id = $this->input()->int('id');
+        $delete = $this->input()->string('delete');
 
         $sql = "SELECT * FROM %%ALLIANCE%% WHERE `id` = :allyId AND `ally_universe` = :universe;";
         $beforeAlliance = $db->selectSingle($sql, [
@@ -36,7 +36,7 @@ class AlliancesTab extends AccountEditorTab
         ]);
 
         if (!isset($beforeAlliance)) {
-            $this->responder->message($LNG['ad_ally_not_exist'], '?page=accountEditor&edit=alliances');
+            $this->responder->message($LNG['ad_ally_not_exist'], 'admin/accounts/edit/alliances');
         }
 
         // change plan: SQL set parts and parameters of the alliance update, the alliance row before and after (with the
@@ -52,7 +52,7 @@ class AlliancesTab extends AccountEditorTab
         $this->collectFieldChanges($plan);
         $this->writeAlliance($plan, $id);
 
-        $this->responder->message($LNG['ad_ally_succes'], '?page=accountEditor&edit=alliances');
+        $this->responder->message($LNG['ad_ally_succes'], 'admin/accounts/edit/alliances');
     }
 
     /**
@@ -107,7 +107,7 @@ class AlliancesTab extends AccountEditorTab
         $LOG->new = $plan['afterAlliance'];
         $LOG->save();
 
-        $this->responder->message($LNG['ad_ally_succes'], '?page=accountEditor&edit=alliances');
+        $this->responder->message($LNG['ad_ally_succes'], 'admin/accounts/edit/alliances');
     }
 
     /**
@@ -185,7 +185,7 @@ class AlliancesTab extends AccountEditorTab
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        $changeleader = $this->http()->_GP('changeleader', 0);
+        $changeleader = $this->input()->int('changeleader');
 
         if ($changeleader > 0) {
             $sql = "SELECT `id`, `username`, `ally_rank_id` FROM %%USERS%% WHERE `id` = :newLeaderId AND `universe` = :universe;";
@@ -196,7 +196,7 @@ class AlliancesTab extends AccountEditorTab
             $afterNewLeader = $beforeNewLeader;
 
             if (!isset($beforeNewLeader)) {
-                $this->responder->message($LNG['ad_ally_not_exist2'], '?page=accountEditor&edit=alliances');
+                $this->responder->message($LNG['ad_ally_not_exist2'], 'admin/accounts/edit/alliances');
             }
 
             $sql = "UPDATE %%USERS%% SET `ally_rank_id` = 0 WHERE `id` = :newLeaderId;";
@@ -222,7 +222,7 @@ class AlliancesTab extends AccountEditorTab
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        $delete_u = $this->http()->_GP('delete_u', '');
+        $delete_u = $this->input()->string('delete_u');
 
         if (!empty($delete_u)) {
             $sql = "SELECT `id`, `username`, `ally_id`, `ally_register_time`, `ally_rank_id`
@@ -235,7 +235,7 @@ class AlliancesTab extends AccountEditorTab
             $afterMember = $beforeMember;
 
             if (!isset($beforeMember)) {
-                $this->responder->message($LNG['ad_ally_not_exist3'], '?page=accountEditor&edit=alliances');
+                $this->responder->message($LNG['ad_ally_not_exist3'], 'admin/accounts/edit/alliances');
             }
 
             $sql = "UPDATE %%USERS%% SET `ally_id` = '0', `ally_rank_id` = '0', `ally_register_time` = '0'
@@ -263,11 +263,11 @@ class AlliancesTab extends AccountEditorTab
      */
     private function collectFieldChanges(array &$plan): void
     {
-        $name = $this->http()->_GP('name', '', UTF8_SUPPORT);
-        $tag = $this->http()->_GP('tag', '', UTF8_SUPPORT);
-        $externo = $this->http()->_GP('externo', '', true);
-        $interno = $this->http()->_GP('interno', '', true);
-        $solicitud = $this->http()->_GP('solicitud', '', true);
+        $name = $this->input()->string('name', '', UTF8_SUPPORT);
+        $tag = $this->input()->string('tag', '', UTF8_SUPPORT);
+        $externo = $this->input()->string('externo', '', true);
+        $interno = $this->input()->string('interno', '', true);
+        $solicitud = $this->input()->string('solicitud', '', true);
 
         if (!empty($name)) {
             $plan['values']['ally_name'] = $name;

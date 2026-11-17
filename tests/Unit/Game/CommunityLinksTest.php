@@ -9,7 +9,7 @@ use App\Game\Core\Config;
 use App\Game\Core\Config\ConfigFieldProcessor;
 use App\Game\Core\Config\ConfigFieldSchema;
 use App\Game\Core\ConfigRegistry;
-use App\Game\Core\HTTP;
+use App\Game\Core\RequestInput;
 use App\Game\Core\Language;
 use App\Game\Core\Singleton;
 use App\Runtime\RuntimeContext;
@@ -57,7 +57,7 @@ final class CommunityLinksTest extends TestCase
             $schema[$key] = ['type' => ConfigFieldSchema::TYPE_TEXT, 'transform' => 'string', 'validate' => 'http_url', 'default' => ''];
         }
 
-        $processed = ConfigFieldProcessor::processPostData($schema, new HTTP($state));
+        $processed = ConfigFieldProcessor::processPostData($schema, new RequestInput($state));
 
         foreach (CommunityLinks::KEYS as $key) {
             self::assertSame($expected, $processed[$key], $key);
@@ -103,8 +103,8 @@ final class CommunityLinksTest extends TestCase
 
         self::assertSame([], CommunityLinks::navLinks($empty, false, false));
         // wiki: SSO route wins, else the URL itself, else hidden
-        self::assertSame('game?page=wikiLogin', CommunityLinks::navLinks(self::SET, true, false)['wiki']);
-        self::assertSame('game?page=wikiLogin', CommunityLinks::navLinks($empty, true, false)['wiki']);
+        self::assertSame('game/wiki-login', CommunityLinks::navLinks(self::SET, true, false)['wiki']);
+        self::assertSame('game/wiki-login', CommunityLinks::navLinks($empty, true, false)['wiki']);
         self::assertSame('https://wiki.example.org/', CommunityLinks::navLinks(self::SET, false, false)['wiki']);
         self::assertArrayNotHasKey('wiki', CommunityLinks::navLinks(['discord_url' => 'https://chat.example.org'], false, false));
         // discord and donate need their URL, donate is hidden during the tutorial

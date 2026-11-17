@@ -13,6 +13,10 @@ namespace App\Game\Tutorials;
  */
 class LinkTutorialSupport extends AbstractTutorialSupport
 {
+    /**
+     * @param array<string, mixed> $USER
+     * @param array<mixed> $tutorialStep
+     */
     public function __construct(
         \App\Game\Core\Database $db,
         \App\Game\Core\ConfigRegistry $configs,
@@ -32,6 +36,8 @@ class LinkTutorialSupport extends AbstractTutorialSupport
     /**
      * Rewards of the step; none without a Discord URL, because the goal is then fulfilled automatically and
      * not by the player's click.
+     *
+     * @return array<mixed>
      */
     public function listRewards(): array
     {
@@ -60,7 +66,7 @@ class LinkTutorialSupport extends AbstractTutorialSupport
                     // no community Discord configured: plain text, the goal is fulfilled automatically (listGoals())
                     return $text;
                 }
-                $goal = $this->state->runtime->httpPath . 'game?page=tutorial&mode=fullfill&goal=' . $elementID;
+                $goal = $this->state->runtime->httpPath . 'game/tutorial/fulfill?goal=' . $elementID;
                 // opens the link in a new tab and reports the goal as fulfilled (action "tutorial-link", scripts/game/tutorial.js)
                 return '<a class="tutorial-link" href="' . htmlspecialchars($link, ENT_QUOTES) . '" data-action="tutorial-link" data-goal="' . htmlspecialchars($goal, ENT_QUOTES) . '" target="_blank" rel="noopener">' . $text . '</a>';
 
@@ -100,7 +106,7 @@ class LinkTutorialSupport extends AbstractTutorialSupport
      *
      * Can be disabled by table enty
      *
-     * @return array
+     * @return array<mixed>
      */
     public function listGoals(): array
     {

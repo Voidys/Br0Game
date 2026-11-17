@@ -83,7 +83,11 @@ class BotRelations
         ];
     }
 
-    /** 'hostile', 'neutral' or 'friendly' for a relation row (or a plain balance). */
+    /**
+     * 'hostile', 'neutral' or 'friendly' for a relation row (or a plain balance).
+     *
+     * @param array<mixed> $relation
+     */
     public function stance(array|int $relation): string
     {
         $balance = is_array($relation) ? (int) ($relation['balance'] ?? 0) : $relation;
@@ -115,7 +119,11 @@ class BotRelations
         );
     }
 
-    /** One-line summary for LLM prompts, e.g. "hostile (balance -23, 7 interactions)". */
+    /**
+     * One-line summary for LLM prompts, e.g. "hostile (balance -23, 7 interactions)".
+     *
+     * @param array<mixed> $relation
+     */
     public function summary(array $relation): string
     {
         return $this->stance($relation) . ' (balance ' . (int) $relation['balance'] . ', ' . (int) $relation['interactions'] . ' interactions)';

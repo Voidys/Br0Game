@@ -17,11 +17,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\AuthLevel;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Singleton;
 
 /** Admin dashboard: security notices, player and universe statistics, system and cron status. */
-#[\App\Routing\GamePage('admin', 'overview')]
 class OverviewController extends AbstractAdminController
 {
     /**
@@ -29,11 +29,12 @@ class OverviewController extends AbstractAdminController
      * writable), figures of the emulated universe (players online within the last 15 minutes, players, fleets), active cronjobs
      * and a warning for jobs whose lock is still set (stuck runs). Read-only.
      */
+    #[GameRoute('admin', 'admin/overview', 'overview')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        $Message = $USER['authlevel'] >= AUTH_ADM ? $this->setupNotices() : [];
+        $Message = $USER['authlevel'] >= AuthLevel::Admin->value ? $this->setupNotices() : [];
 
         // dashboard figures of the emulated universe
         $universe = $this->universe()->getEmulated();
@@ -46,7 +47,7 @@ class OverviewController extends AbstractAdminController
         ];
         $cronjobs = $db->select('SELECT name, nextTime, `lock` FROM %%CRONJOBS%% WHERE isActive = 1 ORDER BY nextTime;');
         $stuckCronjobs = array_values(array_filter($cronjobs, static fn(array $job): bool => !empty($job['lock'])));
-        if ($USER['authlevel'] >= AUTH_ADM && $stuckCronjobs !== []) {
+        if ($USER['authlevel'] >= AuthLevel::Admin->value && $stuckCronjobs !== []) {
             $Message[] = $LNG->format('adm_dash_cron_locked', implode(', ', array_column($stuckCronjobs, 'name')));
         }
         $config = $this->configs->get($universe);
@@ -60,7 +61,7 @@ class OverviewController extends AbstractAdminController
             'cronjobs' => count($cronjobs),
         ];
 
-        $unprotected = $USER['authlevel'] >= AUTH_ADM ? $this->unprotectedWarnings($config) : [];
+        $unprotected = $USER['authlevel'] >= AuthLevel::Admin->value ? $this->unprotectedWarnings($config) : [];
 
         $this->assign([
             'unprotected'       => $unprotected,

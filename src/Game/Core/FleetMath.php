@@ -9,7 +9,7 @@ use App\Game\Model\User;
  * duration, fuel consumption, cargo room, fleet slots, expedition limit, missile/phalanx ranges, missile flight time.
  *
  * Collaborators: ConfigRegistry (universe geometry and speed factors), Singleton (pricelist/resource tables),
- * PlayerUtil (honor point fuel boost). No DB writes. The formulas are mirrored in the client JS
+ * HonorPoints (honor point fuel boost). No DB writes. The formulas are mirrored in the client JS
  * (scripts/game/flotten.js) and pinned by FleetFunctionsTest goldens.
  */
 class FleetMath
@@ -89,6 +89,9 @@ class FleetMath
     /**
      * Whether the target planet is inside the missile range of the source planet (ion engine level based; wraps
      * around in circular galaxies, galaxy_type 1).
+     *
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $target
      */
     public function inMissileRange(array $planet, array $target, int $levelIonEngine): bool
     {
@@ -145,6 +148,8 @@ class FleetMath
      *
      * Changes needs to be done in scripts/game/flotten.js#GetDistance() aswell
      *
+     * @param array<mixed> $start
+     * @param array<string, mixed> $target
      * @return int
      */
     public function getTargetDistance(array $start, array $target): int
@@ -198,6 +203,8 @@ class FleetMath
     /**
      * Travel time in seconds.
      * Keep scripts/game/flotten.js#GetRawDuration() and the duration helper in public/scripts/game in sync.
+     *
+     * @param array<string, mixed> $USER
      */
     public function getMissionDuration(int $SpeedFactor, int $MaxFleetSpeed, int $Distance, int $GameSpeed, array $USER): int
     {
@@ -296,6 +303,9 @@ class FleetMath
 
     /**
      * Speed of the slowest ship of the fleet (a single ship id counts as one ship of that type); 0 for an empty fleet.
+     *
+     * @param array<mixed> $Fleets
+     * @param array<string, mixed> $Player
      */
     public function getFleetMaxSpeed(array|int $Fleets, array $Player): int
     {
@@ -325,6 +335,9 @@ class FleetMath
 
     /**
      * Deuterium consumption of the whole fleet for the given duration/distance (including the honor point boost, plus 1).
+     *
+     * @param array<mixed> $FleetArray
+     * @param array<string, mixed> $Player
      */
     public function getFleetConsumption(array $FleetArray, int $MissionDuration, int $MissionDistance, array $Player, int $GameSpeed): float
     {
@@ -348,9 +361,14 @@ class FleetMath
             $basicConsumption = $ShipConsumption * $Count;
             $consumption += $basicConsumption * $MissionDistance / 35000 * (($spd / 10) + 1) * (($spd / 10) + 1);
         }
-        return (round($consumption * $this->playerUtil()->calculate_honorpoints_boost($Player->id)) + 1);
+        return (round($consumption * $this->honorPoints()->calculate_honorpoints_boost($Player->id)) + 1);
     }
 
+    /**
+     * @param array<mixed> $FleetArray
+     * @param array<string, mixed> $Player
+     * @return array<mixed>
+     */
     public function getFleetShipInfo(array $FleetArray, array $Player): array
     {
         return $this->fleetShipInfoFor($FleetArray, $this->models()->user($Player));

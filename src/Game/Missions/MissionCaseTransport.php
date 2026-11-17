@@ -17,9 +17,8 @@
 
 namespace App\Game\Missions;
 
-use App\Game\Core\Database;
+use App\Game\Enum\MessageType;
 use App\Game\Core\Log;
-use App\Game\Core\PlayerUtil;
 
 /**
  * Mission "transport" (3): delivers the cargo to the target planet (own or foreign) and flies home empty.
@@ -118,11 +117,11 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
             $LNG['tech'][RESOURCE_DEUT],
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_TRANSPORT,
+            MessageType::Transport->value,
             $LNG['sys_mess_transport'],
             $Message,
             $this->_fleet['arrival_time'],
@@ -175,11 +174,11 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
         $LOG->new = $new;
         $LOG->saveTr();
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['target_owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_FOREIGN_TRANSPORT,
+            MessageType::ForeignTransport->value,
             $LNG['sys_mess_transport'],
             $Message,
             $this->_fleet['arrival_time'],
@@ -210,11 +209,11 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
 
         $Message	= $LNG->format('sys_tran_mess_back', $planetName, GetStartAddressLink($this->_fleet, ''));
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['return_time'],

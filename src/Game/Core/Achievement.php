@@ -27,7 +27,7 @@ class Achievement
      *
      * @param int     	$userID       		The id of the User
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getUserAchievements(int $userID): array
     {
@@ -42,7 +42,7 @@ class Achievement
     /**
      * Return all Achievements.
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getAchievementList(): array
     {

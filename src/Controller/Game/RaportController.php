@@ -17,24 +17,17 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
+use App\Game\Enum\AuthLevel;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 
 /**
- * Battle report page (/game?page=raport): renders a stored combat report for its participants.
+ * Battle report page (/report/{raport}, also without login): renders a stored combat report for its participants.
  */
-#[\App\Routing\GamePage('game', 'raport')]
 class RaportController extends AbstractGameController
 {
     protected $disableEcoSystem = true;
-
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
 
     /**
      * Marks whether a wreck field was created and hides repair data from viewers that are not the defender.
@@ -55,6 +48,7 @@ class RaportController extends AbstractGameController
      * admins and members of the alliances of participants see the full report; everybody else only a reduced one with the participants' names
      * (from TOPKB_USERS). Renders the template for the battle engine stored with the report (`rust` or classic). Unknown ids end in a message.
      */
+    #[GameRoute('game', 'report/{raport}', 'raport', requirements: ['raport' => '[A-Za-z0-9]+'])]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -65,10 +59,10 @@ class RaportController extends AbstractGameController
 
         $db = $this->db;
 
-        $RID		= $this->http()->_GP('raport', '');
+        $RID		= $this->input()->string('raport');
 
         if ($RID == 0) {
-            $this->printMessage($LNG['sys_raport_amount_error']);
+            return $this->messageResponse($LNG['sys_raport_amount_error']);
         }
 
         $sql = "SELECT raport,attacker,defender,battleengine FROM %%RW%% WHERE rid = :reportID;";
@@ -77,7 +71,7 @@ class RaportController extends AbstractGameController
         ]);
 
         if (empty($reportData)) {
-            $this->printMessage($LNG['sys_raport_not_found']);
+            return $this->messageResponse($LNG['sys_raport_not_found']);
         }
 
         [$showDetails, $isDefender] = $this->detailAccess($reportData);
@@ -89,7 +83,7 @@ class RaportController extends AbstractGameController
         }
 
         if (empty($reportData)) {
-            $this->printMessage($LNG['sys_raport_not_found']);
+            return $this->messageResponse($LNG['sys_raport_not_found']);
         }
 
         if ($reportData['battleengine'] === 'rust') {
@@ -99,7 +93,7 @@ class RaportController extends AbstractGameController
         }
 
         if (!$isDefender && $combatReport['result'] == DEFENDER && count($combatReport['rounds']) <= 2) {
-            $this->printMessage($LNG['sys_raport_lost_contact']);
+            return $this->messageResponse($LNG['sys_raport_lost_contact']);
         }
 
         $combatReport['time']	= $this->viewHelpers()->formatDate($LNG['php_tdformat'], $combatReport['time'], $USER['timezone']);
@@ -108,18 +102,14 @@ class RaportController extends AbstractGameController
         if ($reportData['battleengine'] === 'rust') {
             $combatReport = $this->sortRustRounds($combatReport);
         }
-        $this->assign([
+        $context = [
             'Raport'        => $combatReport,
             'Info'          => $Info,
             'pageTitle'     => $LNG['sys_mess_attack_report'],
             'recCapacity'   => $e->capacity(SHIP_RECYCLER),
-        ]);
+        ];
 
-        if ($reportData['battleengine'] === 'rust') {
-            return $this->render('game/shared.mission.raport.rust.html.twig');
-        } else {
-            return $this->render('game/shared.mission.raport.html.twig');
-        }
+        return $this->render($reportData['battleengine'] === 'rust' ? 'game/shared.mission.raport.rust.html.twig' : 'game/shared.mission.raport.html.twig', $context);
     }
 
     /**
@@ -138,7 +128,7 @@ class RaportController extends AbstractGameController
         $defenders = explode(",", $reportData['defender']);
         $isAttacker = in_array((string) $USER['id'], $attackers, true);
         $isDefender = in_array((string) $USER['id'], $defenders, true);
-        if (array_key_exists('authlevel', $USER) && $USER['authlevel'] > 0) {
+        if (array_key_exists('authlevel', $USER) && $USER['authlevel'] > AuthLevel::User->value) {
             $isDefender = true;
         }
         $showDetails = $isAttacker || $isDefender;
@@ -178,7 +168,7 @@ class RaportController extends AbstractGameController
      *
      * @return array<string, mixed>|false|null row with battleengine, raport, time, attacker (names) and defender (names)
      */
-    private function reducedReport(mixed $RID): array|false|null
+    private function reducedReport(string $RID): array|false|null
     {
         $sql = "SELECT
 		battleengine, raport, time,

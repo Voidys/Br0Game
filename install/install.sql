@@ -489,7 +489,8 @@ CREATE TABLE `%PREFIX%messages` (
   PRIMARY KEY (`message_id`),
   KEY `message_sender` (`message_sender`),
   KEY `message_deleted` (`message_deleted`),
-  KEY `message_owner` (`message_owner`,`message_type`,`message_unread`,`message_deleted`)
+  KEY `message_owner` (`message_owner`,`message_type`,`message_unread`,`message_deleted`),
+  KEY `message_group` (`message_group`,`message_type`,`message_time`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `%PREFIX%messages_forbidden` (

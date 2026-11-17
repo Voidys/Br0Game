@@ -17,15 +17,6 @@
 
 namespace App\Game\Missions;
 
-use App\Game\AdvancedStats\AdvancedStatsEnum;
-use App\Game\BattleEngine\BattleHandler;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
-
 /**
  * Mission "pirate base espionage" (21): probes spy on an NPC pirate base and deliver a spy report like
  * MissionCaseSpy, with the base's resources and ships (no buildings/defense; the research shown is the
@@ -88,7 +79,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         [$smallCargoNeeded, $largeCargoNeeded] = $this->cargoNeeded($targetBase);
 
         // Scavengers Tool Box
-        $stbSettings = $this->playerUtil()->player_stb_settings($senderUser);
+        $stbSettings = $this->playerLookup()->player_stb_settings($senderUser);
 
         // determine if the spy report detects ships or deff
         $danger = $this->getDangerValue($spyData);
@@ -136,6 +127,8 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      * @param array<int, array<int>> $classIDs see getClassIDs()
      * @param array<int, int|float|string> $targetFleet ships of the base by element id
      * @param int|float $totalShipDefCount out: number of ships on the base (the counter-espionage chance depends on it)
+     * @param array<mixed> $senderUser
+     * @param array<mixed> $targetBase
      * @return array<int, array<int, int|float|string>> class id => element id => amount
      */
     private function collectSpyData(array $classIDs, array $senderUser, array $targetBase, array $targetFleet, int|float &$totalShipDefCount): array

@@ -2,7 +2,7 @@
 {% block title %}{{ LNG.fcm_info }}{{ parent() }}{% endblock %}
 {% block content %}
 <div class="notice notice--info" role="status">{{ icon('info') }}<div>{{ message }}</div></div>
-{% if not empty(redirectButtons) %}
+{% if redirectButtons %}
   <div class="form__actions">
     {% for button in redirectButtons|default([]) %}<a class="button btn--primary" href="{{ button.url }}"{% if button.action is defined %} data-action="{{ button.action }}"{% endif %}>{{ button.label }}</a>{% endfor %}
   </div>

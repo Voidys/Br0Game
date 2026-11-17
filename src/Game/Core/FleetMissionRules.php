@@ -2,12 +2,14 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\Mission;
+
 /**
  * Which missions a fleet may fly to a target (module switches, target ownership and type, ship composition) and the
  * phalanx scan rules of the galaxy view.
  *
  * Collaborators: ViewHelpers::isModuleAvailable (module switches), ConfigRegistry, Singleton (reslist, current
- * user/planet), PlayerUtil (noob protection), FleetMath (phalanx range). Read-only, no DB writes.
+ * user/planet), ProtectionRules (noob protection), FleetMath (phalanx range). Read-only, no DB writes.
  */
 class FleetMissionRules
 {
@@ -26,9 +28,9 @@ class FleetMissionRules
      * Mission selector data for the fleet page: available missions plus the stay-time options of expedition / hold /
      * trade missions (expedition hours are divided by the universe's expo_hold_multiplier).
      *
-     * @param array $USER flying user
-     * @param array $MisInfo target info (planet, planettype, Ship, IsAKS)
-     * @param array $Planet target planet row (may be empty)
+     * @param array<string, mixed> $USER flying user
+     * @param array<mixed> $MisInfo target info (planet, planettype, Ship, IsAKS)
+     * @param array<mixed> $Planet target planet row (may be empty)
      * @return array{MissionSelector: array, StayBlock: array, Exchange: bool}
      */
     public function getFleetMissions(array $USER, array $MisInfo, array $Planet): array
@@ -40,13 +42,13 @@ class FleetMissionRules
 
         $haltSpeed = $this->configs->get($USER['universe'])->expo_hold_multiplier;
 
-        if (in_array(MISSION_EXPEDITION, $Missions)) {
+        if (in_array(Mission::Expedition->value, $Missions)) {
             for ($i = 1; $i <= $USER[$elements->column(124)]; $i++) {
                 $stayBlock[$i] = round($i / $haltSpeed, 2);
             }
-        } elseif (in_array(MISSION_HOLD, $Missions)) {
+        } elseif (in_array(Mission::Hold->value, $Missions)) {
             $stayBlock = array_combine(self::HOLD_STAY_HOURS, self::HOLD_STAY_HOURS);
-        } elseif (in_array(MISSION_TRADE, $Missions)) {
+        } elseif (in_array(Mission::Trade->value, $Missions)) {
             $stayBlock = [1 => 1, 2 => 2, 4 => 4, 8 => 8, 12 => 12, 24 => 24, 48 => 48, 168 => 168];
             $exchange = true;
         }
@@ -54,6 +56,9 @@ class FleetMissionRules
         return ['MissionSelector' => $Missions, 'StayBlock' => $stayBlock, 'Exchange' => $exchange];
     }
 
+    /**
+     * @param array<mixed> $Ships
+     */
     private function onlyShipByID(array $Ships, int $ShipID): bool
     {
         return isset($Ships[$ShipID]) && count($Ships) === 1;
@@ -64,9 +69,9 @@ class FleetMissionRules
      * slots beyond max_planets), debris fields (recycling), ACS invitations, free vs. used planets, own vs. foreign
      * planets, spy-probe-only fleets, destroy-capable ships on moons, and on every mission's module switch.
      *
-     * @param array $USER flying user
-     * @param array $MissionInfo target info (planet, planettype, Ship [shipId => count], IsAKS)
-     * @param array $GetInfoPlanet target planet row (may be empty)
+     * @param array<string, mixed> $USER flying user
+     * @param array<mixed> $MissionInfo target info (planet, planettype, Ship [shipId => count], IsAKS)
+     * @param array<mixed> $GetInfoPlanet target planet row (may be empty)
      * @return list<int>
      */
     public function getAvailableMissions(array $USER, array $MissionInfo, array $GetInfoPlanet): array
@@ -80,9 +85,9 @@ class FleetMissionRules
         $availableMissions = [];
 
         if ($ExpeditionPosition && $view->isModuleAvailable(MODULE_MISSION_EXPEDITION)) {
-            $availableMissions[] = MISSION_EXPEDITION;
+            $availableMissions[] = Mission::Expedition->value;
         } elseif ($TradePosition && $view->isModuleAvailable(MODULE_MISSION_TRADE)) {
-            $availableMissions[] = MISSION_TRADE;
+            $availableMissions[] = Mission::Trade->value;
         } elseif ($PirateBasePosition && $view->isModuleAvailable(MODULE_PIRATE_BASES) && $MissionInfo['planettype'] != 2) {
             $availableMissions = $this->pirateBaseMissions($MissionInfo, $YourPlanet);
         } elseif ($MissionInfo['planettype'] == 2 && $view->isModuleAvailable(MODULE_MISSION_RECYCLE)) {
@@ -92,10 +97,10 @@ class FleetMissionRules
             && ($view->isModuleAvailable(MODULE_MISSION_ATTACK) || $view->isModuleAvailable(MODULE_MISSION_ACS))
         ) {
             if ($view->isModuleAvailable(MODULE_MISSION_ATTACK)) {
-                $availableMissions[] = MISSION_ATTACK;
+                $availableMissions[] = Mission::Attack->value;
             }
             if ($view->isModuleAvailable(MODULE_MISSION_ACS)) {
-                $availableMissions[] = MISSION_ACS;
+                $availableMissions[] = Mission::Acs->value;
             }
         } else {
             $availableMissions = $this->planetMissions($MissionInfo, $UsedPlanet, $YourPlanet);
@@ -107,6 +112,7 @@ class FleetMissionRules
     /**
      * Missions to a pirate base slot (not a debris field): attack on own, ACS, spy with a single probe type.
      *
+     * @param array<mixed> $MissionInfo
      * @return list<int>
      */
     private function pirateBaseMissions(array $MissionInfo, bool $YourPlanet): array
@@ -115,13 +121,13 @@ class FleetMissionRules
         $availableMissions = [];
 
         if ($YourPlanet && $view->isModuleAvailable(MODULE_MISSION_ATTACK)) {
-            $availableMissions[] = MISSION_PIRATEBASE_ATTACK;
+            $availableMissions[] = Mission::PiratebaseAttack->value;
         }
         if (!empty($MissionInfo['IsAKS']) && $view->isModuleAvailable(MODULE_MISSION_ACS)) {
-            $availableMissions[] = MISSION_ACS;
+            $availableMissions[] = Mission::Acs->value;
         }
         if ($YourPlanet && $this->onlyShipByID($MissionInfo['Ship'], 210) && $view->isModuleAvailable(MODULE_MISSION_SPY)) {
-            $availableMissions[] = MISSION_PIRATEBASE_SPY;
+            $availableMissions[] = Mission::PiratebaseSpy->value;
         }
 
         return $availableMissions;
@@ -131,6 +137,8 @@ class FleetMissionRules
      * Recycling missions to a debris field: needs a recycler in the fleet and a used target with debris
      * (or an active wreckfield), or an own pirate base.
      *
+     * @param array<mixed> $GetInfoPlanet
+     * @param array<mixed> $MissionInfo
      * @return list<int>
      */
     private function recyclingMissions(array $MissionInfo, array $GetInfoPlanet, bool $UsedPlanet, bool $YourPlanet, bool $PirateBasePosition): array
@@ -147,9 +155,9 @@ class FleetMissionRules
         }
         if ($recs && $UsedPlanet && !empty($GetInfoPlanet)) {
             if ($PirateBasePosition && $YourPlanet && $this->viewHelpers()->isModuleAvailable(MODULE_PIRATE_BASES)) {
-                $availableMissions[] = MISSION_PIRATEBASE_RECYCLING;
+                $availableMissions[] = Mission::PiratebaseRecycling->value;
             } elseif (($GetInfoPlanet['der_metal'] + $GetInfoPlanet['der_crystal']) > 0 || $GetInfoPlanet['tf_active'] == 1) {
-                $availableMissions[] = MISSION_RECYCLING;
+                $availableMissions[] = Mission::Recycling->value;
             }
         }
 
@@ -160,6 +168,7 @@ class FleetMissionRules
      * Missions to a regular planet or moon: colonisation of free planets; transport, spy, transfer, attack, hold,
      * station and destruction (moons, with a Deathstar/Void Titan) for used ones.
      *
+     * @param array<mixed> $MissionInfo
      * @return list<int>
      */
     private function planetMissions(array $MissionInfo, bool $UsedPlanet, bool $YourPlanet): array
@@ -172,33 +181,33 @@ class FleetMissionRules
                 isset($MissionInfo['Ship'][208]) && $MissionInfo['planettype'] == 1
                 && $view->isModuleAvailable(MODULE_MISSION_COLONY)
             ) {
-                $availableMissions[] = MISSION_COLONISATION;
+                $availableMissions[] = Mission::Colonisation->value;
             }
         } else {
             if ($view->isModuleAvailable(MODULE_MISSION_TRANSPORT)) {
-                $availableMissions[] = MISSION_TRANSPORT;
+                $availableMissions[] = Mission::Transport->value;
             }
 
             if (
                 !$YourPlanet && $this->onlyShipByID($MissionInfo['Ship'], 210)
                 && $view->isModuleAvailable(MODULE_MISSION_SPY)
             ) {
-                $availableMissions[] = MISSION_SPY;
+                $availableMissions[] = Mission::Spy->value;
             }
 
             if (!$YourPlanet) {
                 if ($view->isModuleAvailable(MODULE_MISSION_TRANSFER)) {
-                    $availableMissions[] = MISSION_TRANSFER;
+                    $availableMissions[] = Mission::Transfer->value;
                 }
 
                 if ($view->isModuleAvailable(MODULE_MISSION_ATTACK)) {
-                    $availableMissions[] = MISSION_ATTACK;
+                    $availableMissions[] = Mission::Attack->value;
                 }
                 if ($view->isModuleAvailable(MODULE_MISSION_HOLD)) {
-                    $availableMissions[] = MISSION_HOLD;
+                    $availableMissions[] = Mission::Hold->value;
                 }
             } elseif ($view->isModuleAvailable(MODULE_MISSION_STATION)) {
-                $availableMissions[] = MISSION_STATION;
+                $availableMissions[] = Mission::Station->value;
             }
 
             if (
@@ -206,7 +215,7 @@ class FleetMissionRules
                 && (isset($MissionInfo['Ship'][SHIP_RIP]) || isset($MissionInfo['Ship'][VOID_TITAN]))
                 && $view->isModuleAvailable(MODULE_MISSION_DESTROY)
             ) {
-                $availableMissions[] = MISSION_DESTRUCTION;
+                $availableMissions[] = Mission::Destruction->value;
             }
         }
 
@@ -223,7 +232,7 @@ class FleetMissionRules
         $PLANET = $this->state->PLANET;
         $elements = $this->elements();
         $USER = $this->state->USER;
-        $checknoob = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetUser));
+        $checknoob = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetUser));
 
         if ($PLANET['galaxy'] != $toGalaxy || $PLANET[$elements->column(42)] == 0 || !$this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) || $PLANET[$elements->column(903)] < PHALANX_DEUTERIUM || $USER['urlaubs_modus'] == 1 || $checknoob['NoobPlayer'] || $checknoob['StrongPlayer']) {
             return false;

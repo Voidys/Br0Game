@@ -260,7 +260,7 @@ al_diplo_accept_yes_confirm: Przyjąć ten pakt?
 al_diplo_accept_yes_mes: Pakt (%s) między sojuszami <b>%s</b> i <b>%s</b> został podpisany!
 al_diplo_ally: Sojusz
 al_diplo_ask: Propozycja paktu
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Propozycja paktu]</a> (%s) została wysłana od <b>%s</b> do <b>%s</b>.<br>Powód: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[Propozycja paktu]</a> (%s) została wysłana od <b>%s</b> do <b>%s</b>.<br>Powód: %s'
 al_diplo_confirm_delete: Zakończyć ten pakt?
 al_diplo_create: Zaproponuj pakt
 al_diplo_create_done: Propozycja paktu wysłana.
@@ -268,7 +268,7 @@ al_diplo_delete: Pakt zakończony
 al_diplo_delete_mes: Pakt (%s) między sojuszami <b>%s</b> i <b>%s</b> został zakończony.
 al_diplo_exists: Masz już aktywny lub oczekujący pakt z %s.
 al_diplo_head: Zarządzanie dyplomacją
-al_diplo_info: '<p>Na tej stronie zarządzasz paktami dyplomatycznymi swojego sojuszu.</p><p>Poniżej znajdziesz typy paktów. Więcej informacji: <a href="game?page=questions">FAQ</a> albo <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+al_diplo_info: '<p>Na tej stronie zarządzasz paktami dyplomatycznymi swojego sojuszu.</p><p>Poniżej znajdziesz typy paktów. Więcej informacji: <a href="game/faq">FAQ</a> albo <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
 al_diplo_level:
 - Główny
 - Akademia
@@ -287,7 +287,7 @@ al_diplo_text: Propozycja/powód
 al_diplo_war: Deklaracja wojny
 al_diplo_war_end: Deklaracja pokoju
 al_diplo_war_end_mes: '%s między sojuszami <b>%s</b> i <b>%s</b> właśnie się zakończyła.'
-al_diplo_war_mes: 'Sojusz <b>%1$s</b> wypowiedział %3$s sojuszowi <b>%2$s</b>! <br>Powód:<br>%4$s<br><br>Informacja: wojna zacznie się za <b>24 godziny</b> i wtedy zawieszona zostanie zasada bashingu.<br>Więcej informacji w <a href="./?page=rules&lang=en" target="_blank">[Regulamin]</a>.'
+al_diplo_war_mes: 'Sojusz <b>%1$s</b> wypowiedział %3$s sojuszowi <b>%2$s</b>! <br>Powód:<br>%4$s<br><br>Informacja: wojna zacznie się za <b>24 godziny</b> i wtedy zawieszona zostanie zasada bashingu.<br>Więcej informacji w <a href="./rules?lang=en" target="_blank">[Regulamin]</a>.'
 al_diplo_withdraw: Propozycja paktu wycofana.
 al_diplo_withdraw_confirm: Wycofać tę propozycję paktu?
 al_diplo_withdraw_mes: Propozycja paktu (%s) między sojuszami <b>%s</b> i <b>%s</b> została wycofana.
@@ -337,7 +337,7 @@ al_name: Zmień nazwę sojuszu
 al_name_required: Wpisz nazwę sojuszu.
 al_link_too_long: Link jest za długi (maksymalnie 255 znaków).
 al_name_tag_too_long: Tag może mieć najwyżej 8 znaków, a nazwa najwyżej 30.
-al_new_apply: Twój sojusz otrzymał <a href="?page=alliance&mode=admin&action=manageApply">[nowe podanie]</a> od gracza <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_apply: Twój sojusz otrzymał <a href="game/alliance/admin/applications">[nowe podanie]</a> od gracza <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Nowy członek
 al_new_requests: 'Oczekujące: %d'
 al_newname_specialchar: Nazwy i tagi sojuszy mogą zawierać tylko litery, cyfry, spacje, podkreślenia, myślniki i kropki.
@@ -1167,7 +1167,7 @@ ov_temp_unit: °C
 ov_temperature: Temperatura
 ov_ticketbot: Ticketbot
 ov_to: do
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Błędna nazwa!
 ov_wrong_pass: Błędne hasło!
 own: Własne
@@ -1334,7 +1334,7 @@ sys_forward: Dalej
 sys_game_is_setup: <h1>Rejestracja zakończona!</h1><br><p>Przygotowujemy twoje uniwersum!</p><!--discord_url--><p>W międzyczasie, żeby nie przegapić niczego, dołącz do nas na</p><h3><a href="{discord_url}" target="_blank">-> Discordzie <-</a></h3><!--/discord_url-->
 sys_module_inactive: Ten moduł jest nieaktywny
 sys_nomore_level: 'Nie masz czego burzyć: %s.'
-sys_notenough_money: 'Za mało surowców na %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a>, żeby zbudować %s. <br>Masz: %s %s, %s %s i %s %s. <br>Koszt: %s %s, %s %s i %s %s.'
+sys_notenough_money: 'Za mało surowców na %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a>, żeby zbudować %s. <br>Masz: %s %s, %s %s i %s %s. <br>Koszt: %s %s, %s %s i %s %s.'
 sys_refferal_from: System
 sys_refferal_text: Zrekrutowany przez ciebie gracz %s osiągnął %s punktów.
 sys_refferal_title: Bonus za gracza %s

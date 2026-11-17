@@ -54,7 +54,7 @@ class AllianceSettingsService
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        $back = '?page=alliance&mode=admin';
+        $back = 'game_alliance_admin';
 
         // the request values are HTML-encoded and the columns hold the encoded text: a too long link is refused with a
         // message, the leader title is cut on the typed text (never inside an entity) until its encoded form fits
@@ -135,7 +135,7 @@ class AllianceSettingsService
             throw AllianceException::message($LNG['al_name_tag_too_long'], $LNG['sys_back'], $back);
         }
 
-        if (!$this->playerUtil()->isNameValid($new_ally_tag) || !$this->playerUtil()->isNameValid($new_ally_name)) {
+        if (!$this->playerRegistration()->isNameValid($new_ally_tag) || !$this->playerRegistration()->isNameValid($new_ally_name)) {
             throw AllianceException::message($LNG['al_newname_specialchar'], $LNG['sys_back'], $back);
         }
 
@@ -179,7 +179,7 @@ class AllianceSettingsService
         ], 'count');
 
         if ($allianceCount != 0) {
-            throw AllianceException::message(AllianceText::html($LNG, 'al_already_exists', $value), $LNG['sys_back'], 'game?page=alliance&mode=admin');
+            throw AllianceException::message(AllianceText::html($LNG, 'al_already_exists', $value), $LNG['sys_back'], 'game_alliance_admin');
         }
     }
 }

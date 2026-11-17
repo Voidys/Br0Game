@@ -1,5 +1,5 @@
 {% include 'admin/overall_header.html.twig' %}
-<form method="post" id="userform" action="" data-ajax-dialog="?page=quickEditor&amp;edit=player&amp;id={{ id }}&amp;action=send" class="stack quick-edit" data-track-dirty>
+<form method="post" id="userform" action="" data-ajax-dialog="{{ path('admin_quick_editor_save', {edit: 'player', id: id}) }}" class="stack quick-edit" data-track-dirty>
   <section class="card">
     <header class="card__head"><h2 class="card__title">{{ icon('user') }}{{ LNG.qe_info }}</h2></header>
     <div class="card__body stack">
@@ -15,7 +15,7 @@
         </div>
         {% endif %}
       </div>
-      {% if authlevel != php_const('AUTH_USER') %}
+      {% if authlevel != constant('App\\Game\\Enum\\AuthLevel::User').value %}
         <label class="check"><input type="checkbox" name="authattack"{% if authattack != 0 %} checked{% endif %}>{{ LNG.qe_authattack }}</label>
       {% endif %}
       <dl class="kv">

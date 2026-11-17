@@ -7,6 +7,8 @@ namespace App\Tests\Integration;
 use App\Game\Core\FleetFunctions;
 use App\Game\Missions\MissionCaseSpy;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
+use App\Game\Enum\MessageType;
 
 /**
  * Runs the espionage mission end to end and pins what it writes: the report message (JSON; the volatile roll and times
@@ -23,7 +25,10 @@ final class SpyMissionTest extends GameTestCase
     ];
     // GOLDEN-END
 
-    /** @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>} sender, target, target planet; the fleet is stored in $this->fleet */
+    /**
+     * @param array<mixed> $targetPlanetColumns
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>} sender, target, target planet; the fleet is stored in $this->fleet
+     */
     private function spy(int $probes, int $senderSpyTech, array $targetPlanetColumns): array
     {
         $resource = $this->elements()->columnMap();
@@ -34,7 +39,7 @@ final class SpyMissionTest extends GameTestCase
         $this->state->PLANET = $senderPlanet;
         $id = (new FleetFunctions($this->db, $this->configs, $this->state))->sendFleet(
             [210 => $probes],
-            MISSION_SPY,
+            Mission::Spy->value,
             (int) $sender['id'],
             (int) $senderPlanet['id'],
             (int) $senderPlanet['galaxy'],
@@ -61,10 +66,13 @@ final class SpyMissionTest extends GameTestCase
 
     private int $fleetId = 0;
 
-    /** @return array<string, mixed> the report of the sender without the volatile parts (roll, times, names) */
+    /**
+     * @param array<mixed> $sender
+     * @return array<string, mixed> the report of the sender without the volatile parts (roll, times, names)
+     */
     private function report(array $sender): array
     {
-        $text = (string) $this->db->selectSingle('SELECT m.message_text FROM %%MESSAGES%% m WHERE m.message_owner = :id AND m.message_type = :type ORDER BY m.message_id DESC LIMIT 1;', [':id' => $sender['id'], ':type' => MESSAGE_TYPE_SPY_REPORT], 'message_text');
+        $text = (string) $this->db->selectSingle('SELECT m.message_text FROM %%MESSAGES%% m WHERE m.message_owner = :id AND m.message_type = :type ORDER BY m.message_id DESC LIMIT 1;', [':id' => $sender['id'], ':type' => MessageType::SpyReport->value], 'message_text');
         $data = json_decode($text, true);
         unset($data['spyChance'], $data['time'], $data['targetUserName'], $data['targetPlanet']);
 
@@ -78,7 +86,7 @@ final class SpyMissionTest extends GameTestCase
         $this->goldenAssert('big tech report', $this->report($sender));
         $fleet = $this->db->selectSingle('SELECT status FROM %%FLEETS%% WHERE id = :id;', [':id' => $this->fleetId]);
         $this->assertEquals(FLEET_RETURN, $fleet['status']);
-        $this->assertSame(1, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%MESSAGES%% WHERE message_owner = :id AND message_type = :t;', [':id' => $target['id'], ':t' => MESSAGE_TYPE_SPY_DEFENCE], 'c'), 'the target owner is told about the foreign fleet');
+        $this->assertSame(1, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%MESSAGES%% WHERE message_owner = :id AND message_type = :t;', [':id' => $target['id'], ':t' => MessageType::SpyDefence->value], 'c'), 'the target owner is told about the foreign fleet');
     }
 
     public function testProbesWithoutTechOnlySeeTheResources(): void

@@ -46,8 +46,8 @@
     </div>
     <div class="stat">
       <span class="stat__label">{{ icon('handshake') }}{{ LNG.ac_alliance }}</span>
-      <span class="stat__value">{% if not empty(allianceData) %}[{{ allianceData.tag }}]{% else %}-{% endif %}</span>
-      <span class="stat__meta">{% if not empty(allianceData) %}{{ allianceData.name }} ({{ LNG.ac_ali_idid }} {{ allianceData.id }}){% else %}{{ LNG.ac_no_ally }}{% endif %}</span>
+      <span class="stat__value">{% if allianceData %}[{{ allianceData.tag }}]{% else %}-{% endif %}</span>
+      <span class="stat__meta">{% if allianceData %}{{ allianceData.name }} ({{ LNG.ac_ali_idid }} {{ allianceData.id }}){% else %}{{ LNG.ac_no_ally }}{% endif %}</span>
     </div>
     <div class="stat">
       <span class="stat__label">{{ icon('clock') }}{{ LNG.ac_act_time }}</span>
@@ -128,7 +128,7 @@
   </section>
 
   {# alliance #}
-  {% if not empty(allianceData) %}
+  {% if allianceData %}
     <details class="card disclosure">
       <summary class="card__head"><h2 class="card__title">{{ icon('handshake') }}{{ LNG.ac_info_ally }}: [{{ allianceData.tag }}] {{ allianceData.name }}</h2></summary>
       <div class="card__body stack">
@@ -194,7 +194,7 @@
               <td class="num">{{ pl.fields }} <span class="muted">({{ pl.fieldsDb }})</span></td>
               <td class="num">{{ pl.temp }}</td>
               {% if canedit == 1 %}
-                <td class="actions"><button type="button" class="btn--small" data-open-edit data-edit-id="{{ pl.id }}" data-edit-type="planet" title="{{ LNG.se_search_edit }}">{{ icon('pencil') }}<span class="visually-hidden">{{ LNG.se_search_edit }}</span></button></td>
+                <td class="actions"><button type="button" class="btn--small" data-open-edit data-edit-url="{{ path('admin_quick_editor_show', {edit: 'planet', id: pl.id}) }}" title="{{ LNG.se_search_edit }}">{{ icon('pencil') }}<span class="visually-hidden">{{ LNG.se_search_edit }}</span></button></td>
               {% endif %}
             </tr>
           {% endfor %}

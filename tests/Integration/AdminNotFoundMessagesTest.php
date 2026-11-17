@@ -13,6 +13,7 @@ use App\Tests\Support\GameTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use App\Game\Enum\AuthLevel;
 
 /**
  * Admin pages that used to fail on empty results: an unknown player id on the account data page, deleting an unknown
@@ -34,17 +35,24 @@ final class AdminNotFoundMessagesTest extends GameTestCase
         self::container()->get('request_stack')->push($request);
     }
 
-    /** @param array<string, mixed> $input */
+    /**
+     * @param array<string, mixed> $input
+     * @param array<mixed> $post
+     * @param array<mixed> $query
+     */
     private function call(object $controller, string $method, array $input, array $post = [], ?array $query = null): string
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         $this->state->USER = $admin;
         $this->state->universeEmulated = 1;
         $this->state->requestInput = $input + $post;
         $this->state->requestPost = $post;
         $this->state->requestQuery = $query ?? $input;
         try {
-            $controller->{$method}();
+            $response = $controller->{$method}();
+            if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
+                return (string) $response->getContent();
+            }
             $this->fail('the page should end with a message');
         } catch (EndOfRequest $end) {
             return ($end->getResponse()?->getContent() ?? '') . $end->getOutput();
@@ -53,7 +61,10 @@ final class AdminNotFoundMessagesTest extends GameTestCase
 
     private function controller(string $class): object
     {
-        return (new $class())->withGameServices($this->db, $this->configs, $this->state);
+        $controller = (new $class())->withGameServices($this->db, $this->configs, $this->state);
+        $controller->setRouter(self::container()->get('router'));
+
+        return $controller;
     }
 
     public function testAccountDataWithUnknownIdShowsNotFoundMessage(): void
@@ -64,20 +75,20 @@ final class AdminNotFoundMessagesTest extends GameTestCase
 
     public function testDeletingAnUnknownPlanetShowsNotFoundMessage(): void
     {
-        $out = $this->call($this->controller(SearchController::class), 'show', ['delete' => 'planet', 'planet' => 987654321]);
+        $out = $this->call($this->controller(SearchController::class), 'deletePlanet', ['id' => 987654321]);
         $this->assertStringContainsString($this->lng['se_delete_not_found'], $out);
     }
 
     public function testDeletingAnUnknownPlayerShowsNotFoundMessage(): void
     {
-        $out = $this->call($this->controller(SearchController::class), 'show', ['delete' => 'user', 'user' => 987654321]);
+        $out = $this->call($this->controller(SearchController::class), 'deleteUser', ['id' => 987654321]);
         $this->assertStringContainsString($this->lng['se_delete_not_found'], $out);
     }
 
     public function testDeletingAnExistingPlayerStillReportsSuccess(): void
     {
         [$user] = $this->createPlayer();
-        $out = $this->call($this->controller(SearchController::class), 'show', ['delete' => 'user', 'user' => (int) $user['id']]);
+        $out = $this->call($this->controller(SearchController::class), 'deleteUser', ['id' => (int) $user['id']]);
         $this->assertStringContainsString($this->lng['se_delete_succes_p'], $out);
     }
 
@@ -85,7 +96,7 @@ final class AdminNotFoundMessagesTest extends GameTestCase
     {
         $out = $this->call(
             $this->controller(SendMessagesController::class),
-            'show',
+            'send',
             ['action' => 'send', 'mode' => 1, 'subject' => 'S', 'text' => 'T', 'globalmessageuniverse' => 987654321],
             ['subject' => 'S', 'text' => 'T', 'mode' => 1],
         );

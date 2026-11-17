@@ -1,5 +1,5 @@
 {% include 'admin/overall_header.html.twig' %}
-<form method="post" id="userform" action="" data-ajax-dialog="?page=quickEditor&amp;edit=planet&amp;id={{ id }}&amp;action=send" class="stack quick-edit" data-track-dirty>
+<form method="post" id="userform" action="" data-ajax-dialog="{{ path('admin_quick_editor_save', {edit: 'planet', id: id}) }}" class="stack quick-edit" data-track-dirty>
   <section class="card">
     <header class="card__head"><h2 class="card__title">{{ icon('orbit') }}{{ LNG.qe_info }}</h2></header>
     <div class="card__body">

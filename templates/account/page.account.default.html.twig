@@ -21,11 +21,9 @@
           <dt>{{ LNG["Sitting_end"] }}</dt><dd>-</dd>
         </dl>
         <div class="universe-card__actions">
-          <form action="account?page=account" method="post">
-            <input type="hidden" name="mode" value="send">
-            <input type="hidden" name="universe" value="{{ universe["uni"] }}">
+          <form action="{{ path('account_account_send') }}" method="post">
             <input type="hidden" name="userID" value="{{ universe["user_id"] }}">
-            {% if universe["uni_status"] == php_const('STATUS_OPEN') or universe["uni_status"] == php_const('STATUS_LOGIN_ONLY') or universe["authlevel"] == php_const('AUTH_ADM') %}
+            {% if universe["uni_status"] == constant('STATUS_OPEN') or universe["uni_status"] == constant('STATUS_LOGIN_ONLY') or universe["authlevel"] == constant('App\\Game\\Enum\\AuthLevel::Admin').value %}
               <input type="hidden" name="action" value="login">
               <input class="btn btn--primary" value="{{ LNG["Play"] }}" type="submit">
             {% else %}
@@ -52,8 +50,8 @@
           <dt>{{ LNG["Universe_end"] }}</dt><dd>{{ universe["end"] }}</dd>
         </dl>
         <div class="universe-card__actions">
-          {% if universe["uni_status"] == php_const('STATUS_OPEN') or universe["uni_status"] == php_const('STATUS_REG_ONLY') or authlevel == php_const('AUTH_ADM') %}
-            <a class="btn btn--primary" href="account?page=register&uni={{ universe["uni"] }}">{{ LNG["Register"] }}</a>
+          {% if universe["uni_status"] == constant('STATUS_OPEN') or universe["uni_status"] == constant('STATUS_REG_ONLY') or authlevel == constant('App\\Game\\Enum\\AuthLevel::Admin').value %}
+            <a class="btn btn--primary" href="{{ path('account_register_show', {universe: universe["uni"]}) }}">{{ LNG["Register"] }}</a>
           {% else %}
             <button class="btn" disabled>{{ LNG["uni_status_regclosed_gameclosed"] }}</button>
           {% endif %}

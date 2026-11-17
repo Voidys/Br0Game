@@ -12,6 +12,7 @@ class DisposableEmailDomainBlocklist
     private const CACHE_FILE = 'others/disposable-email-domains.json';
     private const FALLBACK_DOMAINS = ['emailkeep.com'];
 
+    /** @var array<mixed> */
     private static ?array $domains = null;
 
     /**
@@ -113,6 +114,8 @@ class DisposableEmailDomainBlocklist
 
     /**
      * Normalized domains of the list text, or null if any line is not a valid domain.
+     *
+     * @return array<mixed>
      */
     private static function parseDomainList(string $contents): ?array
     {

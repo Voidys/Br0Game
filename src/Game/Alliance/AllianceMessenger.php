@@ -2,6 +2,7 @@
 
 namespace App\Game\Alliance;
 
+use App\Game\Enum\MessageType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -10,7 +11,7 @@ use App\Game\Core\Singleton;
 /**
  * All in-game messages the alliance system sends: application and leave notices to the managers, circular messages
  * to members, and the per-language diplomacy messages to the two alliances involved. Every message is of type
- * MESSAGE_TYPE_ALLIANCE and written in the receiver's own language.
+ * MessageType::Alliance->value and written in the receiver's own language.
  */
 class AllianceMessenger
 {
@@ -28,7 +29,7 @@ class AllianceMessenger
     {
         $USER = $this->state->USER;
         foreach ($this->repository->messageReceivers($allianceId, $USER['ally_id'], false, true) as $receiver) {
-            $lang = $this->playerUtil()->getLanguage($receiver['lang']);
+            $lang = $this->playerLookup()->getLanguage($receiver['lang']);
 
             $applyMessage = $lang->formatHtml(
                 'al_new_apply',
@@ -37,11 +38,11 @@ class AllianceMessenger
                 $USER['username'],
             );
 
-            $this->playerUtil()->sendMessage(
+            $this->playerMessenger()->sendMessage(
                 $receiver['id'],
                 0,
                 $lang['al_alliance'],
-                MESSAGE_TYPE_ALLIANCE,
+                MessageType::Alliance->value,
                 $lang['al_request'],
                 $applyMessage,
                 $this->state->runtime->timestamp,
@@ -57,7 +58,7 @@ class AllianceMessenger
             if ($receiver['id'] == $USER['id']) {
                 continue;
             }
-            $lang = $this->playerUtil()->getLanguage($receiver['lang']);
+            $lang = $this->playerLookup()->getLanguage($receiver['lang']);
 
             $applyMessage = $lang->formatHtml(
                 'al_leaving_msg',
@@ -66,11 +67,11 @@ class AllianceMessenger
                 $USER['username'],
             );
 
-            $this->playerUtil()->sendMessage(
+            $this->playerMessenger()->sendMessage(
                 $receiver['id'],
                 0,
                 $lang['al_alliance'],
-                MESSAGE_TYPE_ALLIANCE,
+                MessageType::Alliance->value,
                 $lang['al_leaving'],
                 $applyMessage,
                 $this->state->runtime->timestamp,
@@ -119,11 +120,11 @@ class AllianceMessenger
             $receivers[] = $sendUsersRow['id'];
             $sendList .= "\n" . $sendUsersRow['username'];
         }
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $receivers,
             $USER['id'],
             $title,
-            MESSAGE_TYPE_ALLIANCE,
+            MessageType::Alliance->value,
             $subject,
             makebr($text),
             $this->state->runtime->timestamp,
@@ -148,18 +149,18 @@ class AllianceMessenger
             if (!isset($langReceivers[$receiver['lang']])) {
                 $langReceivers[$receiver['lang']] = [
                     'receivers' => [],
-                    'lang' => $this->playerUtil()->getLanguage($receiver['lang']),
+                    'lang' => $this->playerLookup()->getLanguage($receiver['lang']),
                 ];
             }
             $langReceivers[$receiver['lang']]['receivers'][] = $receiver['id'];
         }
         foreach ($langReceivers as $group) {
             [$subject, $text] = $compose($group['lang']);
-            $this->playerUtil()->sendMessage(
+            $this->playerMessenger()->sendMessage(
                 $group['receivers'],
                 $this->state->USER['id'],
                 $group['lang']['al_circular_alliance'] . $ownTag,
-                MESSAGE_TYPE_ALLIANCE,
+                MessageType::Alliance->value,
                 $subject,
                 $text,
                 $this->state->runtime->timestamp,

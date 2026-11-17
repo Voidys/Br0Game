@@ -12,6 +12,7 @@ use App\Game\Bots\BotPersona;
 use App\Game\Bots\BotProfiles;
 use App\Game\Core\FleetFunctions;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * The economy and fleet behaviour of bots: goal-based saving, consolidation transports, fleetsave (timing, cargo, chance), reaction to
@@ -30,7 +31,11 @@ final class BotSmartTest extends GameTestCase
         $this->setUniverseConfig(['noob_protection' => 0, 'bash_per_user' => 0, 'bash_per_planet' => 0, 'adm_attack' => 0]);
     }
 
-    /** @return array{0: array<string, mixed>, 1: array<string, mixed>} */
+    /**
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $user
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>}
+     */
     private function player(array $user = [], array $planet = []): array
     {
         $this->slot++;
@@ -38,7 +43,14 @@ final class BotSmartTest extends GameTestCase
         return $this->createPlayer($user, $planet + ['galaxy' => self::GALAXY, 'system' => 50 + $this->slot * 3, 'planet' => 8]);
     }
 
-    /** A bot with two planets (the second one taken over from a helper player) and ships on the first. */
+    /**
+     * A bot with two planets (the second one taken over from a helper player) and ships on the first.
+     *
+     * @param array<mixed> $first
+     * @param array<mixed> $second
+     * @param array<string, mixed> $user
+     * @return array<mixed>
+     */
     private function bot(array $user = [], array $first = [], array $second = []): array
     {
         $r = $this->elements()->columnMap();
@@ -50,6 +62,9 @@ final class BotSmartTest extends GameTestCase
         return [$u, $a, $this->loadPlanet((int) $b['id'])];
     }
 
+    /**
+     * @param array<string, mixed> $bot
+     */
     private function ctx(array $bot): BotActions
     {
         $ctx = new BotActions(1, $this->db, $this->configs, $this->state, self::container()->get(BotPersona::class));
@@ -58,7 +73,10 @@ final class BotSmartTest extends GameTestCase
         return $ctx;
     }
 
-    /** @return array<string, mixed> */
+    /**
+     * @param array<mixed> $override
+     * @return array<string, mixed>
+     */
     private function settings(array $override = []): array
     {
         return $override + self::container()->get(BotProfiles::class)->defaults()['lunatic']['settings'];
@@ -119,7 +137,7 @@ final class BotSmartTest extends GameTestCase
         $goal = ['type' => 'build', 'element' => 1, 'planet' => (int) $b['id'], 'cost' => [901 => 60000, 902 => 30000, 903 => 0], 'label' => 'metal_mine 9'];
 
         $this->assertSame('transport', $logistics->consolidate($ctx, $goal));
-        $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => MISSION_TRANSPORT]);
+        $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => Mission::Transport->value]);
         $this->assertSame((int) $b['id'], (int) $fleet['end_id']);
         $this->assertEqualsWithDelta(59990, (float) $fleet['resource_metal'], 1);
         $this->assertEqualsWithDelta(29990, (float) $fleet['resource_crystal'], 1);
@@ -141,7 +159,7 @@ final class BotSmartTest extends GameTestCase
 
         $this->assertSame(1, $sent);
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE owner = :u;', [':u' => $bot['id']]);
-        $this->assertSame((int) MISSION_TRANSPORT, (int) $fleet['mission']);
+        $this->assertSame((int) Mission::Transport->value, (int) $fleet['mission']);
         $this->assertSame((int) $b['id'], (int) $fleet['end_id']);
         $this->assertGreaterThan(0, (float) $fleet['resource_metal'], 'the resources travel too');
         $this->assertGreaterThan(0, (float) $fleet['ship_amount']);
@@ -170,7 +188,12 @@ final class BotSmartTest extends GameTestCase
         $this->assertStringContainsString('no second planet', $this->log((int) $lonely['id'])['fleetsave_skip']);
     }
 
-    /** Sends a hostile fleet from a fresh player at the bot's planet and returns the flying fleet id. */
+    /**
+     * Sends a hostile fleet from a fresh player at the bot's planet and returns the flying fleet id.
+     *
+     * @param array<mixed> $botPlanet
+     * @param array<mixed> $ships
+     */
     private function attackerAt(array $botPlanet, array $ships): int
     {
         $columns = [];
@@ -184,7 +207,7 @@ final class BotSmartTest extends GameTestCase
 
         return (int) (new FleetFunctions($this->db, $this->configs, $this->state))->sendFleet(
             $ships,
-            MISSION_ATTACK,
+            Mission::Attack->value,
             (int) $enemy['id'],
             (int) $enemyPlanet['id'],
             (int) $enemyPlanet['galaxy'],
@@ -218,7 +241,7 @@ final class BotSmartTest extends GameTestCase
         $acted = $logistics->threats($this->ctx($bot), $this->settings(['fleetsave_chance' => 100]), $personality, time());
         $this->assertSame(1, $acted, json_encode($this->log((int) $bot['id'])));
         $this->assertStringContainsString('likely stronger', $this->log((int) $bot['id'])['threat'] ?? 'no threat logged');
-        $this->assertSame(1, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => MISSION_TRANSPORT], 'c'));
+        $this->assertSame(1, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%FLEETS%% WHERE owner = :u AND mission = :m;', [':u' => $bot['id'], ':m' => Mission::Transport->value], 'c'));
         $this->assertNotEmpty($personality['_fs']['seen'], 'the fleet is judged once');
         $this->assertSame(0, $logistics->threats($this->ctx($bot), $this->settings(['fleetsave_chance' => 100]), $personality, time()), 'not judged twice');
     }
@@ -240,6 +263,10 @@ final class BotSmartTest extends GameTestCase
         $this->assertNotEmpty($this->loadPlanet((int) $a['id'])['b_hangar_id']);
     }
 
+    /**
+     * @param array<mixed> $botPlanet
+     * @param array<mixed> $ships
+     */
     private function createEnemyFleet(array $botPlanet, array $ships): void
     {
         $this->attackerAt($botPlanet, $ships);
@@ -303,14 +330,20 @@ final class BotSmartTest extends GameTestCase
         $this->assertArrayNotHasKey('mult', $other['_expo'], 'no loss, no caution');
     }
 
-    /** A returning fleet row of the bot with the given ships (as if an expedition came back). */
+    /**
+     * A returning fleet row of the bot with the given ships (as if an expedition came back).
+     *
+     * @param array<string, mixed> $bot
+     * @param array<string, mixed> $planet
+     * @param array<mixed> $ships
+     */
     private function attackerFleetRow(array $bot, array $planet, array $ships): int
     {
         $this->state->USER = $bot;
         $now = time();
         $id = (new FleetFunctions($this->db, $this->configs, $this->state))->sendFleet(
             $ships,
-            MISSION_EXPEDITION,
+            Mission::Expedition->value,
             (int) $bot['id'],
             (int) $planet['id'],
             (int) $planet['galaxy'],

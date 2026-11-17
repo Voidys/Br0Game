@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Game\Admin\AbuseReport;
 
+use App\Game\Enum\Mission;
 use App\Game\Core\Database;
 use App\Game\Core\FleetString;
 use App\Game\Model\ElementCatalog;
@@ -161,7 +162,7 @@ final class AbuseReportQuery
             WHERE `universe` = :universe AND `mission` IN (:transport, :hold) AND `owner` <> `target_owner` AND `target_owner` > 0
                 AND `hasCanceled` = 0 AND `start_time` >= :since
             GROUP BY `owner`, `target_owner` ORDER BY v DESC LIMIT " . $limit . ';',
-            [':universe' => $universe, ':transport' => MISSION_TRANSPORT, ':hold' => MISSION_HOLD, ':since' => $since],
+            [':universe' => $universe, ':transport' => Mission::Transport->value, ':hold' => Mission::Hold->value, ':since' => $since],
         );
         foreach ($pairs as $row) {
             $add((int) $row['a'], (int) $row['b'], (int) $row['n'], (float) $row['v'], (int) $row['last']);
@@ -173,7 +174,7 @@ final class AbuseReportQuery
             WHERE `universe` = :universe AND `mission` = :transfer AND `owner` <> `target_owner` AND `target_owner` > 0
                 AND `hasCanceled` = 0 AND `start_time` >= :since
             ORDER BY `start_time` DESC LIMIT ' . $limit . ';',
-            [':universe' => $universe, ':transfer' => MISSION_TRANSFER, ':since' => $since],
+            [':universe' => $universe, ':transfer' => Mission::Transfer->value, ':since' => $since],
         );
         foreach ($transfers as $row) {
             $cargo = (float) $row['resource_metal'] + (float) $row['resource_crystal'] * $weights['crystal'] + (float) $row['resource_deuterium'] * $weights['deuterium'];
@@ -337,9 +338,9 @@ final class AbuseReportQuery
             ORDER BY `stay_time` DESC LIMIT ' . self::LIMIT . ';',
             [
                 ':universe' => $universe,
-                ':attack' => MISSION_ATTACK,
-                ':acs' => MISSION_ACS,
-                ':destroy' => MISSION_DESTRUCTION,
+                ':attack' => Mission::Attack->value,
+                ':acs' => Mission::Acs->value,
+                ':destroy' => Mission::Destruction->value,
                 ':since' => $since,
             ],
         );
@@ -572,7 +573,7 @@ final class AbuseReportQuery
             WHERE `universe` = :universe AND `mission` IN (:attack, :acs, :destroy) AND `owner` <> `target_owner` AND `target_owner` > 0
                 AND `start_time` >= :since AND `gained_metal` + `gained_crystal` + `gained_deuterium` > 0
             GROUP BY `owner`, `target_owner` LIMIT $limit;",
-            [':universe' => $universe, ':attack' => MISSION_ATTACK, ':acs' => MISSION_ACS, ':destroy' => MISSION_DESTRUCTION, ':since' => $since],
+            [':universe' => $universe, ':attack' => Mission::Attack->value, ':acs' => Mission::Acs->value, ':destroy' => Mission::Destruction->value, ':since' => $since],
         ) as $row) {
             $add((int) $row['target_owner'], (int) $row['owner'], (int) $row['n'], (float) $row['v']);
         }

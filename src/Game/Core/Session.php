@@ -160,15 +160,12 @@ class Session
     }
 
     /**
-     * The public combat report view (`page=raport&raport=<id>` as the only parameters while in game): it works without a
+     * The public combat report view (route `game_raport_show`, `/report/<id>`, while in game): it works without a
      * session and must not create or refresh one.
      */
     private function isRaportView(): bool
     {
-        return isset($this->manager->gameState()->requestQuery['page'])
-            && $this->manager->gameState()->requestQuery['page'] == "raport"
-            && isset($this->manager->gameState()->requestQuery['raport'])
-            && count($this->manager->gameState()->requestQuery) == 2
+        return $this->manager->gameState()->request?->attributes->get('_route') === 'game_raport_show'
             && $this->manager->gameState()->runtime->mode === 'INGAME';
     }
 
@@ -292,10 +289,7 @@ class Session
     public function isValidSession()
     {
         if (
-            isset($this->manager->gameState()->requestQuery['page'])
-            && $this->manager->gameState()->requestQuery['page'] == "raport"
-            && isset($this->manager->gameState()->requestQuery['raport'])
-            && count($this->manager->gameState()->requestQuery) == 2
+            $this->manager->gameState()->request?->attributes->get('_route') === 'game_raport_show'
             && $this->manager->gameState()->runtime->mode === 'INGAME'
         ) {
             $this->data['lastActivity'] = time();
@@ -326,7 +320,7 @@ class Session
      */
     public function selectActivePlanet()
     {
-        $httpData   = (new HTTP($this->manager->gameState()))->_GP('cp', 0);
+        $httpData   = (new RequestInput($this->manager->gameState()))->int('cp');
 
         if (!empty($httpData)) {
             $sql    = 'SELECT id FROM %%PLANETS%% WHERE id = :planetId AND id_owner = :userId;';

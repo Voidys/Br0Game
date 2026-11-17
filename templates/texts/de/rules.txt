@@ -7,7 +7,7 @@
 <hr>
 <h2>3. Pushen</h2>
 <p>Pushing ist grundsätzlich verboten. Als Pushing werden zum Beispiel alle Ressourcentransporte und Mondversuche ohne angemessene Gegenleistung von punktschwächeren Accounts an punktstärkere Accounts gesehen.<br>
-Ein Handel muss innerhalb von 24 Stunden abgeschlossen sein. Ausnahmen müssen im Vorfeld von den Moderatoren per Discord-Ticket oder Ingame-Privatnachticht genehmigt werden. <a href="./?page=team">Das Team findet ihr hier.</a>.<br>
+Ein Handel muss innerhalb von 24 Stunden abgeschlossen sein. Ausnahmen müssen im Vorfeld von den Moderatoren per Discord-Ticket oder Ingame-Privatnachticht genehmigt werden. <a href="./team">Das Team findet ihr hier.</a>.<br>
 Eine fehlende Genehmigung oder das Missachten der Regel kann eine Sperre nach sich ziehen.</p>
 
 <h2>3.1 Handeln und Angriffe</h2>

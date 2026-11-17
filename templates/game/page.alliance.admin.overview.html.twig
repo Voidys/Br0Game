@@ -8,32 +8,31 @@
 	</tr>
 	{% if rights.RANKS %}
 	<tr>
-		<td><a href="game?page=alliance&amp;mode=admin&amp;action=permissions">{{ LNG.al_manage_ranks }}</a></td>
+		<td><a href="{{ path('game_alliance_admin_permissions') }}">{{ LNG.al_manage_ranks }}</a></td>
 	</tr>
 	{% endif %}
 	{% if rights.MANAGEUSERS %}
 	<tr>
-		<td><a href="game?page=alliance&amp;mode=admin&amp;action=members">{{ LNG.al_manage_members }}</a></td>
+		<td><a href="{{ path('game_alliance_admin_members') }}">{{ LNG.al_manage_members }}</a></td>
 	</tr>
 	{% endif %}
 	{% if rights.DIPLOMATIC %}
 	<tr>
-		<td><a href="game?page=alliance&amp;mode=admin&amp;action=diplomacy">{{ LNG.al_manage_diplo }}</a></td>
+		<td><a href="{{ path('game_alliance_admin_diplomacy') }}">{{ LNG.al_manage_diplo }}</a></td>
 	</tr>
 	{% endif %}
 </table>
 {% if rights.ADMIN %}
-<form action="game?page=alliance&mode=admin" method="post">
+<form action="{{ path('game_alliance_admin_send') }}" method="post">
 <input type="hidden" name="textMode" value="{{ textMode }}">
-<input type="hidden" name="send" value="1">
 <table>
 	<tr>
 		<th colspan="3">{{ LNG.al_texts }}</th>
 	</tr>
 	<tr>
-		<td class="ctr"><a href="game?page=alliance&amp;mode=admin&amp;textMode=external">{{ LNG.al_outside_text }}</a></td>
-		<td class="ctr"><a href="game?page=alliance&amp;mode=admin&amp;textMode=internal">{{ LNG.al_inside_text }}</a></td>
-		<td class="ctr"><a href="game?page=alliance&amp;mode=admin&amp;textMode=apply">{{ LNG.al_request_text }}</a></td>
+		<td class="ctr"><a href="{{ path('game_alliance_admin', {textMode: 'external'}) }}">{{ LNG.al_outside_text }}</a></td>
+		<td class="ctr"><a href="{{ path('game_alliance_admin', {textMode: 'internal'}) }}">{{ LNG.al_inside_text }}</a></td>
+		<td class="ctr"><a href="{{ path('game_alliance_admin', {textMode: 'apply'}) }}">{{ LNG.al_request_text }}</a></td>
 	</tr>
 	<tr>
 		<td colspan="3">
@@ -109,7 +108,7 @@
 		<th>{{ LNG.al_disolve_alliance }}</th>
 	</tr>
 	<tr>
-		<td><form action="game?page=alliance&amp;mode=admin&amp;action=close" method="post"><input type="submit" value="{{ LNG.al_continue }}" data-confirm-danger data-confirm="{{ LNG.al_close_ally|e('html_attr') }}"></form></td>
+		<td><form action="{{ path('game_alliance_admin_close') }}" method="post"><input type="submit" value="{{ LNG.al_continue }}" data-confirm-danger data-confirm="{{ LNG.al_close_ally|e('html_attr') }}"></form></td>
 	</tr>
 </table>
 <table>
@@ -117,13 +116,13 @@
 		<th>{{ LNG.al_transfer_alliance }}</th>
 	</tr>
 	<tr>
-		<td><form action="game?page=alliance&amp;mode=admin&amp;action=transfer" method="post"><input type="submit" value="{{ LNG.al_continue }}"></form></td>
+		<td><form action="{{ path('game_alliance_admin_transfer') }}" method="get"><input type="submit" value="{{ LNG.al_continue }}"></form></td>
 	</tr>
 </table>
 {% endif %}
 <table>
 	<tr>
-		<th colspan="9"><a href="game?page=alliance">{{ LNG.al_back }}</a></th>
+		<th colspan="9"><a href="{{ path('game_alliance_show') }}">{{ LNG.al_back }}</a></th>
 	</tr>
 </table>
 {% endblock %}

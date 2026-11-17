@@ -17,18 +17,16 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\AuthLevel;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
 use App\Game\Core\Log;
-use App\Game\Core\Singleton;
 use App\Game\Core\StoredData;
 use App\Game\Core\Universe;
 
 /**
  * Edit moderator rights per admin page and the authlevel of users.
  */
-#[\App\Routing\GamePage('admin', 'rights')]
 class RightsController extends AbstractAdminController
 {
     /** Only authlevel ADM may edit rights and levels (the menu shows the page to admins only). */
@@ -39,26 +37,32 @@ class RightsController extends AbstractAdminController
     }
 
     /**
-     * Moderator rights. mode=rights: choose an admin/moderator (id_1, `get` filters the list by level adm, ope, mod, pla) and POST
-     * action=send with rights[] to store the allowed admin pages in `users.rights` (keyed by the former page class names); only the root
-     * user may edit root. mode=users: set the authlevel of a player (id_1 or id_2, authlevel) with the same root protection. Without
-     * (or with an unknown) mode the first tab (rights) is shown, as the admin menu marks it.
+     * Moderator rights: choose an admin/moderator (id_1, `get` filters the list by level adm, ope, mod, pla); a POST with action=send and
+     * rights[] stores the allowed admin pages in `users.rights` (keyed by the former page class names) and shows the rights matrix; only
+     * the root user may edit root.
      */
+    #[GameRoute('admin', 'admin/rights', 'rights', 'rights', ['GET', 'POST'])]
     public function show(): Response
     {
-        $mode = $this->http()->_GP('mode', '');
-        switch ($mode) {
-            case 'users':
-                if ($this->state->requestPost) {
-                    $this->saveAuthlevel();
-                }
-                return $this->userPicker('admin/ModerrationUsersPage.html.twig');
-            default:
-                if ($this->state->requestPost) {
-                    return $this->saveRights();
-                }
-                return $this->userPicker('admin/ModerrationRightsPage.html.twig');
+        if ($this->state->requestPost) {
+            return $this->saveRights();
         }
+
+        return $this->userPicker('admin/ModerrationRightsPage.html.twig');
+    }
+
+    /**
+     * Authlevel of players: choose a player (`get` filters the list); a POST sets the authlevel of player id_1 (or id_2, authlevel) with
+     * the same root protection.
+     */
+    #[GameRoute('admin', 'admin/rights/users', 'rights', 'users', ['GET', 'POST'])]
+    public function users(): Response
+    {
+        if ($this->state->requestPost) {
+            return $this->saveAuthlevel();
+        }
+
+        return $this->userPicker('admin/ModerrationUsersPage.html.twig');
     }
 
     /**
@@ -71,10 +75,10 @@ class RightsController extends AbstractAdminController
         $USER = $this->state->USER;
         $db = $this->db;
 
-        $id = $this->http()->_GP('id_1', 0);
+        $id = $this->input()->int('id_1');
 
         if ($USER['id'] != ROOT_USER && $id == ROOT_USER) {
-            $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=rights');
+            return $this->messageResponse($LNG['ad_authlevel_error_3'], $this->router->generate('admin_rights_rights'));
         }
 
         if (!isset($this->state->requestPost['rights'])) {
@@ -127,7 +131,7 @@ class RightsController extends AbstractAdminController
                 ],
             ),
         );
-        $this->assign([
+        return $this->render('admin/ModerrationRightsPostPage.html.twig', [
             'Files'              => $Files,
             'Rights'             => $Rights['rights'],
             'id'                 => $id,
@@ -136,33 +140,32 @@ class RightsController extends AbstractAdminController
             'button_submit'      => $LNG['button_submit'],
             'User'               => '',
         ]);
-
-        return $this->render('admin/ModerrationRightsPostPage.html.twig');
     }
 
     /**
      * Mode `users` with POST: sets the authlevel of player id_1 (or id_2) and ends with a message (only the root user may
      * change the root user).
      */
-    private function saveAuthlevel(): void
+    private function saveAuthlevel(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
         $db = $this->db;
 
-        $id = $this->http()->_GP('id_1', 0);
-        $authlevel = $this->http()->_GP('authlevel', 0);
+        $id = $this->input()->int('id_1');
+        $authlevel = $this->input()->int('authlevel');
+        $back = $this->router->generate('admin_rights_users');
 
         if ($id == 0) {
-            $id = $this->http()->_GP('id_2', 0);
+            $id = $this->input()->int('id_2');
         }
 
         if ($USER['id'] != ROOT_USER && $id == ROOT_USER) {
-            $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=users');
+            return $this->messageResponse($LNG['ad_authlevel_error_3'], $back);
         }
         // only known levels, never above the acting admin's own
-        if ($authlevel < AUTH_USR || $authlevel > (int) $USER['authlevel']) {
-            $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=users');
+        if ($authlevel < AuthLevel::User->value || $authlevel > (int) $USER['authlevel']) {
+            return $this->messageResponse($LNG['ad_authlevel_error_3'], $back);
         }
 
         $oldAuthlevel = $db->selectSingle('SELECT `authlevel` FROM %%USERS%% WHERE `id` = :userID;', [':userID' => $id], 'authlevel');
@@ -177,7 +180,8 @@ class RightsController extends AbstractAdminController
         $LOG->old = ['authlevel' => (int) $oldAuthlevel];
         $LOG->new = ['authlevel' => (int) $authlevel];
         $LOG->save();
-        $this->message($LNG['ad_authlevel_succes'], '?page=rights&mode=users');
+
+        return $this->messageResponse($LNG['ad_authlevel_succes'], $back);
     }
 
     /**
@@ -189,19 +193,13 @@ class RightsController extends AbstractAdminController
         $LNG = $this->state->LNG;
         $db = $this->db;
 
-        if (!isset($this->state->requestQuery['get'])) {
-            $this->state->requestQuery['get'] = '';
-        }
-        $authLevel = '';
-        if ($this->state->requestQuery['get'] == 'adm') {
-            $authLevel = AUTH_ADM;
-        } elseif ($this->state->requestQuery['get'] == 'ope') {
-            $authLevel = AUTH_OPS;
-        } elseif ($this->state->requestQuery['get'] == 'mod') {
-            $authLevel = AUTH_MOD;
-        } elseif ($this->state->requestQuery['get'] == 'pla') {
-            $authLevel = AUTH_USR;
-        }
+        $authLevel = match ($this->input()->string('get')) {
+            'adm' => AuthLevel::Admin->value,
+            'ope' => AuthLevel::Operator->value,
+            'mod' => AuthLevel::Moderator->value,
+            'pla' => AuthLevel::User->value,
+            default => '',
+        };
 
         if ($authLevel != '') {
             $QueryUsers = $db->select("SELECT `id`, `username`, `authlevel` FROM %%USERS%% WHERE `universe` = :universe AND `authlevel` = :authlevel", [
@@ -219,7 +217,7 @@ class RightsController extends AbstractAdminController
             $UserList .= '<option value="' . (int) $List['id'] . '">' . htmlspecialchars($List['username'], ENT_QUOTES, 'UTF-8', false) . '&nbsp;&nbsp;(' . $LNG['se_rank'][$List['authlevel']] . ')</option>';
         }
 
-        $this->assign([
+        return $this->render($template, [
             'Selector'               => [
                 0 => $LNG['se_rank'][0],
                 1 => $LNG['se_rank'][1],
@@ -240,10 +238,11 @@ class RightsController extends AbstractAdminController
             'ad_authlevel_jj'        => $LNG['ad_authlevel_jj'],
             'ad_authlevel_tt'        => $LNG['ad_authlevel_tt'],
         ]);
-
-        return $this->render($template);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function prepare($val): array|string
     {
         return str_replace('.php', '', $val);

@@ -260,7 +260,7 @@ al_diplo_accept_yes_confirm: Chấp nhận hiệp ước này?
 al_diplo_accept_yes_mes: Hiệp ước (%s) giữa các liên minh <b>%s</b> và <b>%s</b> đã được ký!
 al_diplo_ally: Liên minh
 al_diplo_ask: Yêu cầu hiệp ước
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Một yêu cầu hiệp ước]</a> (%s) đã được gửi từ <b>%s</b> đến <b>%s</b>.<br>Lý do: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[Một yêu cầu hiệp ước]</a> (%s) đã được gửi từ <b>%s</b> đến <b>%s</b>.<br>Lý do: %s'
 al_diplo_confirm_delete: Chấm dứt hiệp ước này?
 al_diplo_create: Yêu cầu hiệp ước
 al_diplo_create_done: Đã gửi yêu cầu hiệp ước.
@@ -268,7 +268,7 @@ al_diplo_delete: Hiệp ước đã chấm dứt
 al_diplo_delete_mes: Hiệp ước (%s) giữa các liên minh <b>%s</b> và <b>%s</b> đã chấm dứt.
 al_diplo_exists: Bạn đã có một hiệp ước đang hiệu lực hoặc đang chờ với %s.
 al_diplo_head: Quản lý ngoại giao
-al_diplo_info: '<p>Trên trang này bạn có thể quản lý các hiệp ước ngoại giao của liên minh.</p><p>Các loại hiệp ước được liệt kê bên dưới. Thông tin thêm: <a href="game?page=questions">FAQ</a> hoặc <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+al_diplo_info: '<p>Trên trang này bạn có thể quản lý các hiệp ước ngoại giao của liên minh.</p><p>Các loại hiệp ước được liệt kê bên dưới. Thông tin thêm: <a href="game/faq">FAQ</a> hoặc <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
 al_diplo_level:
 - Chính
 - Cánh
@@ -287,7 +287,7 @@ al_diplo_text: Yêu cầu/Lý do
 al_diplo_war: Tuyên chiến
 al_diplo_war_end: Tuyên bố hòa bình
 al_diplo_war_end_mes: '%s giữa các liên minh <b>%s</b> và <b>%s</b> vừa kết thúc.'
-al_diplo_war_mes: 'Liên minh <b>%1$s</b> đã tuyên bố %3$s với <b>%2$s</b>! <br>Lý do:<br>%4$s<br><br>Thông tin: Chiến tranh sẽ bắt đầu sau <b>24 giờ</b>, khi đó Quy tắc Bash sẽ bị tạm ngưng.<br>Để biết thêm, hãy xem <a href="./?page=rules&lang=en" target="_blank">[Quy tắc]</a>.'
+al_diplo_war_mes: 'Liên minh <b>%1$s</b> đã tuyên bố %3$s với <b>%2$s</b>! <br>Lý do:<br>%4$s<br><br>Thông tin: Chiến tranh sẽ bắt đầu sau <b>24 giờ</b>, khi đó Quy tắc Bash sẽ bị tạm ngưng.<br>Để biết thêm, hãy xem <a href="./rules?lang=en" target="_blank">[Quy tắc]</a>.'
 al_diplo_withdraw: Đã rút yêu cầu hiệp ước.
 al_diplo_withdraw_confirm: Rút yêu cầu hiệp ước này?
 al_diplo_withdraw_mes: Yêu cầu hiệp ước (%s) giữa các liên minh <b>%s</b> và <b>%s</b> đã được rút lại.
@@ -337,7 +337,7 @@ al_name: Đổi tên liên minh
 al_name_required: Hãy nhập tên liên minh.
 al_link_too_long: Liên kết quá dài (tối đa 255 ký tự).
 al_name_tag_too_long: Thẻ tối đa 8 ký tự và tên tối đa 30 ký tự.
-al_new_apply: Liên minh của bạn đã nhận <a href="?page=alliance&mode=admin&action=manageApply">[một đơn xin gia nhập]</a> từ người chơi <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_apply: Liên minh của bạn đã nhận <a href="game/alliance/admin/applications">[một đơn xin gia nhập]</a> từ người chơi <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Thành viên mới
 al_new_requests: '%d đang chờ'
 al_newname_specialchar: Tên và thẻ liên minh chỉ được chứa chữ cái, chữ số, khoảng trắng, dấu gạch dưới, gạch ngang và dấu chấm.
@@ -1167,7 +1167,7 @@ ov_temp_unit: °C
 ov_temperature: Nhiệt độ
 ov_ticketbot: Ticketbot
 ov_to: đến
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Sai tên!
 ov_wrong_pass: Sai mật khẩu!
 own: Của bạn
@@ -1334,7 +1334,7 @@ sys_forward: Tiếp
 sys_game_is_setup: <h1>Đăng ký hoàn tất!</h1><br><p>Chúng tôi đang chuẩn bị vũ trụ cho bạn!</p><!--discord_url--><p>Trong lúc chờ, để không bỏ lỡ gì, hãy tham gia cùng chúng tôi trên</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Mô-đun này không hoạt động
 sys_nomore_level: Bạn không có %s để phá bỏ.
-sys_notenough_money: 'Không đủ tài nguyên trên %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> để xây %s. <br>Bạn có: %s %s, %s %s và %s %s. <br>Chi phí: %s %s, %s %s và %s %s.'
+sys_notenough_money: 'Không đủ tài nguyên trên %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> để xây %s. <br>Bạn có: %s %s, %s %s và %s %s. <br>Chi phí: %s %s, %s %s và %s %s.'
 sys_refferal_from: Hệ thống
 sys_refferal_text: Người chơi %s, do bạn chiêu mộ, đã đạt %s điểm.
 sys_refferal_title: Thưởng người chơi %s

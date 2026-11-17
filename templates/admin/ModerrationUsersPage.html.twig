@@ -3,11 +3,11 @@
 {% import 'admin/AdminPicker.macros.html.twig' as picker %}
 <div class="stack">
   <nav class="tabs">
-    <a href="?page=rights&amp;mode=users">{{ ad_authlevel_tt|trim('[] ') }}</a>
-    <a href="?page=rights&amp;mode=users&amp;get=adm">{{ ad_authlevel_aa|trim('[] ') }}</a>
-    <a href="?page=rights&amp;mode=users&amp;get=ope">{{ ad_authlevel_oo|trim('[] ') }}</a>
-    <a href="?page=rights&amp;mode=users&amp;get=mod">{{ ad_authlevel_mm|trim('[] ') }}</a>
-    <a href="?page=rights&amp;mode=users&amp;get=pla">{{ ad_authlevel_jj|trim('[] ') }}</a>
+    <a href="{{ path('admin_rights_users') }}">{{ ad_authlevel_tt|trim('[] ') }}</a>
+    <a href="{{ path('admin_rights_users', {get: 'adm'}) }}">{{ ad_authlevel_aa|trim('[] ') }}</a>
+    <a href="{{ path('admin_rights_users', {get: 'ope'}) }}">{{ ad_authlevel_oo|trim('[] ') }}</a>
+    <a href="{{ path('admin_rights_users', {get: 'mod'}) }}">{{ ad_authlevel_mm|trim('[] ') }}</a>
+    <a href="{{ path('admin_rights_users', {get: 'pla'}) }}">{{ ad_authlevel_jj|trim('[] ') }}</a>
   </nav>
   <form action="" method="post" name="users" class="card" data-track-dirty>
     <header class="card__head"><h2 class="card__title">{{ icon('shield-check') }}{{ ad_authlevel_title }}</h2></header>

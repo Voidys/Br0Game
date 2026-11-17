@@ -17,20 +17,18 @@
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /**
  * Resets parts of the universe (players, planets, research, fleets, ...).
  */
-#[\App\Routing\GamePage('admin', 'reset')]
 class ResetController extends AbstractAdminController
 {
     /**
-     * Only the root user (ROOT_USER) may reset a universe; everyone else ends in EndOfRequest.
+     * Only the root user (ROOT_USER) may reset a universe; everyone else gets the permission page.
      */
     protected function construct(): void
     {
@@ -43,34 +41,35 @@ class ResetController extends AbstractAdminController
         parent::construct();
     }
 
+    /** The reset form. */
+    #[GameRoute('admin', 'admin/reset', 'reset')]
+    public function show(): Response
+    {
+        return $this->render('admin/ResetPage.html.twig', $this->formTexts());
+    }
+
     /**
      * Resets selected parts of the emulated universe. The POST checkboxes (value `on`) select the parts: players, planets, moons,
      * defenses, ships, h_d (ships and defenses), edif_p / edif_l / edif (buildings on planets / moons / both), inves / inves_c (research,
      * officers), dark (dark matter), resources, notes, rw (battle reports), friends, alliances, fleets, banneds, messages, statpoints.
      * Reset values come from the universe's `<resource>_start` config; the columns are taken from $reslist/$resource, never from the
-     * request. Everything runs against the emulated universe only. Ends with a confirmation message; without POST it renders the form.
+     * request. Everything runs against the emulated universe only. Answers with a confirmation message.
      */
-    public function show(): Response
+    #[GameRoute('admin', 'admin/reset', 'reset', 'run', ['POST'])]
+    public function run(): Response
     {
-        $LNG = $this->state->LNG;
+        $dbcol = $this->resetColumns();
+        // all or nothing: a failing step must not leave a half reset universe
+        $this->db->transactional(function () use ($dbcol): void {
+            $this->resetPlayersAndPlanets();
+            $this->resetHangarsAndDefenses($dbcol);
+            $this->resetBuildings($dbcol);
+            $this->resetResearch($dbcol);
+            $this->resetResources($dbcol);
+            $this->resetGeneral();
+        });
 
-        if ($this->state->requestPost) {
-            $dbcol = $this->resetColumns();
-            // all or nothing: a failing step must not leave a half reset universe
-            $this->db->transactional(function () use ($dbcol): void {
-                $this->resetPlayersAndPlanets();
-                $this->resetHangarsAndDefenses($dbcol);
-                $this->resetBuildings($dbcol);
-                $this->resetResearch($dbcol);
-                $this->resetResources($dbcol);
-                $this->resetGeneral();
-            });
-            $this->message($LNG['re_reset_excess'], '?page=reset', 3);
-        }
-
-        $this->assign($this->formTexts());
-
-        return $this->render('admin/ResetPage.html.twig');
+        return $this->messageResponse($this->state->LNG['re_reset_excess'], $this->router->generate('admin_reset_show'), 3);
     }
 
     /**
@@ -135,7 +134,7 @@ class ResetController extends AbstractAdminController
                 ':root'     => ROOT_USER,
             ]);
             foreach ($ids as $row) {
-                $this->playerUtil()->deletePlayer((int) $row['id']);
+                $this->playerDeletion()->deletePlayer((int) $row['id']);
             }
         }
 
@@ -161,6 +160,8 @@ class ResetController extends AbstractAdminController
 
     /**
      * Checkboxes `defenses`, `ships`, `h_d`: zeroes defense / fleet columns on all planets, or clears the shipyard queue.
+     *
+     * @param array<mixed> $dbcol
      */
     private function resetHangarsAndDefenses(array $dbcol): void
     {
@@ -184,6 +185,8 @@ class ResetController extends AbstractAdminController
     /**
      * Checkboxes `edif_p`, `edif_l`, `edif`: zeroes the building levels (on all planets or on moons only) or clears the
      * building queue.
+     *
+     * @param array<mixed> $dbcol
      */
     private function resetBuildings(array $dbcol): void
     {
@@ -207,6 +210,8 @@ class ResetController extends AbstractAdminController
 
     /**
      * Checkboxes `inves`, `inves_c`: zeroes the research levels of all players or clears the research queue.
+     *
+     * @param array<mixed> $dbcol
      */
     private function resetResearch(array $dbcol): void
     {
@@ -226,6 +231,8 @@ class ResetController extends AbstractAdminController
     /**
      * Checkboxes `dark`, `resources`: sets dark matter (players) / metal, crystal, deuterium (planets) back to the
      * configured start values.
+     *
+     * @param array<mixed> $dbcol
      */
     private function resetResources(array $dbcol): void
     {

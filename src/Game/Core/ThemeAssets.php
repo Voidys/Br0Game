@@ -51,7 +51,11 @@ final class ThemeAssets
         return self::$maps[$theme][$path] ?? self::themeUrl($theme) . $path;
     }
 
-    /** the artwork sets a theme declares in style.cfg (list of set names, in lookup order) */
+    /**
+     * the artwork sets a theme declares in style.cfg (list of set names, in lookup order)
+     *
+     * @return array<mixed>
+     */
     public static function setsOf(string $theme): array
     {
         $cfg = ProjectPaths::ROOT . self::THEMES_DIR . $theme . '/style.cfg';

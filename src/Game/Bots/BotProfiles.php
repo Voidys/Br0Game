@@ -33,7 +33,11 @@ class BotProfiles
         return $rows;
     }
 
-    /** One profile row with normalized `settings`, null when it does not exist. */
+    /**
+     * One profile row with normalized `settings`, null when it does not exist.
+     *
+     * @return array<mixed>
+     */
     public function get(int $id): ?array
     {
         $row = $this->db->selectSingle(
@@ -63,6 +67,8 @@ class BotProfiles
     /**
      * Saves a profile. $data: id (0 = new), profile_key, name, description, settings (array).
      * Returns the profile id.
+     *
+     * @param array<string, mixed> $data
      */
     public function save(array $data): int
     {
@@ -219,7 +225,11 @@ class BotProfiles
         ];
     }
 
-    /** JSON settings string to normalized settings; invalid JSON gives the defaults. */
+    /**
+     * JSON settings string to normalized settings; invalid JSON gives the defaults.
+     *
+     * @return array<mixed>
+     */
     private function decode(string $json, string $profileKey = ''): array
     {
         $data = json_decode($json, true);
@@ -257,7 +267,11 @@ class BotProfiles
         return round(max($min, min($max, (float) $v)), 4);
     }
 
-    /** Fallback values for missing settings. */
+    /**
+     * Fallback values for missing settings.
+     *
+     * @return array<mixed>
+     */
     private function baseSettings(): array
     {
         return $this->defaults()['office_worker']['settings'];
@@ -353,7 +367,11 @@ class BotProfiles
         ];
     }
 
-    /** Office worker: plays before work, at lunch and in the evening. */
+    /**
+     * Office worker: plays before work, at lunch and in the evening.
+     *
+     * @return array<mixed>
+     */
     private function officeWorker(): array
     {
         return [
@@ -383,7 +401,11 @@ class BotProfiles
         ];
     }
 
-    /** Jobless: lots of time, online most of the afternoon and night. */
+    /**
+     * Jobless: lots of time, online most of the afternoon and night.
+     *
+     * @return array<mixed>
+     */
     private function jobless(): array
     {
         return [
@@ -413,7 +435,11 @@ class BotProfiles
         ];
     }
 
-    /** Shift worker: the play pattern moves by 8 hours every week. */
+    /**
+     * Shift worker: the play pattern moves by 8 hours every week.
+     *
+     * @return array<mixed>
+     */
     private function shiftWorker(): array
     {
         // shift worker: 8h block at 0.7 (08-15), 4h at 0.4 (16-19), rest 0.05
@@ -446,7 +472,11 @@ class BotProfiles
         ];
     }
 
-    /** Lunatic: always online, long sessions, almost perfect play. */
+    /**
+     * Lunatic: always online, long sessions, almost perfect play.
+     *
+     * @return array<mixed>
+     */
     private function lunatic(): array
     {
         return [
@@ -476,7 +506,11 @@ class BotProfiles
         ];
     }
 
-    /** Noob: many mistakes, improves slowly. */
+    /**
+     * Noob: many mistakes, improves slowly.
+     *
+     * @return array<mixed>
+     */
     private function noob(): array
     {
         return [

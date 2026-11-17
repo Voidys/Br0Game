@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
+use App\Game\Enum\Mission;
 
 /**
  * Audit F-14: optional daily caps per account on fleet launches and attacks (FleetDailyCaps), off by default.
@@ -69,7 +70,7 @@ final class FleetDailyCapTest extends GameTestCase
             'fleetSpeed' => 10, 'ownPlanet' => $planet['id'],
         ]];
         $session->save();
-        $this->state->requestInput = ['token' => $token, 'mission' => MISSION_TRADE, 'markettype' => 0, 'resEx' => 3, 'exchange' => 100, 'staytime' => 1, 'visibility' => 0, 'maxFlightTime' => 0, 'metal' => 100];
+        $this->state->requestInput = ['token' => $token, 'mission' => Mission::Trade->value, 'markettype' => 0, 'resEx' => 3, 'exchange' => 100, 'staytime' => 1, 'visibility' => 0, 'maxFlightTime' => 0, 'metal' => 100];
         try {
             (new FleetDispatch($this->db, $this->configs, $this->state, $caps))->dispatch();
         } finally {
@@ -121,25 +122,25 @@ final class FleetDailyCapTest extends GameTestCase
     {
         $caps = $this->caps(0, 2);
         for ($i = 0; $i < 5; $i++) {
-            $this->assertNull($caps->consume(7, MISSION_TRANSPORT), 'transport ' . $i);
-            $this->assertNull($caps->consume(7, MISSION_SPY), 'spy ' . $i);
+            $this->assertNull($caps->consume(7, Mission::Transport->value), 'transport ' . $i);
+            $this->assertNull($caps->consume(7, Mission::Spy->value), 'spy ' . $i);
         }
-        $this->assertNull($caps->consume(7, MISSION_ATTACK));
-        $this->assertNull($caps->consume(7, MISSION_DESTRUCTION));
-        $refused = $caps->consume(7, MISSION_ACS);
+        $this->assertNull($caps->consume(7, Mission::Attack->value));
+        $this->assertNull($caps->consume(7, Mission::Destruction->value));
+        $refused = $caps->consume(7, Mission::Acs->value);
         $this->assertSame('fl_daily_attack_cap_reached', $refused['key'] ?? null);
-        $this->assertNull($caps->consume(7, MISSION_TRANSPORT), 'other missions still pass');
-        $this->assertNull($caps->consume(8, MISSION_ATTACK), 'another account has its own quota');
+        $this->assertNull($caps->consume(7, Mission::Transport->value), 'other missions still pass');
+        $this->assertNull($caps->consume(8, Mission::Attack->value), 'another account has its own quota');
     }
 
     public function testMissileCountsAsLaunchAndAttack(): void
     {
         $caps = $this->caps(3, 1);
-        $this->assertNull($caps->consume(7, MISSION_MISSILE));
-        $this->assertSame('fl_daily_attack_cap_reached', $caps->consume(7, MISSION_MISSILE)['key'] ?? null);
+        $this->assertNull($caps->consume(7, Mission::Missile->value));
+        $this->assertSame('fl_daily_attack_cap_reached', $caps->consume(7, Mission::Missile->value)['key'] ?? null);
         // the refused missile used no launch: two launches of the cap of three are left
-        $this->assertNull($caps->consume(7, MISSION_TRANSPORT));
-        $this->assertNull($caps->consume(7, MISSION_TRANSPORT));
-        $this->assertSame('fl_daily_cap_reached', $caps->consume(7, MISSION_TRANSPORT)['key'] ?? null);
+        $this->assertNull($caps->consume(7, Mission::Transport->value));
+        $this->assertNull($caps->consume(7, Mission::Transport->value));
+        $this->assertSame('fl_daily_cap_reached', $caps->consume(7, Mission::Transport->value)['key'] ?? null);
     }
 }

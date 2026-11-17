@@ -13,7 +13,7 @@
 				<td>{{ LNG.in_jump_gate_start_moon }}</td>
 				<td colspan="2">{{ gateData.startLink }}</td>
 			</tr>
-			{% if not empty(gateData.gateList) %}
+			{% if gateData.gateList %}
 				<tr>
 					<td>{{ LNG.in_jump_gate_finish_moon }}</td>
 					<td colspan="2">{{ forms.html_options({'options': gateData.gateList, 'name': "jmpto", 'class': "jumpgate"}) }}</td>
@@ -31,7 +31,7 @@
 				</tr>
 				{% endfor %}
 				<tr>
-					<td colspan="3" class="form-actions"><input value="{{ LNG.in_jump_gate_jump }}" type="button" data-action="gate-submit"></td>
+					<td colspan="3" class="form-actions"><input value="{{ LNG.in_jump_gate_jump }}" type="button" data-action="gate-submit" data-url="{{ path('game_information_send_fleet') }}"></td>
 				</tr>
 			{% else %}
 				<tr>

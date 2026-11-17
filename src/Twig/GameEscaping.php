@@ -9,7 +9,7 @@ use Twig\FileExtensionEscapingStrategy;
 /**
  * Output escaping policy of the game templates.
  *
- * The game encodes request input when it reads it (App\Game\Core\HTTP::_GP() applies
+ * The game encodes request input when it reads it (App\Game\Core\RequestInput applies
  * htmlspecialchars), so names, texts and other stored strings are usually HTML-encoded
  * already. Escaping them again with Twig's "html" strategy would print "&amp;lt;" instead of "<".
  *

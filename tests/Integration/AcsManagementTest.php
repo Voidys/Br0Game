@@ -8,6 +8,7 @@ use App\Controller\Game\FleetTableController;
 use App\Game\Core\FleetLauncher;
 use App\Game\Core\Language;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * ACS group management (invite, rename) belongs to the creator of the group, not to every invited member.
@@ -42,14 +43,17 @@ final class AcsManagementTest extends GameTestCase
         parent::tearDown();
     }
 
-    /** @return array{0: array<string, mixed>, 1: int} sender, fleet id of an outgoing attack that has not arrived */
+    /**
+     * @param array<string, mixed> $target
+     * @return array{0: array<string, mixed>, 1: int} sender, fleet id of an outgoing attack that has not arrived
+     */
     private function attackFleet(array $target): array
     {
         [$user, $planet] = $this->createPlayer([], ['small_ship_cargo' => 20, 'deuterium' => 10000]);
         $now = $this->state->runtime->timestamp;
         $id = (new FleetLauncher($this->db, $this->configs, $this->state))->sendFleet(
             [202 => 5],
-            MISSION_ATTACK,
+            Mission::Attack->value,
             (int) $user['id'],
             (int) $planet['id'],
             (int) $planet['galaxy'],
@@ -72,7 +76,11 @@ final class AcsManagementTest extends GameTestCase
         return [$user, $id];
     }
 
-    /** @return array<string, mixed>|array{} */
+    /**
+     * @param array<mixed> $input
+     * @param array<string, mixed> $user
+     * @return array<string, mixed>|array{}
+     */
     private function acsPage(array $user, int $fleetId, array $input): array
     {
         $this->state->USER = $user;

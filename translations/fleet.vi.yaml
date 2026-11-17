@@ -176,7 +176,7 @@ sys_mess_spy_control: Cơ quan Tình báo Trung ương
 sys_mess_spy_destroyed: Tàu do thám của bạn đã bị phá hủy!
 sys_mess_spy_ennemyfleet_1: Tàu do thám của địch từ hành tinh %s đã được phát hiện gần %s.
 sys_mess_spy_ennemyfleet_3: Tàu do thám của địch từ mặt trăng %s đã được phát hiện gần %s.
-sys_mess_spy_link: <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_link: <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: 'Khả năng tàu do thám bị phát hiện là: %d%%'
 sys_mess_spy_qg: Phòng do thám
 sys_mess_spy_repair_order: Hiện đang phục hồi tàu tại ụ sửa chữa.
@@ -204,7 +204,7 @@ sys_spy_fleet: Hạm đội
 sys_stat_mess: Hạm đội của bạn từ %s %s đã đến %s %s %s và giao %s %s, %s %s và %s %s. %s
 sys_stat_mess_stay: Hạm đội đóng quân
 sys_stealed_ressources: Chúng cướp
-sys_trade_mess_arr_success: 'Hạm đội thương nhân của bạn sẵn sàng quay về %1$s %2$s (chuyến bay về: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
+sys_trade_mess_arr_success: 'Hạm đội thương nhân của bạn sẵn sàng quay về %1$s %2$s (chuyến bay về: %5$s). <form action="game/fleet/recall" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
 sys_trade_mess_back: Hạm đội thương nhân của bạn đã trở về %s %s tay trắng.
 sys_trade_mess_back_success: Hạm đội thương nhân của bạn đã trở về %4$s %5$s thành công với %1$s kim loại, %2$s tinh thể và %3$s deuterium.
 sys_tran_mess_back: Hạm đội của bạn đã trở về %s %s.

@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Controller\Account;
 
+use App\Game\Enum\AuthLevel;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Content\HtmlContent;
 
 /**
  * Built-in community board (reddit style), cross universe: identity is the account.
- * ?page=board               list (sort=hot|new|top, t=all|week, flair=, p=)
- * ?page=board&mode=post&id= post with threaded comments (csort=best|new)
+ * /account/board           list (sort=hot|new|top, t=all|week, flair=, p=)
+ * /account/board/{id}      post with threaded comments (csort=best|new)
  * Write actions are POST + CSRF token; voting answers JSON.
  * Visitors without login may read (list and post view, account stub with id 0); every other mode
  * sends them to the login.
  */
-#[\App\Routing\GamePage('account', 'board')]
 class BoardController extends AbstractAccountController
 {
     private const FLAIRS = ['general', 'guide', 'question', 'suggestion', 'bug', 'offtopic'];
@@ -38,7 +39,7 @@ class BoardController extends AbstractAccountController
         parent::initialize();
         $this->state->LNG->includeData(['INGAME', 'ACCOUNT']);
         if ($this->isGuest()) {
-            if (!in_array($this->http()->_GP('mode', 'show'), self::GUEST_MODES, true)) {
+            if (!in_array($this->state->request?->attributes->get('_mode', 'show'), self::GUEST_MODES, true)) {
                 $this->redirectTo('./');
             }
             // visitors get the start page frame (account/layout.site)
@@ -55,13 +56,14 @@ class BoardController extends AbstractAccountController
      * Post list of the board. Request: sort (hot, new, top, ...), t (time range for top), flair (filter), p (page).
      * Reads BOARD_POSTS with the author names and the vote of the viewing account (BOARD_VOTES).
      */
+    #[GameRoute('account', 'account/board', 'board')]
     public function show(): Response
     {
-        $sort = in_array($this->http()->_GP('sort', 'hot'), ['hot', 'new', 'top'], true) ? $this->http()->_GP('sort', 'hot') : 'hot';
-        $period = $this->http()->_GP('t', 'all') === 'week' ? 'week' : 'all';
-        $flair = $this->http()->_GP('flair', '');
+        $sort = in_array($this->input()->string('sort', 'hot'), ['hot', 'new', 'top'], true) ? $this->input()->string('sort', 'hot') : 'hot';
+        $period = $this->input()->string('t', 'all') === 'week' ? 'week' : 'all';
+        $flair = $this->input()->string('flair');
         $flair = in_array($flair, self::FLAIRS, true) ? $flair : '';
-        $page = max(1, (int) $this->http()->_GP('p', 1));
+        $page = max(1, $this->input()->int('p', 1));
         $now = $this->now();
         $filter = $this->postFilter($sort, $period, $flair, $now);
         $order = $this->postOrder($sort);
@@ -80,8 +82,8 @@ class BoardController extends AbstractAccountController
         [$tabs, $periods, $chips] = $this->listControls($sort, $period, $flair);
         $state = ['sort' => $sort, 't' => $period, 'flair' => $flair];
 
-        $this->assign([
-            'toplink' => 'account?page=account',
+        return $this->render('account/page.board.default.html.twig', [
+            'toplink' => $this->router->generate('account_account_show'),
             'topname' => $this->state->LNG['Back'],
             'posts' => $posts,
             'tabs' => $tabs,
@@ -96,7 +98,6 @@ class BoardController extends AbstractAccountController
             'isMod' => $this->isMod(),
             'isGuest' => $this->isGuest(),
         ]);
-        return $this->render('account/page.board.default.html.twig');
     }
 
     /**
@@ -172,7 +173,7 @@ class BoardController extends AbstractAccountController
         foreach ($rows as $row) {
             $posts[] = [
                 'id' => (int) $row['id'],
-                'url' => 'account?page=board&mode=post&id=' . (int) $row['id'],
+                'url' => $this->postUrl((int) $row['id']),
                 'title' => $row['title'],
                 'flair' => $row['flair'],
                 'score' => (int) $row['score'],
@@ -219,17 +220,18 @@ class BoardController extends AbstractAccountController
      * One post with its comment tree. Request: id (post), csort (best or new). Deleted posts and comments are shown as
      * placeholders (moderators and authors see more); an unknown id shows the "not found" message.
      */
+    #[GameRoute('account', 'account/board/{id}', 'board', 'post', requirements: ['id' => '\d+'])]
     public function post(): Response
     {
-        $id = (int) $this->http()->_GP('id', 0);
+        $id = $this->input()->int('id');
         $post = $this->loadPost($id);
         if ($post === null) {
-            $this->fail($this->state->LNG['board_not_found']);
+            return $this->fail($this->state->LNG['board_not_found']);
         }
 
         $me = $this->accountId();
         $isMod = $this->isMod();
-        $csort = $this->http()->_GP('csort', 'best') === 'new' ? 'new' : 'best';
+        $csort = $this->input()->string('csort', 'best') === 'new' ? 'new' : 'best';
         $deleted = (bool) $post['deleted'];
         $own = (int) $post['account_id'] === $me;
 
@@ -258,50 +260,50 @@ class BoardController extends AbstractAccountController
             'canDelete' => ($own || $isMod) && !$deleted,
         ];
 
-        $this->assign([
-            'toplink' => 'account?page=board',
+        return $this->render('account/page.board.post.html.twig', [
+            'toplink' => $this->boardUrl(),
             'topname' => $this->state->LNG['Back'],
             'post' => $postView,
             'comments' => $this->loadComments($id, $csort, $me, $isMod),
             'csort' => $csort,
-            'csortBest' => 'account?page=board&mode=post&id=' . $id . '&csort=best',
-            'csortNew' => 'account?page=board&mode=post&id=' . $id . '&csort=new',
+            'csortBest' => $this->postUrl($id, ['csort' => 'best']),
+            'csortNew' => $this->postUrl($id, ['csort' => 'new']),
             'canComment' => !$deleted && !$post['locked'] && !$this->isGuest(),
             'csrf' => $this->csrf(),
             'isMod' => $isMod,
             'isGuest' => $this->isGuest(),
         ]);
-        return $this->render('account/page.board.post.html.twig');
     }
 
     /**
      * Empty form for a new post.
      */
+    #[GameRoute('account', 'account/board/new', 'board', 'submit')]
     public function submit(): Response
     {
-        $this->assign([
-            'toplink' => 'account?page=board',
+        return $this->render('account/page.board.submit.html.twig', [
+            'toplink' => $this->boardUrl(),
             'topname' => $this->state->LNG['Back'],
             'flairs' => self::FLAIRS,
             'editing' => false,
             'form' => ['id' => 0, 'title' => '', 'flair' => '', 'body' => ''],
             'csrf' => $this->csrf(),
         ]);
-        return $this->render('account/page.board.submit.html.twig');
     }
 
     /**
      * Edit form of an own, not deleted post (id); only the author may edit.
      */
+    #[GameRoute('account', 'account/board/{id}/edit', 'board', 'editPost', requirements: ['id' => '\d+'])]
     public function editPost(): Response
     {
-        $post = $this->loadPost((int) $this->http()->_GP('id', 0));
+        $post = $this->loadPost($this->input()->int('id'));
         if ($post === null || (bool) $post['deleted'] || (int) $post['account_id'] !== $this->accountId()) {
-            $this->fail($this->state->LNG['board_not_allowed']);
+            return $this->fail($this->state->LNG['board_not_allowed']);
         }
 
-        $this->assign([
-            'toplink' => 'account?page=board&mode=post&id=' . (int) $post['id'],
+        return $this->render('account/page.board.submit.html.twig', [
+            'toplink' => $this->postUrl((int) $post['id']),
             'topname' => $this->state->LNG['Back'],
             'flairs' => self::FLAIRS,
             'editing' => true,
@@ -313,7 +315,6 @@ class BoardController extends AbstractAccountController
             ],
             'csrf' => $this->csrf(),
         ]);
-        return $this->render('account/page.board.submit.html.twig');
     }
 
     // ------------------------------------------------------------------ writes (POST)
@@ -322,9 +323,12 @@ class BoardController extends AbstractAccountController
      * Creates a post from the form (POST only). Rate limit: one post per POST_COOLDOWN (60 s) per account. Validates
      * title/body/flair through readPostForm(); redirects to the new post.
      */
-    public function create()
+    #[GameRoute('account', 'account/board/create', 'board', 'create', ['POST'])]
+    public function create(): Response
     {
-        $this->requirePost();
+        if ($denied = $this->requirePost()) {
+            return $denied;
+        }
         $data = $this->readPostForm();
         $now = $this->now();
         $me = $this->accountId();
@@ -335,14 +339,14 @@ class BoardController extends AbstractAccountController
             't',
         );
         if ($last > $now - self::POST_COOLDOWN) {
-            $this->fail($this->state->LNG->format('board_err_rate_post', self::POST_COOLDOWN - ($now - $last)), 'account?page=board&mode=submit');
+            return $this->fail($this->state->LNG->format('board_err_rate_post', self::POST_COOLDOWN - ($now - $last)), $this->router->generate('account_board_submit'));
         }
         if ($data['error'] !== null) {
-            $this->fail($data['error'], 'account?page=board&mode=submit');
+            return $this->fail($data['error'], $this->router->generate('account_board_submit'));
         }
 
         if (!$this->rateLimits->allowBoardWrite($me)) {
-            $this->fail($this->state->LNG['rl_board_err_write_cap'], 'account?page=board&mode=submit');
+            return $this->fail($this->state->LNG['rl_board_err_write_cap'], $this->router->generate('account_board_submit'));
         }
 
         $this->db->insert(
@@ -350,30 +354,33 @@ class BoardController extends AbstractAccountController
              created_at = :now, last_activity = :now2;',
             [':me' => $me, ':flair' => $data['flair'], ':title' => $data['title'], ':body' => $data['body'], ':now' => $now, ':now2' => $now],
         );
-        $this->redirectTo('account?page=board&mode=post&id=' . $this->db->lastInsertId());
+        return $this->redirectToRoute('account_board_post', ['id' => $this->db->lastInsertId()]);
     }
 
     /**
      * Saves an edited post (POST only, id): only the author, not a deleted post; sets `edited_at`. Redirects to the post.
      */
-    public function savePost()
+    #[GameRoute('account', 'account/board/{id}/save', 'board', 'savePost', ['POST'], ['id' => '\d+'])]
+    public function savePost(): Response
     {
-        $this->requirePost();
-        $id = (int) $this->http()->_GP('id', 0);
+        if ($denied = $this->requirePost()) {
+            return $denied;
+        }
+        $id = $this->input()->int('id');
         $post = $this->loadPost($id);
         if ($post === null || (bool) $post['deleted'] || (int) $post['account_id'] !== $this->accountId()) {
-            $this->fail($this->state->LNG['board_not_allowed']);
+            return $this->fail($this->state->LNG['board_not_allowed']);
         }
         $data = $this->readPostForm();
         if ($data['error'] !== null) {
-            $this->fail($data['error'], 'account?page=board&mode=editPost&id=' . $id);
+            return $this->fail($data['error'], $this->router->generate('account_board_edit_post', ['id' => $id]));
         }
 
         $this->db->update(
             'UPDATE %%BOARD_POSTS%% SET flair = :flair, title = :title, body = :body, edited_at = :now WHERE id = :id;',
             [':flair' => $data['flair'], ':title' => $data['title'], ':body' => $data['body'], ':now' => $this->now(), ':id' => $id],
         );
-        $this->redirectTo('account?page=board&mode=post&id=' . $id);
+        return $this->redirectToRoute('account_board_post', ['id' => $id]);
     }
 
     /**
@@ -381,18 +388,21 @@ class BoardController extends AbstractAccountController
      * locked posts, a parent from another post, an empty/oversized body or within COMMENT_COOLDOWN (15 s) of the last comment.
      * Increments the post's comment counter and its last activity; redirects to the new comment.
      */
-    public function comment()
+    #[GameRoute('account', 'account/board/comment', 'board', 'comment', ['POST'])]
+    public function comment(): Response
     {
-        $this->requirePost();
-        $postId = (int) $this->http()->_GP('post_id', 0);
-        $parentId = (int) $this->http()->_GP('parent_id', 0);
-        $back = 'account?page=board&mode=post&id=' . $postId;
+        if ($denied = $this->requirePost()) {
+            return $denied;
+        }
+        $postId = $this->input()->int('post_id');
+        $parentId = $this->input()->int('parent_id');
+        $back = $this->postUrl($postId);
         $post = $this->loadPost($postId);
         if ($post === null || (bool) $post['deleted']) {
-            $this->fail($this->state->LNG['board_not_found']);
+            return $this->fail($this->state->LNG['board_not_found']);
         }
         if ($post['locked']) {
-            $this->fail($this->state->LNG['board_err_locked'], $back);
+            return $this->fail($this->state->LNG['board_err_locked'], $back);
         }
         if ($parentId > 0) {
             $parent = $this->db->selectSingle(
@@ -400,13 +410,13 @@ class BoardController extends AbstractAccountController
                 [':id' => $parentId],
             );
             if (!$parent || (int) $parent['post_id'] !== $postId) {
-                $this->fail($this->state->LNG['board_not_found'], $back);
+                return $this->fail($this->state->LNG['board_not_found'], $back);
             }
         }
 
         $body = $this->cleanBody();
         if ($body === null) {
-            $this->fail($this->state->LNG['board_err_body'], $back);
+            return $this->fail($this->state->LNG['board_err_body'], $back);
         }
         $now = $this->now();
         $me = $this->accountId();
@@ -416,11 +426,11 @@ class BoardController extends AbstractAccountController
             't',
         );
         if ($last > $now - self::COMMENT_COOLDOWN) {
-            $this->fail($this->state->LNG->format('board_err_rate_comment', self::COMMENT_COOLDOWN - ($now - $last)), $back);
+            return $this->fail($this->state->LNG->format('board_err_rate_comment', self::COMMENT_COOLDOWN - ($now - $last)), $back);
         }
 
         if (!$this->rateLimits->allowBoardWrite($me)) {
-            $this->fail($this->state->LNG['rl_board_err_write_cap'], $back);
+            return $this->fail($this->state->LNG['rl_board_err_write_cap'], $back);
         }
 
         $this->db->insert(
@@ -432,56 +442,61 @@ class BoardController extends AbstractAccountController
             'UPDATE %%BOARD_POSTS%% SET comment_count = comment_count + 1, last_activity = :now WHERE id = :id;',
             [':now' => $now, ':id' => $postId],
         );
-        $this->redirectTo($back . '#c' . $commentId);
+        return $this->redirectToRoute('account_board_post', ['id' => $postId, '_fragment' => 'c' . $commentId]);
     }
 
     /**
      * Saves an edited comment (POST only, id); author only, refused when the post is locked or deleted.
      */
-    public function saveComment()
+    #[GameRoute('account', 'account/board/comment/save', 'board', 'saveComment', ['POST'])]
+    public function saveComment(): Response
     {
-        $this->requirePost();
-        $id = (int) $this->http()->_GP('id', 0);
+        if ($denied = $this->requirePost()) {
+            return $denied;
+        }
+        $id = $this->input()->int('id');
         $comment = $this->db->selectSingle('SELECT * FROM %%BOARD_COMMENTS%% WHERE id = :id;', [':id' => $id]);
         if (!$comment || (bool) $comment['deleted'] || (int) $comment['account_id'] !== $this->accountId()) {
-            $this->fail($this->state->LNG['board_not_allowed']);
+            return $this->fail($this->state->LNG['board_not_allowed']);
         }
-        $back = 'account?page=board&mode=post&id=' . (int) $comment['post_id'];
+        $back = $this->postUrl((int) $comment['post_id']);
         $post = $this->loadPost((int) $comment['post_id']);
         if ($post === null || (bool) $post['deleted']) {
-            $this->fail($this->state->LNG['board_not_found']);
+            return $this->fail($this->state->LNG['board_not_found']);
         }
         if ($post['locked']) {
-            $this->fail($this->state->LNG['board_err_locked'], $back);
+            return $this->fail($this->state->LNG['board_err_locked'], $back);
         }
         $body = $this->cleanBody();
         if ($body === null) {
-            $this->fail($this->state->LNG['board_err_body'], $back);
+            return $this->fail($this->state->LNG['board_err_body'], $back);
         }
         $this->db->update(
             'UPDATE %%BOARD_COMMENTS%% SET body = :body, edited_at = :now WHERE id = :id;',
             [':body' => $body, ':now' => $this->now(), ':id' => $id],
         );
-        $this->redirectTo($back . '#c' . $id);
+        return $this->redirectToRoute('account_board_post', ['id' => (int) $comment['post_id'], '_fragment' => 'c' . $id]);
     }
 
     /**
      * Soft-deletes a post or comment (POST only). Request: id, type (post or comment). Allowed for the author and
      * moderators. A deleted comment decrements the post's comment counter, a deleted post is also unpinned.
      */
-    public function delete()
+    #[GameRoute('account', 'account/board/delete', 'board', 'delete', ['POST'])]
+    public function delete(): Response
     {
-        $this->requirePost();
-        $id = (int) $this->http()->_GP('id', 0);
-        $isComment = $this->http()->_GP('type', 'post') === 'comment';
+        if ($denied = $this->requirePost()) {
+            return $denied;
+        }
+        $id = $this->input()->int('id');
+        $isComment = $this->input()->string('type', 'post') === 'comment';
         $me = $this->accountId();
 
         if ($isComment) {
             $comment = $this->db->selectSingle('SELECT * FROM %%BOARD_COMMENTS%% WHERE id = :id;', [':id' => $id]);
             if (!$comment || ((int) $comment['account_id'] !== $me && !$this->isMod())) {
-                $this->fail($this->state->LNG['board_not_allowed']);
+                return $this->fail($this->state->LNG['board_not_allowed']);
             }
-            $back = 'account?page=board&mode=post&id=' . (int) $comment['post_id'];
             if (!$comment['deleted']) {
                 $this->db->update('UPDATE %%BOARD_COMMENTS%% SET deleted = 1 WHERE id = :id;', [':id' => $id]);
                 $this->db->update(
@@ -489,28 +504,31 @@ class BoardController extends AbstractAccountController
                     [':id' => (int) $comment['post_id']],
                 );
             }
-            $this->redirectTo($back . '#c' . $id);
+            return $this->redirectToRoute('account_board_post', ['id' => (int) $comment['post_id'], '_fragment' => 'c' . $id]);
         }
 
         $post = $this->loadPost($id);
         if ($post === null || ((int) $post['account_id'] !== $me && !$this->isMod())) {
-            $this->fail($this->state->LNG['board_not_allowed']);
+            return $this->fail($this->state->LNG['board_not_allowed']);
         }
         $this->db->update('UPDATE %%BOARD_POSTS%% SET deleted = 1, pinned = 0 WHERE id = :id;', [':id' => $id]);
-        $this->redirectTo('account?page=board&mode=post&id=' . $id);
+        return $this->redirectToRoute('account_board_post', ['id' => $id]);
     }
 
     /**
      * Moderator action on a post (POST only). Request: id, action (pin, unpin, lock, unlock). Moderators only.
      */
-    public function moderate()
+    #[GameRoute('account', 'account/board/moderate', 'board', 'moderate', ['POST'])]
+    public function moderate(): Response
     {
-        $this->requirePost();
-        if (!$this->isMod()) {
-            $this->fail($this->state->LNG['board_not_allowed']);
+        if ($denied = $this->requirePost()) {
+            return $denied;
         }
-        $id = (int) $this->http()->_GP('id', 0);
-        $column = match ($this->http()->_GP('action', '')) {
+        if (!$this->isMod()) {
+            return $this->fail($this->state->LNG['board_not_allowed']);
+        }
+        $id = $this->input()->int('id');
+        $column = match ($this->input()->string('action')) {
             'pin' => ['pinned', 1],
             'unpin' => ['pinned', 0],
             'lock' => ['locked', 1],
@@ -518,10 +536,10 @@ class BoardController extends AbstractAccountController
             default => null,
         };
         if ($column === null || $this->loadPost($id) === null) {
-            $this->fail($this->state->LNG['board_not_found']);
+            return $this->fail($this->state->LNG['board_not_found']);
         }
         $this->db->updateRows('BOARD_POSTS', [$column[0] => $column[1]], ['id' => $id]);
-        $this->redirectTo('account?page=board&mode=post&id=' . $id);
+        return $this->redirectToRoute('account_board_post', ['id' => $id]);
     }
 
     /**
@@ -529,14 +547,15 @@ class BoardController extends AbstractAccountController
      * Runs in a transaction: replaces the account's vote and adjusts the score by the difference. Answers JSON
      * {ok, score, value} or {ok: false, error}.
      */
-    public function vote()
+    #[GameRoute('account', 'account/board/vote', 'board', 'vote', ['POST'])]
+    public function vote(): Response
     {
         if (!$this->checkCsrf()) {
-            $this->sendJSON(['ok' => false, 'error' => $this->state->LNG['board_err_csrf']]);
+            return $this->jsonResponse(['ok' => false, 'error' => $this->state->LNG['board_err_csrf']]);
         }
-        $type = $this->http()->_GP('type', 'post') === 'comment' ? 2 : 1;
-        $id = (int) $this->http()->_GP('id', 0);
-        $value = max(-1, min(1, (int) $this->http()->_GP('value', 0)));
+        $type = $this->input()->string('type', 'post') === 'comment' ? 2 : 1;
+        $id = $this->input()->int('id');
+        $value = max(-1, min(1, $this->input()->int('value')));
         $me = $this->accountId();
 
         $this->db->startTransaction();
@@ -545,16 +564,16 @@ class BoardController extends AbstractAccountController
             $target = $this->db->selectSingle("SELECT id, deleted, account_id FROM $table WHERE id = :id FOR UPDATE;", [':id' => $id]);
             if (!$target || $target['deleted']) {
                 $this->db->rollback();
-                $this->sendJSON(['ok' => false, 'error' => $this->state->LNG['board_not_found']]);
+                return $this->jsonResponse(['ok' => false, 'error' => $this->state->LNG['board_not_found']]);
             }
             // no votes on one's own post or comment; votes per account and day are capped
             if ((int) $target['account_id'] === $me) {
                 $this->db->rollback();
-                $this->sendJSON(['ok' => false, 'error' => $this->state->LNG['rl_board_err_self_vote']]);
+                return $this->jsonResponse(['ok' => false, 'error' => $this->state->LNG['rl_board_err_self_vote']]);
             }
             if (!$this->rateLimits->allowBoardVote($me)) {
                 $this->db->rollback();
-                $this->sendJSON(['ok' => false, 'error' => $this->state->LNG['rl_board_err_vote_cap']]);
+                return $this->jsonResponse(['ok' => false, 'error' => $this->state->LNG['rl_board_err_vote_cap']]);
             }
 
             $old = (int) ($this->db->selectSingle(
@@ -582,14 +601,11 @@ class BoardController extends AbstractAccountController
             $score = (int) $this->db->selectSingle("SELECT score FROM $table WHERE id = :id;", [':id' => $id], 'score');
             $this->db->commit();
         } catch (\Throwable $e) {
-            if ($e instanceof \App\Game\Core\EndOfRequest) {
-                throw $e;
-            }
             $this->db->rollback();
-            $this->sendJSON(['ok' => false, 'error' => 'error']);
+            return $this->jsonResponse(['ok' => false, 'error' => 'error']);
         }
 
-        $this->sendJSON(['ok' => true, 'score' => $score, 'value' => $value]);
+        return $this->jsonResponse(['ok' => true, 'score' => $score, 'value' => $value]);
     }
 
     // ------------------------------------------------------------------ helpers
@@ -611,7 +627,7 @@ class BoardController extends AbstractAccountController
 
     private function isMod(): bool
     {
-        return (int) $this->state->ACCOUNT['authlevel'] >= AUTH_MOD;
+        return (int) $this->state->ACCOUNT['authlevel'] >= AuthLevel::Moderator->value;
     }
 
     private function now(): int
@@ -644,28 +660,40 @@ class BoardController extends AbstractAccountController
             return false;
         }
         $known = $this->sessions()->symfonySession()->get('board_csrf');
-        $given = $this->http()->post()['csrf'] ?? '';
+        $given = $this->input()->post()['csrf'] ?? '';
 
         return is_string($known) && $known !== '' && is_string($given) && hash_equals($known, $given);
     }
 
-    private function requirePost(): void
+    /** the "request could not be verified" message page unless the board token is valid; null when it is */
+    private function requirePost(): ?Response
     {
-        if (!$this->checkCsrf()) {
-            $this->fail($this->state->LNG['board_err_csrf']);
-        }
+        return $this->checkCsrf() ? null : $this->fail($this->state->LNG['board_err_csrf']);
     }
 
-    private function fail(string $message, string $back = 'account?page=board'): never
+    /** message page with a way back (the board list unless $back is given) */
+    private function fail(string $message, ?string $back = null): Response
     {
-        $this->printMessage($message, [['label' => $this->state->LNG['sys_back'], 'url' => $back]]);
-        throw new \App\Game\Core\EndOfRequest();
+        return $this->messageResponse($message, [['label' => $this->state->LNG['sys_back'], 'url' => $back ?? $this->boardUrl()]]);
+    }
+
+    private function boardUrl(): string
+    {
+        return $this->router->generate('account_board_show');
+    }
+
+    /**
+     * @param array<string, scalar> $query extra query parameters (csort)
+     */
+    private function postUrl(int|string $id, array $query = []): string
+    {
+        return $this->router->generate('account_board_post', ['id' => $id] + $query);
     }
 
     /** sanitized body from the posted form, null when empty or too long */
     private function cleanBody(): ?string
     {
-        $raw = (string) ($this->http()->post()['body'] ?? '');
+        $raw = (string) ($this->input()->post()['body'] ?? '');
         if (strlen($raw) > self::MAX_BODY * 2) {
             return null;
         }
@@ -680,7 +708,7 @@ class BoardController extends AbstractAccountController
     /** @return array{title:string,flair:string,body:string,error:?string} */
     private function readPostForm(): array
     {
-        $post = $this->http()->post();
+        $post = $this->input()->post();
         $title = trim(preg_replace('/\s+/u', ' ', (string) ($post['title'] ?? '')) ?? '');
         $flair = (string) ($post['flair'] ?? '');
         $flair = in_array($flair, self::FLAIRS, true) ? $flair : '';
@@ -697,6 +725,9 @@ class BoardController extends AbstractAccountController
         return ['title' => $title, 'flair' => $flair, 'body' => (string) $body, 'error' => $error];
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function loadPost(int $id): ?array
     {
         if ($id < 1) {
@@ -710,7 +741,11 @@ class BoardController extends AbstractAccountController
         return $row ?: null;
     }
 
-    /** flat, depth-first list of the comments with their depth (max visual indent is applied by CSS) */
+    /**
+     * flat, depth-first list of the comments with their depth (max visual indent is applied by CSS)
+     *
+     * @return array<mixed>
+     */
     private function loadComments(int $postId, string $csort, int $me, bool $isMod): array
     {
         $rows = $this->db->select(
@@ -794,7 +829,7 @@ class BoardController extends AbstractAccountController
             unset($q['sort']);
         }
 
-        return 'account?' . http_build_query(['page' => 'board'] + $q);
+        return $this->router->generate('account_board_show', $q);
     }
 
     private function fullDate(int $ts): string

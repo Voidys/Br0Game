@@ -13,10 +13,8 @@
 
 namespace App\Game\Missions;
 
-use App\Game\Core\Config;
-use App\Game\Core\Database;
+use App\Game\Enum\MessageType;
 use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
 
 /**
  * Mission "trade" (16): fleets that carry the goods of a market offer (see MarketManager / `trades`). The seller
@@ -221,11 +219,11 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
             $Message	= $LNG->format('sys_trade_mess_back', $planetName, GetStartAddressLink($this->_fleet, ''));
         }
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['return_time'],
@@ -260,11 +258,11 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
             $LNG['fl_send_back'],
             $this->viewHelpers()->prettyTime($returnFlightTime),
         );
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['arrival_time'],

@@ -27,7 +27,7 @@
       <div class="acc-form__field"><select form="account-register-form" name="stbSettings" id="stbSettings">{{ forms.html_options({'options': defaultUnis, 'selected': default}) }}</select></div>
     </div>
     <div class="acc-form__actions">
-      <form id="account-register-form" action="account?page=register" method="post"><input type="hidden" name="mode" value="send"><input type="hidden" name="uni" value={{ uniId }}><input class="btn btn--primary" value="{{ LNG['Register'] }}" type="submit"></form>
+      <form id="account-register-form" action="{{ path('account_register_send', {universe: uniId}) }}" method="post"><input class="btn btn--primary" value="{{ LNG['Register'] }}" type="submit"></form>
     </div>
   </section>
 </div>

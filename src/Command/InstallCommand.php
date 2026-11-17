@@ -237,6 +237,7 @@ final class InstallCommand extends Command
      * the settings as JSON payload in the environment. A failure removes config/game.php again.
      *
      * @param array{error: ?string, values: array} $checked validated game settings
+     * @param array<mixed> $checked
      * @return int Command::SUCCESS or FAILURE
      */
     private function runFinishPhase(SymfonyStyle $io, OutputInterface $output, InputInterface $input, string $language, array $checked, string $adminName, string $adminMail, string $adminPassword, mixed $migrationGenerated): int

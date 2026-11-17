@@ -17,19 +17,13 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\Discord;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 use App\Game\Core\SupportTickets;
-use App\Game\Core\Universe;
 
 /**
  * Support tickets of the player: list, create, view and answer.
  */
-#[\App\Routing\GamePage('game', 'ticket')]
 #[\App\Controller\RequireModule('MODULE_SUPPORT')]
 class TicketController extends AbstractGameController
 {
@@ -47,6 +41,7 @@ class TicketController extends AbstractGameController
     /**
      * The player's tickets with answer counts.
      */
+    #[GameRoute('game', 'game/tickets', 'ticket')]
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -72,27 +67,24 @@ class TicketController extends AbstractGameController
             $ticketList[$ticketRow['ticketID']] = $ticketRow;
         }
 
-        $this->assign([
+        return $this->render('game/page.ticket.default.html.twig', [
             'ticketList' => $ticketList,
         ]);
-
-        return $this->render('game/page.ticket.default.html.twig');
     }
 
     /**
      * Form for a new ticket.
      */
+    #[GameRoute('game', 'game/tickets/new', 'ticket', 'create')]
     public function create(): Response
     {
         $categoryList = $this->ticketObj->getCategoryList();
         // Remove debug category for users to choose from
         unset($categoryList[9]);
 
-        $this->assign([
+        return $this->render('game/page.ticket.create.html.twig', [
             'categoryList' => $categoryList,
         ]);
-
-        return $this->render('game/page.ticket.create.html.twig');
     }
 
     /**
@@ -101,44 +93,50 @@ class TicketController extends AbstractGameController
      * be a debug ticket (category 9) and not be closed (`ti_error_closed`); the answer then gets the subject `RE: <ticket subject>`. The Discord ticket hook (when
      * configured) is notified about new tickets and replies; the text is stored through SupportTickets::createAnswer and the request redirects to the ticket.
      */
-    public function send()
+    #[GameRoute('game', 'game/tickets/send', 'ticket', 'send', ['POST'])]
+    public function send(): Response
     {
         $USER = $this->state->USER;
-        $ticketID = $this->http()->_GP('id', 0);
-        $categoryID = $this->http()->_GP('category', 0);
-        $message = $this->http()->_GP('message', '', true);
-        $subject = $this->http()->_GP('subject', '', true);
+        $ticketID = $this->input()->int('id');
+        $categoryID = $this->input()->int('category');
+        $message = $this->input()->string('message', '', true);
+        $subject = $this->input()->string('subject', '', true);
 
         if (empty($message)) {
-            if (empty($ticketID)) {
-                $this->redirectTo('game?page=ticket&mode=create');
-            } else {
-                $this->redirectTo('game?page=ticket&mode=view&id=' . $ticketID);
-            }
+            return empty($ticketID)
+                ? $this->redirectToRoute('game_ticket_create')
+                : $this->redirectToRoute('game_ticket_view', ['id' => $ticketID]);
         }
 
         if (empty($ticketID)) {
             $ticketID = $this->createNewTicket($categoryID, $subject, $message);
+            if ($ticketID instanceof Response) {
+                return $ticketID;
+            }
         } else {
             $subject = $this->replySubject($ticketID, $message);
+            if ($subject instanceof Response) {
+                return $subject;
+            }
         }
 
         $this->ticketObj->createAnswer($ticketID, $USER['id'], $USER['username'], $subject, $message, 0);
-        $this->redirectTo('game?page=ticket&mode=view&id=' . $ticketID);
+
+        return $this->redirectToRoute('game_ticket_view', ['id' => $ticketID]);
     }
 
     /**
      * Validates and creates a new ticket (subject required, open-ticket and rate limits) and notifies the Discord hook.
-     * Violations end the request with a message. Returns the new ticket id.
+     * Violations answer with a message page. Returns the new ticket id (or the message response).
      */
-    private function createNewTicket(mixed $categoryID, string $subject, string $message): int
+    private function createNewTicket(int $categoryID, string $subject, string $message): int|Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         $config = $this->configs->get();
 
         if (empty($subject)) {
-            $this->printMessage($LNG['ti_error_no_subject'], [[
+            return $this->messageResponse($LNG['ti_error_no_subject'], [[
                 'label' => $LNG['sys_back'],
                 'url' => '#',
                 'action' => 'history-back',
@@ -149,10 +147,10 @@ class TicketController extends AbstractGameController
             ':ownerID' => $USER['id'],
         ], 'c');
         if ($open >= self::MAX_OPEN_TICKETS) {
-            $this->printMessage($LNG->format('ti_error_too_many_open', self::MAX_OPEN_TICKETS));
+            return $this->messageResponse($LNG->format('ti_error_too_many_open', self::MAX_OPEN_TICKETS));
         }
         if (!$this->rateLimits->allowTicket((int) $USER['id'])) {
-            $this->printMessage($LNG['ti_error_rate_limited']);
+            return $this->messageResponse($LNG['ti_error_rate_limited']);
         }
 
         $ticketID = $this->ticketObj->createTicket($USER['id'], $categoryID, $subject);
@@ -160,7 +158,7 @@ class TicketController extends AbstractGameController
         if (isset($config->discord_tickets_hook) && !empty($config->discord_tickets_hook)) {
             $this->discord()->sendMessage($config->discord_tickets_hook, 'New ingame ticket created', [
                 'Universe' => $this->universe()->current(),
-                'Ticket-ID' => '[' . $ticketID . '](' . $this->state->runtime->protocol . $this->state->runtime->httpHost . '/admin?page=support&mode=view&id=' . $ticketID . ')',
+                'Ticket-ID' => '[' . $ticketID . '](' . $this->routeUrl('admin_support_view', ['id' => $ticketID]) . ')',
                 'User' => $USER['username'] . ' (' . $USER['id'] . ')',
                 'Subject' => $subject,
                 'Message' => $message,
@@ -171,10 +169,10 @@ class TicketController extends AbstractGameController
     }
 
     /**
-     * Checks that the ticket belongs to the player, is no debug ticket and not closed (violations end the request with a
-     * message), notifies the Discord hook about the reply and returns the answer subject `RE: <ticket subject>`.
+     * Checks that the ticket belongs to the player, is no debug ticket and not closed (violations answer with a message
+     * page), notifies the Discord hook about the reply and returns the answer subject `RE: <ticket subject>`.
      */
-    private function replySubject(mixed $ticketID, string $message): string
+    private function replySubject(int $ticketID, string $message): string|Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
@@ -191,19 +189,19 @@ class TicketController extends AbstractGameController
         ]);
 
         if (empty($ticket)) {
-            $this->printMessage($LNG->format('ti_not_exist', $ticketID), [[
+            return $this->messageResponse($LNG->format('ti_not_exist', $ticketID), [[
                 'label' => $LNG['sys_back'],
-                'url' => 'game?page=ticket',
+                'url' => $this->router->generate('game_ticket_show'),
             ]]);
         }
         $subject = 'RE: ' . $ticket['subject'];
 
         if ($ticket['status'] == 2) {
-            $this->printMessage($LNG['ti_error_closed']);
+            return $this->messageResponse($LNG['ti_error_closed']);
         } elseif (isset($config->discord_tickets_hook) && !empty($config->discord_tickets_hook)) {
             $this->discord()->sendMessage($config->discord_tickets_hook, 'New ticket reply', [
                 'Universe' => $this->universe()->current(),
-                'Ticket-ID' => '[' . $ticketID . '](' . $this->state->runtime->protocol . $this->state->runtime->httpHost . '/admin?page=support&mode=view&id=' . $ticketID . ')',
+                'Ticket-ID' => '[' . $ticketID . '](' . $this->routeUrl('admin_support_view', ['id' => $ticketID]) . ')',
                 'User' => $USER['username'] . ' (' . $USER['id'] . ')',
                 'Subject' => $subject,
                 'Message' => $message,
@@ -216,6 +214,7 @@ class TicketController extends AbstractGameController
     /**
      * One ticket with its answers (request: id); unknown or foreign tickets end in a message.
      */
+    #[GameRoute('game', 'game/tickets/{id}', 'ticket', 'view', requirements: ['id' => '\d+'])]
     public function view(): Response
     {
         $USER = $this->state->USER;
@@ -223,7 +222,7 @@ class TicketController extends AbstractGameController
 
         $db = $this->db;
 
-        $ticketID = $this->http()->_GP('id', 0);
+        $ticketID = $this->input()->int('id');
 
         $sql = 'SELECT a.*, t.`categoryID`, t.`status` 
             FROM %%TICKETS_ANSWER%% a 
@@ -238,9 +237,9 @@ class TicketController extends AbstractGameController
         $answerList = [];
 
         if (empty($answerResult)) {
-            $this->printMessage($LNG->format('ti_not_exist', $ticketID), [[
+            return $this->messageResponse($LNG->format('ti_not_exist', $ticketID), [[
                 'label' => $LNG['sys_back'],
-                'url' => 'game?page=ticket',
+                'url' => $this->router->generate('game_ticket_show'),
             ]]);
         }
 
@@ -256,13 +255,11 @@ class TicketController extends AbstractGameController
 
         $categoryList = $this->ticketObj->getCategoryList();
 
-        $this->assign([
+        return $this->render('game/page.ticket.view.html.twig', [
             'ticketID' => $ticketID,
             'categoryList' => $categoryList,
             'answerList' => $answerList,
             'status' => $ticket_status,
         ]);
-
-        return $this->render('game/page.ticket.view.html.twig');
     }
 }

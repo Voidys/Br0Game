@@ -1,67 +1,87 @@
-import { post, pretty_number, pageData } from '../app/core.js';
+import { qsa, post, pretty_number, pageData } from '../app/core.js';
+import { Dialog } from '../app/dialog.js';
 import { registerActions } from '../app/actions.js';
+import { closeTooltip, tooltipHtml } from '../app/tooltip.js';
 
 /**
- * Galaxy page: mission buttons (spy, recycle, ...), the missile form, system navigation (buttons and
- * keyboard) and the local galaxy data store (sync / export / import / reset).
- * Server data (current system, labels) comes from the data island #galaxy-data (template
- * page.galaxy.default.html.twig); the controls are data-action markup (see app/actions.js).
+ * Galaxy page: mission buttons (spy, recycle, ...), the missile form, system navigation (buttons, keyboard,
+ * coordinate input, browser history) and the local galaxy data store (sync / export / import / reset).
+ * Navigation does not reload the page: the server renders one system as an HTML fragment (the `#galaxy-view` block,
+ * GalaxyController::rows()) that replaces the shown one, so every shown system is requested (and charged) exactly once.
+ * Server data (labels, urls) comes from the data island #galaxy-data (page.galaxy.default.html.twig), the shown
+ * system from #galaxy-system inside the view (galaxy.system.html.twig); the controls are data-action markup
+ * (see app/actions.js).
  */
 const galaxyData = pageData('galaxy-data');
-const galakey = galaxyData.galakey;
-// position -> planet data (null: empty or destroyed), as stored in the local galaxy data
-const systemdata = {};
-for (const { position, data } of galaxyData.systemRows) systemdata[position] = data;
-systemdata.timepoint = Date.now();
+// "galaxy:system" of the shown system and its position -> planet data (null: empty or destroyed), as stored in the local galaxy data
+let galakey;
+let systemdata;
+
+/** Reads the shown system from its data island. */
+const readSystem = () => {
+  const system = pageData('galaxy-system');
+  galakey = system.galakey;
+  systemdata = {};
+  for (const { position, data } of system.systemRows ?? []) systemdata[position] = data;
+  systemdata.timepoint = Date.now();
+};
+readSystem();
 const maxFleetSetting = galaxyData.maxFleetSetting;
 const planetlng = galaxyData.planetLng;
 const moonshortlng = galaxyData.moonShortLng;
 const confirmlng = galaxyData.confirmLng;
 
-/** sends a fleet mission (spy, recycle, ...) of the galaxy view to the server; asks first when the server wants a confirmation */
-function doit(missionID, planetID) {
-  post("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID, {}, 'json').then(async function (data) {
-    if (data.code === 602) {
-      //602 = needs confirmation
-      if (!(await window.Dialog.confirm(data.mess))) {
-        return;
-      }
-      post("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID + "&confirm=1", {}, 'json').then(function (data) {
-        handleDoIt(data)
-      });
-      return;
-    }
+/** POSTs a mission request of the galaxy view to `fleetAjax` (JSON answer); `confirmed` repeats it after the player agreed. */
+const sendMission = (missionID, planetID, confirmed = false) => {
+  const query = new URLSearchParams({ ajax: 1, mission: missionID, planetID });
+  if (confirmed) query.set('confirm', 1);
+  return post(`${galaxyData.urls.fleetAjax}?${query}`, {}, 'json');
+};
 
-    handleDoIt(data)
-  });
-}
+/** Runs a mission request; code 602 asks the player to confirm first (the question is the server's message), then repeats it. Resolves to the final answer, or null when declined. */
+const requestMission = async (missionID, planetID) => {
+  const answer = await sendMission(missionID, planetID);
+  if (answer.code === 602) {
+    //602 = needs confirmation
+    if (!(await Dialog.confirm(answer.mess))) {
+      return null;
+    }
+    return sendMission(missionID, planetID, true);
+  }
+  return answer;
+};
+
+/** sends a fleet mission (spy, recycle, ...) of the galaxy view to the server; asks first when the server wants a confirmation */
+const doit = async (missionID, planetID) => {
+  const answer = await requestMission(missionID, planetID);
+  if (answer) handleDoIt(answer);
+};
 
 /** Shows the result of a mission request: updates free slots and ship counts, appends the server message to the status list (oldest dropped at `maxFleetSetting`), green for code 600, red otherwise. */
-function handleDoIt(data) {
+const handleDoIt = (data) => {
   document.getElementById('slots').textContent = data.slots;
-  if (typeof data.ships !== "undefined") {
-    Object.entries(data.ships).forEach(function ([elementID, value]) {
-      const cell = document.getElementById('elementID' + elementID);
+  if (typeof data.ships !== 'undefined') {
+    for (const [elementID, value] of Object.entries(data.ships)) {
+      const cell = document.getElementById(`elementID${elementID}`);
       if (cell) cell.textContent = pretty_number(value);
-    });
+    }
   }
 
-  let statustable = document.getElementById('fleetstatusrow');
-  let messages = statustable.querySelectorAll(':scope > div');
-  if (messages.length == maxFleetSetting) {
+  const statustable = document.getElementById('fleetstatusrow');
+  const messages = statustable.querySelectorAll(':scope > div');
+  if (messages.length === maxFleetSetting) {
     messages[0].remove();
   }
-  let element = document.createElement('div');
-  element.className = "galaxy-grid-item centered span6 " + (data.code === 600 ? "success" : "error");
+  const element = document.createElement('div');
+  element.className = `galaxy-grid-item centered span6 ${data.code === 600 ? 'success' : 'error'}`;
   element.textContent = data.mess;
   statustable.hidden = false;
   statustable.append(element);
-
-}
+};
 
 /** Fills the interplanetary missile form with the target (galaxy, system, position, planet/moon type) and flight time (seconds), shows it and focuses the amount field. Returns false (cancels the link). */
-function showMissileForm(galaxy, system, planetPos, duration, type) {
-  const form = document.querySelector('form[action="?page=fleetMissile"]');
+const showMissileForm = (galaxy, system, planetPos, duration, type) => {
+  const form = document.getElementById('missileForm')?.closest('form');
   if (!form) return false;
   form.querySelector('input[name="galaxy"]').value = galaxy;
   form.querySelector('input[name="system"]').value = system;
@@ -72,48 +92,93 @@ function showMissileForm(galaxy, system, planetPos, duration, type) {
   if (flyTime) flyTime.textContent = duration;
   const table = document.getElementById('missileForm');
   if (table) table.hidden = false;
-  const sendInput = form.querySelector('input[name="SendMI"]');
-  if (sendInput) sendInput.focus();
+  form.querySelector('input[name="SendMI"]')?.focus();
   return false;
-}
+};
 
 /** Answer of the missile pre-check (`mission=10`): code 600 opens the form, anything else is shown as an alert. */
-function handleMissileAjax(data, galaxy, system, planetPos, duration, type) {
+const handleMissileAjax = (data, galaxy, system, planetPos, duration, type) => {
   if (data.code !== 600) {
-    window.Dialog.alert(data.mess);
+    Dialog.alert(data.mess);
     return;
   }
   showMissileForm(galaxy, system, planetPos, duration, type);
-}
+};
 
 /** Pre-checks a missile attack on the planet via `fleetAjax` (mission 10); code 602 asks the player to confirm first (outlaw rules), then opens the form on success. Returns false (cancels the link). */
-function openMissileForm(planetID, galaxy, system, planetPos, duration, type) {
-  post("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID, {}, 'json').then(async function (data) {
-    if (data.code === 602) {
-      //602 = needs confirmation (become/remain outlaw vs strong player)
-      if (!(await window.Dialog.confirm(data.mess))) {
-        return;
-      }
-      post("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID + "&confirm=1", {}, 'json').then(function (data) {
-        handleMissileAjax(data, galaxy, system, planetPos, duration, type);
-      });
-      return;
-    }
-    handleMissileAjax(data, galaxy, system, planetPos, duration, type);
+const openMissileForm = (planetID, galaxy, system, planetPos, duration, type) => {
+  requestMission(10, planetID).then((answer) => {
+    if (answer) handleMissileAjax(answer, galaxy, system, planetPos, duration, type);
   });
   return false;
-}
+};
 
-/** Navigates the galaxy view: the clicked direction (`systemLeft`, `systemRight`, `galaxyLeft`, `galaxyRight`) is sent as the name of the hidden field and the form submitted. */
-function galaxy_submit(value) {
-  document.getElementById('auto').setAttribute('name', value);
-  document.getElementById('galaxy_form').submit();
-}
+const navForm = () => document.getElementById('galaxy_form');
+
+/** Coordinates of the form fields, with `direction` (`systemLeft`, `systemRight`, `galaxyLeft`, `galaxyRight`) as the server's one-step move from them. */
+const formQuery = (direction) => {
+  const form = navForm();
+  const query = { galaxy: form.elements.galaxy.value, system: form.elements.system.value };
+  if (direction) query[direction] = 1;
+  return query;
+};
+
+let loading = false;
+/** the navigation asked for while one was loading (only the newest one counts): [query function, push history entry] */
+let queued = null;
+
+/** Shows the fetched `#galaxy-view`: replaces the shown one, updates the coordinate fields and the history. */
+const showSystem = (next, push) => {
+  closeTooltip();
+  document.getElementById('galaxy-view').replaceWith(next);
+  const { galaxy, system } = next.dataset;
+  const form = navForm();
+  form.elements.galaxy.value = galaxy;
+  form.elements.system.value = system;
+  readSystem();
+  bindView();
+  document.dispatchEvent(new Event('galaxy:shown'));
+  if (push) history.pushState({ galaxy, system }, '', `${galaxyData.urls.galaxy}/${galaxy}/${system}`);
+};
+
+/**
+ * Loads one system without a page load. `makeQuery` is evaluated when the request starts (the fields may have changed while
+ * another one was running). Anything unexpected (no deuterium, rate limit, session end, network) falls back to the
+ * normal page request, which shows the server's message.
+ */
+const navigate = async (makeQuery, push = true) => {
+  if (loading) {
+    queued = [makeQuery, push];
+    return;
+  }
+  loading = true;
+  const query = new URLSearchParams(makeQuery());
+  try {
+    const response = await fetch(`${galaxyData.urls.rows}?${query}`, { credentials: 'same-origin' });
+    if (!response.ok || !response.headers.has('X-Galaxy-Fragment')) throw new Error(`galaxy: ${response.status}`);
+    const holder = document.createElement('template');
+    holder.innerHTML = await response.text();
+    const next = holder.content.querySelector('#galaxy-view');
+    if (!next) throw new Error('galaxy: no view');
+    showSystem(next, push);
+  } catch (error) {
+    window.location.assign(`${galaxyData.urls.galaxy}?${query}`);
+    return;
+  } finally {
+    loading = false;
+  }
+  if (queued) {
+    const [nextQuery, nextPush] = queued;
+    queued = null;
+    navigate(nextQuery, nextPush);
+  }
+};
+
+/** Moves the galaxy view one step: `direction` is `systemLeft`, `systemRight`, `galaxyLeft` or `galaxyRight`. */
+const galaxySubmit = (direction) => navigate(() => formQuery(direction));
 
 /** "uniN" of the current URL path (default "uni1"); prefix of the local storage keys. */
-function parseUni() {
-  return window.location.pathname.match('uni?.')?.[0] || 'uni1'
-}
+const parseUni = () => window.location.pathname.match('uni?.')?.[0] || 'uni1';
 
 /**
  * Per-universe galaxy data store on localStorage (keys "<uniN>_<name>", JSON values).
@@ -139,254 +204,213 @@ const galaxyStore = {
 };
 
 /** Local galaxy data store: `universe` ("g:s" -> planets by position, with a timepoint), `playerids` and `allyids` (id -> name + timepoint). Entries with the newer timepoint win when data is merged. */
-const universe = galaxyStore.get("universe", {})
-const playerids = galaxyStore.get("playerids", {})
-const allyids = galaxyStore.get("allyids", {})
+const universe = galaxyStore.get('universe', {});
+const playerids = galaxyStore.get('playerids', {});
+const allyids = galaxyStore.get('allyids', {});
 
-
-/** Hooks the sync / export / import / reset buttons of the galaxy tools and adds the stored positions to the player tooltips. */
-function addlisteners() {
-  document.getElementById("gala_sync").onclick = () => {
-    syncsys();
-    document.getElementById("gala_sync").value = "Synced";
-  }
-
-  document.getElementById('gala_upload').addEventListener('change', onChange_import);
-
-  document.getElementById("gala_exportjson").onclick = export_json
-  document.getElementById("gala_exportcsv").onclick = export_csv
-  document.getElementById("gala_reset").onclick = reset
-  showplayerinfos();
-}
-
-onPageInit(function () {
-  addlisteners();
-});
-
-/** Reads the chosen JSON file (as written by export_json) for onReaderLoad_import(). */
-function onChange_import(event) {
-  const reader = new FileReader();
-  reader.onload = onReaderLoad_import;
-  reader.readAsText(event.target.files[0]);
-}
-
-/** Merges an exported galaxy file ([universe, playerids, allyids]) into the local store; per entry the newer timepoint wins, then saves. */
-function onReaderLoad_import(event) {
-  const ttl = JSON.parse(event.target.result);
-  let obj = ttl[0]
-  let pid = ttl[1]
-  let aid = ttl[2]
-  for (let k in obj) {
-    if (k in universe) {
-      if (universe[k].timepoint < obj[k].timepoint) {
-        universe[k] = obj[k]
-      }
-    } else {
-      universe[k] = obj[k]
-    }
-  }
-  for (let k in pid) {
-    if (k in playerids) {
-      if (playerids[k].timepoint < pid[k].timepoint) {
-        playerids[k] = pid[k]
-      }
-    } else {
-      playerids[k] = pid[k]
-    }
-  }
-  for (let k in aid) {
-    if (k in allyids) {
-      if (allyids[k].timepoint < aid[k].timepoint) {
-        allyids[k] = aid[k]
-      }
-    } else {
-      allyids[k] = aid[k]
-    }
-  }
-  galaxyStore.set("universe", universe)
-  galaxyStore.set("playerids", playerids)
-  galaxyStore.set("allyids", allyids)
-}
-
-/** Downloads the stored data as CSV: coordinates, moon flag, player and alliance (id in brackets), status; systems sorted by galaxy and system. */
-function export_csv() {
-  let keys = Object.keys(universe)
-  keys.sort(compareFn)
-  let outcsv = "coords,moon?,name,ally,status,\n"
-  for (let k of keys) {
-    for (let p = 1; p < 16; p++) {
-      if (universe[k][p] !== null) {
-        let hasmoon = universe[k][p].hasmoon ? 'X' : ''
-        outcsv += k + ":" + p + "," + hasmoon + "," + playerids[universe[k][p].playerid].name + "(" + universe[k][p].playerid + ")" +
-          "," + allyids[universe[k][p].allianceid].name + "(" + universe[k][p].allianceid + ")," + universe[k][p].special + ",\n"
-      }
-    }
-  }
-  download("universe.csv", outcsv)
-}
-
-/** Downloads the stored data as JSON ([universe, playerids, allyids]), the format import understands. */
-function export_json() {
-  download("universe.json", JSON.stringify([universe, playerids, allyids]))
-}
-
-/** After confirmation deletes all locally stored galaxy data. */
-async function reset() {
-  if (!(await window.Dialog.confirm(confirmlng, { danger: true }))) {
-    return;
-  }
-  Object.keys(universe).forEach(key => delete universe[key]);
-  Object.keys(playerids).forEach(key => delete playerids[key]);
-  Object.keys(allyids).forEach(key => delete allyids[key]);
-  galaxyStore.set("universe", universe)
-  galaxyStore.set("playerids", playerids)
-  galaxyStore.set("allyids", allyids)
-}
-
-/** Stores the currently viewed system, with its players and alliances, in the local galaxy data. */
-function syncsys() {
-  universe[galakey] = systemdata;
-  for (let pos in systemdata) {
-    if (pos === "timepoint" || systemdata[pos] === null) {
-      continue
-    }
-    playerids[systemdata[pos].playerid] = {name: systemdata[pos].name, timepoint: systemdata.timepoint}
-    allyids[systemdata[pos].allianceid] = {name: systemdata[pos].alliancename, timepoint: systemdata.timepoint}
-  }
-  galaxyStore.set("universe", universe)
-  galaxyStore.set("playerids", playerids)
-  galaxyStore.set("allyids", allyids)
-
-}
-
-/** Adds the known planet locations to the tooltip of every player name on the page. */
-function showplayerinfos() {
-  for (let username of document.getElementsByClassName(" galaxy-username")) {
-    annotatehover(username.getAttribute("playerid"), username.parentElement)
-  }
-}
-
-/** Appends a list of the player's known planets (from the local data, own system highlighted, links within the current galaxy emphasised) to the tooltip HTML of `htmlobject`. */
-function annotatehover(id, htmlobject) {
-  if (!htmlobject.hasAttribute("data-tooltip-content")) return;
-  let anostr = htmlobject.getAttribute("data-tooltip-content").replace("</table>", "")
-  anostr += "<tr><th colspan='2'>"+planetlng+"</th></tr>"
-  let baseurl = location.href.split("?")[0] + "?page=galaxy&galaxy="
-  let toshow = []
-  for (let k in universe) {
-    for (let p = 1; p < 16; p++) {
-      if (universe[k][p] === null) {
-        continue
-      }
-      if (universe[k][p].playerid == id) {
-        let gala = parseInt(k.split(":")[0])
-        let sys = parseInt(k.split(":")[1])
-        toshow.push([gala, sys, p, universe[k][p].hasmoon ? moonshortlng : ''])
-      }
-    }
-  }
-  toshow.sort()
-  let cgala = galakey.split(":")[0]
-  let csys = galakey.split(":")[1]
-  for (let coord of toshow) {
-    if (coord[0] == cgala && coord[1] == csys) {
-      anostr += "<tr><td colspan='2' style='text-align: center'><span>" + getcoordstring(coord) + "</span></td></tr>"
-    } else {
-      if (coord[0] == cgala) {
-        anostr += "<tr><th colspan='2' style='text-align: center'><a href='" + baseurl + coord[0] + "&system=" + coord[1] + "'>" + getcoordstring(coord) + "</a></th></tr>"
-      } else {
-        anostr += "<tr><td colspan='2' style='text-align: center'><a href='" + baseurl + coord[0] + "&system=" + coord[1] + "'>" + getcoordstring(coord) + "</a></td></tr>"
-      }
-    }
-  }
-
-  htmlobject.setAttribute("data-tooltip-content", anostr + "</table>")
-}
-
-function getcoordstring(coord) {
-  let x = "[" + coord[0] + ":" + coord[1] + ":" + coord[2] + "]" + " " + coord[3]
-  return x.trim()
-}
-
-
-/** Sort order of "galaxy:system" keys: numeric by galaxy, then system. */
-function compareFn(a, b) {
-  let spa = a.split(":")
-  let spb = b.split(":")
-  if (parseInt(spa[0]) < parseInt(spb[0])) {
-    return -1;
-  } else {
-    if (spa[0] !== spb[0]) {
-      return 1
-    }
-  }
-  if (parseInt(spa[1]) < parseInt(spb[1])) {
-    return -1;
-  } else {
-    if (spa[1] !== spb[1]) {
-      return 1
-    }
-  }
-  return 0;
-}
+const saveStore = () => {
+  galaxyStore.set('universe', universe);
+  galaxyStore.set('playerids', playerids);
+  galaxyStore.set('allyids', allyids);
+};
 
 /** Offers `text` as a file download in the browser (data URL link, no server call). */
-function download(filename, text) {
+const download = (filename, text) => {
   const element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
   element.setAttribute('download', filename);
-
   element.style.display = 'none';
   document.body.appendChild(element);
-
   element.click();
-
   document.body.removeChild(element);
-}
+};
 
+/** Sort order of "galaxy:system" keys: numeric by galaxy, then system. */
+const compareSystemKeys = (a, b) => {
+  const [galaxyA, systemA] = a.split(':');
+  const [galaxyB, systemB] = b.split(':');
+  if (parseInt(galaxyA) < parseInt(galaxyB)) return -1;
+  if (galaxyA !== galaxyB) return 1;
+  if (parseInt(systemA) < parseInt(systemB)) return -1;
+  if (systemA !== systemB) return 1;
+  return 0;
+};
 
-let keypressRegistered = false;
-document.addEventListener('keydown', logKey);
-
-/** Keyboard navigation of the galaxy view: A / D or left / right arrows change the system, W / S or up / down the galaxy; only the first key press is handled (the page reloads). */
-function logKey(e) {
-  if (!keypressRegistered) {
-    const callback = {
-      "a": leftHandler,
-      "ArrowLeft": leftHandler,
-      "d": rightHandler,
-      "ArrowRight": rightHandler,
-      "w": upHandler,
-      "ArrowUp": upHandler,
-      "s": downHandler,
-      "ArrowDown": downHandler,
-    }[e.key]
-    callback?.()
+/** Merges `source` into `target`: unknown keys are taken over, known ones when their timepoint is newer. */
+const mergeNewer = (target, source) => {
+  for (const key in source) {
+    if (!(key in target) || target[key].timepoint < source[key].timepoint) {
+      target[key] = source[key];
+    }
   }
-}
+};
 
-function leftHandler() {
-  keypressRegistered = true;
-  galaxy_submit('systemLeft');
-}
+/** Reads the chosen JSON file (as written by exportJson) for onImportLoaded(). */
+const onImportChange = (event) => {
+  const reader = new FileReader();
+  reader.onload = onImportLoaded;
+  reader.readAsText(event.target.files[0]);
+};
 
-function rightHandler() {
-  keypressRegistered = true;
-  galaxy_submit('systemRight');
-}
+/** Merges an exported galaxy file ([universe, playerids, allyids]) into the local store; per entry the newer timepoint wins, then saves. */
+const onImportLoaded = (event) => {
+  const [importedUniverse, importedPlayers, importedAllies] = JSON.parse(event.target.result);
+  mergeNewer(universe, importedUniverse);
+  mergeNewer(playerids, importedPlayers);
+  mergeNewer(allyids, importedAllies);
+  saveStore();
+};
 
-function upHandler() {
-  keypressRegistered = true;
-  galaxy_submit('galaxyLeft');
-}
+/** Downloads the stored data as CSV: coordinates, moon flag, player and alliance (id in brackets), status; systems sorted by galaxy and system. */
+const exportCsv = () => {
+  let csv = 'coords,moon?,name,ally,status,\n';
+  for (const key of Object.keys(universe).sort(compareSystemKeys)) {
+    for (let position = 1; position < 16; position++) {
+      const planet = universe[key][position];
+      if (planet !== null) {
+        csv += `${key}:${position},${planet.hasmoon ? 'X' : ''},${playerids[planet.playerid].name}(${planet.playerid}),${allyids[planet.allianceid].name}(${planet.allianceid}),${planet.special},\n`;
+      }
+    }
+  }
+  download('universe.csv', csv);
+};
 
-function downHandler() {
-  keypressRegistered = true;
-  galaxy_submit('galaxyRight');
-}
+/** Downloads the stored data as JSON ([universe, playerids, allyids]), the format import understands. */
+const exportJson = () => download('universe.json', JSON.stringify([universe, playerids, allyids]));
+
+/** After confirmation deletes all locally stored galaxy data. */
+const resetStore = async () => {
+  if (!(await Dialog.confirm(confirmlng, { danger: true }))) {
+    return;
+  }
+  for (const store of [universe, playerids, allyids]) {
+    Object.keys(store).forEach((key) => delete store[key]);
+  }
+  saveStore();
+};
+
+/** Stores the currently viewed system, with its players and alliances, in the local galaxy data. */
+const syncSystem = () => {
+  universe[galakey] = systemdata;
+  for (const position in systemdata) {
+    const planet = systemdata[position];
+    if (position === 'timepoint' || planet === null) {
+      continue;
+    }
+    playerids[planet.playerid] = { name: planet.name, timepoint: systemdata.timepoint };
+    allyids[planet.allianceid] = { name: planet.alliancename, timepoint: systemdata.timepoint };
+  }
+  saveStore();
+};
+
+const coordString = ([galaxy, system, position, moon]) => `[${galaxy}:${system}:${position}] ${moon}`.trim();
+
+/** Appends a list of the player's known planets (from the local data, own system highlighted, links within the current galaxy emphasised) to the tooltip HTML of `element`. */
+const annotateHover = (id, element) => {
+  const content = tooltipHtml(element);
+  if (!content) return;
+  // a template's HTML comes back with its implicit <tbody>: leave that open so the added rows join the table body
+  let html = content.replace('</tbody></table>', '').replace('</table>', '');
+  html += `<tr><th colspan='2'>${planetlng}</th></tr>`;
+  const baseurl = `${galaxyData.urls.galaxy}/`;
+  const known = [];
+  for (const key in universe) {
+    for (let position = 1; position < 16; position++) {
+      const planet = universe[key][position];
+      if (planet === null) {
+        continue;
+      }
+      if (planet.playerid == id) {
+        const [galaxy, system] = key.split(':').map((part) => parseInt(part));
+        known.push([galaxy, system, position, planet.hasmoon ? moonshortlng : '']);
+      }
+    }
+  }
+  known.sort();
+  const [currentGalaxy, currentSystem] = galakey.split(':');
+  for (const coord of known) {
+    const link = `<a href='${baseurl}${coord[0]}/${coord[1]}' data-action='galaxy-go' data-galaxy='${coord[0]}' data-system='${coord[1]}'>${coordString(coord)}</a>`;
+    if (coord[0] == currentGalaxy && coord[1] == currentSystem) {
+      html += `<tr><td colspan='2' style='text-align: center'><span>${coordString(coord)}</span></td></tr>`;
+    } else if (coord[0] == currentGalaxy) {
+      html += `<tr><th colspan='2' style='text-align: center'>${link}</th></tr>`;
+    } else {
+      html += `<tr><td colspan='2' style='text-align: center'>${link}</td></tr>`;
+    }
+  }
+
+  element.setAttribute('data-tooltip-content', `${html}</table>`);
+};
+
+/** Adds the stored positions to the player tooltips of the shown system and hooks its sync / export / import / reset buttons. */
+const bindView = () => {
+  document.getElementById('gala_upload').addEventListener('change', onImportChange);
+  document.getElementById('gala_exportjson').addEventListener('click', exportJson);
+  document.getElementById('gala_exportcsv').addEventListener('click', exportCsv);
+  document.getElementById('gala_reset').addEventListener('click', resetStore);
+
+  // adds the known planet locations to the tooltip of every player name on the page
+  for (const username of qsa('.galaxy-username')) {
+    annotateHover(username.getAttribute('playerid'), username.parentElement);
+  }
+};
+
+/** One-time page setup: the sync button (it sits in the navigation form, outside the swapped view), the form submit, history. */
+const init = () => {
+  const syncButton = document.getElementById('gala_sync');
+  const syncLabel = syncButton.value;
+  syncButton.addEventListener('click', () => {
+    syncSystem();
+    syncButton.value = 'Synced';
+  });
+  navForm().addEventListener('submit', (event) => {
+    event.preventDefault();
+    navigate(() => formQuery());
+  });
+  document.addEventListener('galaxy:shown', () => { syncButton.value = syncLabel; });
+  // the first entry knows its system, so going back to it needs no page load
+  const { galaxy, system } = document.getElementById('galaxy-view').dataset;
+  history.replaceState({ galaxy, system }, '');
+  window.addEventListener('popstate', (event) => {
+    if (event.state?.galaxy) navigate(() => ({ galaxy: event.state.galaxy, system: event.state.system }), false);
+    else window.location.reload();
+  });
+  bindView();
+};
+
+window.onPageInit(init);
+
+/** Keyboard navigation of the galaxy view: A / D or left / right arrows change the system, W / S or up / down the galaxy. */
+const KEY_DIRECTIONS = {
+  a: 'systemLeft',
+  ArrowLeft: 'systemLeft',
+  d: 'systemRight',
+  ArrowRight: 'systemRight',
+  w: 'galaxyLeft',
+  ArrowUp: 'galaxyLeft',
+  s: 'galaxyRight',
+  ArrowDown: 'galaxyRight',
+};
+
+/** true while the player types text (message dialogs, search fields): the letters are not navigation then */
+const isTyping = (target) => target instanceof Element
+  && (target.closest('textarea, select, [contenteditable]') !== null
+    || (target instanceof HTMLInputElement && !['number', 'button', 'submit', 'checkbox', 'radio'].includes(target.type)));
+
+document.addEventListener('keydown', (event) => {
+  const direction = event.repeat || event.ctrlKey || event.metaKey || event.altKey || isTyping(event.target) ? undefined : KEY_DIRECTIONS[event.key];
+  if (direction) galaxySubmit(direction);
+});
 
 registerActions({
-  'galaxy-submit': (button) => galaxy_submit(button.dataset.direction),
+  'galaxy-submit': (button) => galaxySubmit(button.dataset.direction),
+  /** a coordinate link of a player tooltip: open that system in place */
+  'galaxy-go': (link) => {
+    document.getElementById('galaxy_form').elements.galaxy.value = link.dataset.galaxy;
+    document.getElementById('galaxy_form').elements.system.value = link.dataset.system;
+    navigate(() => formQuery());
+    return false;
+  },
   'galaxy-mission': (link) => doit(link.dataset.mission, link.dataset.planet),
   'missile-form': (link) => {
     const { planet, galaxy, system, position, duration, type } = link.dataset;

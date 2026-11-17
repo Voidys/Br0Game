@@ -17,10 +17,8 @@
 
 namespace App\Game\Cronjob;
 
-use App\Game\Core\Config;
-use App\Game\Core\Database;
+use App\Game\Enum\MessageType;
 use App\Game\Core\Language;
-use App\Game\Core\PlayerUtil;
 
 /**
  * Referral notice (cronjob "referral", off by default; every 30 minutes): tells recruiters when an invited player reached the points threshold.
@@ -73,11 +71,11 @@ class ReferralCronjob extends AbstractCronjobTask
                 $user['username'],
                 $this->viewHelpers()->prettyNumber($userConfig->ref_minpoints),
             );
-            $this->playerUtil()->sendMessage(
+            $this->playerMessenger()->sendMessage(
                 $user['ref_id'],
                 0,
                 $LNG['sys_refferal_from'],
-                MESSAGE_TYPE_SYSTEM,
+                MessageType::System->value,
                 $LNG->format('sys_refferal_title', $user['username']),
                 $Message,
                 $this->state->runtime->timestamp,

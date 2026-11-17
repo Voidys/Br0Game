@@ -19,6 +19,7 @@ namespace App\Controller\Admin;
 
 use App\Game\Core\ServerInfo;
 use App\Runtime\SafeFile;
+use App\Routing\GameRoute;
 use DateTime;
 use DateTimeZone;
 use Exception;
@@ -29,7 +30,6 @@ use Symfony\Component\HttpFoundation\Response;
  * Server and game information for admins: health checks, server, database, game statistics,
  * logs and caches (data from App\Game\Core\ServerInfo).
  */
-#[\App\Routing\GamePage('admin', 'information')]
 class InformationController extends AbstractAdminController
 {
     public function __construct(
@@ -44,6 +44,7 @@ class InformationController extends AbstractAdminController
     /**
      * Server and game information for admins: health checks, PHP and database versions, timezones and game statistics. Read-only.
      */
+    #[GameRoute('admin', 'admin/information', 'information')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -71,7 +72,7 @@ class InformationController extends AbstractAdminController
             $gameVersion .= ' (' . trim((string) SafeFile::read($origHead)) . ')';
         }
 
-        $this->assign([
+        return $this->render('admin/ShowInformationPage.html.twig', [
             'git_issues_link' => $config->git_issues_link,
             'checks' => $checks,
             'checkCounts' => $counts,
@@ -84,8 +85,6 @@ class InformationController extends AbstractAdminController
             'vGame' => $gameVersion,
             'gameHost' => $this->state->runtime->httpHost,
         ]);
-
-        return $this->render('admin/ShowInformationPage.html.twig');
     }
 
     /**

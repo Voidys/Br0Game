@@ -78,7 +78,7 @@ final class CommunityLinks
     {
         $links = [];
         if (trim((string) ($urls['wiki_url'] ?? '')) !== '' || $wikiSsoConfigured) {
-            $links['wiki'] = $wikiSsoConfigured ? 'game?page=wikiLogin' : trim((string) $urls['wiki_url']);
+            $links['wiki'] = $wikiSsoConfigured ? 'game/wiki-login' : trim((string) $urls['wiki_url']);
         }
         if (trim((string) ($urls['discord_url'] ?? '')) !== '') {
             $links['discord'] = trim($urls['discord_url']);

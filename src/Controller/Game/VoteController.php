@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Game;
 
 use App\Community\VoteSites;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Vote sites: the active sites of the universe with the reward and the cooldown of the player, and the "vote" action
  * that logs the click, pays sites without verification and forwards to the vote site.
  */
-#[\App\Routing\GamePage('game', 'vote')]
 #[\App\Controller\RequireModule('MODULE_VOTING')]
 class VoteController extends AbstractGameController
 {
@@ -32,15 +32,11 @@ class VoteController extends AbstractGameController
         $this->cspNonce = $cspNonce;
     }
 
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * The vote page: every active site of the universe with its reward, the vote button or the time left until the next vote, and a notice
      * after a vote (`notice` = rewarded, pending or cooldown).
      */
+    #[GameRoute('game', 'game/vote', 'vote')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -69,35 +65,31 @@ class VoteController extends AbstractGameController
             ];
         }
 
-        $notice = (string) $this->http()->_GP('notice', '');
-        $this->assign([
+        $notice = $this->input()->string('notice');
+        return $this->render('game/page.vote.default.html.twig', [
             'voteSites' => $sites,
             'voteNotice' => in_array($notice, ['rewarded', 'pending', 'cooldown'], true) ? $LNG['vt_notice_' . $notice] : null,
         ]);
-
-        return $this->render('game/page.vote.default.html.twig');
     }
 
     /**
      * POST id: the player votes on the site. A site on cooldown (or an unknown/inactive one) sends the player back to the list; otherwise the click is
      * logged with a fresh token, a site without verification pays the reward at once, and the player is redirected (302) to the vote URL of the site
-     * with {token} and {userId} filled in. Only POST is accepted (the global CSRF layer checks the token).
+     * with {token} and {userId} filled in. Only POST is routed (the global CSRF layer checks the token).
      */
-    public function go(): never
+    #[GameRoute('game', 'game/vote/go', 'vote', 'go', ['POST'])]
+    public function go(): Response
     {
-        if (($this->state->requestServer['REQUEST_METHOD'] ?? '') !== 'POST') {
-            $this->redirectTo('game?page=vote');
-        }
-        $site = $this->voteSites->find((int) $this->http()->_GP('id', 0));
+        $site = $this->voteSites->find($this->input()->int('id'));
         if ($site === null || (int) $site['active'] !== 1 || (int) $site['universe'] !== (int) $this->state->USER['universe']) {
-            $this->redirectTo('game?page=vote');
+            return $this->redirectToRoute('game_vote_show');
         }
 
         $result = $this->voteSites->click($site, (int) $this->state->USER['id'], (string) $this->state->request->getClientIp(), $this->state->runtime->timestamp);
         if ($result['url'] === null) {
-            $this->redirectTo('game?page=vote&notice=' . ($result['status'] === 'cooldown' ? 'cooldown' : 'error'));
+            return $this->redirectToRoute('game_vote_show', ['notice' => $result['status'] === 'cooldown' ? 'cooldown' : 'error']);
         }
 
-        $this->http()->redirectTo($result['url'], true);
+        return $this->redirectResponse($result['url'], true);
     }
 }

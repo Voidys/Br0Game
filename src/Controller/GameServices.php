@@ -8,6 +8,7 @@ use App\Game\Core\Singleton;
 use App\Runtime\CanonicalUrl;
 use App\Security\AuthRateLimits;
 use App\Security\FleetDailyCaps;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
 /**
@@ -24,6 +25,7 @@ trait GameServices
     protected AuthRateLimits $rateLimits;
     protected CanonicalUrl $canonicalUrl;
     protected FleetDailyCaps $fleetCaps;
+    protected UrlGeneratorInterface $router;
 
     /**
      * Container (setter) injection of database, config registry and game state.
@@ -51,6 +53,13 @@ trait GameServices
         $this->fleetCaps = $fleetCaps;
     }
 
+    /** URL generator of the routes of the pages (redirectToRoute(), routeUrl()). */
+    #[Required]
+    public function setRouter(UrlGeneratorInterface $router): void
+    {
+        $this->router = $router;
+    }
+
     /**
      * For controllers created with `new` inside game code (error pages, nested pages): take the
      * services of the creating controller.
@@ -69,6 +78,9 @@ trait GameServices
     {
         $this->setGameServices($creator->db, $creator->configs, $creator->state);
         $this->setSecurityServices($creator->rateLimits, $creator->canonicalUrl);
+        if (isset($creator->router)) {
+            $this->setRouter($creator->router);
+        }
 
         return $this;
     }

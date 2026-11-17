@@ -172,6 +172,7 @@ class BuildingQueueProcessor
      * Recomputes duration and end time of the remaining building queue entries, chained from $baseTime.
      *
      * @param array<int, array> $queue
+     * @param array<mixed> $queue
      * @return array<int, array>
      */
     private function retimeBuildingQueue(QueueState $st, array $queue, int|float $baseTime): array

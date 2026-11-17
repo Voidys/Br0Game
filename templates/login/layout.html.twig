@@ -28,11 +28,11 @@
       <a class="site-brand" href="{{ base }}/"><span>{{ gameName }}</span></a>
       <button type="button" class="icon-button site-menu-toggle" data-site-menu aria-expanded="false" aria-controls="site-nav">{{ icon('menu', 'menu') }}</button>
       <nav class="site-nav" id="site-nav">
-        <a href="{{ base }}/?page=news">{{ 'menu_news'|trans({}, 'public') }}</a>
-        <a href="{{ base }}/?page=HoF">{{ 'siteTitleHOF'|trans({}, 'public') }}</a>
-        <a href="{{ base }}/?page=battleHall">{{ 'menu_battlehall'|trans({}, 'public') }}</a>
-        <a href="{{ base }}/?page=screens">{{ 'buttonScreenshot'|trans({}, 'public') }}</a>
-        <a href="{{ base }}/?page=rules" aria-current="page">{{ 'menu_rules'|trans({}, 'public') }}</a>
+        <a href="{{ path('login_news_show') }}">{{ 'menu_news'|trans({}, 'public') }}</a>
+        <a href="{{ path('login_hof_show') }}">{{ 'siteTitleHOF'|trans({}, 'public') }}</a>
+        <a href="{{ path('login_battle_hall_show') }}">{{ 'menu_battlehall'|trans({}, 'public') }}</a>
+        <a href="{{ path('login_screens_show') }}">{{ 'buttonScreenshot'|trans({}, 'public') }}</a>
+        <a href="{{ path('login_rules') }}" aria-current="page">{{ 'menu_rules'|trans({}, 'public') }}</a>
       </nav>
       {% if language_names|length > 1 %}
         <label class="site-lang">{{ icon('languages') }}<span class="visually-hidden">{{ 'registerLanguage'|trans({}, 'public') }}</span>
@@ -57,10 +57,10 @@
     <div class="site-wrap site-footer__inner">
       <span>{% if gameName is empty or gameName == 'Br0Game' %}© Project Br0Game{% else %}© {{ gameName }} on Project Br0Game{% endif %}</span>
       <nav aria-label="Footer">
-        <a href="{{ base }}/?page=team">{{ 'home_team'|trans({}, 'public') }}</a>
-        <a href="{{ base }}/?page=banList">{{ 'menu_banlist'|trans({}, 'public') }}</a>
-        <a href="{{ base }}/?page=disclamer">{{ 'menu_disclamer'|trans({}, 'public') }}</a>
-        <a href="{{ base }}/?page=dataPrivacy">{{ 'siteTitleDataPrivacy'|trans({}, 'public') }}</a>
+        <a href="{{ path('login_team_show') }}">{{ 'home_team'|trans({}, 'public') }}</a>
+        <a href="{{ path('login_ban_list_show') }}">{{ 'menu_banlist'|trans({}, 'public') }}</a>
+        <a href="{{ path('login_disclamer_show') }}">{{ 'menu_disclamer'|trans({}, 'public') }}</a>
+        <a href="{{ path('login_data_privacy_show') }}">{{ 'siteTitleDataPrivacy'|trans({}, 'public') }}</a>
         {% set sourceUrl = game_config('source_url') %}
         {% if sourceUrl %}<a href="{{ sourceUrl }}" target="_blank" rel="noopener" title="AGPL-3.0">{{ 'source_code'|trans({}, 'public') }}</a>{% endif %}
       </nav>

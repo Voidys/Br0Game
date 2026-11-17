@@ -16,36 +16,53 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Routing\GameRoute;
 use App\Game\Core\StoredData;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 
 /** Repair dock: repairs ships from the wreck field of the current planet. */
-#[\App\Routing\GamePage('game', 'repairdock')]
 #[\App\Controller\RequireModule('MODULE_REPAIR_DOCK')]
 class RepairdockController extends AbstractGameController
 {
-    public static $defaultController = 'show';
-
-    public function initialize(): void
+    /**
+     * Repair dock of the current planet (wrecks live in PLANET_WRECKFIELD; an empty wreck field ends in a message): the wrecks, the running order and
+     * its remaining time.
+     */
+    #[GameRoute('game', 'game/repair-dock', 'repairdock')]
+    public function show(): Response
     {
-        parent::initialize();
+        return $this->repairDock('');
     }
 
     /**
-     * Repair dock of the current planet (wrecks live in PLANET_WRECKFIELD; an empty wreck field ends in a message). Request: cmd=deploy takes a
-     * finished repair order (repair_order_end reached): the ships are added to the planet inside a transaction that re-reads the order, so a parallel
-     * request cannot deploy it twice. Posting fmenge[<ship id>] = counts starts a new order (only when none runs, not in vacation mode, limited to the
-     * wrecks available); its duration follows the build time, at least the creation time + 30 minutes and at most 12 hours. Both commands redirect
-     * back; otherwise the page shows wrecks, the running order and its remaining time.
+     * Starts a new repair order from the posted fmenge[<ship id>] = counts (only when none runs, not in vacation mode, limited to the wrecks available);
+     * its duration follows the build time, at least the creation time + 30 minutes and at most 12 hours. Redirects back to the dock.
      */
-    public function show(): Response
+    #[GameRoute('game', 'game/repair-dock', 'repairdock', 'start', ['POST'])]
+    public function start(): Response
+    {
+        return $this->repairDock('start');
+    }
+
+    /**
+     * Takes a finished repair order (repair_order_end reached): the ships are added to the planet inside a transaction that re-reads the order, so a
+     * parallel request cannot deploy it twice.
+     */
+    #[GameRoute('game', 'game/repair-dock/deploy', 'repairdock', 'deploy', ['GET', 'POST'])]
+    public function deploy(): Response
+    {
+        if ($redirect = $this->redirectUnlessPost('game_repairdock_show')) {
+            return $redirect;
+        }
+
+        return $this->repairDock('deploy');
+    }
+
+    /**
+     * The repair dock page for the command of the route ('' = just show, 'start', 'deploy').
+     */
+    private function repairDock(string $command): Response
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
@@ -55,19 +72,18 @@ class RepairdockController extends AbstractGameController
 
         if (($PLANET[$e->column(REPAIR_DOCK)] ?? 0) < 1) {
             // the requirement is enforced here, not only in the template (also covers moons)
-            $this->printMessage($LNG['bd_repairdock_required']);
+            return $this->messageResponse($LNG['bd_repairdock_required']);
         }
 
         $sql = "SELECT * FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID;";
         $wreckfield = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
 
         if (empty($wreckfield) || (empty($wreckfield['ships']) && empty($wreckfield['repair_order']))) {
-            $this->printMessage($LNG['bd_repairdock_empty']);
+            return $this->messageResponse($LNG['bd_repairdock_empty']);
         }
 
         $ships = $this->fleetFunctions()->unserialize($wreckfield['ships']);
-        $buildTodo = $this->http()->_GP('fmenge', []);
-        $action = $this->http()->_GP('cmd', '');
+        $buildTodo = $command === 'start' ? $this->input()->bigNumberMap('fmenge') : [];
 
         $ElementQueue = !empty($wreckfield['repair_order']) ? StoredData::decode($wreckfield['repair_order']) : [];
         if (empty($ElementQueue) && !empty($wreckfield['repair_order'])) {
@@ -76,10 +92,10 @@ class RepairdockController extends AbstractGameController
             $wreckfield['repair_order'] = '';
         }
         $buildList = [];
-        if (!empty($action) && $action == 'deploy' && $wreckfield['repair_order_end'] <= $this->state->runtime->timestamp) {
-            $this->deployRepairedShips();
+        if ($command === 'deploy' && $wreckfield['repair_order_end'] <= $this->state->runtime->timestamp) {
+            return $this->deployRepairedShips();
         } elseif (empty($ElementQueue) && !empty($buildTodo) && array_sum($buildTodo) > 0 && $USER['urlaubs_modus'] == 0) {
-            $this->startRepairOrder($buildTodo);
+            return $this->startRepairOrder($buildTodo);
         } elseif (!empty($ElementQueue)) {
             $buildList = [
                 'ships' => $ElementQueue,
@@ -99,7 +115,7 @@ class RepairdockController extends AbstractGameController
 
         $this->addScript('repairdock.js');
 
-        $this->assign([
+        return $this->render('game/page.repairdock.default.html.twig', [
             'repdock_level' => $PLANET[$e->column(REPAIR_DOCK)],
             'umode'         => $USER['urlaubs_modus'],
             'wftime'        => $wreckfield['created'] + TIME_72_HOURS - $this->state->runtime->timestamp,
@@ -109,8 +125,6 @@ class RepairdockController extends AbstractGameController
             'SolarEnergy'   => $SolarEnergy,
             'repairRate'    => $this->getRepairRate($PLANET[$e->column(REPAIR_DOCK)]) * 100,
         ]);
-
-        return $this->render('game/page.repairdock.default.html.twig');
     }
 
     /**
@@ -151,9 +165,9 @@ class RepairdockController extends AbstractGameController
     /**
      * cmd=deploy: adds the ships of the finished repair order to the planet and clears the order. Runs in a transaction
      * that re-reads the wreck field under lock, so a parallel request cannot deploy the order twice (it is redirected
-     * instead). Ends the request with a confirmation message.
+     * instead). Returns a confirmation message.
      */
-    private function deployRepairedShips(): never
+    private function deployRepairedShips(): Response
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
@@ -172,7 +186,7 @@ class RepairdockController extends AbstractGameController
             || $locked['repair_order_end'] > $this->state->runtime->timestamp
         ) {
             $db->commit();
-            $this->redirectTo('game?page=repairdock');
+            return $this->redirectToRoute('game_repairdock_show');
         }
         $ships = $this->fleetFunctions()->unserialize($locked['ships']);
         $ElementQueue = StoredData::decode($locked['repair_order']);
@@ -197,21 +211,21 @@ class RepairdockController extends AbstractGameController
             ]);
         }
         $db->commit();
-        $this->printMessage($LNG['bd_repairdock_deploy'], [[
+        return $this->messageResponse($LNG['bd_repairdock_deploy'], [[
             'label' => $LNG['bd_continue'],
-            'url'   => 'game?page=repairdock',
+            'url'   => $this->router->generate('game_repairdock_show'),
         ]]);
     }
 
     /**
      * Starts a repair order from the posted counts (fmenge[<ship id>]), limited to the repairable share of the wrecks. The
      * duration follows the build time of the ships, at least until 30 minutes after the wreck field was created and at most 12
-     * hours. Runs in a transaction on the locked wreck field (a parallel order wins; this request is redirected). Ends the
-     * request with a redirect to the repair dock.
+     * hours. Runs in a transaction on the locked wreck field (a parallel order wins; this request is redirected). Returns a
+     * redirect to the repair dock.
      *
      * @param array<int|string, mixed> $buildTodo ship id => requested count
      */
-    private function startRepairOrder(array $buildTodo): never
+    private function startRepairOrder(array $buildTodo): Response
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
@@ -226,7 +240,7 @@ class RepairdockController extends AbstractGameController
         if (empty($locked) || !empty(StoredData::decode((string) $locked['repair_order']))) {
             // A parallel request already queued an order.
             $db->commit();
-            $this->redirectTo('game?page=repairdock');
+            return $this->redirectToRoute('game_repairdock_show');
         }
         $ships = $this->fleetFunctions()->unserialize($locked['ships']);
         $wreckfield = $locked;
@@ -246,7 +260,7 @@ class RepairdockController extends AbstractGameController
         if (empty($ElementQueue)) {
             // nothing can be repaired from the requested amounts: no (empty) order that would block the dock
             $db->commit();
-            $this->redirectTo('game?page=repairdock');
+            return $this->redirectToRoute('game_repairdock_show');
         }
 
         $min = max($this->configs->get()->min_build_time, 1800 - ($this->state->runtime->timestamp - $wreckfield['created']));
@@ -263,7 +277,7 @@ class RepairdockController extends AbstractGameController
         ]);
 
         $db->commit();
-        $this->redirectTo('game?page=repairdock');
+        return $this->redirectToRoute('game_repairdock_show');
     }
 
     /**

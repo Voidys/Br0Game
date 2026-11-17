@@ -2,6 +2,7 @@
 
 namespace App\Game\Bots;
 
+use App\Game\Enum\Mission;
 use App\Game\Bots\Raid\RaidDispatcher;
 use App\Game\Bots\Raid\RaidPlanner;
 use App\Game\Core\ConfigRegistry;
@@ -80,7 +81,7 @@ class BotLogistics
         if ($flight['duration'] > 10800 || 2 * $flight['consumption'] > 0.1 * $cargoValue || array_sum($load) > $this->fleetFunctions()->getFleetRoom($fleet) - $flight['consumption']) {
             return null;
         }
-        $sent = $this->dispatcher->send($ctx, $planet, $fleet, MISSION_TRANSPORT, (int) $target['id'], (int) $ctx->user['id'], $load);
+        $sent = $this->dispatcher->send($ctx, $planet, $fleet, Mission::Transport->value, (int) $target['id'], (int) $ctx->user['id'], $load);
         if (!$sent['ok']) {
             return null;
         }
@@ -102,7 +103,7 @@ class BotLogistics
         $incoming = [RESOURCE_METAL => 0.0, RESOURCE_CRYSTAL => 0.0, RESOURCE_DEUT => 0.0];
         $rows = $this->db->select(
             'SELECT resource_metal, resource_crystal, resource_deuterium FROM %%FLEETS%% WHERE owner = :u AND end_id = :p AND mission = :m AND status = :s;',
-            [':u' => $ctx->user['id'], ':p' => $target['id'], ':m' => MISSION_TRANSPORT, ':s' => FLEET_OUTWARD],
+            [':u' => $ctx->user['id'], ':p' => $target['id'], ':m' => Mission::Transport->value, ':s' => FLEET_OUTWARD],
         );
         foreach ($rows as $row) {
             $incoming[RESOURCE_METAL] += (float) $row['resource_metal'];
@@ -234,7 +235,7 @@ class BotLogistics
         [$fleet, $speed, $flight] = $this->affordable($ctx, $planet, $fleet, $target, $offline);
         $room = $this->fleetFunctions()->getFleetRoom($fleet) - $flight['consumption'];
         $cargo = $this->cargoOf($planet, max(0.0, $room), $flight['consumption']);
-        $sent = $this->dispatcher->send($ctx, $planet, $fleet, MISSION_TRANSPORT, (int) $target['id'], (int) $ctx->user['id'], $cargo, $speed);
+        $sent = $this->dispatcher->send($ctx, $planet, $fleet, Mission::Transport->value, (int) $target['id'], (int) $ctx->user['id'], $cargo, $speed);
         if (!$sent['ok']) {
             $this->botLog->log((int) $ctx->user['id'], $ctx->universe, 'fleetsave_skip', $ctx->planetLabel($planet) . ': ' . $sent['reason'] . ' (' . $reason . ')');
 
@@ -351,7 +352,7 @@ class BotLogistics
         $botId = (int) $ctx->user['id'];
         $rows = $this->db->select(
             'SELECT * FROM %%FLEETS%% WHERE target_owner = :u AND owner <> :u2 AND mission IN (:a, :b, :c) AND status = :s AND arrival_time > :now AND arrival_time < :soon;',
-            [':u' => $botId, ':u2' => $botId, ':a' => MISSION_ATTACK, ':b' => MISSION_ACS, ':c' => MISSION_DESTRUCTION, ':s' => FLEET_OUTWARD, ':now' => $now, ':soon' => $now + 10800],
+            [':u' => $botId, ':u2' => $botId, ':a' => Mission::Attack->value, ':b' => Mission::Acs->value, ':c' => Mission::Destruction->value, ':s' => FLEET_OUTWARD, ':now' => $now, ':soon' => $now + 10800],
         );
         $acted = 0;
         foreach ($rows as $row) {

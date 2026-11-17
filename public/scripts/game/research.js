@@ -1,4 +1,5 @@
-import { qs, setVisibleInterval, clearVisibleInterval, getRestTimeFormat } from '../app/core.js';
+import { qs, setVisibleInterval, clearVisibleInterval, now, getRestTimeFormat } from '../app/core.js';
+import { env } from '../app/env.js';
 
 /**
  * Research page: countdown and progress bar of the running research. `data-time` of the #progressbar is the
@@ -25,18 +26,18 @@ function setProgress(rest) {
 function Buildlist() {
   let rest = resttime;
   if (!umode) {
-    rest = resttime - (window.serverTime.getTime() - window.startTime) / 1000;
+    rest = resttime - (now().getTime() - env.startTime) / 1000;
   }
   const timeBox = qs('#time');
   if (rest <= 0) {
     clearVisibleInterval(interval);
-    if (timeBox) timeBox.textContent = window.Ready;
+    if (timeBox) timeBox.textContent = env.ready;
     qs('#command')?.remove();
-    document.title = `${window.Ready} - ${window.Gamename}`;
+    document.title = `${env.ready} - ${env.gamename}`;
     setProgress(0);
     return;
   }
-  document.title = `${getRestTimeFormat(rest)} - ${buildname} - ${window.Gamename}`;
+  document.title = `${getRestTimeFormat(rest)} - ${buildname} - ${env.gamename}`;
   if (timeBox) timeBox.textContent = getRestTimeFormat(rest);
   setProgress(rest);
 }

@@ -9,6 +9,6 @@
 		<td>{{ LNG.tech[503] }}</td><td class="num"><span id="missile_503">{{ pretty_number(MissileList[503]) }}</span></td><td class="num"><input class="missile num" type="text" name="missile[503]" placeholder="0"></td>
 	</tr>
 	<tr>
-		<td colspan="3" class="form-actions"><input type="button" value="{{ LNG.in_destroy }}" data-action="destroy-missiles"></td>
+		<td colspan="3" class="form-actions"><input type="button" value="{{ LNG.in_destroy }}" data-action="destroy-missiles" data-url="{{ path('game_information_destroy_missiles') }}"></td>
 	</tr>
 </table>

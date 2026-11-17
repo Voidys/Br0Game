@@ -2,11 +2,7 @@
 
 namespace App\Game\Cronjob;
 
-use App\Game\Core\Config;
-use App\Game\Core\Database;
 use App\Game\Core\Discord;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /**
@@ -75,6 +71,11 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
 
     /**
      * Inserts the base (owner = the targeted player, coordinates of $targetPlanet, resources, serialized ships, empty debris).
+     *
+     * @param array<mixed> $pirateFleet
+     * @param array<mixed> $ress
+     * @param array<string, mixed> $targetPlanet
+     * @param array<string, mixed> $user
      */
     private function createPirateBase(array $targetPlanet, array $pirateFleet, array $ress, array $user): void
     {
@@ -105,6 +106,7 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
 
     /**
      * Resources of a base: hourly production of the player's planets (or only the main planet) times $hours.
+     * @param array<mixed> $planets
      * @return array<int,int|float> resource id => amount.
      */
     private function getPirateRess(array $planets, int $mainPlanetId, bool $mainPlanetOnly, int $hours): array
@@ -128,6 +130,8 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
 
     /**
      * Enemy fleet: per ship type max(1, floor(amount * random percentage between min and max / 100)), excluded types skipped.
+     * @param array<mixed> $excludedShips
+     * @param array<mixed> $userShips
      * @return array<int,int|float> ship id => amount.
      */
     private function getPirateFleet(array $userShips, array $excludedShips, int $minPercentage, int $maxPercentage): array
@@ -147,6 +151,7 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
     /**
      * Total ships of a player by ship id: stationed on all given planets plus those in own flying fleets.
      * @param array<int, array<string, mixed>> $planets planet rows of the player.
+     * @return array<mixed>
      */
     private function getUserShips(int $userId, array $planets): array
     {
@@ -179,6 +184,8 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
 
     /**
      * Planets of the player that are not marked for destruction.
+     *
+     * @return array<mixed>
      */
     private function getUserPlanets(int $userId): array
     {
@@ -190,6 +197,8 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
 
     /**
      * Players of the universe that were online within INACTIVE and have at least $minPoints total points (stat type 1 = total).
+     *
+     * @return array<mixed>
      */
     private function getUsers(int $universe, int $minPoints): array
     {

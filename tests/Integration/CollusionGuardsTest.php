@@ -13,6 +13,7 @@ use App\Game\Core\BashRules;
 use App\Game\Core\FleetFunctions;
 use App\Game\Missions\MissionCaseAttack;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * Collusion guards from the abuse audit (F-16, F-18): no rebuild protection against linked opponents and no bash war
@@ -108,7 +109,7 @@ final class CollusionGuardsTest extends GameTestCase
         $this->db->insert('INSERT INTO %%DIPLO%% SET owner_1 = :a, owner_2 = :b, level = 5, accept = 1, accept_text = \'\', request_time = :t, universe = 1;', [':a' => $allies[1], ':b' => $allies[2], ':t' => $now - 2 * ONE_DAY]);
         $this->db->insert(
             'INSERT INTO %%LOG_FLEETS%% SET id = :id, `group` = 0, universe = 1, mission = :m, owner = :o, target_owner = :t, start_id = 0, end_id = :e, ships = \'204,5\', arrival_time = :at, hasCanceled = 0;',
-            [':id' => mt_rand(1000000, 99999999), ':m' => MISSION_ATTACK, ':o' => $attacker['id'], ':t' => $victim['id'], ':e' => $planet['id'], ':at' => $now - 100],
+            [':id' => mt_rand(1000000, 99999999), ':m' => Mission::Attack->value, ':o' => $attacker['id'], ':t' => $victim['id'], ':e' => $planet['id'], ':at' => $now - 100],
         );
         $this->state->USER = $attacker;
 
@@ -148,7 +149,7 @@ final class CollusionGuardsTest extends GameTestCase
         $this->state->PLANET = $attackerPlanet;
         $fleetId = (new FleetFunctions($this->db, $this->configs, $this->state))->sendFleet(
             [207 => 1000],
-            MISSION_ATTACK,
+            Mission::Attack->value,
             (int) $attacker['id'],
             (int) $attackerPlanet['id'],
             (int) $attackerPlanet['galaxy'],

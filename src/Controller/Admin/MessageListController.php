@@ -17,18 +17,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\MessageType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
-use App\Game\Core\SpyReport;
 use App\Game\Core\Universe;
 
 /**
  * Message browser for admins: filter by category, sender and recipient, with delete.
  */
-#[\App\Routing\GamePage('admin', 'messageList')]
 class MessageListController extends AbstractAdminController
 {
     /**
@@ -36,15 +33,16 @@ class MessageListController extends AbstractAdminController
      * fragments), dateStart/dateEnd (arrays day, month, year; both give a range, only a start means "since"). Reads MESSAGES via
      * USERS_TO_MESSAGES for the emulated universe.
      */
+    #[GameRoute('admin', 'admin/messages', 'messageList')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $page = $this->http()->_GP('side', 1);
-        $type = $this->http()->_GP('type', MESSAGE_TYPE_ALL);
-        $sender = $this->http()->_GP('sender', '', UTF8_SUPPORT);
-        $receiver = $this->http()->_GP('receiver', '', UTF8_SUPPORT);
-        $dateStart = $this->http()->_GP('dateStart', []);
-        $dateEnd = $this->http()->_GP('dateEnd', []);
+        $page = $this->input()->int('side', 1);
+        $type = $this->input()->int('type', MessageType::All->value);
+        $sender = $this->input()->string('sender', '', UTF8_SUPPORT);
+        $receiver = $this->input()->string('receiver', '', UTF8_SUPPORT);
+        $dateStart = $this->input()->stringMap('dateStart');
+        $dateEnd = $this->input()->stringMap('dateEnd');
 
         $perSide = 50;
 
@@ -63,7 +61,7 @@ class MessageListController extends AbstractAdminController
 
         $messageList = $this->messageRows($filter, $page, $perSide);
 
-        $this->assign([
+        return $this->render('admin/MessageList.html.twig', [
             'categories'   => $categories,
             'maxPage'      => $maxPage,
             'page'         => $page,
@@ -75,14 +73,14 @@ class MessageListController extends AbstractAdminController
             'receiver'     => $receiver,
             'Selected'     => 0,
         ]);
-
-        return $this->render('admin/MessageList.html.twig');
     }
 
     /**
      * Date condition of the list: both dates (day, month, year each) give a range from the start of the first to the
      * end of the last day, only a start date means "since".
      *
+     * @param array<mixed> $dateEnd
+     * @param array<mixed> $dateStart
      * @return array{0: string, 1: array<string, int|false>}|null condition and bound parameters, null without date filter
      */
     private function dateFilter(array $dateStart, array $dateEnd): ?array
@@ -110,12 +108,13 @@ class MessageListController extends AbstractAdminController
      * Builds the shared condition adder: message type (unless all types), universe, date range, sender and receiver
      * name. The sender/receiver joins (aliases us/u) must already be on the query it is applied to.
      *
+     * @param array<mixed> $dateFilter
      * @return \Closure(QueryBuilder): QueryBuilder
      */
     private function messageFilter(mixed $type, ?array $dateFilter, mixed $sender, mixed $receiver): \Closure
     {
         $filter = function (QueryBuilder $qb) use ($type, $dateFilter, $sender, $receiver): QueryBuilder {
-            if ($type != MESSAGE_TYPE_ALL) {
+            if ($type != MessageType::All->value) {
                 $qb->andWhere('m.`message_type` = :type')->setParameter('type', $type);
             }
             $qb->andWhere('m.`message_universe` = :universe')->setParameter('universe', $this->universe()->getEmulated());
@@ -211,7 +210,7 @@ class MessageListController extends AbstractAdminController
         );
 
         foreach ($messageRaw as $messageRow) {
-            if ($messageRow['message_type'] == MESSAGE_TYPE_SPY_REPORT) {
+            if ($messageRow['message_type'] == MessageType::SpyReport->value) {
                 $messageRow['message_text'] = $this->spyReport()->getSpyReport($messageRow['message_text']);
             }
 

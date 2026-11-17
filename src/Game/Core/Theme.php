@@ -27,26 +27,16 @@ class Theme
     public static $Themes;
     private static $ThemeMeta;
     private $THEMESETTINGS;
-    private $skininfo;
     private $skin;
     private $cssSkin;
     private $imageSkin;
-    private $template;
-    private $customtpls;
 
     public function __construct()
     {
-        $this->skininfo = [];
         $this->cssSkin = DEFAULT_THEME;
         $this->imageSkin = DEFAULT_THEME;
         $this->skin		= DEFAULT_THEME; // the session holds no theme (the former $_SESSION['dpath'] was never set)
         $this->setUserTheme($this->skin);
-    }
-
-    public function isHome()
-    {
-        $this->template		= \App\Runtime\ProjectPaths::ROOT . 'public/styles/home/';
-        $this->customtpls	= [];
     }
 
     /**

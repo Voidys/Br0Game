@@ -6,12 +6,14 @@
  */
 import { qsa, on, post, serialize, NotifyBox, pretty_number } from '../app/core.js';
 import { registerActions } from '../app/actions.js';
+import { Dialog } from '../app/dialog.js';
+import { env } from '../app/env.js';
 
-const months = window.months ?? [];
+const months = env.months;
 
-/** rank select of a member (admin): saved at once */
+/** rank select of a member (admin): saved at once; the surrounding form's action is the rank route */
 on(document, 'change', '.rankSelect', async (event, select) => {
-  NotifyBox(await post('game?page=alliance&mode=admin&action=rank&ajax=1', serialize([select]), 'json'));
+  NotifyBox(await post(`${select.form.action}?ajax=1`, serialize([select]), 'json'));
 });
 
 registerActions({
@@ -22,14 +24,14 @@ registerActions({
   'alliance-message-send': async (button) => {
     const form = document.getElementById('message');
     if (form.elements.text.value === '') {
-      window.Dialog.alert(button.dataset.empty);
+      Dialog.alert(button.dataset.empty);
       return;
     }
     const data = await post(button.dataset.url, serialize(form), 'json');
-    window.Dialog.alert(data.message, () => {
+    Dialog.alert(data.message, () => {
       if (data.error) return;
       if (button.dataset.after === 'reload') window.location.reload();
-      else window.Dialog.close();
+      else Dialog.close();
     });
   },
   /** answer buttons of an application: the pressed button's value goes into the hidden field data-field */

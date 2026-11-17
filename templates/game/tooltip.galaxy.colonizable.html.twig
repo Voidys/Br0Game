@@ -21,7 +21,7 @@
         </td>
     </tr>
     <tr>
-        {% if isset(planet.metalBonusPercent) and planet.metalBonusPercent > 0 %}
+        {% if (planet.metalBonusPercent is defined and planet.metalBonusPercent is not null) and planet.metalBonusPercent > 0 %}
         <td>
             {{ LNG.tech[901] }}
         </td>
@@ -31,7 +31,7 @@
         {% endif %}
     </tr>
     <tr>
-        {% if isset(planet.crystalBonusPercent) and planet.crystalBonusPercent > 0 %} 
+        {% if (planet.crystalBonusPercent is defined and planet.crystalBonusPercent is not null) and planet.crystalBonusPercent > 0 %} 
         <td>
             {{ LNG.tech[902] }}
         </td>
@@ -41,7 +41,7 @@
         {% endif %} 
     </tr>
     <tr>
-        {% if isset(planet.deuteriumBonusPercent) and planet.deuteriumBonusPercent > 0 %}
+        {% if (planet.deuteriumBonusPercent is defined and planet.deuteriumBonusPercent is not null) and planet.deuteriumBonusPercent > 0 %}
         <td>
             {{ LNG.tech[903] }}
         </td>
@@ -52,8 +52,8 @@
     </tr>
     <tr>
         <td colspan='2' class='text-center'>
-        {% if not isset(currentPlanet) and colonizable[planet.planet_position] != 'colorNegative' %}
-            <a href='?page=fleetTable&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;target_mission=7'>{{ LNG.type_mission_7 }}</a>
+        {% if (currentPlanet is not defined or currentPlanet is null) and colonizable[planet.planet_position] != 'colorNegative' %}
+            <a href='{{ path('game_fleet_table_show', {galaxy: galaxy, system: system, planet: planet.planet_position, planettype: 1, target_mission: 7}) }}'>{{ LNG.type_mission_7 }}</a>
         {% else %}
             {{ LNG.gl_not_colonizable }}
         {% endif %}

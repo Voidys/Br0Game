@@ -6,6 +6,7 @@ namespace App\Tests\Integration;
 
 use App\Game\Market\MarketPurchase;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * Buys marketplace offers end to end on the test database: a resource offer (seller fleet holding at the market + trade
@@ -29,7 +30,7 @@ final class MarketPurchaseTest extends GameTestCase
         $now = time();
         $this->db->insert(
             "INSERT INTO %%FLEETS%% (universe, mission, owner, target_owner, ship_amount, ships, start_ships, start_time, arrival_time, stay_time, return_time, start_id, end_id, start_galaxy, start_system, start_planet, start_type, end_galaxy, end_system, end_planet, end_type, resource_metal, status, cannotCancel) VALUES (1, :m, :o, 0, 5, '202,5', '202,5', :t, :t, :stay, :ret, :p, 0, :g, :s, :pl, 1, :g, :s, :mp, 1, 1000, :st, 1);",
-            [':m' => MISSION_TRADE, ':o' => $seller['id'], ':t' => $now - 100, ':stay' => $now + 20000, ':ret' => $now + 40000, ':p' => $sellerPlanet['id'], ':g' => $sellerPlanet['galaxy'], ':s' => $sellerPlanet['system'], ':pl' => $sellerPlanet['planet'], ':mp' => $this->configs->get(1)->max_planets + 2, ':st' => FLEET_HOLD],
+            [':m' => Mission::Trade->value, ':o' => $seller['id'], ':t' => $now - 100, ':stay' => $now + 20000, ':ret' => $now + 40000, ':p' => $sellerPlanet['id'], ':g' => $sellerPlanet['galaxy'], ':s' => $sellerPlanet['system'], ':pl' => $sellerPlanet['planet'], ':mp' => $this->configs->get(1)->max_planets + 2, ':st' => FLEET_HOLD],
         );
         $fleetId = $this->db->lastInsertId();
         $this->db->insert(
@@ -40,13 +41,17 @@ final class MarketPurchaseTest extends GameTestCase
         return [$seller, $buyer, $buyerPlanet, $fleetId];
     }
 
+    /**
+     * @param array<mixed> $buyer
+     * @param array<string, mixed> $planet
+     */
     private function buy(array $buyer, array $planet, int $fleetId, int $shipType = 1): string
     {
         $this->state->USER = $buyer;
         $this->state->PLANET = $planet;
         $this->state->requestInput = ['fleetID' => $fleetId, 'shipType' => $shipType];
 
-        return (new MarketPurchase($this->db, $this->configs, $this->state))->buy();
+        return (new MarketPurchase($this->db, $this->configs, $this->state))->buy($fleetId, (string) $shipType);
     }
 
     public function testBuyingAnOfferPaysSendsAFleetAndReroutesTheSellerFleet(): void
@@ -65,7 +70,7 @@ final class MarketPurchaseTest extends GameTestCase
         $buyerFleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $trade['buyer_fleet_id']]);
         $this->assertSame((int) $buyer['id'], (int) $buyerFleet['owner']);
         $this->assertEquals(900, $buyerFleet['resource_metal']);
-        $this->assertSame(MISSION_TRADE, (int) $buyerFleet['mission']);
+        $this->assertSame(Mission::Trade->value, (int) $buyerFleet['mission']);
         $messages = (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%USERS_TO_MESSAGES%% WHERE user_id IN (:a, :b);', [':a' => $seller['id'], ':b' => $buyer['id']], 'c');
         $this->assertGreaterThanOrEqual(2, $messages);
     }

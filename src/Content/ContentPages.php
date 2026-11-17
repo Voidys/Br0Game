@@ -73,7 +73,11 @@ final class ContentPages
         ];
     }
 
-    /** Exactly that language (for the editor): its row or the default content. */
+    /**
+     * Exactly that language (for the editor): its row or the default content.
+     *
+     * @return array<mixed>
+     */
     public function findExact(string $slug, string $lang): array
     {
         $this->assertSlug($slug);
@@ -148,7 +152,11 @@ final class ContentPages
         return $byLang;
     }
 
-    /** Page row for a page that was never edited: translated title, generated default content, edited = false. */
+    /**
+     * Page row for a page that was never edited: translated title, generated default content, edited = false.
+     *
+     * @return array<mixed>
+     */
     private function default(string $slug, string $lang): array
     {
         $title = $this->translator->trans(self::TITLE_KEYS[$slug], [], 'public', $lang);
@@ -234,7 +242,7 @@ final class ContentPages
 
         return strtr($text, [
             '{game_name}' => $e($this->config->get('game_name', '')),
-            '{contacts_url}' => './?page=disclamer',
+            '{contacts_url}' => './disclaimer',
             '{contact_mail}' => '<a href="mailto:' . $e($mail) . '">' . $e($mail) . '</a>',
             '{deletion_days}' => (string) $days('del_user_manually'),
             '{inactive_days}' => (string) $days('del_user_automatic'),

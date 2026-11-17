@@ -17,12 +17,11 @@
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\PlanetType;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\BattleEngine\BattleResult;
 use App\Game\Core\ResourceUpdate;
-use App\Game\Core\StoredData;
-use OutOfRangeException;
 
 /**
  * Shared part of the fleet missions that end in a real fight at the target planet (attack and moon destruction):
@@ -93,7 +92,7 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
         // select wreckfield to lock it, can be empty.
         // The repair dock can only be built on planets (uni1_vars.onPlanetType = 1), never on moons, so the wrecks of
         // a moon fight belong to the parent planet's dock. Battle, spy report and dock all use the parent planet id.
-        if ($targetPlanet['planet_type'] == 3) {
+        if ($targetPlanet['planet_type'] == PlanetType::Moon->value) {
             $sql = "SELECT * FROM %%PLANETS%% WHERE `id_luna` = :planetId;";
             $targetPlanetID = $db->selectSingle($sql, [
                 ':planetId' => $this->_fleet['end_id'],
@@ -143,7 +142,7 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
         $planetDebris = [];
         $debrisResource = [RESOURCE_METAL, RESOURCE_CRYSTAL];
 
-        if ($this->_fleet['end_type'] == TYPE_MOON) {
+        if ($this->_fleet['end_type'] == PlanetType::Moon->value) {
             // Use planet debris, if attack on moons
             $sql = "SELECT `der_metal`, `der_crystal` FROM %%PLANETS%% WHERE `id_luna` = :moonId;";
             $targetDebris = $db->selectSingle($sql, [
@@ -229,11 +228,15 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
         return $class;
     }
 
-    /** Writes the debris field after the fight into the target planet (the parent planet of a moon) and activates it. */
+    /**
+     * Writes the debris field after the fight into the target planet (the parent planet of a moon) and activates it.
+     *
+     * @param array<mixed> $planetDebris
+     */
     protected function writeDebris(array $planetDebris): void
     {
         $db = $this->db;
-        if ($this->_fleet['end_type'] == TYPE_MOON) {
+        if ($this->_fleet['end_type'] == PlanetType::Moon->value) {
             $debrisType = 'id_luna';
         } else {
             $debrisType = 'id';
@@ -253,7 +256,11 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
         ]);
     }
 
-    /** Takes the loot from the target planet. */
+    /**
+     * Takes the loot from the target planet.
+     *
+     * @param array<mixed> $stealResource
+     */
     protected function takeLoot(array $stealResource): void
     {
         $db = $this->db;

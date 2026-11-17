@@ -175,7 +175,7 @@ sys_mess_spy_destroyed: Твои Шпионские зонды уничтоже�
 sys_mess_spy_ennemyfleet_1: Вражеские Шпионские зонды с планеты %s замечены возле %s.
 sys_mess_spy_ennemyfleet_3: Вражеские Шпионские зонды с луны %s замечены возле %s.
 sys_mess_spy_link: >-
-  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: "Шанс обнаружения Шпионских зондов: %d%%"
 sys_mess_spy_qg: Шпионский отдел
@@ -204,7 +204,7 @@ sys_spy_fleet: Флот
 sys_stat_mess: Твой флот с %s %s прибыл на %s %s %s и доставил %s %s, %s %s и %s %s. %s
 sys_stat_mess_stay: Флот на удержании
 sys_stealed_ressources: Атакующий получил
-sys_trade_mess_arr_success: "Твой торговый флот готов вернуться на %1$s %2$s (обратный полёт: %5$s). <form action=\"game?page=fleetTable&amp;action=sendfleetback\" method=\"post\"><input name=\"fleetID\" value=\"%3$s\" type=\"hidden\"><input value=\"%4$s\" type=\"submit\"></form>"
+sys_trade_mess_arr_success: "Твой торговый флот готов вернуться на %1$s %2$s (обратный полёт: %5$s). <form action=\"game/fleet/recall\" method=\"post\"><input name=\"fleetID\" value=\"%3$s\" type=\"hidden\"><input value=\"%4$s\" type=\"submit\"></form>"
 sys_trade_mess_back: Твой торговый флот вернулся на %s %s ни с чем.
 sys_trade_mess_back_success: Твой торговый флот успешно вернулся на %4$s %5$s с %1$s металла, %2$s кристалла и %3$s дейтерия.
 sys_tran_mess_back: Твой флот вернулся на %s %s.

@@ -2,9 +2,6 @@
 
 namespace App\Game\Core\Config;
 
-use App\Game\Core\HTTP;
-use App\Game\Core\Config\ConfigFieldSchema;
-
 /**
  * Processor for config fields
  * Unifies the processing of all config parameters
@@ -13,8 +10,11 @@ class ConfigFieldProcessor
 {
     /**
      * Processes POST data according to schema
+     *
+     * @param array<mixed> $schema
+     * @return array<mixed>
      */
-    public static function processPostData(array $schema, \App\Game\Core\HTTP $http, ?object $current = null): array
+    public static function processPostData(array $schema, \App\Game\Core\RequestInput $input, ?object $current = null): array
     {
         $processed = [];
 
@@ -23,7 +23,7 @@ class ConfigFieldProcessor
             if (($fieldConfig['type'] ?? '') === ConfigFieldSchema::TYPE_NONE) {
                 continue;
             }
-            $processed[$fieldName] = self::processField($fieldName, $fieldConfig, $http);
+            $processed[$fieldName] = self::processField($fieldName, $fieldConfig, $input);
             // secrets are never shown in the form: an empty input keeps the stored value
             if (!empty($fieldConfig['secret']) && $processed[$fieldName] === '' && $current !== null) {
                 $processed[$fieldName] = (string) ($current->$fieldName ?? '');
@@ -35,8 +35,10 @@ class ConfigFieldProcessor
 
     /**
      * Processes a single field
+     *
+     * @param array<mixed> $config
      */
-    private static function processField(string $fieldName, array $config, \App\Game\Core\HTTP $http): mixed
+    private static function processField(string $fieldName, array $config, \App\Game\Core\RequestInput $input): mixed
     {
         $type = $config['type'] ?? 'text';
         $transform = $config['transform'] ?? 'string';
@@ -44,11 +46,11 @@ class ConfigFieldProcessor
 
         // Checkbox: special handling
         if ($type === ConfigFieldSchema::TYPE_CHECKBOX) {
-            return isset($http->post()[$fieldName]) && $http->post()[$fieldName] === 'on' ? 1 : 0;
+            return isset($input->post()[$fieldName]) && $input->post()[$fieldName] === 'on' ? 1 : 0;
         }
 
-        // Other types: read via HTTP::_GP
-        $value = $http->_GP($fieldName, $default);
+        // Other types: read via RequestInput::typed
+        $value = $input->typed($fieldName, $default);
 
         if ($type === ConfigFieldSchema::TYPE_NUMBER || $type === ConfigFieldSchema::TYPE_SLIDER || $type === ConfigFieldSchema::TYPE_FLOAT) {
             $value = min(max($value, $config['min'] ?? PHP_INT_MIN), $config['max'] ?? PHP_INT_MAX);
@@ -103,6 +105,8 @@ class ConfigFieldProcessor
     /**
      * Splits configuration values for template display
      * (Reverse of transformations)
+     *
+     * @return array<mixed>
      */
     public static function prepareTemplateData(object $config, ConfigFieldSchema $schema): array
     {
@@ -158,6 +162,8 @@ class ConfigFieldProcessor
 
     /**
      * Creates before/after snapshots for logging
+     *
+     * @return array<mixed>
      */
     public static function createSnapshot(object $config, ConfigFieldSchema $schema): array
     {

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Game\Core;
 
+use App\Game\Enum\MessageType;
+use App\Game\Enum\Mission;
+
 /**
  * Alliance Depot (building 34): the owner of a planet with a depot can extend the stay of friendly fleets that hold
  * (mission hold, status FLEET_HOLD) at that planet, paying deuterium from the planet.
@@ -17,7 +20,7 @@ namespace App\Game\Core;
  * fleets.stay_time and fleets.return_time by the same seconds and sets the event time to the new stay_time.
  *
  * Collaborators: Database (PLANETS, FLEETS, FLEETS_EVENT, LOG_FLEETS, USERS_SETTINGS, MESSAGES), Singleton (pricelist,
- * runtime time), ResourcePersistence (debit), PlayerUtil (message), Language.
+ * runtime time), ResourcePersistence (debit), PlayerMessenger (message), Language.
  */
 class AllianceDepot
 {
@@ -107,7 +110,7 @@ class AllianceDepot
             ORDER BY f.`stay_time` ASC, f.`id` ASC;',
             [
                 ':planetId' => $planetId,
-                ':mission' => MISSION_HOLD,
+                ':mission' => Mission::Hold->value,
                 ':status' => FLEET_HOLD,
                 ':ownerId' => $depotOwnerId,
                 ':now' => $now,
@@ -166,7 +169,7 @@ class AllianceDepot
             );
             if (
                 empty($fleet)
-                || (int) $fleet['mission'] !== MISSION_HOLD
+                || (int) $fleet['mission'] !== Mission::Hold->value
                 || (int) $fleet['status'] !== FLEET_HOLD
                 || (int) $fleet['end_id'] !== $planetId
                 || (int) $fleet['owner'] === $depotOwnerId
@@ -255,14 +258,14 @@ class AllianceDepot
         $LNG = new Language($this->configs, $language ?: null);
         $LNG->includeData(['L18N', 'FLEET', 'TECH', 'CUSTOM']);
 
-        $coords = '<a href="game?page=galaxy&amp;galaxy=' . $extension['galaxy'] . '&amp;system=' . $extension['system']
+        $coords = '<a href="game/galaxy/' . $extension['galaxy'] . '/' . $extension['system']
             . '">[' . $extension['galaxy'] . ':' . $extension['system'] . ':' . $extension['planet'] . ']</a>';
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $extension['fleetOwner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['depot_msg_subject'],
             $LNG->format('depot_msg_text', $coords, $depotOwnerName, $extension['hours']),
             $this->state->runtime->timestamp,

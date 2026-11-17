@@ -50,7 +50,7 @@ class AllianceMembershipService
                 $this->viewHelpers()->prettyNumber($diff_points),
             );
 
-            throw AllianceException::message($messageText, $LNG['sys_back'], '?page=alliance');
+            throw AllianceException::message($messageText, $LNG['sys_back'], 'game_alliance_show');
         }
     }
 
@@ -65,7 +65,7 @@ class AllianceMembershipService
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $back = '?page=alliance&mode=create';
+        $back = 'game_alliance_create';
 
         $allianceTag = preg_replace('/[^a-zA-Z0-9 (-)_äöüßÄÖÜ]/', '', $allianceTag);
         $allianceName = preg_replace('/[^a-zA-Z0-9 (-)_äöüßÄÖÜ]/', '', $allianceName);
@@ -82,7 +82,7 @@ class AllianceMembershipService
             throw AllianceException::message($LNG['al_name_tag_too_long'], $LNG['sys_back'], $back);
         }
 
-        if (!$this->playerUtil()->isNameValid($allianceName) || !$this->playerUtil()->isNameValid($allianceTag)) {
+        if (!$this->playerRegistration()->isNameValid($allianceName) || !$this->playerRegistration()->isNameValid($allianceTag)) {
             throw AllianceException::message($LNG['al_newname_specialchar'], $LNG['sys_back'], $back);
         }
 

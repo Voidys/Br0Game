@@ -17,45 +17,36 @@
 
 namespace App\Controller\Login;
 
+use App\Routing\GameRoute;
 use Exception;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Session;
-use App\Game\Core\Singleton;
-use App\Game\Core\AccountUtil;
-use App\Game\Core\Mail;
+use Symfony\Component\HttpFoundation\Response;
 
 /** Account verification link from the registration mail (modes: show, json). */
-#[\App\Routing\GamePage('index', 'vertify')]
 class VertifyController extends AbstractLoginController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Completes the registration from the mail link. Request: i (validation id), k (key); the row in ACCOUNTS_VALID must match
      * and be younger than 3 days, otherwise a message is shown. Removes the pending row, creates the account through
      * AccountUtil::createAccount, mails a welcome message when mail is enabled (failures are ignored) and credits the referrer if
      * a referral id was stored (kept in ACCOUNTS.referralID until the first player is created, see Account\RegisterController).
+     *
+     * @return array{accountID: int|string, accountname: string}|Response the new account, or the message page for an unknown link
      */
-    private function _activeUser()
+    private function _activeUser(): array|Response
     {
         $LNG = $this->state->LNG;
 
-        $validationID	= $this->http()->_GP('i', 0);
-        $validationKey	= $this->http()->_GP('k', '');
+        $validationID	= $this->input()->int('i');
+        $validationKey	= $this->input()->string('k');
 
         $db = $this->db;
 
         // claim and account creation run under the registration lock: the link works exactly once, however many
         // requests (double click, mail scanner) arrive together
-        $result = $this->withRegistrationLock(fn(): ?array => $this->claimPendingRegistration((int) $validationID, (string) $validationKey));
+        $result = $this->withRegistrationLock(fn(): ?array => $this->claimPendingRegistration($validationID, $validationKey));
 
         if ($result === null) {
-            $this->printMessage($LNG['vertifyNoUserFound']);
+            return $this->messageResponse($LNG['vertifyNoUserFound']);
         }
         [$userData, $accountID] = $result;
 
@@ -130,28 +121,36 @@ class VertifyController extends AbstractLoginController
     /**
      * Verification link target: activates the account (see _activeUser) and logs it in, then redirects to /account.
      */
-    public function show()
+    #[GameRoute('index', 'verify', 'verify')]
+    public function show(): Response
     {
         $userData	= $this->_activeUser();
+        if ($userData instanceof Response) {
+            return $userData;
+        }
         $db = $this->db;
         $sql = "SELECT * FROM %%ACCOUNTS%% WHERE `id` = :accountID;";
         $this->state->ACCOUNT = $db->selectSingle($sql, [
             ':accountID'	=> $userData['accountID'],
         ]);
-        $this->state->ACCOUNT = $this->state->ACCOUNT;
         // verified: log the new account in (the game session follows on the account page)
         $this->state->auth->login((int) $userData['accountID']);
 
-        $this->http()->redirectTo('account');
+        return $this->redirectResponse('account');
     }
 
     /**
      * Activates the account like show() but does not log in; answers the message vertifyAdminMessage as JSON.
      */
-    public function json()
+    #[GameRoute('index', 'verify/json', 'verify', 'json')]
+    public function json(): Response
     {
         $LNG = $this->state->LNG;
         $userData	= $this->_activeUser();
-        $this->sendJSON($LNG->format('vertifyAdminMessage', $userData['accountname']));
+        if ($userData instanceof Response) {
+            return $userData;
+        }
+
+        return $this->jsonResponse($LNG->format('vertifyAdminMessage', $userData['accountname']));
     }
 }

@@ -176,7 +176,7 @@ sys_mess_spy_control: Centrale inlichtingendienst
 sys_mess_spy_destroyed: Je spionagesondes zijn vernietigd!
 sys_mess_spy_ennemyfleet_1: Vijandelijke spionagesondes van planeet %s zijn waargenomen bij %s.
 sys_mess_spy_ennemyfleet_3: Vijandelijke spionagesondes van maan %s zijn waargenomen bij %s.
-sys_mess_spy_link: <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_link: <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: 'De kans dat de spionagesondes werden ontdekt was: %d%%'
 sys_mess_spy_qg: Spionageafdeling
 sys_mess_spy_repair_order: Er worden momenteel schepen hersteld in het reparatiedok.
@@ -204,7 +204,7 @@ sys_spy_fleet: Vloot
 sys_stat_mess: Je vloot van %s %s is aangekomen op %s %s %s en leverde %s %s, %s %s en %s %s af. %s
 sys_stat_mess_stay: Gestationeerde vloot
 sys_stealed_ressources: Ze plunderen
-sys_trade_mess_arr_success: 'Je handelsvloot is klaar om terug te keren naar %1$s %2$s (terugvlucht: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
+sys_trade_mess_arr_success: 'Je handelsvloot is klaar om terug te keren naar %1$s %2$s (terugvlucht: %5$s). <form action="game/fleet/recall" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
 sys_trade_mess_back: Je handelsvloot is zonder succes teruggekeerd naar %s %s.
 sys_trade_mess_back_success: Je handelsvloot is met succes teruggekeerd naar %4$s %5$s met %1$s metaal, %2$s kristal en %3$s deuterium.
 sys_tran_mess_back: Je vloot is teruggekeerd naar %s %s.

@@ -4,7 +4,6 @@ namespace App\Runtime;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use App\Game\Core\Database;
 use Twig\Environment;
 use App\Game\Core\Language;
 use App\Game\Core\Singleton;
@@ -90,11 +89,21 @@ final class GameKernel
         $request->server->set('SCRIPT_FILENAME', $root . $scriptName);
         $request->server->set('SCRIPT_NAME', '/' . $scriptName);
         $request->server->set('PHP_SELF', '/' . $scriptName);
+        // directory of the universe the page belongs to (`/`, `/uni5/`, with the base path of a sub-directory install)
+        if ($request->attributes->has('uni')) {
+            $request->server->set('GAME_HTTP_ROOT', $request->getBasePath() . '/' . $request->attributes->get('uni'));
+        }
 
         $this->state->request = $request;
         $this->state->requestQuery = $request->query->all();
         $this->state->requestPost = $request->request->all();
-        $this->state->requestInput = array_replace($request->query->all(), $request->request->all());
+        // path placeholders of the route ({id} in /news/{id}) are input like query and form fields, and win over them
+        $pathInput = array_filter(
+            (array) $request->attributes->get('_route_params', []),
+            static fn(mixed $value, string|int $key): bool => is_scalar($value) && $key !== 'uni' && !str_starts_with((string) $key, '_'),
+            ARRAY_FILTER_USE_BOTH,
+        );
+        $this->state->requestInput = array_replace($request->query->all(), $request->request->all(), $pathInput);
         $this->state->requestCookies = $request->cookies->all();
         $this->state->requestServer = $request->server->all();
         $this->state->responseHeaders = new ResponseHeaderBag();

@@ -17,16 +17,11 @@
 
 namespace App\Game\Missions;
 
-use App\Game\AdvancedStats\AdvancedStatsEnum;
+use App\Game\Enum\PlanetType;
+use App\Game\Enum\MessageType;
+use App\Game\Enum\Mission;
 use App\Game\Core\StoredData;
-use App\Game\BattleEngine\BattleHandler;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\FleetFunctions;
 use App\Game\Core\ResourceUpdate;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 
 /**
  * Mission "espionage" (6): probes spy on a planet or moon and deliver a spy report; the defender may shoot them down.
@@ -43,7 +38,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
 
     /**
      *
-     * @param array $targetPlanet
+     * @param array<string, mixed> $targetPlanet
      * @return array[]
      *
      * call AFTER stayfleets calculation, or calculate those yourself
@@ -167,7 +162,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
 
         // Scavengers Tool Box
 
-        $stbSettings = $this->playerUtil()->player_stb_settings($senderUser);
+        $stbSettings = $this->playerLookup()->player_stb_settings($senderUser);
 
         // determine if the spy report detects ships or deff
         $danger = $this->getDangerValue($spyData);
@@ -258,7 +253,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         $targetStayFleets = $this->db->select($sql, [
             ':planetId' => $this->_fleet['end_id'],
             ':time'     => $this->_fleet['arrival_time'],
-            ':mission'  => MISSION_HOLD,
+            ':mission'  => Mission::Hold->value,
         ]);
 
         foreach ($targetStayFleets as $fleetRow) {
@@ -316,6 +311,9 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      * drops zero entries.
      *
      * @param array<int, array<int, int>> $classIDs see visibleClasses()
+     * @param array<mixed> $senderUser
+     * @param array<string, mixed> $targetPlanet
+     * @param array<mixed> $targetUser
      * @return array<int, array<int, int|float|string>> class id => element id => amount
      */
     private function collectSpyData(array $classIDs, array|false $senderUser, array|false $targetUser, array $targetPlanet): array
@@ -356,6 +354,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      * report data. Wreck fields of moon fights are stored under the parent planet id.
      *
      * @param array<int, array<int, int|float|string>> $spyData report data, changed in place (class 200)
+     * @param array<string, mixed> $targetPlanet
      * @return array<int|string, int|float|string> the decoded repair order (empty when not visible or nothing repairing)
      */
     private function addRepairDockShips(array &$spyData, bool $spyFleet, array $targetPlanet): array
@@ -365,7 +364,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         if ($spyFleet && $this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK)) {
             // Wreck fields of moon fights are stored under the parent planet id
             $wreckPlanetID = $this->_fleet['end_id'];
-            if ($targetPlanet['planet_type'] == 3) {
+            if ($targetPlanet['planet_type'] == PlanetType::Moon->value) {
                 $wreckPlanetID = $db->selectSingle(
                     "SELECT `id` FROM %%PLANETS%% WHERE `id_luna` = :moonId;",
                     [':moonId' => $this->_fleet['end_id']],
@@ -393,6 +392,11 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
     /**
      * Sends the "foreign fleet seen" notice (spy defence message) to the target owner, in his language: who (sender
      * planet, owner, coordinates) probed which of his planets. Sent on every probe arrival.
+     *
+     * @param array<mixed> $senderPlanet
+     * @param array<mixed> $senderUser
+     * @param array<string, mixed> $targetPlanet
+     * @param array<mixed> $targetUser
      */
     private function notifyTargetOwner(array|false $senderUser, array|false $targetUser, array|false $senderPlanet, array $targetPlanet): void
     {
@@ -422,11 +426,11 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $targetLink,
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['target_owner'],
             0,
             $LNG['sys_mess_spy_control'],
-            MESSAGE_TYPE_SPY_DEFENCE,
+            MessageType::SpyDefence->value,
             $LNG['sys_mess_spy_activity'],
             $targetMessage,
             $this->_fleet['arrival_time'],
@@ -444,7 +448,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
     {
         $e = $this->elements();
         $config = $this->configs->get($this->_fleet['universe']);
-        $whereCol = $this->_fleet['end_type'] == 3 ? "id_luna" : "id";
+        $whereCol = $this->_fleet['end_type'] == PlanetType::Moon->value ? "id_luna" : "id";
 
         $sql = 'UPDATE %%PLANETS%% SET
 			der_metal   = der_metal + :metal,

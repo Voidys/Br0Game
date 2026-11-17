@@ -13,22 +13,15 @@
 
 namespace App\Controller\Game;
 
-use Symfony\Component\HttpFoundation\Response;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Advanced statistics page of the player.
  */
-#[\App\Routing\GamePage('game', 'advancedStats')]
 class AdvancedStatsController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Whether an advanced-statistics key is shown: keys ending in an element id (e.g. `destroyed_202`) only for
      * buildings, research, ships, defense, missiles or the three resources that are enabled in this universe;
@@ -60,6 +53,7 @@ class AdvancedStatsController extends AbstractGameController
     /**
      * Advanced statistics of the player (counters from AdvancedStats such as built, repaired or destroyed elements), grouped for the template.
      */
+    #[GameRoute('game', 'game/stats', 'advancedStats')]
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -98,7 +92,7 @@ class AdvancedStatsController extends AbstractGameController
         $expo = $groups['expo_'];
         $first = $groups['first_'];
 
-        $this->assign([
+        return $this->render('game/page.advancedStats.default.html.twig', [
             'build'     => $build,
             'lost'      => $lost,
             'repaired'  => $repaired,
@@ -107,8 +101,6 @@ class AdvancedStatsController extends AbstractGameController
             'first'     => $first,
             'rest'      => $rest,
         ]);
-
-        return $this->render('game/page.advancedStats.default.html.twig');
     }
 
     /**

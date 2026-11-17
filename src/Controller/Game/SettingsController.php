@@ -19,49 +19,33 @@ namespace App\Controller\Game;
 
 use App\Game\Settings\SettingsRefused;
 use App\Game\Settings\SettingsUpdater;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Markup;
-use App\Game\Achievements\MiscAchievement;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HangarFilters;
-use App\Game\Core\NumberAbbreviation;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Session;
-use App\Game\Core\Singleton;
 use App\Game\Core\Theme;
-use App\Game\Core\Universe;
 
 /**
  * Player settings: account data, display, fleet and notification options, vacation mode and account deletion.
  */
-#[\App\Routing\GamePage('game', 'settings')]
 class SettingsController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Settings page of the player: while in vacation mode only the vacation view is rendered, otherwise the options form (display, fleet, notification
      * settings and the buttons for vacation mode and account deletion).
      */
+    #[GameRoute('game', 'game/settings', 'settings')]
     public function show(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         if ($USER['urlaubs_modus'] == 1) {
-            $this->assign([
+            return $this->render('game/page.settings.vacation.html.twig', [
                 'vacationUntil'         => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['urlaubs_until'], $USER['timezone']),
                 'delete'                => $USER['db_deaktjava'],
                 'canVacationDisbaled'   => $USER['urlaubs_until'] < $this->state->runtime->timestamp,
             ]);
-
-            return $this->render('game/page.settings.vacation.html.twig');
         } else {
             $db = $this->db;
             $sql = "SELECT prioMission1 as 'type_mission_1', prioMission2 as 'type_mission_2', 
@@ -74,14 +58,14 @@ class SettingsController extends AbstractGameController
                 ':userID'   => $USER['id'],
             ]);
 
-            $this->assign($this->selectorOptions());
-            $this->assign($this->accountSettings($USER));
-            $this->assign($this->galaxyAndSpySettings($USER));
-            $this->assign($this->interfaceSettings($USER));
-            $this->assign(['missionPrios' => $missionprios]);
-            $this->assign($this->hangarSettings($USER));
-
-            return $this->render('game/page.settings.default.html.twig');
+            return $this->render('game/page.settings.default.html.twig', [
+                ...$this->selectorOptions(),
+                ...$this->accountSettings($USER),
+                ...$this->galaxyAndSpySettings($USER),
+                ...$this->interfaceSettings($USER),
+                'missionPrios' => $missionprios,
+                ...$this->hangarSettings($USER),
+            ]);
         }
     }
 
@@ -176,8 +160,8 @@ class SettingsController extends AbstractGameController
             'SELF_URL'                      => $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpRoot,
             'colors'                        => $USER['colors'],
             'signalColors'                  => $USER['signalColors'],
-            'defaultColors'                 => $this->playerUtil()->player_colors(),
-            'defaultSignalColors'           => $this->playerUtil()->player_signal_colors(),
+            'defaultColors'                 => $this->playerLookup()->player_colors(),
+            'defaultSignalColors'           => $this->playerLookup()->player_signal_colors(),
             'stb_small_ress'                => $USER['stb_small_ress'],
             'stb_med_ress'                  => $USER['stb_med_ress'],
             'stb_big_ress'                  => $USER['stb_big_ress'],
@@ -225,26 +209,22 @@ class SettingsController extends AbstractGameController
             'hangarGroupAll'                => $this->hangarFilters()->hasGroup($hangarFilters, 'all'),
             'colonyWarn'                    => $USER['colonyWarn'],
             'noobInterface'                 => $USER['noob_interface'],
-            'accountId'                     => $this->playerUtil()->get_account_id($USER['id']),
+            'accountId'                     => $this->playerLookup()->get_account_id($USER['id']),
         ];
     }
 
     /**
      * Switches vacation mode. Leaving is only possible after `urlaubs_until`; entering needs checkVMode() to pass. Locks user and planet
-     * rows, then PlayerUtil::enable_vmode / disable_vmode, and ends with a message.
+     * rows, then VacationMode::enable_vmode / disable_vmode, and ends with a message.
      */
-    public function toggleVacation()
+    #[GameRoute('game', 'game/settings/vacation', 'settings', 'toggleVacation', ['POST'])]
+    public function toggleVacation(): Response
     {
         $LNG = $this->state->LNG;
 
         if ($this->state->USER['urlaubs_modus'] == 1) {
             if ($this->state->USER['urlaubs_until'] > $this->state->runtime->timestamp) {
-                $this->printMessage($LNG['op_cant_deactivate_vacation_mode'], [
-                    [
-                        'label' => $LNG['sys_forward'],
-                        'url'   => 'game?page=settings',
-                    ],
-                ]);
+                return $this->messageResponse($LNG['op_cant_deactivate_vacation_mode'], $this->settingsButton($LNG['sys_forward']));
             }
 
             $db = $this->db;
@@ -262,26 +242,16 @@ class SettingsController extends AbstractGameController
                 ':userID'   => $this->state->USER['id'],
             ]);
 
-            $this->playerUtil()->disable_vmode($this->state->USER, $this->state->PLANET);
+            $this->vacationMode()->disable_vmode($this->state->USER, $this->state->PLANET);
             $db->commit();
 
-            $this->printMessage($LNG['op_options_vacation_deactivated'], [
-                [
-                    'label' => $LNG['sys_forward'],
-                    'url'   => 'game?page=settings',
-                ],
-            ]);
+            return $this->messageResponse($LNG['op_options_vacation_deactivated'], $this->settingsButton($LNG['sys_forward']));
         } else {
             if (!$this->checkVMode()) {
-                $this->printMessage($LNG['op_cant_activate_vacation_mode'], [
-                    [
-                        'label' => $LNG['sys_back'],
-                        'url'   => 'game?page=settings',
-                    ],
-                ]);
+                return $this->messageResponse($LNG['op_cant_activate_vacation_mode'], $this->settingsButton($LNG['sys_back']));
             }
 
-            $this->playerUtil()->enable_vmode($this->state->USER, $this->state->PLANET);
+            $this->vacationMode()->enable_vmode($this->state->USER, $this->state->PLANET);
             $this->db->commit();
             $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
             $statsHandler->setTimestamp($this->state->USER['id'], AdvancedStatsEnum::FIRST_VACATION, $this->state->runtime->timestamp);
@@ -292,19 +262,15 @@ class SettingsController extends AbstractGameController
             if ($this->viewHelpers()->isModuleAvailable(MODULE_VMODE_KICK, $this->state->USER['universe'])) {
                 $text .= $LNG['tn_vacation_mode_kick'];
             }
-            $this->printMessage(new Markup($text, 'UTF-8'), [
-                [
-                    'label' => $LNG['sys_forward'],
-                    'url'   => 'game?page=settings',
-                ],
-            ]);
+            return $this->messageResponse(new Markup($text, 'UTF-8'), $this->settingsButton($LNG['sys_forward']));
         }
     }
 
     /**
      * Toggles the deletion flag (`db_deaktjava` = request time, or 0 to cancel); the maintenance cronjob deletes flagged players later. Ends with a message.
      */
-    public function toggleDelete()
+    #[GameRoute('game', 'game/settings/delete', 'settings', 'toggleDelete', ['POST'])]
+    public function toggleDelete(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
@@ -330,12 +296,7 @@ class SettingsController extends AbstractGameController
             if ($USER['urlaubs_modus'] == 0) { // only in standard settings menu
                 $text .= '<br>' . $LNG['op_options_no_other_settings_changed'];
             }
-            $this->printMessage(new Markup($text, 'UTF-8'), [
-                [
-                    'label' => $LNG['sys_forward'],
-                    'url'   => 'game?page=settings',
-                ],
-            ]);
+            return $this->messageResponse(new Markup($text, 'UTF-8'), $this->settingsButton($LNG['sys_forward']));
         } else {
             $sql = "UPDATE %%USERS%% SET db_deaktjava = 0 WHERE id = :userID;";
             $db->update($sql, [':userID'   => $USER['id']]);
@@ -345,12 +306,7 @@ class SettingsController extends AbstractGameController
             if ($USER['urlaubs_modus'] == 0) { // only in standard settings menu
                 $text .= '<br>' . $LNG['op_options_no_other_settings_changed'];
             }
-            $this->printMessage(new Markup($text, 'UTF-8'), [
-                [
-                    'label' => $LNG['sys_forward'],
-                    'url'   => 'game?page=settings',
-                ],
-            ]);
+            return $this->messageResponse(new Markup($text, 'UTF-8'), $this->settingsButton($LNG['sys_forward']));
         }
     }
 
@@ -401,25 +357,26 @@ class SettingsController extends AbstractGameController
     /**
      * Saves the settings form (delegates to the settings saving code) and ends with a message.
      */
-    public function send()
+    #[GameRoute('game', 'game/settings', 'settings', 'send', ['POST'])]
+    public function send(): Response
     {
         $LNG = $this->state->LNG;
         try {
             (new SettingsUpdater($this->db, $this->configs, $this->state))->save();
         } catch (SettingsRefused $refused) {
-            $this->printMessage($refused->getMessage(), [
-                [
-                    'label' => $LNG['sys_back'],
-                    'url'   => 'game?page=settings',
-                ],
-            ]);
+            return $this->messageResponse($refused->getMessage(), $this->settingsButton($LNG['sys_back']));
         }
 
-        $this->printMessage($LNG['op_options_changed'], [
-            [
-                'label' => $LNG['sys_forward'],
-                'url'   => 'game?page=settings',
-            ],
-        ]);
+        return $this->messageResponse($LNG['op_options_changed'], $this->settingsButton($LNG['sys_forward']));
+    }
+
+    /**
+     * The "back to the settings" button under the message pages of the settings actions.
+     *
+     * @return list<array{url: string, label: string}>
+     */
+    private function settingsButton(string $label): array
+    {
+        return [['label' => $label, 'url' => $this->router->generate('game_settings_show')]];
     }
 }

@@ -14,9 +14,9 @@ class PersonalTab extends AccountEditorTab
         $LNG = $this->state->LNG;
         $db = $this->db;
         if ($this->state->requestPost) {
-            $id = $this->http()->_GP('id', 0);
-            $username = $this->http()->_GP('username', '', UTF8_SUPPORT);
-            $vacation = $this->http()->_GP('vacation', '');
+            $id = $this->input()->int('id');
+            $username = $this->input()->string('username', '', UTF8_SUPPORT);
+            $vacation = $this->input()->string('vacation');
 
             $sql = "SELECT `username`,`urlaubs_modus`,`urlaubs_until`,`universe`
             FROM %%USERS%% WHERE `id` = :userID;";
@@ -34,10 +34,10 @@ class PersonalTab extends AccountEditorTab
             if ($vacation == 'yes') {
                 $QryUpdate['urlaubs_modus'] = 1;
                 $afterPersonal['urlaubs_modus'] = 1;
-                $d = $this->http()->_GP('d', 0);
-                $h = $this->http()->_GP('h', 0);
-                $m = $this->http()->_GP('m', 0);
-                $s = $this->http()->_GP('s', 0);
+                $d = $this->input()->int('d');
+                $h = $this->input()->int('h');
+                $m = $this->input()->int('m');
+                $s = $this->input()->int('s');
                 $TimeAns = $this->state->runtime->timestamp + $d * 86400 + $h * 3600 + $m * 60 + $s;
                 $QryUpdate['urlaubs_until'] = $TimeAns;
                 $afterPersonal['urlaubs_until'] = $TimeAns;
@@ -53,7 +53,7 @@ class PersonalTab extends AccountEditorTab
                 $LOG->new = $afterPersonal;
                 $LOG->save();
             }
-            $this->responder->message($LNG['ad_personal_succes'], '?page=accountEditor&edit=personal');
+            $this->responder->message($LNG['ad_personal_succes'], 'admin/accounts/edit/personal');
         }
 
         $this->responder->assign([

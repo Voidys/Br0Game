@@ -17,30 +17,24 @@
 
 namespace App\Controller\Game;
 
-use Symfony\Component\HttpFoundation\Response;
+use App\Routing\GameRoute;
 use Parsedown;
+use Symfony\Component\HttpFoundation\Response;
 
 /** Changelog page: renders CHANGES.md. */
-#[\App\Routing\GamePage('game', 'changelog')]
 class ChangelogController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Renders CHANGES.md as the changelog page.
      */
+    #[GameRoute('game', 'game/changelog', 'changelog')]
     public function show(): Response
     {
         $parsedown = new Parsedown();
 
-        $this->assign([
+        return $this->render('game/page.changelog.default.html.twig', [
             // CHANGES.md is part of the code base: its Markdown rendering is trusted HTML
             'ChangelogList'	=> new \Twig\Markup($parsedown->text(file_get_contents($this->state->runtime->rootPath . 'CHANGES.md')), 'UTF-8'),
         ]);
-
-        return $this->render('game/page.changelog.default.html.twig');
     }
 }

@@ -1,8 +1,8 @@
 {# creator sub navigation; expects createMode (account|user|planet|moon|testData) #}
 <nav class="tabs">
-  <a href="?page=creator&amp;mode=account"{% if createMode == 'account' %} aria-current="page"{% endif %}>{{ icon('id-card') }}{{ LNG.new_creator_title_a }}</a>
-  <a href="?page=creator&amp;mode=user"{% if createMode == 'user' %} aria-current="page"{% endif %}>{{ icon('user-plus') }}{{ LNG.new_creator_title_u }}</a>
-  <a href="?page=creator&amp;mode=planet"{% if createMode == 'planet' %} aria-current="page"{% endif %}>{{ icon('globe') }}{{ LNG.new_creator_title_p }}</a>
-  <a href="?page=creator&amp;mode=moon"{% if createMode == 'moon' %} aria-current="page"{% endif %}>{{ icon('moon') }}{{ LNG.new_creator_title_l }}</a>
-  <a href="?page=creator&amp;mode=testData"{% if createMode == 'testData' %} aria-current="page"{% endif %}>{{ icon('flask-conical') }}{{ LNG.new_creator_title_t }}</a>
+  <a href="{{ path('admin_creator_tab', {tab: 'account'}) }}"{% if createMode == 'account' %} aria-current="page"{% endif %}>{{ icon('id-card') }}{{ LNG.new_creator_title_a }}</a>
+  <a href="{{ path('admin_creator_tab', {tab: 'user'}) }}"{% if createMode == 'user' %} aria-current="page"{% endif %}>{{ icon('user-plus') }}{{ LNG.new_creator_title_u }}</a>
+  <a href="{{ path('admin_creator_tab', {tab: 'planet'}) }}"{% if createMode == 'planet' %} aria-current="page"{% endif %}>{{ icon('globe') }}{{ LNG.new_creator_title_p }}</a>
+  <a href="{{ path('admin_creator_tab', {tab: 'moon'}) }}"{% if createMode == 'moon' %} aria-current="page"{% endif %}>{{ icon('moon') }}{{ LNG.new_creator_title_l }}</a>
+  <a href="{{ path('admin_creator_tab', {tab: 'test-data'}) }}"{% if createMode == 'testData' %} aria-current="page"{% endif %}>{{ icon('flask-conical') }}{{ LNG.new_creator_title_t }}</a>
 </nav>

@@ -3,7 +3,7 @@
  * tabs, sortable tables, autocomplete, planet selector, warning banners, list filters,
  * missile destruction, mobile sidebar and the automated-click report.
  */
-import { qs, qsa, on, show, hide, toggle, fadeOut, getText, getJSON, post, serialize, pretty_number } from './core.js';
+import { qs, qsa, on, show, hide, toggle, fadeOut, getText, getJSON, post, serialize, pretty_number, pageData } from './core.js';
 
 // ---------------------------------------------------------------------------------------- tabs
 
@@ -163,8 +163,8 @@ export function autocomplete(input, { source, onSelect, minLength = 2, delay = 2
 /** "drop admin access" / "drop rebuild protection" links in the warning banners */
 function warningBanners() {
   const drop = (url) => post(url, {}).then(() => qsa('.globalWarning').forEach((el) => fadeOut(el)));
-  on(document, 'click', '#drop-admin', (event) => { event.preventDefault(); drop('admin?page=logout'); });
-  on(document, 'click', '#drop-rebuild-protection', (event) => { event.preventDefault(); drop('game?page=rebuildProtectionAjax'); });
+  on(document, 'click', '#drop-admin', (event) => { event.preventDefault(); drop('admin/logout'); });
+  on(document, 'click', '#drop-rebuild-protection', (event, link) => { event.preventDefault(); drop(link.dataset.url); });
 
   // "x new messages" notice after login: close button (it is shown once per login anyway)
   on(document, 'click', '[data-login-notice-close]', (event, button) => {
@@ -174,10 +174,12 @@ function warningBanners() {
   });
 }
 
-/** Planet/moon dropdown: switching reloads the current page with `cp=<planet id>` (keeps the current query string). */
+/** Planet/moon dropdown: switching reloads the current page (path and query string kept) with `cp=<planet id>`. */
 function planetSelector() {
   on(document, 'change', '#planetSelector, [data-planet-selector]', (event, select) => {
-    document.location = `?${window.queryString ?? ''}&cp=${select.value}`;
+    const url = new URL(window.location.href);
+    url.searchParams.set('cp', select.value);
+    document.location = url.href;
   });
 }
 
@@ -209,9 +211,9 @@ function listFilters() {
   });
 }
 
-/** information page of the missile silo: destroy interplanetary/anti-ballistic missiles */
-export async function DestroyMissiles() {
-  const data = await post('?page=information&mode=destroyMissiles', serialize(qsa('.missile')), 'json');
+/** information page of the missile silo: destroy interplanetary/anti-ballistic missiles (`url`: the route of the button's data-url) */
+export async function DestroyMissiles(url) {
+  const data = await post(url, serialize(qsa('.missile')), 'json');
   const target502 = document.getElementById('missile_502');
   const target503 = document.getElementById('missile_503');
   if (target502) target502.textContent = pretty_number(data[0]);
@@ -252,7 +254,7 @@ function automationReport() {
     if (event.isTrusted) {
       humanInteraction = true;
     } else if (!humanInteraction && event.target instanceof Element) {
-      post('game?page=report', {
+      post(pageData('game-routes').clientReport, {
         hi: humanInteraction,
         u: document.location.href,
         o: event.target.outerHTML,

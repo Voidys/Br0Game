@@ -15,9 +15,19 @@
 
 namespace App\Controller\Login;
 
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
+
 /** Public team page (members from the admin team section). */
-#[\App\Routing\GamePage('index', 'team')]
 class TeamController extends AbstractLoginController
 {
-    use \App\Controller\Shared\TeamPage;
+    use \App\Controller\Shared\TeamPage {
+        show as protected renderTeam;
+    }
+
+    #[GameRoute('index', 'team', 'team')]
+    public function show(): Response
+    {
+        return $this->renderTeam();
+    }
 }

@@ -1,6 +1,5 @@
 {% include 'admin/overall_header.html.twig' %}
-<form action="" method="POST" name="accountswap" class="stack">
-  <input type="hidden" name="action" value="swap">
+<form action="{{ path('admin_account_swap_swap') }}" method="POST" name="accountswap" class="stack">
   <div class="notice notice--danger" role="alert">
     {{ icon('triangle-alert') }}
     <div>

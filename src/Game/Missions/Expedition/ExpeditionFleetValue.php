@@ -5,7 +5,6 @@ namespace App\Game\Missions\Expedition;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
-use App\Game\Core\Language;
 use App\Game\Core\Singleton;
 
 /**

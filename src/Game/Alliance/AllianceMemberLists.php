@@ -150,6 +150,9 @@ class AllianceMemberLists
     /**
      * Shared body of mainAlliances()/wingAlliances(): runs the query for the linked alliances (rows id, ally_name,
      * ally_tag, ally_owner, ally_owner_range) and builds the member list of each.
+     *
+     * @param array<string, mixed> $alliance
+     * @return array<mixed>
      */
     private function linkedAlliances(string $sql, array $alliance, string $headerKey, string $dataKey): array
     {
@@ -176,6 +179,7 @@ class AllianceMemberLists
      * Member rows of one alliance for the display lists.
      *
      * @param array<string, mixed> $alliance needs id, ally_owner, ally_owner_range
+     * @return array<mixed>
      */
     private function rowsOf(array $alliance): array
     {
@@ -212,13 +216,20 @@ class AllianceMemberLists
         return $memberList;
     }
 
+    /**
+     * @param array<mixed> $memberRow
+     * @param array<string, mixed> $user
+     */
     private function statusClass(array $user, array $memberRow): mixed
     {
-        $isNoobProtected = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($user), $this->models()->user($memberRow));
+        $isNoobProtected = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($user), $this->models()->user($memberRow));
 
-        return $this->playerUtil()->userStatus($memberRow, $isNoobProtected);
+        return $this->protectionRules()->userStatus($memberRow, $isNoobProtected);
     }
 
+    /**
+     * @param array<mixed> $memberRow
+     */
     private function idleMinutes(array $memberRow): float|int
     {
         return floor(($this->state->runtime->timestamp - $memberRow['onlinetime']) / 60);

@@ -17,12 +17,12 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * List of banned players.
  */
-#[\App\Routing\GamePage('game', 'banList')]
 #[\App\Controller\RequireModule('MODULE_BANLIST')]
 class BanListController extends AbstractGameController
 {
@@ -31,10 +31,9 @@ class BanListController extends AbstractGameController
     /**
      * Ban list of the universe; start and end of the bans in the player timezone.
      */
+    #[GameRoute('game', 'game/banlist', 'banList')]
     public function show(): Response
     {
-        $this->assign($this->banListData($this->state->USER['timezone']));
-
-        return $this->render('game/page.banList.default.html.twig');
+        return $this->render('game/page.banList.default.html.twig', $this->banListData($this->state->USER['timezone']));
     }
 }

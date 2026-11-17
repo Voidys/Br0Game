@@ -82,8 +82,8 @@ class AllianceRankService
     {
         $LNG = $this->state->LNG;
 
-        if (!$this->playerUtil()->isNameValid($newRank['rankName']) || mb_strlen($newRank['rankName']) > 32) {
-            throw AllianceException::message($LNG['al_invalid_rank_name'], $LNG['sys_back'], '?page=alliance&mode=admin&action=permission');
+        if (!$this->playerRegistration()->isNameValid($newRank['rankName']) || mb_strlen($newRank['rankName']) > 32) {
+            throw AllianceException::message($LNG['al_invalid_rank_name'], $LNG['sys_back'], 'game_alliance_admin_permissions');
         }
 
         $insert = $this->db->qb()
@@ -151,10 +151,10 @@ class AllianceRankService
             }
 
             if (
-                !$this->playerUtil()->isNameValid($rowData['rankName'] ?? '')
+                !$this->playerRegistration()->isNameValid($rowData['rankName'] ?? '')
                 || mb_strlen($rowData['rankName']) > 32
             ) {
-                throw AllianceException::message($LNG['al_invalid_rank_name'], $LNG['sys_back'], '?page=alliance&mode=admin&action=permissions');
+                throw AllianceException::message($LNG['al_invalid_rank_name'], $LNG['sys_back'], 'game_alliance_admin_permissions');
             }
 
             $values = ['rankName' => $rowData['rankName']];

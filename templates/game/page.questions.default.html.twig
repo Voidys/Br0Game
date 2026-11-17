@@ -10,7 +10,7 @@
 		<ul>
 		{% for questionID, questionRow in categoryRow %}
 		{% if is_numeric(questionID) %}
-			<li><a href="game?page=questions&amp;mode=single&amp;categoryID={{ categoryID }}&amp;questionID={{ questionID }}">{{ questionRow.title }}</a></li>
+			<li><a href="{{ path('game_questions_single', {categoryID: categoryID, questionID: questionID}) }}">{{ questionRow.title }}</a></li>
 		{% endif %}
 		{% endfor %}
 		</ul>

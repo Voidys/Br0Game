@@ -7,6 +7,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    app.config_cache: true
     # game session storage unless SESSION_HANDLER_DSN is set (framework.session.handler_id)
     session_handler_default: 'file://%kernel.project_dir%/var/sessions'
     # private messages one player may send or forward per window (rate limiter "private_messages")
@@ -75,7 +76,10 @@ services:
         arguments:
             $connection: '@doctrine.dbal.default_connection'
             $debug: '%kernel.debug%'
-    App\Game\Core\ConfigRegistry: ~
+    # parsed config in var/game/cache.config.php (ConfigCache); off in tests, which write the config tables directly
+    App\Game\Core\ConfigRegistry:
+        arguments:
+            $cacheEnabled: '%app.config_cache%'
     App\Game\Core\DeviceLinks:
         arguments:
             $secret: '%kernel.secret%'
@@ -99,3 +103,7 @@ services:
     App\Game\Bots\:
         resource: '../src/Game/Bots/'
         exclude: '../src/Game/Bots/{BotActions.php,Llm/LlmClient.php,Llm/LlmException.php,Llm/LlmUrlGuard.php}'
+
+when@test:
+    parameters:
+        app.config_cache: false

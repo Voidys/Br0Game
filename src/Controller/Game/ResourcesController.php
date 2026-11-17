@@ -17,30 +17,23 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\PlanetType;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
 use App\Game\Core\FormulaEvaluator;
-use App\Game\Core\ResourceUpdate;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
-/** Resource settings: production table of the current planet and production levels (modes: show, send). */
-#[\App\Routing\GamePage('game', 'resources')]
+/** Resource settings: production table of the current planet and production levels (actions: show, send). */
 #[\App\Controller\RequireModule('MODULE_RESSOURCE_LIST')]
 class ResourcesController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Saves the production levels (POST prod[<resource id>] = 0..10 in steps of 10%). Not in vacation mode. Locks the planet row, only
      * accepts columns `<resource>_porcent` that exist on the planet, locks the user row first, updates them and clears `eco_hash` so the production is recalculated.
      * Redirects back.
      */
-    public function send()
+    #[GameRoute('game', 'game/resources', 'resources', 'send', ['POST'])]
+    public function send(): Response
     {
         $e = $this->elements();
         if ($this->state->USER['urlaubs_modus'] == 0) {
@@ -86,13 +79,14 @@ class ResourcesController extends AbstractGameController
             $db->commit();
         }
 
-        $this->redirectTo('game?page=resources');
+        return $this->redirectToRoute('game_resources_show');
     }
 
     /**
      * Resource settings page: per-resource production breakdown of the current planet (plus, minus, bonus), storage capacity and the production level
      * selectors saved by send().
      */
+    #[GameRoute('game', 'game/resources', 'resources')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -151,7 +145,7 @@ class ResourcesController extends AbstractGameController
             $productionList[fusion_plant]['production'][RESOURCE_ENERGY] = $productionList[fusion_plant]['production'][RESOURCE_ENERGY] - $bonusProduction[RESOURCE_ENERGY];
         }
 
-        $this->assign([
+        return $this->render('game/page.resources.default.html.twig', [
             'header'                            => $LNG->format('rs_production_on_planet', $this->state->PLANET['name']),
             'prodSelector'                      => $prodSelector,
             'productionList'                    => $productionList,
@@ -170,8 +164,6 @@ class ResourcesController extends AbstractGameController
             'crystalBonusPercent'               => $crystal_bonus_percent * 100,
             'deuteriumBonusPercent'             => $deuterium_bonus_percent * 100,
         ]);
-
-        return $this->render('game/page.resources.default.html.twig');
     }
 
     /**
@@ -215,7 +207,7 @@ class ResourcesController extends AbstractGameController
     private function basicIncome(object $config): array
     {
         $e = $this->elements();
-        if ($this->state->USER['urlaubs_modus'] == 1 || $this->state->PLANET['planet_type'] != 1) {
+        if ($this->state->USER['urlaubs_modus'] == 1 || $this->state->PLANET['planet_type'] != PlanetType::Planet->value) {
             $basicIncome[RESOURCE_METAL] = 0;
             $basicIncome[RESOURCE_CRYSTAL] = 0;
             $basicIncome[RESOURCE_DEUT] = 0;

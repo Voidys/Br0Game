@@ -19,7 +19,7 @@ class ExpeditionCombatReport extends ExpeditionEvent
     <table>
         <tr>
             <td colspan="2">
-                <a href="CombatReport?raport=%s" target="_blank"><span class="%s">%s %s (%s)</span></a>
+                <a href="report/%s" target="_blank"><span class="%s">%s %s (%s)</span></a>
             </td>
         </tr>
         <tr>
@@ -86,7 +86,7 @@ HTML;
         $result['reportID'] = $reportID;
         $result['msg'] = $message;
         $result['link'] = sprintf(
-            '<a href="CombatReport?raport=%s" target="_blank"> %s </a>',
+            '<a href="report/%s" target="_blank"> %s </a>',
             $reportID,
             $LNG['sys_mess_attack_report'],
         );

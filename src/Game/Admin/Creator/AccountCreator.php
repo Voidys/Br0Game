@@ -2,6 +2,7 @@
 
 namespace App\Game\Admin\Creator;
 
+use App\Game\Enum\AuthLevel;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Creator tab "account": creates a game account (login, mail, password, language). */
@@ -26,21 +27,21 @@ class AccountCreator extends CreatorTab
     private function createFromPost(): void
     {
         $LNG = $this->state->LNG;
-        $accountName = $this->http()->_GP('name', '', UTF8_SUPPORT);
-        $accountPass = $this->http()->rawInput('password');
-        $accountPass2 = $this->http()->rawInput('password2');
-        $accountMail = $this->http()->_GP('email', '');
-        $accountMail2 = $this->http()->_GP('email2', '');
-        $authlevel = $this->http()->_GP('authlevel', 0);
+        $accountName = $this->input()->string('name', '', UTF8_SUPPORT);
+        $accountPass = $this->input()->rawString('password');
+        $accountPass2 = $this->input()->rawString('password2');
+        $accountMail = $this->input()->string('email');
+        $accountMail2 = $this->input()->string('email2');
+        $authlevel = $this->input()->int('authlevel');
         // nobody can hand out a level above their own (the form only offers the allowed ones)
-        $authlevel = max(AUTH_USR, min((int) $authlevel, (int) $this->state->USER['authlevel']));
-        $Language = $this->http()->_GP('lang', '');
+        $authlevel = max(AuthLevel::User->value, min((int) $authlevel, (int) $this->state->USER['authlevel']));
+        $Language = $this->input()->string('lang');
 
         $config = $this->configs->get($this->universe()->getEmulated());
         $errors = $this->validationErrors($accountName, $accountPass, $accountPass2, $accountMail, $accountMail2);
 
         if (!empty($errors)) {
-            $this->responder->message(new \Twig\Markup($errors, 'UTF-8'), '?page=creator&mode=account', 10, true);
+            $this->responder->message(new \Twig\Markup($errors, 'UTF-8'), 'admin/creator/account', 10, true);
         }
 
         $Language = array_key_exists($Language, $LNG->getAllowedLangs(false)) ? $Language : $config->lang;
@@ -52,7 +53,7 @@ class AccountCreator extends CreatorTab
             $authlevel,
         );
 
-        $this->responder->message($LNG->format('new_account_success', $id), '?page=creator&mode=account', 5, true);
+        $this->responder->message($LNG->format('new_account_success', $id), 'admin/creator/account', 5, true);
     }
 
     /**
@@ -116,18 +117,18 @@ class AccountCreator extends CreatorTab
         $USER = $this->state->USER;
 
         $AUTH = [];
-        $AUTH[AUTH_USR] = $LNG['user_level_' . AUTH_USR];
+        $AUTH[AuthLevel::User->value] = $LNG['user_level_' . AuthLevel::User->value];
 
-        if ($USER['authlevel'] >= AUTH_OPS) {
-            $AUTH[AUTH_OPS] = $LNG['user_level_' . AUTH_OPS];
+        if ($USER['authlevel'] >= AuthLevel::Operator->value) {
+            $AUTH[AuthLevel::Operator->value] = $LNG['user_level_' . AuthLevel::Operator->value];
         }
 
-        if ($USER['authlevel'] >= AUTH_MOD) {
-            $AUTH[AUTH_MOD] = $LNG['user_level_' . AUTH_MOD];
+        if ($USER['authlevel'] >= AuthLevel::Moderator->value) {
+            $AUTH[AuthLevel::Moderator->value] = $LNG['user_level_' . AuthLevel::Moderator->value];
         }
 
-        if ($USER['authlevel'] >= AUTH_ADM) {
-            $AUTH[AUTH_ADM] = $LNG['user_level_' . AUTH_ADM];
+        if ($USER['authlevel'] >= AuthLevel::Admin->value) {
+            $AUTH[AuthLevel::Admin->value] = $LNG['user_level_' . AuthLevel::Admin->value];
         }
 
         $this->responder->assign([

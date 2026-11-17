@@ -6,6 +6,7 @@ namespace App\Tests\Integration;
 
 use App\Game\Core\MarketManager;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * F-19: the market reference ratio weighs every pair of traders with at most the volume of all other pairs, so wash
@@ -29,7 +30,7 @@ final class MarketRatioPairCapTest extends GameTestCase
             $id = mt_rand(1000000, 99999999);
             $this->db->insert(
                 'INSERT INTO %%LOG_FLEETS%% SET id = :id, `group` = 0, universe = 1, mission = :m, owner = :o, target_owner = 0, start_id = 0, end_id = 0, ships = \'203,1\', arrival_time = 0, hasCanceled = 0, resource_metal = :metal, resource_crystal = 0, resource_deuterium = 0;',
-                [':id' => $id, ':m' => MISSION_TRADE, ':o' => $owner, ':metal' => $cargo],
+                [':id' => $id, ':m' => Mission::Trade->value, ':o' => $owner, ':metal' => $cargo],
             );
             $fleetIds[] = $id;
         }

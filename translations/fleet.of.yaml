@@ -460,7 +460,7 @@ sys_mess_spy_ennemyfleet_3: >-
   Feindliche Schbionagesondne fom Mond %s wurde in der Nähe fonääh %s
   gesichded.
 sys_mess_spy_link: >-
-  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: 'Die Wahrscheinlichgeit der Zerschdörung der Schbionagesonde bedrägd: %d %% '
 sys_mess_spy_qg: 'Schbionageabteilung '
@@ -500,7 +500,7 @@ sys_stat_mess: >-
 sys_stat_mess_stay: 'Schdationierte Flodde '
 sys_stealed_ressources: 'Er erbeuded '
 sys_trade_mess_arr_success: >-
-  Eine deiner Handelsfloddne isd bereid dsur Rügggehr dsum Blanedne %1$s %2$s (Rüggflug: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback"
+  Eine deiner Handelsfloddne isd bereid dsur Rügggehr dsum Blanedne %1$s %2$s (Rüggflug: %5$s). <form action="game/fleet/recall"
   method="post"><input name="fleetID" value="%3$s" type="hidden"><input
   value="%4$s" type="submit"></form>
 sys_trade_mess_back: Eine deiner Handelsfloddne gehrte erfolglos zum Blanetne  %s %s zurügg.

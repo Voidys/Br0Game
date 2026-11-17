@@ -2,7 +2,6 @@
 
 namespace App\Game\Core\ServerInfo;
 
-use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
 use App\Runtime\SafeFile;
@@ -17,8 +16,6 @@ class ServerInfoSystem
     public const OPTIONAL_EXTENSIONS = ['opcache', 'ffi', 'ds', 'redis', 'imap'];
 
     public function __construct(
-        private readonly Database $db,
-        private readonly ConfigRegistry $configs,
         private readonly Singleton $state,
     ) {}
 

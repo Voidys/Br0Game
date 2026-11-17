@@ -10,6 +10,7 @@ use App\Game\Bots\BotSpawner;
 use App\Game\Bots\Llm\LlmClient;
 use App\Game\Bots\Llm\LlmClientFactory;
 use App\Game\Bots\Llm\LlmException;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -18,7 +19,6 @@ use Symfony\Contracts\Service\Attribute\Required;
  * Bots: LLM providers, behaviour profiles and the bots of the emulated universe. Tabs (providers, profiles,
  * bots) are the "mode" of the page. Every POST carries the session CSRF token; changes redirect back (PRG).
  */
-#[\App\Routing\GamePage('admin', 'bots')]
 class BotsController extends AbstractAdminController
 {
     private const TABS = ['providers', 'profiles', 'bots'];
@@ -51,32 +51,90 @@ class BotsController extends AbstractAdminController
     }
 
     /**
-     * Bots admin page. Request: mode (tab: providers, profiles or bots; default providers), action. action=test is answered as JSON by actionTest().
-     * Other POST actions need the session CSRF token (`csrf`, else a flash error and redirect), run in handlePost() and redirect to the URL it returns
-     * (post/redirect/get, result message via session flash); everything else renders the tab with renderTab().
+     * Bots admin page: the providers tab (the first one). The tabs have their own routes (tab()), the POST actions theirs;
+     * the result message of an action comes through the session flash and is shown by renderTab().
      */
+    #[GameRoute('admin', 'admin/bots', 'bots')]
     public function show(): Response
     {
-        $tab = (string) $this->http()->_GP('mode', 'providers');
-        if (!in_array($tab, self::TABS, true)) {
-            $tab = 'providers';
-        }
-        $action = (string) $this->http()->_GP('action', '');
-        $isPost = ($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST';
+        return $this->renderTab('providers');
+    }
 
-        if ($action === 'test') {
-            return $this->actionTest($isPost);
+    /** One tab: providers, profiles (`edit` = profile id or `new` open the edit form) or bots. */
+    #[GameRoute('admin', 'admin/bots/providers', 'bots', 'providers')]
+    #[GameRoute('admin', 'admin/bots/profiles', 'bots', 'profiles')]
+    #[GameRoute('admin', 'admin/bots/bots', 'bots', 'bots')]
+    public function tab(): Response
+    {
+        $tab = (string) $this->state->request?->attributes->get('_mode', 'providers');
+
+        return $this->renderTab(in_array($tab, self::TABS, true) ? $tab : 'providers');
+    }
+
+    /** POST: stores key, model and URL of every provider and the active one. */
+    #[GameRoute('admin', 'admin/bots/providers/save', 'bots', 'saveProviders', ['POST'])]
+    public function saveProviders(): Response
+    {
+        return $this->runAction('providers', fn(): string => $this->doSaveProviders());
+    }
+
+    /** POST: saves a profile (new or edited). */
+    #[GameRoute('admin', 'admin/bots/profiles/save', 'bots', 'saveProfile', ['POST'])]
+    public function saveProfile(): Response
+    {
+        return $this->runAction('profiles', fn(): string => $this->doSaveProfile());
+    }
+
+    /** POST: deletes a profile. */
+    #[GameRoute('admin', 'admin/bots/profiles/delete', 'bots', 'deleteProfile', ['POST'])]
+    public function deleteProfile(): Response
+    {
+        return $this->runAction('profiles', fn(): string => $this->doDeleteProfile());
+    }
+
+    /** POST: duplicates a profile. */
+    #[GameRoute('admin', 'admin/bots/profiles/duplicate', 'bots', 'duplicateProfile', ['POST'])]
+    public function duplicateProfile(): Response
+    {
+        return $this->runAction('profiles', fn(): string => $this->doDuplicateProfile());
+    }
+
+    /** POST: restores the default profiles. */
+    #[GameRoute('admin', 'admin/bots/profiles/restore', 'bots', 'restoreProfiles', ['POST'])]
+    public function restoreProfiles(): Response
+    {
+        return $this->runAction('profiles', fn(): string => $this->doRestoreProfiles());
+    }
+
+    /** POST: spawns bots. */
+    #[GameRoute('admin', 'admin/bots/bots/spawn', 'bots', 'spawn', ['POST'])]
+    public function spawn(): Response
+    {
+        return $this->runAction('bots', fn(): string => $this->spawnBots());
+    }
+
+    /** POST: removes a bot. */
+    #[GameRoute('admin', 'admin/bots/bots/remove', 'bots', 'removeBot', ['POST'])]
+    public function removeBot(): Response
+    {
+        return $this->runAction('bots', fn(): string => $this->doRemoveBot());
+    }
+
+    /**
+     * Runs a POST action behind the bots page's own CSRF token (`csrf`; else a flash error) and redirects to the URL the
+     * action returns (post/redirect/get).
+     *
+     * @param callable(): string $action returns the URL to continue at
+     */
+    private function runAction(string $tab, callable $action): Response
+    {
+        if (!$this->csrfOk()) {
+            $this->flash($this->state->LNG['bot_csrf_error'], false);
+
+            return $this->redirectResponse($this->tabUrl($tab), true);
         }
 
-        if ($isPost && $action !== '') {
-            if (!$this->csrfOk()) {
-                $this->flash($this->state->LNG['bot_csrf_error'], false);
-                $this->http()->redirectTo($this->tabUrl($tab));
-            }
-            $this->http()->redirectTo($this->handlePost($action, $tab));
-        }
-
-        return $this->renderTab($tab);
+        return $this->redirectResponse($action(), true);
     }
 
     // ---------------------------------------------------------------------------- CSRF / flash
@@ -110,19 +168,23 @@ class BotsController extends AbstractAdminController
         $this->session()->set('bots_flash', ['message' => $message, 'ok' => $ok]);
     }
 
-    private function tabUrl(string $tab, string $extra = ''): string
+    /**
+     * @param array<string, scalar> $query
+     */
+    private function tabUrl(string $tab, array $query = []): string
     {
-        return 'admin?page=bots&mode=' . $tab . $extra;
+        return $this->router->generate('admin_bots_' . $tab, $query);
     }
 
     // ---------------------------------------------------------------------------- actions
 
     /**
-     * Tests an LLM provider connection (button on the providers tab), answered as JSON. Needs a POST with the CSRF token (otherwise 403 {ok: false}).
+     * Tests an LLM provider connection (button on the providers tab), answered as JSON. Needs the CSRF token (otherwise 403 {ok: false}).
      * POST provider (must be one of LlmClient::PROVIDERS), api_key, model, base_url build a client for those values and run its test call; the result
      * array is returned, an LlmException becomes {ok: false, message}.
      */
-    private function actionTest(bool $isPost): JsonResponse
+    #[GameRoute('admin', 'admin/bots/providers/test', 'bots', 'test', ['POST'])]
+    public function test(): JsonResponse
     {
         $LNG = $this->state->LNG;
         $fail = static fn(string $message, int $status = 200): JsonResponse => new JsonResponse(
@@ -130,7 +192,7 @@ class BotsController extends AbstractAdminController
             $status,
         );
 
-        if (!$isPost || !$this->csrfOk()) {
+        if (!$this->csrfOk()) {
             return $fail($LNG['bot_csrf_error'], 403);
         }
 
@@ -154,33 +216,10 @@ class BotsController extends AbstractAdminController
         }
     }
 
-    /** runs a POST action and returns the URL to continue at */
-    private function handlePost(string $action, string $tab): string
-    {
-        switch ($action) {
-            case 'save_providers':
-                return $this->saveProviders();
-            case 'save_profile':
-                return $this->saveProfile();
-            case 'delete_profile':
-                return $this->deleteProfile();
-            case 'duplicate_profile':
-                return $this->duplicateProfile();
-            case 'restore_profiles':
-                return $this->restoreProfiles();
-            case 'spawn':
-                return $this->spawnBots();
-            case 'remove_bot':
-                return $this->removeBot();
-        }
-
-        return $this->tabUrl($tab);
-    }
-
     /**
      * Action save_providers: validates the base URLs (http/https only), stores key, model and URL of every provider and marks the active one; returns the URL of the providers tab.
      */
-    private function saveProviders(): string
+    private function doSaveProviders(): string
     {
         $LNG = $this->state->LNG;
         $post = $this->state->requestPost;
@@ -212,7 +251,7 @@ class BotsController extends AbstractAdminController
     /**
      * Action save_profile: creates or updates a behaviour profile (a name is required); returns the URL of the profiles tab (back to the form on error).
      */
-    private function saveProfile(): string
+    private function doSaveProfile(): string
     {
         $LNG = $this->state->LNG;
         $post = $this->state->requestPost;
@@ -222,7 +261,7 @@ class BotsController extends AbstractAdminController
         if ($name === '') {
             $this->flash($LNG['bot_name_required'], false);
 
-            return $this->tabUrl('profiles', $id > 0 ? '&edit=' . $id : '&new=1');
+            return $this->tabUrl('profiles', $id > 0 ? ['edit' => $id] : ['new' => 1]);
         }
         $this->profiles->save([
             'id' => $id,
@@ -238,7 +277,7 @@ class BotsController extends AbstractAdminController
     /**
      * Action delete_profile: deletes a profile unless it is a default profile or still used by bots; returns the URL of the profiles tab.
      */
-    private function deleteProfile(): string
+    private function doDeleteProfile(): string
     {
         $LNG = $this->state->LNG;
         $post = $this->state->requestPost;
@@ -260,7 +299,7 @@ class BotsController extends AbstractAdminController
     /**
      * Action duplicate_profile: copies an existing profile; returns the URL of the profiles tab.
      */
-    private function duplicateProfile(): string
+    private function doDuplicateProfile(): string
     {
         $LNG = $this->state->LNG;
         $post = $this->state->requestPost;
@@ -276,7 +315,7 @@ class BotsController extends AbstractAdminController
     /**
      * Action restore_profiles: restores the default profiles; returns the URL of the profiles tab.
      */
-    private function restoreProfiles(): string
+    private function doRestoreProfiles(): string
     {
         $LNG = $this->state->LNG;
 
@@ -313,7 +352,7 @@ class BotsController extends AbstractAdminController
     /**
      * Action remove_bot: removes a bot player (only real bots); returns the URL of the bots tab.
      */
-    private function removeBot(): string
+    private function doRemoveBot(): string
     {
         $LNG = $this->state->LNG;
         $post = $this->state->requestPost;
@@ -329,7 +368,12 @@ class BotsController extends AbstractAdminController
     }
 
 
-    /** raw profile settings from the form, normalized and clamped by BotProfiles::normalizeSettings() on save */
+    /**
+     * raw profile settings from the form, normalized and clamped by BotProfiles::normalizeSettings() on save
+     *
+     * @param array<mixed> $p
+     * @return array<mixed>
+     */
     private function settingsFromPost(array $p): array
     {
         $weights = [];
@@ -405,9 +449,7 @@ class BotsController extends AbstractAdminController
             $vars += $this->botsTabVars($universe);
         }
 
-        $this->assign($vars);
-
-        return $this->render('admin/BotsPage.html.twig');
+        return $this->render('admin/BotsPage.html.twig', $vars);
     }
 
     /**
@@ -484,8 +526,8 @@ class BotsController extends AbstractAdminController
         $vars['profiles'] = $profiles;
 
         $editForm = null;
-        $editId = (int) $this->http()->_GP('edit', 0);
-        if ($editId > 0 || $this->http()->_GP('new', 0)) {
+        $editId = $this->input()->int('edit');
+        if ($editId > 0 || $this->input()->int('new')) {
             $base = $editId > 0 ? $this->profiles->get($editId) : null;
             $settings = $base['settings'] ?? $this->profiles->defaults()['office_worker']['settings'];
             $settings['activity_csv'] = implode(', ', $settings['activity']);

@@ -17,64 +17,85 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\Mission;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /**
  * Lists the fleets in flight of the emulated universe; fleets can be sent back (single or all attacking).
  */
-#[\App\Routing\GamePage('admin', 'flyingFleet')]
 class FlyingFleetController extends AbstractAdminController
 {
     /**
-     * Fleets in flight of the emulated universe. Actions by request: id + lock (lock or unlock one fleet event), massunlock (unlock
-     * all events), sendfleetback (fleet id: recalls one fleet like a player would) or sendfleetsback (recalls all attacking fleets, undoing
-     * alliance combat groups). Always lists the fleets with owner, mission, origin and target.
+     * Fleets in flight of the emulated universe with owner, mission, origin and target.
      */
+    #[GameRoute('admin', 'admin/flying-fleets', 'flyingFleet')]
     public function show(): Response
     {
-        $db = $this->db;
-        $id = $this->http()->_GP('id', 0);
-        $massunlock = $this->http()->_GP('massunlock', 0);
-        $sendFleetsBack = $this->http()->_GP('sendfleetsback', 0);
-        $sendFleetBack = $this->http()->_GP('sendfleetback', 0);
-
-        if (!empty($id)) {
-            $lock = $this->http()->_GP('lock', 0);
-            $SQL = ($lock == 0) ? null : "ADM_LOCK";
-
-            if (!$this->mayActOnFleetOwner((int) $id)) {
-                $this->deny();
-            }
-            $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = :lock WHERE `fleetID` = :id AND `fleetID` IN (SELECT `id` FROM %%FLEETS%% WHERE `universe` = :universe);", [
-                ':lock' => $SQL,
-                ':id' => $id,
-                ':universe' => $this->universe()->getEmulated(),
-            ]);
-        } elseif (!empty($massunlock)) {
-            $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `fleetID` IN (SELECT `id` FROM %%FLEETS%% WHERE `universe` = :universe);", [
-                ':universe' => $this->universe()->getEmulated(),
-            ]);
-        } elseif (!empty($sendFleetsBack)) {
-            $this->returnAttackingFleets();
-        } elseif (!empty($sendFleetBack)) {
-            $this->returnFleet($sendFleetBack);
-        }
-
         $FleetList = [];
 
         foreach ($this->fleetsInFlight() as $fleetRow) {
             $FleetList[] = $this->fleetListEntry($fleetRow);
         }
 
-        $this->assign([
+        return $this->render('admin/FlyingFleetPage.html.twig', [
             'FleetList'    => $FleetList,
         ]);
-        return $this->render('admin/FlyingFleetPage.html.twig');
+    }
+
+    /** POST lock (0 = unlock, else lock): locks or unlocks the event of one fleet, then lists the fleets. */
+    #[GameRoute('admin', 'admin/flying-fleets/{id}/lock', 'flyingFleet', 'lock', ['POST'], ['id' => '\d+'])]
+    public function lock(): Response
+    {
+        $id = $this->input()->int('id');
+        if (!empty($id)) {
+            $lock = $this->input()->int('lock');
+            $SQL = ($lock == 0) ? null : "ADM_LOCK";
+
+            if (!$this->mayActOnFleetOwner($id)) {
+                $this->deny();
+            }
+            $this->db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = :lock WHERE `fleetID` = :id AND `fleetID` IN (SELECT `id` FROM %%FLEETS%% WHERE `universe` = :universe);", [
+                ':lock' => $SQL,
+                ':id' => $id,
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+
+        return $this->show();
+    }
+
+    /** POST: unlocks the events of all fleets of the universe, then lists the fleets. */
+    #[GameRoute('admin', 'admin/flying-fleets/unlock-all', 'flyingFleet', 'unlockAll', ['POST'])]
+    public function unlockAll(): Response
+    {
+        $this->db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `fleetID` IN (SELECT `id` FROM %%FLEETS%% WHERE `universe` = :universe);", [
+            ':universe' => $this->universe()->getEmulated(),
+        ]);
+
+        return $this->show();
+    }
+
+    /** POST: recalls all attacking fleets (undoing alliance combat groups), then lists the fleets. */
+    #[GameRoute('admin', 'admin/flying-fleets/recall-all', 'flyingFleet', 'recallAll', ['POST'])]
+    public function recallAll(): Response
+    {
+        $this->returnAttackingFleets();
+
+        return $this->show();
+    }
+
+    /** POST: recalls one fleet like a player would, then lists the fleets. */
+    #[GameRoute('admin', 'admin/flying-fleets/{id}/recall', 'flyingFleet', 'recall', ['POST'], ['id' => '\d+'])]
+    public function recall(): Response
+    {
+        $fleetId = $this->input()->int('id');
+        if (!empty($fleetId)) {
+            $this->returnFleet($fleetId);
+        }
+
+        return $this->show();
     }
 
     /**
@@ -219,9 +240,9 @@ class FlyingFleetController extends AbstractAdminController
             WHERE f.`mission` IN (:attack, :acs, :destruction) AND f.`universe` = :universe
               AND u.`onlinetime` > :inactive AND f.`status` <> :fleetState;";
         $fleets = $db->select($sql, [
-            ':attack'      => MISSION_ATTACK,
-            ':acs'         => MISSION_ACS,
-            ':destruction' => MISSION_DESTRUCTION,
+            ':attack'      => Mission::Attack->value,
+            ':acs'         => Mission::Acs->value,
+            ':destruction' => Mission::Destruction->value,
             ':universe'    => $this->universe()->getEmulated(),
             ':inactive'  => $this->state->runtime->timestamp - INACTIVE,
             ':fleetState' => FLEET_RETURN,

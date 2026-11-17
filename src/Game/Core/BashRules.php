@@ -2,6 +2,8 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\Mission;
+
 /**
  * Bash protection: decides whether the current user already attacked a target user/planet too often within
  * BASH_TIME (config bash_per_user / bash_per_planet), counting solo attacks and distinct ACS groups.
@@ -88,12 +90,13 @@ class BashRules
      */
     private function missionCountedAsMissile(): int
     {
-        return $this->configs->get()->bash_count_missiles ? MISSION_MISSILE : MISSION_ATTACK;
+        return $this->configs->get()->bash_count_missiles ? Mission::Missile->value : Mission::Attack->value;
     }
 
     /**
      * Attack counts of $USER on a target user within BASH_TIME: solo flights and distinct other ACS groups.
      *
+     * @param array<string, mixed> $USER
      * @return array{CountSoloAttacksOnUser: int, CountAcsAttacksOnUser: int}
      */
     private function userBashCheck(array $USER, int $targetUser, int $fleetGroup): array
@@ -111,9 +114,9 @@ class BashRules
             ':fleetOwner' => $USER['id'],
             ':fleetEndOwner' => $targetUser,
             ':arrivalTime' => ($this->state->runtime->timestamp - BASH_TIME),
-            ':att' => MISSION_ATTACK,
-            ':aks' => MISSION_ACS,
-            ':dest' => MISSION_DESTRUCTION,
+            ':att' => Mission::Attack->value,
+            ':aks' => Mission::Acs->value,
+            ':dest' => Mission::Destruction->value,
             ':mis' => $this->missionCountedAsMissile(),
         ]);
 
@@ -139,9 +142,9 @@ class BashRules
             ':fleetOwner' => $USER['id'],
             ':fleetEndOwner' => $targetUser,
             ':arrivalTime' => ($this->state->runtime->timestamp - BASH_TIME),
-            ':att' => MISSION_ATTACK,
-            ':aks' => MISSION_ACS,
-            ':dest' => MISSION_DESTRUCTION,
+            ':att' => Mission::Attack->value,
+            ':aks' => Mission::Acs->value,
+            ':dest' => Mission::Destruction->value,
             ':mis' => $this->missionCountedAsMissile(),
             ':fleetGroup' => $fleetGroup,
         ], 'amount');
@@ -154,6 +157,7 @@ class BashRules
     /**
      * Attack counts of $USER on a target planet within BASH_TIME: solo flights and distinct other ACS groups.
      *
+     * @param array<string, mixed> $USER
      * @return array{CountSoloAttacksOnPlanet: int, CountAcsAttacksOnPlanet: int}
      */
     private function planetBashCheck(array $USER, int $Target, int $fleetGroup): array
@@ -171,9 +175,9 @@ class BashRules
             ':fleetOwner' => $USER['id'],
             ':fleetEndId' => $Target,
             ':arrivalTime' => ($this->state->runtime->timestamp - BASH_TIME),
-            ':att' => MISSION_ATTACK,
-            ':aks' => MISSION_ACS,
-            ':dest' => MISSION_DESTRUCTION,
+            ':att' => Mission::Attack->value,
+            ':aks' => Mission::Acs->value,
+            ':dest' => Mission::Destruction->value,
             ':mis' => $this->missionCountedAsMissile(),
         ]);
 
@@ -199,9 +203,9 @@ class BashRules
             ':fleetOwner' => $USER['id'],
             ':fleetEndId' => $Target,
             ':arrivalTime' => ($this->state->runtime->timestamp - BASH_TIME),
-            ':att' => MISSION_ATTACK,
-            ':aks' => MISSION_ACS,
-            ':dest' => MISSION_DESTRUCTION,
+            ':att' => Mission::Attack->value,
+            ':aks' => Mission::Acs->value,
+            ':dest' => Mission::Destruction->value,
             ':mis' => $this->missionCountedAsMissile(),
             ':fleetGroup' => $fleetGroup,
         ], 'amount');

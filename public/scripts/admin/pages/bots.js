@@ -1,11 +1,11 @@
 /**
  * Bots, providers tab: "test connection" buttons (.js-test) post the provider row's key, model and URL to
- * admin?page=bots&mode=providers&action=test and show the result next to the button. Texts
+ * the providers test route (config.testUrl) and show the result next to the button. Texts
  * (testing/ok/failed) and the CSRF field come from the JSON island #bots-config.
  */
-import { readPageData } from '../../page/config.js';
+import { pageData } from '../../app/core.js';
 
-const config = readPageData('bots-config') ?? {};
+const config = pageData('bots-config');
 const text = config.text ?? {};
 
 document.querySelectorAll('#bots-providers-form .js-test').forEach((button) => {
@@ -21,7 +21,7 @@ document.querySelectorAll('#bots-providers-form .js-test').forEach((button) => {
     out.textContent = text.testing;
     button.disabled = true;
     try {
-      const response = await fetch('admin?page=bots&mode=providers&action=test', { method: 'POST', body: data, credentials: 'same-origin' });
+      const response = await fetch(config.testUrl, { method: 'POST', body: data, credentials: 'same-origin' });
       const result = await response.json();
       const badge = document.createElement('span');
       badge.className = `badge badge--${result.ok ? 'ok' : 'danger'}`;

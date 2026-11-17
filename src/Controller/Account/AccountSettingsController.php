@@ -9,35 +9,35 @@
 namespace App\Controller\Account;
 
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\AccountUtil;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Mail;
-use App\Game\Core\Session;
-use App\Game\Core\Singleton;
 use App\Game\Core\Theme;
+use App\Routing\GameRoute;
 use App\Security\PasswordSupport;
 
 /** Account settings: language, timezone, email and password, account deletion (modes: show, send, toggleDelete). */
-#[\App\Routing\GamePage('account', 'accountSettings')]
 class AccountSettingsController extends AbstractAccountController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Settings form of the account (language, theme, timezone, e-mail, password, deletion flag).
      */
+    #[GameRoute('account', 'account/settings', 'accountSettings')]
     public function show(): Response
     {
+        $this->state->LNG->includeData(['PUBLIC', 'INGAME', 'ACCOUNT']);
+
+        return $this->render('account/page.accountSettings.default.html.twig', $this->settingsPageVariables());
+    }
+
+    /**
+     * Template variables of the settings page (selectors, the account's current language, theme and timezone, back link).
+     *
+     * @return array<string, mixed>
+     */
+    private function settingsPageVariables(): array
+    {
         $LNG = $this->state->LNG;
-        $LNG->includeData(['PUBLIC', 'INGAME', 'ACCOUNT']);
         $ACCOUNT = $this->state->ACCOUNT;
 
-        $this->assign([
+        return [
             'Selectors'         => [
                 'timezones' => get_timezone_selector(),
                 'Skins' => Theme::getAvailableCssThemes(),
@@ -49,11 +49,9 @@ class AccountSettingsController extends AbstractAccountController
             'userLang'      => $ACCOUNT['lang'],
             'theme'         => $ACCOUNT['dpath'],
             'timezone'      => $ACCOUNT['timezone'],
-            'toplink'       => "account?page=account",
+            'toplink'       => $this->router->generate('account_account_show'),
             'topname'       => $LNG->format('Back'),
-        ]);
-
-        return $this->render('account/page.accountSettings.default.html.twig');
+        ];
     }
 
     /**
@@ -64,19 +62,20 @@ class AccountSettingsController extends AbstractAccountController
      * registration; it is stored with `setmail` = now + 7 days (change period) and a notification mail is sent to the old
      * address (email_2). Language, theme and timezone are always written. Ends with a message page.
      */
-    public function send()
+    #[GameRoute('account', 'account/settings', 'accountSettings', 'send', ['POST'])]
+    public function send(): Response
     {
         $LNG = $this->state->LNG;
         $LNG->includeData(['PUBLIC', 'INGAME', 'ACCOUNT']);
         $THEME = $this->state->THEME;
         // passwords are used exactly as typed (no HTML encoding, trimming or "?" for non-ASCII)
-        $password           = $this->http()->rawInput('password');
-        $newpassword        = $this->http()->rawInput('newpassword');
-        $newpassword2       = $this->http()->rawInput('newpassword2');
-        $email              = $this->http()->_GP('email', $this->state->ACCOUNT['email']);
-        $language           = $this->http()->_GP('language', '');
-        $theme              = $this->http()->_GP('theme', $THEME->getThemeName());
-        $timezone           = (string) $this->http()->_GP('timezone', '');
+        $password           = $this->input()->rawString('password');
+        $newpassword        = $this->input()->rawString('newpassword');
+        $newpassword2       = $this->input()->rawString('newpassword2');
+        $email              = $this->input()->string('email', $this->state->ACCOUNT['email']);
+        $language           = $this->input()->string('language');
+        $theme              = $this->input()->string('theme', $THEME->getThemeName());
+        $timezone           = $this->input()->string('timezone');
         $timezone = in_array($timezone, \DateTimeZone::listIdentifiers(), true) ? $timezone : (string) $this->state->ACCOUNT['timezone'];
 
         $language = array_key_exists($language, $LNG->getAllowedLangs(false)) ? $language : $LNG->getLanguage();
@@ -89,24 +88,14 @@ class AccountSettingsController extends AbstractAccountController
         $db->select($sql, [
             ':id' => $this->state->ACCOUNT['id'],
         ]);
-        $this->assign([
-            'Selectors'         => [
-                'timezones' => get_timezone_selector(),
-                'Skins' => Theme::getAvailableCssThemes(),
-                'lang' => $LNG->getLanguageOptions(),
-            ],
-            'id'            => $this->state->ACCOUNT['id'],
-            'delete'        => $this->state->ACCOUNT['db_deaktjava'],
-            'accountname'   => $this->state->ACCOUNT['accountname'],
-            'userLang'      => $this->state->ACCOUNT['lang'],
-            'theme'         => $this->state->ACCOUNT['dpath'],
-            'timezone'      => $this->state->ACCOUNT['timezone'],
-            'toplink'       => "account?page=account",
-            'topname'       => $LNG->format('Back'),
-        ]);
-        $this->changePassword($password, $newpassword, $newpassword2);
+        $this->assign($this->settingsPageVariables());
+        if ($failure = $this->changePassword($password, $newpassword, $newpassword2)) {
+            return $failure;
+        }
 
-        $this->changeEmail($email, $password);
+        if ($failure = $this->changeEmail($email, $password)) {
+            return $failure;
+        }
 
         $sql =  "UPDATE %%ACCOUNTS%% SET
 		lang				        = :lang,
@@ -123,40 +112,27 @@ class AccountSettingsController extends AbstractAccountController
         ]);
         $this->state->ACCOUNT['dpath'] = $theme;
         $this->state->ACCOUNT['css_dpath'] = $theme;
-        $this->assign([
-            'Selectors'         => [
-                'timezones' => get_timezone_selector(),
-                'Skins' => Theme::getAvailableCssThemes(),
-                'lang' => $LNG->getLanguageOptions(),
-            ],
-            'id'            => $this->state->ACCOUNT['id'],
-            'accountname'   => $this->state->ACCOUNT['accountname'],
-            'userLang'      => $this->state->ACCOUNT['lang'],
-            'theme'         => $this->state->ACCOUNT['dpath'],
-            'timezone'      => $this->state->ACCOUNT['timezone'],
-            'toplink'       => "account?page=account",
-            'topname'       => $LNG->format('Back'),
-        ]);
+        $this->assign($this->settingsPageVariables());
         $db->commit();
 
-        $this->printMessage($LNG['op_options_changed'], [
+        return $this->messageResponse($LNG['op_options_changed'], [
             [
                 'label' => $LNG['sys_forward'],
-                'url'   => 'account?page=accountSettings',
+                'url'   => $this->router->generate('account_account_settings_show'),
             ],
         ]);
     }
 
     /**
-     * Checks the typed current password (limited per account: a hijacked session cannot guess it); a spent limit ends
-     * the request with the "too many attempts" message.
+     * Checks the typed current password (limited per account: a hijacked session cannot guess it); a spent limit gives
+     * the "too many attempts" message page instead of the verdict.
      */
-    private function currentPasswordMatches(string $password): bool
+    private function currentPasswordMatches(string $password): bool|Response
     {
         if (!$this->rateLimits->allowAccountSettingsPassword((int) $this->state->ACCOUNT['id'])) {
-            $this->printMessage($this->state->LNG['login_error_4'], [[
+            return $this->messageResponse($this->state->LNG['login_error_4'], [[
                 'label' => $this->state->LNG['sys_back'],
-                'url'   => 'account?page=accountSettings',
+                'url'   => $this->router->generate('account_account_settings_show'),
             ]]);
         }
 
@@ -166,20 +142,24 @@ class AccountSettingsController extends AbstractAccountController
     /**
      * Sets a new password when the current one is given and correct and both repetitions match: re-hashes it, revokes
      * every session of the account and logs this one out. Otherwise nothing happens.
+     *
+     * @return Response|null the message page when the change is refused (too many attempts, password too short)
      */
-    private function changePassword(mixed $password, mixed $newpassword, mixed $newpassword2): void
+    private function changePassword(mixed $password, mixed $newpassword, mixed $newpassword2): ?Response
     {
         $db = $this->db;
-        if (
-            $newpassword !== ''
-            && $password !== ''
-            && $this->currentPasswordMatches($password)
-            && $newpassword === $newpassword2
-        ) {
+        if ($newpassword === '' || $password === '') {
+            return null;
+        }
+        $matches = $this->currentPasswordMatches($password);
+        if ($matches instanceof Response) {
+            return $matches;
+        }
+        if ($matches && $newpassword === $newpassword2) {
             if (strlen($newpassword) < PasswordSupport::MIN_LENGTH) {
-                $this->printMessage($this->state->LNG->format('registerErrorPasswordLength', PasswordSupport::MIN_LENGTH), [[
+                return $this->messageResponse($this->state->LNG->format('registerErrorPasswordLength', PasswordSupport::MIN_LENGTH), [[
                     'label' => $this->state->LNG['sys_back'],
-                    'url'   => 'account?page=accountSettings',
+                    'url'   => $this->router->generate('account_account_settings_show'),
                 ]]);
             }
 
@@ -195,31 +175,39 @@ class AccountSettingsController extends AbstractAccountController
             $this->sessions()->revokeAccountSessions((int) $this->state->ACCOUNT['id']);
             $this->state->auth->logout();
         }
+
+        return null;
     }
 
     /**
      * Changes the e-mail address when it differs from the current one: needs the current password, a valid address that
      * no other account or pending registration uses (each failure ends with a message page), stores it with
      * `setmail` = now + 7 days and notifies the old address (email_2).
+     *
+     * @return Response|null the message page of a refused change
      */
-    private function changeEmail(mixed $email, mixed $password): void
+    private function changeEmail(mixed $email, mixed $password): ?Response
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
 
         if (!empty($email) && $email != $this->state->ACCOUNT['email']) {
-            if (!$this->currentPasswordMatches((string) $password)) {
-                $this->printMessage($LNG['op_need_pass_mail'], [
+            $matches = $this->currentPasswordMatches((string) $password);
+            if ($matches instanceof Response) {
+                return $matches;
+            }
+            if (!$matches) {
+                return $this->messageResponse($LNG['op_need_pass_mail'], [
                     [
                         'label' => $LNG['sys_back'],
-                        'url'   => 'game?page=settings',
+                        'url'   => $this->router->generate('game_settings_show'),
                     ],
                 ]);
             } elseif (!ValidateAddress($email)) {
-                $this->printMessage($LNG['op_not_vaild_mail'], [
+                return $this->messageResponse($LNG['op_not_vaild_mail'], [
                     [
                         'label' => $LNG['sys_back'],
-                        'url'   => 'account?page=accountSettings',
+                        'url'   => $this->router->generate('account_account_settings_show'),
                     ],
                 ]);
             } else {
@@ -232,10 +220,10 @@ class AccountSettingsController extends AbstractAccountController
                 ], 'count');
 
                 if (!empty($Count)) {
-                    $this->printMessage($LNG->format('op_change_mail_exist', $email), [
+                    return $this->messageResponse($LNG->format('op_change_mail_exist', $email), [
                         [
                             'label' => $LNG['sys_back'],
-                            'url'   => 'account?page=accountSettings',
+                            'url'   => $this->router->generate('account_account_settings_show'),
                         ],
                     ]);
                 } else {
@@ -264,13 +252,16 @@ class AccountSettingsController extends AbstractAccountController
                 }
             }
         }
+
+        return null;
     }
 
     /**
      * Toggles the account deletion flag (`db_deaktjava` = timestamp of the request, or 0 to cancel). The flag is acted on
      * later by the maintenance cronjob. Ends with a message page.
      */
-    public function toggleDelete()
+    #[GameRoute('account', 'account/settings/delete', 'accountSettings', 'toggleDelete', ['POST'])]
+    public function toggleDelete(): Response
     {
         $LNG = $this->state->LNG;
         $ACCOUNT = $this->state->ACCOUNT;
@@ -283,7 +274,7 @@ class AccountSettingsController extends AbstractAccountController
             ':accountID'   => $ACCOUNT['id'],
         ]);
         $this->assign([
-            'toplink'       => "account?page=account",
+            'toplink'       => $this->router->generate('account_account_show'),
             'topname'       => $LNG->format('Back'),
         ]);
         if ($ACCOUNT['db_deaktjava'] === 0) {
@@ -298,10 +289,10 @@ class AccountSettingsController extends AbstractAccountController
                 htmlspecialchars($LNG['op_options_deletion_activated'], ENT_QUOTES, 'UTF-8', false) . '<br>' . htmlspecialchars($LNG['op_options_no_other_settings_changed'], ENT_QUOTES, 'UTF-8', false),
                 'UTF-8',
             );
-            $this->printMessage($text, [
+            return $this->messageResponse($text, [
                 [
                     'label' => $LNG['sys_forward'],
-                    'url'   => 'account?page=accountSettings',
+                    'url'   => $this->router->generate('account_account_settings_show'),
                 ],
             ]);
         } else {
@@ -313,10 +304,10 @@ class AccountSettingsController extends AbstractAccountController
                 htmlspecialchars($LNG['op_options_deletion_deactivated'], ENT_QUOTES, 'UTF-8', false) . '<br>' . htmlspecialchars($LNG['op_options_no_other_settings_changed'], ENT_QUOTES, 'UTF-8', false),
                 'UTF-8',
             );
-            $this->printMessage($text, [
+            return $this->messageResponse($text, [
                 [
                     'label' => $LNG['sys_forward'],
-                    'url'   => 'account?page=accountSettings',
+                    'url'   => $this->router->generate('account_account_settings_show'),
                 ],
             ]);
         }

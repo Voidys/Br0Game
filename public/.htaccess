@@ -9,7 +9,23 @@ Options -Indexes +FollowSymLinks
 AddDefaultCharset utf-8
 AddCharset utf-8 .css .js .xml .json .rss .atom
 
+# Compression for text assets and SVG (the icon sprite is the biggest uncompressed one); mod_brotli wins when the client
+# accepts br, mod_deflate (gzip) otherwise
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/css application/javascript text/javascript application/json image/svg+xml text/html
+</IfModule>
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/css application/javascript text/javascript application/json image/svg+xml text/html
+</IfModule>
+
 <IfModule mod_headers.c>
+    # CSS and JS URLs carry a version (?v=<git hash> or the file mtime, see layout.base.html.twig and the import map):
+    # they never change under the same URL, so the browser keeps them without asking again. Unversioned ones keep
+    # revalidating. Local DDEV hosts are excluded: there the git hash does not change between edits.
+    <FilesMatch "\.(css|js|mjs)$">
+        Header set Cache-Control "public, max-age=31536000, immutable" "expr=%{QUERY_STRING} =~ /(^|&)v=/ && %{HTTP_HOST} !~ /\.ddev\.site(:[0-9]+)?$/"
+        Header set Cache-Control "no-cache" "expr=!(%{QUERY_STRING} =~ /(^|&)v=/) || %{HTTP_HOST} =~ /\.ddev\.site(:[0-9]+)?$/"
+    </FilesMatch>
     # images may come as their WebP copy depending on the Accept header (see the rewrite below)
     <FilesMatch "\.(png|jpe?g|gif|webp)$">
         Header append Vary Accept

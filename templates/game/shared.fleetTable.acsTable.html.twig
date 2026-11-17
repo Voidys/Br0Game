@@ -1,12 +1,12 @@
 {% import '_macros/forms.html.twig' as forms -%}
-<form action="?page=fleetTable&amp;action=acs" method="post">
+<form action="{{ path('game_fleet_table_acs') }}" method="post">
 <input name="fleetID" value="{{ acsData.mainFleetID }}" type="hidden">
 	<table>
 		<tr>
 			<th colspan="2">{{ LNG.fl_sac_of_fleet }}</th>
 		</tr>
 		<tr>
-			<th colspan="2">{{ LNG.fl_modify_sac_name }} (<a href="#" data-action="acs-rename" data-fleet="{{ acsData.mainFleetID }}" data-prompt="{{ LNG.fl_acs_change_name|e('html_attr') }}" data-name="{{ acsData.acsName }}">{{ LNG.fl_acs_change }}</a>)</th>
+			<th colspan="2">{{ LNG.fl_modify_sac_name }} (<a href="#" data-action="acs-rename" data-url="{{ path('game_fleet_table_acs') }}" data-fleet="{{ acsData.mainFleetID }}" data-prompt="{{ LNG.fl_acs_change_name|e('html_attr') }}" data-name="{{ acsData.acsName }}">{{ LNG.fl_acs_change }}</a>)</th>
 		</tr>
 		<tr>
 			<td colspan="2" id="acsName">{{ acsData.acsName }}</td>
@@ -15,7 +15,7 @@
 			<th>{{ LNG.fl_members_invited }}</th>
 			<th>{{ LNG.fl_invite_members }}</th>
 		</tr>
-		{% if not empty(acsData.statusMessage) %}
+		{% if acsData.statusMessage %}
 		<tr>
 			<td colspan="2">
 				{{ acsData.statusMessage }}

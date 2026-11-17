@@ -11,8 +11,8 @@
 	</tr>
 	{% for applyRow in applyList %}
 	<tr>
-		<td><a href="game?page=alliance&amp;mode=admin&amp;action=detailApply&amp;id={{ applyRow.id }}">{{ applyRow.username }}</a></td>
-		<td><a href="game?page=alliance&amp;mode=admin&amp;action=detailApply&amp;id={{ applyRow.id }}">{{ applyRow.time }}</a></td>
+		<td><a href="{{ path('game_alliance_admin_detail_apply', {id: applyRow.id}) }}">{{ applyRow.username }}</a></td>
+		<td><a href="{{ path('game_alliance_admin_detail_apply', {id: applyRow.id}) }}">{{ applyRow.time }}</a></td>
 	</tr>
 	{% else %}
 	<tr>
@@ -20,7 +20,7 @@
 	</tr>
 	{% endfor %}
 	<tr>
-		<th colspan="2"><a href="game?page=alliance">{{ LNG.al_back }}</a></th>
+		<th colspan="2"><a href="{{ path('game_alliance_show') }}">{{ LNG.al_back }}</a></th>
 	</tr>
 </table>
 {% endblock %}

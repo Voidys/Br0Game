@@ -17,18 +17,11 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\ResourceUpdate;
-use App\Game\Core\Singleton;
 
 /** Research: research queue of the player and the technology list. */
-#[\App\Routing\GamePage('game', 'research')]
 #[\App\Controller\RequireModule('MODULE_RESEARCH')]
 class ResearchController extends AbstractGameController
 {
@@ -38,11 +31,6 @@ class ResearchController extends AbstractGameController
     private const QUEUE_BUILD_END_TIME = 3;
     private const QUEUE_PLANET_ID = 4;
     private const QUEUE_COST = 5;
-
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
 
     /**
      * True when no planet of the player is currently upgrading the research lab (or university): research is blocked while the lab is
@@ -367,6 +355,8 @@ class ResearchController extends AbstractGameController
 
     /**
      * Data for the research queue display: name, level, remaining time and end time per entry.
+     *
+     * @return array<mixed>
      */
     private function getQueueData(): array
     {
@@ -411,43 +401,67 @@ class ResearchController extends AbstractGameController
     }
 
     /**
-     * Research page. With a research lab on the current planet: cmd (cancel, remove, insert) with tech (element id) and listid (queue position) then
-     * redirects back; watch stores the element watched by the cargo calculator. Renders the research list with costs, durations, requirements and
-     * the queue.
+     * Stores the element watched by the cargo calculator on the planet (request: watch = element id, 0 clears) and redirects back to the
+     * page; null when the request has no `watch`.
      */
+    private function watchRedirect(): ?Response
+    {
+        if ($this->input()->string('watch') === '') {
+            return null;
+        }
+        $this->db->update(
+            'UPDATE %%PLANETS%% SET watch_id = :watch_id WHERE id = :planetId;',
+            [':watch_id' => max(0, $this->input()->int('watch')),
+                ':planetId' => $this->state->PLANET['id'],
+            ],
+        );
+
+        return $this->redirectToRoute('game_research_show');
+    }
+
+    /** Whether the current planet has a research lab (the page offers commands only then). */
+    private function hasLab(): bool
+    {
+        return $this->state->PLANET[$this->elements()->column(RESEARCH_LABORATORY)] != 0;
+    }
+
+    /**
+     * Queue command (POST, with a research lab on the current planet; request: cmd = cancel, remove or insert with tech = element id and
+     * listid = queue position): runs it and redirects back to the page. Without a command, or in vacation mode, the page is shown as it is.
+     */
+    #[GameRoute('game', 'game/research', 'research', 'command', ['POST'])]
+    public function command(): Response
+    {
+        $TheCommand = $this->hasLab() ? $this->input()->string('cmd') : '';
+        if ($watched = $this->watchRedirect()) {
+            return $watched;
+        }
+
+        if (!empty($TheCommand) && $this->state->USER['urlaubs_modus'] == 0) {
+            $this->state->PLANET[$this->elements()->column(RESEARCH_LABORATORY) . '_inter'] = $this->resourceUpdate()->getNetworkLevel($this->state->USER, $this->state->PLANET);
+
+            return $this->runQueueCommand($TheCommand, $this->input()->int('tech'), $this->input()->int('listid'));
+        }
+
+        return $this->show();
+    }
+
+    /**
+     * Research page. Request: watch stores the element watched by the cargo calculator and redirects back. Otherwise renders the research
+     * list with costs, durations, requirements and the queue.
+     */
+    #[GameRoute('game', 'game/research', 'research')]
     public function show(): Response
     {
+        if ($watched = $this->watchRedirect()) {
+            return $watched;
+        }
 
         $LNG = $this->state->LNG;
-        $TheCommand     = '';
-        $elementId      = 0;
-        $ListID         = 0;
-        $hasLab         = false;
-        if ($this->state->PLANET[$this->elements()->column(RESEARCH_LABORATORY)] != 0) {
-            $TheCommand     = $this->http()->_GP('cmd', '');
-            $elementId      = $this->http()->_GP('tech', 0);
-            $ListID         = $this->http()->_GP('listid', 0);
-            $hasLab         = true;
-        }
-        $catchupFactor  = $this->playerUtil()->getCatchUpFactor($this->state->USER);
-
-        if ($this->http()->_GP('watch', '') != '') {
-            $db = $this->db;
-            $db->update(
-                'UPDATE %%PLANETS%% SET watch_id = :watch_id WHERE id = :planetId;',
-                [':watch_id' => max(0, (int) $this->http()->_GP('watch', 0)),
-                    ':planetId' => $this->state->PLANET['id'],
-                ],
-            );
-
-            $this->redirectTo('game?page=research');
-        }
+        $hasLab         = $this->hasLab();
+        $catchupFactor  = $this->protectionRules()->catchUpFactorFor($this->player());
 
         $this->state->PLANET[$this->elements()->column(RESEARCH_LABORATORY) . '_inter'] = $this->resourceUpdate()->getNetworkLevel($this->state->USER, $this->state->PLANET);
-
-        if (!empty($TheCommand) && $this->state->requestServer['REQUEST_METHOD'] === 'POST' && $this->state->USER['urlaubs_modus'] == 0) {
-            $this->runQueueCommand($TheCommand, $elementId, $ListID);
-        }
 
         $bContinue      = $this->checkLabSettingsInQueue();
 
@@ -458,7 +472,7 @@ class ResearchController extends AbstractGameController
 
         $ResearchList = $this->researchList($queueData, $QueueCount, $catchupFactor, $config);
 
-        $this->assign([
+        return $this->render('game/page.research.default.html.twig', [
             'umode'         => $this->state->USER['urlaubs_modus'],
             'ResearchList'  => $ResearchList,
             'IsLabinBuild'  => !$bContinue,
@@ -472,21 +486,18 @@ class ResearchController extends AbstractGameController
             'hide_useless'  => $this->state->USER['hide_useless'],
             'watch'         => $this->state->PLANET['watch_id'],
         ]);
-
-        return $this->render('game/page.research.default.html.twig');
     }
 
     /**
      * Executes a queue command (cancel, remove, insert; research cannot be torn down, so `destroy` is refused like any unknown
      * command: no cost, no queue entry) in a transaction with the user, the current planet and all
-     * planets of the player locked, saves the research queue unless the command is unknown, and redirects back to the page
-     * (ends the request).
+     * planets of the player locked, saves the research queue unless the command is unknown, and redirects back to the page.
      *
      * @param string $TheCommand request cmd
-     * @param mixed $elementId request tech (element id)
-     * @param mixed $ListID request listid (queue position)
+     * @param int $elementId request tech (element id)
+     * @param int $ListID request listid (queue position)
      */
-    private function runQueueCommand(string $TheCommand, mixed $elementId, mixed $ListID): never
+    private function runQueueCommand(string $TheCommand, int $elementId, int $ListID): Response
     {
         $db = $this->db;
         $db->startTransaction();
@@ -515,7 +526,8 @@ class ResearchController extends AbstractGameController
             $this->ecoObj->saveTechQueue($this->state->USER);
         }
         $db->commit();
-        $this->redirectTo('game?page=research');
+
+        return $this->redirectToRoute('game_research_show');
     }
 
     /**
@@ -543,6 +555,7 @@ class ResearchController extends AbstractGameController
      * useful maximum level). The level after the queued work is the base for the next costs.
      *
      * @param array{queue: array, quickinfo: array<int, int>} $queueData from getQueueData()
+     * @param array<mixed> $queueData
      * @return array<int, array<string, mixed>> tech id => row
      */
     private function researchList(array $queueData, int $QueueCount, float $catchupFactor, object $config): array
@@ -596,7 +609,7 @@ class ResearchController extends AbstractGameController
 
             $max_useful_level = $this->elements()->get($elementId)->maxUsefulLevel;
 
-            $factor = $this->playerUtil()->getCatchUpFactorForElement($catchupFactor, $elementId, $levelToBuild + 1);
+            $factor = $this->protectionRules()->getCatchUpFactorForElement($catchupFactor, $elementId, $levelToBuild + 1);
 
             $ResearchList[$elementId]   = [
                 'id'                => $elementId,

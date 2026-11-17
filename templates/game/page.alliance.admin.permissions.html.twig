@@ -2,8 +2,7 @@
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
 {% set countRank = availableRanks|length %}
-<form action="game?page=alliance&amp;mode=admin&amp;action=permissionsSend" method="post">
-<input type="hidden" value="1" name="send">
+<form action="{{ path('game_alliance_admin_permissions_send') }}" method="post">
 	<div class="table-scroll">
 	<table class="rank-table">
 	<tr>
@@ -18,7 +17,7 @@
 	</tr>
 	{% for rowId, rankRow in rankList %}
 	<tr>
-		<td class="ctr">{% if changeableRanks[rowId] and rowId != ownRankId %}<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=permissionsSend&amp;deleteRank={{ rowId }}"><img class="inline" src="styles/resource/images/alliance/CLOSE.webp" alt="" width="16" height="16"></a>{% endif %}</td>
+		<td class="ctr">{% if changeableRanks[rowId] and rowId != ownRankId %}<a data-method="post" href="{{ path('game_alliance_admin_permissions_send', {deleteRank: rowId}) }}"><img class="inline" src="styles/resource/images/alliance/CLOSE.webp" alt="" width="16" height="16"></a>{% endif %}</td>
 		<td><input type="text" class="control-wide" name="rank[{{ rowId }}][rankName]" value="{{ rankRow.rankName }}"{% if not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
 		{% for rankId, rankName in availableRanks %}
 		<td class="ctr"><input type="checkbox" name="rank[{{ rowId }}][{{ rankId }}]" value="1"{% if rankRow[rankName] %} checked{% endif %}{% if not ownRights[rankName] or not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
@@ -42,14 +41,14 @@
 	</tr>
 		{% endfor %}
 	<tr>
-			<th colspan="{{ countRank + 2 }}"><a href="game?page=alliance&amp;mode=admin">{{ LNG.al_back }}</a></th>
+			<th colspan="{{ countRank + 2 }}"><a href="{{ path('game_alliance_admin') }}">{{ LNG.al_back }}</a></th>
 	</tr>
 	</table>
 	</div>
 </form>
 
 <div id="new_alliance_rank" title="{{ LNG.al_create_new_rank }}" style="display:none;">
-	<form action="game?page=alliance&amp;mode=admin&amp;action=permissionsSend" method="post">
+	<form action="{{ path('game_alliance_admin_permissions_send') }}" method="post">
 		<table class="form-table">
 	<tr>
 				<td><label for="rankName">{{ LNG.al_rank_name }}</label></td>

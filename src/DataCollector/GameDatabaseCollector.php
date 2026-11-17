@@ -52,7 +52,11 @@ final class GameDatabaseCollector extends AbstractDataCollector
         return $this->data['time'] ?? 0.0;
     }
 
-    /** queries that ran more than once (same SQL), most frequent first: candidates for caching/batching */
+    /**
+     * queries that ran more than once (same SQL), most frequent first: candidates for caching/batching
+     *
+     * @return array<mixed>
+     */
     public function getRepeated(): array
     {
         $counts = array_count_values(array_column($this->getQueries(), 'sql'));

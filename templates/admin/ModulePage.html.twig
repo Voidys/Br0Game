@@ -11,9 +11,9 @@
         <tbody>
         {% for ID, Info in Modules %}
           {% if Info.state == 1 %}
-            {% set toggleUrl = '?page=module&mode=deaktiv&id=' ~ ID %}
+            {% set toggleUrl = path('admin_module_deactivate', {id: ID}) %}
           {% else %}
-            {% set toggleUrl = '?page=module&mode=aktiv&id=' ~ ID %}
+            {% set toggleUrl = path('admin_module_activate', {id: ID}) %}
           {% endif %}
           <tr>
             <td>{{ Info.name }}</td>

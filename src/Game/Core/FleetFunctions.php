@@ -87,6 +87,7 @@ class FleetFunctions
     }
 
     /**
+     * @param array<string, mixed> $USER
      * @see FleetMath::getExpeditionLimit()
      * @deprecated use the typed expeditionLimitFor() variant
      */
@@ -101,7 +102,11 @@ class FleetFunctions
         return $this->math()->expeditionLimitFor($user);
     }
 
-    /** @see FleetMath::inMissileRange() */
+    /**
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $target
+     * @see FleetMath::inMissileRange()
+     */
     public function inMissileRange(array $planet, array $target, int $levelIonEngine): bool
     {
         return $this->math()->inMissileRange($planet, $target, $levelIonEngine);
@@ -113,13 +118,18 @@ class FleetFunctions
         return $this->math()->checkUserSpeed($speed);
     }
 
-    /** @see FleetMath::getTargetDistance() */
+    /**
+     * @param array<mixed> $start
+     * @param array<string, mixed> $target
+     * @see FleetMath::getTargetDistance()
+     */
     public function getTargetDistance(array $start, array $target): int
     {
         return $this->math()->getTargetDistance($start, $target);
     }
 
     /**
+     * @param array<string, mixed> $USER
      * @see FleetMath::getMissionDuration()
      * @deprecated use the typed missionDurationFor() variant
      */
@@ -147,6 +157,7 @@ class FleetFunctions
     }
 
     /**
+     * @param array<string, mixed> $USER
      * @see FleetMath::getMaxFleetSlots()
      * @deprecated use the typed maxFleetSlotsFor() variant
      */
@@ -161,13 +172,18 @@ class FleetFunctions
         return $this->math()->maxFleetSlotsFor($user);
     }
 
-    /** @see FleetMath::getFleetRoom() */
+    /**
+     * @param array<mixed> $Fleet
+     * @see FleetMath::getFleetRoom()
+     */
     public function getFleetRoom(array $Fleet): int
     {
         return $this->math()->getFleetRoom($Fleet);
     }
 
     /**
+     * @param array<mixed> $Fleets
+     * @param array<string, mixed> $Player
      * @see FleetMath::getFleetMaxSpeed()
      * @deprecated use the typed fleetMaxSpeedFor() variant
      */
@@ -186,6 +202,8 @@ class FleetFunctions
     }
 
     /**
+     * @param array<mixed> $FleetArray
+     * @param array<string, mixed> $Player
      * @see FleetMath::getFleetConsumption()
      * @deprecated use the typed fleetConsumptionFor() variant
      */
@@ -194,13 +212,21 @@ class FleetFunctions
         return $this->math()->getFleetConsumption($FleetArray, $MissionDuration, $MissionDistance, $Player, $GameSpeed);
     }
 
-    /** @see FleetMath::fleetConsumptionFor() */
+    /**
+     * @param array<mixed> $FleetArray
+     * @see FleetMath::fleetConsumptionFor()
+     */
     public function fleetConsumptionFor(array $FleetArray, int $MissionDuration, int $MissionDistance, \App\Game\Model\User $Player, int $GameSpeed): float
     {
         return $this->math()->fleetConsumptionFor($FleetArray, $MissionDuration, $MissionDistance, $Player, $GameSpeed);
     }
 
-    /** @see FleetMath::getFleetShipInfo() */
+    /**
+     * @param array<mixed> $FleetArray
+     * @param array<string, mixed> $Player
+     * @see FleetMath::getFleetShipInfo()
+     * @return array<mixed>
+     */
     public function getFleetShipInfo(array $FleetArray, array $Player): array
     {
         return $this->math()->getFleetShipInfo($FleetArray, $Player);
@@ -212,13 +238,25 @@ class FleetFunctions
         return $this->math()->getPhalanxRange($PhalanxLevel);
     }
 
-    /** @see FleetMissionRules::getFleetMissions() */
+    /**
+     * @param array<mixed> $MisInfo
+     * @param array<mixed> $Planet
+     * @param array<string, mixed> $USER
+     * @see FleetMissionRules::getFleetMissions()
+     * @return array<mixed>
+     */
     public function getFleetMissions(array $USER, array $MisInfo, array $Planet): array
     {
         return $this->missionRules()->getFleetMissions($USER, $MisInfo, $Planet);
     }
 
-    /** @see FleetMissionRules::getAvailableMissions() */
+    /**
+     * @param array<mixed> $GetInfoPlanet
+     * @param array<mixed> $MissionInfo
+     * @param array<string, mixed> $USER
+     * @see FleetMissionRules::getAvailableMissions()
+     * @return array<mixed>
+     */
     public function getAvailableMissions(array $USER, array $MissionInfo, array $GetInfoPlanet): array
     {
         return $this->missionRules()->getAvailableMissions($USER, $MissionInfo, $GetInfoPlanet);
@@ -230,13 +268,19 @@ class FleetFunctions
         return $this->missionRules()->allowPhalanx($toGalaxy, $toSystem, $targetUser);
     }
 
-    /** @see FleetString::unserialize() */
+    /**
+     * @see FleetString::unserialize()
+     * @return array<mixed>
+     */
     public function unserialize(string $fleetAmount): array
     {
         return $this->fleetString()->unserialize($fleetAmount);
     }
 
-    /** @see FleetString::serialize() */
+    /**
+     * @param array<string, mixed> $fleet
+     * @see FleetString::serialize()
+     */
     public function serialize(array $fleet): string
     {
         return $this->fleetString()->serialize($fleet);
@@ -254,13 +298,20 @@ class FleetFunctions
         return $this->launcher()->getCurrentFleets($userId, $fleetMission, $thisMission);
     }
 
-    /** @see FleetLauncher::sendFleetBack() */
+    /**
+     * @param array<string, mixed> $USER
+     * @see FleetLauncher::sendFleetBack()
+     */
     public function sendFleetBack(array $USER, int $FleetID): bool
     {
         return $this->launcher()->sendFleetBack($USER, $FleetID);
     }
 
-    /** @see FleetLauncher::sendFleet() */
+    /**
+     * @param array<mixed> $fleetArray
+     * @param array<mixed> $fleetResource
+     * @see FleetLauncher::sendFleet()
+     */
     public function sendFleet(
         array $fleetArray,
         int $fleetMission,
@@ -329,32 +380,22 @@ class FleetFunctions
         return $this->statistics()->calculateMaxFactorRes($universeId);
     }
 
-    /** @see FleetStatistics::calculateCurrentTotalFleetState() */
+    /**
+     * @see FleetStatistics::calculateCurrentTotalFleetState()
+     * @return array<mixed>
+     */
     public function calculateCurrentTotalFleetState(int $userID): array
     {
         return $this->statistics()->calculateCurrentTotalFleetState($userID);
     }
 
     /**
-     * Aborts a failed fleet dispatch: with the debug setting it prints file, line and the error text
-     * (`fl_send_error[$Code]`) and ends the request; otherwise redirects to the fleet page. Always ends the request.
-     * @param int $Code index into the language array `fl_send_error` (what went wrong).
+     * The fleet page with an error code, relative to the universe directory (for redirectResponse()).
+     *
+     * @param int $Code index into the language array `fl_send_error`
      */
-    public function gotoFleetPage($Code = 0): void
+    public function fleetPageUrl($Code = 0): string
     {
-        $LNG = $this->state->LNG;
-        if ($this->configs->get()->debug == 1) {
-            $temp = debug_backtrace();
-            echo sprintf(
-                "%s on %d | Code: %d | Error: %s",
-                str_replace($this->state->requestServer["DOCUMENT_ROOT"], '.', $temp[0]['file']),
-                $temp[0]['line'],
-                $Code,
-                (isset($LNG['fl_send_error'][$Code]) ? $LNG['fl_send_error'][$Code] : ''),
-            );
-            throw new \App\Game\Core\EndOfRequest();
-        }
-
-        $this->http()->redirectTo('game?page=fleetTable&code=' . $Code);
+        return 'game/fleet?code=' . $Code;
     }
 }

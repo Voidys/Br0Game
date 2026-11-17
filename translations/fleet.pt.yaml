@@ -177,7 +177,7 @@ sys_mess_spy_destroyed: As tuas sondas de espionagem foram destruídas!
 sys_mess_spy_ennemyfleet_1: Sondas de espionagem inimigas do planeta %s foram avistadas perto de %s.
 sys_mess_spy_ennemyfleet_3: Sondas de espionagem inimigas da lua %s foram avistadas perto de %s.
 sys_mess_spy_link: >-
-  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: A probabilidade de as sondas serem detetadas era de %d%%
 sys_mess_spy_qg: Departamento de espionagem
@@ -206,7 +206,7 @@ sys_spy_fleet: Frota
 sys_stat_mess: A tua frota de %s %s chegou a %s %s %s e entregou %s %s, %s %s e %s %s. %s
 sys_stat_mess_stay: Frota estacionada
 sys_stealed_ressources: Saquearam
-sys_trade_mess_arr_success: 'A tua frota mercante está pronta para regressar a %1$s %2$s (voo de regresso: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
+sys_trade_mess_arr_success: 'A tua frota mercante está pronta para regressar a %1$s %2$s (voo de regresso: %5$s). <form action="game/fleet/recall" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
 sys_trade_mess_back: A tua frota mercante regressou a %s %s sem sucesso.
 sys_trade_mess_back_success: A tua frota mercante regressou com sucesso a %4$s %5$s com %1$s de metal, %2$s de cristal e %3$s de deutério.
 sys_tran_mess_back: A tua frota regressou a %s %s.

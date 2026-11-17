@@ -25,6 +25,7 @@ use App\Game\Core\Singleton;
 use App\Kernel;
 use App\Runtime\GameKernel;
 use Symfony\Component\Dotenv\Dotenv;
+use App\Game\Enum\Mission;
 
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
 chdir(dirname(__DIR__, 2));
@@ -80,7 +81,7 @@ switch ($command) {
         $launcher = new FleetLauncher($db, $configs, $state);
         $now = $state->runtime->timestamp;
         // mission => [ships, share of the waves in percent]
-        $kinds = [[MISSION_TRANSPORT, [202 => 2], 55], [MISSION_SPY, [210 => 1], 25], [MISSION_ATTACK, [204 => 5, 205 => 1], 20]];
+        $kinds = [[Mission::Transport->value, [202 => 2], 55], [Mission::Spy->value, [210 => 1], 25], [Mission::Attack->value, [204 => 5, 205 => 1], 20]];
         $perSecond = [];
         for ($i = 0; $i < $count; $i++) {
             $from_ = $all[array_rand($all)];
@@ -111,7 +112,7 @@ switch ($command) {
                 (int) $to_['system'],
                 (int) $to_['planet'],
                 1,
-                [901 => $mission === MISSION_TRANSPORT ? 1000 : 0, 902 => 0, 903 => 0],
+                [901 => $mission === Mission::Transport->value ? 1000 : 0, 902 => 0, 903 => 0],
                 $arrival,
                 0,
                 $arrival + $flight,

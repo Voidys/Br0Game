@@ -2,6 +2,7 @@
 
 namespace App\Game\Alliance;
 
+use App\Game\Enum\AuthLevel;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\Core\ConfigRegistry;
@@ -107,19 +108,32 @@ class AllianceStatistics
         ]];
     }
 
-    /** points history (12 months) of the alliance for the chart; `userId`-relative like the player charts */
+    /**
+     * points history (12 months) of the alliance for the chart; `userId`-relative like the player charts
+     *
+     * @param array<string, mixed> $alliance
+     * @return array<mixed>
+     */
     public function chart(array $alliance): array
     {
-        return $this->playerUtil()->getAllianceChartPoints($alliance['id'], $this->state->USER);
+        return $this->playerCharts()->getAllianceChartPoints($alliance['id'], $this->state->USER);
     }
 
+    /**
+     * @param array<string, mixed> $user
+     */
     private function mayViewFightStats(array $user): bool
     {
         return !$this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS)
-            || $user['spy_tech'] >= 6 || $user['authlevel'] > 0;
+            || $user['spy_tech'] >= 6 || $user['authlevel'] > AuthLevel::User->value;
     }
 
-    /** wins, losses, draws, debris and unit counters summed over all members */
+    /**
+     * wins, losses, draws, debris and unit counters summed over all members
+     *
+     * @param array<string, mixed> $alliance
+     * @return array<mixed>
+     */
     private function summedStats(array $alliance): array
     {
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);

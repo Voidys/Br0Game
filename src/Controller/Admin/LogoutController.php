@@ -17,12 +17,12 @@
 
 namespace App\Controller\Admin;
 
-use Exception;
+use App\Game\Enum\AuthLevel;
 use App\Game\Core\Session;
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /** Leaves the admin area: drops admin access from the session and returns to the game. */
-#[\App\Routing\GamePage('admin', 'logout')]
 class LogoutController extends AbstractAdminController
 {
     /**
@@ -31,7 +31,7 @@ class LogoutController extends AbstractAdminController
     protected function construct(): void
     {
         $USER = $this->state->USER;
-        if ($USER['authlevel'] == AUTH_USR) {
+        if ($USER['authlevel'] == AuthLevel::User->value) {
             $this->deny();
         }
 
@@ -41,11 +41,12 @@ class LogoutController extends AbstractAdminController
     /**
      * Drops admin access from the session and redirects to /game.
      */
-    public function show(): void
+    #[GameRoute('admin', 'admin/logout', 'logout', 'show', ['POST'])]
+    public function show(): Response
     {
         $session = $this->sessions()->create();
         $session->adminAccess = 0;
         // back to the game (the game's "drop admin rights" banner calls this with fetch and ignores the answer)
-        $this->http()->redirectTo('game');
+        return $this->redirectResponse('game');
     }
 }

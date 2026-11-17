@@ -2,14 +2,13 @@
 
 namespace App\Runtime;
 
+use App\Game\Enum\AuthLevel;
 use Exception;
 use App\Game\Core\StoredData;
 use App\Game\Core\Database;
-use App\Game\Core\HTTP;
 use App\Game\Core\Language;
 use App\Game\Core\NumberAbbreviation;
 use App\Game\Core\Session;
-use App\Game\Core\Singleton;
 use App\Game\Core\Theme;
 use App\Game\Core\Universe;
 use App\Controller\Login\ErrorController as ShowErrorPage;
@@ -46,7 +45,7 @@ final class GameBootstrap
      * applies language, theme and timezone, then gates on bans (error page), universe status (closed/registration
      * only block normal players) and, for INGAME, locks the active planet row (FOR UPDATE) and loads PLANETS.
      * Optionally logs analytics.
-     * A battle report link (page=raport, no other parameter) works without session or user.
+     * A battle report link (/report/<id>, route game_raport_show) works without session or user.
      * LOGIN: only the language. ACCOUNT: loads the account row (or a guest stub for the public board).
      *
      * Side effects: DB writes (ban reset, analytics, fleet events), game session writes, redirects and
@@ -100,7 +99,7 @@ final class GameBootstrap
             $LNG    = new Language($this->configs);
             $this->state->LNG = $LNG;
             $LNG->includeData(['L18N', 'INGAME', 'PUBLIC', 'CUSTOM']);
-        } elseif ($this->state->runtime->mode === 'ACCOUNT' && $this->auth->accountId() === 0 && ($this->state->requestQuery['page'] ?? '') === 'board') {
+        } elseif ($this->state->runtime->mode === 'ACCOUNT' && $this->auth->accountId() === 0 && $this->state->request?->attributes->get('_page') === 'board') {
             $this->bootAccountGuest();
         } elseif ($this->state->runtime->mode === 'ACCOUNT') {
             $LNG = $this->bootAccount($THEME);
@@ -109,7 +108,7 @@ final class GameBootstrap
         // Guests have no users_settings row. The stub above uses DEFAULT_LANG, which
         // is not the language login/account pages actually render (cookie / account
         // lang). Logged-in users keep their stored decimal_separator.
-        if (isset($this->state->USER, $LNG) && empty($this->state->USER['id'])) {
+        if ($LNG !== null && $this->state->USER !== [] && empty($this->state->USER['id'])) {
             $this->state->USER['decimal_separator'] = (new NumberAbbreviation())->defaultDecimalSeparatorForLang($LNG->getLanguage());
         }
     }
@@ -138,9 +137,9 @@ final class GameBootstrap
         $this->state->USER['decimal_separator'] = (new NumberAbbreviation())->defaultDecimalSeparatorForLang(
             DEFAULT_LANG,
         );
-        $this->state->USER['signalColors'] = $this->playerUtil()->player_signal_colors();
-        $this->state->USER['colors'] = $this->playerUtil()->player_colors();
-        $this->state->USER['stb_settings'] = $this->playerUtil()->player_stb_settings();
+        $this->state->USER['signalColors'] = $this->playerLookup()->player_signal_colors();
+        $this->state->USER['colors'] = $this->playerLookup()->player_colors();
+        $this->state->USER['stb_settings'] = $this->playerLookup()->player_stb_settings();
     }
 
     /**
@@ -154,7 +153,7 @@ final class GameBootstrap
     private function bootPlayerMode(Theme $THEME): Language
     {
         $session    = $this->sessions()->load();
-        $raportWithoutSession = $this->auth->account() === null && isset($this->state->requestQuery['page']) && $this->state->requestQuery['page'] == "raport" && isset($this->state->requestQuery['raport']) && count($this->state->requestQuery) == 2 && $this->state->runtime->mode === 'INGAME';
+        $raportWithoutSession = $this->auth->account() === null && $this->state->request?->attributes->get('_route') === 'game_raport_show' && $this->state->runtime->mode === 'INGAME';
 
         if (!$raportWithoutSession) {
             $this->syncGameSession($session);
@@ -240,8 +239,8 @@ final class GameBootstrap
                 $this->state->USER['banaday'] = 0;
             }
 
-            $this->state->USER['signalColors'] = $this->playerUtil()->player_signal_colors($this->state->USER);
-            $this->state->USER['colors'] = $this->playerUtil()->player_colors($this->state->USER);
+            $this->state->USER['signalColors'] = $this->playerLookup()->player_signal_colors($this->state->USER);
+            $this->state->USER['colors'] = $this->playerLookup()->player_colors($this->state->USER);
         }
     }
 
@@ -262,14 +261,25 @@ final class GameBootstrap
             ], 'theme');
         } else {
             // an account ban applies to all players of the account (a ban that ran out no longer counts)
-            $account = $db->selectSingle(
-                'SELECT a.`banaday`, b.`theme` FROM %%ACCOUNTS%% a LEFT JOIN %%ACCOUNTS_BANNED%% b ON b.`account_id` = a.`id` WHERE a.`id` = :accountId AND a.`bana` = 1 AND a.`banaday` > :now;',
-                [':accountId' => $this->auth->accountId(), ':now' => $this->state->runtime->timestamp],
-            );
-            if (!empty($account)) {
+            // the row of the request's user refresh is current here; only a ban needs the reason
+            $accountRow = $this->auth->loadedAccountRow();
+            if ($accountRow !== null && (int) $accountRow['bana'] === 1 && (int) $accountRow['banaday'] > $this->state->runtime->timestamp) {
                 $banned = true;
-                $banUntil = (int) $account['banaday'];
-                $reason = $account['theme'];
+                $banUntil = (int) $accountRow['banaday'];
+                $reason = $db->selectSingle('SELECT `theme` FROM %%ACCOUNTS_BANNED%% WHERE `account_id` = :accountId;', [':accountId' => $accountRow['id']], 'theme');
+                if ($reason === false) {
+                    $reason = null;
+                }
+            } elseif ($accountRow === null) {
+                $account = $db->selectSingle(
+                    'SELECT a.`banaday`, b.`theme` FROM %%ACCOUNTS%% a LEFT JOIN %%ACCOUNTS_BANNED%% b ON b.`account_id` = a.`id` WHERE a.`id` = :accountId AND a.`bana` = 1 AND a.`banaday` > :now;',
+                    [':accountId' => $this->auth->accountId(), ':now' => $this->state->runtime->timestamp],
+                );
+                if (!empty($account)) {
+                    $banned = true;
+                    $banUntil = (int) $account['banaday'];
+                    $reason = $account['theme'];
+                }
             }
         }
 
@@ -317,7 +327,7 @@ final class GameBootstrap
                 $session->planetId = $this->state->USER['id_planet'];
             }
 
-            $this->state->USER['PLANETS']    = $this->playerUtil()->getPlanets($this->state->USER);
+            $this->state->USER['PLANETS']    = $this->planetQueries()->getPlanets($this->state->USER);
         } elseif ($this->state->runtime->mode === 'ADMIN') {
             error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
@@ -333,14 +343,14 @@ final class GameBootstrap
     private function gateUniverseStatus(Language $LNG, $config, bool $raportWithoutSession): void
     {
         if (
-            ($config->uni_status == STATUS_CLOSED) && $this->state->USER['authlevel'] == AUTH_USR
-            && (!isset($this->state->requestQuery['page']) || $this->state->requestQuery['page'] !== 'logout') && !$raportWithoutSession
+            ($config->uni_status == STATUS_CLOSED) && $this->state->USER['authlevel'] == AuthLevel::User->value
+            && $this->state->request?->attributes->get('_page') !== 'logout' && !$raportWithoutSession
         ) {
             (new ShowErrorPage())->withGameServices($this->db, $this->configs, $this->state)->showError($LNG['sys_closed_game'] . '<br><br>' . $config->close_reason, false);
         }
         if (
-            ($config->uni_status == STATUS_REG_ONLY) && $this->state->USER['authlevel'] == AUTH_USR
-            && (!isset($this->state->requestQuery['page']) || $this->state->requestQuery['page'] !== 'logout') && !$raportWithoutSession
+            ($config->uni_status == STATUS_REG_ONLY) && $this->state->USER['authlevel'] == AuthLevel::User->value
+            && $this->state->request?->attributes->get('_page') !== 'logout' && !$raportWithoutSession
         ) {
             (new ShowErrorPage())->withGameServices($this->db, $this->configs, $this->state)->showError($LNG['sys_game_is_setup'] . '<br><br>' . $config->prepare_text, false);
         }
@@ -389,8 +399,8 @@ final class GameBootstrap
         if (!empty($this->state->ACCOUNT['dpath'])) {
             $THEME->setUserTheme($this->state->ACCOUNT['dpath'], $this->state->ACCOUNT['css_dpath'] ?? null);//?
         }
-        $this->state->ACCOUNT['signalColors'] = $this->playerUtil()->player_signal_colors();
-        $this->state->ACCOUNT['colors'] = $this->playerUtil()->player_colors();
+        $this->state->ACCOUNT['signalColors'] = $this->playerLookup()->player_signal_colors();
+        $this->state->ACCOUNT['colors'] = $this->playerLookup()->player_colors();
         if ($this->state->ACCOUNT['bana'] == 1) {
             $sql = 'SELECT theme FROM %%ACCOUNTS_BANNED%% WHERE id = :account_id';
             $reason = $db->selectSingle($sql, [
@@ -407,7 +417,7 @@ final class GameBootstrap
     }
 
     /**
-     * Visitor without login on the public board (account?page=board): an account stub with id 0,
+     * Visitor without login on the public board (/account/board): an account stub with id 0,
      * language from the start page cookie or the browser, server timezone, default theme; PUBLIC
      * texts for the start page frame (account/layout.site).
      */
@@ -421,13 +431,13 @@ final class GameBootstrap
             'id' => 0,
             'guest' => true,
             'accountname' => '',
-            'authlevel' => AUTH_USR,
+            'authlevel' => AuthLevel::User->value,
             'lang' => $LNG->getLanguage(),
             'timezone' => $this->configs->get()->timezone,
             'db_deaktjava' => 0,
             'bana' => 0,
-            'signalColors' => $this->playerUtil()->player_signal_colors(),
-            'colors' => $this->playerUtil()->player_colors(),
+            'signalColors' => $this->playerLookup()->player_signal_colors(),
+            'colors' => $this->playerLookup()->player_colors(),
         ];
     }
 

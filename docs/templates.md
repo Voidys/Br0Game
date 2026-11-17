@@ -20,12 +20,12 @@ the account lobby, the admin panel) and the installer.
 A page action collects its variables and returns the rendered page:
 
 ```php
+#[GameRoute('game', 'game/empire', 'empire')]
 public function show(): Response
 {
-    $this->assign(['planets' => $planets]);
     $this->addScript('empire.js');                       // public/scripts/game/empire.js (ES module)
 
-    return $this->render('game/page.empire.default.html.twig');
+    return $this->render('game/page.empire.default.html.twig', ['planets' => $planets]);
 }
 ```
 
@@ -35,11 +35,11 @@ public function show(): Response
   and `admin/overall_footer.html.twig` instead.
 - The window is `full` by default. `setWindow('popup')` gives the popup layout; XHR requests get `ajax`.
 - Layout variables win over page variables of the same name.
-- Code that cannot return the Response (a helper deep in the call chain, an error branch) ends the
-  request with `$this->display($template)`, `$this->printMessage($text)`, `$this->redirectTo($url)`
+- Actions return a Response (`render()`, `messageResponse()`, `redirectToRoute()`, `jsonResponse()`, see
+  `docs/controllers.md`). Only code that cannot return one (a helper deep in the call chain, `initialize()`)
+  ends the request with `$this->display($template)`, `$this->printMessage($text)`, `$this->redirectTo($url)`
   or `$this->sendJSON($data)`. They throw `App\Game\Core\EndOfRequest`, which carries the response.
-- Admin: `show()` returns the page, and `$this->message($text, $redirectUrl, $seconds)` shows the
-  notice page.
+- Admin: `$this->messageResponse($text, $redirectUrl, $seconds)` returns the notice page.
 
 ## Escaping
 

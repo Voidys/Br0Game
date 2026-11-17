@@ -2,7 +2,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_statistics }}{{ parent() }}{% endblock %}
 {% block content %}
-<form name="stats" id="stats" method="post" action="">
+<form name="stats" id="stats" method="get" action="{{ path('game_statistics_show') }}">
 	<table>
 		<tr>
 			<th>{{ LNG.st_statistics }} ({{ LNG.st_updated }}: {{ stat_date }})</th>

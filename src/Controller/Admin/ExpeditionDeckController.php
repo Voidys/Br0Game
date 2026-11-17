@@ -18,56 +18,58 @@
 namespace App\Controller\Admin;
 
 use Exception;
-use App\Game\Core\Database;
 use App\Game\Core\ExpeditionDeckHandler;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Edits the expedition event deck of a universe. */
-#[\App\Routing\GamePage('admin', 'expeditionDeck')]
 class ExpeditionDeckController extends AbstractAdminController
 {
     /**
-     * Expedition event deck of a universe (request: uniID, default emulated; action=update with POST saves the submitted deck).
+     * Expedition event deck of a universe (request: uniID, default emulated).
      * Shows the deck cards with computed statistics (card counts and percentages per type).
      */
+    #[GameRoute('admin', 'admin/expedition/deck', 'expeditionDeck')]
     public function show(): Response
     {
+        return $this->renderDeck();
+    }
+
+    /** POST: saves the submitted deck (JSON) of the universe `uniID` and shows the deck with the result message. */
+    #[GameRoute('admin', 'admin/expedition/deck', 'expeditionDeck', 'update', ['POST'])]
+    public function update(): Response
+    {
         $LNG = $this->state->LNG;
+        try {
+            $this->updateDeckConfig($this->input()->int('uniID', (int) $this->universe()->getEmulated()));
 
-        $universe = $this->http()->_GP('uniID', $this->universe()->getEmulated());
-        $action = $this->http()->_GP('action', 'show');
-
-        $message = '';
-        $messageType = '';
-
-        if ($action === 'update' && !empty($this->state->requestPost)) {
-            try {
-                $this->updateDeckConfig($universe);
-                $message = $LNG['exp_deck_save_success'];
-                $messageType = 'success';
-            } catch (Exception $e) {
-                $message = $e->getMessage();
-                $messageType = 'error';
-            }
+            return $this->renderDeck($LNG['exp_deck_save_success'], 'success');
+        } catch (Exception $e) {
+            return $this->renderDeck($e->getMessage(), 'error');
         }
+    }
+
+    /** the deck page of the universe `uniID` (default: the emulated one), with an optional result message */
+    private function renderDeck(string $message = '', string $messageType = ''): Response
+    {
+        $universe = $this->input()->int('uniID', (int) $this->universe()->getEmulated());
 
         $deckConfig = $this->getDeckConfig($universe);
         $deckStats = $this->calculateDeckStats($deckConfig);
 
-        $this->assign([
+        return $this->render('admin/ExpeditionDeck.html.twig', [
             'universe' => $universe,
             'deckStats' => $deckStats,
             'deckJson' => json_encode($deckConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
             'message' => $message,
             'messageType' => $messageType,
         ]);
-
-        return $this->render('admin/ExpeditionDeck.html.twig');
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getDeckConfig(int $universe): array
     {
         $db = $this->db;
@@ -85,6 +87,9 @@ class ExpeditionDeckController extends AbstractAdminController
 
     /**
      * Counts the cards per event type and their share of the deck; returns the totals used by the page.
+     *
+     * @param array<mixed> $deckConfig
+     * @return array<mixed>
      */
     private function calculateDeckStats(array $deckConfig): array
     {
@@ -144,7 +149,7 @@ class ExpeditionDeckController extends AbstractAdminController
                 throw new Exception($this->state->LNG['adm_exp_deck_err_empty']);
             }
 
-            (new ExpeditionDeckHandler($this->db, $this->configs, $this->state))->updateDeckConfig($universe, $deckConfig);
+            (new ExpeditionDeckHandler($this->db, $this->configs, $this->state, (int) $this->state->USER['id'], $universe))->updateDeckConfig($universe, $deckConfig);
 
         } catch (\JsonException $e) {
             // JSON parsing error

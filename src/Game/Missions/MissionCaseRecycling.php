@@ -17,11 +17,7 @@
 
 namespace App\Game\Missions;
 
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
-use App\Game\Achievements\MiscAchievement;
+use App\Game\Enum\MessageType;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 
 /**
@@ -105,11 +101,11 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
             $LNG['tech'][RESOURCE_DEUT],
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['return_time'],

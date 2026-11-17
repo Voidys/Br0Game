@@ -3,16 +3,20 @@
 <html lang="{{ lang }}" data-dialog-ok="{{ LNG.dialog_ok }}" data-dialog-cancel="{{ LNG.dialog_cancel }}">
 <head>
   <meta charset="utf-8">
+  {# pages live at /game/<page>: relative URLs (assets, ./, game/...) keep resolving against the universe directory #}
+  <base href="{{ basepath }}{{ app.request.attributes.get('uni') }}">
   {{ csrf_meta() }}
   <title>{% block title %} - {{ uni_name }} - {{ game_name }}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {# versions all ES modules by mtime (imported modules carry no ?v=): App\\Twig\\GameExtension::importMap #}
   {{ import_map() }}
   <meta name="theme-color" content="#05080d">
-  {% if not empty(goto) %}
+  {% if goto %}
     <meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
   {% endif %}
   <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+  {# the wordmark font is used by every page (top bar): fetch it with the CSS instead of after the first layout #}
+  <link rel="preload" href="./styles/resource/fonts/michroma/michroma-eu.woff2" as="font" type="font/woff2" crossorigin>
 
   {# cascade layers: reset, base, legacy.content, legacy.theme, components; game.css (shell) stays unlayered #}
   <link rel="stylesheet" href="./styles/resource/css/app/base.css?v={{ asset_version }}">
@@ -58,13 +62,25 @@
     timezone: TIMEZONESTRING,
     serverTimezone: game_config('timezone'),
     tdformat: LNG.js_tdformat,
-    queryString: queryString,
+    urls: {
+      information: path('game_information_show', {id: 0}),
+      planetActions: path('game_overview_actions'),
+    },
     isPlayerCardActive: isPlayerCardActive,
     decimalSeparator: decimalSeparator,
     numberSuffixes: numberSuffixes,
     viewShortlyNumber: shortlyNumber,
     vacation: vmode,
     debug: debug == 1
+  }) }}
+
+  {# URLs the shared scripts (app/dialog.js, app/ui.js) open or post to: routes rendered here instead of built in JS #}
+  {{ data_island('game-routes', {
+    messageWrite: path('game_messages_write'),
+    messageForward: path('game_messages_forward'),
+    playerCard: path('game_player_card_show'),
+    buddyRequest: path('game_buddy_list_request'),
+    clientReport: path('game_report_show')
   }) }}
 
   <script type="module" src="./scripts/app/main.js?v={{ asset_version }}"></script>
@@ -80,7 +96,7 @@
   {% block script %}{% endblock %}
 </head>
 
-<body id="{{ app.request.query.get('page')|default('overview') }}" class="{% block bodyclass %}{% endblock %}">
+<body id="{{ app.request.attributes.get('_page')|default(app.request.query.get('page'))|default('overview') }}" class="{% block bodyclass %}{% endblock %}">
 {% block body %}{% endblock %}
 </body>
 </html>

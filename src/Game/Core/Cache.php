@@ -27,7 +27,9 @@ use App\Game\Cache\Builder\BuildCacheInterface;
 class Cache
 {
     private CacheFile $cacheResource;
+    /** @var array<mixed> */
     private array $cacheBuilder = [];
+    /** @var array<mixed> */
     private array $cacheObj = [];
 
     /** cache keys and their builders (formerly registered at runtime via add()) */
@@ -58,6 +60,8 @@ class Cache
 
     /**
      * Content of a cache entry; built when missing unless $rebuild is false (then [] if absent).
+     *
+     * @return array<mixed>
      */
     public function getData(string $Key, bool $rebuild = true): array
     {

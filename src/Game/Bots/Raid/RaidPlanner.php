@@ -101,6 +101,7 @@ class RaidPlanner
      *
      * @param array<int, int> $fleet ship id => count
      * @param int $speedSetting 1-10 (10 = full speed, the fleet page's 100 %)
+     * @param array<string, mixed> $planet
      * @return array{distance: int, duration: int, consumption: float}
      */
     public function flight(BotActions $ctx, array $planet, array $fleet, int $galaxy, int $system, int $position, int $speedSetting = 10): array
@@ -142,6 +143,7 @@ class RaidPlanner
     /**
      * Warships (ships that are neither cargo nor in NOT_RAIDERS and can attack) on a planet.
      *
+     * @param array<string, mixed> $planet
      * @return array<int, int> ship id => count
      */
     private function warships(array $planet): array
@@ -161,6 +163,9 @@ class RaidPlanner
     /**
      * The best fleet from one planet: tries the escort shares in turn.
      *
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $report
+     * @param array<string, mixed> $target
      * @return array<string, mixed> see plan()
      */
     private function planFrom(BotActions $ctx, array $planet, array $report, array $target, float $minRatio): array
@@ -224,6 +229,7 @@ class RaidPlanner
      * Fleet for an escort share: that share of every warship type, plus large then small cargos for the capacity still missing.
      *
      * @param array<int, int> $warships ship id => count on the planet
+     * @param array<string, mixed> $planet
      * @return array<int, int> ship id => count, empty when nothing can be sent
      */
     private function compose(array $planet, array $warships, int $needed, float $share): array
@@ -256,6 +262,7 @@ class RaidPlanner
      *
      * @param array<int, int> $fleet attacking ships
      * @param int|null $activityMinutes minutes since the target was last active when under 60 (an active target may react: loot is discounted)
+     * @param array<string, mixed> $report
      * @return array{win: bool, loot: float, loot_res: array<int, float>, losses: float, techs_assumed: bool}
      */
     private function simulate(BotActions $ctx, array $fleet, array $report, ?int $activityMinutes): array
@@ -276,6 +283,7 @@ class RaidPlanner
      * The fights behind simulate() (not cached).
      *
      * @param array<int, int> $fleet attacking ships
+     * @param array<string, mixed> $report
      * @return array{win: bool, loot: float, loot_res: array<int, float>, losses: float, techs_assumed: bool}
      */
     private function fight(BotActions $ctx, array $fleet, array $report, ?int $activityMinutes): array
@@ -351,6 +359,7 @@ class RaidPlanner
      * Combat techs of the defender: from the report when it has the research section, otherwise the bot assumes the defender is one
      * level ahead of itself in each (a cautious guess).
      *
+     * @param array<string, mixed> $report
      * @return array{military_tech: int, shield_tech: int, defence_tech: int}
      */
     private function defenderTechs(BotActions $ctx, array $report): array
@@ -384,6 +393,7 @@ class RaidPlanner
      * The defending planet (fleet 0) with the reported ships and defense.
      *
      * @param array<string, mixed> $techs defender tech levels by column name
+     * @param array<string, mixed> $report
      */
     private function defenderFleet(array $report, array $techs): BattleFleet
     {

@@ -17,36 +17,24 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\AuthLevel;
+use App\Game\Enum\MessageType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
 use App\Game\Core\Mail;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 
 /**
  * Sends a mail to the accounts of a universe/language selection (news letter) and in-game messages.
  */
-#[\App\Routing\GamePage('admin', 'sendMessages')]
 class SendMessagesController extends AbstractAdminController
 {
-    /**
-     * Mass messages. action=send with subject, text, mode (0 in-game message, 1 mail, 2 both), globalmessageuniverse (0 = all) and
-     * globalmessagelang (empty = all languages). In-game messages go to the players, grouped per universe, signed with the sender's
-     * authlevel class; mails go to the distinct addresses of the accounts of the selected players ({USERNAME} is replaced). The form
-     * hides mail when mail is not enabled.
-     */
+    /** The mass message form; mail modes are hidden when mail is not enabled. */
+    #[GameRoute('admin', 'admin/send-messages', 'sendMessages')]
     public function show(): Response
     {
         $db = $this->db;
         $LNG = $this->state->LNG;
-
-        $ACTION = $this->http()->_GP('action', '');
-        if ($ACTION == 'send') {
-            $this->sendBroadcast();
-        }
 
         $sendModes = $LNG['ma_modes'];
 
@@ -58,27 +46,28 @@ class SendMessagesController extends AbstractAdminController
         $sql = "SELECT `uni`, `value` as 'uni_name' FROM %%CONFIG_UNIVERSE%% WHERE `key` = 'uni_name' ORDER BY `uni` ASC;";
         $universeList = $db->select($sql);
 
-        $this->assign([
+        return $this->render('admin/SendMessagesPage.html.twig', [
             'langSelector'     => array_merge(['' => $LNG['ma_all']], $LNG->getAllowedLangs(false)),
             'universeSelector' => array_merge(['0' => $LNG['ma_all']], array_column($universeList, 'uni_name', 'uni')),
             'modes'            => $sendModes,
         ]);
-        return $this->render('admin/SendMessagesPage.html.twig');
     }
 
     /**
-     * Action send: validates subject and text, delivers the in-game messages (mode 0 or 2) and/or the mails (mode 1 or 2)
-     * and ends the request with a status text.
+     * Validates subject and text, delivers the in-game messages (mode 0 or 2) and/or the mails (mode 1 or 2) to the players of
+     * globalmessageuniverse (0 = all) and globalmessagelang (empty = all) and answers with a status text. In-game messages are grouped per
+     * universe and signed with the sender's authlevel class; mails go to the distinct addresses of the accounts ({USERNAME} is replaced).
      */
-    private function sendBroadcast(): void
+    #[GameRoute('admin', 'admin/send-messages', 'sendMessages', 'send', ['POST'])]
+    public function send(): Response
     {
         $LNG = $this->state->LNG;
 
-        $Subject = $this->http()->_GP('subject', '', true);
-        $Message = $this->http()->_GP('text', '', true);
-        $Mode = $this->http()->_GP('mode', 0);
-        $Lang = $this->http()->_GP('globalmessagelang', '');
-        $universe = $this->http()->_GP('globalmessageuniverse', 0);
+        $Subject = $this->input()->string('subject', '', true);
+        $Message = $this->input()->string('text', '', true);
+        $Mode = $this->input()->int('mode');
+        $Lang = $this->input()->string('globalmessagelang');
+        $universe = $this->input()->int('globalmessageuniverse');
 
         if (!empty($Message) && !empty($Subject)) {
             if ($Mode == 0 || $Mode == 2) {
@@ -86,12 +75,13 @@ class SendMessagesController extends AbstractAdminController
             }
 
             if (($Mode == 1 || $Mode == 2) && !$this->sendMails($Subject, $Message, $universe, $Lang)) {
-                throw new \App\Game\Core\EndOfRequest($LNG['ma_no_recipients']);
+                return new Response($LNG['ma_no_recipients']);
             }
-            throw new \App\Game\Core\EndOfRequest($LNG['ma_message_sended']);
-        } else {
-            throw new \App\Game\Core\EndOfRequest($LNG['ma_subject_needed']);
+
+            return new Response($LNG['ma_message_sended']);
         }
+
+        return new Response($LNG['ma_subject_needed']);
     }
 
     /**
@@ -105,13 +95,13 @@ class SendMessagesController extends AbstractAdminController
         $db = $this->db;
 
         switch ($USER['authlevel']) {
-            case AUTH_MOD:
+            case AuthLevel::Moderator->value:
                 $class = 'mod';
                 break;
-            case AUTH_OPS:
+            case AuthLevel::Operator->value:
                 $class = 'ops';
                 break;
-            case AUTH_ADM:
+            case AuthLevel::Admin->value:
                 $class = 'admin';
                 break;
             default:
@@ -132,7 +122,7 @@ class SendMessagesController extends AbstractAdminController
             $userList[$UserData['universe']][] = $UserData['id'];
         }
         foreach ($userList as $universe => $userIDs) {
-            $this->playerUtil()->sendMessage($userIDs, $USER['id'], $From, MESSAGE_TYPE_GAME, $pmSubject, $pmMessage, $this->state->runtime->timestamp, 1, $universe);
+            $this->playerMessenger()->sendMessage($userIDs, $USER['id'], $From, MessageType::Game->value, $pmSubject, $pmMessage, $this->state->runtime->timestamp, 1, $universe);
         }
     }
 

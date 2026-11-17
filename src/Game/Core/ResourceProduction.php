@@ -2,6 +2,7 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\PlanetType;
 use App\Game\Model\Planet;
 use App\Game\Model\ProductionResult;
 use App\Game\Model\User;
@@ -159,7 +160,7 @@ class ResourceProduction
     public function produce(array $planet, int|float $productionTime, Config $config, array &$builded): array
     {
         $resource = $this->elements()->columnMap();
-        if ($planet['planet_type'] == 3) {
+        if ($planet['planet_type'] == PlanetType::Moon->value) {
             return $planet;
         }
 

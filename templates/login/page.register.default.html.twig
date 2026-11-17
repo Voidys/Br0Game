@@ -4,9 +4,8 @@
 {% block script %}<script type="module" src="scripts/app/pow.js?v={{ asset_version }}"></script>{% endblock %}
 {% block content %}
 <div id="registerFormWrapper">
-  <form class="form" id="registerForm" method="post" action="./?page=register" data-action="./?page=register" data-pow="{{ path('pow_challenge') }}" data-pow-text="{{ LNG.powVerifying }}" data-pow-error="{{ LNG.powNoCrypto }}">
+  <form class="form" id="registerForm" method="post" action="{{ path('login_register_send') }}" data-action="{{ universe_path('login_register_send') }}" data-pow="{{ path('pow_challenge') }}" data-pow-text="{{ LNG.powVerifying }}" data-pow-error="{{ LNG.powNoCrypto }}">
     {{ forms.pow_fields() }}
-    <input type="hidden" value="send" name="mode">
     <input type="hidden" value="{{ referralData.id }}" name="referralID">
 
     <div class="field">
@@ -40,7 +39,7 @@
         <select name="lang" id="language">{{ forms.html_options({'options': languages, 'selected': lang}) }}</select>
       </div>
     {% endif %}
-    {% if not empty(referralData.name) %}
+    {% if referralData.name %}
       <div class="field">
         <span class="field__label">{{ LNG.registerReferral }}</span>
         <span class="field__value">{{ referralData.name }}</span>

@@ -3,7 +3,7 @@ import { qs, qsa, on, post } from '../app/core.js';
 /**
  * Shipyard hangar filter bar (#hangar-filters): group filters, filters pinned per ship and a "+" menu to pin more. The
  * selected filters decide which ship cards (.infos) are visible ("All" or no selection shows everything). Adding or removing a
- * pinned ship saves the list on the server (`game?page=shipyard&mode=saveFilters`, ajax POST, errors ignored).
+ * pinned ship saves the list on the server (POST to the route in #hangar-filters data-save-url, errors ignored).
  */
 window.onPageInit(() => {
   const bar = qs('#hangar-filters');
@@ -75,7 +75,7 @@ window.onPageInit(() => {
 
   /** Persists the pinned ship ids (fire and forget). */
   function saveShips(ids) {
-    post('game?page=shipyard&mode=saveFilters&ajax=1', { 'ships[]': ids }).catch(() => {});
+    post(bar.dataset.saveUrl, { 'ships[]': ids }).catch(() => {});
   }
 
   /** Position of a ship in the hangar plus-menu (fleet list order). */

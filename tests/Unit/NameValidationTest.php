@@ -6,14 +6,14 @@ namespace App\Tests\Unit;
 
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
-use App\Game\Core\PlayerUtil;
+use App\Game\Core\Player\PlayerRegistration;
 use App\Game\Core\Singleton;
 use App\Runtime\RuntimeContext;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Pins PlayerUtil::isNameValid(): the allow-list for player names (ASCII letters, digits, German umlauts and ß,
+ * Pins PlayerRegistration::isNameValid(): the allow-list for player names (ASCII letters, digits, German umlauts and ß,
  * space, underscore, dot, hyphen) and for planet names (any Unicode letter or number, plus space _ - .).
  *
  * Why: names end up in HTML, mails, fleet messages and URLs; the validation is the first line of defence against
@@ -21,9 +21,9 @@ use PHPUnit\Framework\TestCase;
  */
 final class NameValidationTest extends TestCase
 {
-    private function players(): PlayerUtil
+    private function players(): PlayerRegistration
     {
-        return new PlayerUtil(
+        return new PlayerRegistration(
             $this->createStub(Database::class),
             $this->createStub(ConfigRegistry::class),
             new Singleton(new RuntimeContext(dirname(__DIR__, 2))),

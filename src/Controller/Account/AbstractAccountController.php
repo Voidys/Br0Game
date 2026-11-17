@@ -9,25 +9,27 @@
 namespace App\Controller\Account;
 
 use App\Controller\GameControllerInterface;
-use App\Controller\PageModeDispatch;
+use App\Controller\GuardsModule;
+use App\Controller\ModuleGuard;
 use App\Controller\RendersPages;
 use App\Game\Core\EndOfRequest;
+use Symfony\Component\HttpFoundation\Response;
 use DateTime;
 use DateTimeZone;
 use Exception;
 
 /**
- * Base for the account lobby controllers (/account?page=...): universe list, account settings,
- * the board. ?mode= is dispatched by PageModeDispatch; pages render with RendersPages and get the
+ * Base for the account lobby controllers (/account/...): universe list, account settings,
+ * the board. Every action has its own route (GameRoute); pages render with RendersPages and get the
  * account navigation and clock settings of the account layout.
  */
-abstract class AbstractAccountController implements GameControllerInterface
+abstract class AbstractAccountController implements GameControllerInterface, ModuleGuard
 {
     use \App\Game\Core\GameUtilities;
 
     use \App\Controller\GameServices;
 
-    use PageModeDispatch;
+    use GuardsModule;
 
     use RendersPages;
 
@@ -44,6 +46,7 @@ abstract class AbstractAccountController implements GameControllerInterface
         $this->printMessage($this->state->LNG->format('rl_too_many_requests', $retryAfter));
     }
 
+    /** Error page of the area for GuardsModule (module inactive); ends the request. */
     protected function printPageError(string $message): never
     {
         $this->printMessage($message);
@@ -62,54 +65,43 @@ abstract class AbstractAccountController implements GameControllerInterface
     }
 
     /**
-     * Builds the query string (page, mode, id) of the current request, e.g. for the language switch and redirects.
-     */
-    protected function getQueryString()
-    {
-        $queryString = [];
-        $page = $this->http()->_GP('page', '');
-
-        if (!empty($page)) {
-            $queryString['page'] = $page;
-        }
-
-        $mode = $this->http()->_GP('mode', '');
-        if (!empty($mode)) {
-            $queryString['mode'] = $mode;
-        }
-
-        $id = $this->http()->_GP('id', '');
-        if (!empty($id)) {
-            $queryString['id'] = $id;
-        }
-
-        return http_build_query($queryString);
-    }
-
-    /**
-     * Shows a message page and ends the request.
+     * The message page of the area.
      *
      * @param string|\Twig\Markup $message plain text is escaped, pass Twig\Markup for HTML
      * @param list<array{url: string, label: string}>|null $redirectButtons links under the message
      * @param array{0: string, 1: int}|null $redirect [url, seconds] automatic redirect
      * @param bool $fullSide false: popup window
      */
-    protected function printMessage($message, $redirectButtons = null, $redirect = null, $fullSide = true): never
+    protected function messageResponse($message, $redirectButtons = null, $redirect = null, $fullSide = true): Response
     {
-        $this->assign([
+        $context = [
             'message' => $message,
             'redirectButtons' => $redirectButtons,
-        ]);
+        ];
 
         if (isset($redirect)) {
-            $this->assign(['goto' => $redirect[0], 'gotoinsec' => $redirect[1]]);
+            $context += ['goto' => $redirect[0], 'gotoinsec' => $redirect[1]];
         }
 
         if (!$fullSide) {
             $this->setWindow('popup');
         }
 
-        $this->display('account/error.default.html.twig');
+        return $this->render('account/error.default.html.twig', $context);
+    }
+
+    /**
+     * Ends the request with the message page: for initialize() and helpers that cannot return the Response (an action
+     * returns messageResponse()).
+     *
+     * @param string|\Twig\Markup $message
+     * @param list<array{url: string, label: string}>|null $redirectButtons
+     * @param array{0: string, 1: int}|null $redirect
+     * @param bool $fullSide false: popup window
+     */
+    protected function printMessage($message, $redirectButtons = null, $redirect = null, $fullSide = true): never
+    {
+        throw EndOfRequest::withResponse($this->messageResponse($message, $redirectButtons, $redirect, $fullSide));
     }
 
     /**
@@ -152,7 +144,6 @@ abstract class AbstractAccountController implements GameControllerInterface
                 'date' => explode("|", date('Y\|n\|j\|G\|i\|s\|Z', $this->state->runtime->timestamp)),
                 'REV' => substr($config->version, -4),
                 'Offset' => $userTime->getOffset() - $serverTime->getOffset(),
-                'queryString' => $this->getQueryString(),
                 'themeSettings' => $THEME->getStyleSettings(),
             ];
         }
@@ -180,22 +171,18 @@ abstract class AbstractAccountController implements GameControllerInterface
     }
 
     /**
-     * Sends $data as a JSON response and ends the request (EndOfRequest).
+     * Ends the request with a JSON answer (helpers; an action returns jsonResponse()).
      */
     protected function sendJSON($data): never
     {
-        // $this->updatePlanetTime();
-        echo json_encode($data);
-        throw new EndOfRequest();
+        throw EndOfRequest::withResponse($this->jsonResponse($data));
     }
 
     /**
-     * Redirects to $url (relative to the game root) and ends the request.
+     * Ends the request with a redirect to $url (initialize() and helpers; an action returns redirectResponse()).
      */
     protected function redirectTo($url): never
     {
-        // $this->updatePlanetTime();
-        $this->http()->redirectTo($url);
-        throw new EndOfRequest();
+        throw EndOfRequest::withResponse($this->redirectResponse($url));
     }
 }

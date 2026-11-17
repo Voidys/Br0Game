@@ -9,6 +9,8 @@ use App\Game\Core\AllianceDepotRefused;
 use App\Game\Core\FleetString;
 use App\Tests\Support\GameTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use App\Game\Enum\Mission;
+use App\Game\Enum\MessageType;
 
 /**
  * Alliance Depot: the hourly holding cost, the stay extension of a holding fleet (fleet row, fleet event, deuterium,
@@ -47,7 +49,7 @@ final class AllianceDepotTest extends GameTestCase
         $now = $this->state->runtime->timestamp;
         $row = $override + [
             'universe' => 1,
-            'mission' => MISSION_HOLD,
+            'mission' => Mission::Hold->value,
             'owner' => $owner['id'],
             'target_owner' => $planet['id_owner'],
             'ship_amount' => 10,
@@ -170,7 +172,7 @@ final class AllianceDepotTest extends GameTestCase
 
         $text = (string) $this->db->selectSingle(
             'SELECT m.message_text FROM %%MESSAGES%% m WHERE m.message_owner = :id AND m.message_type = :type ORDER BY m.message_id DESC LIMIT 1;',
-            [':id' => $guest['id'], ':type' => MESSAGE_TYPE_SYSTEM],
+            [':id' => $guest['id'], ':type' => MessageType::System->value],
             'message_text',
         );
         $this->assertStringContainsString('Depotowner', $text);
@@ -223,7 +225,7 @@ final class AllianceDepotTest extends GameTestCase
         [$owner, $planet, $guest] = $this->scenario();
         $flying = $this->holdFleet($guest, $planet, 3600, '202,10', ['status' => FLEET_OUTWARD]);
         $returning = $this->holdFleet($guest, $planet, 3600, '202,10', ['status' => FLEET_RETURN]);
-        $otherMission = $this->holdFleet($guest, $planet, 3600, '202,10', ['mission' => MISSION_TRANSPORT]);
+        $otherMission = $this->holdFleet($guest, $planet, 3600, '202,10', ['mission' => Mission::Transport->value]);
         $over = $this->holdFleet($guest, $planet, -10);
 
         foreach ([$flying, $returning, $otherMission, $over] as $id) {

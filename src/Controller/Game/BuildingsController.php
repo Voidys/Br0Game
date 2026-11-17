@@ -17,21 +17,15 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\PlanetType;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
 use App\Game\Core\FormulaEvaluator;
-use App\Game\Core\ResourceUpdate;
-use App\Game\Core\Singleton;
 use App\Game\Model\Planet;
 use App\Game\Model\User;
 
 /** Buildings: build queue of the current planet, start/cancel/demolish buildings and the building list. */
-#[\App\Routing\GamePage('game', 'buildings')]
 #[\App\Controller\RequireModule('MODULE_BUILDING')]
 class BuildingsController extends AbstractGameController
 {
@@ -41,11 +35,6 @@ class BuildingsController extends AbstractGameController
     private const QUEUE_BUILD_END_TIME = 3;
     private const QUEUE_MODE = 4;
     private const QUEUE_COST = 5;
-
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
 
     /**
      * Cancels the building currently under construction (queue position 1), refunds its cost, and starts the next queued entry.
@@ -283,6 +272,8 @@ class BuildingsController extends AbstractGameController
 
     /**
      * Data for the queue display: per entry name, level, remaining time and end time, plus the quick info of the first entry.
+     *
+     * @return array<mixed>
      */
     private function getQueueData(): array
     {
@@ -320,34 +311,56 @@ class BuildingsController extends AbstractGameController
     }
 
     /**
-     * Buildings page. Request: cmd (cancel, remove, insert, destroy) with building (element id) and listid (queue position) - then redirects
-     * back to the page; watch (element id, 0 clears) stores the element watched by the cargo calculator on the planet. Otherwise renders the list of
-     * buildings with costs, times, requirements, production changes and the build queue. Queue changes are written back with the planet.
+     * Stores the element watched by the cargo calculator on the planet (request: watch = element id, 0 clears) and redirects back to the
+     * page; null when the request has no `watch`.
      */
+    private function watchRedirect(): ?Response
+    {
+        if ($this->input()->string('watch') === '') {
+            return null;
+        }
+        $this->db->update(
+            'UPDATE %%PLANETS%% SET watch_id = :watch_id WHERE id = :planetId;',
+            [
+                ':watch_id' => max(0, $this->input()->int('watch')),
+                ':planetId' => $this->state->PLANET['id'],
+            ],
+        );
+
+        return $this->redirectToRoute('game_buildings_show');
+    }
+
+    /**
+     * Queue command (POST, request: cmd = cancel, remove, insert or destroy with building = element id and listid = queue position): runs it and
+     * redirects back to the page. Without a command, or in vacation mode, the page is shown as it is.
+     */
+    #[GameRoute('game', 'game/buildings', 'buildings', 'command', ['POST'])]
+    public function command(): Response
+    {
+        if ($watched = $this->watchRedirect()) {
+            return $watched;
+        }
+        $TheCommand = $this->input()->string('cmd');
+        if (!empty($TheCommand) && $this->state->USER['urlaubs_modus'] == 0) {
+            return $this->runQueueCommand($TheCommand);
+        }
+
+        return $this->show();
+    }
+
+    /**
+     * Buildings page. Request: watch (element id, 0 clears) stores the element watched by the cargo calculator on the planet and redirects
+     * back. Otherwise renders the list of buildings with costs, times, requirements, production changes and the build queue.
+     */
+    #[GameRoute('game', 'game/buildings', 'buildings')]
     public function show(): Response
     {
+        if ($watched = $this->watchRedirect()) {
+            return $watched;
+        }
+
         $LNG = $this->state->LNG;
-        $TheCommand     = $this->http()->_GP('cmd', '');
-        $catchupFactor  = $this->playerUtil()->getCatchUpFactor($this->state->USER);
-
-
-        if ($this->http()->_GP('watch', '') != '') {
-            $db = $this->db;
-            $db->update(
-                'UPDATE %%PLANETS%% SET watch_id = :watch_id WHERE id = :planetId;',
-                [
-                    ':watch_id' => max(0, (int) $this->http()->_GP('watch', 0)),
-                    ':planetId' => $this->state->PLANET['id'],
-                ],
-            );
-
-            $this->redirectTo('game?page=buildings');
-        }
-
-        // wellformed buildURLs
-        if (!empty($TheCommand) && $this->state->requestServer['REQUEST_METHOD'] === 'POST' && $this->state->USER['urlaubs_modus'] == 0) {
-            $this->runQueueCommand($TheCommand);
-        }
+        $catchupFactor  = $this->protectionRules()->catchUpFactorFor($this->player());
 
         $config             = $this->configs->get();
 
@@ -376,7 +389,7 @@ class BuildingsController extends AbstractGameController
             $this->addScript('buildlist.js');
         }
 
-        $this->assign([
+        return $this->render('game/page.buildings.default.html.twig', [
             'umode'             => $this->state->USER['urlaubs_modus'],
             'BuildInfoList'     => $BuildInfoList,
             'CanBuildElement'   => $CanBuildElement,
@@ -394,21 +407,19 @@ class BuildingsController extends AbstractGameController
             'catchUp'           => $LNG->format('sys_catchup', round((1 - $catchupFactor) * 100, 2)),
             'watch'             => $this->state->PLANET['watch_id'],
             'planet_field_current' => $this->state->PLANET['field_current'],
-            'planet_field_max'     => $this->playerUtil()->maxFieldsFor($planetModel),
+            'planet_field_max'     => $this->planetQueries()->maxFieldsFor($planetModel),
         ]);
-
-        return $this->render('game/page.buildings.default.html.twig');
     }
 
     /**
      * Executes a queue command (cancel, remove, insert, destroy with the `building` / `listid` request values) in a
      * transaction on the locked planet row, saves the queue unless the command is unknown, and redirects back to
-     * the page (ends the request).
+     * the page.
      */
-    private function runQueueCommand(string $TheCommand): never
+    private function runQueueCommand(string $TheCommand): Response
     {
-        $Element        = $this->http()->_GP('building', 0);
-        $ListID         = $this->http()->_GP('listid', 0);
+        $Element        = $this->input()->int('building');
+        $ListID         = $this->input()->int('listid');
         $db = $this->db;
         $db->startTransaction();
         // user row first (like the research code), so a research started a moment ago is seen by the laboratory rule
@@ -441,7 +452,8 @@ class BuildingsController extends AbstractGameController
             $this->ecoObj->saveBuilingQueue($this->state->PLANET);
         }
         $db->commit();
-        $this->redirectTo('game?page=buildings');
+
+        return $this->redirectToRoute('game_buildings_show');
     }
 
     /**
@@ -450,6 +462,7 @@ class BuildingsController extends AbstractGameController
      * display flags (fade, buyable, destroyable, filter class, catch-up factor).
      *
      * @param array{queue: array, quickinfo: array<int, int>} $queueData from getQueueData()
+     * @param array<mixed> $queueData
      * @return array<int, array<string, mixed>> building id => row
      */
     private function buildingList(User $userModel, Planet $planetModel, array $queueData, int $QueueCount, float $catchupFactor, object $config): array
@@ -526,7 +539,7 @@ class BuildingsController extends AbstractGameController
     private function timeToAfford(array $costOverflow, array $production): int|float
     {
         $timetobuild = 0;
-        if ($this->state->PLANET['planet_type'] != 3) {
+        if ($this->state->PLANET['planet_type'] != PlanetType::Moon->value) {
             foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceId) {
                 if (array_key_exists($resourceId, $costOverflow) && $costOverflow[$resourceId] != 0 && $production[$resourceId] > 0) {
                     $timetobuild = max($timetobuild, $costOverflow[$resourceId] / $production[$resourceId]);
@@ -545,6 +558,7 @@ class BuildingsController extends AbstractGameController
      * @param array<int, array{count: mixed, own: mixed}> $requirementsList missing requirements (empty when accessible)
      * @param array{queue: array, quickinfo: array<int, int>} $queueData
      * @param array<int, int|float> $production hourly production incl. basic income per resource
+     * @param array<mixed> $queueData
      * @return array<string, mixed>
      */
     private function buildingRow(int $Element, array $requirementsList, User $userModel, Planet $planetModel, array $queueData, int $QueueCount, float $catchupFactor, array $production, object $config): array
@@ -587,7 +601,7 @@ class BuildingsController extends AbstractGameController
             || ($this->state->USER['missing_resources_opacity'] && !$buyable)
             || $this->elements()->get($Element)->maxLevel == $levelToBuild;
 
-        $factor = $this->playerUtil()->getCatchUpFactorForElement($catchupFactor, $Element, $levelToBuild + 1);
+        $factor = $this->protectionRules()->getCatchUpFactorForElement($catchupFactor, $Element, $levelToBuild + 1);
 
         return [
             'level'             => $this->state->PLANET[$this->elements()->column($Element)],

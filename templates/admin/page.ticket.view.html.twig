@@ -1,7 +1,7 @@
 {% include 'admin/overall_header.html.twig' %}
-<form action="admin?page=support&amp;mode=send" method="post" id="form" class="stack">
+<form action="{{ path('admin_support_send') }}" method="post" id="form" class="stack">
   <input type="hidden" name="id" value="{{ ticketID }}">
-  <div class="page-actions"><a class="button btn--small" href="admin?page=support">{{ icon('arrow-left') }}{{ LNG.ti_overview }}</a></div>
+  <div class="page-actions"><a class="button btn--small" href="{{ path('admin_support_show') }}">{{ icon('arrow-left') }}{{ LNG.ti_overview }}</a></div>
 
   {% for answerID, answerRow in answerList %}
   {% if loop.first %}

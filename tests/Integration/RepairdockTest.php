@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration;
 
 use App\Controller\Game\RepairdockController;
-use App\Game\Core\EndOfRequest;
 use App\Game\Core\Language;
 use App\Tests\Support\GameTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +41,10 @@ final class RepairdockTest extends GameTestCase
         $this->state->time = ['start' => microtime(true), 'end_common' => microtime(true), 'db' => 0];
     }
 
-    /** @return array{0: array<string, mixed>, 1: array<string, mixed>} user, planet with a repair dock of the given level and wrecks of 3 cruisers (ship 206) */
+    /**
+     * @param array<mixed> $wrecks
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>} user, planet with a repair dock of the given level and wrecks of 3 cruisers (ship 206)
+     */
     private function dockWithWrecks(int $level, array $wrecks = [206 => 3], string $order = '', int $orderEnd = 0, float $rate = 0): array
     {
         $resource = $this->elements()->columnMap();
@@ -57,8 +59,12 @@ final class RepairdockTest extends GameTestCase
         return [$user, $this->loadPlanet((int) $planet['id'])];
     }
 
-    /** @param array<string, mixed> $input */
-    private function post(array $user, array $planet, array $input): void
+    /**
+     * @param array<string, mixed> $input
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $user
+     */
+    private function post(array $user, array $planet, array $input, string $action = 'start'): void
     {
         $this->state->USER = $user + ['messages' => 0, 'signalColors' => '', 'colors' => ''];
         $this->state->PLANET = $planet;
@@ -67,11 +73,10 @@ final class RepairdockTest extends GameTestCase
         $this->state->requestQuery = [];
         $this->state->requestServer = ($this->state->requestServer ?? []);
         $this->state->requestServer['REQUEST_METHOD'] = 'POST';
-        try {
-            (new RepairdockController())->withGameServices($this->db, $this->configs, $this->state)->show();
-            $this->fail('the page should end the request');
-        } catch (EndOfRequest) {
-        }
+        $controller = (new RepairdockController())->withGameServices($this->db, $this->configs, $this->state);
+        $controller->setRouter(self::container()->get('router'));
+        $response = $controller->$action();
+        $this->assertTrue($response->isRedirection() || $response->isSuccessful(), 'the action answers with a redirect or the message page');
     }
 
     /** @return array<string, mixed> */
@@ -106,7 +111,7 @@ final class RepairdockTest extends GameTestCase
         // order of 10 cruisers started at 25 % (40 wrecks consumed), dock meanwhile upgraded to level 9 (51 %)
         [$user, $planet] = $this->dockWithWrecks(9, [206 => 40], '{"206":10}', $this->state->runtime->timestamp - 10, 0.25);
 
-        $this->post($user, $planet, ['cmd' => 'deploy']);
+        $this->post($user, $planet, [], 'deploy');
 
         $this->assertEquals(10, $this->loadPlanet((int) $planet['id'])[$resource[206]]);
         $after = $this->wreckfield((int) $planet['id']);

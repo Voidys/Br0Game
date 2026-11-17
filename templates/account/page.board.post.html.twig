@@ -1,8 +1,8 @@
 {% extends layout_template %}
 {% block title %}{{ post.deleted ? LNG.board_deleted : post.title|e }}{{ parent() }}{% endblock %}
 {% block content %}
-<div class="board" data-board data-csrf="{{ csrf }}" data-vote-url="account?page=board&amp;mode=vote">
-  <p><a href="account?page=board">{{ icon('arrow-left') }}{{ LNG.lm_board }}</a></p>
+<div class="board" data-board data-csrf="{{ csrf }}" data-vote-url="{{ path('account_board_vote') }}">
+  <p><a href="{{ path('account_board_show') }}">{{ icon('arrow-left') }}{{ LNG.lm_board }}</a></p>
 
   <article class="panel board-post">
     <div class="board-vote" data-vote data-type="post" data-id="{{ post.id }}" data-value="{{ post.myvote }}">
@@ -24,18 +24,18 @@
       {% if not post.deleted %}<div class="rich-text board-post__body">{{ post.body }}</div>{% endif %}
 
       <div class="board-actions">
-        {% if post.canEdit %}<a class="board-action" href="account?page=board&amp;mode=editPost&amp;id={{ post.id }}">{{ icon('pencil') }}{{ LNG.board_edit }}</a>{% endif %}
+        {% if post.canEdit %}<a class="board-action" href="{{ path('account_board_edit_post', {id: post.id}) }}">{{ icon('pencil') }}{{ LNG.board_edit }}</a>{% endif %}
         {% if post.canDelete %}
-        <form action="account?page=board" method="post">
-          <input type="hidden" name="mode" value="delete"><input type="hidden" name="csrf" value="{{ csrf }}">
+        <form action="{{ path('account_board_delete') }}" method="post">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
           <input type="hidden" name="type" value="post"><input type="hidden" name="id" value="{{ post.id }}">
           <button data-confirm-danger data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}" class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
         </form>
         {% endif %}
         {% if isMod and not post.deleted %}
           {% for act in [post.pinned ? 'unpin' : 'pin', post.locked ? 'unlock' : 'lock'] %}
-          <form action="account?page=board" method="post">
-            <input type="hidden" name="mode" value="moderate"><input type="hidden" name="csrf" value="{{ csrf }}">
+          <form action="{{ path('account_board_moderate') }}" method="post">
+            <input type="hidden" name="csrf" value="{{ csrf }}">
             <input type="hidden" name="id" value="{{ post.id }}"><input type="hidden" name="action" value="{{ act }}">
             <button class="board-action board-action--mod" type="submit">{{ icon(act == 'lock' or act == 'unlock' ? 'lock' : 'shield') }}{{ attribute(LNG, 'board_mod_' ~ act) }}</button>
           </form>
@@ -55,8 +55,8 @@
     </div>
 
     {% if canComment %}
-    <form class="panel board-form board-form--comment" action="account?page=board" method="post">
-      <input type="hidden" name="mode" value="comment"><input type="hidden" name="csrf" value="{{ csrf }}">
+    <form class="panel board-form board-form--comment" action="{{ path('account_board_comment') }}" method="post">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
       <input type="hidden" name="post_id" value="{{ post.id }}"><input type="hidden" name="parent_id" value="0">
       <textarea name="body" data-rte="basic" rows="4" aria-label="{{ LNG.board_add_comment }}"></textarea>
       <div class="board-form__actions"><button class="btn btn--primary" type="submit">{{ LNG.board_comment_send }}</button></div>
@@ -86,8 +86,8 @@
             {% if canComment %}<button type="button" class="board-action" data-reply>{{ icon('message-circle') }}{{ LNG.board_reply }}</button>{% endif %}
             {% if c.canEdit %}<button type="button" class="board-action" data-edit>{{ icon('pencil') }}{{ LNG.board_edit }}</button>{% endif %}
             {% if c.canDelete %}
-            <form action="account?page=board" method="post">
-              <input type="hidden" name="mode" value="delete"><input type="hidden" name="csrf" value="{{ csrf }}">
+            <form action="{{ path('account_board_delete') }}" method="post">
+              <input type="hidden" name="csrf" value="{{ csrf }}">
               <input type="hidden" name="type" value="comment"><input type="hidden" name="id" value="{{ c.id }}">
               <button data-confirm-danger data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}" class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
             </form>
@@ -103,8 +103,8 @@
 
   {% if not isGuest %}
   <template id="board-reply-tpl">
-    <form class="board-form board-form--inline" action="account?page=board" method="post">
-      <input type="hidden" name="mode" value="comment"><input type="hidden" name="csrf" value="{{ csrf }}">
+    <form class="board-form board-form--inline" action="{{ path('account_board_comment') }}" data-save-action="{{ path('account_board_save_comment') }}" method="post">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
       <input type="hidden" name="post_id" value="{{ post.id }}"><input type="hidden" name="parent_id" value="0">
       <input type="hidden" name="id" value="0" disabled>
       <textarea name="body" data-rte="basic" rows="4"></textarea>

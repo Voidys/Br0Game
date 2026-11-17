@@ -17,20 +17,17 @@
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\AuthLevel;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use Exception;
 use App\Game\Core\Config;
 use App\Game\Core\Config\ConfigFieldSchema;
-use App\Game\Core\Database;
 use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /**
  * Universe administration: list, open/close, create and delete universes.
  */
-#[\App\Routing\GamePage('admin', 'universe')]
 class UniverseController extends AbstractAdminController
 {
     private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
@@ -49,7 +46,7 @@ class UniverseController extends AbstractAdminController
     {
         $USER = $this->state->USER;
 
-        if ($USER['authlevel'] != AUTH_ADM) {
+        if ($USER['authlevel'] != AuthLevel::Admin->value) {
             $this->deny();
         }
 
@@ -57,55 +54,74 @@ class UniverseController extends AbstractAdminController
 
     }
 
-    /**
-     * Universe administration. Request: action and uniID. open / closed set the universe status (STATUS_OPEN / STATUS_CLOSED) in its
-     * config. delete removes a universe with all its data (not the root universe and not the universe the admin is currently in);
-     * afterwards the admin is redirected (to the root URL layout when only one universe remains). create first checks that the web
-     * server rewrites /uniN/ URLs (a request that must answer 302, otherwise the nginx hint is shown), then inserts the default
-     * config for the next universe id (schema defaults, all modules on, a marketplace row), creates an ADM player for the acting admin at 1:1:1 and
-     * switches the admin session to it. Without action lists the universes.
-     */
+    /** Lists the universes with their status, size and actions. */
+    #[GameRoute('admin', 'admin/universes', 'universe')]
     public function show(): Response
     {
-        $action = $this->http()->_GP('action', '');
-        $universe = $this->http()->_GP('uniID', 0);
-        switch ($action) {
-            case 'open':
-                $config = $this->configs->get($universe);
-                $config->uni_status = STATUS_OPEN;
-                $config->save();
-                break;
-            case 'closed':
-                $config = $this->configs->get($universe);
-                $config->uni_status = STATUS_CLOSED;
-                $config->save();
-                break;
-            case 'delete':
-                if (!empty($universe) && $universe != ROOT_UNI && $universe != $this->universe()->current()) {
-                    $this->deleteUniverse($universe);
-                }
-                break;
-            case 'create':
-                // state change: POST only (the policy exempts action=create from the GET token rules, the news editor shows a form there)
-                if (($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST') {
-                    $this->createUniverse();
-                }
-                break;
+        return $this->renderList();
+    }
+
+    /** Opens the universe `uniID` (STATUS_OPEN in its config) and lists the universes. */
+    #[GameRoute('admin', 'admin/universes/{uniID}/open', 'universe', 'open', ['POST'], ['uniID' => '\d+'])]
+    public function open(): Response
+    {
+        $config = $this->configs->get($this->input()->int('uniID'));
+        $config->uni_status = STATUS_OPEN;
+        $config->save();
+
+        return $this->renderList();
+    }
+
+    /** Closes the universe `uniID` (STATUS_CLOSED in its config) and lists the universes. */
+    #[GameRoute('admin', 'admin/universes/{uniID}/close', 'universe', 'close', ['POST'], ['uniID' => '\d+'])]
+    public function close(): Response
+    {
+        $config = $this->configs->get($this->input()->int('uniID'));
+        $config->uni_status = STATUS_CLOSED;
+        $config->save();
+
+        return $this->renderList();
+    }
+
+    /**
+     * Removes the universe `uniID` with all its data (not the root universe and not the universe the admin is currently in); afterwards the
+     * admin is redirected (to the root URL layout when only one universe remains). Otherwise lists the universes.
+     */
+    #[GameRoute('admin', 'admin/universes/{uniID}/delete', 'universe', 'delete', ['POST'], ['uniID' => '\d+'])]
+    public function delete(): Response
+    {
+        $universe = $this->input()->int('uniID');
+        if (!empty($universe) && $universe != ROOT_UNI && $universe != $this->universe()->current()) {
+            return $this->deleteUniverse($universe);
         }
 
-        $this->assign([
+        return $this->renderList();
+    }
+
+    /**
+     * Creates the next universe: first checks that the web server rewrites /uniN/ URLs (a request that must answer 302, otherwise the nginx
+     * hint is shown), inserts the default config for the next universe id (schema defaults, all modules on, a marketplace row), creates an ADM
+     * player for the acting admin at 1:1:1 and switches the admin session to it.
+     */
+    #[GameRoute('admin', 'admin/universes/create', 'universe', 'create', ['POST'])]
+    public function create(): Response
+    {
+        return $this->createUniverse();
+    }
+
+    private function renderList(): Response
+    {
+        return $this->render('admin/UniversePage.html.twig', [
             'uniList'      => $this->universeList(),
         ]);
-
-        return $this->render('admin/UniversePage.html.twig');
     }
 
     /**
      * Deletes a universe with all its data (community, fleet and player tables, marketplace, config), fixes the
-     * emulated universe and redirects the admin (ends the request). The redirect target depends on whether only one
+     * emulated universe and redirects the admin. The redirect target depends on whether only one
      * universe remains (then the root URL layout is used again and the session cookie is re-issued at the site root).
      */
-    private function deleteUniverse(mixed $universe): void
+    private function deleteUniverse(mixed $universe): Response
     {
         $db = $this->db;
         $this->deleteUniverseCommunityData($universe);
@@ -120,6 +136,7 @@ class UniverseController extends AbstractAdminController
 
         $sql = "DELETE FROM %%CONFIG_UNIVERSE_MODULES%% WHERE `uni` = :universe;";
         $db->delete($sql, [':universe' => $universe]);
+        $this->configs->invalidateCache();
 
         if ($this->universe()->getEmulated() == $universe) {
             $this->universe()->setEmulated($this->universe()->current());
@@ -145,11 +162,12 @@ class UniverseController extends AbstractAdminController
                 $this->state->runtime->https,
                 true,
             );
-            $this->http()->redirectTo("../admin?reload=r");
+
+            return $this->redirectResponse("../admin?reload=r");
         }
 
         // Still multi-uni: reload admin so the list refreshes
-        $this->http()->redirectTo("admin?reload=r");
+        return $this->redirectResponse("admin?reload=r");
     }
 
     /**
@@ -273,15 +291,17 @@ class UniverseController extends AbstractAdminController
     /**
      * Creates the next universe: checks that /uniN/ URLs are rewritten by the web server (ends with a hint message
      * otherwise), inserts config and modules, creates an ADM player for the acting admin at 1:1:1 and redirects into the
-     * new universe (ends the request).
+     * new universe.
      */
-    private function createUniverse(): void
+    private function createUniverse(): Response
     {
         $USER = $this->state->USER;
         $db = $this->db;
 
         $universeCount = max($this->universe()->availableUniverses());
-        $this->assertMultiUniverseSupport($universeCount);
+        if ($hint = $this->assertMultiUniverseSupport($universeCount)) {
+            return $hint;
+        }
 
         $newUniverse = $universeCount + 1;
         $this->insertUniverseConfig($newUniverse);
@@ -291,8 +311,8 @@ class UniverseController extends AbstractAdminController
         $db->insert($sql, [
             ':universe' => $newUniverse,
         ]);
-        $accountId = $this->playerUtil()->get_account_id($USER['id']);
-        [$userID, $planetID] = $this->playerUtil()->createPlayer(
+        $accountId = $this->playerLookup()->get_account_id($USER['id']);
+        [$userID, $planetID] = $this->playerRegistration()->createPlayer(
             $accountId,
             $newUniverse,
             $USER['username'],
@@ -301,7 +321,7 @@ class UniverseController extends AbstractAdminController
             1,
             1,
             null,
-            AUTH_ADM,
+            AuthLevel::Admin->value,
         );
 
         if ($universeCount === 1) {
@@ -316,14 +336,14 @@ class UniverseController extends AbstractAdminController
                 true,
             );
         }
-        $this->http()->redirectTo("uni" . $USER['universe'] . "/admin?reload=r");
+
+        return $this->redirectResponse("uni" . $USER['universe'] . "/admin?reload=r");
     }
 
     /**
-     * Requests /uni(N+1)/ from this server; anything but a 302 means the rewrite rule is missing and the nginx hint is
-     * shown as a message (ends the request).
+     * Requests /uni(N+1)/ from this server; anything but a 302 means the rewrite rule is missing: the nginx hint message is returned.
      */
-    private function assertMultiUniverseSupport(int $universeCount): void
+    private function assertMultiUniverseSupport(int $universeCount): ?Response
     {
         $LNG = $this->state->LNG;
         $options = [
@@ -351,7 +371,7 @@ class UniverseController extends AbstractAdminController
         }
         if ($httpCode != 302) {
             // static information text with HTML (no user input)
-            $this->message(
+            return $this->messageResponse(
                 new \Twig\Markup(str_replace(
                     [
                         '{NGINX-CODE}',
@@ -366,6 +386,8 @@ class UniverseController extends AbstractAdminController
                 . '<a href="#" data-action="reload"><button>' . $LNG['uvs_reload'] . '</button></a>', 'UTF-8'),
             );
         }
+
+        return null;
     }
 
     /**
@@ -402,11 +424,13 @@ class UniverseController extends AbstractAdminController
                 ':state'       => 1,
             ]);
         }
-
+        $this->configs->invalidateCache();
     }
 
     /**
      * One row per available universe for the list: its config values plus counts of inactive players and planets.
+     *
+     * @return array<mixed>
      */
     private function universeList(): array
     {

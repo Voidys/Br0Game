@@ -262,7 +262,7 @@ al_diplo_accept_yes_confirm: 接受这份协议？
 al_diplo_accept_yes_mes: 协议（%s）已签署！涉及联盟 <b>%s</b> 与 <b>%s</b>。
 al_diplo_ally: 联盟
 al_diplo_ask: 协议请求
-al_diplo_ask_mes: <a href="?page=alliance&mode=admin&action=diplomacy">[协议请求]</a>（%s）已从 <b>%s</b> 发往 <b>%s</b>。<br>理由：%s
+al_diplo_ask_mes: <a href="game/alliance/admin/diplomacy">[协议请求]</a>（%s）已从 <b>%s</b> 发往 <b>%s</b>。<br>理由：%s
 al_diplo_confirm_delete: 终止这份协议？
 al_diplo_create: 请求协议
 al_diplo_create_done: 协议请求已发送。
@@ -270,7 +270,7 @@ al_diplo_delete: 协议已终止
 al_diplo_delete_mes: 协议（%s）已终止。涉及联盟 <b>%s</b> 与 <b>%s</b>。
 al_diplo_exists: 你与 %s 已有生效中或待处理的协议。
 al_diplo_head: 外交管理
-al_diplo_info: <p>在这个页面，你可以管理联盟的外交协议。</p><p>协议类型列在下方。更多信息：<a href="game?page=questions">常见问题</a>或<a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">维基</a>。</p>
+al_diplo_info: <p>在这个页面，你可以管理联盟的外交协议。</p><p>协议类型列在下方。更多信息：<a href="game/faq">常见问题</a>或<a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">维基</a>。</p>
 al_diplo_level:
 - 主盟
 - 分盟
@@ -289,7 +289,7 @@ al_diplo_text: 请求/理由
 al_diplo_war: 宣战
 al_diplo_war_end: 宣布停战
 al_diplo_war_end_mes: '%s（联盟 <b>%s</b> 与 <b>%s</b> 之间）刚刚结束。'
-al_diplo_war_mes: 联盟 <b>%1$s</b> 向 <b>%2$s</b> 宣布了%3$s！<br>理由：<br>%4$s<br><br>说明：战争将在 <b>24 小时</b>后开始，届时攻击限制规则暂停生效。<br>更多信息请查阅<a href="./?page=rules&lang=en" target="_blank">[规则]</a>。
+al_diplo_war_mes: 联盟 <b>%1$s</b> 向 <b>%2$s</b> 宣布了%3$s！<br>理由：<br>%4$s<br><br>说明：战争将在 <b>24 小时</b>后开始，届时攻击限制规则暂停生效。<br>更多信息请查阅<a href="./rules?lang=en" target="_blank">[规则]</a>。
 al_diplo_withdraw: 协议请求已撤回。
 al_diplo_withdraw_confirm: 撤回这份协议请求？
 al_diplo_withdraw_mes: 协议请求（%s）已撤回。涉及联盟 <b>%s</b> 与 <b>%s</b>。
@@ -339,7 +339,7 @@ al_name: 修改联盟名称
 al_name_required: 请输入联盟名称。
 al_link_too_long: 链接太长（最多 255 个字符）。
 al_name_tag_too_long: 标签最多 8 个字符，名称最多 30 个字符。
-al_new_apply: 你的联盟收到了玩家 <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> 的<a href="?page=alliance&mode=admin&action=manageApply">[入盟申请]</a>。
+al_new_apply: 你的联盟收到了玩家 <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> 的<a href="game/alliance/admin/applications">[入盟申请]</a>。
 al_new_member_rank_text: 新成员
 al_new_requests: '%d 个待处理'
 al_newname_specialchar: 联盟名称和标签只能包含字母、数字、空格、下划线、连字符和句点。
@@ -1169,7 +1169,7 @@ ov_temp_unit: °C
 ov_temperature: 温度
 ov_ticketbot: 工单机器人
 ov_to: 至
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: 名称错误！
 ov_wrong_pass: 密码错误！
 own: 自己的
@@ -1336,7 +1336,7 @@ sys_forward: 下一步
 sys_game_is_setup: <h1>注册完成！</h1><br><p>我们正在为你准备宇宙！</p><!--discord_url--><p>在此期间，为了不错过任何消息，欢迎加入我们的</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: 该模块未启用
 sys_nomore_level: 你没有可以拆除的 %s。
-sys_notenough_money: 在 %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> 上的资源不足，无法建造 %s。<br>你有：%s %s、%s %s 和 %s %s。<br>需要：%s %s、%s %s 和 %s %s。
+sys_notenough_money: 在 %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> 上的资源不足，无法建造 %s。<br>你有：%s %s、%s %s 和 %s %s。<br>需要：%s %s、%s %s 和 %s %s。
 sys_refferal_from: 系统
 sys_refferal_text: 你招募的玩家 %s 达到了 %s 积分。
 sys_refferal_title: 玩家奖励 %s

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Game\Admin\AbuseReport\AbuseReportQuery;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -12,17 +13,17 @@ use Symfony\Component\HttpFoundation\Response;
  * skewed value ratio, rebuild-protection grants, recalls at or after the arrival time, value-flow clusters (trade graph) and
  * the accounts with the most fleet launches in 24 h, with link markers (shared IP / device / multi group). Filter: `days` (look-back window, default 7).
  */
-#[\App\Routing\GamePage('admin', 'abuseReport')]
 class AbuseReportController extends AbstractAdminController
 {
     /**
      * Renders the four report sections for the last `days` days (1-90). Nothing is written.
      */
+    #[GameRoute('admin', 'admin/abuse-report', 'abuseReport')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         $now = $this->state->runtime->timestamp;
-        $days = (int) $this->http()->_GP('days', AbuseReportQuery::DEFAULT_DAYS);
+        $days = $this->input()->int('days', AbuseReportQuery::DEFAULT_DAYS);
 
         $report = (new AbuseReportQuery($this->db, $this->elements()))->report((int) $this->universe()->getEmulated(), $days, $now);
 
@@ -43,7 +44,7 @@ class AbuseReportController extends AbstractAdminController
         }
         unset($row);
 
-        $this->assign([
+        return $this->render('admin/AbuseReportPage.html.twig', [
             'report' => $report,
             'days' => $report['days'],
             'minTransfer' => AbuseReportQuery::MIN_TRANSFER_VALUE,
@@ -56,7 +57,5 @@ class AbuseReportController extends AbstractAdminController
             'graphMaxClusters' => AbuseReportQuery::GRAPH_MAX_CLUSTERS,
             'maxDays' => AbuseReportQuery::MAX_DAYS,
         ]);
-
-        return $this->render('admin/AbuseReportPage.html.twig');
     }
 }

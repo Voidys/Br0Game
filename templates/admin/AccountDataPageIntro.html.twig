@@ -1,5 +1,5 @@
 {% include 'admin/overall_header.html.twig' %}
-<form action="" method="POST" name="users" class="card">
+<form action="{{ path('admin_account_data_show') }}" method="get" name="users" class="card">
   <header class="card__head"><h2 class="card__title">{{ icon('user-check') }}{{ ac_enter_user_id }}</h2></header>
   <div class="card__body stack">
     <div class="toolbar">

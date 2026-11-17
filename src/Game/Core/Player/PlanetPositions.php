@@ -2,6 +2,7 @@
 
 namespace App\Game\Core\Player;
 
+use App\Game\Enum\PlanetType;
 use App\Game\Core\Config;
 use App\Game\Core\StoredData;
 use App\Game\Core\Database;
@@ -32,10 +33,10 @@ class PlanetPositions
      * @param int $galaxy
      * @param int $system
      * @param int $planet
-     * @param string $type TYPE_PLANET or TYPE_MOON
+     * @param string $type PlanetType::Planet->value or PlanetType::Moon->value
      * @return bool true if no such object exists and all coordinates are positive
      */
-    public function isPositionFree(int $universe, int $galaxy, int $system, int $planet, string $type = TYPE_PLANET): bool
+    public function isPositionFree(int $universe, int $galaxy, int $system, int $planet, int|string $type = PlanetType::Planet->value): bool
     {
         $db = $this->db;
         $sql = 'SELECT COUNT(*) as record
@@ -407,7 +408,7 @@ class PlanetPositions
      * astrophysics 0 who still has a free colony slot is treated as level 1.
      *
      * @param int $position slot (1..max_planets)
-     * @param array|null $USER user row, or null for a new player
+     * @param array<string, mixed>|null $USER user row, or null for a new player
      * @param int $universe used when no user is given
      * @return bool
      */
@@ -448,7 +449,7 @@ class PlanetPositions
     /**
      * Astrophysics level of a user including a finished-but-not-yet-applied research in the queue.
      *
-     * @param array $USER user row (research level columns, b_tech_queue)
+     * @param array<string, mixed> $USER user row (research level columns, b_tech_queue)
      * @return int
      */
     private function getAstroTech(array $USER): int
@@ -473,7 +474,7 @@ class PlanetPositions
      * Number of planets a player may own: max_initial_planets plus planets_per_tech per astrophysics
      * level, capped by max_additional_planets (a universe without initial planets removes the cap).
      *
-     * @param array $USER user row
+     * @param array<string, mixed> $USER user row
      * @return int
      */
     public function maxPlanetCount(array $USER): int
@@ -503,7 +504,7 @@ class PlanetPositions
     /**
      * Number of non-destroyed planets (not moons) the user owns.
      *
-     * @param array $USER user row
+     * @param array<string, mixed> $USER user row
      * @return int
      */
     public function currentPlanetCount(array $USER): int

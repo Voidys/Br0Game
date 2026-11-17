@@ -43,8 +43,10 @@ class Statbuilder
     public const STAT_TYPE_ALLIANCE = 2;
 
     private float $startTime;
+    /** @var array<mixed> */
     private array $memory;
     private int $time;
+    /** @var array<mixed> */
     private array $universes;
     /** @var array<int, \App\Game\Model\ElementCatalog> universe => game data of that universe */
     private array $catalogs = [];
@@ -169,6 +171,10 @@ class Statbuilder
      *
      * @param array<string, mixed> $userData  user row (with the old_*_rank columns)
      * @param array<string, int|float> $buildScore count/points of all planets' buildings
+     * @param array<mixed> $defensePoints
+     * @param array<mixed> $fleetPoints
+     * @param array<mixed> $honorData
+     * @param array<mixed> $techPoints
      */
     private function fillUserPoints(StatPoints $statPoints, array $userData, array $buildScore, array $fleetPoints, array $defensePoints, array $techPoints, array $honorData): void
     {
@@ -200,6 +206,12 @@ class Statbuilder
      * count.
      *
      * @param array<int, StatPoints> $allianceScores alliance id => totals (modified)
+     * @param array<mixed> $buildScore
+     * @param array<mixed> $defensePoints
+     * @param array<mixed> $fleetPoints
+     * @param array<mixed> $honorData
+     * @param array<mixed> $techPoints
+     * @param array<mixed> $userData
      */
     private function addToAlliance(array &$allianceScores, array $userData, array $buildScore, array $fleetPoints, array $defensePoints, array $techPoints, array $honorData): void
     {
@@ -243,6 +255,9 @@ class Statbuilder
         }
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getStatsArray(): array
     {
         return [
@@ -255,6 +270,9 @@ class Statbuilder
         ];
     }
 
+    /**
+     * @param array<mixed> $UniData
+     */
     private function checkUniverseAccounts(array $UniData): void
     {
         $UniData = $UniData + array_combine($this->universes, array_fill(1, count($this->universes), 0));
@@ -279,6 +297,7 @@ class Statbuilder
     /**
      * Sums the building scores of the planets per owner (hidden players are skipped).
      *
+     * @param array<mixed> $userStats
      * @return array<int, array{build: array{count: int|float, points: int|float}}> owner id => building count/points
      */
     private function setUserScoresByPlanets(array $userStats): array

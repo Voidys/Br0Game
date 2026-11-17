@@ -17,10 +17,10 @@
 
 namespace App\Controller\Login;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Public contact/imprint page, rendered from the CMS page "contacts". */
-#[\App\Routing\GamePage('index', 'disclamer')]
 class DisclamerController extends AbstractLoginController
 {
     private \App\Content\ContentPages $contentPages;
@@ -31,22 +31,17 @@ class DisclamerController extends AbstractLoginController
         $this->contentPages = $contentPages;
     }
 
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Renders the CMS page "contacts" (imprint) in the public layout.
      */
+    #[GameRoute('index', 'disclaimer', 'disclamer')]
     public function show(): Response
     {
         $page = $this->contentPages->find('contacts', $this->state->LNG->getLanguage());
-        $this->assign([
+
+        return $this->render('login/page.disclamer.default.html.twig', [
             'cms_title' => htmlspecialchars($page['title'], ENT_QUOTES, 'UTF-8'),
             'cms_content' => new \Twig\Markup($page['content'], 'UTF-8'), // sanitized by ContentPages
         ]);
-
-        return $this->render('login/page.disclamer.default.html.twig');
     }
 }

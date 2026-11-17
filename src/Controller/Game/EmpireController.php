@@ -17,34 +17,26 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\PlanetType;
+use App\Game\Enum\Mission;
 use App\Game\Core\Player\PlanetQueries;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
 use App\Game\Core\ResourceUpdate;
-use App\Game\Core\Singleton;
 use App\Game\Core\Statbuilder;
 use App\Game\Model\Planet;
 use App\Game\Model\User;
 
 /** Empire overview: resources, buildings, research and fleet of all planets (or moons) plus score charts. */
-#[\App\Routing\GamePage('game', 'empire')]
 #[\App\Controller\RequireModule('MODULE_IMPERIUM')]
 class EmpireController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Empire overview: resources, buildings, research, ships and defense of all planets (or all moons) of the player in one table. Locks
      * the user row and recalculates every planet first so the numbers are current. Request: planet type switch (planets/moons).
      */
+    #[GameRoute('game', 'game/empire', 'empire')]
     public function show(): Response
     {
         $PLANETS = $this->recalculatePlanets();
@@ -53,11 +45,11 @@ class EmpireController extends AbstractGameController
         $config = $this->configs->get($this->state->USER['universe']);
 
         [$researchid, $researchlvl, $planetid] = $this->researchQueueHead();
-        $this->assign([
+        $researchQueue = [
             'researchq_id'      => $researchid,
             'researchq_lvl'     => $researchlvl,
             'researchq_planet'  => $planetid,
-        ]);
+        ];
 
         $sumBuildings = [];
         foreach ($this->elements()->ids('build') as $elementID) {
@@ -98,12 +90,14 @@ class EmpireController extends AbstractGameController
 
         $avgBuildings = $this->averageBuildings($sumBuildings);
 
-        $currentPlanetCount = $this->playerUtil()->currentPlanetCount($this->state->USER);
-        $maxPlanetCount = $this->playerUtil()->maxPlanetCount($this->state->USER);
+        $currentPlanetCount = $this->planetPositions()->currentPlanetCount($this->state->USER);
+        $maxPlanetCount = $this->planetPositions()->maxPlanetCount($this->state->USER);
         $enablePlanetStyles = $this->state->USER['enable_planet_styles'];
-        $chartPoints = $this->playerUtil()->getChartPoints($this->state->USER['id'], $this->state->USER, TIME_1_WEEK * 2);
+        $chartPoints = $this->playerCharts()->getChartPoints($this->state->USER['id'], $this->state->USER, TIME_1_WEEK * 2);
 
-        $this->assign([
+        $this->addScript('empire.js');
+
+        return $this->render('game/page.empire.default.html.twig', $researchQueue + [
             'colspan'                       => count($PLANETS) + 2,
             'chartPoints'                   => $chartPoints,
             'planetList'                    => $planetList,
@@ -116,10 +110,6 @@ class EmpireController extends AbstractGameController
             'enableHiglightBuildable'       => $this->state->requestCookies['empire_highlightBuildable'] ?? false,
             'enableHiglightNonBuildable'    => $this->state->requestCookies['empire_highlightNonBuildable'] ?? false,
         ]);
-
-        $this->addScript('empire.js');
-
-        return $this->render('game/page.empire.default.html.twig');
     }
 
     /**
@@ -217,7 +207,7 @@ class EmpireController extends AbstractGameController
         $planetList['coords'][$Planet['id']]['planet'] = $Planet['planet'];
 
         $planetList['field'][$Planet['id']]['current'] = $Planet['field_current'];
-        $planetList['field'][$Planet['id']]['max'] = $this->playerUtil()->maxFieldsFor($planetModel);
+        $planetList['field'][$Planet['id']]['max'] = $this->planetQueries()->maxFieldsFor($planetModel);
 
         $planetList['temp'][$Planet['id']]['min'] = $Planet['temp_min'];
         $planetList['temp'][$Planet['id']]['max'] = $Planet['temp_max'];
@@ -230,7 +220,7 @@ class EmpireController extends AbstractGameController
         $planetList['resource'][RESOURCE_ENERGY][$Planet['id']] = $Planet['energy'] + $Planet['energy_used'];
 
         // basic income only exists on planets, moons have none
-        if ($Planet['planet_type'] == 1) {
+        if ($Planet['planet_type'] == PlanetType::Planet->value) {
             $basic[RESOURCE_METAL] = $config->metal_basic_income * ($config->resource_multiplier / 2500);
             $basic[RESOURCE_CRYSTAL] = $config->crystal_basic_income * ($config->resource_multiplier / 2500);
             $basic[RESOURCE_DEUT] = $config->deuterium_basic_income * ($config->resource_multiplier / 2500);
@@ -350,10 +340,10 @@ class EmpireController extends AbstractGameController
     {
         // (all fleets of the user are loaded once, the conditions are applied per planet here)
         $fleets = array_filter($ownFleets, static fn(array $fleet): bool => (
-            $fleet['start_id'] == $Planet['id'] && ($fleet['mission'] != MISSION_STATION || $fleet['hasCanceled'] == 1)
+            $fleet['start_id'] == $Planet['id'] && ($fleet['mission'] != Mission::Station->value || $fleet['hasCanceled'] == 1)
         ) || (
             $fleet['end_id'] == $Planet['id']
-            && ($fleet['mission'] == MISSION_STATION || $fleet['mission'] == MISSION_TRANSPORT)
+            && ($fleet['mission'] == Mission::Station->value || $fleet['mission'] == Mission::Transport->value)
             && $fleet['hasCanceled'] == 0
         ));
 
@@ -363,7 +353,7 @@ class EmpireController extends AbstractGameController
 
         foreach ($fleets as $fleet) {
             // Special case 'MISSION_TRANSPORT': ships return only to 'start_id'
-            if ($fleet['mission'] != MISSION_TRANSPORT || $fleet['start_id'] == $Planet['id']) {
+            if ($fleet['mission'] != Mission::Transport->value || $fleet['start_id'] == $Planet['id']) {
                 $fleetArray = $this->fleetFunctions()->unserialize($fleet['ships']);
                 foreach ($fleetArray as $elementID => $amount) {
                     $planetList['currentFlying'][$elementID][$Planet['id']] += $amount;
@@ -371,7 +361,7 @@ class EmpireController extends AbstractGameController
             }
 
             // Special case 'MISSION_TRANSPORT': ress return to 'end_id' except if canceled
-            if ($fleet['mission'] != MISSION_TRANSPORT
+            if ($fleet['mission'] != Mission::Transport->value
                 || ($fleet['start_id'] == $Planet['id'] && $fleet['hasCanceled'])
                 || ($fleet['end_id'] == $Planet['id'] && !$fleet['hasCanceled'])
             ) {

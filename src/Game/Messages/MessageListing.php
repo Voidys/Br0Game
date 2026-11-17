@@ -2,11 +2,14 @@
 
 namespace App\Game\Messages;
 
+use App\Game\Enum\MessageType;
 use Doctrine\DBAL\ArrayParameterType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
 use App\Game\Core\Singleton;
+use App\Game\Core\SpyReport;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * Builds the message list page of the current player: category overview with unread/total counts, the filtered
@@ -18,11 +21,48 @@ class MessageListing
 {
     use GameUtilities;
 
+    /** @var array<int, array{count: int|string, unread: int|string, fav: int|string}>|null per message type, loaded once per request */
+    private ?array $typeCounts = null;
+
+    private SpyReport $reports;
+
     public function __construct(
         protected Database $db,
         protected ConfigRegistry $configs,
         protected Singleton $state,
-    ) {}
+        ?CacheInterface $spyReportCache = null,
+    ) {
+        $this->reports = new SpyReport($db, $configs, $state, $spyReportCache);
+    }
+
+    /**
+     * Count, unread count and favourite count of the player's non-deleted messages per message type, in one query. The
+     * category overview and the page count of the list both read from it.
+     *
+     * @return array<int, array{count: int|string, unread: int|string, fav: int|string}>
+     */
+    private function typeCounts(): array
+    {
+        if ($this->typeCounts !== null) {
+            return $this->typeCounts;
+        }
+
+        $sql = "SELECT m.`message_type`, SUM(um.`message_unread`) as message_unread, COUNT(um.`id`) as count, SUM(um.`message_favorite` = 1) as fav
+            FROM %%USERS_TO_MESSAGES%% AS um
+            INNER JOIN %%MESSAGES%% as m ON m.`message_id` = um.`message_id`
+            WHERE um.`user_id` = :userID AND um.`deleted_at` IS NULL
+            GROUP BY m.`message_type`;";
+        $this->typeCounts = [];
+        foreach ($this->db->select($sql, [':userID' => $this->state->USER['id']]) as $row) {
+            $this->typeCounts[$row['message_type']] = [
+                'count' => $row['count'],
+                'unread' => $row['message_unread'],
+                'fav' => $row['fav'],
+            ];
+        }
+
+        return $this->typeCounts;
+    }
 
     /**
      * Category overview: for every message type (and the pseudo categories ALL, favourites, search) its colour, unread
@@ -32,50 +72,35 @@ class MessageListing
      */
     public function categoryList(): array
     {
-        $USER = $this->state->USER;
-        $db = $this->db;
         $CategoryList   = [];
         $TitleColor = [
-            MESSAGE_TYPE_SPY_REPORT         => '#FFFF00',
-            MESSAGE_TYPE_SPY_DEFENCE        => '#FBE870',
-            MESSAGE_TYPE_USER               => '#FF6699',
-            MESSAGE_TYPE_ALLIANCE           => '#FF3300',
-            MESSAGE_TYPE_BATTLE_REPORT      => '#FF9900',
-            MESSAGE_TYPE_SYSTEM             => '#773399',
-            MESSAGE_TYPE_TRANSPORT          => '#009933',
-            MESSAGE_TYPE_FOREIGN_TRANSPORT  => '#005e1f',
-            MESSAGE_TYPE_EXPEDITION         => '#6495ed',
-            MESSAGE_TYPE_GAME               => '#666600',
-            MESSAGE_TYPE_BUILD_LIST         => '#007070',
-            MESSAGE_TYPE_ALL                => '#ABABAB',
-            MESSAGE_TYPE_FAVORITES          => '#CCCCCC',
-            MESSAGE_TYPE_SEARCH             => '#CCCCCC',
+            MessageType::SpyReport->value         => '#FFFF00',
+            MessageType::SpyDefence->value        => '#FBE870',
+            MessageType::User->value               => '#FF6699',
+            MessageType::Alliance->value           => '#FF3300',
+            MessageType::BattleReport->value      => '#FF9900',
+            MessageType::System->value             => '#773399',
+            MessageType::Transport->value          => '#009933',
+            MessageType::ForeignTransport->value  => '#005e1f',
+            MessageType::Expedition->value         => '#6495ed',
+            MessageType::Game->value               => '#666600',
+            MessageType::BuildList->value         => '#007070',
+            MessageType::All->value                => '#ABABAB',
+            MessageType::Favorites->value          => '#CCCCCC',
+            MessageType::Search->value             => '#CCCCCC',
         ];
         $Total = $UnRead = array_fill_keys(array_keys($TitleColor), 0);
 
-        $sql = "SELECT COUNT(*) as state FROM %%USERS_TO_MESSAGES%% 
-            WHERE `user_id` = :userID AND `message_favorite` = 1 AND `deleted_at` IS NULL;";
-        $MessFav = $db->selectSingle($sql, [
-            ':userID'   => $USER['id'],
-        ], 'state');
-
-        $sql = "SELECT m.`message_type`, SUM(um.`message_unread`) as message_unread, COUNT(um.`id`) as count
-            FROM %%USERS_TO_MESSAGES%% AS um
-            INNER JOIN %%MESSAGES%% as m ON m.`message_id` = um.`message_id`
-            WHERE um.`user_id` = :userID AND um.`deleted_at` IS NULL
-            GROUP BY m.`message_type`;";
-        $CategoryResult = $db->select($sql, [
-            ':userID'   => $USER['id'],
-        ]);
-
-        foreach ($CategoryResult as $CategoryRow) {
-            $UnRead[$CategoryRow['message_type']]   = $CategoryRow['message_unread'];
-            $Total[$CategoryRow['message_type']]    = $CategoryRow['count'];
+        $MessFav = 0;
+        foreach ($this->typeCounts() as $type => $counts) {
+            $UnRead[$type] = $counts['unread'];
+            $Total[$type] = $counts['count'];
+            $MessFav += $counts['fav'];
         }
 
-        $UnRead[MESSAGE_TYPE_ALL]       = array_sum($UnRead);
-        $Total[MESSAGE_TYPE_ALL]        = array_sum($Total);
-        $Total[MESSAGE_TYPE_FAVORITES]  = $MessFav;
+        $UnRead[MessageType::All->value]       = array_sum($UnRead);
+        $Total[MessageType::All->value]        = array_sum($Total);
+        $Total[MessageType::Favorites->value]  = $MessFav;
 
         foreach ($TitleColor as $CategoryID => $CategoryColor) {
             $CategoryList[$CategoryID]	= [
@@ -100,7 +125,7 @@ class MessageListing
         $conditions = "um.`user_id` = :userId AND um.`deleted_at` IS NULL";
         $params = [':userId' => $USER['id']];
 
-        if ($fav == 1 || $MessCategory == MESSAGE_TYPE_FAVORITES) {
+        if ($fav == 1 || $MessCategory == MessageType::Favorites->value) {
             $conditions .= " AND um.`message_favorite` = 1";
         }
 
@@ -109,7 +134,7 @@ class MessageListing
             $params[':searchtext'] = "%" . $searchtext . "%";
         }
 
-        if ($MessCategory != MESSAGE_TYPE_ALL && $MessCategory != MESSAGE_TYPE_FAVORITES && $MessCategory != MESSAGE_TYPE_SEARCH) {
+        if ($MessCategory != MessageType::All->value && $MessCategory != MessageType::Favorites->value && $MessCategory != MessageType::Search->value) {
             $conditions .= " AND m.`message_type` = :messCategory";
             $params[':messCategory'] = $MessCategory;
         }
@@ -126,17 +151,17 @@ class MessageListing
     private function groupedTypes(int $grp): array
     {
         $groupedArray = [
-            MESSAGE_TYPE_SPY_REPORT,
-            MESSAGE_TYPE_SPY_DEFENCE,
-            MESSAGE_TYPE_USER,
-            MESSAGE_TYPE_BATTLE_REPORT,
-            MESSAGE_TYPE_SYSTEM,
-            MESSAGE_TYPE_TRANSPORT,
-            MESSAGE_TYPE_FOREIGN_TRANSPORT,
+            MessageType::SpyReport->value,
+            MessageType::SpyDefence->value,
+            MessageType::User->value,
+            MessageType::BattleReport->value,
+            MessageType::System->value,
+            MessageType::Transport->value,
+            MessageType::ForeignTransport->value,
         ];
         if ($grp === 0) {
             $groupedArray = [
-                MESSAGE_TYPE_USER,
+                MessageType::User->value,
             ];
         }
 
@@ -144,77 +169,128 @@ class MessageListing
     }
 
     /**
+     * Number of the player's messages the list filter matches. Without search text it is derived from the per-type counts
+     * of the category overview (no extra query); a text search has to count the matching messages.
+     *
+     * @param array<string, mixed> $params
+     */
+    private function countMatching(string $conditions, array $params, mixed $MessCategory, mixed $fav, string $searchtext): int|string
+    {
+        if (!empty($searchtext)) {
+            $sql = "SELECT COUNT(*) as `MessageCount` FROM %%USERS_TO_MESSAGES%% um
+                INNER JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`
+                WHERE $conditions;";
+
+            return $this->db->selectSingle($sql, $params, 'MessageCount');
+        }
+
+        $key = ($fav == 1 || $MessCategory == MessageType::Favorites->value) ? 'fav' : 'count';
+        $counts = $this->typeCounts();
+        if ($MessCategory == MessageType::All->value || $MessCategory == MessageType::Favorites->value || $MessCategory == MessageType::Search->value) {
+            return array_sum(array_column($counts, $key));
+        }
+
+        return $counts[$MessCategory][$key] ?? 0;
+    }
+
+    /**
      * Loads one page of the list (in groups of 4 messages per conversation block, newest first) and the page window.
      *
      * @param list<int> $groupedArray types shown grouped
+     * @param array<string, mixed> $params
      * @return array{rows: list<array<string, mixed>>, count: int|string, page: int, maxPage: int|float}
      */
-    private function fetchPage(string $conditions, array $params, array $groupedArray, mixed $page, mixed $MessCategory, string $searchtext): array
+    private function fetchPage(string $conditions, array $params, array $groupedArray, mixed $page, mixed $MessCategory, mixed $fav, string $searchtext): array
     {
         $USER = $this->state->USER;
-        $db = $this->db;
         $grouped = '(' . implode(', ', $groupedArray) . ')';
 
-        $sql = "SELECT COUNT(*) as `MessageCount` FROM %%USERS_TO_MESSAGES%% um
-            INNER JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`
-            WHERE $conditions;";
-        $MessageCount = $db->selectSingle($sql, $params, 'MessageCount');
+        $MessageCount = $this->countMatching($conditions, $params, $MessCategory, $fav, $searchtext);
         $maxPage = max(1, ceil($MessageCount / $USER["messages_per_page"]));
         $page = max(1, min($page, $maxPage));
 
         $params[':offset'] = (($page - 1) * $USER["messages_per_page"]);
         $params[':limit'] = $USER["messages_per_page"];
 
-        $sql = "SELECT DISTINCT m.`message_id`, CONCAT(m.`message_group`, '_', part.`group_partition`) AS grp_id, m.`message_group`, m.`message_time`, m.`message_from`, m.`message_subject`, um.`sender_id` as message_sender,
-                    m.`message_type`, um.`message_unread`, um.`message_favorite`, um.`message_forwarded`, m.`message_text`, maxed.`LatestTimestamp`
-            FROM %%USERS_TO_MESSAGES%% um
-            JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`
-            JOIN (
-                SELECT m2.`message_id`, m2.`message_group`, 
-                    CEIL(ROW_NUMBER() OVER (PARTITION BY m2.`message_group` ORDER BY m2.`message_time` DESC) / 4) AS group_partition
-                FROM %%MESSAGES%% m2
-                JOIN %%USERS_TO_MESSAGES%% um2 ON um2.`message_id` = m2.`message_id`
-                WHERE um2.`user_id` = :userId
-                    AND um2.`deleted_at` IS NULL
-                    AND m2.`message_type` IN $grouped
-                    AND m2.`message_group` IS NOT NULL
-                    GROUP BY m2.`message_id`, m2.`message_group`
-            ) AS part ON part.`message_id` = m.`message_id`
-            JOIN (
-                SELECT grppart.`message_group`, grppart.`group_partition`, max(grppart.`LatestTimestamp`) AS LatestTimestamp
-                FROM (
-                    SELECT m3.`message_group`, MAX(m3.`message_time`) AS LatestTimestamp, 
-                        CEIL(ROW_NUMBER() OVER (PARTITION BY m3.`message_group` ORDER BY m3.`message_time` DESC) / 4) AS group_partition
-                    FROM %%MESSAGES%% m3
-                    JOIN %%USERS_TO_MESSAGES%% um3 ON um3.`message_id` = m3.`message_id`
-                    WHERE um3.`user_id` = :userId
-                        AND um3.`deleted_at` IS NULL
-                        AND m3.`message_type` IN $grouped
-                        AND m3.`message_group` IS NOT NULL
-                        GROUP BY m3.`message_id`, m3.`message_group`
-                ) as grppart
-                    GROUP BY grppart.`message_group`, grppart.`group_partition`
-            ) AS maxed ON maxed.`message_group` = m.`message_group` AND maxed.`group_partition` = part.`group_partition`
-            WHERE $conditions 
-                AND m.`message_type` IN $grouped
-                AND m.`message_group` IS NOT NULL
-            UNION ALL
-            SELECT DISTINCT m.`message_id`, '' AS grp_id, m.`message_group`, m.`message_time`, m.`message_from`, m.`message_subject`, um.`sender_id` as message_sender,
-                m.`message_type`, um.`message_unread`, um.`message_favorite`, um.`message_forwarded`, m.`message_text`, m.`message_time` as LatestTimestamp
-            FROM %%USERS_TO_MESSAGES%% as um
-            INNER JOIN %%MESSAGES%% as m ON m.`message_id` = um.`message_id`
-            WHERE $conditions
-                AND ( m.`message_type` NOT IN $grouped OR m.`message_group` IS NULL )
-            ORDER BY LatestTimestamp DESC, message_time DESC, message_id 
-            LIMIT :offset, :limit;";
+        // The conversation partition (blocks of 4 messages per group, newest first) and the newest time of each block come
+        // from one window pass over the player's grouped messages. The page is cut (order, limit) before the subject, the
+        // sender name and the text are read, so only the shown rows load their text.
+        $sql = "SELECT t.`message_id`, t.`grp_id`, t.`message_group`, t.`message_time`, m.`message_from`, m.`message_subject`, t.`message_sender`,
+                    t.`message_type`, t.`message_unread`, t.`message_favorite`, t.`message_forwarded`, m.`message_text`, t.`LatestTimestamp`
+            FROM (
+                SELECT DISTINCT m.`message_id`, CONCAT(m.`message_group`, '_', part.`group_partition`) AS grp_id, m.`message_group`, m.`message_time`, um.`sender_id` as message_sender,
+                    m.`message_type`, um.`message_unread`, um.`message_favorite`, um.`message_forwarded`, part.`LatestTimestamp`
+                FROM %%USERS_TO_MESSAGES%% um
+                JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`
+                JOIN (
+                    SELECT ranked.`message_id`, ranked.`group_partition`,
+                        MAX(ranked.`message_time`) OVER (PARTITION BY ranked.`message_group`, ranked.`group_partition`) AS LatestTimestamp
+                    FROM (
+                        SELECT m2.`message_id`, m2.`message_group`, m2.`message_time`,
+                            CEIL(ROW_NUMBER() OVER (PARTITION BY m2.`message_group` ORDER BY m2.`message_time` DESC) / 4) AS group_partition
+                        FROM %%MESSAGES%% m2
+                        JOIN %%USERS_TO_MESSAGES%% um2 ON um2.`message_id` = m2.`message_id`
+                        WHERE um2.`user_id` = :userId
+                            AND um2.`deleted_at` IS NULL
+                            AND m2.`message_type` IN $grouped
+                            AND m2.`message_group` IS NOT NULL
+                        GROUP BY m2.`message_id`, m2.`message_group`
+                    ) AS ranked
+                ) AS part ON part.`message_id` = m.`message_id`
+                WHERE $conditions
+                    AND m.`message_type` IN $grouped
+                    AND m.`message_group` IS NOT NULL
+                UNION ALL
+                SELECT DISTINCT m.`message_id`, '' AS grp_id, m.`message_group`, m.`message_time`, um.`sender_id` as message_sender,
+                    m.`message_type`, um.`message_unread`, um.`message_favorite`, um.`message_forwarded`, m.`message_time` as LatestTimestamp
+                FROM %%USERS_TO_MESSAGES%% as um
+                INNER JOIN %%MESSAGES%% as m ON m.`message_id` = um.`message_id`
+                WHERE $conditions
+                    AND ( m.`message_type` NOT IN $grouped OR m.`message_group` IS NULL )
+                ORDER BY LatestTimestamp DESC, message_time DESC, message_id
+                LIMIT :offset, :limit
+            ) AS t
+            JOIN %%MESSAGES%% m ON m.`message_id` = t.`message_id`
+            ORDER BY t.`LatestTimestamp` DESC, t.`message_time` DESC, t.`message_id`;";
 
         $MessageResult = [];
-        if ($MessCategory != MESSAGE_TYPE_SEARCH || !empty($searchtext)) {
-            $MessageResult = $db->select($sql, $params);
+        if ($MessCategory != MessageType::Search->value || !empty($searchtext)) {
+            $MessageResult = $this->db->select($sql, $params);
         }
         $MessageResult = $this->hideReturnedFleetButtons($MessageResult);
 
         return ['rows' => $MessageResult, 'count' => $MessageCount, 'page' => $page, 'maxPage' => $maxPage];
+    }
+
+    /**
+     * Recipients of the private messages in $rows (everyone but the sender), keyed by message id: one query for the whole page.
+     *
+     * @param list<array<string, mixed>> $rows message rows of the page
+     * @return array<int|string, list<array{id: mixed, receiver: mixed}>>
+     */
+    private function receiversByMessage(array $rows): array
+    {
+        $ids = [];
+        foreach ($rows as $row) {
+            if ($row['message_type'] == MessageType::User->value) {
+                $ids[(int) $row['message_id']] = (int) $row['message_id'];
+            }
+        }
+        if ($ids === []) {
+            return [];
+        }
+
+        $sql = "SELECT um.`message_id`, u.`id`, CONCAT(u.`username`, ' [', u.`galaxy`, ':', u.`system`, ':', u.`planet`, ']') AS receiver
+                FROM %%USERS%% as u
+                INNER JOIN %%USERS_TO_MESSAGES%% um ON um.`user_id` = u.`id`
+                WHERE um.`user_id` <> um.`sender_id` AND um.`message_id` IN (" . implode(',', $ids) . ")
+                ORDER BY um.`message_id`, um.`user_id`, um.`sender_id`, um.`forwarder_id`;";
+        $receivers = [];
+        foreach ($this->db->select($sql) as $row) {
+            $receivers[$row['message_id']][] = ['id' => $row['id'], 'receiver' => $row['receiver']];
+        }
+
+        return $receivers;
     }
 
     /**
@@ -223,37 +299,25 @@ class MessageListing
      *
      * @param array<string, mixed> $MessageRow
      * @param list<int> $groupedArray types shown grouped
+     * @param list<array{id: mixed, receiver: mixed}> $receiverList recipients of a private message (receiversByMessage())
      * @return array<string, mixed>
      */
-    private function describeRow(array $MessageRow, array $groupedArray): array
+    private function describeRow(array $MessageRow, array $groupedArray, array $receiverList): array
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        $db = $this->db;
-        $receiverList = [];
         $answerTo = [];
         if ($MessageRow['message_sender'] != $USER['id']) {
             $answerTo[] = $MessageRow['message_sender'];
         }
-        if ($MessageRow['message_type'] == MESSAGE_TYPE_USER) {
-            $sql = "SELECT u.`id`, CONCAT(u.`username`, ' [', u.`galaxy`, ':', u.`system`, ':', u.`planet`, ']') AS receiver
-                    FROM %%USERS%% as u
-                    INNER JOIN %%USERS_TO_MESSAGES%% um ON um.`user_id` = u.`id`
-                    WHERE um.`user_id` <> um.`sender_id` AND um.`message_id` = :message_id;";
-            $receiverList = $db->select($sql, [
-                ':message_id' => $MessageRow['message_id'],
-            ]);
-
-            foreach ($receiverList as $receiverRow) {
-                if ($receiverRow['id'] != $USER['id']) {
-                    $answerTo[] = $receiverRow['id'];
-                }
+        foreach ($receiverList as $receiverRow) {
+            if ($receiverRow['id'] != $USER['id']) {
+                $answerTo[] = $receiverRow['id'];
             }
         }
         $spyTitle = '';
-        if ($MessageRow['message_type'] == MESSAGE_TYPE_SPY_REPORT) {
-            $spyTitle = $this->spyReport()->getSpyReportTitle($MessageRow['message_text']);
-            $MessageRow['message_text'] = $this->spyReport()->getSpyReport($MessageRow['message_text']);
+        if ($MessageRow['message_type'] == MessageType::SpyReport->value) {
+            ['title' => $spyTitle, 'html' => $MessageRow['message_text']] = $this->reports->titleAndHtml((string) $MessageRow['message_text']);
         }
 
         if (!in_array($MessageRow['message_type'], $groupedArray)) {
@@ -284,7 +348,7 @@ class MessageListing
      * The list page: filtered messages with their template data, the category overview and the page window. The messages
      * on the page are marked as read.
      *
-     * @param mixed $MessCategory requested category (MESSAGE_TYPE_*, -1 = ALL)
+     * @param mixed $MessCategory requested category (MessageType value, -1 = ALL)
      * @param mixed $page         requested page number (clamped to the available pages)
      * @param mixed $fav          1 = only favourites
      * @param int   $grp          1 = group reports and system messages like private messages
@@ -296,15 +360,17 @@ class MessageListing
         $db = $this->db;
         $MessageList    = [];
         $MessagesID     = [];
+        $this->typeCounts = null;
         $CategoryList = $this->categoryList();
 
         [$conditions, $params] = $this->filter($MessCategory, $fav, $searchtext);
         $groupedArray = $this->groupedTypes($grp);
-        $data = $this->fetchPage($conditions, $params, $groupedArray, $page, $MessCategory, $searchtext);
+        $data = $this->fetchPage($conditions, $params, $groupedArray, $page, $MessCategory, $fav, $searchtext);
 
+        $receivers = $this->receiversByMessage($data['rows']);
         foreach ($data['rows'] as $MessageRow) {
             $MessagesID[] = $MessageRow['message_id'];
-            $MessageList[] = $this->describeRow($MessageRow, $groupedArray);
+            $MessageList[] = $this->describeRow($MessageRow, $groupedArray, $receivers[$MessageRow['message_id']] ?? []);
         }
 
         if (!empty($MessagesID)) {
@@ -332,13 +398,16 @@ class MessageListing
     /**
      * Marketplace hold messages embed a recall form. Remove it once that fleet
      * is flying home or has already arrived and been deleted.
+     *
+     * @param array<mixed> $messages
+     * @return array<mixed>
      */
     public function hideReturnedFleetButtons(array $messages): array
     {
         $fleetIds = [];
         foreach ($messages as $message) {
             $text = $message['message_text'] ?? '';
-            if (!is_string($text) || !str_contains($text, 'sendfleetback')) {
+            if (!is_string($text) || !preg_match('#fleet/recall|sendfleetback#', $text)) {
                 continue;
             }
             if (preg_match_all('/name="fleetID"\s+value="(\d+)"/', $text, $matches)) {
@@ -366,11 +435,11 @@ class MessageListing
 
         foreach ($messages as &$message) {
             $text = $message['message_text'] ?? '';
-            if (!is_string($text) || !str_contains($text, 'sendfleetback')) {
+            if (!is_string($text) || !preg_match('#fleet/recall|sendfleetback#', $text)) {
                 continue;
             }
             $message['message_text'] = preg_replace_callback(
-                '/<form\b[^>]*sendfleetback[^>]*>.*?<\/form>/is',
+                '/<form\b[^>]*(?:fleet\/recall|sendfleetback)[^>]*>.*?<\/form>/is',
                 static function (array $match) use ($stateById): string {
                     if (!preg_match('/name="fleetID"\s+value="(\d+)"/', $match[0], $idMatch)) {
                         return $match[0];

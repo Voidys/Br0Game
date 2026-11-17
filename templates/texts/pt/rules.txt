@@ -7,7 +7,7 @@
 <hr>
 <h2>3. Pushing</h2>
 <p>Pushing is generally prohibited. Pushing includes, for example, all resource transports and moon shots without appropriate compensation from accounts with lower points to accounts with higher points.<br>
-A trade must be completed within 24 hours. Exceptions must be approved in advance by the moderators via Discord ticket or in-game private message. <a href="./?page=team">You can find the team here.</a>.<br>
+A trade must be completed within 24 hours. Exceptions must be approved in advance by the moderators via Discord ticket or in-game private message. <a href="./team">You can find the team here.</a>.<br>
 Failure to obtain authorization or disregarding the rule may result in a ban.</p>
 
 <h2>3.1 Trading and attacks</h2>

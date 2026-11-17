@@ -7,16 +7,16 @@
     <p class="news-item__meta">{{ icon('newspaper') }}{{ LNG.format('news_from', article.date, article.author) }}</p>
     {% if article.image %}<img class="news-article__image" src="{{ article.image.src }}"{% if article.image.srcset %} srcset="{{ article.image.srcset }}" sizes="(max-width: 1200px) calc(100vw - 4.25rem), 1100px"{% endif %} width="{{ article.image.width }}" height="{{ article.image.height }}" alt="{{ article.title|e('html_attr') }}" fetchpriority="high" decoding="async">{% endif %}
     <div class="rich-text news-item__text">{{ article.text }}</div>
-    <p class="news-article__back"><a href="./?page=news">{{ icon('arrow-left') }}{{ LNG.news_back }}</a></p>
+    <p class="news-article__back"><a href="{{ path('login_news_show') }}">{{ icon('arrow-left') }}{{ LNG.news_back }}</a></p>
   </article>
 {% else %}
 {% for item in newsList %}
   <article class="news-item news-card{% if item.pinned %} news-card--pinned{% endif %}">
-    {% if item.image %}<a class="news-card__image" href="./?page=news&amp;id={{ item.id }}" tabindex="-1" aria-hidden="true"><img src="{{ item.image.src }}"{% if item.image.srcset %} srcset="{{ item.image.srcset }}" sizes="(max-width: 1200px) calc(100vw - 4.25rem), 1100px"{% endif %} width="{{ item.image.width }}" height="{{ item.image.height }}" alt="" loading="lazy" decoding="async"></a>{% endif %}
-    <h2><a href="./?page=news&amp;id={{ item.id }}">{{ item.title }}</a>{% if item.pinned %} <span class="news-card__pin">{{ LNG.news_pinned }}</span>{% endif %}</h2>
+    {% if item.image %}<a class="news-card__image" href="{{ path('login_news_article', {id: item.id}) }}" tabindex="-1" aria-hidden="true"><img src="{{ item.image.src }}"{% if item.image.srcset %} srcset="{{ item.image.srcset }}" sizes="(max-width: 1200px) calc(100vw - 4.25rem), 1100px"{% endif %} width="{{ item.image.width }}" height="{{ item.image.height }}" alt="" loading="lazy" decoding="async"></a>{% endif %}
+    <h2><a href="{{ path('login_news_article', {id: item.id}) }}">{{ item.title }}</a>{% if item.pinned %} <span class="news-card__pin">{{ LNG.news_pinned }}</span>{% endif %}</h2>
     <p class="news-item__meta">{{ icon('newspaper') }}{{ LNG.format('news_from', item.date, item.author) }}</p>
     {% if item.teaser %}<p class="news-card__teaser">{{ item.teaser }}</p>{% endif %}
-    <a class="news-card__more" href="./?page=news&amp;id={{ item.id }}">{{ LNG.news_read_more }} {{ icon('chevron-right') }}</a>
+    <a class="news-card__more" href="{{ path('login_news_article', {id: item.id}) }}">{{ LNG.news_read_more }} {{ icon('chevron-right') }}</a>
   </article>
 {% else %}
   <p class="empty">{{ LNG.news_does_not_exist }}</p>
@@ -24,7 +24,7 @@
 {% if pages > 1 %}
   <nav class="pager" aria-label="{{ LNG.menu_news|e('html_attr') }}">
     <span>{{ page }} / {{ pages }}</span>
-    {% for p in 1..pages %}<a href="./?page=news&amp;p={{ p }}"{% if p == page %} aria-current="page"{% endif %}>{{ p }}</a>{% endfor %}
+    {% for p in 1..pages %}<a href="{{ path('login_news_show', {p: p}) }}"{% if p == page %} aria-current="page"{% endif %}>{{ p }}</a>{% endfor %}
   </nav>
 {% endif %}
 {% endif %}

@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=alliance&amp;mode=apply&amp;id={{ allyid }}" method="post">
+<form action="{{ path('game_alliance_apply_send', {id: allyid}) }}" method="post">
 <table class="form-table">
 	<tr>
 		<th colspan="2">{{ al_write_request }}</th>

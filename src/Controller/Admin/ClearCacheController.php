@@ -17,19 +17,21 @@
 
 namespace App\Controller\Admin;
 
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /** Clears the game caches and returns to the maintenance page. */
-#[\App\Routing\GamePage('admin', 'clearCache')]
 class ClearCacheController extends AbstractAdminController
 {
     /**
      * Clears the game caches and shows a message (via Maintenance::clearCache).
      */
-    public function show(): never
+    #[GameRoute('admin', 'admin/clear-cache', 'clearCache', 'show', ['POST'])]
+    public function show(): Response
     {
         $LNG = $this->state->LNG;
         $this->maintenance()->clearCache();
-        $this->message($LNG['cc_cache_clear'], 'admin?page=maintenance', 3);
+
+        return $this->messageResponse($LNG['cc_cache_clear'], $this->router->generate('admin_maintenance_show'), 3);
     }
 }

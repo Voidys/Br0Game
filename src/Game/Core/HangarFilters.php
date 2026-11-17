@@ -26,6 +26,8 @@ class HangarFilters
 
     /**
      * Decode a stored JSON value into a sanitized filter list.
+     *
+     * @return array<mixed>
      */
     public function parse(mixed $raw): array
     {
@@ -47,6 +49,9 @@ class HangarFilters
 
     /**
      * Keep only known group keys and valid fleet IDs, in a stable group order.
+     *
+     * @param array<mixed> $items
+     * @return array<mixed>
      */
     public function sanitize(array $items): array
     {
@@ -84,6 +89,10 @@ class HangarFilters
 
     /**
      * Replace group keys and keep previously pinned ships.
+     *
+     * @param array<mixed> $current
+     * @param array<mixed> $groups
+     * @return array<mixed>
      */
     public function mergeGroups(array $current, array $groups): array
     {
@@ -94,6 +103,10 @@ class HangarFilters
 
     /**
      * Replace pinned ships and keep previously stored groups.
+     *
+     * @param array<mixed> $current
+     * @param array<mixed> $ships
+     * @return array<mixed>
      */
     public function mergeShips(array $current, array $ships): array
     {
@@ -104,6 +117,9 @@ class HangarFilters
 
     /**
      * The group keys contained in a filter list.
+     *
+     * @param array<mixed> $filters
+     * @return array<mixed>
      */
     public function groups(array $filters): array
     {
@@ -115,6 +131,9 @@ class HangarFilters
 
     /**
      * The pinned ship ids (numeric entries) of a filter list.
+     *
+     * @param array<mixed> $filters
+     * @return array<mixed>
      */
     public function shipIds(array $filters): array
     {
@@ -128,6 +147,9 @@ class HangarFilters
         return $ids;
     }
 
+    /**
+     * @param array<mixed> $filters
+     */
     public function hasGroup(array $filters, string $group): bool
     {
         return in_array($group, $filters, true);
@@ -135,6 +157,8 @@ class HangarFilters
 
     /**
      * JSON string for storage; falls back to the default groups if encoding fails.
+     *
+     * @param array<mixed> $filters
      */
     public function encode(array $filters): string
     {

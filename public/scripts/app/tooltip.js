@@ -1,5 +1,6 @@
 /**
- * Tooltips for elements with data-tooltip-content (HTML). ".tooltip" follows the pointer,
+ * Tooltips for elements with data-tooltip-content (HTML) or data-tooltip-ref (the id suffix of a <template id="tt-...">
+ * that holds the HTML, shipped once per page by the tooltip_templates() Twig function). ".tooltip" follows the pointer,
  * ".tooltip_sticky" is anchored to its trigger so its content (links, buttons) can be used: it opens on
  * hover/focus, stays open while the pointer travels from trigger to popup (close delay), a click/tap/Enter pins
  * it, Esc, a click outside or a second click closes it.
@@ -17,7 +18,7 @@ const TAGS = new Set(['TABLE', 'THEAD', 'TBODY', 'TR', 'TD', 'TH', 'BR', 'B', 'I
 const FORM_TAGS = new Set(['FORM', 'INPUT', 'BUTTON']);
 const ATTRIBUTES = new Set(['class', 'colspan', 'rowspan', 'width', 'height', 'timestamp', 'alt', 'title', 'playerid', 'allyid']);
 /** data-action values the game's tooltips use; everything else loses the attribute */
-const ACTIONS = new Set(['galaxy-mission', 'missile-form', 'popup', 'dialog-pm', 'dialog-buddy', 'dialog-playercard', 'dialog-info']);
+const ACTIONS = new Set(['galaxy-mission', 'galaxy-go', 'missile-form', 'popup', 'dialog-pm', 'dialog-buddy', 'dialog-playercard', 'dialog-info']);
 
 /** same-origin or relative http(s) URL (also "#"); anything else (javascript:, data:, other schemes) is refused */
 function safeUrl(value, { sameOrigin = false } = {}) {
@@ -77,6 +78,14 @@ function sanitizeTooltip(html, allowForms = false) {
   return target;
 }
 
+/** The tooltip HTML of a trigger: its own data-tooltip-content, else the template named by data-tooltip-ref. */
+export function tooltipHtml(source) {
+  const own = source.getAttribute('data-tooltip-content');
+  if (own !== null) return own;
+  const ref = source.getAttribute('data-tooltip-ref');
+  return (ref && document.getElementById(`tt-${ref}`)?.innerHTML) || '';
+}
+
 /** The shared tooltip element (#tooltip), created on first use. */
 function element() {
   if (!tip) {
@@ -88,11 +97,11 @@ function element() {
   return tip;
 }
 
-/** Shows the tooltip with the source's data-tooltip-content at the pointer position. */
+/** Shows the tooltip with the source's content (tooltipHtml) at the pointer position. */
 function open(source, x, y) {
   const box = element();
   current = source;
-  box.replaceChildren(sanitizeTooltip(source.getAttribute('data-tooltip-content') ?? '', source.hasAttribute('data-tooltip-forms')));
+  box.replaceChildren(sanitizeTooltip(tooltipHtml(source), source.hasAttribute('data-tooltip-forms')));
   // fixed durations in injected content (e.g. the demolish time) are rendered here, timers.js only sees the page
   box.querySelectorAll('.statictime[timestamp]').forEach((el) => { el.textContent = getRestTimeFormat(el.getAttribute('timestamp')); });
   box.style.display = 'block';
@@ -135,6 +144,8 @@ function close() {
   pinned = false;
   current = null;
 }
+
+export { close as closeTooltip };
 
 /** Closes after a short delay so the pointer can move from the trigger into the popup. */
 function closeSoon() {

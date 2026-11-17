@@ -8,6 +8,7 @@ use App\Game\Core\ErrorReporter;
 use App\Game\Core\FlyingFleetHandler;
 use App\Game\Missions\MissionInterface;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * A failing fleet event must not stall the batch: every event runs in its own transaction, a throwing one is rolled
@@ -45,8 +46,8 @@ final class FleetEventIsolationTest extends GameTestCase
         [$user, $planet] = $this->createPlayer();
         $token = 'isolation-test';
         $now = $this->state->runtime->timestamp;
-        $bad = $this->fleet((int) $user['id'], (int) $planet['id'], MISSION_TRANSPORT, $token, $now - 20);
-        $good = $this->fleet((int) $user['id'], (int) $planet['id'], MISSION_STATION, $token, $now - 10);
+        $bad = $this->fleet((int) $user['id'], (int) $planet['id'], Mission::Transport->value, $token, $now - 20);
+        $good = $this->fleet((int) $user['id'], (int) $planet['id'], Mission::Station->value, $token, $now - 10);
 
         $reports = [];
         $errors = new class ($this->db, $this->configs, $this->state, $reports) extends ErrorReporter {
@@ -63,7 +64,7 @@ final class FleetEventIsolationTest extends GameTestCase
         $handler = new class ($this->db, $this->configs, $this->state, $errors) extends FlyingFleetHandler {
             protected function missionClass(int $mission): ?string
             {
-                return $mission === MISSION_TRANSPORT ? ThrowingMission::class : parent::missionClass($mission);
+                return $mission === Mission::Transport->value ? ThrowingMission::class : parent::missionClass($mission);
             }
         };
         $handler->setToken($token);

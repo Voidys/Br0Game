@@ -2,60 +2,50 @@
 
 namespace App\Controller\Admin;
 
-use App\Game\Core\Database;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Twig\GameEscaping;
 use Twig\Markup;
 
 /** Player statistics: user counts and the list of online players. */
-#[\App\Routing\GamePage('admin', 'analytics')]
 class AnalyticsController extends AbstractAdminController
 {
     /**
-     * Page-visit analytics switch (admin?page=analytics). Two forms pick a player id from a select list: POST userListSubmit + user_name turns
-     * analytics on for that player (`enable_analytics` = 1); POST analysedUsersSubmit + analyse_name turns it off and deletes the player's USERS_ANALYTICS
-     * rows. GET order/order2 (id or name) sort the two lists. Shows the players with authlevel 0 and the analysed players of the emulated
+     * Page-visit analytics switch (admin/analytics). Two forms pick a player id from a select list (track / untrack, see below).
+     * GET order/order2 (id or name) sort the two lists. Shows the players with authlevel 0 and the analysed players of the emulated
      * universe, and the recorded visits (player, alliance, time, URL), newest first.
      */
+    #[GameRoute('admin', 'admin/analytics', 'analytics')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
 
-        if (!isset($this->state->requestQuery['order'])) {
-            $this->state->requestQuery['order'] = '';
-        }
-        $ORDER = $this->state->requestQuery['order'] == 'id' ? "id" : "username";
-        if (!isset($this->state->requestQuery['order2'])) {
-            $this->state->requestQuery['order2'] = '';
-        }
-        $ORDER2 = $this->state->requestQuery['order2'] == 'id' ? "id" : "username";
-        $this->updateTracking();
+        $ORDER = ($this->state->requestQuery['order'] ?? '') == 'id' ? "id" : "username";
+        $ORDER2 = ($this->state->requestQuery['order2'] ?? '') == 'id' ? "id" : "username";
 
         [$userSelect, $usercount, $bancount] = $this->playerLists($ORDER, $ORDER2);
 
         $analytics = $this->visits();
 
-        $this->assign([
+        return $this->render('admin/Analytics.html.twig', [
             'UserSelect'      => array_map(static fn(string $options) => new Markup($options, 'UTF-8'), $userSelect),
             'usercount'       => $usercount,
             'bancount'        => $bancount,
             'analytics'       => $analytics,
             'bo_select_title' => $LNG['bo_select_title'],
         ]);
-        return $this->render('admin/Analytics.html.twig');
     }
 
     /**
-     * POST: switches analytics on for the chosen player (userListSubmit) or off for an analysed player with deletion of
-     * the recorded visits (analysedUsersSubmit).
+     * POST user_name: switches analytics on for the chosen player (`enable_analytics` = 1), then shows the page.
      */
-    private function updateTracking(): void
+    #[GameRoute('admin', 'admin/analytics/track', 'analytics', 'track', ['POST'])]
+    public function track(): Response
     {
         $db = $this->db;
 
-        if (isset($this->state->requestPost['user_name']) && isset($this->state->requestPost['userListSubmit'])) {
+        if (isset($this->state->requestPost['user_name'])) {
             $userId = (int) $this->state->requestPost['user_name'];
             $target = $db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userID AND `universe` = :universe;', [
                 ':userID' => $userId,
@@ -68,18 +58,32 @@ class AnalyticsController extends AbstractAdminController
             $db->update($sql, [
                 ':userID' => $userId,
             ]);
-        } else {
-            if (isset($this->state->requestPost['analyse_name']) && isset($this->state->requestPost['analysedUsersSubmit'])) {
-                $sql = 'UPDATE %%USERS%% SET `enable_analytics` = 0 WHERE `id` = :userID;';
-                $db->update($sql, [
-                    ':userID' => $this->state->requestPost['analyse_name'],
-                ]);
-                $sql = 'DELETE FROM %%USERS_ANALYTICS%% WHERE `userID` = :userID;';
-                $db->delete($sql, [
-                    ':userID' => $this->state->requestPost['analyse_name'],
-                ]);
-            }
         }
+
+        return $this->show();
+    }
+
+    /**
+     * POST analyse_name: switches analytics off for an analysed player and deletes the player's recorded visits, then
+     * shows the page.
+     */
+    #[GameRoute('admin', 'admin/analytics/untrack', 'analytics', 'untrack', ['POST'])]
+    public function untrack(): Response
+    {
+        $db = $this->db;
+
+        if (isset($this->state->requestPost['analyse_name'])) {
+            $sql = 'UPDATE %%USERS%% SET `enable_analytics` = 0 WHERE `id` = :userID;';
+            $db->update($sql, [
+                ':userID' => $this->state->requestPost['analyse_name'],
+            ]);
+            $sql = 'DELETE FROM %%USERS_ANALYTICS%% WHERE `userID` = :userID;';
+            $db->delete($sql, [
+                ':userID' => $this->state->requestPost['analyse_name'],
+            ]);
+        }
+
+        return $this->show();
     }
 
     /**

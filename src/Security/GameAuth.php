@@ -33,6 +33,19 @@ final class GameAuth
     }
 
     /** Logs the account in programmatically (e-mail verification, installer): token and session are set up like after the login form. */
+    /**
+     * Accounts row of the logged-in account as read when the request was authenticated (null for guests); use it
+     * only before the page can change the account.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function loadedAccountRow(): ?array
+    {
+        $id = $this->accountId();
+
+        return $id === 0 ? null : $this->accounts->loadedRow($id);
+    }
+
     public function login(int $accountId): void
     {
         $this->security->login($this->accounts->loadUserByIdentifier((string) $accountId), LoginFormAuthenticator::class, 'main');

@@ -4,5 +4,6 @@ doctrine:
         profiling_collect_backtrace: '%kernel.debug%'
         options:
             # same connection setup as the game (App\Game\Core\Database::INIT_COMMAND): the game shares
-            # this connection and its queries rely on this sql_mode
-            1002: "SET CHARACTER SET utf8mb4, NAMES utf8mb4, sql_mode = 'STRICT_ALL_TABLES'"
+            # this connection and its queries rely on this sql_mode; READ COMMITTED (Database::ISOLATION_COMMAND)
+            # rides along in the same round trip
+            1002: "SET CHARACTER SET utf8mb4, NAMES utf8mb4, sql_mode = 'STRICT_ALL_TABLES'; SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED"

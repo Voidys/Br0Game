@@ -73,6 +73,3 @@ export function initResourceTickers() {
 export function getRessource(name) {
   return parseInt(document.getElementById(`current_${name}`)?.dataset.real ?? '0', 10);
 }
-
-window.resourceTicker = resourceTicker;
-window.getRessource = getRessource;

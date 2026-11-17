@@ -28,6 +28,7 @@ use Exception;
  */
 class Language implements ArrayAccess
 {
+    /** @var array<mixed> */
     private array $container = [];
     private string $language = '';
     /** texts were added while the config was still loading: "{game_name}" is filled in on first read */
@@ -107,6 +108,8 @@ class Language implements ArrayAccess
 
     /**
      * Merges text arrays into the loaded texts (later data overrides earlier).
+     *
+     * @param array<string, mixed> $data
      */
     public function addData(array $data): void
     {
@@ -209,7 +212,12 @@ class Language implements ArrayAccess
         return $urls;
     }
 
-    /** texts name the game by "{game_name}" and the community links by tokens, both filled in from the config */
+    /**
+     * texts name the game by "{game_name}" and the community links by tokens, both filled in from the config
+     *
+     * @param array<string, mixed> $data
+     * @return array<mixed>
+     */
     private function withGameName(array $data): array
     {
         // the config schema loads texts while the config is built: asking for the config here would recurse
@@ -407,13 +415,21 @@ class Language implements ArrayAccess
         return $found === [] ? 0 : max(array_keys($found));
     }
 
-    /** selectable languages (code list, or code => name); see LanguageCatalog */
+    /**
+     * selectable languages (code list, or code => name); see LanguageCatalog
+     *
+     * @return array<mixed>
+     */
     public function getAllowedLangs(bool $OnlyKey = true): array
     {
         return $this->catalog()->getAllowedLangs($OnlyKey);
     }
 
-    /** Language selector options with the fun languages grouped at the end (see LanguageCatalog::getLanguageOptions()). */
+    /**
+     * Language selector options with the fun languages grouped at the end (see LanguageCatalog::getLanguageOptions()).
+     *
+     * @return array<mixed>
+     */
     public function getLanguageOptions(): array
     {
         return $this->catalog()->getLanguageOptions((string) $this['lang_group_fun']);

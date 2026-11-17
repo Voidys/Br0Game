@@ -5,7 +5,7 @@
     <div>
       <strong>{{ fcm_info }}</strong>
       <p>{{ mes }}</p>
-      {% if not empty(goto) %}<p><a class="button" href="{{ goto }}">{{ icon('arrow-left') }}{{ LNG.adm_continue }}</a></p>{% endif %}
+      {% if goto %}<p><a class="button" href="{{ goto }}">{{ icon('arrow-left') }}{{ LNG.adm_continue }}</a></p>{% endif %}
     </div>
   </div>
 </div>

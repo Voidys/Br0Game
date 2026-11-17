@@ -416,7 +416,7 @@ sys_mess_spy_destroyed: Deine Papageien sind abgestürzt!
 sys_mess_spy_ennemyfleet_1: Feindliche Papageien vom Hafen %s wurde in der Nähe von %s gesichtet.
 sys_mess_spy_ennemyfleet_3: Feindliche Papageien von der Insel %s wurde in der Nähe von %s gesichtet.
 sys_mess_spy_link: >-
-  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: 'Die Wahrscheinlichkeit für Absturz der Papageien beträgt: %d %% '
 sys_mess_spy_qg: Papageienabteilung
@@ -457,7 +457,7 @@ sys_stat_mess_stay: Stationierte Flotte
 sys_stealed_ressources: Er erbeutet
 sys_trade_mess_arr_success: >-
   Eine deiner Handelsflotten ist bereit zur Rückkehr zum Hafen %1$s %2$s (Rückreise: %5$s). <form
-  action="game?page=fleetTable&amp;action=sendfleetback"
+  action="game/fleet/recall"
   method="post"><input name="fleetID" value="%3$s" type="hidden"><input
   value="%4$s" type="submit"></form>
 sys_trade_mess_back: Eine deiner Handelsflotten kehrte erfolglos zum Hafen %s %s zurück.

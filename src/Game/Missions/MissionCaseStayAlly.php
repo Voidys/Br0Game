@@ -17,8 +17,7 @@
 
 namespace App\Game\Missions;
 
-use App\Game\Core\Database;
-use App\Game\Core\PlayerUtil;
+use App\Game\Enum\MessageType;
 
 /**
  * Mission "hold" (5, Halten / defend): a fleet is sent to a friendly (allied or buddy) planet and waits there for
@@ -77,11 +76,11 @@ class MissionCaseStayAlly extends MissionFunctions implements MissionInterface
         ], 'name');
 
         $Message	= $LNG->format('sys_tran_mess_back', $planetName, GetStartAddressLink($this->_fleet, ''));
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['return_time'],

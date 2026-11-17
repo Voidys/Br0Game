@@ -9,7 +9,7 @@
 {% if tab == 'providers' %}
   <div class="notice notice--info">{{ icon('info') }}<div>{{ LNG.bot_providers_info }}</div></div>
 
-  <form method="POST" action="admin?page=bots&amp;mode=providers&amp;action=save_providers" id="bots-providers-form" data-track-dirty>
+  <form method="POST" action="{{ path('admin_bots_save_providers') }}" id="bots-providers-form" data-track-dirty>
     <input type="hidden" name="csrf" value="{{ csrf }}">
     <section class="card card--flush">
       <header class="card__head"><h2 class="card__title">{{ icon('key-round') }}{{ LNG.bot_tab_providers }}</h2></header>
@@ -58,19 +58,19 @@
     </section>
     <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.se_save_parameters }}</button></div>
   </form>
-  <script type="application/json" id="bots-config">{{ {csrf: csrf, text: jsStrings}|json_script }}</script>
+  <script type="application/json" id="bots-config">{{ {csrf: csrf, testUrl: path('admin_bots_test'), text: jsStrings}|json_script }}</script>
   <script type="module" src="./scripts/admin/pages/bots.js?v={{ asset_version }}"></script>
 
 {% elseif tab == 'profiles' %}
   {% if editForm %}
   {% set s = editForm.s %}
-  <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=save_profile" data-track-dirty>
+  <form method="POST" action="{{ path('admin_bots_save_profile') }}" data-track-dirty>
     <input type="hidden" name="csrf" value="{{ csrf }}">
     <input type="hidden" name="id" value="{{ editForm.id }}">
     <section class="card">
       <header class="card__head">
         <h2 class="card__title">{{ icon('pencil') }}{{ editForm.id ? LNG.bot_edit_profile : LNG.bot_new_profile }}</h2>
-        <div class="card__actions"><a class="button" href="admin?page=bots&amp;mode=profiles">{{ icon('arrow-left') }}{{ LNG.bot_cancel }}</a></div>
+        <div class="card__actions"><a class="button" href="{{ path('admin_bots_profiles') }}">{{ icon('arrow-left') }}{{ LNG.bot_cancel }}</a></div>
       </header>
       <div class="card__body">
         <div class="form-grid">
@@ -140,8 +140,8 @@
     <header class="card__head">
       <h2 class="card__title">{{ icon('user-cog') }}{{ LNG.bot_tab_profiles }}</h2>
       <div class="card__actions">
-        <a class="button" href="admin?page=bots&amp;mode=profiles&amp;new=1">{{ icon('plus') }}{{ LNG.bot_new_profile }}</a>
-        <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=restore_profiles">
+        <a class="button" href="{{ path('admin_bots_profiles', {new: 1}) }}">{{ icon('plus') }}{{ LNG.bot_new_profile }}</a>
+        <form method="POST" action="{{ path('admin_bots_restore_profiles') }}">
           <input type="hidden" name="csrf" value="{{ csrf }}">
           <button data-confirm="{{ LNG.bot_confirm_restore }}" type="submit">{{ LNG.bot_restore_defaults }}</button>
         </form>
@@ -157,13 +157,13 @@
             <td>{{ p.profile_key }}</td>
             <td>{{ p.summary }}</td>
             <td class="actions nowrap">
-              <a class="button btn--small" href="admin?page=bots&amp;mode=profiles&amp;edit={{ p.id }}">{{ icon('pencil') }}{{ LNG.bot_edit }}</a>
-              <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=duplicate_profile" class="inline">
+              <a class="button btn--small" href="{{ path('admin_bots_profiles', {edit: p.id}) }}">{{ icon('pencil') }}{{ LNG.bot_edit }}</a>
+              <form method="POST" action="{{ path('admin_bots_duplicate_profile') }}" class="inline">
                 <input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ p.id }}">
                 <button type="submit" class="btn--small">{{ LNG.bot_duplicate }}</button>
               </form>
               {% if not p.is_default %}
-              <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=delete_profile" class="inline">
+              <form method="POST" action="{{ path('admin_bots_delete_profile') }}" class="inline">
                 <input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ p.id }}">
                 <button data-confirm-danger data-confirm="{{ LNG.bot_confirm_delete }}" type="submit" class="btn--danger btn--small">{{ icon('trash-2') }}{{ LNG.bot_delete }}</button>
               </form>
@@ -181,7 +181,7 @@
     <div class="card__body">
       <dl class="kv">
         <dt>{{ LNG.bot_universe }}</dt><dd>{{ universe }}</dd>
-        <dt>{{ LNG.bot_mode }}</dt><dd><span class="badge badge--{{ botsEnabled ? 'ok' : 'warn' }}">{{ botsEnabled ? LNG.bot_enabled : LNG.bot_disabled }}</span> <a href="admin?page=configUni">{{ LNG.bot_open_config }}</a></dd>
+        <dt>{{ LNG.bot_mode }}</dt><dd><span class="badge badge--{{ botsEnabled ? 'ok' : 'warn' }}">{{ botsEnabled ? LNG.bot_enabled : LNG.bot_disabled }}</span> <a href="{{ path('admin_config_uni_show') }}">{{ LNG.bot_open_config }}</a></dd>
       </dl>
     </div>
   </section>
@@ -189,7 +189,7 @@
   <section class="card">
     <header class="card__head"><h2 class="card__title">{{ icon('user-plus') }}{{ LNG.bot_spawn }}</h2></header>
     <div class="card__body">
-      <form method="POST" action="admin?page=bots&amp;mode=bots&amp;action=spawn" class="toolbar">
+      <form method="POST" action="{{ path('admin_bots_spawn') }}" class="toolbar">
         <input type="hidden" name="csrf" value="{{ csrf }}">
         <select name="profile_id" aria-label="{{ LNG.bot_profile }}">
           {% for p in profiles %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
@@ -221,7 +221,7 @@
             <td>{{ b.next_tick }}</td>
             <td><span class="badge badge--{{ b.online ? 'ok' : 'muted' }}">{{ b.online ? LNG.bot_online : LNG.bot_offline }}</span></td>
             <td class="actions">
-              <form method="POST" action="admin?page=bots&amp;mode=bots&amp;action=remove_bot">
+              <form method="POST" action="{{ path('admin_bots_remove_bot') }}">
                 <input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="user_id" value="{{ b.user_id }}">
                 <button data-confirm-danger data-confirm="{{ LNG.bot_confirm_delete }}" type="submit" class="btn--danger btn--small">{{ icon('trash-2') }}{{ LNG.bot_delete }}</button>
               </form>

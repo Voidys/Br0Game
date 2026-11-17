@@ -19,38 +19,47 @@ namespace App\Controller\Admin;
 
 use App\Game\Core\Config;
 use App\Game\Core\Config\ConfigFieldProcessor;
-use App\Game\Core\Database;
 use App\Game\Core\Log;
 use App\Game\Core\ResourceUpdate;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 use App\Game\Core\Config\ConfigFieldSchema;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Universe settings of the emulated universe (schema driven form). */
-#[\App\Routing\GamePage('admin', 'configUni')]
 class ConfigUniController extends AbstractAdminController
 {
     /**
-     * Universe settings of the emulated universe as a schema driven form (ConfigFieldSchema). Any POST saves the processed fields (Config::save) and writes
-     * an admin log entry (type 3) with before/after values. Side effects of a status change (`uni_status`): opening a universe that was registration-only or
+     * Saves the posted settings of the emulated universe (Config::save), writes an admin log entry (type 3) with before/after values and
+     * shows the form again. Side effects of a status change (`uni_status`): opening a universe that was registration-only or
      * closed resets `last_update` of all planets (and, from registration-only, `onlinetime` of all players) so no production or inactivity accrues while
      * closed; closing an open universe first calculates the resources of all home planets. Setting `adm_attack` to 0 clears `authattack` of all players.
      */
+    #[GameRoute('admin', 'admin/config/universe', 'configUni', 'save', ['POST'])]
+    public function save(): Response
+    {
+        $config = $this->configs->get($this->universe()->getEmulated());
+        $schema = new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_UNI, $this->state, $this->configs);
+        $this->saveConfig($config, $schema);
+
+        return $this->show();
+    }
+
+    /**
+     * Universe settings of the emulated universe as a schema driven form (ConfigFieldSchema).
+     */
+    #[GameRoute('admin', 'admin/config/universe', 'configUni')]
     public function show(): Response
     {
         $config = $this->configs->get($this->universe()->getEmulated());
 
         // Schema laden
         $schema = new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_UNI, $this->state, $this->configs);
-        if (!empty($this->state->requestPost)) {
-            $this->saveConfig($config, $schema);
-        }
 
         $configValues = ConfigFieldProcessor::prepareTemplateData($config, $schema);
 
         // Selector Options + Config Values
-        $this->assign([
+        return $this->render('admin/ConfigUni.html.twig', [
             'configValues' => $configValues,
             'configSchema' => $schema->getSchema(),
             'flightTimePreview' => [
@@ -61,8 +70,6 @@ class ConfigUniController extends AbstractAdminController
                 'minDuration' => MIN_FLEET_TIME,
             ],
         ]);
-
-        return $this->render('admin/ConfigUni.html.twig');
     }
 
     /**
@@ -75,7 +82,7 @@ class ConfigUniController extends AbstractAdminController
         $db = $this->db;
         $config_before = ConfigFieldProcessor::createSnapshot($config, $schema);
 
-        $config_after = ConfigFieldProcessor::processPostData($schema->getAllFields(), $this->http());
+        $config_after = ConfigFieldProcessor::processPostData($schema->getAllFields(), $this->input());
 
         $uni_status = $config_after['uni_status'] ?? $config->uni_status;
         $this->applyStatusChange($uni_status, $config);

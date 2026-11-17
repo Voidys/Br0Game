@@ -97,7 +97,7 @@ function getRestTimeFormat($seconds, $shorten = false)
  */
 function GetStartAddressLink($FleetRow, $FleetType = '')
 {
-    return '<a href="game?page=galaxy&amp;galaxy=' . $FleetRow['start_galaxy'] . '&amp;system='
+    return '<a href="game/galaxy/' . $FleetRow['start_galaxy'] . '/'
         . $FleetRow['start_system'] . '" class="' . $FleetType . '">[' . $FleetRow['start_galaxy'] . ':'
         . $FleetRow['start_system'] . ':' . $FleetRow['start_planet'] . ']</a>';
 }
@@ -107,7 +107,7 @@ function GetStartAddressLink($FleetRow, $FleetType = '')
  */
 function GetTargetAddressLink($FleetRow, $FleetType = '')
 {
-    return '<a href="game?page=galaxy&amp;galaxy=' . $FleetRow['end_galaxy'] . '&amp;system='
+    return '<a href="game/galaxy/' . $FleetRow['end_galaxy'] . '/'
         . $FleetRow['end_system'] . '" class="' . $FleetType . '">[' . $FleetRow['end_galaxy'] . ':'
         . $FleetRow['end_system'] . ':' . $FleetRow['end_planet'] . ']</a>';
 }
@@ -117,7 +117,7 @@ function GetTargetAddressLink($FleetRow, $FleetType = '')
  */
 function BuildPlanetAddressLink($CurrentPlanet)
 {
-    return '<a href="game?page=galaxy&amp;galaxy=' . $CurrentPlanet['galaxy'] . '&amp;system='
+    return '<a href="game/galaxy/' . $CurrentPlanet['galaxy'] . '/'
         . $CurrentPlanet['system'] . '">[' . $CurrentPlanet['galaxy'] . ':' . $CurrentPlanet['system'] . ':'
         . $CurrentPlanet['planet'] . ']</a>';
 }

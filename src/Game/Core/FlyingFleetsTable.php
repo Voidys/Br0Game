@@ -17,6 +17,8 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\PlanetType;
+use App\Game\Enum\Mission;
 use Doctrine\DBAL\ArrayParameterType;
 
 /**
@@ -31,22 +33,22 @@ class FlyingFleetsTable
 
     /** css style name of a mission (prefixed with own/hostile for the popup links and coordinates) */
     private const MISSION_STYLES = [
-        MISSION_ATTACK => 'attack',
-        MISSION_ACS => 'federation',
-        MISSION_TRANSPORT => 'transport',
-        MISSION_STATION => 'deploy',
-        MISSION_HOLD => 'hold',
-        MISSION_SPY => 'espionage',
-        MISSION_COLONISATION => 'colony',
-        MISSION_RECYCLING => 'harvest',
-        MISSION_DESTRUCTION => 'destroy',
-        MISSION_MISSILE => 'missile',
-        MISSION_EXPEDITION => 'transport',
-        MISSION_TRADE => 'transport',
-        MISSION_TRANSFER => 'transport',
-        MISSION_PIRATEBASE_ATTACK => 'attack',
-        MISSION_PIRATEBASE_SPY => 'espionage',
-        MISSION_PIRATEBASE_RECYCLING => 'harvest',
+        Mission::Attack->value => 'attack',
+        Mission::Acs->value => 'federation',
+        Mission::Transport->value => 'transport',
+        Mission::Station->value => 'deploy',
+        Mission::Hold->value => 'hold',
+        Mission::Spy->value => 'espionage',
+        Mission::Colonisation->value => 'colony',
+        Mission::Recycling->value => 'harvest',
+        Mission::Destruction->value => 'destroy',
+        Mission::Missile->value => 'missile',
+        Mission::Expedition->value => 'transport',
+        Mission::Trade->value => 'transport',
+        Mission::Transfer->value => 'transport',
+        Mission::PiratebaseAttack->value => 'attack',
+        Mission::PiratebaseSpy->value => 'espionage',
+        Mission::PiratebaseRecycling->value => 'harvest',
     ];
 
     protected int $userId = 0;
@@ -85,20 +87,22 @@ class FlyingFleetsTable
      * planet (no deployments, recycling or trade targets); with $acsID: all fleets of that group; with a mission
      * filter: only those missions; otherwise own flights and foreign flights targeting the player (except
      * recycling and trade).
+     *
+     * @return array<mixed>
      */
     private function getFleets(int $acsID = 0): array
     {
         if ($this->IsPhalanx && $acsID <= 0) {
             $where = '(fleet.`start_id` = :planetId AND fleet.`start_type` = :type AND fleet.`mission` != :stay) OR'
                 . ' (fleet.`end_id` = :planetId AND fleet.`end_type` = :type AND fleet.`mission` != :rec AND fleet.`mission` != :trade AND fleet.`status` IN (:outward, :return)'
-                . ' AND fleet.`mission` NOT IN (' . MISSION_PIRATEBASE_ATTACK . ',' . MISSION_PIRATEBASE_SPY . ',' . MISSION_PIRATEBASE_RECYCLING . '))';
+                . ' AND fleet.`mission` NOT IN (' . Mission::PiratebaseAttack->value . ',' . Mission::PiratebaseSpy->value . ',' . Mission::PiratebaseRecycling->value . '))';
 
             $param = [
                 ':planetId' => $this->planetId,
-                ':type'     => TYPE_PLANET,
-                ':stay'     => MISSION_STATION,
-                ':rec'      => MISSION_RECYCLING,
-                ':trade'    => MISSION_TRADE,
+                ':type'     => PlanetType::Planet->value,
+                ':stay'     => Mission::Station->value,
+                ':rec'      => Mission::Recycling->value,
+                ':trade'    => Mission::Trade->value,
                 ':outward'  => FLEET_OUTWARD,
                 ':return'   => FLEET_RETURN,
             ];
@@ -111,15 +115,15 @@ class FlyingFleetsTable
             $param = [
                 ':missions' => array_map('intval', explode(',', $this->missions)),
                 ':userId'   => $this->userId,
-                ':rec'      => MISSION_RECYCLING,
-                ':trade'    => MISSION_TRADE,
+                ':rec'      => Mission::Recycling->value,
+                ':trade'    => Mission::Trade->value,
             ];
         } else {
             $where  = 'fleet.`owner` = :userId OR (fleet.`target_owner` = :userId AND fleet.`mission` != :rec AND fleet.`mission` != :trade)';
             $param = [
                 ':userId'   => $this->userId,
-                ':rec'      => MISSION_RECYCLING,
-                ':trade'    => MISSION_TRADE,
+                ':rec'      => Mission::Recycling->value,
+                ':trade'    => Mission::Trade->value,
             ];
         }
 
@@ -130,7 +134,7 @@ class FlyingFleetsTable
             ->leftJoin('fleet', $this->db->table('USERS'), 'ownuser', 'ownuser.`id` = fleet.`owner`')
             ->leftJoin('fleet', $this->db->table('USERS'), 'targetuser', 'targetuser.`id` = fleet.`target_owner`')
             ->leftJoin('fleet', $this->db->table('PLANETS'), 'ownplanet', 'ownplanet.`id` = fleet.`start_id`')
-            ->leftJoin('fleet', $this->db->table('PLANETS'), 'targetplanet', 'targetplanet.`id` = fleet.`end_id` AND fleet.`mission` NOT IN (' . MISSION_PIRATEBASE_ATTACK . ',' . MISSION_PIRATEBASE_SPY . ',' . MISSION_PIRATEBASE_RECYCLING . ')')
+            ->leftJoin('fleet', $this->db->table('PLANETS'), 'targetplanet', 'targetplanet.`id` = fleet.`end_id` AND fleet.`mission` NOT IN (' . Mission::PiratebaseAttack->value . ',' . Mission::PiratebaseSpy->value . ',' . Mission::PiratebaseRecycling->value . ')')
             ->where($where)
             ->orderBy('fleet.`id`');
         foreach ($param as $name => $value) {
@@ -173,7 +177,7 @@ class FlyingFleetsTable
                 );
             }
 
-            if ($fleetRow['mission'] == MISSION_TRADE) {
+            if ($fleetRow['mission'] == Mission::Trade->value) {
                 $fleetRow['target_planetname'] = "";
             }
             if (
@@ -188,9 +192,9 @@ class FlyingFleetsTable
             }
 
             if (
-                $fleetRow['mission'] == MISSION_MISSILE
-                || (($fleetRow['mission'] == MISSION_TRANSFER
-                || $fleetRow['mission'] == MISSION_STATION) && $fleetRow['status'] == FLEET_OUTWARD)
+                $fleetRow['mission'] == Mission::Missile->value
+                || (($fleetRow['mission'] == Mission::Transfer->value
+                || $fleetRow['mission'] == Mission::Station->value) && $fleetRow['status'] == FLEET_OUTWARD)
             ) {
                 continue;
             }
@@ -259,6 +263,8 @@ class FlyingFleetsTable
     /**
      * One table entry. Outward events of an ACS group list every fleet of the group, one below the other.
      * @param int $FleetState 0 = outward (arrival), 1 = return, 2 = hold end.
+     * @param array<mixed> $fleetRow
+     * @return array<mixed>
      */
     private function buildFleetEventTable(array $fleetRow, int $FleetState): array
     {
@@ -267,7 +273,7 @@ class FlyingFleetsTable
 
         if (
             $FleetState == 0 && $this->IsPhalanx && $fleetRow['group'] != 0
-            && str_contains((string) ($this->state->requestServer['REQUEST_URI'] ?? ''), 'page=phalanx')
+            && str_contains((string) ($this->state->requestServer['REQUEST_URI'] ?? ''), 'game/phalanx')
         ) {
             // Rebuilt the code above to eliminate possible errors with ACS without Phalanx.
             $acsResult      = $this->getFleets($fleetRow['group']);
@@ -312,6 +318,7 @@ class FlyingFleetsTable
     /**
      * Text of one fleet event.
      * @param int $Status FLEET_OUTWARD, FLEET_RETURN or FLEET_HOLD.
+     * @param array<mixed> $fleetRow
      * @return array{0: int, 1: string, 2: int} seconds left, translated HTML line (mission and viewer specific:
      * own, foreign or hostile wording), event timestamp.
      */
@@ -323,17 +330,17 @@ class FlyingFleetsTable
 
         $MissionType = $fleetRow['mission'];
         if ($friendly && $fleetRow['group'] != 0) {
-            $MissionType = MISSION_ACS;
+            $MissionType = Mission::Acs->value;
         }
 
         $FleetPrefix = ($Owner == true) ? 'own' : '';
-        if ($MissionType != MISSION_ATTACK && !$Owner && !$friendly && $fleetRow['group'] != 0) {
+        if ($MissionType != Mission::Attack->value && !$Owner && !$friendly && $fleetRow['group'] != 0) {
             $FleetPrefix = 'hostile';
         }
         $FleetType = $FleetPrefix . self::MISSION_STYLES[$MissionType];
         if (
             !$Owner
-            && ($MissionType == MISSION_ATTACK || $MissionType == MISSION_ACS)
+            && ($MissionType == Mission::Attack->value || $MissionType == Mission::Acs->value)
             && $Status == FLEET_OUTWARD && $fleetRow['target_owner'] != $this->userId
         ) {
             $FleetName = $LNG['cff_acs_fleet'];
@@ -389,20 +396,24 @@ class FlyingFleetsTable
     private function eventText(array $c): string
     {
         $MissionType = $c['mission'];
-        if ($MissionType == MISSION_RECYCLING) {
+        if ($MissionType == Mission::Recycling->value) {
             return $this->recyclingEventText($c);
         }
-        if ($MissionType == MISSION_MISSILE) {
+        if ($MissionType == Mission::Missile->value) {
             return $this->missileEventText($c);
         }
-        if ($MissionType == MISSION_EXPEDITION) {
+        if ($MissionType == Mission::Expedition->value) {
             return $this->expeditionEventText($c);
         }
 
         return $this->flightEventText($c);
     }
 
-    /** Recycling: outward and return wording. @param array<string, mixed> $c see eventText() */
+    /**
+     * Recycling: outward and return wording. @param array<string, mixed> $c see eventText()
+     *
+     * @param array<mixed> $c
+     */
     private function recyclingEventText(array $c): string
     {
         [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType, $Owner, $textKey] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target'], $c['owner'], $c['textKey']];
@@ -433,7 +444,11 @@ class FlyingFleetsTable
         return $EventString;
     }
 
-    /** Missile attack: own and target wording. @param array<string, mixed> $c see eventText() */
+    /**
+     * Missile attack: own and target wording. @param array<string, mixed> $c see eventText()
+     *
+     * @param array<mixed> $c
+     */
     private function missileEventText(array $c): string
     {
         [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType, $Owner, $textKey] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target'], $c['owner'], $c['textKey']];
@@ -467,7 +482,11 @@ class FlyingFleetsTable
         return $EventString;
     }
 
-    /** Expedition: outward, hold and return wording. @param array<string, mixed> $c see eventText() */
+    /**
+     * Expedition: outward, hold and return wording. @param array<string, mixed> $c see eventText()
+     *
+     * @param array<mixed> $c
+     */
     private function expeditionEventText(array $c): string
     {
         [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType, $Owner, $textKey] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target'], $c['owner'], $c['textKey']];
@@ -516,11 +535,11 @@ class FlyingFleetsTable
     private function foreignFlightEventText(array $c): string
     {
         $MissionType = $c['mission'];
-        $GoodMissions = [MISSION_TRANSPORT, MISSION_HOLD];
+        $GoodMissions = [Mission::Transport->value, Mission::Hold->value];
         [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target']];
         $LNG = $this->state->LNG;
 
-        if (($MissionType == MISSION_ATTACK || $MissionType == MISSION_PIRATEBASE_ATTACK || $MissionType == MISSION_ACS) && $Status == FLEET_OUTWARD) {
+        if (($MissionType == Mission::Attack->value || $MissionType == Mission::PiratebaseAttack->value || $MissionType == Mission::Acs->value) && $Status == FLEET_OUTWARD) {
             $EventString = $LNG->format(
                 'cff_mission_acs',
                 $FleetContent,
@@ -558,7 +577,11 @@ class FlyingFleetsTable
         return $EventString;
     }
 
-    /** All other missions: own fleets by status, foreign ones as ACS call, stay, good or bad visit. @param array<string, mixed> $c see eventText() */
+    /**
+     * All other missions: own fleets by status, foreign ones as ACS call, stay, good or bad visit. @param array<string, mixed> $c see eventText()
+     *
+     * @param array<mixed> $c
+     */
     private function flightEventText(array $c): string
     {
         [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType, $Owner, $textKey] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target'], $c['owner'], $c['textKey']];
@@ -621,7 +644,7 @@ class FlyingFleetsTable
         $db = $this->db;
         $FleetClass = '';
         if ($Status == FLEET_OUTWARD) {
-            if ($MissionType == MISSION_ACS) {
+            if ($MissionType == Mission::Acs->value) {
                 $sql = "SELECT count(uta.`acsID`) as count FROM %%USERS_TO_ACS%% AS uta 
                     INNER JOIN %%FLEETS%% AS f ON uta.`acsID` = f.`group`
                     WHERE uta.`userID` = :userId AND f.`id` = :fleetId;";
@@ -636,33 +659,33 @@ class FlyingFleetsTable
                 } else {
                     $FleetClass = 'colorMission2Foreign';
                 }
-            } elseif ($MissionType == MISSION_ATTACK || $MissionType == MISSION_PIRATEBASE_ATTACK) {
+            } elseif ($MissionType == Mission::Attack->value || $MissionType == Mission::PiratebaseAttack->value) {
                 $FleetClass = $Owner ? 'colorMission1Own' : 'colorMission1Foreign';
-            } elseif ($MissionType == MISSION_TRANSPORT) {
+            } elseif ($MissionType == Mission::Transport->value) {
                 $FleetClass = $Owner ? 'colorMission3Own' : 'colorMission3Foreign';
-            } elseif ($MissionType == MISSION_STATION) {
+            } elseif ($MissionType == Mission::Station->value) {
                 $FleetClass = $Owner ? 'colorMission4Own' : 'colorMission4Foreign';
-            } elseif ($MissionType == MISSION_HOLD) {
+            } elseif ($MissionType == Mission::Hold->value) {
                 $FleetClass = $Owner ? 'colorMission5Own' : 'colorMission5Foreign';
-            } elseif ($MissionType == MISSION_SPY || $MissionType == MISSION_PIRATEBASE_SPY) {
+            } elseif ($MissionType == Mission::Spy->value || $MissionType == Mission::PiratebaseSpy->value) {
                 $FleetClass = $Owner ? 'colorMission6Own' : 'colorMission6Foreign';
-            } elseif ($MissionType == MISSION_COLONISATION) {
+            } elseif ($MissionType == Mission::Colonisation->value) {
                 $FleetClass = $Owner ? 'colorMission7Own' : 'colorMission7Foreign';
-            } elseif ($MissionType == MISSION_RECYCLING || $MissionType == MISSION_PIRATEBASE_RECYCLING) {
+            } elseif ($MissionType == Mission::Recycling->value || $MissionType == Mission::PiratebaseRecycling->value) {
                 $FleetClass = $Owner ? 'colorMission8Own' : 'colorMission8Foreign';
-            } elseif ($MissionType == MISSION_DESTRUCTION) {
+            } elseif ($MissionType == Mission::Destruction->value) {
                 $FleetClass = $Owner ? 'colorMission9Own' : 'colorMission9Foreign';
-            } elseif ($MissionType == MISSION_MISSILE) {
+            } elseif ($MissionType == Mission::Missile->value) {
                 $FleetClass = $Owner ? 'colorMission10Own' : 'colorMission10Foreign';
-            } elseif ($MissionType == MISSION_EXPEDITION) {
+            } elseif ($MissionType == Mission::Expedition->value) {
                 $FleetClass = $Owner ? 'colorMission15Own' : 'colorMission15Foreign';
-            } elseif ($MissionType == MISSION_TRADE) {
+            } elseif ($MissionType == Mission::Trade->value) {
                 $FleetClass = $Owner ? 'colorMission16Own' : 'colorMission16Foreign';
-            } elseif ($MissionType == MISSION_TRANSFER) {
+            } elseif ($MissionType == Mission::Transfer->value) {
                 $FleetClass = $Owner ? 'colorMission17Own' : 'colorMission17Foreign';
             }
         } else {
-            if ($MissionType == MISSION_COLONISATION) {
+            if ($MissionType == Mission::Colonisation->value) {
                 $FleetClass = $Owner ? 'colorMission7OwnReturn' : 'colorMissionReturnForeign';
             } else {
                 $FleetClass = $Owner ? 'colorMissionReturnOwn' : 'colorMissionReturnForeign';
@@ -672,6 +695,9 @@ class FlyingFleetsTable
         return $FleetClass;
     }
 
+    /**
+     * @param array<mixed> $fleetRow
+     */
     private function buildHostileFleetPlayerLink(array $fleetRow): string
     {
         $LNG = $this->state->LNG;
@@ -682,6 +708,8 @@ class FlyingFleetsTable
     /**
      * Mission name as a link with a hover popup showing the carried resources (plain text when the fleet carries
      * nothing or in phalanx mode).
+     *
+     * @param array<mixed> $fleetRow
      */
     private function createFleetPopupedMissionLink(array $fleetRow, string $Texte, string $FleetType): string
     {
@@ -719,6 +747,8 @@ class FlyingFleetsTable
      * "Fleet" label with a hover popup that lists the ships. Own fleets show types and amounts; foreign fleets
      * depend on the viewer's espionage tech (the phalanx always shows at least the ship count): below 8 the
      * number of ships, from 4 also the ship types, from 8 types with amounts; below 2 nothing.
+     *
+     * @param array<mixed> $fleetRow
      */
     private function createFleetPopupedFleetLink(array $fleetRow, string $Text, string $FleetType): string
     {

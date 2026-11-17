@@ -26,7 +26,7 @@
 		<td>{% if site.ready %}<span class="colorPositive">{{ LNG.vt_ready }}</span>{% else %}<span class="colorNegative">{{ LNG.format('vt_wait', site.hours, site.minutes) }}</span>{% endif %}{% if site.postback %}<br><small>{{ LNG.vt_postback_hint }}</small>{% endif %}</td>
 		<td class="ctr">
 			{% if site.ready %}
-			<form action="game?page=vote&amp;mode=go" method="post">
+			<form action="{{ path('game_vote_go') }}" method="post">
 				<input type="hidden" name="id" value="{{ site.id }}">
 				<button type="submit">{{ LNG.vt_button }}</button>
 			</form>

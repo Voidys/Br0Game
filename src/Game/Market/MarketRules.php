@@ -12,7 +12,7 @@ use App\Game\Core\Singleton;
  * Buy-eligibility rules of the marketplace shared by the offer list and the purchase: fleet slots, vacation mode,
  * diplomacy filter of an offer, automatic push prevention and the display form of the offered resource.
  *
- * Collaborators: PlayerUtil (block/buddy status), FleetFunctions (slots), MarketManager (value comparison).
+ * Collaborators: PlayerLookup (block/buddy status), FleetFunctions (slots), MarketManager (value comparison).
  * The "buy" results are arrays `['buyable' => bool, 'reason' => string]` (reason is a translated text for the player).
  */
 class MarketRules
@@ -78,9 +78,9 @@ class MarketRules
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        $blocked = $this->playerUtil()->get_block_status($USER['id'], $receiverID);
-        $blockedInverse = $this->playerUtil()->get_block_status($receiverID, $USER['id']);
-        $buddy = $this->playerUtil()->get_buddy_status($USER['id'], $receiverID);
+        $blocked = $this->playerLookup()->get_block_status($USER['id'], $receiverID);
+        $blockedInverse = $this->playerLookup()->get_block_status($receiverID, $USER['id']);
+        $buddy = $this->playerLookup()->get_buddy_status($USER['id'], $receiverID);
         if (($visibility == 2 && $level == 5) || $blocked['block_trade'] || $blockedInverse['block_trade']) {
             return [
                 'buyable' => false,

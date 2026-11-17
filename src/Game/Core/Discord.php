@@ -108,6 +108,8 @@ class Discord
      * <@user_id>
      * <@&role_id> \@role to get ID
      * <:emojiName:emojiId> \:customEmojiName: to get ID
+     *
+     * @param array<mixed> $content
      */
     public function sendMessage(string $webHookUrl, string $title, array $content): void
     {

@@ -17,13 +17,16 @@
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
+
 /** Former admin menu frame: redirects to the dashboard. */
-#[\App\Routing\GamePage('admin', 'menu')]
 class MenuController extends AbstractAdminController
 {
     /** former menu frame: the admin layout now carries menu and navigation on every page */
-    public function show(): void
+    #[GameRoute('admin', 'admin/menu', 'menu')]
+    public function show(): Response
     {
-        $this->http()->redirectTo('admin?page=overview');
+        return $this->redirectToRoute('admin_overview_show');
     }
 }

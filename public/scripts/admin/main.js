@@ -10,7 +10,7 @@
  *                           question); [data-confirm-danger] styles its OK button as destructive
  *   form[data-track-dirty]  marks the form while it has unsaved changes and warns before leaving
  *   [data-table-filter]     input that filters the rows of the table given by its value (a selector)
- *   [data-open-edit]        opens the quick editor in the dialog (data-edit-type="player|planet", data-edit-id)
+ *   [data-open-edit]        opens the quick editor in the dialog (data-edit-url, the quick editor route of the player or planet)
  *   [data-autosubmit]       submits its form when the control changes
  *   [data-set-checked]      button: sets every checkbox matching the selector to data-checked ("1"/"0")
  *   [data-check-all]        checkbox: mirrors its state onto all other checkboxes of its form
@@ -145,7 +145,7 @@ function openEdit() {
     const button = event.target instanceof Element ? event.target.closest('[data-open-edit]') : null;
     if (!button) return;
     event.preventDefault();
-    Dialog.open(`admin?page=quickEditor&edit=${button.dataset.editType}&id=${button.dataset.editId}`, 880, 640);
+    Dialog.open(button.dataset.editUrl, 880, 640);
   });
 }
 

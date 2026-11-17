@@ -13,10 +13,10 @@ class ResourcesTab extends AccountEditorTab
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        $id = $this->http()->_GP('id', 0);
-        $metal = max(0, round($this->http()->_GP('metal', 0.0)));
-        $cristal = max(0, round($this->http()->_GP('cristal', 0.0)));
-        $deut = max(0, round($this->http()->_GP('deut', 0.0)));
+        $id = $this->input()->int('id');
+        $metal = max(0, round($this->input()->float('metal')));
+        $cristal = max(0, round($this->input()->float('cristal')));
+        $deut = max(0, round($this->input()->float('deut')));
 
         if ($this->state->requestPost) {
             if (!empty($id)) {
@@ -73,9 +73,9 @@ class ResourcesTab extends AccountEditorTab
                 $LOG->save();
             }
             if (isset($this->state->requestPost['add'])) {
-                $this->responder->message($LNG['ad_add_res_sucess'], '?page=accountEditor&edit=resources');
+                $this->responder->message($LNG['ad_add_res_sucess'], 'admin/accounts/edit/resources');
             } elseif (isset($this->state->requestPost['delete'])) {
-                $this->responder->message($LNG['ad_delete_res_sucess'], '?page=accountEditor&edit=resources');
+                $this->responder->message($LNG['ad_delete_res_sucess'], 'admin/accounts/edit/resources');
             }
         }
 

@@ -17,6 +17,8 @@
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\PlanetType;
+use App\Game\Enum\Mission;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\BattleEngine\BattleHandler;
 
@@ -89,7 +91,7 @@ class MissionCaseDestruction extends AbstractBattleMission
         $this->writeDebris($planetDebris);
 
         if ($reportInfo['moonDestroySuccess'] == 1) {
-            $this->playerUtil()->deletePlanet($targetPlanet['id']);
+            $this->planetManager()->deletePlanet($targetPlanet['id']);
             $this->statsHandler->increment($targetUser['id'], AdvancedStatsEnum::MOONS_LOST, 1);
             $this->statsHandler->increment($this->_fleet['owner'], AdvancedStatsEnum::MOONS_DESTROYED, 1);
         } else {
@@ -206,7 +208,7 @@ class MissionCaseDestruction extends AbstractBattleMission
             WHERE `start_id` = :moonId;';
 
         $db->update($sql, [
-            ':startType' => TYPE_PLANET,
+            ':startType' => PlanetType::Planet->value,
             ':planetId' => $planetID,
             ':moonId'   => $moonId,
         ]);
@@ -216,16 +218,16 @@ class MissionCaseDestruction extends AbstractBattleMission
             `end_id` = :planetId,
             `mission` = IF(`mission` = :dest, :att, `mission`)
             WHERE `end_id` = :moonId
-            AND `mission` NOT IN (' . MISSION_PIRATEBASE_ATTACK . ',' . MISSION_PIRATEBASE_SPY . ',' . MISSION_PIRATEBASE_RECYCLING . ')
+            AND `mission` NOT IN (' . Mission::PiratebaseAttack->value . ',' . Mission::PiratebaseSpy->value . ',' . Mission::PiratebaseRecycling->value . ')
             AND `id` != :fleetId;';
 
         $db->update($sql, [
-            ':endType'  => TYPE_PLANET,
+            ':endType'  => PlanetType::Planet->value,
             ':planetId' => $planetID,
             ':moonId'   => $moonId,
             ':fleetId'  => $this->_fleet['id'],
-            ':dest'     => MISSION_DESTRUCTION,
-            ':att'      => MISSION_ATTACK,
+            ':dest'     => Mission::Destruction->value,
+            ':att'      => Mission::Attack->value,
         ]);
 
         $sql = "UPDATE %%AKS%% SET `target` = :planetId WHERE `target` = :moonId;";

@@ -260,7 +260,7 @@ al_diplo_accept_yes_confirm: Aceitar este pacto?
 al_diplo_accept_yes_mes: O pacto (%s) entre as alianças <b>%s</b> e <b>%s</b> foi assinado!
 al_diplo_ally: Aliança
 al_diplo_ask: Pedido de pacto
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Um pedido de pacto]</a> (%s) foi enviado por <b>%s</b> a <b>%s</b>.<br>Motivo: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[Um pedido de pacto]</a> (%s) foi enviado por <b>%s</b> a <b>%s</b>.<br>Motivo: %s'
 al_diplo_confirm_delete: Terminar este pacto?
 al_diplo_create: Pedir pacto
 al_diplo_create_done: Pedido de pacto enviado.
@@ -268,7 +268,7 @@ al_diplo_delete: Pacto terminado
 al_diplo_delete_mes: O pacto (%s) entre as alianças <b>%s</b> e <b>%s</b> terminou.
 al_diplo_exists: Já tens um pacto ativo ou pendente com %s.
 al_diplo_head: Gestão de diplomacia
-al_diplo_info: '<p>Nesta página podes gerir os pactos diplomáticos da tua aliança.</p><p>Os tipos de pacto estão listados abaixo. Mais informações: <a href="game?page=questions">FAQ</a> ou a <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+al_diplo_info: '<p>Nesta página podes gerir os pactos diplomáticos da tua aliança.</p><p>Os tipos de pacto estão listados abaixo. Mais informações: <a href="game/faq">FAQ</a> ou a <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
 al_diplo_level:
 - Principal
 - Ala
@@ -287,7 +287,7 @@ al_diplo_text: Pedido/Motivo
 al_diplo_war: Declaração de guerra
 al_diplo_war_end: Declaração de paz
 al_diplo_war_end_mes: O(A) %s entre as alianças <b>%s</b> e <b>%s</b> acabou de terminar.
-al_diplo_war_mes: 'A aliança <b>%1$s</b> declarou %3$s a <b>%2$s</b>! <br>Motivo:<br>%4$s<br><br>Informação: a guerra começa dentro de <b>24 horas</b>, altura em que a regra anti-bash fica suspensa.<br>Para mais informações, consulta as <a href="./?page=rules&lang=en" target="_blank">[Rules]</a>.'
+al_diplo_war_mes: 'A aliança <b>%1$s</b> declarou %3$s a <b>%2$s</b>! <br>Motivo:<br>%4$s<br><br>Informação: a guerra começa dentro de <b>24 horas</b>, altura em que a regra anti-bash fica suspensa.<br>Para mais informações, consulta as <a href="./rules?lang=en" target="_blank">[Rules]</a>.'
 al_diplo_withdraw: Pedido de pacto retirado.
 al_diplo_withdraw_confirm: Retirar este pedido de pacto?
 al_diplo_withdraw_mes: O pedido de pacto (%s) entre as alianças <b>%s</b> e <b>%s</b> foi retirado.
@@ -337,7 +337,7 @@ al_name: Alterar nome da aliança
 al_name_required: Indica um nome para a aliança.
 al_link_too_long: O link é demasiado longo (no máximo 255 caracteres).
 al_name_tag_too_long: A tag pode ter no máximo 8 caracteres e o nome 30.
-al_new_apply: A tua aliança recebeu <a href="?page=alliance&mode=admin&action=manageApply">[uma candidatura]</a> do jogador <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_apply: A tua aliança recebeu <a href="game/alliance/admin/applications">[uma candidatura]</a> do jogador <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Novo membro
 al_new_requests: '%d pendentes'
 al_newname_specialchar: Os nomes e tags de aliança só podem conter letras, números, espaços, sublinhados, hífenes e pontos.
@@ -1167,7 +1167,7 @@ ov_temp_unit: °C
 ov_temperature: Temperatura
 ov_ticketbot: Ticketbot
 ov_to: a
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Nome errado!
 ov_wrong_pass: Palavra-passe errada!
 own: Próprio
@@ -1334,7 +1334,7 @@ sys_forward: Seguinte
 sys_game_is_setup: <h1>Registo concluído!</h1><br><p>Estamos a preparar o teu universo!</p><!--discord_url--><p>Entretanto, para não perderes nada, junta-te a nós no</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Este módulo está inativo
 sys_nomore_level: Não tens %s para demolir.
-sys_notenough_money: 'Recursos insuficientes em %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> para construir %s. <br>Tens: %s %s, %s %s e %s %s. <br>Custa: %s %s, %s %s e %s %s.'
+sys_notenough_money: 'Recursos insuficientes em %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> para construir %s. <br>Tens: %s %s, %s %s e %s %s. <br>Custa: %s %s, %s %s e %s %s.'
 sys_refferal_from: Sistema
 sys_refferal_text: O jogador %s recrutado por ti atingiu %s pontos.
 sys_refferal_title: Bónus de jogador %s

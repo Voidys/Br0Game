@@ -36,17 +36,6 @@ class ProtectionRules
      * - Min percentage difference for boost: 10%
      * - Boost reduces build cost and therefore also build speed
      *
-     * @param array $USER
-     * @return float
-     * @deprecated use catchUpFactorFor() with a typed User
-     */
-    public function getCatchUpFactor(array $USER): float
-    {
-        return $this->catchUpFactorFor(User::fromState($USER, $this->elements()->columnMap()));
-    }
-
-    /**
-     * Typed version of getCatchUpFactor(): the cost reduction factor of one player (see there for the formula).
      * Reads statpoints (DB) for the player and the universe maximum; 1.0 when catch-up is off or the player is inactive.
      *
      * @param User $user the player (id, universe, onlinetime)
@@ -126,20 +115,6 @@ class ProtectionRules
      *
      * @param int $necessaryLevel required spy tech level
      * @param int $PlayerID player whose data is requested
-     * @param array $USER viewing user row
-     * @return bool
-     * @deprecated use spyTechAllowedFor() with a typed User
-     */
-    public function spyTechAllowed(int $necessaryLevel, int $PlayerID, array $USER): bool
-    {
-        return $this->spyTechAllowedFor($necessaryLevel, $PlayerID, User::fromState($USER, $this->elements()->columnMap()));
-    }
-
-    /**
-     * Typed version of spyTechAllowed().
-     *
-     * @param int $necessaryLevel required spy tech level
-     * @param int $PlayerID player whose data is requested
      * @param User $viewer the viewing player (id, auth level, spy tech)
      */
     public function spyTechAllowedFor(int $necessaryLevel, int $PlayerID, User $viewer): bool
@@ -152,7 +127,13 @@ class ProtectionRules
         return $allowed;
     }
 
-    /** status classes of a player row (banned, vacation, inactive, noob, strong) for lists and the galaxy */
+    /**
+     * status classes of a player row (banned, vacation, inactive, noob, strong) for lists and the galaxy
+     *
+     * @param array<string, mixed> $data
+     * @param array<mixed> $noob_protection
+     * @return array<mixed>
+     */
     public function userStatus(array $data, bool|array $noob_protection = false): array
     {
         $Array = [];
@@ -192,8 +173,8 @@ class ProtectionRules
      * the (active) target. With noob_protection_outlaw an outlaw target lifts both. Side effect: expired rebuild
      * protection is cleared in the database.
      *
-     * @param array $OwnerPlayer user row with total_points, rebuild_protection, ...
-     * @param array $TargetPlayer user row with total_points, onlinetime, banaday, outlaw_time, ...
+     * @param array<mixed> $OwnerPlayer user row with total_points, rebuild_protection, ...
+     * @param array<mixed> $TargetPlayer user row with total_points, onlinetime, banaday, outlaw_time, ...
      * @return array{NoobPlayer: bool, StrongPlayer: bool}
      * @deprecated use checkNoobProtectionFor() with typed Users
      */

@@ -22,29 +22,29 @@
 	{% for userID, memberListRow in memberList %}
 	<tr>
 		<td class="ctr">{{ loop.index }}</td>
-		<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+		<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if memberListRow.class %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
 		<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img class="inline" src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
 		<td>{{ memberListRow.rankName }}</td>
 		<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
-		<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="game?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
+		<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="{{ path('game_galaxy_show', {galaxy: memberListRow.galaxy, system: memberListRow.system}) }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
 		<td class="ctr registerTime" data-sort="{{ memberListRow.register_time }}" data-time="{{ memberListRow.register_time }}">{{ memberListRow.register_time }}</td>
 		<td class="ctr"{% if rights.ONLINESTATE %} data-sort="{% if memberListRow.onlinetime < 4 %}0{% elseif memberListRow.onlinetime <= 60 %}{{ memberListRow.onlinetime }}{% else %}999{% endif %}"{% endif %}>{% if rights.ONLINESTATE %}{% if memberListRow.onlinetime < 4 %}<span class="colorPositive">{{ LNG.al_memberlist_on }}</span>{% elseif memberListRow.onlinetime <= 60 %}<span class="color-yellow">{{ memberListRow.onlinetime }} {{ LNG.al_memberlist_min }}</span>{% else %}<span class="colorNegative">{{ LNG.al_memberlist_off }}</span>{% endif %}{% else %}-{% endif %}</td>
 	</tr>
 	{% endfor %}
 	</tbody>
 	<tr>
-		<th colspan="8"><a href="game?page=alliance">{{ LNG.al_back }}</a></th>
+		<th colspan="8"><a href="{{ path('game_alliance_show') }}">{{ LNG.al_back }}</a></th>
 	</tr>
 </table>
 </div>
-{% if not empty(mainList) %}
+{% if mainList %}
 {% for mainId, main in mainList %}
 	<br>
 	<div class="table-scroll">
 	<table id="mainList" data-sortable>
 		<thead>
 			<tr>
-				<th colspan="8"><a href="?page=alliance&mode=info&id={{ mainId }}">{{ main['header'] }}</a></th>
+				<th colspan="8"><a href="{{ path('game_alliance_info', {id: mainId}) }}">{{ main['header'] }}</a></th>
 			</tr>
 			<tr>
 				<th class="no-sort ctr">{{ LNG.al_num }}</th>
@@ -61,11 +61,11 @@
 		{% for userID, memberListRow in main['memberList'] %}
 		<tr>
 			<td class="ctr">{{ loop.index }}</td>
-			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if memberListRow.class %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
 			<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
 			<td>{{ memberListRow.rankName }}</td>
 			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
-			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="game?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
+			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="{{ path('game_galaxy_show', {galaxy: memberListRow.galaxy, system: memberListRow.system}) }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
 			<td class="ctr registerTime" data-sort="{{ memberListRow.register_time }}" data-time="{{ memberListRow.register_time }}">{{ memberListRow.register_time }}</td>
 			<td class="ctr"{% if rights.ONLINESTATE %} data-sort="{% if memberListRow.onlinetime < 4 %}0{% elseif memberListRow.onlinetime <= 60 %}{{ memberListRow.onlinetime }}{% else %}999{% endif %}"{% endif %}>{% if rights.ONLINESTATE %}{% if memberListRow.onlinetime < 4 %}<span class="colorPositive">{{ LNG.al_memberlist_on }}</span>{% elseif memberListRow.onlinetime <= 60 %}<span class="color-yellow">{{ memberListRow.onlinetime }} {{ LNG.al_memberlist_min }}</span>{% else %}<span class="colorNegative">{{ LNG.al_memberlist_off }}</span>{% endif %}{% else %}-{% endif %}</td>
 		</tr>
@@ -75,14 +75,14 @@
 	</div>
 {% endfor %}
 {% endif %}
-{% if not empty(wingList) %}
+{% if wingList %}
 {% for wingId, wing in wingList %}
 	<br>
 	<div class="table-scroll">
 	<table id="wingList" data-sortable>
 		<thead>
 			<tr>
-				<th colspan="8"><a href="?page=alliance&mode=info&id={{ wingId }}">{{ wing['header'] }}</a></th>
+				<th colspan="8"><a href="{{ path('game_alliance_info', {id: wingId}) }}">{{ wing['header'] }}</a></th>
 			</tr>
 			<tr>
 				<th class="no-sort ctr">{{ LNG.al_num }}</th>
@@ -99,11 +99,11 @@
 		{% for userID, memberListRow in wing['memberList'] %}
 		<tr>
 			<td class="ctr">{{ loop.index }}</td>
-			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if memberListRow.class %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
 			<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
 			<td>{{ memberListRow.rankName }}</td>
 			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
-			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="game?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
+			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="{{ path('game_galaxy_show', {galaxy: memberListRow.galaxy, system: memberListRow.system}) }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
 			<td class="ctr registerTime" data-sort="{{ memberListRow.register_time }}" data-time="{{ memberListRow.register_time }}">{{ memberListRow.register_time }}</td>
 			<td class="ctr"{% if rights.ONLINESTATE %} data-sort="{% if memberListRow.onlinetime < 4 %}0{% elseif memberListRow.onlinetime <= 60 %}{{ memberListRow.onlinetime }}{% else %}999{% endif %}"{% endif %}>{% if rights.ONLINESTATE %}{% if memberListRow.onlinetime < 4 %}<span class="colorPositive">{{ LNG.al_memberlist_on }}</span>{% elseif memberListRow.onlinetime <= 60 %}<span class="color-yellow">{{ memberListRow.onlinetime }} {{ LNG.al_memberlist_min }}</span>{% else %}<span class="colorNegative">{{ LNG.al_memberlist_off }}</span>{% endif %}{% else %}-{% endif %}</td>
 		</tr>

@@ -18,7 +18,7 @@
         </div>
       </th>
     </tr>
-    {% if not empty(FlyingFleetList) %}
+    {% if FlyingFleetList %}
     <tr>
       <td class="fleet-col-id ctr">{{ LNG.fl_number }}</td>
       <td class="fleet-col-mission ctr">{{ LNG.fl_mission }}</td>
@@ -54,10 +54,10 @@
                  data-tooltip-content="{{ tt_ships|e('html_attr') }}">{{ FlyingFleetRow.amount }}</a>
           </td>
           <td class="ctr"><a
-              href="game?page=galaxy&amp;galaxy={{ FlyingFleetRow.startGalaxy }}&amp;system={{ FlyingFleetRow.startSystem }}">[{{ FlyingFleetRow.startGalaxy }}:{{ FlyingFleetRow.startSystem }}:{{ FlyingFleetRow.startPlanet }}]({{ LNG["type_planet_short_#{FlyingFleetRow.startType}"] }})</a></td>
+              href="{{ path('game_galaxy_show', {galaxy: FlyingFleetRow.startGalaxy, system: FlyingFleetRow.startSystem}) }}">[{{ FlyingFleetRow.startGalaxy }}:{{ FlyingFleetRow.startSystem }}:{{ FlyingFleetRow.startPlanet }}]({{ LNG["type_planet_short_#{FlyingFleetRow.startType}"] }})</a></td>
           <td class="ctr{% if FlyingFleetRow.state == 0 %} fleet-active-time{% endif %}">{{ FlyingFleetRow.startTime }}</td>
           <td class="ctr"><a
-              href="game?page=galaxy&amp;galaxy={{ FlyingFleetRow.endGalaxy }}&amp;system={{ FlyingFleetRow.endSystem }}">[{{ FlyingFleetRow.endGalaxy }}:{{ FlyingFleetRow.endSystem }}:{{ FlyingFleetRow.endPlanet }}]({{ LNG["type_planet_short_#{FlyingFleetRow.endType}"] }})</a></td>
+              href="{{ path('game_galaxy_show', {galaxy: FlyingFleetRow.endGalaxy, system: FlyingFleetRow.endSystem}) }}">[{{ FlyingFleetRow.endGalaxy }}:{{ FlyingFleetRow.endSystem }}:{{ FlyingFleetRow.endPlanet }}]({{ LNG["type_planet_short_#{FlyingFleetRow.endType}"] }})</a></td>
             {% if FlyingFleetRow.mission == 4 and FlyingFleetRow.state == 0 %}
               <td class="ctr">-</td>
             {% else %}
@@ -68,13 +68,13 @@
               data-fleet-time="{{ FlyingFleetRow.resttime }}">{{ getRestTimeFormat(FlyingFleetRow.resttime) }}</td>
           <td class="act">
               {% if not isVacation and FlyingFleetRow.state != 1 and FlyingFleetRow.no_returnable != 1 %}
-                <form action="game?page=fleetTable&amp;action=sendfleetback" method="post">
+                <form action="{{ path('game_fleet_table_recall') }}" method="post">
                   <input name="fleetID" value="{{ FlyingFleetRow.id }}" type="hidden">
                   <input value="{{ LNG.fl_send_back }}" type="submit">
                 </form>
                 <span class="aborttime" starttime="{{ FlyingFleetRow.startTimestamp }}"></span>
                   {% if FlyingFleetRow.mission == 1 %}
-                    <form action="game?page=fleetTable&amp;action=acs" method="post">
+                    <form action="{{ path('game_fleet_table_acs') }}" method="post">
                       <input name="fleetID" value="{{ FlyingFleetRow.id }}" type="hidden">
                       <input value="{{ LNG.fl_acs }}" type="submit">
 
@@ -97,10 +97,10 @@
       {% endif %}
   </table>
   </div>
-    {% if not empty(acsData) %}
+    {% if acsData %}
         {% include 'game/shared.fleetTable.acsTable.html.twig' %}
     {% endif %}
-  <form action="?page=fleetStep1" method="post">
+  <form action="{{ path('game_fleet_step1_show') }}" method="post">
     <input type="hidden" name="galaxy" value="{{ targetGalaxy }}">
     <input type="hidden" name="system" value="{{ targetSystem }}">
     <input type="hidden" name="planet" value="{{ targetPlanet }}">

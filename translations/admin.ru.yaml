@@ -508,7 +508,7 @@ po_add_planet: Создание планеты
 po_colony: Колония
 po_complete_all: Заданные координаты уже заняты.
 po_complete_all2: Введены несуществующие координаты.
-po_complete_succes: Планета создана. | <a href="?page=accounteditor">Редактировать планету</a>
+po_complete_succes: Планета создана. | <a href="admin/accounts/edit">Редактировать планету</a>
 po_fields_max: Поля
 po_galaxy: Галактика
 po_name_planet: Название
@@ -998,7 +998,7 @@ se_wreckfield_min_percent: Минимальный процент уничтож�
 se_wreckfield_min_units: Мин. уничтоженных юнитов на поле крушения
 select_option: Выбрать...
 ships_title: Флот
-sp_answer_message: 'На Вашу заявку #%d был дан ответ. Ответ смотрите в меню <a href=?page=ticket>Тех. поддержка</a>'
+sp_answer_message: 'На Вашу заявку #%d был дан ответ. Ответ смотрите в меню <a href=game/tickets>Тех. поддержка</a>'
 sp_answer_message_title: 'Заявка #%d'
 status: Статус
 subject: Тема

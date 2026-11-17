@@ -2,7 +2,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=fleetStep2" method="post" data-on-submit="check-target" id="form" class="form-page">
+<form action="{{ path('game_fleet_step2_show') }}" method="post" data-on-submit="check-target" id="form" class="form-page">
 	<input type="hidden" name="token" value="{{ token }}">
 	<input type="hidden" name="group" value="0">
 	<input type="hidden" name="target_mission" value="{{ mission }}">
@@ -82,7 +82,7 @@
 	{% endif %}
 </table>
 
-	{% if isModuleAvailable(php_const('MODULE_SHORTCUTS')) %}
+	{% if isModuleAvailable(constant('MODULE_SHORTCUTS')) %}
 	<table class="table-fixed shortcut">
 		<tr>
 			<th colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">{{ LNG.fl_shortcut }} (<a href="#" data-action="edit-shortcuts" class="shortcut-link-edit shortcut-link">{{ LNG.fl_shortcut_edition }}</a><a href="#" data-action="save-shortcuts" class="shortcut-edit">{{ LNG.fl_shortcut_save }}</a>)</th>
@@ -182,6 +182,12 @@
 	data: fleetdata,
 	honorboost: honorboost,
 	config: config,
-	token: token
+	token: token,
+	urls: {
+		checkTarget: path('game_fleet_step1_check_target'),
+		saveShortcuts: path('game_fleet_step1_save_shortcuts'),
+		release: path('game_fleet_step_ajax_show'),
+		fleetTable: path('game_fleet_table_show')
+	}
 }) }}
 {% endblock %}

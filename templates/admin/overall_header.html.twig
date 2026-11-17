@@ -3,12 +3,14 @@
 <html lang="{{ lang }}" data-dialog-ok="{{ LNG.dialog_ok }}" data-dialog-cancel="{{ LNG.dialog_cancel }}">
 <head>
   <meta charset="utf-8">
+  {# asset and page links below are relative to the universe directory, whatever the depth of the path route #}
+  <base href="{{ app.request.basePath }}/{{ app.request.attributes.get('uni') }}">
   {{ csrf_meta() }}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {# versions all ES modules by mtime (imported modules carry no ?v=): App\\Twig\\GameExtension::importMap #}
   {{ import_map() }}
   <title>{% if adminShell %}{% if adminTab %}{{ adminTab }} · {% endif %}{{ adminTitle }} · {% endif %}{{ title }}</title>
-  {% if not empty(goto) and gotoinsec > 0 %}
+  {% if goto and gotoinsec > 0 %}
     <meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
   {% endif %}
   <link rel="stylesheet" href="./styles/resource/css/app/base.css?v={{ asset_version }}">
@@ -33,11 +35,11 @@
 </head>
 <body id="{{ bodyId }}" class="admin {{ adminShell ? 'admin--shell' : 'admin--bare' }}">
 {% if adminShell %}
-  <a class="skip-link" href="#admin-main">{{ LNG.adm_skip }}</a>
+  <a class="skip-link" href="{{ app.request.requestUri }}#admin-main">{{ LNG.adm_skip }}</a>
 
   <header class="admin-topbar">
     <button type="button" class="icon-button admin-topbar__menu" data-sidebar-toggle aria-controls="admin-sidebar">{{ icon('menu', LNG.adm_menu_toggle) }}</button>
-    <a class="admin-brand" href="admin?page=overview">
+    <a class="admin-brand" href="{{ path('admin_overview_show') }}">
       <span class="wordmark">Br<b>0</b>Game</span>
       <span>{{ LNG.adm_cp_title }}</span>
     </a>
@@ -53,7 +55,7 @@
     <nav class="admin-topbar__actions" aria-label="{{ LNG.adm_cp_title }}">
       <span class="admin-topbar__user" title="{{ adminUser }}">{{ icon('user') }}<span>{{ adminUser }}</span></span>
       <a class="admin-topbar__item" href="game">{{ icon('rocket') }}<span>{{ LNG.adm_back_to_game }}</span></a>
-      <a data-method="post" class="admin-topbar__item admin-topbar__item--danger" href="admin?page=logout">{{ icon('log-out') }}<span>{{ LNG.adm_drop_rights }}</span></a>
+      <a data-method="post" class="admin-topbar__item admin-topbar__item--danger" href="{{ path('admin_logout_show') }}">{{ icon('log-out') }}<span>{{ LNG.adm_drop_rights }}</span></a>
     </nav>
   </header>
 

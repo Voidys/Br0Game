@@ -3,17 +3,17 @@
     {{ icon('user') }}<span class="acc-topbar__name">{{ accountname }}</span>
   </span>
   <a class="acc-topbar__item" href="{{ toplink }}" title="{{ topname }}">
-    {{ icon(toplink=='account?page=accountSettings' ? 'settings' : 'arrow-left') }}<span class="acc-topbar__label">{{ topname }}</span>
+    {{ icon(toplink == path('account_account_settings_show') ? 'settings' : 'arrow-left') }}<span class="acc-topbar__label">{{ topname }}</span>
   </a>
   {% if game_config('board_enabled', '1') != '0' %}
-  <a class="acc-topbar__item" href="account?page=board" title="{{ LNG.lm_board }}">
+  <a class="acc-topbar__item" href="{{ path('account_board_show') }}" title="{{ LNG.lm_board }}">
     {{ icon('messages-square') }}<span class="acc-topbar__label">{{ LNG.lm_board }}</span>
   </a>
   {% endif %}
-  <a class="acc-topbar__item" href="./?page=dataPrivacy" data-dialog data-dialog-width="820" title="{{ LNG.lm_dataPrivacy }}">
+  <a class="acc-topbar__item" href="{{ path('login_data_privacy_show') }}" data-dialog data-dialog-width="820" title="{{ LNG.lm_dataPrivacy }}">
     {{ icon('shield-check') }}<span class="acc-topbar__label">{{ LNG.lm_dataPrivacy }}</span>
   </a>
-  <a data-method="post" class="acc-topbar__item acc-topbar__logout" href="account?page=logout" title="{{ LNG.lm_logout }}">
+  <a data-method="post" class="acc-topbar__item acc-topbar__logout" href="{{ path('account_logout_show') }}" title="{{ LNG.lm_logout }}">
     {{ icon('log-out') }}<span class="acc-topbar__label">{{ LNG.lm_logout }}</span>
   </a>
 </nav>

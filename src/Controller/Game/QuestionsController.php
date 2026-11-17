@@ -17,24 +17,18 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 
 /**
  * FAQ pages.
  */
-#[\App\Routing\GamePage('game', 'questions')]
 class QuestionsController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * FAQ category overview.
      */
+    #[GameRoute('game', 'game/faq', 'questions')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -47,22 +41,22 @@ class QuestionsController extends AbstractGameController
     /**
      * One FAQ entry (request: categoryID, questionID); unknown ids redirect to the overview.
      */
+    #[GameRoute('game', 'game/faq/{categoryID}/{questionID}', 'questions', 'single', requirements: ['categoryID' => '\d+', 'questionID' => '\d+'])]
     public function single(): Response
     {
         $LNG = $this->state->LNG;
 
         $LNG->includeData(['FAQ']);
 
-        $categoryID	= $this->http()->_GP('categoryID', 0);
-        $questionID	= $this->http()->_GP('questionID', 0);
+        $categoryID	= $this->input()->int('categoryID');
+        $questionID	= $this->input()->int('questionID');
 
         if (!isset($LNG['questions'][$categoryID][$questionID])) {
-            $this->http()->redirectTo('game?page=questions');
+            return $this->redirectToRoute('game_questions_show');
         }
 
-        $this->assign([
+        return $this->render('game/page.questions.single.html.twig', [
             'questionRow'	=> ['body' => new \Twig\Markup((string) $LNG['questions'][$categoryID][$questionID]['body'], 'UTF-8')] + $LNG['questions'][$categoryID][$questionID],
         ]);
-        return $this->render('game/page.questions.single.html.twig');
     }
 }

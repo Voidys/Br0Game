@@ -45,7 +45,11 @@ final class BattleEngineTest extends GameTestCase
     private const FLEET_A = [[204 => 100, 205 => 40, 207 => 10], [5, 3, 4], [202 => 20, 204 => 50, 401 => 80, 402 => 30], [3, 2, 2]];
     private const FLEET_D = [[206 => 30, 207 => 20, 211 => 5], [8, 6, 7], [205 => 40, 206 => 10, 401 => 200, 403 => 50, 404 => 5, 407 => 1], [7, 7, 8]];
 
-    /** @param array<int, int> $units @param array{0: int, 1: int, 2: int} $tech weapons, shields, armour */
+    /**
+     * @param array<int, int> $units @param array{0: int, 1: int, 2: int} $tech weapons, shields, armour
+     * @param array<mixed> $tech
+     * @return array<mixed>
+     */
     private function fleet(int $userId, array $units, array $tech = [0, 0, 0]): array
     {
         return [
@@ -71,6 +75,7 @@ final class BattleEngineTest extends GameTestCase
      * Runs one fight (attackers[0] vs the defending planet) and returns the figures worth pinning.
      *
      * @param array{0: array<int, int>, 1: array{0: int, 1: int, 2: int}, 2: array<int, int>, 3: array{0: int, 1: int, 2: int}} $setup
+     * @param array<mixed> $extraAttackers
      * @return array<string, mixed>
      */
     private function fight(string $engine, array $setup, ?int $seed = null, array $extraAttackers = []): array

@@ -19,20 +19,25 @@ use App\Game\Alliance\AllianceException;
 use App\Game\Alliance\AllianceRights;
 use App\Game\Alliance\AllianceServices;
 use App\Game\Alliance\AllianceText;
+use App\Game\Core\EndOfRequest;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Alliance pages: overview, application, creation, member list, circular messages and the admin area (texts, ranks, members, diplomacy).
  *
+ * Paths: /game/alliance (home), /game/alliance/{id} (info), .../apply/{id}, .../search, .../create, .../members, .../circular,
+ * and the admin area below /game/alliance/admin (applications, ranks, members, diplomacy). Every state change is a POST route.
+ *
  * HTTP adapter only: reads the request, checks the rank rights of the page and renders; the rules and queries live
  * in the services of App\Game\Alliance (see AllianceServices). The services end an action early by throwing an
- * AllianceException, which exitWith() turns into the redirect / message page / JSON answer.
+ * AllianceException (route names as targets), which exitWith() turns into the redirect / message page / JSON answer.
  */
-#[\App\Routing\GamePage('game', 'alliance')]
 #[\App\Controller\RequireModule('MODULE_ALLIANCE')]
 class AllianceController extends AbstractGameController
 {
     private $allianceData;
+    /** @var array<mixed> */
     private array $rights = [];
     private $hasAlliance = false;
     private $hasApply = false;
@@ -49,7 +54,9 @@ class AllianceController extends AbstractGameController
         $this->hasAlliance = $this->state->USER['ally_id'] != 0;
         $this->hasApply = $this->alliance()->repository()->hasOpenApplication($this->state->USER['id']);
         if ($this->hasAlliance && !$this->hasApply) {
-            $this->setAllianceData($this->state->USER['ally_id']);
+            if ($failure = $this->setAllianceData($this->state->USER['ally_id'])) {
+                throw EndOfRequest::withResponse($failure);
+            }
         }
     }
 
@@ -58,14 +65,17 @@ class AllianceController extends AbstractGameController
         return $this->allianceServices ??= new AllianceServices($this->db, $this->configs, $this->state);
     }
 
-    /** Ends the request the way the thrown alliance exception asks for. */
-    private function exitWith(AllianceException $exit): never
+    /** The answer the thrown alliance exception asks for (the route names it carries become URLs). */
+    private function exitWith(AllianceException $exit): Response
     {
-        match ($exit->kind) {
+        return match ($exit->kind) {
             AllianceException::HOME => $this->redirectToHome(),
-            AllianceException::REDIRECT => $this->redirectTo($exit->payload),
-            AllianceException::MESSAGE => $this->printMessage($exit->payload, $exit->buttons),
-            AllianceException::JSON => $this->sendJSON($exit->payload),
+            AllianceException::REDIRECT => $this->redirectToRoute($exit->payload),
+            AllianceException::MESSAGE => $this->messageResponse($exit->payload, array_map(
+                fn(array $button): array => ['url' => $this->router->generate($button['url'])] + $button,
+                $exit->buttons,
+            )),
+            AllianceException::JSON => $this->jsonResponse($exit->payload),
         };
     }
 
@@ -73,14 +83,14 @@ class AllianceController extends AbstractGameController
      * Loads the alliance shown by this request into $this->allianceData (message page if it doesn't exist) and,
      * when it's the player's own alliance, the player's rank rights; assigns `rights` and `AllianceOwner` for the templates.
      */
-    private function setAllianceData($allianceId)
+    private function setAllianceData(int $allianceId): ?Response
     {
         $USER = $this->state->USER;
 
         $this->allianceData = $this->alliance()->repository()->find($allianceId);
 
         if (!$this->allianceData) {
-            $this->printMessage($this->state->LNG['al_not_exists']);
+            return $this->messageResponse($this->state->LNG['al_not_exists']);
         }
 
         if ($USER['ally_id'] == $allianceId) {
@@ -91,23 +101,27 @@ class AllianceController extends AbstractGameController
                 'AllianceOwner' => $this->allianceData['ally_owner'] == $USER['id'],
             ]);
         }
+
+        return null;
     }
 
     /**
-     * Public info page of an alliance (request: id).
+     * Public info page of an alliance (path: id).
      */
+    #[GameRoute('game', 'game/alliance/{id}', 'alliance', 'info', requirements: ['id' => '\d+'])]
     public function info(): Response
     {
-        $this->setAllianceData($this->http()->_GP('id', 0));
+        if ($failure = $this->setAllianceData($this->input()->int('id'))) {
+            return $failure;
+        }
 
-        $this->assign($this->alliance()->pages()->info($this->allianceData, $this->hasAlliance, $this->hasApply));
-
-        return $this->render('game/page.alliance.info.html.twig');
+        return $this->render('game/page.alliance.info.html.twig', $this->alliance()->pages()->info($this->allianceData, $this->hasAlliance, $this->hasApply));
     }
 
     /**
      * Alliance entry page: members see their alliance home, players with an open application a wait screen, everybody else the create/search choice.
      */
+    #[GameRoute('game', 'game/alliance', 'alliance')]
     public function show(): Response
     {
         if ($this->hasAlliance) {
@@ -119,14 +133,9 @@ class AllianceController extends AbstractGameController
         }
     }
 
-    private function redirectToHome(): never
+    private function redirectToHome(): Response
     {
-        $this->redirectTo('game?page=alliance');
-    }
-
-    private function getAction()
-    {
-        return $this->http()->_GP('action', '');
+        return $this->redirectToRoute('game_alliance_show');
     }
 
     /**
@@ -142,158 +151,194 @@ class AllianceController extends AbstractGameController
         }
 
         $link = new \Twig\Markup(
-            '<a href="?page=alliance&amp;mode=info&amp;id=' . (int) $allianceResult['id'] . '">['
+            '<a href="' . $this->router->generate('game_alliance_info', ['id' => (int) $allianceResult['id']]) . '">['
             . \App\Twig\GameEscaping::escape($allianceResult['ally_tag']) . '] ' . \App\Twig\GameEscaping::escape($allianceResult['ally_name']) . '</a>',
             'UTF-8',
         );
-        $this->assign([
+
+        return $this->render('game/page.alliance.applyWait.html.twig', [
             'request_text' => AllianceText::html($this->state->LNG, 'al_request_wait_message', $link),
         ]);
-
-        return $this->render('game/page.alliance.applyWait.html.twig');
     }
 
     /**
      * Alliance search (request: searchtext); players with an open application are sent back to the wait screen.
      */
+    #[GameRoute('game', 'game/alliance/search', 'alliance', 'search')]
     public function search(): Response
     {
         if ($this->hasApply) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
-        $searchText = $this->http()->_GP('searchtext', '', UTF8_SUPPORT);
+        $searchText = $this->input()->string('searchtext', '', UTF8_SUPPORT);
 
-        $this->assign([
+        return $this->render('game/page.alliance.search.html.twig', [
             'searchText' => $searchText,
             'searchList' => $this->alliance()->applications()->search($searchText),
         ]);
-
-        return $this->render('game/page.alliance.search.html.twig');
     }
 
     /**
-     * Application form for alliance `id`, and submit when `text` is given (stored through the application service, then a confirmation message). Players who are
-     * in an alliance or already applied are redirected home.
+     * Application form for alliance `id`. Players who are in an alliance or already applied are redirected home.
      */
+    #[GameRoute('game', 'game/alliance/apply/{id}', 'alliance', 'apply', requirements: ['id' => '\d+'])]
     public function apply(): Response
+    {
+        if ($this->hasApply || $this->state->USER['ally_id'] != 0) {
+            return $this->redirectToHome();
+        }
+
+        return $this->applicationForm($this->input()->int('id'));
+    }
+
+    /**
+     * Submits the application (request: text, path: id): stored through the application service, then a confirmation message.
+     * An empty text shows the form again.
+     */
+    #[GameRoute('game', 'game/alliance/apply/{id}', 'alliance', 'applySend', ['POST'], ['id' => '\d+'])]
+    public function applySend(): Response
     {
         $LNG = $this->state->LNG;
         if ($this->hasApply || $this->state->USER['ally_id'] != 0) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
-        $text = $this->http()->_GP('text', '', true);
-        $allianceId = $this->http()->_GP('id', 0);
+        $text = $this->input()->string('text', '', true);
+        $allianceId = $this->input()->int('id');
+        if (empty($text)) {
+            return $this->applicationForm($allianceId);
+        }
 
         try {
             $applications = $this->alliance()->applications();
-            $allianceResult = $applications->applicationTarget($allianceId);
+            $applications->applicationTarget($allianceId);
 
-            if (!empty($text)) {
-                if (!$this->rateLimits->allowAllianceApplication((int) $this->state->USER['id'])) {
-                    throw AllianceException::message($LNG['al_apply_rate_limited'], $LNG['sys_forward'], '?page=alliance');
-                }
-                $applications->submit($allianceId, $text);
-
-                $this->printMessage(AllianceText::html($LNG, 'al_request_confirmation_message'), [[
-                    'label' => $LNG['al_ok'],
-                    'url' => '?page=overview',
-                ]]);
+            if (!$this->rateLimits->allowAllianceApplication((int) $this->state->USER['id'])) {
+                throw AllianceException::message($LNG['al_apply_rate_limited'], $LNG['sys_forward'], 'game_alliance_show');
             }
+            $applications->submit($allianceId, $text);
         } catch (AllianceException $exit) {
-            $this->exitWith($exit);
+            return $this->exitWith($exit);
         }
 
-        $this->assign([
+        return $this->messageResponse(AllianceText::html($LNG, 'al_request_confirmation_message'), [[
+            'label' => $LNG['al_ok'],
+            'url' => $this->router->generate('game_overview_show'),
+        ]]);
+    }
+
+    /** the application form of alliance `$allianceId` (message page when the alliance does not take applications) */
+    private function applicationForm(int $allianceId): Response
+    {
+        $LNG = $this->state->LNG;
+
+        try {
+            $allianceResult = $this->alliance()->applications()->applicationTarget($allianceId);
+        } catch (AllianceException $exit) {
+            return $this->exitWith($exit);
+        }
+
+        return $this->render('game/page.alliance.apply.html.twig', [
             'allyid' => $allianceId,
             'applytext' => $allianceResult['ally_request'],
             'al_write_request' => AllianceText::html($LNG, 'al_write_request', $allianceResult['ally_tag']),
         ]);
-
-        return $this->render('game/page.alliance.apply.html.twig');
     }
 
     /**
      * Withdraws the player's open application.
      */
-    public function cancelApply()
+    #[GameRoute('game', 'game/alliance/cancel-apply', 'alliance', 'cancelApply', ['POST'])]
+    public function cancelApply(): Response
     {
         $LNG = $this->state->LNG;
         if (!$this->hasApply) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
         $allyTag = $this->alliance()->applications()->cancel();
 
-        $this->printMessage(AllianceText::html($LNG, 'al_request_deleted', $allyTag), [[
+        return $this->messageResponse(AllianceText::html($LNG, 'al_request_deleted', $allyTag), [[
             'label' => $LNG['sys_forward'],
-            'url' => '?page=alliance',
+            'url' => $this->router->generate('game_alliance_show'),
         ]]);
     }
 
     /**
-     * Founding form; action=send with atag and aname founds the alliance (AllianceMembership::found), the player becomes founder, then a message is shown.
-     * Players who may not found (already in one, ...) get the reason as message.
+     * Founding form. Players who may not found (already in one, ...) get the reason as message.
      */
+    #[GameRoute('game', 'game/alliance/create', 'alliance', 'create')]
     public function create(): Response
     {
-        if ($this->hasApply) {
-            $this->redirectToHome();
-        }
-
-        try {
-            $this->alliance()->membership()->assertMayFound();
-        } catch (AllianceException $exit) {
-            $this->exitWith($exit);
-        }
-
-        if ($this->getAction() == 'send') {
-            return $this->createAlliance();
+        if ($failure = $this->mayFound()) {
+            return $failure;
         }
 
         return $this->render('game/page.alliance.create.html.twig');
     }
 
-    /** processes the founding form: confirmation message on success */
-    private function createAlliance(): never
+    /**
+     * Founds the alliance (request: atag, aname; AllianceMembership::found), the player becomes founder, then a message is shown.
+     */
+    #[GameRoute('game', 'game/alliance/create', 'alliance', 'createSend', ['POST'])]
+    public function createSend(): Response
     {
+        if ($failure = $this->mayFound()) {
+            return $failure;
+        }
+
         $LNG = $this->state->LNG;
-        $allianceTag = $this->http()->_GP('atag', '', UTF8_SUPPORT);
-        $allianceName = $this->http()->_GP('aname', '', UTF8_SUPPORT);
+        $allianceTag = $this->input()->string('atag', '', UTF8_SUPPORT);
+        $allianceName = $this->input()->string('aname', '', UTF8_SUPPORT);
 
         try {
             $label = $this->alliance()->membership()->found($allianceTag, $allianceName);
         } catch (AllianceException $exit) {
-            $this->exitWith($exit);
+            return $this->exitWith($exit);
         }
 
-        $this->printMessage(AllianceText::html($LNG, 'al_created', $label), [[
+        return $this->messageResponse(AllianceText::html($LNG, 'al_created', $label), [[
             'label' => $LNG['sys_forward'],
-            'url' => '?page=alliance',
+            'url' => $this->router->generate('game_alliance_show'),
         ]]);
+    }
+
+    /** the answer when the player may not found an alliance (open application, already a member, ...), null when he may */
+    private function mayFound(): ?Response
+    {
+        if ($this->hasApply) {
+            return $this->redirectToHome();
+        }
+
+        try {
+            $this->alliance()->membership()->assertMayFound();
+        } catch (AllianceException $exit) {
+            return $this->exitWith($exit);
+        }
+
+        return null;
     }
 
     private function homeAlliance(): Response
     {
-        $this->assign($this->alliance()->pages()->home($this->allianceData));
-
-        return $this->render('game/page.alliance.home.html.twig');
+        return $this->render('game/page.alliance.home.html.twig', $this->alliance()->pages()->home($this->allianceData));
     }
 
     /**
      * Member list of the own alliance with the main/wing alliances; needs the MEMBERLIST right.
      */
+    #[GameRoute('game', 'game/alliance/members', 'alliance', 'memberList')]
     public function memberList(): Response
     {
         if (!$this->rights['MEMBERLIST']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
         $lists = $this->alliance()->memberLists();
         $memberList = $lists->members($this->allianceData);
 
-        $this->assign([
+        return $this->render('game/page.alliance.memberList.html.twig', [
             'memberList' => $memberList,
             'mainList' => $lists->mainAlliances($this->allianceData),
             'wingList' => $lists->wingAlliances($this->allianceData),
@@ -301,132 +346,129 @@ class AllianceController extends AbstractGameController
             'timezone' => $this->state->USER['timezone'],
             'ShortStatus' => $lists->shortStatus(),
         ]);
-
-        return $this->render('game/page.alliance.memberList.html.twig');
     }
 
     /** leave the alliance (not for the leader) */
-    public function close()
+    #[GameRoute('game', 'game/alliance/leave', 'alliance', 'close', ['POST'])]
+    public function close(): Response
     {
         $LNG = $this->state->LNG;
 
         if (!$this->hasAlliance || !$this->allianceData) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
         try {
             $this->alliance()->membership()->leave($this->allianceData);
         } catch (AllianceException $exit) {
-            $this->exitWith($exit);
+            return $this->exitWith($exit);
         }
 
-        $this->printMessage(AllianceText::html($LNG, 'al_leave_sucess', $this->allianceData['ally_name']), [[
+        return $this->messageResponse(AllianceText::html($LNG, 'al_leave_sucess', $this->allianceData['ally_name']), [[
             'label' => $LNG['sys_back'],
-            'url' => '?page=alliance',
+            'url' => $this->router->generate('game_alliance_show'),
         ]]);
     }
 
     /**
-     * Circular message dialog. Needs the ROUNDMAIL right. action=send with rankID (0 = all members, otherwise one rank), subject and text sends the messages
-     * through the alliance messenger and answers JSON {message, error}; otherwise renders the popup with the rank selection.
+     * Circular message dialog with the rank selection. Needs the ROUNDMAIL right.
      */
+    #[GameRoute('game', 'game/alliance/circular', 'alliance', 'circular')]
     public function circular(): Response
     {
         $LNG = $this->state->LNG;
         if (!$this->rights['ROUNDMAIL']) {
-            $this->redirectToHome();
-        }
-
-        if ($this->http()->_GP('action', '') == "send") {
-            $rankId = $this->http()->_GP('rankID', 0);
-            $subject = $this->http()->_GP('subject', '', true);
-            $text = $this->http()->_GP('text', $LNG['mg_no_subject'], true);
-
-            try {
-                $sendList = $this->alliance()->messenger()->sendCircular($this->allianceData, $rankId, $subject, $text);
-            } catch (AllianceException $exit) {
-                $this->exitWith($exit);
-            }
-
-            $this->sendJSON(['message' => $sendList, 'error' => false]);
+            return $this->redirectToHome();
         }
 
         $this->setWindow('popup');
 
-        $this->assign([
+        return $this->render('game/page.alliance.circular.html.twig', [
             'RangeList' => [$LNG['al_all_players']] + $this->alliance()->repository()->rankNames($this->allianceData['id']),
         ]);
-
-        return $this->render('game/page.alliance.circular.html.twig');
-    }
-
-    /** dispatches ?action= to the admin* handlers below */
-    public function admin(): ?Response
-    {
-        $action = (string) $this->http()->_GP('action', 'overview');
-
-        return match ($action === '' ? 'overview' : $action) {
-            'overview' => $this->adminOverview(),
-            'close' => $this->adminClose(),
-            'transfer' => $this->adminTransfer(),
-            'manageApply' => $this->adminManageApply(),
-            'detailApply' => $this->adminDetailApply(),
-            'sendAnswerToApply' => $this->adminSendAnswerToApply(),
-            'permissions' => $this->adminPermissions(),
-            'permissionsSend' => $this->adminPermissionsSend(),
-            'members' => $this->adminMembers(),
-            'rank' => $this->adminRank(),
-            'membersKick' => $this->adminMembersKick(),
-            'diplomacy' => $this->adminDiplomacy(),
-            'diplomacyAccept' => $this->adminDiplomacyAccept(),
-            'diplomacyReject' => $this->adminDiplomacyReject(),
-            'diplomacyDelete' => $this->adminDiplomacyDelete(),
-            'diplomacyCreate' => $this->adminDiplomacyCreate(),
-            'diplomacyCreateProcessor' => $this->adminDiplomacyCreateProcessor(),
-            default => $this->printPageError($this->state->LNG['page_doesnt_exist']),
-        };
     }
 
     /**
-     * Alliance admin overview (needs the ADMIN right). With send=1 saves the settings: owner_range (founder title), web, image, request_notallow, ally_max_members,
-     * request_min_points, stats, diplo, ally_tag, ally_name and the text selected by textMode (external, internal or application text). Otherwise shows the form.
+     * Sends the circular message (request: rankID, 0 = all members, otherwise one rank; subject, text) through the
+     * alliance messenger and answers JSON {message, error}.
      */
-    protected function adminOverview(): Response
+    #[GameRoute('game', 'game/alliance/circular', 'alliance', 'circularSend', ['POST'])]
+    public function circularSend(): Response
+    {
+        $LNG = $this->state->LNG;
+        if (!$this->rights['ROUNDMAIL']) {
+            return $this->redirectToHome();
+        }
+
+        $rankId = $this->input()->int('rankID');
+        $subject = $this->input()->string('subject', '', true);
+        $text = $this->input()->string('text', $LNG['mg_no_subject'], true);
+
+        try {
+            $sendList = $this->alliance()->messenger()->sendCircular($this->allianceData, $rankId, $subject, $text);
+        } catch (AllianceException $exit) {
+            return $this->exitWith($exit);
+        }
+
+        return $this->jsonResponse(['message' => $sendList, 'error' => false]);
+    }
+
+    /**
+     * Alliance admin overview (needs the ADMIN right): settings form with the text selected by textMode (external, internal or application text).
+     */
+    #[GameRoute('game', 'game/alliance/admin', 'alliance', 'admin')]
+    public function admin(): Response
     {
         if (!$this->hasAlliance || !$this->rights['ADMIN']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
+        $textMode = $this->input()->string('textMode', 'external');
+
+        return $this->adminOverviewPage($textMode, $this->alliance()->settings()->textFor($this->allianceData, $textMode));
+    }
+
+    /**
+     * Saves the alliance settings (needs the ADMIN right). Request: owner_range (founder title), web, image, request_notallow, ally_max_members,
+     * request_min_points, stats, diplo, ally_tag, ally_name and the text selected by textMode (external, internal or application text).
+     */
+    #[GameRoute('game', 'game/alliance/admin', 'alliance', 'adminSend', ['POST'])]
+    public function adminSend(): Response
+    {
+        if (!$this->hasAlliance || !$this->rights['ADMIN']) {
+            return $this->redirectToHome();
+        }
+
+        $textMode = $this->input()->string('textMode', 'external');
+        $input = [
+            'owner_range' => $this->input()->string('owner_range', '', true),
+            'web' => $this->input()->string('web'),
+            'image' => $this->input()->string('image'),
+            'request_notallow' => $this->input()->int('request_notallow'),
+            'ally_max_members' => $this->input()->string('ally_max_members'),
+            'request_min_points' => $this->input()->int('request_min_points'),
+            'stats' => $this->input()->int('stats'),
+            'diplo' => $this->input()->int('diplo'),
+            'ally_tag' => $this->input()->string('ally_tag', (string) $this->allianceData['ally_tag'], UTF8_SUPPORT),
+            'ally_name' => $this->input()->string('ally_name', (string) $this->allianceData['ally_name'], UTF8_SUPPORT),
+            'text' => $this->input()->string('text', '', true),
+            'textMode' => $textMode,
+        ];
+        try {
+            $this->allianceData = $this->alliance()->settings()->save($this->allianceData, $input);
+        } catch (AllianceException $exit) {
+            return $this->exitWith($exit);
+        }
+
+        return $this->adminOverviewPage($textMode, $input['text']);
+    }
+
+    /** the settings form of the admin overview with `$text` in the text area of `$textMode` */
+    private function adminOverviewPage(string $textMode, mixed $text): Response
+    {
         $LNG = $this->state->LNG;
-        $settings = $this->alliance()->settings();
-        $textMode = $this->http()->_GP('textMode', 'external');
 
-        if ($this->http()->_GP('send', 0)) {
-            $input = [
-                'owner_range' => $this->http()->_GP('owner_range', '', true),
-                'web' => $this->http()->_GP('web', ''),
-                'image' => $this->http()->_GP('image', ''),
-                'request_notallow' => $this->http()->_GP('request_notallow', 0),
-                'ally_max_members' => $this->http()->_GP('ally_max_members', ''),
-                'request_min_points' => $this->http()->_GP('request_min_points', 0),
-                'stats' => $this->http()->_GP('stats', 0),
-                'diplo' => $this->http()->_GP('diplo', 0),
-                'ally_tag' => $this->http()->_GP('ally_tag', $this->allianceData['ally_tag'], UTF8_SUPPORT),
-                'ally_name' => $this->http()->_GP('ally_name', $this->allianceData['ally_name'], UTF8_SUPPORT),
-                'text' => $this->http()->_GP('text', '', true),
-                'textMode' => $textMode,
-            ];
-            try {
-                $this->allianceData = $settings->save($this->allianceData, $input);
-            } catch (AllianceException $exit) {
-                $this->exitWith($exit);
-            }
-            $text = $input['text'];
-        } else {
-            $text = $settings->textFor($this->allianceData, $textMode);
-        }
-
-        $this->assign([
+        return $this->render('game/page.alliance.admin.overview.html.twig', [
             'RequestSelector' => [0 => $LNG['al_requests_allowed'], 1 => $LNG['al_requests_not_allowed']],
             'YesNoSelector' => [1 => $LNG['al_go_out_yes'], 0 => $LNG['al_go_out_no']],
             'textMode' => $textMode,
@@ -443,152 +485,177 @@ class AllianceController extends AbstractGameController
             'ally_stats_data' => $this->allianceData['ally_stats'],
             'ally_diplo_data' => $this->allianceData['ally_diplo'],
         ]);
-
-        return $this->render('game/page.alliance.admin.overview.html.twig');
     }
 
     /** disband the alliance (leader only, silently ignored otherwise) */
-    protected function adminClose()
+    #[GameRoute('game', 'game/alliance/admin/disband', 'alliance', 'adminClose', ['POST'])]
+    public function adminClose(): Response
     {
         if ($this->allianceData) {
             $this->alliance()->membership()->disband($this->allianceData);
         }
 
-        $this->redirectToHome();
+        return $this->redirectToHome();
     }
 
     /**
-     * Transfers the leadership to another member (request: newleader); only the founder may.
+     * Form to hand the leadership to another member; only the founder may.
      */
-    protected function adminTransfer(): Response
+    #[GameRoute('game', 'game/alliance/admin/transfer', 'alliance', 'adminTransfer')]
+    public function adminTransfer(): Response
     {
         if (!$this->allianceData || $this->allianceData['ally_owner'] != $this->state->USER['id']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
-        $membership = $this->alliance()->membership();
-        $newLeader = $this->http()->_GP('newleader', 0);
-        if (!empty($newLeader)) {
-            try {
-                $membership->transfer($this->allianceData, $newLeader);
-            } catch (AllianceException $exit) {
-                $this->exitWith($exit);
-            }
-            $this->redirectToHome();
-        }
-
-        $this->assign([
-            'transferUserList' => $membership->transferCandidates($this->allianceData),
-        ]);
-
-        return $this->render('game/page.alliance.admin.transfer.html.twig');
+        return $this->transferForm();
     }
 
-    /** the application pages need both rights */
-    private function requireApplicationRights(): void
+    /**
+     * Transfers the leadership to another member (request: newleader); only the founder may. Without a choice the form is shown again.
+     */
+    #[GameRoute('game', 'game/alliance/admin/transfer', 'alliance', 'adminTransferSend', ['POST'])]
+    public function adminTransferSend(): Response
+    {
+        if (!$this->allianceData || $this->allianceData['ally_owner'] != $this->state->USER['id']) {
+            return $this->redirectToHome();
+        }
+
+        $newLeader = $this->input()->int('newleader');
+        if (empty($newLeader)) {
+            return $this->transferForm();
+        }
+
+        try {
+            $this->alliance()->membership()->transfer($this->allianceData, $newLeader);
+        } catch (AllianceException $exit) {
+            return $this->exitWith($exit);
+        }
+
+        return $this->redirectToHome();
+    }
+
+    private function transferForm(): Response
+    {
+        return $this->render('game/page.alliance.admin.transfer.html.twig', [
+            'transferUserList' => $this->alliance()->membership()->transferCandidates($this->allianceData),
+        ]);
+    }
+
+    /** the application pages need both rights; the redirect home when one is missing */
+    private function requireApplicationRights(): ?Response
     {
         if (!$this->rights['SEEAPPLY'] || !$this->rights['MANAGEAPPLY']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
+
+        return null;
     }
 
     /**
      * List of open applications (needs the SEEAPPLY and MANAGEAPPLY rights).
      */
-    protected function adminManageApply(): Response
+    #[GameRoute('game', 'game/alliance/admin/applications', 'alliance', 'adminManageApply')]
+    public function adminManageApply(): Response
     {
-        $this->requireApplicationRights();
+        if ($denied = $this->requireApplicationRights()) {
+            return $denied;
+        }
 
-        $this->assign([
+        return $this->render('game/page.alliance.admin.manageApply.html.twig', [
             'applyList' => $this->alliance()->applications()->listFor($this->allianceData),
         ]);
-
-        return $this->render('game/page.alliance.admin.manageApply.html.twig');
     }
 
     /**
-     * One application (request: id) with the applicant's message and points.
+     * One application (path: id) with the applicant's message and points.
      */
-    protected function adminDetailApply(): Response
+    #[GameRoute('game', 'game/alliance/admin/applications/{id}', 'alliance', 'adminDetailApply', requirements: ['id' => '\d+'])]
+    public function adminDetailApply(): Response
     {
         $LNG = $this->state->LNG;
-        $this->requireApplicationRights();
+        if ($denied = $this->requireApplicationRights()) {
+            return $denied;
+        }
 
         $applications = $this->alliance()->applications();
-        $applyDetail = $applications->find($this->allianceData, $this->http()->_GP('id', 0));
+        $applyDetail = $applications->find($this->allianceData, $this->input()->int('id'));
 
         if (empty($applyDetail)) {
-            $this->printMessage($LNG['al_apply_not_exists'], [[
+            return $this->messageResponse($LNG['al_apply_not_exists'], [[
                 'label' => $LNG['sys_back'],
-                'url' => 'game?page=alliance&mode=admin&action=manageApply',
+                'url' => $this->router->generate('game_alliance_admin_manage_apply'),
             ]]);
         }
 
         $playerCard = (new PlayerCardController())->withGameServicesOf($this);
         $playerCard->initialize();
 
-        $this->assign($applications->detailVariables($applyDetail, $playerCard));
-
-        return $this->render('game/page.alliance.admin.detailApply.html.twig');
+        return $this->render('game/page.alliance.admin.detailApply.html.twig', $applications->detailVariables($applyDetail, $playerCard));
     }
 
     /**
-     * Accepts or rejects an application (request: id, answer, text) and notifies the applicant; redirects to the application list.
+     * Accepts or rejects an application (path: id; request: answer, text) and notifies the applicant; redirects to the application list.
      */
-    protected function adminSendAnswerToApply()
+    #[GameRoute('game', 'game/alliance/admin/applications/{id}/answer', 'alliance', 'adminAnswerApply', ['POST'], ['id' => '\d+'])]
+    public function adminAnswerApply(): Response
     {
-        $this->requireApplicationRights();
+        if ($denied = $this->requireApplicationRights()) {
+            return $denied;
+        }
 
-        $text = makebr($this->http()->_GP('text', '', true));
-        $answer = $this->http()->_GP('answer', '');
-        $applyID = $this->http()->_GP('id', 0);
+        $text = makebr($this->input()->string('text', '', true));
+        $answer = $this->input()->string('answer');
+        $applyID = $this->input()->int('id');
 
         try {
             $result = $this->alliance()->applications()->answer($this->allianceData, $applyID, $answer, $text);
         } catch (AllianceException $exit) {
-            $this->exitWith($exit);
+            return $this->exitWith($exit);
         }
 
         if ($result !== null) {
             // confirmation for the manager, in his own language
             $LNG = $this->state->LNG;
-            $this->printMessage($result == 'yes' ? $LNG['al_apply_accepted'] : $LNG['al_apply_declined'], [[
+
+            return $this->messageResponse($result == 'yes' ? $LNG['al_apply_accepted'] : $LNG['al_apply_declined'], [[
                 'label' => $LNG['sys_back'],
-                'url' => 'game?page=alliance&mode=admin&action=manageApply',
+                'url' => $this->router->generate('game_alliance_admin_manage_apply'),
             ]]);
         }
-        $this->redirectTo('game?page=alliance&mode=admin&action=manageApply');
+
+        return $this->redirectToRoute('game_alliance_admin_manage_apply');
     }
 
     /**
      * Rank and rights table (needs the RANKS right).
      */
-    protected function adminPermissions(): Response
+    #[GameRoute('game', 'game/alliance/admin/ranks', 'alliance', 'adminPermissions')]
+    public function adminPermissions(): Response
     {
         if (!$this->rights['RANKS']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
-        $this->assign($this->alliance()->ranks()->permissionPage($this->allianceData, $this->rights) + [
+        return $this->render('game/page.alliance.admin.permissions.html.twig', $this->alliance()->ranks()->permissionPage($this->allianceData, $this->rights) + [
             'ownRights' => $this->rights,
             'ownRankId' => $this->state->USER['ally_rank_id'],
         ]);
-
-        return $this->render('game/page.alliance.admin.permissions.html.twig');
     }
 
     /**
      * Saves the rank table (needs the RANKS right). Request: rank[] (rights per rank), newrank[] (ranks to create), deleteRank; redirects back to the table.
      */
-    protected function adminPermissionsSend()
+    #[GameRoute('game', 'game/alliance/admin/ranks', 'alliance', 'adminPermissionsSend', ['POST'])]
+    public function adminPermissionsSend(): Response
     {
         if (!$this->rights['RANKS']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
-        $newRank = $this->http()->_GP('newrank', [], true);
-        $delete = $this->http()->_GP('deleteRank', 0);
-        $rankData = $this->http()->_GP('rank', []);
+        $newRank = $this->input()->stringMap('newrank', true);
+        $delete = $this->input()->int('deleteRank');
+        $rankData = $this->input()->nested('rank');
         $ranks = $this->alliance()->ranks();
 
         try {
@@ -600,27 +667,28 @@ class AllianceController extends AbstractGameController
                 $ranks->update($this->allianceData, $this->rights, $rankData);
             }
         } catch (AllianceException $exit) {
-            $this->exitWith($exit);
+            return $this->exitWith($exit);
         }
 
-        $this->redirectTo('game?page=alliance&mode=admin&action=permissions');
+        return $this->redirectToRoute('game_alliance_admin_permissions');
     }
 
     /**
      * Member administration list (needs MANAGEUSERS) with the rank choices the acting member may hand out; kick buttons need the KICK right.
      */
-    protected function adminMembers(): Response
+    #[GameRoute('game', 'game/alliance/admin/members', 'alliance', 'adminMembers')]
+    public function adminMembers(): Response
     {
         $LNG = $this->state->LNG;
         if (!$this->rights['MANAGEUSERS']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
         $lists = $this->alliance()->memberLists();
         $choices = $this->alliance()->ranks()->memberChoices($this->allianceData, $this->rights);
         $memberList = $lists->adminMembers($this->allianceData);
 
-        $this->assign([
+        return $this->render('game/page.alliance.admin.members.html.twig', [
             'memberList' => $memberList,
             'rankList' => $choices['rankList'],
             'rankSelectList' => $choices['rankSelectList'],
@@ -630,131 +698,144 @@ class AllianceController extends AbstractGameController
             'canKick' => $this->rights['KICK'],
             'ShortStatus' => $lists->shortStatus(),
         ]);
-
-        return $this->render('game/page.alliance.admin.members.html.twig');
     }
 
     /**
      * Assigns ranks to members (needs MANAGEUSERS; request rank[] member id => rank id); answers JSON with the saved message.
      */
-    protected function adminRank()
+    #[GameRoute('game', 'game/alliance/admin/members/rank', 'alliance', 'adminRank', ['POST'])]
+    public function adminRank(): Response
     {
         if (!$this->rights['MANAGEUSERS']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
-        $this->alliance()->ranks()->assign($this->allianceData, $this->rights, $this->http()->_GP('rank', []));
+        $this->alliance()->ranks()->assign($this->allianceData, $this->rights, $this->input()->intMap('rank'));
 
-        $this->sendJSON($this->state->LNG['al_saved']);
+        return $this->jsonResponse($this->state->LNG['al_saved']);
     }
 
     /**
      * Removes member `id` from the alliance (needs the KICK right; the membership service refuses members the acting rank may not kick); redirects to the member list.
      */
-    protected function adminMembersKick()
+    #[GameRoute('game', 'game/alliance/admin/members/{id}/kick', 'alliance', 'adminKick', ['POST'], ['id' => '\d+'])]
+    public function adminKick(): Response
     {
         if (!$this->rights['KICK']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
 
         try {
-            $this->alliance()->membership()->kick($this->allianceData, $this->rights, $this->http()->_GP('id', 0));
+            $this->alliance()->membership()->kick($this->allianceData, $this->rights, $this->input()->int('id'));
         } catch (AllianceException $exit) {
-            $this->exitWith($exit);
+            return $this->exitWith($exit);
         }
 
-        $this->redirectTo('game?page=alliance&mode=admin&action=members');
+        return $this->redirectToRoute('game_alliance_admin_members');
     }
 
-    private function requireDiplomaticRight(): void
+    /** the redirect home when the player lacks the diplomatic right, null otherwise */
+    private function requireDiplomaticRight(): ?Response
     {
         if (!$this->rights['DIPLOMATIC']) {
-            $this->redirectToHome();
+            return $this->redirectToHome();
         }
+
+        return null;
     }
 
     /**
      * Diplomacy overview (needs the diplomatic right): relations and open proposals.
      */
-    protected function adminDiplomacy(): Response
+    #[GameRoute('game', 'game/alliance/admin/diplomacy', 'alliance', 'adminDiplomacy')]
+    public function adminDiplomacy(): Response
     {
-        $this->requireDiplomaticRight();
-
-        $this->assign([
-            'diploList' => $this->alliance()->diplomacy()->overview($this->allianceData),
-        ]);
-
-        return $this->render('game/page.alliance.admin.diplomacy.default.html.twig');
-    }
-
-    /** accept / reject / delete a treaty by ?id= (method: accept|reject|delete of AllianceDiplomacyService) */
-    private function diplomacyAction(string $method): never
-    {
-        $this->requireDiplomaticRight();
-
-        try {
-            $this->alliance()->diplomacy()->$method($this->allianceData, $this->http()->_GP('id', 0));
-        } catch (AllianceException $exit) {
-            $this->exitWith($exit);
+        if ($denied = $this->requireDiplomaticRight()) {
+            return $denied;
         }
 
-        $this->redirectTo('game?page=alliance&mode=admin&action=diplomacy');
+        return $this->render('game/page.alliance.admin.diplomacy.default.html.twig', [
+            'diploList' => $this->alliance()->diplomacy()->overview($this->allianceData),
+        ]);
     }
 
-    protected function adminDiplomacyAccept()
+    /** accept / reject / delete a treaty by its id (method: accept|reject|delete of AllianceDiplomacyService) */
+    private function diplomacyAction(string $method): Response
     {
-        $this->diplomacyAction('accept');
+        if ($denied = $this->requireDiplomaticRight()) {
+            return $denied;
+        }
+
+        try {
+            $this->alliance()->diplomacy()->$method($this->allianceData, $this->input()->int('id'));
+        } catch (AllianceException $exit) {
+            return $this->exitWith($exit);
+        }
+
+        return $this->redirectToRoute('game_alliance_admin_diplomacy');
     }
 
-    protected function adminDiplomacyReject()
+    #[GameRoute('game', 'game/alliance/admin/diplomacy/{id}/accept', 'alliance', 'adminDiplomacyAccept', ['POST'], ['id' => '\d+'])]
+    public function adminDiplomacyAccept(): Response
     {
-        $this->diplomacyAction('reject');
+        return $this->diplomacyAction('accept');
     }
 
-    protected function adminDiplomacyDelete()
+    #[GameRoute('game', 'game/alliance/admin/diplomacy/{id}/reject', 'alliance', 'adminDiplomacyReject', ['POST'], ['id' => '\d+'])]
+    public function adminDiplomacyReject(): Response
     {
-        $this->diplomacyAction('delete');
+        return $this->diplomacyAction('reject');
+    }
+
+    #[GameRoute('game', 'game/alliance/admin/diplomacy/{id}/delete', 'alliance', 'adminDiplomacyDelete', ['POST'], ['id' => '\d+'])]
+    public function adminDiplomacyDelete(): Response
+    {
+        return $this->diplomacyAction('delete');
     }
 
     /**
      * Form for a new diplomatic proposal (request: diploMode, id of the other alliance).
      */
-    protected function adminDiplomacyCreate(): Response
+    #[GameRoute('game', 'game/alliance/admin/diplomacy/create', 'alliance', 'adminDiplomacyCreate')]
+    public function adminDiplomacyCreate(): Response
     {
-        $this->requireDiplomaticRight();
+        if ($denied = $this->requireDiplomaticRight()) {
+            return $denied;
+        }
         $this->setWindow('popup');
 
-        $diplomaticMode = $this->http()->_GP('diploMode', 0);
-        $form = $this->alliance()->diplomacy()->createFormData($diplomaticMode, $this->http()->_GP('id', 0));
+        $diplomaticMode = $this->input()->int('diploMode');
+        $form = $this->alliance()->diplomacy()->createFormData($diplomaticMode, $this->input()->int('id'));
 
-        $this->assign([
+        return $this->render('game/page.alliance.admin.diplomacy.create.html.twig', [
             'diploLevel' => $form['diploLevel'],
             'diploMode' => $diplomaticMode,
             'AllyList' => $form['AllyList'],
             'IdList' => $form['IdList'],
         ]);
-
-        return $this->render('game/page.alliance.admin.diplomacy.create.html.twig');
     }
 
     /**
      * Stores a diplomatic proposal (request: ally_id = tag or name of the other alliance, level, text); answers JSON {error, message}.
      */
-    protected function adminDiplomacyCreateProcessor()
+    #[GameRoute('game', 'game/alliance/admin/diplomacy/create', 'alliance', 'adminDiplomacyCreateSend', ['POST'])]
+    public function adminDiplomacyCreateSend(): Response
     {
-        $this->requireDiplomaticRight();
+        if ($denied = $this->requireDiplomaticRight()) {
+            return $denied;
+        }
 
-        $id = $this->http()->_GP('ally_id', '', UTF8_SUPPORT);
-        $level = $this->http()->_GP('level', 0);
-        $text = $this->http()->_GP('text', '', true);
+        $id = $this->input()->string('ally_id', '', UTF8_SUPPORT);
+        $level = $this->input()->int('level');
+        $text = $this->input()->string('text', '', true);
 
         try {
             $this->alliance()->diplomacy()->create($this->allianceData, $id, $level, $text);
         } catch (AllianceException $exit) {
-            $this->exitWith($exit);
+            return $this->exitWith($exit);
         }
 
-        $this->sendJSON([
+        return $this->jsonResponse([
             'error' => false,
             'message' => $this->state->LNG['al_diplo_create_done'],
         ]);

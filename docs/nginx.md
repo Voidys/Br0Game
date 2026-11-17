@@ -2,8 +2,8 @@ The document root is `public/`. Only that directory is served; everything else i
 repository (config, includes, language, cache, ...) is not reachable from the web.
 
 All requests that don't match a file in `public/` go to the front controller
-`public/index.php` (Symfony). That includes the game's own URLs like `/game.php`,
-`/admin.php` or `/index.php?page=...`, which are routes in Symfony, not files.
+`public/index.php` (Symfony). That includes the game's own URLs like `/game/overview`,
+`/admin/bans` or `/account/board`, which are routes in Symfony, not files.
 
 Example nginx server block (the `map` belongs in the `http` context, e.g. a file in `conf.d/`):
 
@@ -15,6 +15,18 @@ map $http_accept $webp_suffix {
     "~*image/webp" ".webp";
 }
 
+# CSS/JS URLs carry ?v=<git hash or mtime>: cache them for good; unversioned ones revalidate
+map $arg_v $asset_cache_control {
+    default "public, max-age=31536000, immutable";
+    ""      "no-cache";
+}
+
+# compression (add `brotli on; brotli_types ...;` with the ngx_brotli module for br)
+gzip on;
+gzip_comp_level 5;
+gzip_vary on;
+gzip_types text/css application/javascript text/javascript application/json image/svg+xml;
+
 server {
     server_name br0game.example;
     root /var/www/br0game/public;
@@ -24,10 +36,22 @@ server {
         rewrite ^/uni[0-9]+/(.*)$ /$1 last;
     }
 
+    # versioned CSS/JS: immutable (see public/.htaccess)
+    location ~* \.(css|js|mjs)$ {
+        add_header Cache-Control $asset_cache_control;
+        try_files $uri =404;
+    }
+
     # WebP copies of static images (same as the Apache rule in public/.htaccess)
     location ~* \.(png|jpe?g|gif)$ {
         add_header Vary Accept;
+        add_header Cache-Control "public, max-age=31536000, stale-while-revalidate=604800";
         try_files $uri$webp_suffix $uri =404;
+    }
+
+    location ~* \.(svg|woff2?|ico)$ {
+        add_header Cache-Control "public, max-age=31536000, stale-while-revalidate=604800";
+        try_files $uri =404;
     }
 
     # Theme metadata files are read by PHP, not served
@@ -47,7 +71,7 @@ server {
         fastcgi_param DOCUMENT_ROOT $realpath_root;
     }
 
-    # Game URLs such as /game.php are Symfony routes, not files
+    # a request for any .php file goes to the front controller (the game's URLs are Symfony routes, not files)
     location ~ \.php$ {
         rewrite ^ /index.php last;
     }

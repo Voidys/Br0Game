@@ -1,5 +1,5 @@
 /*
- * Board (account?page=board): voting via fetch, thread collapse, inline reply/edit forms,
+ * Board (/account/board): voting via fetch, thread collapse, inline reply/edit forms,
  * (delete confirmations are data-confirm buttons, asked by ../app/actions.js). Native ES module, no dependencies.
  */
 import { initRte } from '../app/rte.js';
@@ -82,7 +82,7 @@ if (root) {
     const content = comment.querySelector('.board-comment__content');
     const area = form.querySelector('textarea');
     if (edit) {
-      form.querySelector('[name=mode]').value = 'saveComment';
+      form.action = form.dataset.saveAction;
       const idField = form.querySelector('[name=id]');
       idField.disabled = false;
       idField.value = comment.id.replace('c', '');

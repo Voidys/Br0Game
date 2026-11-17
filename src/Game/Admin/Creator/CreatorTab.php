@@ -10,7 +10,7 @@ use App\Game\Core\Singleton;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Base of the tabs of the admin creator (menu page=creator, `mode=<tab>`): one class per kind of object to create.
+ * Base of the tabs of the admin creator (`admin/creator/<tab>`): one class per kind of object to create.
  * Pages and messages go through the AdminPageResponder of the controller.
  */
 abstract class CreatorTab

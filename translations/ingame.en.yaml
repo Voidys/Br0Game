@@ -264,7 +264,7 @@ al_diplo_accept_yes_mes: The pact (%s) between alliances <b>%s</b> and <b>%s</b>
 al_diplo_ally: Alliance
 al_diplo_ask: Pact Request
 al_diplo_ask_mes: >-
-  <a href="?page=alliance&mode=admin&action=diplomacy">[A pact request]</a> (%s)
+  <a href="game/alliance/admin/diplomacy">[A pact request]</a> (%s)
   has been sent from <b>%s</b> to <b>%s</b>.<br>Reason: %s
 al_diplo_confirm_delete: 'Terminate this pact?'
 al_diplo_create: Request pact
@@ -276,7 +276,7 @@ al_diplo_head: Diplomacy Management
 al_diplo_info: >-
   <p>On this page you can manage your alliance's diplomatic pacts.</p><p>The
   pact types are listed below. More information: <a
-  href="game?page=questions">FAQ</a> or the <a
+  href="game/faq">FAQ</a> or the <a
   href="{wiki_url}/wiki/En/Hauptseite"
   target="_blank">wiki</a>.</p>
 al_diplo_level:
@@ -301,7 +301,7 @@ al_diplo_war_mes: >-
   The alliance <b>%1$s</b> has declared %3$s on <b>%2$s</b>!
   <br>Reason:<br>%4$s<br><br>Information: The war will begin in <b>24 hours</b>,
   at which point the Bash Rule will be suspended.<br>For more information,
-  consult the <a href="./?page=rules&lang=en"
+  consult the <a href="./rules?lang=en"
   target="_blank">[Rules]</a>.
 al_diplo_withdraw: Pact request withdrawn.
 al_diplo_withdraw_confirm: 'Withdraw this pact request?'
@@ -355,7 +355,7 @@ al_link_too_long: The link is too long (255 characters at most).
 al_name_tag_too_long: The tag can have 8 characters at most and the name 30.
 al_new_apply: >-
   Your alliance has received <a
-  href="?page=alliance&mode=admin&action=manageApply">[an application]</a> from
+  href="game/alliance/admin/applications">[an application]</a> from
   player <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: New Member
 al_new_requests: '%d pending'
@@ -1200,7 +1200,7 @@ ov_temp_unit: °C
 ov_temperature: Temperature
 ov_ticketbot: Ticketbot
 ov_to: to
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: 'Wrong name!'
 ov_wrong_pass: 'Wrong password!'
 own: Own
@@ -1367,7 +1367,7 @@ sys_forward: Next
 sys_game_is_setup: '<h1>Registration complete!</h1><br><p>We''re preparing your universe!</p><!--discord_url--><p>In the meantime, to make sure you don''t miss anything, join us on</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->'
 sys_module_inactive: This module is inactive
 sys_nomore_level: 'You have no %s to demolish.'
-sys_notenough_money: 'Not enough resources on %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> to build %s. <br>You have: %s %s, %s %s and %s %s. <br>It costs: %s %s, %s %s and %s %s.'
+sys_notenough_money: 'Not enough resources on %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> to build %s. <br>You have: %s %s, %s %s and %s %s. <br>It costs: %s %s, %s %s and %s %s.'
 sys_refferal_from: System
 sys_refferal_text: The player %s, recruited by you, reached %s points.
 sys_refferal_title: Player Bonus %s

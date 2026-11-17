@@ -8,7 +8,7 @@
  *   - fetch(): header "X-CSRF-Token" on every same-origin request that is not GET/HEAD;
  *   - navigator.sendBeacon(): "_csrf" query parameter (beacons cannot set headers);
  *   - links with data-method="post": clicking submits an invisible POST form to the link's URL (query
- *     string kept, so existing ?page=...&mode=... handlers work); data-confirm="..." is honoured by the
+ *     string kept); data-confirm="..." is honoured by the
  *     handlers that run before this one, a declined confirmation cancels the click.
  *
  * Server side: App\EventListener\CsrfListener / App\Security\CsrfPolicy.

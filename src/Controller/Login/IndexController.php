@@ -15,6 +15,7 @@
 
 namespace App\Controller\Login;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Content\ImageProcessor;
 use App\Runtime\SafeFile;
@@ -23,7 +24,6 @@ use DateTimeZone;
 use App\Runtime\ProjectPaths;
 
 /** Start page: welcome text, login form, universe starts, the hourly meme and the latest news. */
-#[\App\Routing\GamePage('index', 'index', default: true)]
 class IndexController extends AbstractLoginController
 {
     private \App\Community\DiscordWidget $discordWidget;
@@ -45,13 +45,14 @@ class IndexController extends AbstractLoginController
      * error number shown as message login_error_<code>). Lists universes that start within the next 28 days (or began up to
      * 14 days ago) with their start time in the universe timezone, plus the hourly meme and the latest news.
      */
+    #[GameRoute('index', '', 'index')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
 
-        $referralID = $this->http()->_GP('ref', 0);
+        $referralID = $this->input()->int('ref');
         if (!empty($referralID)) {
-            $this->redirectTo('./?page=register&referralID=' . $referralID);
+            return $this->redirectToRoute('login_register_show', ['referralID' => $referralID]);
         }
 
         $universeStarts = [];
@@ -86,18 +87,17 @@ class IndexController extends AbstractLoginController
             ];
         }
 
-        $Code = $this->http()->_GP('code', 0);
+        $Code = $this->input()->int('code');
         $loginCode = false;
         if (isset($LNG['login_error_' . $Code])) {
             $loginCode = $LNG['login_error_' . $Code];
         }
-        $this->assign([
+
+        return $this->render('login/page.index.default.html.twig', [
             'code'              => $loginCode,
-            'rulesUrl'          => './?page=rules&lang=' . ($this->state->requestCookies['lang'] ?? 'de'),
+            'rulesUrl'          => $this->router->generate('login_rules', ['lang' => $this->state->requestCookies['lang'] ?? 'de']),
             'universeStarts'    => $universeStarts,
         ] + $this->memes() + $this->latestNews() + $this->discordWidgetData());
-
-        return $this->render('login/page.index.default.html.twig');
     }
 
     /**
@@ -106,6 +106,8 @@ class IndexController extends AbstractLoginController
      * generic `home_meme_alt`. Width variants for `srcset` (`<name>-480w.webp`, `<name>-720w.webp`, next to the original as
      * the largest candidate) come from `bin/console app:images:variants memes --widths=480,720`; run it after dropping a new
      * meme in. Variants are never memes of their own (the glob skips `*-<w>w.*`).
+     *
+     * @return array<mixed>
      */
     private function memes(): array
     {
@@ -139,6 +141,8 @@ class IndexController extends AbstractLoginController
     /**
      * Discord box: online count of the server set in `discord_widget_guild` (cached by DiscordWidget), linked to
      * `discord_url` or else the widget's own invite. Null hides the box (no ID, widget disabled, Discord unreachable).
+     *
+     * @return array<mixed>
      */
     private function discordWidgetData(): array
     {
@@ -155,7 +159,11 @@ class IndexController extends AbstractLoginController
         ]];
     }
 
-    /** the three newest published news for the start page teaser panel */
+    /**
+     * the three newest published news for the start page teaser panel
+     *
+     * @return array<mixed>
+     */
     private function latestNews(): array
     {
         $LNG = $this->state->LNG;

@@ -17,25 +17,21 @@
 
 namespace App\Controller\Login;
 
+use App\Routing\GameRoute;
 use App\Content\ImageProcessor;
 use App\Runtime\SafeFile;
 use Symfony\Component\HttpFoundation\Response;
 use DirectoryIterator;
 
 /** Screenshot gallery. */
-#[\App\Routing\GamePage('index', 'screens')]
 class ScreensController extends AbstractLoginController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Gallery of the screenshot files in public/styles/resource/images/login/screens/, sorted by path. The grid shows the
      * `-<w>w.webp` width variants through srcset (`bin/console app:images:variants styles/resource/images/login/screens
      * --widths=320,480,720`, run after replacing a screenshot); the link goes to the full-size file for the lightbox.
      */
+    #[GameRoute('index', 'screens', 'screens')]
     public function show(): Response
     {
         $dir = 'public/styles/resource/images/login/screens/';
@@ -57,10 +53,8 @@ class ScreensController extends AbstractLoginController
 
         usort($screenshots, fn(array $a, array $b): int => strcmp($a['path'], $b['path']));
 
-        $this->assign([
+        return $this->render('login/page.screens.default.html.twig', [
             'screenshots' => $screenshots,
         ]);
-
-        return $this->render('login/page.screens.default.html.twig');
     }
 }

@@ -86,7 +86,11 @@ final class HallOfFame
         $this->db->delete('DELETE FROM %%HALL_OF_FAME%% WHERE `universe` = :uni;', [':uni' => $uni]);
     }
 
-    /** Number of entries over all sections of a document. */
+    /**
+     * Number of entries over all sections of a document.
+     *
+     * @param array<mixed> $doc
+     */
     public static function countEntries(array $doc): int
     {
         $n = 0;
@@ -158,6 +162,7 @@ final class HallOfFame
      * Validates one entry (label plus a list of ranks with optional pos, each text field cleaned) and returns it normalised.
      *
      * @throws \InvalidArgumentException when the entry or one of its ranks is malformed
+     * @return array<mixed>
      */
     private function entry(mixed $entry, string $path): array
     {

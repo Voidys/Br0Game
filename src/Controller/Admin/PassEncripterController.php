@@ -17,27 +17,26 @@
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\AccountUtil;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 
 /**
  * Shows the stored password hash for a given plain password.
  */
-#[\App\Routing\GamePage('admin', 'passEncripter')]
 class PassEncripterController extends AbstractAdminController
 {
     /**
      * Helper: shows the password hash the game would store for the plain text in `md5q` (for manual database edits).
      */
+    #[GameRoute('admin', 'admin/pass-encripter', 'passEncripter')]
+    #[GameRoute('admin', 'admin/pass-encripter', 'passEncripter', 'encrypt', ['POST'])]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         // only from a POST body: a password in the URL would end up in server and browser logs
-        $Password = isset($this->state->requestPost['md5q']) ? $this->http()->_GP('md5q', '', true) : '';
+        $Password = isset($this->state->requestPost['md5q']) ? $this->input()->string('md5q', '', true) : '';
 
-        $this->assign([
+        return $this->render('admin/PassEncripterPage.html.twig', [
             'md5_md5'          => $Password,
             'md5_enc'          => $this->accountUtil()->cryptPassword($Password),
             'et_md5_encripter' => $LNG['et_md5_encripter'],
@@ -45,7 +44,5 @@ class PassEncripterController extends AbstractAdminController
             'et_result'        => $LNG['et_result'],
             'et_pass'          => $LNG['et_pass'],
         ]);
-
-        return $this->render('admin/PassEncripterPage.html.twig');
     }
 }

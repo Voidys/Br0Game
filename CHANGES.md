@@ -1217,3 +1217,22 @@ Technical changes per step, newest last (started with the migration to PHP 8.4, 
 ## 155. Release 1.26.2
 
 - `install/VERSION` 1.26.2 (tag `v1.26.2`): three security audit rounds (ban bypass, CSRF padding, staff boundaries, push guard with value balance, collusion guards, safe anti-abuse defaults, device links, value-flow clusters, daily fleet caps, adaptive proof-of-work instead of reCAPTCHA), voting as an admin-managed module, `.php` URLs retired, typed game data model and PHPStan level 6, PER-CS, themed modals and hall of fame redesign, data-driven hall of fame, all 15 locales complete, `public/styles` 139 → 83 MB (steps 120–154). Upgrading runs migrations 1794901300–1794902600 (applied automatically by the upgrade check).
+
+## 156. Modernization round: enums, services, typed state, path routes
+
+- Enums `Mission`, `MessageType`, `AuthLevel`, `PlanetType` (incl. `PirateBase`), `DiploType` in `src/Game/Enum/`; the old constants are deprecated aliases, magic numbers replaced.
+- `PlayerUtil` facade deleted: call sites use the `Player\*` services through `GameUtilities` accessors; deprecated array twins removed.
+- `Singleton` state declared as typed properties (no magic `__get`/`__set`); PHPStan baseline 8776 → ~5100 lines.
+- Twig: `empty()`, `isset()`, `php_const()` replaced by Twig built-ins (`not x`, `is defined`, `constant()`).
+- JavaScript: fleet steps, fleet table, galaxy, market, simulator and messages modernized; duplicate config/logout scripts merged, globals replaced by imports.
+- Controllers: every area uses `#[GameRoute]` path URLs (`/game/fleet/step1`, `/game/galaxy/{galaxy}/{system}`, `/admin/bans`, `/register`, `/account/board`, public reports at `/report/{rid}`; optional `uniN/` prefix), typed `RequestInput` instead of `_GP`, returned Responses instead of `EndOfRequest` in actions, render context; CSRF rules and rate limits keyed by route; old `?page=` URLs removed (stored report/application links rewritten by migration 1794902700). `PageModeDispatch`/`GamePage` deleted; conventions in `docs/controllers.md`.
+- Fixes on the way: admin expedition deck save (503), overview fragment (503), account/login assets at deeper paths (`<base href>`), admin elevation limiter now resets on success, an order-dependent abuse report test.
+
+## 157. Slimmer code, faster requests
+
+- Slimming: enum alias constants and the `HTTP::_GP` input layer removed (all input through `RequestInput`), 46 empty `initialize()` overrides, unused imports in 111 files and other dead members gone.
+- Request path: universe config cached in `var/game/cache.config.php` (invalidated by every writer), cached migration check, fleet-event precheck, merged counters, idle tutorial without queries, read-only GETs skip the resource-update transaction (writes keep the locks), one PDO init statement, lazy CSRF/translator/limiter services, import map built once. Overview 38 → 25 queries; medians about -15 % untuned, more with the documented production OPcache settings (`docs/PERFORMANCE.md`, `docs/INSTALL.md`).
+- Galaxy: index `messages(message_group, message_type, message_time)` (migration 1794902800; system switch 168 → ~28 ms at 100k messages), system switching without page reload (`/game/galaxy-system` fragment, pushState, deuterium still charged once per displayed system), module flags and phalanx range computed once per page.
+- Tooltips rendered once as `<template>` (`TooltipExtension`, `data-tooltip-ref`): galaxy 258 → 108 KB, buildings 121 → 63 KB, research 95 → 54 KB.
+- Messages: one query for per-type/unread/favourite counts, one window pass, text loaded for the shown page only, recipients in one query, rendered spy reports cached; statistics page cut in SQL before the joins, `statpoints` rank indexes (migration 1794902900), indexed last-run lookup.
+- Frontend: brotli/gzip for text/JSON/SVG and immutable caching for versioned assets in `public/.htaccess` and `docs/nginx.md`, font preload, lazy building images.

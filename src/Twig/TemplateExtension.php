@@ -16,7 +16,7 @@ use Twig\TwigFunction;
  *
  * - `LNG`: the language strings of the current request (App\Twig\LanguageView, trusted markup).
  * - Game view helpers (pretty_number, shortly_number, isModuleAvailable) and a small set
- *   of PHP functions with PHP semantics (empty, isset, in_array, ...), as the templates
+ *   of PHP functions (in_array, ...), as the templates
  *   were written against them.
  * - Markup helpers (icon, html_options) and the escape-aware `format`/`nl2br`. Their output
  *   is safe for every escaping strategy (`is_safe => ['all']`), see App\Twig\GameEscaping.
@@ -58,7 +58,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         ];
     }
 
-    /** @return list<TwigFunction> PHP passthroughs, game view helpers (pretty_number, ...), theme_asset, icon and small PHP-semantics helpers (empty, isset, php_date, php_const) */
+    /** @return list<TwigFunction> PHP passthroughs, game view helpers (pretty_number, ...), theme_asset, icon and php_date */
     public function getFunctions(): array
     {
         $functions = [];
@@ -70,9 +70,6 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         }
         $functions[] = new TwigFunction('theme_asset', $this->themeAsset(...));
         $functions[] = new TwigFunction('php_date', 'date');
-        $functions[] = new TwigFunction('php_const', static fn(string $name) => defined($name) ? constant($name) : null);
-        $functions[] = new TwigFunction('empty', [self::class, 'isEmpty']);
-        $functions[] = new TwigFunction('isset', static fn(...$v) => !in_array(null, $v, true));
         $functions[] = new TwigFunction('icon', $this->icon(...), ['is_safe' => ['all']]);
 
         return $functions;
@@ -136,12 +133,6 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         return new Markup(nl2br($html), 'UTF-8');
     }
 
-    /** PHP's empty(), also for Countable objects (Markup, LanguageView lists) */
-    public static function isEmpty(mixed $value = null): bool
-    {
-        return $value instanceof \Countable ? count($value) === 0 : empty($value);
-    }
-
     /**
      * Late-bound call: the game's global helpers (pretty_number, ...) are only defined once
      * the game code is bootstrapped, not when templates are compiled or linted.
@@ -179,7 +170,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         return $version ??= (string) \App\Runtime\SafeFile::mtime(\App\Runtime\ProjectPaths::ROOT . 'public/styles/resource/icons/lucide.svg');
     }
 
-    /** Attribute/text escaping without double encoding (input is already entity-encoded by HTTP::_GP). */
+    /** Attribute/text escaping without double encoding (input is already entity-encoded by RequestInput::typed()). */
     private static function escape(string $value): string
     {
         return htmlspecialchars($value, ENT_COMPAT, 'UTF-8', false);

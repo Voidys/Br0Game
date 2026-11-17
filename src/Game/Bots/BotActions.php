@@ -2,6 +2,7 @@
 
 namespace App\Game\Bots;
 
+use App\Game\Enum\Mission;
 use App\Game\Core\Config;
 use App\Game\Core\StoredData;
 use App\Game\Core\ConfigRegistry;
@@ -79,19 +80,31 @@ class BotActions
         return true;
     }
 
-    /** "Name [g:s:p]" label of a planet for log lines. */
+    /**
+     * "Name [g:s:p]" label of a planet for log lines.
+     *
+     * @param array<string, mixed> $planet
+     */
     public function planetLabel(array $planet): string
     {
         return $planet['name'] . ' [' . $planet['galaxy'] . ':' . $planet['system'] . ':' . $planet['planet'] . ']';
     }
 
-    /** Element id => column name map (`$resource` from the game data). */
+    /**
+     * Element id => column name map (`$resource` from the game data).
+     *
+     * @return array<mixed>
+     */
     public function res(): array
     {
         return $this->elements()->columnMap();
     }
 
-    /** True when no building is under construction on the planet. */
+    /**
+     * True when no building is under construction on the planet.
+     *
+     * @param array<string, mixed> $planet
+     */
     public function isBuildingQueueEmpty(array $planet): bool
     {
         return empty($planet['b_building_id']) && empty($planet['b_building']);
@@ -124,7 +137,11 @@ class BotActions
         return false;
     }
 
-    /** true while shipyard or nanite factory is being built on the planet. */
+    /**
+     * true while shipyard or nanite factory is being built on the planet.
+     *
+     * @param array<string, mixed> $planet
+     */
     public function shipyardInConstruction(array $planet): bool
     {
         if (empty($planet['b_building_id'])) {
@@ -143,7 +160,11 @@ class BotActions
         return false;
     }
 
-    /** Number of entries in the planet's shipyard queue. */
+    /**
+     * Number of entries in the planet's shipyard queue.
+     *
+     * @param array<string, mixed> $planet
+     */
     public function hangarCount(array $planet): int
     {
         $queue = !empty($planet['b_hangar_id']) ? StoredData::decode($planet['b_hangar_id']) : [];
@@ -151,14 +172,22 @@ class BotActions
         return is_array($queue) ? count($queue) : 0;
     }
 
-    /** Can a building be started on this planet right now (queue empty, fields)? */
+    /**
+     * Can a building be started on this planet right now (queue empty, fields)?
+     *
+     * @param array<string, mixed> $planet
+     */
     public function canStartBuilding(array $planet): bool
     {
         return $this->isBuildingQueueEmpty($planet)
             && $this->buildFunctions()->canQueueBuildingOnFields($planet, [], true);
     }
 
-    /** Can the element be bought as a building right now, ignoring resources? Returns level to build or null. */
+    /**
+     * Can the element be bought as a building right now, ignoring resources? Returns level to build or null.
+     *
+     * @param array<string, mixed> $planet
+     */
     public function buildableLevel(array $planet, int $element): ?int
     {
         $e = $this->elements();
@@ -218,7 +247,11 @@ class BotActions
         return $e->column($element) . ' ' . $level . ' on ' . $this->planetLabel($planet);
     }
 
-    /** Next research level of `$element` if it may be researched from this planet (listed, enabled, requirements met, below max), else null. Resources are not checked. */
+    /**
+     * Next research level of `$element` if it may be researched from this planet (listed, enabled, requirements met, below max), else null. Resources are not checked.
+     *
+     * @param array<string, mixed> $planet
+     */
     public function researchLevel(array $planet, int $element): ?int
     {
         $e = $this->elements();
@@ -282,7 +315,11 @@ class BotActions
         return $e->column($element) . ' ' . $level . ' on ' . $this->planetLabel($planet);
     }
 
-    /** Can ships/defense be queued on this planet at all (shipyard present, not blocked, queue not full)? */
+    /**
+     * Can ships/defense be queued on this planet at all (shipyard present, not blocked, queue not full)?
+     *
+     * @param array<string, mixed> $planet
+     */
     public function canQueueUnits(array $planet): bool
     {
         $e = $this->elements();
@@ -294,7 +331,11 @@ class BotActions
         return $max == 0 || $this->hangarCount($planet) < $max;
     }
 
-    /** Whether the ship or defense `$element` may be built on the planet: enabled, requirements met, and for one-per-planet units (e.g. shields) not yet built or queued. */
+    /**
+     * Whether the ship or defense `$element` may be built on the planet: enabled, requirements met, and for one-per-planet units (e.g. shields) not yet built or queued.
+     *
+     * @param array<string, mixed> $planet
+     */
     public function unitsAllowed(array $planet, int $element): bool
     {
         $e = $this->elements();
@@ -384,6 +425,7 @@ class BotActions
      *
      * @param array<int, int> $fleetArray ship id => count
      * @param int $stayHours expedition hold time in hours (0 = none)
+     * @param array<string, mixed> $planet
      */
     public function dispatch(array &$planet, array $fleetArray, int $mission, int $galaxy, int $system, int $pos, int $stayHours = 0): ?int
     {
@@ -468,7 +510,7 @@ class BotActions
     {
         return $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_EXPEDITION, $this->universe)
             && $this->freeFleetSlots(true) > 0
-            && $this->fleetFunctions()->getCurrentFleets($this->user['id'], MISSION_EXPEDITION, true) < $this->fleetFunctions()->getExpeditionLimit($this->user);
+            && $this->fleetFunctions()->getCurrentFleets($this->user['id'], Mission::Expedition->value, true) < $this->fleetFunctions()->getExpeditionLimit($this->user);
     }
 
     /** Colony module on, a free fleet slot, below the maximum planet count and no colonization fleet already flying. */
@@ -478,8 +520,8 @@ class BotActions
             return false;
         }
 
-        return $this->playerUtil()->currentPlanetCount($this->user) < $this->playerUtil()->maxPlanetCount($this->user)
-            && $this->fleetFunctions()->getCurrentFleets($this->user['id'], MISSION_COLONISATION, true) == 0;
+        return $this->planetPositions()->currentPlanetCount($this->user) < $this->planetPositions()->maxPlanetCount($this->user)
+            && $this->fleetFunctions()->getCurrentFleets($this->user['id'], Mission::Colonisation->value, true) == 0;
     }
 
     /**
@@ -510,7 +552,7 @@ class BotActions
             return null;
         }
 
-        $id = $this->dispatch($planet, [SHIP_COLOSHIP => 1], MISSION_COLONISATION, $target[0], $target[1], $target[2]);
+        $id = $this->dispatch($planet, [SHIP_COLOSHIP => 1], Mission::Colonisation->value, $target[0], $target[1], $target[2]);
         if ($id === null) {
             return null;
         }
@@ -541,9 +583,9 @@ class BotActions
             $pos = random_int(2, max(2, $maxPlanets - 1));
             if (
                 $system < 1 || $system > $maxSystem
-                || !$this->playerUtil()->checkPosition($this->universe, (int) $planet['galaxy'], $system, $pos)
-                || !$this->playerUtil()->isPositionFree($this->universe, (int) $planet['galaxy'], $system, $pos)
-                || !$this->playerUtil()->allowPlanetPosition($pos, $this->user)
+                || !$this->planetPositions()->checkPosition($this->universe, (int) $planet['galaxy'], $system, $pos)
+                || !$this->planetPositions()->isPositionFree($this->universe, (int) $planet['galaxy'], $system, $pos)
+                || !$this->planetPositions()->allowPlanetPosition($pos, $this->user)
                 || $this->positionTargeted((int) $planet['galaxy'], $system, $pos)
             ) {
                 continue;
@@ -564,7 +606,7 @@ class BotActions
         return (int) $this->db->selectSingle(
             'SELECT COUNT(*) as count FROM %%FLEETS%%
             WHERE universe = :universe AND mission = :mission AND end_galaxy = :g AND end_system = :s AND end_planet = :p;',
-            [':universe' => $this->universe, ':mission' => MISSION_COLONISATION, ':g' => $galaxy, ':s' => $system, ':p' => $pos],
+            [':universe' => $this->universe, ':mission' => Mission::Colonisation->value, ':g' => $galaxy, ':s' => $system, ':p' => $pos],
             'count',
         ) > 0;
     }
@@ -573,6 +615,8 @@ class BotActions
      * Colonies are created when the colony ship arrives (fleet handler), with the
      * language's default colony name. Give such planets a persona based name.
      *
+     * @param array<mixed> $botRow
+     * @param array<mixed> $persona
      * @return int number of planets renamed (the home planet is never renamed)
      */
     public function renameDefaultColonies(array $botRow, array $persona): int

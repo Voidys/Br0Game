@@ -266,7 +266,7 @@ al_diplo_accept_yes_confirm: ยอมรับสนธิสัญญานี
 al_diplo_accept_yes_mes: สนธิสัญญา (%s) ระหว่างพันธมิตร <b>%s</b> และ <b>%s</b> ได้รับการลงนามแล้ว!
 al_diplo_ally: พันธมิตร
 al_diplo_ask: คำขอสนธิสัญญา
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[คำขอสนธิสัญญา]</a> (%s) ถูกส่งจาก <b>%s</b> ถึง <b>%s</b><br>เหตุผล: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[คำขอสนธิสัญญา]</a> (%s) ถูกส่งจาก <b>%s</b> ถึง <b>%s</b><br>เหตุผล: %s'
 al_diplo_confirm_delete: ยกเลิกสนธิสัญญานี้หรือไม่?
 al_diplo_create: ขอทำสนธิสัญญา
 al_diplo_create_done: ส่งคำขอสนธิสัญญาแล้ว
@@ -274,7 +274,7 @@ al_diplo_delete: สนธิสัญญาสิ้นสุด
 al_diplo_delete_mes: สนธิสัญญา (%s) ระหว่างพันธมิตร <b>%s</b> และ <b>%s</b> สิ้นสุดลงแล้ว
 al_diplo_exists: คุณมีสนธิสัญญาที่ใช้งานอยู่หรือรออยู่กับ %s แล้ว
 al_diplo_head: จัดการการทูต
-al_diplo_info: '<p>ในหน้านี้คุณจัดการสนธิสัญญาทางการทูตของพันธมิตรได้</p><p>ประเภทของสนธิสัญญามีอยู่ด้านล่าง ข้อมูลเพิ่มเติม: <a href="game?page=questions">FAQ</a> หรือ<a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">วิกิ</a></p>'
+al_diplo_info: '<p>ในหน้านี้คุณจัดการสนธิสัญญาทางการทูตของพันธมิตรได้</p><p>ประเภทของสนธิสัญญามีอยู่ด้านล่าง ข้อมูลเพิ่มเติม: <a href="game/faq">FAQ</a> หรือ<a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">วิกิ</a></p>'
 al_diplo_level:
 - หลัก
 - ปีก
@@ -293,7 +293,7 @@ al_diplo_text: คำขอ/เหตุผล
 al_diplo_war: ประกาศสงคราม
 al_diplo_war_end: ประกาศสันติภาพ
 al_diplo_war_end_mes: '%s ระหว่างพันธมิตร <b>%s</b> และ <b>%s</b> เพิ่งสิ้นสุดลง'
-al_diplo_war_mes: 'พันธมิตร <b>%1$s</b> ประกาศ%3$s ต่อ <b>%2$s</b>! <br>เหตุผล:<br>%4$s<br><br>ข้อมูล: สงครามจะเริ่มใน <b>24 ชั่วโมง</b> และตอนนั้นกฎการรุม (Bash Rule) จะถูกระงับ<br>ดูข้อมูลเพิ่มเติมได้ที่<a href="./?page=rules&lang=en" target="_blank">[กฎ]</a>'
+al_diplo_war_mes: 'พันธมิตร <b>%1$s</b> ประกาศ%3$s ต่อ <b>%2$s</b>! <br>เหตุผล:<br>%4$s<br><br>ข้อมูล: สงครามจะเริ่มใน <b>24 ชั่วโมง</b> และตอนนั้นกฎการรุม (Bash Rule) จะถูกระงับ<br>ดูข้อมูลเพิ่มเติมได้ที่<a href="./rules?lang=en" target="_blank">[กฎ]</a>'
 al_diplo_withdraw: ถอนคำขอสนธิสัญญาแล้ว
 al_diplo_withdraw_confirm: ถอนคำขอสนธิสัญญานี้หรือไม่?
 al_diplo_withdraw_mes: คำขอสนธิสัญญา (%s) ระหว่างพันธมิตร <b>%s</b> และ <b>%s</b> ถูกถอนแล้ว
@@ -343,7 +343,7 @@ al_name: เปลี่ยนชื่อพันธมิตร
 al_name_required: โปรดใส่ชื่อพันธมิตร
 al_link_too_long: ลิงก์ยาวเกินไป (สูงสุด 255 ตัวอักษร)
 al_name_tag_too_long: แท็กยาวได้สูงสุด 8 ตัวอักษร และชื่อสูงสุด 30
-al_new_apply: พันธมิตรของคุณได้รับ<a href="?page=alliance&mode=admin&action=manageApply">[ใบสมัคร]</a>จากผู้เล่น <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>
+al_new_apply: พันธมิตรของคุณได้รับ<a href="game/alliance/admin/applications">[ใบสมัคร]</a>จากผู้เล่น <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>
 al_new_member_rank_text: สมาชิกใหม่
 al_new_requests: รอดำเนินการ %d
 al_newname_specialchar: ชื่อและแท็กพันธมิตรใช้ได้เฉพาะตัวอักษร ตัวเลข ช่องว่าง ขีดล่าง ขีดกลาง และจุด
@@ -1173,7 +1173,7 @@ ov_temp_unit: °C
 ov_temperature: อุณหภูมิ
 ov_ticketbot: ทิกเก็ตบอท
 ov_to: ถึง
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: ชื่อไม่ถูกต้อง!
 ov_wrong_pass: รหัสผ่านไม่ถูกต้อง!
 own: ของตัวเอง
@@ -1340,7 +1340,7 @@ sys_forward: ถัดไป
 sys_game_is_setup: <h1>สมัครเสร็จแล้ว!</h1><br><p>เรากำลังเตรียมจักรวาลของคุณ!</p><!--discord_url--><p>ระหว่างนี้ เพื่อไม่ให้พลาดอะไร มาเจอกันที่</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: โมดูลนี้ปิดใช้งาน
 sys_nomore_level: คุณไม่มี %s ให้รื้อถอน
-sys_notenough_money: 'ทรัพยากรบน %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> ไม่พอที่จะสร้าง %s <br>คุณมี: %s %s, %s %s และ %s %s <br>ต้นทุน: %s %s, %s %s และ %s %s'
+sys_notenough_money: 'ทรัพยากรบน %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> ไม่พอที่จะสร้าง %s <br>คุณมี: %s %s, %s %s และ %s %s <br>ต้นทุน: %s %s, %s %s และ %s %s'
 sys_refferal_from: ระบบ
 sys_refferal_text: ผู้เล่น %s ที่คุณชวนมา ถึง %s คะแนนแล้ว
 sys_refferal_title: โบนัสผู้เล่น %s

@@ -16,7 +16,7 @@
         <tr>
             <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
             </td>
-            {% if not empty(elementRow) and elementRow|length <= 3 %}
+            {% if elementRow and elementRow|length <= 3 %}
                 <td>
                     {% set test = 0 %}
                     {% for user in elementRow %}
@@ -35,23 +35,23 @@
                     {% endif %}
                 </td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
-            {% elseif not empty(elementRow) and elementRow|length < 10 %}
+            {% elseif elementRow and elementRow|length < 10 %}
                 <td>>3</td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
-            {% elseif not empty(elementRow) and elementRow|length < 50 %}
+            {% elseif elementRow and elementRow|length < 50 %}
                 <td>>10</td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
-            {% elseif not empty(elementRow) and elementRow|length < 100 %}
+            {% elseif elementRow and elementRow|length < 100 %}
                 <td>>50</td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
-            {% elseif not empty(elementRow) and elementRow|length >= 100 %}
+            {% elseif elementRow and elementRow|length >= 100 %}
                 <td>>100</td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
             {% else %}
                 <td>-</td>
                 <td class="num">-</td>
             {% endif %}
-            {% if not empty(elementRow) %}
+            {% if elementRow %}
                 <td class="num">{{ userBuild[elementRow[0]["name"]] }}</td>
             {% else %}
                 <td class="num">-</td>
@@ -67,7 +67,7 @@
         {% for elementID, elementRow in researchList %}
         <tr>
             <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a></td>
-            {% if not empty(elementRow) and elementRow|length <= 3 %}
+            {% if elementRow and elementRow|length <= 3 %}
                 <td>
                     {% set test = 0 %}
                     {% for user in elementRow %}
@@ -86,23 +86,23 @@
                     {% endif %}
                 </td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
-            {% elseif not empty(elementRow) and elementRow|length < 10 %}
+            {% elseif elementRow and elementRow|length < 10 %}
                 <td>>3</td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
-            {% elseif not empty(elementRow) and elementRow|length < 50 %}
+            {% elseif elementRow and elementRow|length < 50 %}
                 <td>>10</td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
-            {% elseif not empty(elementRow) and elementRow|length < 100 %}
+            {% elseif elementRow and elementRow|length < 100 %}
                 <td>>50</td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
-            {% elseif not empty(elementRow) and elementRow|length >= 100 %}
+            {% elseif elementRow and elementRow|length >= 100 %}
                 <td>>100</td>
                 <td class="num">{{ pretty_number(elementRow[0].level) }}</td>
             {% else %}
                 <td>-</td>
                 <td class="num">-</td>
             {% endif %}
-            {% if not empty(elementRow) %}
+            {% if elementRow %}
                 <td class="num">{{ userTech[elementRow[0]["name"]] }}</td>
             {% else %}
                 <td class="num">-</td>

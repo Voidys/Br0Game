@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleettrader }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=fleetDealer" method="post">
+<form action="{{ path('game_fleet_dealer_send') }}" method="post">
 	<input type="hidden" name="mode" value="send">
 	<table>
         <tr>

@@ -1,15 +1,15 @@
 {% include 'admin/overall_header.html.twig' %}
 <div class="stack">
 <nav class="tabs" aria-label="{{ LNG.ad_editor_title }}">
-  <a href="?page=accountEditor">{{ icon('layout-dashboard') }}{{ LNG.ad_editor_title }}</a>
-  <a href="?page=accountEditor&amp;edit=buildings">{{ icon('building-2') }}{{ LNG.ad_editor_buildings }}</a>
-  <a href="?page=accountEditor&amp;edit=ships">{{ icon('rocket') }}{{ LNG.ad_editor_ships }}</a>
-  <a href="?page=accountEditor&amp;edit=defenses" aria-current="page">{{ icon('shield') }}{{ LNG.ad_editor_defenses }}</a>
-  <a href="?page=accountEditor&amp;edit=researchs">{{ icon('flask-conical') }}{{ LNG.ad_editor_researchs }}</a>
-  <a href="?page=accountEditor&amp;edit=resources">{{ icon('database') }}{{ LNG.ad_editor_resources }}</a>
-  <a href="?page=accountEditor&amp;edit=planets">{{ icon('orbit') }}{{ LNG.ad_editor_planets }}</a>
-  <a href="?page=accountEditor&amp;edit=personal">{{ icon('user') }}{{ LNG.ad_editor_personal }}</a>
-  <a href="?page=accountEditor&amp;edit=alliances">{{ icon('handshake') }}{{ LNG.ad_editor_alliances }}</a>
+  <a href="{{ path('admin_account_editor_show') }}">{{ icon('layout-dashboard') }}{{ LNG.ad_editor_title }}</a>
+  <a href="{{ path('admin_account_editor_tab', {tab: 'buildings'}) }}">{{ icon('building-2') }}{{ LNG.ad_editor_buildings }}</a>
+  <a href="{{ path('admin_account_editor_tab', {tab: 'ships'}) }}">{{ icon('rocket') }}{{ LNG.ad_editor_ships }}</a>
+  <a href="{{ path('admin_account_editor_tab', {tab: 'defenses'}) }}" aria-current="page">{{ icon('shield') }}{{ LNG.ad_editor_defenses }}</a>
+  <a href="{{ path('admin_account_editor_tab', {tab: 'researchs'}) }}">{{ icon('flask-conical') }}{{ LNG.ad_editor_researchs }}</a>
+  <a href="{{ path('admin_account_editor_tab', {tab: 'resources'}) }}">{{ icon('database') }}{{ LNG.ad_editor_resources }}</a>
+  <a href="{{ path('admin_account_editor_tab', {tab: 'planets'}) }}">{{ icon('orbit') }}{{ LNG.ad_editor_planets }}</a>
+  <a href="{{ path('admin_account_editor_tab', {tab: 'personal'}) }}">{{ icon('user') }}{{ LNG.ad_editor_personal }}</a>
+  <a href="{{ path('admin_account_editor_tab', {tab: 'alliances'}) }}">{{ icon('handshake') }}{{ LNG.ad_editor_alliances }}</a>
 </nav>
   <form action="" method="post" data-track-dirty>
     <div class="stack">

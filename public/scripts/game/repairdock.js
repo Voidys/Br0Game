@@ -1,5 +1,6 @@
-import { qs, qsa, show, hide, setVisibleInterval, clearVisibleInterval, getRestTimeFormat } from '../app/core.js';
+import { qs, qsa, show, hide, setVisibleInterval, clearVisibleInterval, now, getRestTimeFormat } from '../app/core.js';
 import { registerActions } from '../app/actions.js';
+import { env } from '../app/env.js';
 
 /**
  * Repair dock page: countdown and progress bar of the running repair, "repair all" button. `data-time` of #time is the
@@ -31,19 +32,19 @@ function setProgress(rest) {
 function Repairlist() {
   let rest = resttime;
   if (!umode) {
-    rest = resttime - (window.serverTime.getTime() - window.startTime) / 1000;
+    rest = resttime - (now().getTime() - env.startTime) / 1000;
   }
   const timeBox = qs('#time');
   if (rest <= 0) {
     clearVisibleInterval(interval);
-    if (timeBox) timeBox.textContent = window.Ready;
+    if (timeBox) timeBox.textContent = env.ready;
     qs('#command')?.remove();
-    document.title = `${window.Ready} - ${window.Gamename}`;
+    document.title = `${env.ready} - ${env.gamename}`;
     show(qs('#deployRepaired'));
     hide(qs('#progress'));
     return;
   }
-  document.title = `${getRestTimeFormat(rest)} - ${window.Gamename}`;
+  document.title = `${getRestTimeFormat(rest)} - ${env.gamename}`;
   if (timeBox) timeBox.textContent = getRestTimeFormat(rest);
   setProgress(rest);
 }

@@ -6,6 +6,7 @@ namespace App\Tests\Integration;
 
 use App\Game\Core\FlyingFleetsTable;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * Pins the translated HTML line of every fleet event (FlyingFleetsTable::getEventData): all missions x outward/return/
@@ -17,7 +18,7 @@ final class FlyingFleetsTableTextTest extends GameTestCase
 {
     // GOLDEN-BEGIN
     private const GOLDEN = [
-        'all event lines' => [1152, 'd76a8f4b62d3fedfd330ceb7aad7a395'],
+        'all event lines' => [1152, '8aece9c112d54166688e0a14121f0c1d'],
     ];
     // GOLDEN-END
 
@@ -41,9 +42,9 @@ final class FlyingFleetsTableTextTest extends GameTestCase
         $LNG = new \App\Game\Core\Language($this->configs, 'en');
         $LNG->includeData(['L18N', 'INGAME', 'TECH', 'CUSTOM']);
         $this->state->LNG = $LNG;
-        $missions = [MISSION_ATTACK, MISSION_ACS, MISSION_TRANSPORT, MISSION_STATION, MISSION_HOLD, MISSION_SPY, MISSION_COLONISATION,
-            MISSION_RECYCLING, MISSION_DESTRUCTION, MISSION_MISSILE, MISSION_EXPEDITION, MISSION_TRADE, MISSION_TRANSFER,
-            MISSION_PIRATEBASE_ATTACK, MISSION_PIRATEBASE_SPY, MISSION_PIRATEBASE_RECYCLING];
+        $missions = [Mission::Attack->value, Mission::Acs->value, Mission::Transport->value, Mission::Station->value, Mission::Hold->value, Mission::Spy->value, Mission::Colonisation->value,
+            Mission::Recycling->value, Mission::Destruction->value, Mission::Missile->value, Mission::Expedition->value, Mission::Trade->value, Mission::Transfer->value,
+            Mission::PiratebaseAttack->value, Mission::PiratebaseSpy->value, Mission::PiratebaseRecycling->value];
         $lines = [];
         foreach ([1, 9] as $spyTech) {
             $this->state->USER = $user;

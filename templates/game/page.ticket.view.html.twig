@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.ti_read }} - {{ LNG.lm_support }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=ticket&mode=send" method="post" id="form" class="form-page">
+<form action="{{ path('game_ticket_send') }}" method="post" id="form" class="form-page">
 <input type="hidden" name="id" value="{{ ticketID }}">
 <table class="form-table">
 	{% for answerID, answerRow in answerList %}	

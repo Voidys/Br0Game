@@ -17,31 +17,22 @@
 
 namespace App\Controller\Game;
 
-use Symfony\Component\HttpFoundation\Response;
-use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
-use App\Game\Core\BuildFunctions;
-use App\Game\Cronjob\Cronjob;
-use App\Game\Core\Database;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Records page: highest building and research levels of the universe next to the player's own.
  */
-#[\App\Routing\GamePage('game', 'records')]
 #[\App\Controller\RequireModule('MODULE_RECORDS')]
 class RecordsController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Records page: advanced-statistic records of the universe (ADVANCED_STATS_UNIVERSE), and the highest building and research levels (RECORDS), each
      * next to the player's own value. Players who did not opt in to records (`records_optIn` = 0) appear as `-`.
      */
+    #[GameRoute('game', 'game/records', 'records')]
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -65,7 +56,7 @@ class RecordsController extends AbstractGameController
 
         [, $fleetList, $researchList, $buildList] = $this->groupRecords($recordResult);
 
-        $this->assign([
+        return $this->render('game/page.records.default.html.twig', [
             'fleetList'     => $fleetList,
             'researchList'  => $researchList,
             'buildList'     => $buildList,
@@ -78,8 +69,6 @@ class RecordsController extends AbstractGameController
             'userBuild'     => $userBuildResult,
             'firstTimes'    => $firstTimes,
         ]);
-
-        return $this->render('game/page.records.default.html.twig');
     }
 
     /**

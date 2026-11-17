@@ -2,6 +2,7 @@
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\MessageType;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\BattleEngine\BattleHandler;
 
@@ -51,11 +52,11 @@ trait SpyMissionSupport
      */
     private function sendReport(array $reportData, \App\Game\Core\Language $LNG): void
     {
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_spy_qg'],
-            MESSAGE_TYPE_SPY_REPORT,
+            MessageType::SpyReport->value,
             $LNG['sys_mess_spy_report'],
             json_encode($reportData),
             $this->_fleet['arrival_time'],

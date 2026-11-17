@@ -4,11 +4,11 @@
   {% if voteSaved %}<div class="notice notice--success">{{ icon('circle-check') }}<div>{{ LNG.vt_saved }}</div></div>{% endif %}
   {% for error in voteErrors %}<div class="notice notice--danger" role="alert">{{ icon('circle-alert') }}<div>{{ error }}</div></div>{% endfor %}
 
-  <form method="POST" action="?page=votes&amp;action=save" class="card" data-track-dirty>
+  <form method="POST" action="{{ path('admin_votes_save') }}" class="card" data-track-dirty>
     <input name="id" type="hidden" value="{{ site.id }}">
     <header class="card__head">
       <h2 class="card__title">{{ icon(site.id ? 'pencil' : 'plus') }}{{ site.id ? LNG.vt_edit_head : LNG.vt_create_head }}</h2>
-      <div class="card__actions"><a class="button btn--small" href="?page=votes">{{ icon('arrow-left') }}{{ LNG.vt_back }}</a></div>
+      <div class="card__actions"><a class="button btn--small" href="{{ path('admin_votes_show') }}">{{ icon('arrow-left') }}{{ LNG.vt_back }}</a></div>
     </header>
     <div class="card__body">
       <div class="form-grid">
@@ -86,12 +86,12 @@
   {% endif %}
   {% else %}
   {% if voteNotice %}<div class="notice notice--success">{{ icon('circle-check') }}<div>{{ voteNotice }}</div></div>{% endif %}
-  {% if not voteModuleOn %}<div class="notice notice--warning" role="alert">{{ icon('circle-alert') }}<div>{{ LNG.vt_module_off }} <a href="?page=module">{{ LNG.mu_module }}</a></div></div>{% endif %}
+  {% if not voteModuleOn %}<div class="notice notice--warning" role="alert">{{ icon('circle-alert') }}<div>{{ LNG.vt_module_off }} <a href="{{ path('admin_module_show') }}">{{ LNG.mu_module }}</a></div></div>{% endif %}
 
   <section class="card card--flush">
     <header class="card__head">
       <h2 class="card__title">{{ icon('gift') }}{{ LNG.vt_sites }} <span class="badge badge--muted">{{ voteSites|length }}</span></h2>
-      <div class="card__actions"><a class="button btn--primary btn--small" href="?page=votes&amp;action=create">{{ icon('plus') }}{{ LNG.vt_add }}</a></div>
+      <div class="card__actions"><a class="button btn--primary btn--small" href="{{ path('admin_votes_create') }}">{{ icon('plus') }}{{ LNG.vt_add }}</a></div>
     </header>
     {% if voteSites|length > 0 %}
     <div class="card__body">
@@ -113,7 +113,7 @@
           <tbody>
             {% for row in voteSites %}
             <tr>
-              <td><a href="?page=votes&amp;action=edit&amp;id={{ row.id }}">{{ row.name }}</a></td>
+              <td><a href="{{ path('admin_votes_edit', {id: row.id}) }}">{{ row.name }}</a></td>
               <td>{{ row.verification == 'postback' ? LNG.vt_verify_postback : LNG.vt_verify_none }}</td>
               <td class="num">{{ row.cooldown_hours }}</td>
               <td>{% for resource, amount in row.rewards %}{% if amount > 0 %}{{ LNG['vt_res_' ~ resource] }}: {{ pretty_number(amount) }}<br>{% endif %}{% endfor %}</td>
@@ -122,13 +122,13 @@
               <td class="num">{{ row.totals.rewarded }}</td>
               <td>{% if row.active %}<span class="badge badge--ok">{{ LNG.vt_enabled }}</span>{% else %}<span class="badge badge--muted">{{ LNG.vt_disabled }}</span>{% endif %}</td>
               <td class="actions nowrap">
-                <a class="button btn--small" href="?page=votes&amp;action=edit&amp;id={{ row.id }}" title="{{ LNG.adm_edit }}" aria-label="{{ LNG.adm_edit }}">{{ icon('pencil') }}</a>
-                <form method="POST" action="?page=votes&amp;action=toggle" class="inline-form">
+                <a class="button btn--small" href="{{ path('admin_votes_edit', {id: row.id}) }}" title="{{ LNG.adm_edit }}" aria-label="{{ LNG.adm_edit }}">{{ icon('pencil') }}</a>
+                <form method="POST" action="{{ path('admin_votes_toggle') }}" class="inline-form">
                   <input type="hidden" name="id" value="{{ row.id }}">
                   <input type="hidden" name="active" value="{{ row.active ? 0 : 1 }}">
                   <button type="submit" class="btn--small">{{ row.active ? LNG.vt_disable : LNG.vt_enable }}</button>
                 </form>
-                <form method="POST" action="?page=votes&amp;action=delete" class="inline-form">
+                <form method="POST" action="{{ path('admin_votes_delete') }}" class="inline-form">
                   <input type="hidden" name="id" value="{{ row.id }}">
                   <button type="submit" class="btn--small btn--danger" title="{{ LNG.vt_delete }}" data-confirm-danger data-confirm="{{ LNG.format('vt_confirm_delete', row.name)|e('html_attr') }}" aria-label="{{ LNG.vt_delete }}">{{ icon('trash-2') }}</button>
                 </form>

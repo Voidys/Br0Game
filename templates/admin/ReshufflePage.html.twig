@@ -1,6 +1,6 @@
 {% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
-<form name="message" id="message" action="admin?page=reshuffle&amp;action=send&amp;ajax=1" class="stack">
+<form name="message" id="message" action="{{ path('admin_reshuffle_send') }}" class="stack">
   <section class="card card--danger">
     <header class="card__head"><h2 class="card__title">{{ icon('shuffle') }}{{ LNG.rp_header }}</h2></header>
     <div class="card__body stack">

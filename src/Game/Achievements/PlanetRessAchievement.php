@@ -11,7 +11,6 @@ namespace App\Game\Achievements;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\Core\Achievement;
-use App\Game\Core\Singleton;
 
 /**
  * Achievement rules for what a planet or player has built: research levels, built ships and moon storage levels;
@@ -87,8 +86,8 @@ class PlanetRessAchievement
      * Check for achievement 28
      * Alternate gameplay: Build Metal, Crystal and Deut storages to Level 3 each on a Moon
      *
-     * @param array			$PLANET       	The planet array
-     * @param array			$resource       The resource array
+     * @param array<string, mixed>			$PLANET       	The planet array
+     * @param array<mixed>			$resource       The resource array
      * @param int	 		$userId       	The id of the User
      */
     public function checkPlanetRessAchievements28($PLANET, $resource, $userId)

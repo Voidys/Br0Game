@@ -18,7 +18,7 @@
 {% import _self as ui %}
 
 <div class="stack">
-  <form action="" method="post" class="card">
+  <form action="{{ path('admin_search_show') }}" method="get" class="card">
     <div class="card__body">
       <div class="toolbar">
         <div class="field field--lg">
@@ -56,7 +56,7 @@
     </div>
   </form>
 
-  {% if not empty(error) %}
+  {% if error %}
     <div class="notice notice--danger">{{ icon('circle-alert') }}<div>{{ error }}</div></div>
   {% endif %}
 
@@ -88,7 +88,7 @@
                     <td class="actions">
                       {% for action in row.actions %}
                         {% if action.type == 'edit' %}
-                          <button type="button" class="btn--small" data-open-edit data-edit-id="{{ action.id }}" data-edit-type="{{ action.edit }}" title="{{ action.label }}">{{ icon('pencil') }}<span class="visually-hidden">{{ action.label }}</span></button>
+                          <button type="button" class="btn--small" data-open-edit data-edit-url="{{ path('admin_quick_editor_show', {edit: action.edit, id: action.id}) }}" title="{{ action.label }}">{{ icon('pencil') }}<span class="visually-hidden">{{ action.label }}</span></button>
                         {% else %}
                           <a data-method="post" class="button btn--small btn--danger" href="{{ action.href }}" data-confirm-danger data-confirm="{{ action.confirm|e('html_attr') }}" title="{{ action.label }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ action.label }}</span></a>
                         {% endif %}

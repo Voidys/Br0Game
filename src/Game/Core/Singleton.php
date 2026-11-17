@@ -3,51 +3,82 @@
 namespace App\Game\Core;
 
 /**
- * The game state of a request or console run, a shared container service: a bag of named values ($state->USER,
- * PLANET, LNG, elementCatalog, request data, session, ...) read and written as properties, plus the
- * read-only RuntimeContext ($state->runtime: time, mode, paths, URLs). Values are stored by reference so they can be written in place
+ * The game state of a request or console run, a shared container service: the named values ($state->USER,
+ * PLANET, LNG, elementCatalog, request data, session, ...) are declared properties, plus the read-only
+ * RuntimeContext ($state->runtime: time, mode, paths, URLs). Values are written in place
  * (`$this->state->USER['key'] = ...`); no local reference aliases.
  *
- * Typed for static analysis (PHPStan reads these; at runtime the bag stays dynamic):
- *
- * @property-read UserRow $USER the logged-in player's users row (+ settings); typed for reading (shape: phpstan.dist.neon)
- * @property-write array<string, mixed> $USER written in place by the game; for visitors only a partial guest row (lang, timezone, ...)
- * @property PlanetRow $PLANET the current planet's row (shape: phpstan.dist.neon)
- * @property \App\Game\Core\Language $LNG the active language
- * @property \App\Game\Core\Theme $THEME the player's theme
- * @property \App\Game\Model\ElementCatalog $elementCatalog typed game data (units, costs, production, ...), set by GameData::load()
+ * Nullable properties are null until the bootstrap (GameBootstrap / GameKernel) sets them; read them with
+ * `??` / isset(). The row properties are untyped natively (the database returns false for a missing row).
  */
 class Singleton
 {
-    private array $data = [];
+    /** @var UserRow|array{} the logged-in player's users row (+ settings); for visitors only a partial guest row (lang, timezone, ...) */
+    public $USER = [];
+
+    /** @var PlanetRow|array{} the current planet's row */
+    public $PLANET = [];
+
+    /** @var array<string, mixed> the account row (account/login areas) */
+    public $ACCOUNT = [];
+
+    /** @var \App\Twig\LanguageView|\App\Game\Core\Language|null the active language */
+    public $LNG = null;
+
+    /** the player's theme */
+    public ?Theme $THEME = null;
+
+    /** typed game data (units, costs, production, ...), set by GameData::load() */
+    public ?\App\Game\Model\ElementCatalog $elementCatalog = null;
+
+    /** @var array<string, mixed> */
+    public array $requestQuery = [];
+
+    /** @var array<string, mixed> */
+    public array $requestPost = [];
+
+    /** @var array<string, mixed> query and post merged (what RequestInput::typed() reads) */
+    public array $requestInput = [];
+
+    /** @var array<string, mixed> */
+    public array $requestCookies = [];
+
+    /** @var array<string, mixed> */
+    public array $requestServer = [];
+
+    public ?\Symfony\Component\HttpFoundation\Request $request = null;
+
+    public ?Session $session = null;
+
+    public ?\App\Security\GameAuth $auth = null;
+
+    public ?\Twig\Environment $twig = null;
+
+    public ?\Symfony\Component\HttpFoundation\ResponseHeaderBag $responseHeaders = null;
+
+    public ?int $responseStatus = null;
+
+    /** @var array<string, float> start, end_common, db: timings in seconds */
+    public array $time = [];
+
+    /** @var array<int|string, string>|null module constant value => name */
+    public ?array $modules = null;
+
+    /** @var list<array<string, mixed>>|null recorded queries (debug mode) */
+    public ?array $queryLog = null;
+
+    /** @var int|null the current universe id, null until resolved */
+    public $universeCurrent = null;
+
+    /** @var int|null the emulated universe id (admin) */
+    public $universeEmulated = null;
+
+    /** @var list<int>|null */
+    public ?array $universeAvailable = null;
 
     /** shared container service: one game state per request / console run */
     public function __construct(
         /** request time, mode, paths and URLs of this request (the former runtime constants) */
         public readonly \App\Runtime\RuntimeContext $runtime,
     ) {}
-
-    /**
-     * Returns the stored value by reference (null for unknown names).
-     */
-    public function &__get(string $name)
-    {
-        return $this->data[$name];
-    }
-
-    /**
-     * Stores a value under the name.
-     */
-    public function __set(string $name, $value): void
-    {
-        $this->data[$name] = &$value;
-    }
-
-    /**
-     * True if a non-null value is stored under the name.
-     */
-    public function __isset(string $name): bool
-    {
-        return isset($this->data[$name]);
-    }
 }

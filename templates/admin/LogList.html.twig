@@ -5,7 +5,7 @@
       <h2 class="card__title">{{ icon('scroll-text') }}{{ log_target }} <span class="badge badge--muted">{{ LogArray|length }}</span></h2>
       <div class="card__actions">
         <input type="search" class="table-filter" data-table-filter="#log-table" placeholder="{{ LNG.adm_filter_page }}">
-        <a class="button btn--small" href="?page=log">{{ icon('arrow-left') }}{{ LNG.log_cat }}</a>
+        <a class="button btn--small" href="{{ path('admin_log_show') }}">{{ icon('arrow-left') }}{{ LNG.log_cat }}</a>
       </div>
     </header>
     <div class="card__body">
@@ -29,7 +29,7 @@
               <td>{{ LogInfo.target_uni }}</td>
               <td>{{ LogInfo.target }}</td>
               <td class="nowrap">{{ LogInfo.time }}</td>
-              <td class="actions"><a class="button btn--small" href="?page=log&amp;type=detail&amp;id={{ LogInfo.id }}">{{ icon('eye') }}{{ log_view }}</a></td>
+              <td class="actions"><a class="button btn--small" href="{{ path('admin_log_detail', {id: LogInfo.id}) }}">{{ icon('eye') }}{{ log_view }}</a></td>
             </tr>
             {% endfor %}
           </tbody>

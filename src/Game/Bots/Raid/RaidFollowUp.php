@@ -2,6 +2,7 @@
 
 namespace App\Game\Bots\Raid;
 
+use App\Game\Enum\Mission;
 use App\Game\Bots\BotActions;
 use App\Game\Bots\BotLog;
 use App\Game\Bots\BotPersona;
@@ -105,6 +106,7 @@ class RaidFollowUp
      * not outbound any more, or the probes would arrive too late.
      *
      * @param array<string, mixed> $attack memory entry, `state` moves to probing or done
+     * @param array<string, mixed> $bot
      * @return int 1 when probes were sent
      */
     private function sendProbe(BotActions $ctx, array $bot, array &$attack, int $now): int
@@ -131,7 +133,7 @@ class RaidFollowUp
 
             return 0;
         }
-        $sent = $this->dispatcher->send($ctx, $ctx->planets[$origin], [SHIP_PROBE => $n], MISSION_SPY, (int) $attack['planet'], (int) $attack['user']);
+        $sent = $this->dispatcher->send($ctx, $ctx->planets[$origin], [SHIP_PROBE => $n], Mission::Spy->value, (int) $attack['planet'], (int) $attack['user']);
         if (!$sent['ok']) {
             $this->botLog->log($botId, $uni, 'raid_keep', 'no re-spy (' . $sent['reason'] . '), keeping the attack on ' . $attack['name']);
 
@@ -174,6 +176,7 @@ class RaidFollowUp
      *
      * @param array<string, mixed> $attack memory entry
      * @param array<string, mixed> $mem raid memory
+     * @param array<string, mixed> $bot
      * @return int 1 when the fleet was recalled
      */
     private function readAndDecide(BotActions $ctx, array $bot, int $fleetId, array &$attack, array &$mem, int $now): int
@@ -289,6 +292,10 @@ class RaidFollowUp
      *
      * @param array<string, mixed> $attack memory entry
      * @param array<string, mixed> $log fleet log row (gained resources)
+     * @param array<string, mixed> $bot
+     * @param array<mixed> $mem
+     * @param array<mixed> $personality
+     * @param array<mixed> $s
      */
     private function result(BotActions $ctx, array $bot, array $s, array &$mem, array &$personality, array $attack, array $log, int $now): void
     {

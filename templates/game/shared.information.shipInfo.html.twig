@@ -1,6 +1,6 @@
 <table>
 	<tbody>
-		{% if not empty(FleetInfo.tech1) or not empty(FleetInfo.tech2) or not empty(FleetInfo.tech3) %}
+		{% if FleetInfo.tech1 or FleetInfo.tech2 or FleetInfo.tech3 %}
 		<tr>
 			<td>{{ LNG.in_engine }}</td>
 			<td class="num">
@@ -41,13 +41,13 @@
 			<td>{{ LNG.in_shield_pt }}</td>
 			<td class="num">{{ pretty_number(FleetInfo.shield) }}</td>
 		</tr>
-		{% if not empty(FleetInfo.capacity) %}
+		{% if FleetInfo.capacity %}
 		<tr>
 			<td>{{ LNG.in_capacity }}</td>
 			<td class="num">{{ pretty_number(FleetInfo.capacity) }}</td>
 		</tr>
 		{% endif %}
-		{% if not empty(FleetInfo.speed1) or not empty(FleetInfo.speed2) or not empty(FleetInfo.speed3) %}
+		{% if FleetInfo.speed1 or FleetInfo.speed2 or FleetInfo.speed3 %}
 		<tr>
 			<td>{{ LNG.in_base_speed }}</td>
 			<td class="num">
@@ -76,7 +76,7 @@
 			</td>
 		</tr>
 		{% endif %}
-		{% if not empty(FleetInfo.consumption1) or not empty(FleetInfo.consumption2) or not empty(FleetInfo.consumption3) %}
+		{% if FleetInfo.consumption1 or FleetInfo.consumption2 or FleetInfo.consumption3 %}
 		<tr>
 			<td>{{ LNG.in_consumption }}</td>
 			<td class="num">

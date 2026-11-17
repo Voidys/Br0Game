@@ -17,27 +17,26 @@
 
 namespace App\Controller\Admin;
 
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /** JSON username search for the admin autocomplete fields. */
-#[\App\Routing\GamePage('admin', 'autoComplete')]
 class AutoCompleteController extends AbstractAdminController
 {
     /**
      * JSON autocomplete for admin player fields. Request: term (username fragment, or `#` + id for an exact id lookup).
      * Returns up to 20 players of the emulated universe, exact and prefix matches first; an empty term returns [].
      */
-    public function show(): void
+    #[GameRoute('admin', 'admin/autocomplete', 'autoComplete')]
+    public function show(): Response
     {
-        $searchText = $this->http()->_GP('term', '', UTF8_SUPPORT);
+        $searchText = $this->input()->string('term', '', UTF8_SUPPORT);
         $searchList = [];
 
         $db = $this->db;
         if (empty($searchText) || $searchText === '#') {
-            echo json_encode([]);
-            throw new \App\Game\Core\EndOfRequest();
+            return $this->jsonResponse([]);
         }
 
         $qb = $db->qb()
@@ -65,7 +64,6 @@ class AutoCompleteController extends AbstractAdminController
             ];
         }
 
-        echo json_encode($searchList);
-        throw new \App\Game\Core\EndOfRequest();
+        return $this->jsonResponse($searchList);
     }
 }

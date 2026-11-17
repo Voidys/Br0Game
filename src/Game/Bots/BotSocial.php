@@ -2,6 +2,7 @@
 
 namespace App\Game\Bots;
 
+use App\Game\Enum\MessageType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -11,7 +12,7 @@ use Throwable;
 /**
  * Social behaviour of bots: reacting to attacks, answering private messages, buddy requests, alliances. Bots never open contact with strangers. Runs the steps of
  * one bot turn; the messaging and alliance steps live in BotSocialMessaging and BotSocialAlliance.
- * Everything goes through the game's own tables / $this->playerUtil()->sendMessage, each step rolled by a chance.
+ * Everything goes through the game's own tables / $this->playerMessenger()->sendMessage, each step rolled by a chance.
  */
 class BotSocial
 {
@@ -21,7 +22,6 @@ class BotSocial
         private readonly Database $db,
         private readonly ConfigRegistry $configs,
         private readonly Singleton $state,
-        private readonly BotPersona $persona,
         private readonly BotLog $botLog,
         private readonly BotRelations $relations,
         private readonly BotSocialMessaging $messaging,
@@ -104,15 +104,15 @@ class BotSocial
         }
 
         $this->relations->record($bot, (int) $req['sender'], $ctx['uni'], BotRelations::EVENT_BUDDY_REQUEST);
-        $lang = $this->playerUtil()->getLanguage($req['lang'] ?: 'en');
+        $lang = $this->playerLookup()->getLanguage($req['lang'] ?: 'en');
         $accept = mt_rand(1, 100) <= (int) ($ctx['profile']['buddy_accept_chance'] ?? 60);
         if ($accept) {
             $db->delete('DELETE FROM %%BUDDY_REQUEST%% WHERE id = :id;', [':id' => $req['id']]);
-            $this->playerUtil()->sendMessage(
+            $this->playerMessenger()->sendMessage(
                 (int) $req['sender'],
                 $bot,
                 $ctx['me']['username'],
-                MESSAGE_TYPE_SYSTEM,
+                MessageType::System->value,
                 $lang['bu_accepted_request_title'],
                 $lang->formatHtml('bu_accepted_request_body', $req['username'], $ctx['me']['username']),
                 time(),
@@ -122,11 +122,11 @@ class BotSocial
             $this->relations->record($bot, (int) $req['sender'], $ctx['uni'], BotRelations::EVENT_BUDDY_ACCEPTED);
             $this->botLog->log($bot, $ctx['uni'], 'buddy', 'accepted #' . $req['sender']);
         } elseif (mt_rand(1, 100) <= 80) {
-            $this->playerUtil()->sendMessage(
+            $this->playerMessenger()->sendMessage(
                 (int) $req['sender'],
                 $bot,
                 $ctx['me']['username'],
-                MESSAGE_TYPE_SYSTEM,
+                MessageType::System->value,
                 $lang['bu_rejected_request_title'],
                 $lang->formatHtml('bu_rejected_request_body', $req['username'], $ctx['me']['username']),
                 time(),

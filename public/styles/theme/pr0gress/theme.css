@@ -484,7 +484,8 @@ select#auftr {
   font-weight: bold;
 }
 
-body#buddyList table a img[src="styles/resource/images/false.webp"] {
+body#buddylist table a img[src="styles/resource/images/false.webp"],
+body#buddylist table a img[src="styles/resource/images/false.webp"] {
   inline-size: 1rem;
   block-size: 1rem;
   box-sizing: border-box;
@@ -494,7 +495,8 @@ body#buddyList table a img[src="styles/resource/images/false.webp"] {
   margin: 0.25rem;
 }
 
-body#buddyList table a img[src="styles/resource/images/true.webp"] {
+body#buddylist table a img[src="styles/resource/images/true.webp"],
+body#buddylist table a img[src="styles/resource/images/true.webp"] {
   inline-size: 1rem;
   block-size: 1rem;
   box-sizing: border-box;

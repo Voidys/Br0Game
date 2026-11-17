@@ -15,29 +15,15 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
-use App\Game\Achievements\MiscAchievement;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HangarFilters;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 
-/** Shipyard and defence: build queue, ship/defence lists and hangar filters (modes: show, saveFilters). */
-#[\App\Routing\GamePage('game', 'shipyard')]
+/** Shipyard and defence (/game/shipyard, /game/defense): build queue, ship/defence lists, orders and hangar filters. */
 class ShipyardController extends AbstractGameController
 {
-    public static $defaultController = 'show';
-
     private const QUEUE_ELEMENT_ID = 0;
     private const QUEUE_AMMOUNT = 1;
-
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
 
     /**
      * Cancels hangar queue entries (request: auftr[] queue positions; the running entry at position 0 can not be cancelled) and refunds their
@@ -48,11 +34,7 @@ class ShipyardController extends AbstractGameController
         $USER = $this->state->USER;
         $ElementQueue = !empty($this->state->PLANET['b_hangar_id']) ? StoredData::decode($this->state->PLANET['b_hangar_id']) : [];
 
-        $CancelArray = $this->http()->_GP('auftr', []);
-
-        if (!is_array($CancelArray)) {
-            return false;
-        }
+        $CancelArray = $this->input()->intList('auftr');
 
         foreach ($CancelArray as $Auftr) {
             if (!isset($ElementQueue[$Auftr])) {
@@ -88,6 +70,8 @@ class ShipyardController extends AbstractGameController
      * Queues ships/defense from fmenge[<element id>] = counts. Each count is limited by `max_fleet_per_build`, the affordable amount (resources
      * already used by earlier entries of the same order are not counted again), the queue length limit, silo capacity for missiles and "one only"
      * elements (shields). Deducts the cost, records shipyard achievements and starts the queue when it was empty.
+     *
+     * @param array<mixed> $fmenge
      */
     private function buildAuftr(array $fmenge): void
     {
@@ -165,20 +149,38 @@ class ShipyardController extends AbstractGameController
     }
 
     /**
-     * Shipyard page (request: mode = fleet or defense, fmenge[] counts, action = insert/delete). Needs a shipyard; blocked while the shipyard or
-     * nanite factory is upgrading. Shows buildable elements, costs, times and the hangar queue; commands redirect back to the same mode.
+     * Ship list (`/game/shipyard`) or defence list (`/game/defense`): `kind` is the placeholder of the path. Needs a shipyard; shows buildable
+     * elements, costs, times and the hangar queue.
      */
+    #[GameRoute('game', 'game/{kind}', 'shipyard', requirements: ['kind' => 'shipyard|defense'])]
     public function show(): Response
+    {
+        return $this->hangar(false);
+    }
+
+    /**
+     * Orders of the shipyard or defence form (POST, request: fmenge[<element id>] counts to build, or action = delete with auftr[] queue
+     * positions to cancel); redirects back to the same list. Without an order, or while the shipyard or nanite factory is upgrading, or in
+     * vacation mode, the list is shown as it is.
+     */
+    #[GameRoute('game', 'game/{kind}', 'shipyard', 'order', ['POST'], ['kind' => 'shipyard|defense'])]
+    public function order(): Response
+    {
+        return $this->hangar(true);
+    }
+
+    /**
+     * The shipyard or defence page of the requested kind (path placeholder `kind`), after the order of the request when $withOrder is set.
+     */
+    private function hangar(bool $withOrder): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         if ($this->state->PLANET[$this->elements()->column(SHIPYARD)] == 0) {
-            $this->printMessage($LNG['bd_shipyard_required']);
+            return $this->messageResponse($LNG['bd_shipyard_required']);
         }
 
-        $mode = $this->http()->_GP('mode', 'fleet');
-        $buildTodo = $this->http()->_GP('fmenge', []);
-        $action = $this->http()->_GP('action', '');
+        $mode = $this->input()->string('kind') === 'defense' ? 'defense' : 'fleet';
 
         $NotBuilding = !$this->isShipyardUpgrading();
 
@@ -189,8 +191,11 @@ class ShipyardController extends AbstractGameController
             $Count = count($ElementQueue);
         }
 
-        if ($USER['urlaubs_modus'] == 0 && $NotBuilding == true) {
-            $this->runHangarCommand($buildTodo, $action, $mode, $Count);
+        if ($withOrder && $USER['urlaubs_modus'] == 0 && $NotBuilding == true) {
+            $answer = $this->runHangarCommand($this->input()->bigNumberMap('fmenge'), $this->input()->string('action'), $mode, $Count);
+            if ($answer !== null) {
+                return $answer;
+            }
         }
 
         $elementInQueue = [];
@@ -211,7 +216,7 @@ class ShipyardController extends AbstractGameController
         $hangarShipIds = $this->hangarFilters()->shipIds($hangarFilters);
         $hangarShipOptions = $this->unpinnedShipOptions($hangarShipIds);
 
-        $this->assign([
+        return $this->render('game/page.shipyard.default.html.twig', [
             'umode'       => $USER['urlaubs_modus'],
             'elementList' => $elementList,
             'NotBuilding' => $NotBuilding,
@@ -231,8 +236,6 @@ class ShipyardController extends AbstractGameController
             'hangarShipOptions' => $hangarShipOptions,
             'hangarShipOrder' => array_map('intval', array_values($this->elements()->ids('fleet'))),
         ]);
-
-        return $this->render('game/page.shipyard.default.html.twig');
     }
 
     /**
@@ -301,18 +304,18 @@ class ShipyardController extends AbstractGameController
     /**
      * Executes the order commands of the request on the locked planet row: `fmenge` (the counts to build, refused with a
      * message when the hangar queue is full) or action=delete (cancel queue entries), then redirects back to the same
-     * mode (ends the request). Does nothing when the request carries neither.
+     * list. Null when the request carries neither.
      *
-     * @param mixed $buildTodo request fmenge (element id => count)
+     * @param array<int|string, float> $buildTodo request fmenge (element id => count)
      * @param int $Count number of entries already in the hangar queue
      */
-    private function runHangarCommand(mixed $buildTodo, mixed $action, mixed $mode, int $Count): void
+    private function runHangarCommand(array $buildTodo, string $action, string $mode, int $Count): ?Response
     {
         $LNG = $this->state->LNG;
         if (!empty($buildTodo)) {
             $maxBuildQueue = $this->configs->get()->max_elements_ships;
             if ($maxBuildQueue != 0 && $Count >= $maxBuildQueue) {
-                $this->printMessage($LNG->format('bd_max_builds', $maxBuildQueue));
+                return $this->messageResponse($LNG->format('bd_max_builds', $maxBuildQueue));
             }
 
             $db = $this->db;
@@ -321,11 +324,13 @@ class ShipyardController extends AbstractGameController
             if ($this->isShipyardUpgrading()) {
                 // a shipyard/nanite upgrade was queued after the page started: judged on the locked row
                 $db->rollback();
-                $this->redirectTo('game?page=shipyard&mode=' . $mode);
+
+                return $this->redirectToHangar($mode);
             }
             $this->buildAuftr($buildTodo);
             $db->commit();
-            $this->redirectTo('game?page=shipyard&mode=' . $mode);
+
+            return $this->redirectToHangar($mode);
         }
 
         if ($action == "delete") {
@@ -334,8 +339,17 @@ class ShipyardController extends AbstractGameController
             $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
             $this->cancelAuftr();
             $db->commit();
-            $this->redirectTo('game?page=shipyard&mode=' . $mode);
+
+            return $this->redirectToHangar($mode);
         }
+
+        return null;
+    }
+
+    /** redirect back to the ship list (mode fleet) or the defence list */
+    private function redirectToHangar(string $mode): Response
+    {
+        return $this->redirectToRoute('game_shipyard_show', ['kind' => $mode === 'defense' ? 'defense' : 'shipyard']);
     }
 
     /**
@@ -466,9 +480,10 @@ class ShipyardController extends AbstractGameController
     /**
      * Persist pinned hangar ship filters without changing group visibility.
      */
-    public function saveFilters()
+    #[GameRoute('game', 'game/shipyard/filters', 'shipyard', 'saveFilters', ['POST'])]
+    public function saveFilters(): Response
     {
-        $ships = $this->http()->_GP('ships', []);
+        $ships = $this->input()->intList('ships');
         $filters = $this->hangarFilters()->mergeShips(
             $this->hangarFilters()->parse($this->state->USER['hangar_filters'] ?? null),
             $ships,
@@ -485,7 +500,7 @@ class ShipyardController extends AbstractGameController
 
         $this->state->USER['hangar_filters'] = $encoded;
 
-        $this->sendJSON([
+        return $this->jsonResponse([
             'ok' => true,
             'filters' => $filters,
         ]);

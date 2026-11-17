@@ -17,6 +17,7 @@
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\PlanetType;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\BattleEngine\BattleHandler;
 
@@ -108,6 +109,8 @@ class MissionCaseAttack extends AbstractBattleMission
      * @param array<int, int|float> $debris       new debris
      * @param array<int, int|float> $planetDebris debris field after the fight
      * @param array<int, int|float> $stealResource loot
+     * @param array<string, mixed> $targetPlanet
+     * @param array<mixed> $targetUser
      * @return array{0: array<string, mixed>, 1: array<int, int|float>} report info for the report, debris field after the moon roll
      */
     private function rollMoon(BattleSetup $setup, array $targetUser, array $targetPlanet, array $debris, array $planetDebris, array $stealResource): array
@@ -121,7 +124,7 @@ class MissionCaseAttack extends AbstractBattleMission
         $moonFactor = $config->moon_factor;
         $maxMoonChance = $config->moon_chance;
 
-        if ($targetPlanet['id_luna'] == 0 && $targetPlanet['planet_type'] == 1) {
+        if ($targetPlanet['id_luna'] == 0 && $targetPlanet['planet_type'] == PlanetType::Planet->value) {
             $chanceCreateMoon = floor($debrisTotal / 100000 * $moonFactor);
             $chanceCreateMoon = min($chanceCreateMoon, $maxMoonChance);
         } else {
@@ -155,7 +158,7 @@ class MissionCaseAttack extends AbstractBattleMission
             $LNG = $this->getLanguage($targetUser['lang']);
             $reportInfo['moonName'] = $LNG['type_planet_3'];
 
-            $this->playerUtil()->createMoon(
+            $this->planetManager()->createMoon(
                 $this->_fleet['universe'],
                 $this->_fleet['end_galaxy'],
                 $this->_fleet['end_system'],

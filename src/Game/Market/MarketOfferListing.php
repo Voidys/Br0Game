@@ -2,6 +2,7 @@
 
 namespace App\Game\Market;
 
+use App\Game\Enum\Mission;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -51,7 +52,7 @@ class MarketOfferListing
             ORDER BY f.`stay_time` ASC;';
         return $this->db->select($sql, [
             ':al'           => $USER['ally_id'],
-            ':trade'        => MISSION_TRADE,
+            ':trade'        => Mission::Trade->value,
             ':buyerid'      => $USER['id'],
             ':universe'     => $this->universe()->current(),
             ':fleetState'   => FLEET_HOLD,

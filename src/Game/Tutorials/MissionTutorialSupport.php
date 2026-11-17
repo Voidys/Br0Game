@@ -8,13 +8,17 @@
 
 namespace App\Game\Tutorials;
 
-use App\Game\Core\Singleton;
+use App\Game\Enum\Mission;
 
 /**
  * Step whose goals are missions: a goal counts as done when the player has a completed (returned and not recalled) flight of that mission type in the fleet log (colonisation counts on arrival), or owns the required ships.
  */
 class MissionTutorialSupport extends AbstractTutorialSupport
 {
+    /**
+     * @param array<string, mixed> $USER
+     * @param array<mixed> $tutorialStep
+     */
     public function __construct(
         \App\Game\Core\Database $db,
         \App\Game\Core\ConfigRegistry $configs,
@@ -30,7 +34,7 @@ class MissionTutorialSupport extends AbstractTutorialSupport
      *
      * Can be disabled by table enty
      *
-     * @return array
+     * @return array<mixed>
      */
     public function listGoals(): array
     {
@@ -96,7 +100,7 @@ class MissionTutorialSupport extends AbstractTutorialSupport
                 $amount = $this->db->selectSingle($sql, [
                     ':mission'  => $elementID,
                     ':end_time' => $this->state->runtime->timestamp,
-                    ':colo'     => MISSION_COLONISATION,
+                    ':colo'     => Mission::Colonisation->value,
                     ':userID'   => $this->user['id'],
                 ], 'amount');
 

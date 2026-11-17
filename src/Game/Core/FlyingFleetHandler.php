@@ -17,6 +17,7 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\Mission;
 use App\Game\Missions\MissionCaseACS;
 use App\Game\Missions\MissionCaseAttack;
 use App\Game\Missions\MissionCaseColonisation;
@@ -64,22 +65,22 @@ class FlyingFleetHandler
     public static function missionClasses(): array
     {
         return [
-            MISSION_ATTACK                  => MissionCaseAttack::class,
-            MISSION_ACS                     => MissionCaseACS::class,
-            MISSION_TRANSPORT               => MissionCaseTransport::class,
-            MISSION_STATION                 => MissionCaseStay::class,
-            MISSION_HOLD                    => MissionCaseStayAlly::class,
-            MISSION_SPY                     => MissionCaseSpy::class,
-            MISSION_COLONISATION            => MissionCaseColonisation::class,
-            MISSION_RECYCLING               => MissionCaseRecycling::class,
-            MISSION_DESTRUCTION             => MissionCaseDestruction::class,
-            MISSION_MISSILE                 => MissionCaseMIP::class,
-            MISSION_EXPEDITION              => MissionCaseExpedition::class,
-            MISSION_TRADE                   => MissionCaseTrade::class,
-            MISSION_TRANSFER                => MissionCaseTransfer::class,
-            MISSION_PIRATEBASE_ATTACK       => MissionCasePiratebaseAttack::class,
-            MISSION_PIRATEBASE_SPY          => MissionCasePiratebaseSpy::class,
-            MISSION_PIRATEBASE_RECYCLING    => MissionCasePiratebaseRecycling::class,
+            Mission::Attack->value                  => MissionCaseAttack::class,
+            Mission::Acs->value                     => MissionCaseACS::class,
+            Mission::Transport->value               => MissionCaseTransport::class,
+            Mission::Station->value                 => MissionCaseStay::class,
+            Mission::Hold->value                    => MissionCaseStayAlly::class,
+            Mission::Spy->value                     => MissionCaseSpy::class,
+            Mission::Colonisation->value            => MissionCaseColonisation::class,
+            Mission::Recycling->value               => MissionCaseRecycling::class,
+            Mission::Destruction->value             => MissionCaseDestruction::class,
+            Mission::Missile->value                 => MissionCaseMIP::class,
+            Mission::Expedition->value              => MissionCaseExpedition::class,
+            Mission::Trade->value                   => MissionCaseTrade::class,
+            Mission::Transfer->value                => MissionCaseTransfer::class,
+            Mission::PiratebaseAttack->value       => MissionCasePiratebaseAttack::class,
+            Mission::PiratebaseSpy->value          => MissionCasePiratebaseSpy::class,
+            Mission::PiratebaseRecycling->value    => MissionCasePiratebaseRecycling::class,
         ];
     }
 
@@ -100,6 +101,16 @@ class FlyingFleetHandler
     {
         $token = getRandomString();
         $db = $this->db;
+
+        // Nothing due is the usual case on a page request: one plain read instead of transaction + UPDATE + commit.
+        // An event that becomes due right after this read is claimed by the next caller, as before.
+        $due = $db->selectSingle('SELECT 1 AS due FROM %%FLEETS_EVENT%% WHERE `lock` IS NULL AND `time` <= :time AND `universe` = :universe LIMIT 1;', [
+            ':time' => $this->state->runtime->timestamp,
+            ':universe' => $universe,
+        ], 'due');
+        if ($due === false) {
+            return 0;
+        }
 
         $claimed = $db->transactional(function () use ($db, $token, $universe): int {
             $db->update('UPDATE %%FLEETS_EVENT%%

@@ -69,7 +69,7 @@ class PlayerLookup
      * Without $USER the defaults are returned; with a user row either its cached `colors` entry or the colour
      * columns of the row.
      *
-     * @param array|null $USER user row (with the color* settings columns)
+     * @param array<string, mixed>|null $USER user row (with the color* settings columns)
      * @return array<string, string> colour name => CSS colour
      */
     public function player_colors(?array $USER = null): array
@@ -91,7 +91,7 @@ class PlayerLookup
      * Small/medium/big thresholds of the stb (quick fleet) display. Defaults without a user; otherwise the user's
      * cached `stb_settings` entry or the stb_* columns.
      *
-     * @param array|null $USER user row
+     * @param array<string, mixed>|null $USER user row
      * @return array<string, int>
      */
     public function player_stb_settings(?array $USER = null): array
@@ -127,7 +127,7 @@ class PlayerLookup
      * Positive/negative/neutral signal colours. Defaults without a user; otherwise the cached `signalColors` entry
      * or the color* columns.
      *
-     * @param array|null $USER user row
+     * @param array<string, mixed>|null $USER user row
      * @return array<string, string>
      */
     public function player_signal_colors(?array $USER = null): array
@@ -233,7 +233,7 @@ class PlayerLookup
     /**
      * User row joined with the player's total statpoints row (stat_type 1).
      *
-     * @return array|null null/false-like if the user or stats do not exist
+     * @return array<mixed>|null null/false-like if the user or stats do not exist
      */
     public function getPlayerById(int $playerId): ?array
     {

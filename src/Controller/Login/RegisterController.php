@@ -16,35 +16,23 @@
 namespace App\Controller\Login;
 
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Universe;
-use App\Game\Core\Singleton;
-use App\Game\Core\AccountUtil;
 use App\Game\Core\DisposableEmailDomainBlocklist;
-use App\Game\Core\Session;
-use App\Game\Core\Mail;
+use App\Routing\GameRoute;
 
 /** Registration: creates an account and its first player (modes: show, send). */
-#[\App\Routing\GamePage('index', 'register')]
 class RegisterController extends AbstractLoginController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Registration form (universe status, rules and privacy checkboxes, optional referral name).
      */
+    #[GameRoute('index', 'register', 'register')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         $referralData = ['id' => 0, 'name' => ''];
         $accountName = "";
 
-        $referralID = (int) $this->http()->_GP('referralID', 0);
+        $referralID = $this->input()->int('referralID');
         $config = $this->configs->get();
         if ($config->ref_active == 1 && !empty($referralID)) {
             $db = $this->db;
@@ -60,15 +48,15 @@ class RegisterController extends AbstractLoginController
             }
         }
 
-        $this->assign([
+        $lang = $this->state->requestCookies['lang'] ?? 'de';
+
+        return $this->render('login/page.register.default.html.twig', [
             'referralData' => $referralData,
             'accountName' => $accountName,
             'timezones' => get_timezone_selector(),
-            'rulesUrl' => './?page=rules&lang=' . ($this->state->requestCookies['lang'] ?? 'de'),
-            'privacyUrl' => './?page=dataPrivacy&lang=' . ($this->state->requestCookies['lang'] ?? 'de'),
+            'rulesUrl' => $this->router->generate('login_rules', ['lang' => $lang]),
+            'privacyUrl' => $this->router->generate('login_data_privacy_show', ['lang' => $lang]),
         ]);
-
-        return $this->render('login/page.register.default.html.twig');
     }
 
     /**
@@ -79,33 +67,37 @@ class RegisterController extends AbstractLoginController
      * and unused e-mail (also against pending registrations), rules and privacy accepted. Stores a pending row in ACCOUNTS_VALID;
      * sends the verification mail, or, when mail/validation is off, redirects straight to the verification link.
      */
-    public function send()
+    #[GameRoute('index', 'register', 'register', 'send', ['POST'])]
+    public function send(): Response
     {
         $LNG = $this->state->LNG;
         $config = $this->configs->get();
 
-        $this->requireBotCheck('./?page=register', $LNG['registerBack']);
+        $formUrl = $this->router->generate('login_register_show');
+        if ($failure = $this->botCheckFailure($formUrl, $LNG['registerBack'])) {
+            return $failure;
+        }
 
         if (!$this->rateLimits->allowRegistration($this->sessions()->getClientIp())) {
-            $this->printMessage($LNG['login_error_4'], [[
+            return $this->messageResponse($LNG['login_error_4'], [[
                 'label' => $LNG['registerBack'],
-                'url' => './?page=register',
+                'url' => $formUrl,
             ]]);
         }
 
-        $userName       = $this->http()->_GP('username', '', UTF8_SUPPORT);
-        $password       = $this->http()->rawInput('password');
-        $password2      = $this->http()->rawInput('passwordReplay');
-        $mailAddress    = $this->http()->_GP('email', '');
-        $mailAddress2   = $this->http()->_GP('emailReplay', '');
-        $rulesChecked   = $this->http()->_GP('rules', 0);
-        $privacyChecked = $this->http()->_GP('privacy', 0);
-        $language       = (string) $this->http()->_GP('lang', '');
+        $userName       = $this->input()->string('username', '', UTF8_SUPPORT);
+        $password       = $this->input()->rawString('password');
+        $password2      = $this->input()->rawString('passwordReplay');
+        $mailAddress    = $this->input()->string('email');
+        $mailAddress2   = $this->input()->string('emailReplay');
+        $rulesChecked   = $this->input()->int('rules');
+        $privacyChecked = $this->input()->int('privacy');
+        $language       = $this->input()->string('lang');
         $language       = array_key_exists($language, $LNG->getAllowedLangs(false)) ? $language : $LNG->getLanguage();
-        $timezone       = (string) $this->http()->_GP('time', '');
+        $timezone       = $this->input()->string('time');
         $timezone       = in_array($timezone, \DateTimeZone::listIdentifiers(), true) ? $timezone : (string) $config->timezone;
 
-        $referralID = $this->http()->_GP('referralID', 0);
+        $referralID = $this->input()->int('referralID');
 
         // name and e-mail checks and the insert run under one lock: two parallel requests cannot both pass the checks
         $verifyURL = '';
@@ -119,7 +111,7 @@ class RegisterController extends AbstractLoginController
         });
 
         if (!empty($errors)) {
-            $this->printMessage(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
+            return $this->messageResponse(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
                 'label' => $LNG['registerBack'],
                 'url' => '#',
                 'action' => 'history-back',
@@ -127,11 +119,12 @@ class RegisterController extends AbstractLoginController
         }
 
         if ($config->mail_active == 0 || $config->user_valid == 0) {
-            $this->redirectTo($verifyURL);
-        } else {
-            $this->sendVerificationMail($userName, $mailAddress, $verifyURL);
-            $this->printMessage($LNG['registerSendComplete']);
+            return $this->redirectResponse($verifyURL);
         }
+
+        $this->sendVerificationMail($userName, $mailAddress, $verifyURL);
+
+        return $this->messageResponse($LNG['registerSendComplete']);
     }
 
     /**
@@ -266,7 +259,7 @@ class RegisterController extends AbstractLoginController
 
     /**
      * Stores the pending registration (ACCOUNTS_VALID, hashed password, random validation key) and returns the
-     * relative verification link (`./?page=vertify&i=<id>&k=<key>`).
+     * relative verification link (`verify?i=<id>&k=<key>`).
      */
     private function storePendingRegistration(string $userName, string $password, string $mailAddress, string $language, mixed $referralID, string $timezone): string
     {
@@ -302,7 +295,7 @@ class RegisterController extends AbstractLoginController
         $validationID = $db->selectSingle($sql, [
             ':validationKey' => $validationKey,
         ], 'id');
-        $verifyURL = './?page=vertify&i=' . $validationID . '&k=' . $validationKey;
+        $verifyURL = 'verify?i=' . $validationID . '&k=' . $validationKey;
 
         return $verifyURL;
     }

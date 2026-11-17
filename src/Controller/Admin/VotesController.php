@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Community\VoteSites;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Service\Attribute\Required;
 
@@ -12,7 +13,6 @@ use Symfony\Contracts\Service\Attribute\Required;
  * Vote sites of the universe the admin currently acts in: list, create, edit, activate and delete the sites, the postback
  * URL and secret of each site, the totals per site and the recent vote log.
  */
-#[\App\Routing\GamePage('admin', 'votes')]
 class VotesController extends AbstractAdminController
 {
     private VoteSites $votes;
@@ -23,55 +23,46 @@ class VotesController extends AbstractAdminController
         $this->votes = $votes;
     }
 
-    /**
-     * Vote site admin. `action` (GET): create (empty form), edit (id). POST action=save (id 0 = new, the site fields and renew_secret) stores a site and
-     * redirects with saved=1 (invalid input shows the form again with the errors); POST action=toggle (id) flips the active flag, POST action=delete (id)
-     * removes the site with its log. The global CSRF layer checks the token of every POST. Default: the list with totals and the recent log.
-     */
+    /** The list of the vote sites with totals and the recent log (`saved`/`deleted` show a notice). */
+    #[GameRoute('admin', 'admin/votes', 'votes')]
     public function show(): Response
     {
+        return $this->renderList((int) $this->universe()->getEmulated());
+    }
+
+    /** The empty form of a new site. */
+    #[GameRoute('admin', 'admin/votes/new', 'votes', 'create')]
+    public function create(): Response
+    {
+        return $this->renderEditor($this->emptySite(), []);
+    }
+
+    /** The form of the site `id` (`saved` shows a notice); an unknown site shows the list. */
+    #[GameRoute('admin', 'admin/votes/{id}/edit', 'votes', 'edit', requirements: ['id' => '\d+'])]
+    public function edit(): Response
+    {
         $uni = (int) $this->universe()->getEmulated();
-        $action = (string) $this->http()->_GP('action', '');
-        $isPost = ($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST';
-        $post = $this->state->requestPost ?? [];
-
-        if ($isPost && $action === 'save') {
-            return $this->saveSite($uni, $post);
-        }
-        if ($isPost && ($action === 'toggle' || $action === 'delete')) {
-            $id = (int) ($post['id'] ?? 0);
-            if ($action === 'toggle') {
-                $this->votes->setActive($id, $uni, !empty($post['active']));
-            } else {
-                $this->votes->delete($id, $uni);
-            }
-            $this->http()->redirectTo('admin?page=votes&' . ($action === 'delete' ? 'deleted=1' : 'saved=1'));
-        }
-
-        if ($action === 'edit') {
-            $site = $this->votes->find((int) $this->http()->_GP('id', 0));
-            if ($site !== null && (int) $site['universe'] === $uni) {
-                return $this->renderEditor($site, [], (bool) $this->http()->_GP('saved', 0));
-            }
-        } elseif ($action === 'create') {
-            return $this->renderEditor($this->emptySite(), []);
+        $site = $this->votes->find($this->input()->int('id'));
+        if ($site !== null && (int) $site['universe'] === $uni) {
+            return $this->renderEditor($site, [], $this->input()->int('saved') !== 0);
         }
 
         return $this->renderList($uni);
     }
 
     /**
-     * POST action=save: validates the form; errors show the editor again with the entered values, otherwise the site is stored and the
-     * editor of the site opens with saved=1.
-     *
-     * @param array<string, mixed> $post
+     * Validates the form (id 0 = new, the site fields and renew_secret); errors show the editor again with the entered values, otherwise the
+     * site is stored and the editor of the site opens with saved=1.
      */
-    private function saveSite(int $uni, array $post): Response
+    #[GameRoute('admin', 'admin/votes/save', 'votes', 'save', ['POST'])]
+    public function save(): Response
     {
-        $id = (int) ($post['id'] ?? 0);
+        $uni = (int) $this->universe()->getEmulated();
+        $post = $this->state->requestPost ?? [];
+        $id = $this->input()->int('id');
         $existing = $id > 0 ? $this->votes->find($id) : null;
         if ($id > 0 && ($existing === null || (int) $existing['universe'] !== $uni)) {
-            $this->http()->redirectTo('admin?page=votes');
+            return $this->redirectToRoute('admin_votes_show');
         }
 
         [$values, $errors] = $this->votes->validate($post);
@@ -83,7 +74,26 @@ class VotesController extends AbstractAdminController
         }
 
         $id = $this->votes->save($id, $uni, $values, $this->state->runtime->timestamp, !empty($post['renew_secret']));
-        $this->http()->redirectTo('admin?page=votes&action=edit&id=' . $id . '&saved=1');
+
+        return $this->redirectToRoute('admin_votes_edit', ['id' => $id, 'saved' => 1]);
+    }
+
+    /** Flips the active flag of the site `id`. */
+    #[GameRoute('admin', 'admin/votes/toggle', 'votes', 'toggle', ['POST'])]
+    public function toggle(): Response
+    {
+        $this->votes->setActive($this->input()->int('id'), (int) $this->universe()->getEmulated(), !empty($this->state->requestPost['active']));
+
+        return $this->redirectToRoute('admin_votes_show', ['saved' => 1]);
+    }
+
+    /** Removes the site `id` with its log. */
+    #[GameRoute('admin', 'admin/votes/delete', 'votes', 'delete', ['POST'])]
+    public function delete(): Response
+    {
+        $this->votes->delete($this->input()->int('id'), (int) $this->universe()->getEmulated());
+
+        return $this->redirectToRoute('admin_votes_show', ['deleted' => 1]);
     }
 
     /** @return array<string, mixed> the defaults of a new site */
@@ -109,7 +119,7 @@ class VotesController extends AbstractAdminController
             ? $runtime->protocol . $runtime->httpHost . '/vote/callback/' . $site['id'] . '?secret=' . $site['secret'] . '&token={token}'
             : '';
 
-        $this->assign([
+        return $this->render('admin/VotesPage.html.twig', [
             'editor' => true,
             'site' => $site,
             'voteErrors' => array_map(static fn(string $key): string => $LNG[$key], $errors),
@@ -117,8 +127,6 @@ class VotesController extends AbstractAdminController
             'postbackUrl' => $postbackUrl,
             'resources' => array_keys(VoteSites::RESOURCES),
         ]);
-
-        return $this->render('admin/VotesPage.html.twig');
     }
 
     /** The list of the sites with their totals, the recent log and a hint when the module is off. */
@@ -140,14 +148,12 @@ class VotesController extends AbstractAdminController
             $log[] = $row;
         }
 
-        $this->assign([
+        return $this->render('admin/VotesPage.html.twig', [
             'editor' => false,
             'voteSites' => $sites,
             'voteLog' => $log,
             'voteModuleOn' => $this->votes->moduleEnabled($uni),
-            'voteNotice' => $this->http()->_GP('saved', 0) ? $LNG['vt_saved'] : ($this->http()->_GP('deleted', 0) ? $LNG['vt_deleted'] : null),
+            'voteNotice' => $this->input()->int('saved') !== 0 ? $LNG['vt_saved'] : ($this->input()->int('deleted') !== 0 ? $LNG['vt_deleted'] : null),
         ]);
-
-        return $this->render('admin/VotesPage.html.twig');
     }
 }

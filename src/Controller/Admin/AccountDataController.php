@@ -17,31 +17,37 @@
 
 namespace App\Controller\Admin;
 
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
+use App\Game\Enum\PlanetType;
+use App\Routing\GameRoute;
 use App\Game\Core\Universe;
 use Symfony\Component\HttpFoundation\Response;
 use App\Twig\GameEscaping;
 use Twig\Markup;
 
 /** Read-only overview of one player: account, planets, resources, buildings, fleet and defense. */
-#[\App\Routing\GamePage('admin', 'accountData')]
 class AccountDataController extends AbstractAdminController
 {
     /**
-     * Read-only player report (admin?page=accoutdata). Without id_u a list of the users the acting admin may see (authlevel <= own)
+     * Read-only player report (admin/accounts). Without id_u a list of the users the acting admin may see (authlevel <= own)
      * to pick from; with id_u the detail page: account and login data, last IP, ban state and reason, points and ranks, alliance (with
      * owner and alliance stats), and per planet/moon the coordinates, fields, resources and the building, fleet and defense matrix
      * plus the player's research levels. Unknown ids end in a message. Writes nothing.
      */
+    #[GameRoute('admin', 'admin/accounts', 'accountData')]
     public function show(): Response
     {
-        $id_u = $this->http()->_GP('id_u', 0);
+        $id_u = $this->input()->int('id_u');
         if (!empty($id_u)) {
-            return $this->showDetail($id_u);
+            return $this->detail();
         }
         return $this->showUserPicker();
+    }
+
+    /** Detail page of the player `id_u` (also reached from the picker form as `admin/accounts?id_u=`). */
+    #[GameRoute('admin', 'admin/accounts/{id_u}', 'accountData', 'detail', requirements: ['id_u' => '\d+'])]
+    public function detail(): Response
+    {
+        return $this->showDetail($this->input()->int('id_u'));
     }
 
     /**
@@ -60,8 +66,7 @@ class AccountDataController extends AbstractAdminController
             ':userLevel' => $this->state->USER['authlevel'],
         ]);
         if (empty($OnlyQueryLogin)) {
-            $this->message($LNG['ac_username_doesnt'], '?page=accoutdata');
-            throw new \App\Game\Core\EndOfRequest();
+            return $this->messageResponse($LNG['ac_username_doesnt'], $this->router->generate('admin_account_data_show'));
         }
 
         $UserQuery = $this->loadPlayer($id_u);
@@ -71,7 +76,7 @@ class AccountDataController extends AbstractAdminController
         $allianceVars = $this->allianceVars($UserQuery);
         $planetVars = $this->planetVars($id_u);
 
-        $this->assign($planetVars + $allianceVars + $statVars + $accountVars + $banVars + [
+        return $this->render('admin/AccountDataPageDetail.html.twig', $planetVars + $allianceVars + $statVars + $accountVars + $banVars + [
             'canedit'   => $this->viewHelpers()->allowedTo('ShowQuickEditorPage'),
             'ipcheck'   => $LNG['one_is_yes_1'],
             'Metal'     => $LNG['tech'][901],
@@ -79,12 +84,13 @@ class AccountDataController extends AbstractAdminController
             'Deuterium' => $LNG['tech'][903],
             'Energy'    => $LNG['tech'][911],
         ]);
-        return $this->render('admin/AccountDataPageDetail.html.twig');
     }
 
     /**
      * Loads the player with account name, location, login/ban/alliance columns and the research levels (columns taken
      * from the game's resource table, not from the request).
+     *
+     * @return array<mixed>
      */
     private function loadPlayer(mixed $id_u): array
     {
@@ -121,6 +127,9 @@ class AccountDataController extends AbstractAdminController
     /**
      * Template variables of the account block: names, ids, IPs, location, rank, dates, vacation/ban yes-no texts and
      * the research table (`technologyRows`).
+     *
+     * @param array<mixed> $UserQuery
+     * @return array<mixed>
      */
     private function accountVars(array $UserQuery): array
     {
@@ -174,6 +183,9 @@ class AccountDataController extends AbstractAdminController
 
     /**
      * Ban block: when the player is banned, the end, start, reason and author of the ban (reads USERS_BANNED).
+     *
+     * @param array<mixed> $UserQuery
+     * @return array<mixed>
      */
     private function banVars(array $UserQuery): array
     {
@@ -211,6 +223,8 @@ class AccountDataController extends AbstractAdminController
 
     /**
      * Points, counts and ranks of the player (STATPOINTS type 1), number-formatted.
+     *
+     * @return array<mixed>
      */
     private function statVars(mixed $id_u): array
     {
@@ -260,6 +274,9 @@ class AccountDataController extends AbstractAdminController
 
     /**
      * Alliance block (data with owner plus the alliance's STATPOINTS type 2 row); empty arrays without an alliance.
+     *
+     * @param array<mixed> $UserQuery
+     * @return array<mixed>
      */
     private function allianceVars(array $UserQuery): array
     {
@@ -310,6 +327,8 @@ class AccountDataController extends AbstractAdminController
     /**
      * Planet block: per planet/moon the overview, resource and destroyed rows plus the building, fleet and defense
      * matrices over all living planets (columns: `planetCols`).
+     *
+     * @return array<mixed>
      */
     private function planetVars(mixed $id_u): array
     {
@@ -343,7 +362,7 @@ class AccountDataController extends AbstractAdminController
             $planetLabel = [
                 'id'     => $planetData['id'],
                 'name'   => $planetData['name'],
-                'isMoon' => $planetData['planet_type'] == 3,
+                'isMoon' => $planetData['planet_type'] == PlanetType::Moon->value,
                 'coords' => sprintf('[%d:%d:%d]', $planetData['galaxy'], $planetData['system'], $planetData['planet']),
             ];
 
@@ -392,7 +411,7 @@ class AccountDataController extends AbstractAdminController
         return $planetLabel + [
             'diameter' => $this->viewHelpers()->prettyNumber($planetData['diameter']),
             'fields'   => $this->viewHelpers()->prettyNumber($planetData['field_current']) . ' / '
-                . $this->viewHelpers()->prettyNumber($this->playerUtil()->calculateMaxPlanetFields($planetData)),
+                . $this->viewHelpers()->prettyNumber($this->planetQueries()->calculateMaxPlanetFields($planetData)),
             'fieldsDb' => $this->viewHelpers()->prettyNumber($planetData['field_current']) . ' / '
                 . $this->viewHelpers()->prettyNumber($planetData['field_max']),
             'temp'     => $this->viewHelpers()->prettyNumber($planetData['temp_min']) . ' / '

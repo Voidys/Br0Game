@@ -2,7 +2,6 @@
 
 namespace App\Game\Missions\Expedition;
 
-use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;

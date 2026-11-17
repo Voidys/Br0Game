@@ -17,11 +17,8 @@
 
 namespace App\Game\Cronjob;
 
-use App\Game\Core\Config;
-use App\Game\Core\Database;
 use App\Game\Core\Language;
 use App\Game\Core\Mail;
-use App\Game\Core\Singleton;
 
 /**
  * Inactivity reminder (default 01:30 on Sunday, Wednesday, Saturday): mails players who were offline longer than

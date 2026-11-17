@@ -44,6 +44,7 @@ class HonorPoints
      * @param int           $defender               ID of defender
      * @param int           $attackerUnitsLost      Units destroyed by the defender
      * @param int           $defenderUnitsLost      Units destroyed by the attacker
+     * @return array<mixed>
      */
     public function calculate_honorpoints_single(int $attacker, int $defender, int $attackerUnitsLost, int $defenderUnitsLost): array
     {
@@ -174,10 +175,11 @@ class HonorPoints
      * honorable for defenders if:
      * sum of defender military points <= double of the sum of attacker military points OR one of the attackers is Bandit(Low 30%)
      *
-     * @param array $attackers
-     * @param array $defenders
+     * @param array<mixed> $attackers
+     * @param array<mixed> $defenders
      * @param int $attackerUnitsLost
      * @param int $defenderUnitsLost
+     * @return array<mixed>
      */
     public function calculate_honorpoints_multi(array $attackers, array $defenders, int $attackerUnitsLost, int $defenderUnitsLost): array
     {
@@ -329,10 +331,10 @@ class HonorPoints
     /**
      * Applies the honor rules of a 1 vs 1 fight (see calculate_honorpoints_single() for the rule text).
      *
-     * @param array $attackerUser total_points, military, honorpoints of the attacker
-     * @param array $defenderUser total_points, military, honorpoints of the defender
+     * @param array<mixed> $attackerUser total_points, military, honorpoints of the attacker
+     * @param array<mixed> $defenderUser total_points, military, honorpoints of the defender
      * @param bool $defenderIsBandit defender is in the low 30% of the honor ranking and has <= -500 points
-     * @param array $honorDataTop result of get_honor_percent("low") (top20 honorpoints threshold)
+     * @param array<mixed> $honorDataTop result of get_honor_percent("low") (top20 honorpoints threshold)
      * @return array{0: bool, 1: bool} [honorable for both, dishonorable for the attacker]
      */
     private function judgeFight(array $attackerUser, array $defenderUser, bool $defenderIsBandit, array $honorDataTop): array
@@ -367,11 +369,11 @@ class HonorPoints
      * i.e. amount * (metal + crystal + deuterium cost)). A bandit is a player in the low 30% of the honor ranking
      * with <= -500 honor points.
      *
-     * @param array $fleets fleets of this side: [fleetId => ['player' => [id, username], 'unit' => [shipId => amount]]]
+     * @param array<mixed> $fleets fleets of this side: [fleetId => ['player' => [id, username], 'unit' => [shipId => amount]]]
      * @param string $side "attacker" or "defender"
-     * @param array $playerData shared per-player data, filled by reference
+     * @param array<mixed> $playerData shared per-player data, filled by reference
      * @param string $militarySql query selecting `military` for a user id
-     * @param array $honorDataTop result of get_honor_percent("low")
+     * @param array<mixed> $honorDataTop result of get_honor_percent("low")
      * @param AdvancedStatsHandler $statsHandler
      * @return array{0: int|float, 1: bool, 2: int|float} summed military points of the side's players, side has a bandit, total fight points of the side
      */
@@ -416,8 +418,8 @@ class HonorPoints
     /**
      * Compare the number of honorable and dishonorable fights of a player with the reference data
      * true if the player has more honorable fights or the same number of honorable fights and less dishonorable fights
-     * @param array $userFights
-     * @param array $referenceFights
+     * @param array<mixed> $userFights
+     * @param array<mixed> $referenceFights
      * @return bool
      */
     public function compare_honor_fights(array $userFights, array $referenceFights): bool
@@ -435,7 +437,7 @@ class HonorPoints
     /**
      * Retrieve the honorpoints and the number of honorable and dishonorable fights of a player
      * @param int $userId
-     * @return array $honordata
+     * @return array<mixed> $honordata
      */
     public function get_honor_data(int $userId): array
     {
@@ -512,7 +514,7 @@ class HonorPoints
      * Calculate the border dataset for the top or low 10%, 20% and 30% of the universe
      *
      * @param string $kind("top" or "low")
-     * @return array
+     * @return array<mixed>
      */
     public function get_honor_percent(string $kind = "top"): array
     {

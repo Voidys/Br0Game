@@ -17,27 +17,21 @@
 
 namespace App\Controller\Login;
 
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Session;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /** Login target: the form POST is handled by Symfony Security; a direct visit is sent back to the start page. */
-#[\App\Routing\GamePage('index', 'login')]
 class LoginController extends AbstractLoginController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
-     * The login form is posted here, but Symfony Security handles that POST before the controller
-     * (App\Security\LoginFormAuthenticator: password check, failed-login counter, verification link).
-     * Only a direct visit of ?page=login ends up here.
+     * The login form is posted here (route login_login_send), but Symfony Security handles that POST before the
+     * controller (App\Security\LoginFormAuthenticator: password check, failed-login counter, verification link).
+     * Only a direct visit of /login ends up here.
      */
-    public function show()
+    #[GameRoute('index', 'login', 'login')]
+    #[GameRoute('index', 'login', 'login', 'send', ['POST'])]
+    public function show(): Response
     {
-        $this->http()->redirectTo('./');
+        return $this->redirectResponse('./');
     }
 }

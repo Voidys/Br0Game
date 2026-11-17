@@ -3,7 +3,7 @@
 {% set pageInfo = {} %}
 {% for group in adminMenu %}
   {% for item in group.items %}
-    {% set itemPage = item.href|split('page=')|last|split('&')|first|lower %}
+    {% set itemPage = item.page|lower %}
     {% if pageInfo[itemPage] is not defined %}
       {% set pageInfo = pageInfo|merge({(itemPage): {'group': group.label, 'label': item.label}}) %}
     {% endif %}

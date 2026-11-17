@@ -1,6 +1,5 @@
 {% include 'admin/overall_header.html.twig' %}
-<form action="admin?page=dump" method="post" class="stack">
-  <input type="hidden" name="action" value="dump">
+<form action="{{ path('admin_dump_dump') }}" method="post" class="stack">
   <section class="card">
     <header class="card__head">
       <h2 class="card__title">{{ icon('hard-drive-download') }}{{ LNG.du_choose_tables }}</h2>

@@ -17,32 +17,22 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\PlanetType;
+use App\Game\Enum\AuthLevel;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
 use App\Game\Core\FlyingFleetsTable;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Session;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /**
  * Planet overview: planet data, fleet events, news and rank; planet actions, rename and give-up (modes: show,
  * actions, rename, delete).
  */
-#[\App\Routing\GamePage('game', 'overview', default: true)]
 class OverviewController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     private function getFleets()
     {
         $USER = $this->state->USER;
@@ -58,6 +48,7 @@ class OverviewController extends AbstractGameController
      * the fleet movements of the table (FlyingFleetsTable), own rank and points, universe counters (players online in the last 15 minutes, fleets
      * in flight), online admins and the outlaw state. No request parameters besides the standard cp= planet switch.
      */
+    #[GameRoute('game', 'game', 'overview')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -83,7 +74,7 @@ class OverviewController extends AbstractGameController
 
         $outlawTime = $this->outlawUntil($USER);
 
-        $this->assign([
+        return $this->render('game/page.overview.default.html.twig', [
             'umode'                     => $USER['urlaubs_modus'],
             'rankInfo'                  => $rankInfo,
             'is_news'                   => $config->overview_news_frame,
@@ -104,7 +95,7 @@ class OverviewController extends AbstractGameController
             'AdminsOnline'              => $AdminsOnline,
             'planet_diameter'           => $this->viewHelpers()->prettyNumber($PLANET['diameter']),
             'planet_field_current'      => $PLANET['field_current'],
-            'planet_field_max'          => $this->playerUtil()->calculateMaxPlanetFields($PLANET),
+            'planet_field_max'          => $this->planetQueries()->calculateMaxPlanetFields($PLANET),
             'planet_temp_min'           => $PLANET['temp_min'],
             'planet_temp_max'           => $PLANET['temp_max'],
             'ref_active'                => $config->ref_active,
@@ -113,11 +104,9 @@ class OverviewController extends AbstractGameController
             'colors'                    => $USER['colors'],
             'enablePlanetStyles'        => $enablePlanetStyles,
             'isCatchUp'                 => $config->catch_up,
-            'catchUp'                   => $LNG->format('sys_catchup', round((1 - $this->playerUtil()->getCatchUpFactor($USER)) * 100, 2)),
+            'catchUp'                   => $LNG->format('sys_catchup', round((1 - $this->protectionRules()->catchUpFactorFor($this->player())) * 100, 2)),
             'outlawTime'                => $outlawTime,
         ]);
-
-        return $this->render('game/page.overview.default.html.twig');
     }
 
     /**
@@ -196,7 +185,7 @@ class OverviewController extends AbstractGameController
         if ($PLANET['id_luna'] != 0) {
             $sql = "SELECT id, name, image, planet_style, planet_type, b_building_id, b_building FROM %%PLANETS%% WHERE id = :lunaID;";
             $Moon = $db->selectSingle($sql, [':lunaID'   => $PLANET['id_luna']]);
-        } elseif ($PLANET['planet_type'] == 3) {
+        } elseif ($PLANET['planet_type'] == PlanetType::Moon->value) {
             $sql = "SELECT id, name, image, planet_style, planet_type, b_building_id, b_building FROM %%PLANETS%% WHERE id_luna = :id;";
             $Moon = $db->selectSingle($sql, [':id'   => $PLANET['id']]);
         }
@@ -303,7 +292,7 @@ class OverviewController extends AbstractGameController
         $onlineAdmins = $this->db->select($sql, [
             ':universe'     => $this->universe()->current(),
             ':onlinetime'   => $this->state->runtime->timestamp - 10 * 60,
-            ':authlevel'    => AUTH_USR,
+            ':authlevel'    => AuthLevel::User->value,
         ]);
 
         $AdminsOnline = [];
@@ -365,6 +354,7 @@ class OverviewController extends AbstractGameController
     /**
      * Popup with the planet actions (rename, abandon); passes the confirmation text and whether this is the main planet.
      */
+    #[GameRoute('game', 'game/overview/actions', 'overview', 'actions')]
     public function actions(): Response
     {
         $LNG = $this->state->LNG;
@@ -372,29 +362,30 @@ class OverviewController extends AbstractGameController
         $PLANET = $this->state->PLANET;
         $this->setWindow('popup');
 
-        $this->assign([
+
+        return $this->render('game/page.overview.actions.html.twig', [
             'ov_security_confirm' => $LNG->format('ov_security_confirm', $PLANET['name'] . ' ['
                 . $PLANET['galaxy'] . ':' . $PLANET['system'] . ':' . $PLANET['planet'] . ']'),
             'mainPlanet' => $USER['id_planet'],
             'currentPlanet' => $PLANET['id'],
         ]);
-        return $this->render('game/page.overview.actions.html.twig');
     }
 
     /**
      * Renames the current planet (XHR, request: name): at most 20 characters and valid characters; answers JSON {message, error}.
      */
-    public function rename()
+    #[GameRoute('game', 'game/overview/rename', 'overview', 'rename', ['POST'])]
+    public function rename(): Response
     {
         $LNG = $this->state->LNG;
         $PLANET = $this->state->PLANET;
-        $newname        = $this->http()->_GP('name', '', UTF8_SUPPORT);
+        $newname        = $this->input()->string('name', '', UTF8_SUPPORT);
         if (!empty($newname)) {
             if (mb_strlen($newname) > 20) {
                 // PLANETS.name is varchar(20)
-                $this->sendJSON(['message' => $LNG->format('ov_newname_too_long', 20), 'error' => true]);
-            } elseif (!$this->playerUtil()->isNameValid($newname, true)) {
-                $this->sendJSON(['message' => $LNG['ov_newname_specialchar'], 'error' => true]);
+                return $this->jsonResponse(['message' => $LNG->format('ov_newname_too_long', 20), 'error' => true]);
+            } elseif (!$this->playerRegistration()->isNameValid($newname, true)) {
+                return $this->jsonResponse(['message' => $LNG['ov_newname_specialchar'], 'error' => true]);
             } else {
                 $db = $this->db;
                 $sql = "UPDATE %%PLANETS%% SET name = :newName WHERE id = :planetID;";
@@ -403,21 +394,24 @@ class OverviewController extends AbstractGameController
                     ':planetID' => $PLANET['id'],
                 ]);
 
-                $this->sendJSON(['message' => $LNG['ov_newname_done'], 'error' => false]);
+                return $this->jsonResponse(['message' => $LNG['ov_newname_done'], 'error' => false]);
             }
         }
+
+        return new Response();
     }
 
     /**
      * Abandons the current planet (XHR, request: password, which is actually the planet's name typed as confirmation). Refused while own fleets
      * start from the planet or its moon, and for the main planet. Research queued on the planet is re-homed to the main planet, then the planet is
-     * deleted (PlayerUtil::deletePlanet); answers JSON.
+     * deleted (PlanetManager::deletePlanet); answers JSON.
      */
-    public function delete()
+    #[GameRoute('game', 'game/overview/delete', 'overview', 'delete', ['POST'])]
+    public function delete(): Response
     {
         $LNG = $this->state->LNG;
         $PLANET = $this->state->PLANET;
-        $password   = $this->http()->_GP('password', '', true);
+        $password   = $this->input()->string('password', '', true);
 
         if (!empty($password)) {
             $db = $this->db;
@@ -439,15 +433,15 @@ class OverviewController extends AbstractGameController
 
             if ($IfFleets > 0) {
                 $db->rollback();
-                $this->sendJSON(['message' => $LNG['ov_abandon_planet_not_possible']]);
+                return $this->jsonResponse(['message' => $LNG['ov_abandon_planet_not_possible']]);
             } elseif ($this->state->USER['id_planet'] == $PLANET['id']) {
                 $db->rollback();
-                $this->sendJSON(['message' => $LNG['ov_principal_planet_cant_abanone']]);
+                return $this->jsonResponse(['message' => $LNG['ov_principal_planet_cant_abanone']]);
                 // } elseif (!password_verify($password, $accPassword)) {
-                //     $this->sendJSON(['message' => $LNG['ov_wrong_pass']]);
+                //     return $this->jsonResponse(['message' => $LNG['ov_wrong_pass']]);
             } elseif ($password != $PLANET['name']) {
                 $db->rollback();
-                $this->sendJSON(['message' => $LNG['ov_wrong_name']]);
+                return $this->jsonResponse(['message' => $LNG['ov_wrong_name']]);
             } else {
                 // Re-home research queued on the abandoned planet to the main planet and persist it
                 if (!empty($this->state->USER['b_tech_queue'])) {
@@ -470,16 +464,18 @@ class OverviewController extends AbstractGameController
                     $this->resourceUpdate()->saveTechQueue($this->state->USER);
                 }
 
-                $this->playerUtil()->deletePlanet($PLANET['id']);
+                $this->planetManager()->deletePlanet($PLANET['id']);
                 $db->commit();
                 $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
-                $statsHandler->increment($this->state->USER['id'], $PLANET['planet_type'] === TYPE_MOON ? AdvancedStatsEnum::MOONS_DELETED : AdvancedStatsEnum::PLANETS_DELETED, 1);
+                $statsHandler->increment($this->state->USER['id'], (int) $PLANET['planet_type'] === PlanetType::Moon->value ? AdvancedStatsEnum::MOONS_DELETED : AdvancedStatsEnum::PLANETS_DELETED, 1);
 
                 $session = $this->sessions()->load();
                 $session->planetId = $this->state->USER['id_planet'];
                 $session->save();
-                $this->sendJSON(['ok' => true, 'message' => $LNG['ov_planet_abandoned']]);
+                return $this->jsonResponse(['ok' => true, 'message' => $LNG['ov_planet_abandoned']]);
             }
         }
+
+        return new Response();
     }
 }

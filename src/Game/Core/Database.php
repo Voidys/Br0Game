@@ -33,7 +33,7 @@ use PDOStatement;
 class Database
 {
     /** Connection setup of the game (charset + sql_mode without ONLY_FULL_GROUP_BY etc.). */
-    public const INIT_COMMAND = "SET CHARACTER SET utf8mb4, NAMES utf8mb4, sql_mode = 'STRICT_ALL_TABLES'";
+    public const CHARSET_COMMAND = "SET CHARACTER SET utf8mb4, NAMES utf8mb4, sql_mode = 'STRICT_ALL_TABLES'";
 
     /**
      * Isolation level of the game's connection, set right after connecting: READ COMMITTED takes no gap/next-key locks on
@@ -43,14 +43,23 @@ class Database
      */
     public const ISOLATION_COMMAND = 'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED';
 
+    /**
+     * Both statements in one round trip (PDO init command, multi statements are on by default). The Doctrine
+     * connection (config/packages/doctrine.yaml, option 1002) carries the same string.
+     */
+    public const INIT_COMMAND = self::CHARSET_COMMAND . '; ' . self::ISOLATION_COMMAND;
+
     /** MySQL error numbers worth repeating a transaction for: deadlock victim and lock wait timeout. */
     public const ERROR_DUPLICATE_KEY = 1062;
     public const ERROR_DEADLOCK = 1213;
     public const ERROR_LOCK_WAIT_TIMEOUT = 1205;
 
     private PDO $dbHandle;
+    /** @var array<mixed> */
     private array $dbTableNames = [];
-    /** connection settings this instance was created with (host, port, user, userpw, databasename, ...) */
+    /**
+     * @var array<mixed> connection settings this instance was created with (host, port, user, userpw, databasename, ...)
+     */
     private array $connectionConfig = [];
     private int $lastInsertId = 0;
     private int $rowCount = 0;
@@ -58,6 +67,9 @@ class Database
     /** DBAL connection behind the QueryBuilder access (null without Symfony context) */
     private ?Connection $dbal = null;
 
+    /**
+     * @return array<mixed>
+     */
     public function getConnectionConfig(): array
     {
         return $this->connectionConfig;
@@ -97,7 +109,6 @@ class Database
         //error behaviour
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-        $db->exec(self::ISOLATION_COMMAND);
         // $db->query("set character set utf8");
         // $db->query("set names utf8");
         // $db->query("SET sql_mode = 'STRICT_ALL_TABLES'");
@@ -298,6 +309,7 @@ class Database
     /**
      * Runs a prepared statement: resolves %%TABLE%% placeholders, quotes the reserved words `system` and `rank`, binds :limit/:offset as integers and everything else as strings (null stays null), measures the DB time, remembers insert id and row count.
      * @param string $type one of insert, select, update, delete, replace.
+     * @param array<string, mixed> $params
      * @return bool|PDOStatement the statement for selects, true otherwise.
      * @throws Exception on SQL errors (message includes the query with parameters filled in).
      */
@@ -373,6 +385,8 @@ class Database
 
     /**
      * Runs a DELETE; other statement types are rejected. @throws Exception
+     *
+     * @param array<string, mixed> $params
      */
     public function delete(string $qry, array $params = []): bool
     {
@@ -385,6 +399,8 @@ class Database
 
     /**
      * Runs a REPLACE INTO; other statement types are rejected. @throws Exception
+     *
+     * @param array<string, mixed> $params
      */
     public function replace(string $qry, array $params = []): bool
     {
@@ -397,6 +413,8 @@ class Database
 
     /**
      * Runs an UPDATE; other statement types are rejected. @throws Exception
+     *
+     * @param array<string, mixed> $params
      */
     public function update(string $qry, array $params = []): bool
     {
@@ -409,6 +427,8 @@ class Database
 
     /**
      * Runs an INSERT (the id is then available in lastInsertId()); other statement types are rejected. @throws Exception
+     *
+     * @param array<string, mixed> $params
      */
     public function insert(string $qry, array $params = []): bool
     {
@@ -421,6 +441,9 @@ class Database
 
     /**
      * Runs a SELECT and returns all rows as associative arrays.
+     *
+     * @param array<string, mixed> $params
+     * @return array<mixed>
      */
     public function select(string $qry, array $params = []): array
     {
@@ -434,6 +457,8 @@ class Database
 
     /**
      * First row of a SELECT as associative array (false when none), or with $field only that column's value (the whole result, i.e. false, when no row).
+     *
+     * @param array<string, mixed> $params
      */
     public function selectSingle(string $qry, array $params = [], ?string $field = null): mixed
     {
@@ -547,7 +572,7 @@ class Database
      * @param  string       $table
      * @param  string       $column
      * @param  string       $key
-     * @return array
+     * @return array<mixed>
      */
     public function lists(string $table, string $column, ?string $key = null): array
     {
@@ -583,6 +608,8 @@ class Database
 
     /**
      * Runs a raw statement with %%TABLE%% replacement and no parameters; returns the rows for SELECT/SHOW, true otherwise.
+     *
+     * @return array<mixed>
      */
     public function nativeQuery(string $qry): bool|array
     {
@@ -598,7 +625,11 @@ class Database
         return in_array($this->getQueryType($qry), ['select', 'show']) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : true;
     }
 
-    /** debug mode only: query, parameters and duration for the profiler panel (GameDatabaseCollector) */
+    /**
+     * debug mode only: query, parameters and duration for the profiler panel (GameDatabaseCollector)
+     *
+     * @param array<string, mixed> $params
+     */
     private function logQuery(string $qry, array $params, string $type, float $start): void
     {
         if ($this->debug) {
@@ -630,6 +661,8 @@ class Database
 
     /**
      * Debug helper: substitutes the parameters into the query text, writes it to the error log and returns it.
+     *
+     * @param array<string, mixed> $params
      */
     public function log(string $qry, array $params = []): string
     {

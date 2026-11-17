@@ -17,9 +17,6 @@
 
 namespace App\Game\Core;
 
-use Exception;
-use App\Game\Core\Config\ConfigFieldProcessor;
-use App\Game\Core\Config\ConfigFieldSchema;
 use UnexpectedValueException;
 
 /**
@@ -30,11 +27,17 @@ use UnexpectedValueException;
  */
 class Config
 {
+    /** @var array<mixed> */
     private array $configData = [];
+    /** @var array<mixed> */
     private array $updateRecords = [];
     private ConfigRegistry $registry;
 
-    /** built by ConfigRegistry (one instance per universe and request) */
+    /**
+     * built by ConfigRegistry (one instance per universe and request)
+     *
+     * @param array<mixed> $configData
+     */
     public function __construct(array $configData, ConfigRegistry $registry)
     {
         $this->configData = $configData;
@@ -101,6 +104,7 @@ class Config
         }
 
         $this->updateRecords = [];
+        $this->registry->invalidateCache();
         return true;
     }
 
@@ -129,6 +133,7 @@ class Config
         }
 
         $this->updateRecords = [];
+        $this->registry->invalidateCache();
         return true;
     }
 
@@ -146,6 +151,7 @@ class Config
                 ':state' => $modulValue,
             ]);
         }
+        $this->registry->invalidateCache();
         return true;
     }
 }

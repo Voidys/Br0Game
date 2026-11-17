@@ -17,23 +17,19 @@
 
 namespace App\Controller\Game;
 
-use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\TechTree;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /** Technology tree: requirements of every building, research, ship and defence. */
-#[\App\Routing\GamePage('game', 'techtree')]
 #[\App\Controller\RequireModule('MODULE_TECHTREE')]
 class TechtreeController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Technology tree: a tab per category (buildings, research, ships, defence, missiles) with the elements and their
      * requirement chain as a graph; the player's levels come from the current planet, or from the user for research.
      */
+    #[GameRoute('game', 'game/techtree', 'techtree')]
     public function show(): Response
     {
         $elements = $this->elements();
@@ -54,11 +50,9 @@ class TechtreeController extends AbstractGameController
             }
         }
 
-        $this->assign([
+        return $this->render('game/page.techTree.default.html.twig', [
             'TechTree' => (new TechTree())->build($groups, $this->elements()->requirementMap(), $levels, $names),
             'Headlines' => array_map(static fn(int $id): string => $LNG['tech'][$id] ?? '', TechTree::HEADLINES),
         ]);
-
-        return $this->render('game/page.techTree.default.html.twig');
     }
 }

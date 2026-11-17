@@ -2,6 +2,8 @@
 
 namespace App\Game\Messages;
 
+use App\Game\Enum\AuthLevel;
+use App\Game\Enum\MessageType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -10,7 +12,7 @@ use App\Game\Core\Singleton;
 /**
  * Sending and forwarding private messages: which recipients may receive (exist in the universe, accept private
  * messages, no direct-message block in either direction), the forbidden-content check with the automatic account ban,
- * and the actual delivery through PlayerUtil.
+ * and the actual delivery through PlayerMessenger.
  */
 class MessageComposer
 {
@@ -118,11 +120,15 @@ class MessageComposer
         return !empty($ownsMessage);
     }
 
-    /** Forwards one of the player's messages to the receivers (see PlayerUtil::forwardMessage). */
+    /**
+     * Forwards one of the player's messages to the receivers (see PlayerMessenger::forwardMessage).
+     *
+     * @param array<mixed> $receiverList
+     */
     public function forward(array $receiverList, mixed $messageID): void
     {
         $USER = $this->state->USER;
-        $this->playerUtil()->forwardMessage($receiverList, $USER['id'], $messageID);
+        $this->playerMessenger()->forwardMessage($receiverList, $USER['id'], $messageID);
     }
 
     /**
@@ -143,7 +149,7 @@ class MessageComposer
         $sql = "SELECT `text` FROM %%MESSAGES_FORBIDDEN%%";
         $texts = $db->select($sql);
         $banned = false;
-        if (!empty($texts) && $USER['authlevel'] == AUTH_USR) {
+        if (!empty($texts) && $USER['authlevel'] == AuthLevel::User->value) {
             // the last requested recipient, as the loop variable of the former inline code
             $requestedList = (array) $requested;
             $receiverID = end($requestedList);
@@ -151,7 +157,7 @@ class MessageComposer
                 $regex = '/' . $textRow['text'] . '/i';
                 if (preg_match($regex, $text) || preg_match($regex, $subject)) {
                     $banned = true;
-                    $accountId = $this->playerUtil()->get_account_id($USER['id']);
+                    $accountId = $this->playerLookup()->get_account_id($USER['id']);
                     $this->accountUtil()->banAccount($accountId, 'Forbidden message content');
                     $this->discord()->sendMessage($config->discord_tickets_hook, 'Automatic user message bann', [
                         'AccountID' => $accountId,
@@ -167,7 +173,7 @@ class MessageComposer
         }
 
         if (!$banned) {
-            $this->playerUtil()->sendMessage($receiverList, $USER['id'], $senderName, MESSAGE_TYPE_USER, $subject, $text, $this->state->runtime->timestamp, 1, null, $groupKey);
+            $this->playerMessenger()->sendMessage($receiverList, $USER['id'], $senderName, MessageType::User->value, $subject, $text, $this->state->runtime->timestamp, 1, null, $groupKey);
         }
 
         return $banned;

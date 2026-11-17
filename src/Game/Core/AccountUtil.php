@@ -14,7 +14,7 @@ use Exception;
 
 /**
  * Account-level helpers (the login account that owns one player per universe): creation, password hashing,
- * name/mail validation, universe list, account bans and the planned deletion date. Player-level logic is in PlayerUtil.
+ * name/mail validation, universe list, account bans and the planned deletion date. Player-level logic is in the App\Game\Core\Player services.
  */
 class AccountUtil
 {
@@ -130,7 +130,7 @@ class AccountUtil
         }
         $playerUniverses = $this->get_player_universes($accountId);
         foreach ($playerUniverses as $playerUniverse) {
-            $this->playerUtil()->deletePlayer($playerUniverse['user_id']);
+            $this->playerDeletion()->deletePlayer($playerUniverse['user_id']);
         }
         $db = $this->db;
         $sql = 'SELECT `id` FROM %%ACCOUNTS%% WHERE `id` = :accountId;';
@@ -204,7 +204,7 @@ class AccountUtil
      * Get Universes in which the Account has a User
      *
      * @param int $accountId
-     * @return array
+     * @return array<mixed>
      */
     public function get_player_universes(int $accountId): array
     {
@@ -235,7 +235,7 @@ class AccountUtil
      * Get Universes in which the Account has no User
      *
      * @param int $accountId
-     * @return array
+     * @return array<mixed>
      */
     public function get_non_player_universes(int $accountId): array
     {
@@ -286,7 +286,7 @@ class AccountUtil
      * Get data of Account
      *
      * @param int $accountId
-     * @return array
+     * @return array<mixed>
      */
     public function get_account(int $accountId): array
     {
@@ -371,7 +371,7 @@ class AccountUtil
             ]);
             if ($vMode) {
                 $planet = [];
-                $this->playerUtil()->enable_vmode($user, $planet, true);
+                $this->vacationMode()->enable_vmode($user, $planet, true);
             }
         }
     }

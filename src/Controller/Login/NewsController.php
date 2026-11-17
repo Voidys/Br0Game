@@ -6,13 +6,12 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Runtime\SafeFile;
 use App\Content\HtmlContent;
 use App\Content\ImageProcessor;
-use App\Routing\GamePage;
+use App\Routing\GameRoute;
 use App\Runtime\ProjectPaths;
 
 /**
- * ./?page=news: paginated list, ./?page=news&id=N single article.
+ * /news: paginated list, /news/{id} single article.
  */
-#[GamePage('index', 'news')]
 final class NewsController extends AbstractLoginController
 {
     private const PER_PAGE = 10;
@@ -21,30 +20,32 @@ final class NewsController extends AbstractLoginController
      * News list (paged, pinned first) or, with id, one article; unknown ids end in a message. Request: id, p (page).
      * Article texts are rendered through the HTML sanitizer.
      */
+    #[GameRoute('index', 'news', 'news')]
+    #[GameRoute('index', 'news/{id}', 'news', 'article', requirements: ['id' => '\d+'])]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         $html = new HtmlContent();
         $now = $this->state->runtime->timestamp;
 
-        $id = (int) $this->http()->_GP('id', 0);
+        $id = $this->input()->int('id');
         if ($id > 0) {
             $row = $this->db->selectSingle("SELECT * FROM %%NEWS%% WHERE id = :id AND status = 1 AND date <= :now;", [
                 ':id' => $id,
                 ':now' => $now,
             ]);
             if (empty($row)) {
-                $this->printMessage($LNG['news_does_not_exist'], [['label' => $LNG['news_back'], 'url' => './?page=news']]);
+                return $this->messageResponse($LNG['news_does_not_exist'], [['label' => $LNG['news_back'], 'url' => $this->router->generate('login_news_show')]]);
             }
-            $this->assign([
+
+            return $this->render('login/page.news.default.html.twig', [
                 'article' => $this->present($row, $html) + ['text' => new \Twig\Markup($this->body($row, $html), 'UTF-8')],
             ]);
-            return $this->render('login/page.news.default.html.twig');
         }
 
         $total = (int) ($this->db->selectSingle("SELECT COUNT(*) AS n FROM %%NEWS%% WHERE status = 1 AND date <= :now;", [':now' => $now], 'n') ?? 0);
         $pages = max(1, (int) ceil($total / self::PER_PAGE));
-        $page = min($pages, max(1, (int) $this->http()->_GP('p', 1)));
+        $page = min($pages, max(1, $this->input()->int('p', 1)));
 
         $rows = $this->db->fetchAll(
             $this->db->qb()
@@ -66,20 +67,25 @@ final class NewsController extends AbstractLoginController
             $newsList[] = $item;
         }
 
-        $this->assign([
+        return $this->render('login/page.news.default.html.twig', [
             'newsList' => $newsList,
             'page'     => $page,
             'pages'    => $pages,
         ]);
-
-        return $this->render('login/page.news.default.html.twig');
     }
 
+    /**
+     * @param array<string, mixed> $row
+     */
     private function body(array $row, HtmlContent $html): string
     {
         return $row['format'] === 'text' ? $html->fromPlainText($row['text']) : $html->rich($row['text']);
     }
 
+    /**
+     * @param array<string, mixed> $row
+     * @return array<mixed>
+     */
     private function present(array $row, HtmlContent $html): array
     {
         $LNG = $this->state->LNG;
@@ -94,7 +100,10 @@ final class NewsController extends AbstractLoginController
         ];
     }
 
-    /** @return array{src: string, srcset: ?string, width: int, height: int}|null srcset lists the width variants made on upload (null for older uploads: `app:images:variants uploads/news --widths=480,800,1200` backfills them) */
+    /**
+     * @param array<string, mixed> $row
+     * @return array{src: string, srcset: ?string, width: int, height: int}|null srcset lists the width variants made on upload (null for older uploads: `app:images:variants uploads/news --widths=480,800,1200` backfills them)
+     */
     private function image(array $row): ?array
     {
         $name = basename((string) ($row['image'] ?? ''));

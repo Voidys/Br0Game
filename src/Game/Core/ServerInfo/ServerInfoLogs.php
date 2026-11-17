@@ -2,10 +2,7 @@
 
 namespace App\Game\Core\ServerInfo;
 
-use App\Game\Core\ConfigRegistry;
-use App\Game\Core\Database;
 use App\Game\Core\Singleton;
-use App\Runtime\SafeFile;
 
 /**
  * Logs and caches section: size and recent errors of the log files, cache sizes.
@@ -16,8 +13,6 @@ class ServerInfoLogs
     private const LOG_TAIL_BYTES = 2097152;
 
     public function __construct(
-        private readonly Database $db,
-        private readonly ConfigRegistry $configs,
         private readonly Singleton $state,
     ) {}
 

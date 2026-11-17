@@ -18,9 +18,8 @@
 namespace App\Controller\Login;
 
 /** Error page of the public area. */
-#[\App\Routing\GamePage('index', 'error')]
 class ErrorController extends AbstractLoginController
 {
-    use \App\Controller\Shared\ErrorPage;
+    use \App\Controller\Shared\ErrorResponsePage;
     protected $disableEcoSystem = true;
 }

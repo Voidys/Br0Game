@@ -62,7 +62,11 @@ class BotEngine
         (new GameData($this->db, $this->configs, $this->state))->load();
     }
 
-    /** Random integer in the inclusive range [min, max] given as a two-element profile setting (order-insensitive, default 1). */
+    /**
+     * Random integer in the inclusive range [min, max] given as a two-element profile setting (order-insensitive, default 1).
+     *
+     * @param array<mixed> $range
+     */
     private function roll(array $range): int
     {
         $min = (int) ($range[0] ?? 1);
@@ -478,6 +482,8 @@ class BotEngine
      * wait decision and BotActions executes it. A rejected decision is logged as 'wait'.
      *
      * @param array<string, mixed> $session session state (`left` actions, `expo`/`colo` flags), updated in place
+     * @param array<mixed> $personality
+     * @param array<mixed> $s
      */
     private function step(BotActions $ctx, array $s, array &$personality, float $skill, array &$session, int $userId, int $universe): void
     {
@@ -542,6 +548,8 @@ class BotEngine
     /**
      * Whether the bot comes online now: `activity` holds 24 probabilities (0-1) by hour of day; after
      * `pattern_shift_days` the daily rhythm moves by `pattern_shift_hours`, so bots do not keep the same schedule forever.
+     *
+     * @param array<mixed> $s
      */
     private function rollActive(array $s, int $now, int $createdAt): bool
     {
@@ -557,7 +565,12 @@ class BotEngine
         return mt_rand(1, 10000) <= (float) $activity[$index] * 10000;
     }
 
-    /** Persists skill, personality JSON, `next_tick` and `session_until` of the bot (unix timestamps). */
+    /**
+     * Persists skill, personality JSON, `next_tick` and `session_until` of the bot (unix timestamps).
+     *
+     * @param array<string, mixed> $bot
+     * @param array<mixed> $personality
+     */
     private function save(array $bot, float $skill, array $personality, int $nextTick, int $sessionUntil): void
     {
         $this->db->update(

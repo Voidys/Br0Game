@@ -2,6 +2,7 @@
 
 namespace App\Game\Missions\Expedition;
 
+use App\Game\Enum\MessageType;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\BattleEngine\BattleFleet;
 use App\Game\BattleEngine\BattleHandler;
@@ -185,11 +186,11 @@ class ExpeditionCombatEvent extends ExpeditionEvent
 
         $Message .= '<br><br>' . $report['msg'];
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_BATTLE_REPORT,
+            MessageType::BattleReport->value,
             $LNG['sys_mess_attack_report'],
             $report['msg'],
             $this->fleet['stay_time'],

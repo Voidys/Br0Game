@@ -4,9 +4,9 @@
   {% for TicketID, TicketInfo in ticketList %}
     {% if (closed and TicketInfo.status == 2) or (not closed and TicketInfo.status < 2) %}
     <tr{% if withCategory %} data-category="{{ TicketInfo.categoryID }}"{% endif %}>
-      <td class="num"><a href="admin?page=support&amp;mode=view&amp;id={{ TicketID }}">#{{ TicketID }}</a></td>
+      <td class="num"><a href="{{ path('admin_support_view', {id: TicketID}) }}">#{{ TicketID }}</a></td>
       <td>{{ TicketInfo.username }}</td>
-      <td><a href="admin?page=support&amp;mode=view&amp;id={{ TicketID }}">{{ TicketInfo.subject }}</a></td>
+      <td><a href="{{ path('admin_support_view', {id: TicketID}) }}">{{ TicketInfo.subject }}</a></td>
       <td class="num">{{ TicketInfo.answer - 1 }}</td>
       <td class="nowrap">{{ TicketInfo.time }}</td>
       <td>

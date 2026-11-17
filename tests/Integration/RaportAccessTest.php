@@ -6,6 +6,7 @@ namespace App\Tests\Integration;
 
 use App\Controller\Game\RaportController;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\AuthLevel;
 
 /**
  * Battle report visibility: participants and staff see the full report; a report without stored attacker/defender
@@ -36,7 +37,7 @@ final class RaportAccessTest extends GameTestCase
     {
         [$attacker] = $this->createPlayer();
         [$defender] = $this->createPlayer();
-        [$staff] = $this->createPlayer(['authlevel' => AUTH_MOD]);
+        [$staff] = $this->createPlayer(['authlevel' => AuthLevel::Moderator->value]);
         $list = $attacker['id'] . ',' . 999999;
 
         $this->assertTrue($this->access($attacker, $list, (string) $defender['id'])[0]);

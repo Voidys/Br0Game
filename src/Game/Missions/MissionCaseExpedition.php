@@ -19,12 +19,12 @@ namespace App\Game\Missions;
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\MessageType;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\Core\ExpeditionDeckHandler;
 use App\Game\Core\Language;
 use App\Game\Missions\Expedition\ExpeditionCombatEvent;
 use App\Game\Missions\Expedition\ExpeditionContext;
-use App\Game\Missions\Expedition\ExpeditionFleetValue;
 use App\Game\Missions\Expedition\ExpeditionResourceEvent;
 use App\Game\Missions\Expedition\ExpeditionShipEvent;
 use App\Game\Missions\Expedition\ExpeditionSize;
@@ -44,6 +44,8 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
     /**
      * Loads the owner's language and builds the ExpeditionContext that lets the event classes read the fleet and
      * change its columns (UpdateFleet / UpdateFleetLog / KillFleet) without knowing this mission class.
+     *
+     * @param array<string, mixed> $fleet
      */
     public function __construct(array $fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
     {
@@ -76,14 +78,6 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
         $this->setState(FLEET_HOLD);
         $this->UpdateFleet('cannotCancel', 1);
         $this->SaveFleet();
-    }
-
-    /**
-     * @return array{0: int|float, 1: int|float} expedition points and free cargo capacity of the fleet
-     */
-    private function calculatePointsAndCapacity(): array
-    {
-        return (new ExpeditionFleetValue($this->db, $this->configs, $this->state))->pointsAndCapacity($this->_fleet);
     }
 
     /**
@@ -310,11 +304,11 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
             $Message .= $this->frequencyHint();
         }
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_EXPEDITION,
+            MessageType::Expedition->value,
             $LNG['sys_expe_report'],
             $Message,
             $this->_fleet['stay_time'],
@@ -417,11 +411,11 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
             }
         }
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['return_time'],

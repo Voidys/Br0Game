@@ -2,14 +2,14 @@
 
 namespace App\Controller\Game;
 
-use App\Game\Core\AccountUtil;
 use App\Game\Core\Session;
 use App\Game\Core\WikiSsoCodeStore;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Single sign-on bridge to the wiki: posts a one-time code to the wiki login URL.
  */
-#[\App\Routing\GamePage('game', 'wikiLogin')]
 class WikiLoginController extends AbstractGameController
 {
     private ?\App\Security\CspNonce $cspNonce = null;
@@ -23,31 +23,23 @@ class WikiLoginController extends AbstractGameController
 
     protected $disableEcoSystem = true;
 
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Single sign-on to the wiki: for a logged-in account stores a one-time code (WikiSsoCodeStore, with account id and name) and renders an auto-submitting
      * form to the wiki login URL from config/game.php. 403 without a session, 503 when no wiki SSO URL is configured.
      */
-    public function show()
+    #[GameRoute('game', 'game/wiki-login', 'wikiLogin')]
+    public function show(): Response
     {
-
         require $this->state->runtime->rootPath . 'config/game.php';
 
         $accountId = (int) $this->sessions()->load()->accountId;
 
         if ($accountId <= 0) {
-            $this->http()->sendHeader('HTTP/1.1 403 Forbidden');
-            throw new \App\Game\Core\EndOfRequest();
+            return new Response('', Response::HTTP_FORBIDDEN);
         }
 
         if (empty($wikiSsoUrl)) {
-            $this->http()->sendHeader('HTTP/1.1 503 Service Unavailable');
-            echo 'Wiki-SSO ist auf diesem Server nicht konfiguriert.';
-            throw new \App\Game\Core\EndOfRequest();
+            return new Response('Wiki-SSO ist auf diesem Server nicht konfiguriert.', Response::HTTP_SERVICE_UNAVAILABLE);
         }
 
         $account = $this->accountUtil()->get_account($accountId);
@@ -60,8 +52,7 @@ class WikiLoginController extends AbstractGameController
             'iat'         => time(),
         ]);
 
-        $this->renderAutoSubmitForm($code, $wikiSsoUrl);
-        throw new \App\Game\Core\EndOfRequest();
+        return $this->autoSubmitForm($code, $wikiSsoUrl);
     }
 
     private function generateCode()
@@ -70,7 +61,7 @@ class WikiLoginController extends AbstractGameController
     }
 
     /**
-     * Prints the hand-off page of the wiki single sign-on: a form that POSTs the one-time code to the configured
+     * The hand-off page of the wiki single sign-on: a form that POSTs the one-time code to the configured
      * wiki URL and submits itself. The Content-Security-Policy normally only allows forms to this site and nonce
      * scripts, so the wiki origin is opened as form target for this response and the script carries the nonce;
      * the submit button stays visible as fallback when the script does not run.
@@ -78,7 +69,7 @@ class WikiLoginController extends AbstractGameController
      * @param string $code       one-time code stored in WikiSsoCodeStore, redeemed by the wiki through internal_sso_resolve
      * @param string $wikiSsoUrl the wiki's SSO endpoint (config/game.php $wikiSsoUrl)
      */
-    private function renderAutoSubmitForm($code, $wikiSsoUrl)
+    private function autoSubmitForm($code, $wikiSsoUrl): Response
     {
         $url = htmlspecialchars($wikiSsoUrl, ENT_QUOTES);
         $codeEscaped = htmlspecialchars($code, ENT_QUOTES);
@@ -88,7 +79,7 @@ class WikiLoginController extends AbstractGameController
             $nonce = htmlspecialchars($this->cspNonce->value(), ENT_QUOTES);
         }
 
-        echo <<<HTML
+        return new Response(<<<HTML
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><title>Weiterleitung zum Wiki...</title></head>
@@ -100,6 +91,6 @@ class WikiLoginController extends AbstractGameController
     <script nonce="{$nonce}">document.getElementById('wikiSsoForm').submit();</script>
 </body>
 </html>
-HTML;
+HTML);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\AuthLevel;
+
 /**
  * View helpers of the game: number/time formatting, rights and module checks, the message page
  * (formerly globals in functions.php, which remain as wrappers). Twig reaches them through
@@ -154,7 +156,7 @@ class ViewHelpers
     {
 
         $USER = $this->state->USER;
-        return ($USER['authlevel'] == AUTH_ADM || (isset($USER['rights']) && isset($USER['rights'][$side]) && $USER['rights'][$side] == 1));
+        return ($USER['authlevel'] == AuthLevel::Admin->value || (isset($USER['rights']) && isset($USER['rights'][$side]) && $USER['rights'][$side] == 1));
     }
 
     /** date() with localized day/month names and optional target time zone (formerly _date()) */

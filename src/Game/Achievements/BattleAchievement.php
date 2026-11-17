@@ -13,8 +13,6 @@ use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\BattleEngine\BattleResult;
 use App\Game\Core\Achievement;
 use App\Game\Core\Database;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /**
  * Achievement rules triggered by fights (checkBattleAchievements() for real fights, checkExpoBattleAchievements()
@@ -34,9 +32,9 @@ class BattleAchievement
     /**
      * Check for achievements related to pvp battles
      *
-     * @param array			$reportInfo       	The report array
+     * @param array<string, mixed>			$reportInfo       	The report array
      * @param BattleResult		$combatResult       The combat result
-     * @param array			$DATA       		The report data array
+     * @param array<mixed>			$DATA       		The report data array
      */
     public function checkBattleAchievements($reportInfo, BattleResult $combatResult, $DATA)
     {
@@ -62,7 +60,7 @@ class BattleAchievement
     /**
      * Check for achievements related to expedition battles
      *
-     * @param array			$reportInfo       	The report array
+     * @param array<string, mixed>			$reportInfo       	The report array
      * @param BattleResult		$combatResult       The combat result
      */
     public function checkExpoBattleAchievements($reportInfo, BattleResult $combatResult)
@@ -75,7 +73,7 @@ class BattleAchievement
      * Check for achievement 6
      * Low performer: Have an attack come back with exqactly 1 metal, 1 crystal and 1 deuterium
      *
-     * @param array			$reportInfo       	The report array
+     * @param array<string, mixed>			$reportInfo       	The report array
      * @param BattleResult		$combatResult       The combat result
      */
     public function checkBattleAchievement6($reportInfo, BattleResult $combatResult)
@@ -93,7 +91,7 @@ class BattleAchievement
      * Check for achievement 39
      * The meaning of life: Attack someone with 42 ships
      *
-     * @param array			$reportInfo       	The report array
+     * @param array<string, mixed>			$reportInfo       	The report array
      * @param BattleResult		$combatResult       The combat result
      * @param int	 		$mainAttacker       The id of the User
      */
@@ -109,7 +107,7 @@ class BattleAchievement
      * Check for achievement 10
      * Marble game: Destroy one moon
      *
-     * @param array			$reportInfo       	The report array
+     * @param array<string, mixed>			$reportInfo       	The report array
      * @param int	 		$mainAttacker       The id of the User
      */
     public function checkBattleAchievement10($reportInfo, $mainAttacker)
@@ -136,7 +134,7 @@ class BattleAchievement
      * Check for achievement 47
      * Jack the Ripper: Destroy 5 moons
     *
-    * @param array						$DATA       		The report data array
+    * @param array<mixed>						$DATA       		The report data array
     * @param int	 					$mainAttacker       The id of the User
     * @param AdvancedStatsHandler	 	$statsHandler		The stats handler object
      */
@@ -154,10 +152,10 @@ class BattleAchievement
      * Check for achievement 48
      * Rip the Jacker: Lose 5 rips while trying to destroy moons
      *
-     * @param array						$DATA       		The report data array
+     * @param array<mixed>						$DATA       		The report data array
      * @param int	 					$mainAttacker       The id of the User
      * @param AdvancedStatsHandler	 	$statsHandler       The stats handler object
-     * @param array						$reportInfo       	The report array
+     * @param array<string, mixed>						$reportInfo       	The report array
      */
     public function checkBattleAchievement48($DATA, $mainAttacker, AdvancedStatsHandler $statsHandler, $reportInfo)
     {
@@ -356,7 +354,7 @@ class BattleAchievement
      * @param BattleResult		$combatResult       The combat result
      * @param int	 		$planetDefender     The id of the User
      * @param Database	 	$db       			The database object
-     * @param array			$DATA       		The report data array
+     * @param array<mixed>			$DATA       		The report data array
      */
     public function checkBattleAchievement43(BattleResult $combatResult, $planetDefender, $db, $DATA)
     {
@@ -389,7 +387,7 @@ class BattleAchievement
      * Check for achievement 7
      * French revolution: Win against pirates or aliens with atleast 10.000 ships
      *
-     * @param array			$reportInfo       	The report array
+     * @param array<string, mixed>			$reportInfo       	The report array
      * @param BattleResult		$combatResult       The combat result
      * @param int	 		$mainAttacker       The id of the User
      */

@@ -8,51 +8,44 @@
 
 namespace App\Controller\Account;
 
+use App\Game\Enum\AuthLevel;
+use App\Game\Enum\MessageType;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Session;
-use App\Game\Core\Singleton;
 use App\Game\Core\Theme;
-use App\Game\Core\AccountUtil;
 
 /** Creates a player for the account in another universe (modes: show, send). */
-#[\App\Routing\GamePage('account', 'register')]
 class RegisterController extends AbstractAccountController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Registration form for another universe (request: uni). Shows the registration state of the universe (closed, registration
      * only, login only, open; admins are not restricted) - closed and login-only universes end in an error page - and the
      * settings of the account's existing players that can be copied (colors, mission priorities, simulator settings).
      */
+    #[GameRoute('account', 'account/register/{universe}', 'register', requirements: ['universe' => '\d+'])]
     public function show(): Response
     {
-        $uniId = $this->http()->_GP('uni', '0');
+        $uniId = $this->input()->int('universe');
         $LNG = $this->state->LNG;
         $ACCOUNT = $this->state->ACCOUNT;
         $LNG->includeData(['PUBLIC', 'INGAME', 'ACCOUNT']);
-        if ((int) $uniId !== 0 && !$this->isUniverse($uniId)) {
-            (new ErrorController())->withGameServicesOf($this)->showError($LNG['registerErrorUniClosed']);
+        if ($uniId !== 0 && !$this->isUniverse($uniId)) {
+            return (new ErrorController())->withGameServicesOf($this)->errorResponse($LNG['registerErrorUniClosed']);
         }
         $accountName = "";
         $status = "";
         $config = $this->configs->get($uniId);
-        if ($config->uni_status == STATUS_CLOSED && $ACCOUNT['authlevel'] < 3) {
+        if ($config->uni_status == STATUS_CLOSED && $ACCOUNT['authlevel'] < AuthLevel::Admin->value) {
             $status = $LNG->format('uni_status_regclosed_gameclosed');
-            (new ErrorController())->withGameServicesOf($this)->showError($LNG['uni_status_regclosed_gameclosed']);
-        } elseif ($config->uni_status == STATUS_REG_ONLY && $ACCOUNT['authlevel'] < 3) {
+
+            return (new ErrorController())->withGameServicesOf($this)->errorResponse($LNG['uni_status_regclosed_gameclosed']);
+        } elseif ($config->uni_status == STATUS_REG_ONLY && $ACCOUNT['authlevel'] < AuthLevel::Admin->value) {
             $status = $LNG->format('uni_status_regopen_gameclosed');
-        } elseif ($config->uni_status == STATUS_LOGIN_ONLY && $ACCOUNT['authlevel'] < 3) {
+        } elseif ($config->uni_status == STATUS_LOGIN_ONLY && $ACCOUNT['authlevel'] < AuthLevel::Admin->value) {
             $status = $LNG->format('uni_status_regclosed_gameopen');
-            (new ErrorController())->withGameServicesOf($this)->showError($LNG['uni_status_regclosed_gameopen']);
-        } elseif ($config->uni_status == STATUS_OPEN && $ACCOUNT['authlevel'] < 3) {
+
+            return (new ErrorController())->withGameServicesOf($this)->errorResponse($LNG['uni_status_regclosed_gameopen']);
+        } elseif ($config->uni_status == STATUS_OPEN && $ACCOUNT['authlevel'] < AuthLevel::Admin->value) {
             $status = $LNG->format('uni_status_regopen_gameopen');
         } else {
             $status = $LNG->format('uni_status_regopen_gameopen');
@@ -70,7 +63,8 @@ class RegisterController extends AbstractAccountController
         }
 
         $config = $this->configs->get();
-        $this->assign([
+
+        return $this->render('account/page.register.default.html.twig', [
             'Selectors'         => [
                 'timezones' => get_timezone_selector(),
                 'ImageSkins' => Theme::getAvailableImageThemes(),
@@ -82,7 +76,7 @@ class RegisterController extends AbstractAccountController
             'uniId' => $uniId,
             'status' => $status,
             'registerPasswordDesc' => $LNG->format('registerPasswordDesc', 6),
-            'toplink'       => "account?page=account",
+            'toplink'       => $this->router->generate('account_account_show'),
             'topname'       => $LNG->format('Back'),
             'userLang' => $ACCOUNT['lang'],
             'timezone' => $ACCOUNT['timezone'],
@@ -91,25 +85,24 @@ class RegisterController extends AbstractAccountController
             'defaultUnis' => $defaultUnis,
             'default' => $defaultUnis['default'],
         ]);
-
-        return $this->render('account/page.register.default.html.twig');
     }
 
     /**
      * Creates a player of the account in universe uni (mode=send). Request: uni, username, language, imageTheme, cssTheme,
      * timezone, colors, missionPrios, stbSettings ('default' or the universe id to copy from).
      * Refused when the universe does not accept registrations, the name is invalid or taken, or the account already has a player
-     * there. Creates player and home planet through PlayerUtil::createPlayer (a referral stored on the account is applied to the first
+     * there. Creates player and home planet through PlayerRegistration::createPlayer (a referral stored on the account is applied to the first
      * player: ref_id/ref_bonus, then cleared), logs the player in and redirects to /game.
      */
-    public function send()
+    #[GameRoute('account', 'account/register/{universe}', 'register', 'send', ['POST'], ['universe' => '\d+'])]
+    public function send(): Response
     {
         $LNG = $this->state->LNG;
         $ACCOUNT = $this->state->ACCOUNT;
-        $universe = $this->http()->_GP('uni', 0);
+        $universe = $this->input()->int('universe');
         $LNG->includeData(['PUBLIC', 'INGAME', 'ACCOUNT']);
         if ($universe != 0 && !$this->isUniverse($universe)) {
-            $this->printMessage($LNG['registerErrorUniClosed'], [[
+            return $this->messageResponse($LNG['registerErrorUniClosed'], [[
                 'label' => $LNG['registerBack'],
                 'url' => '#',
                 'action' => 'history-back',
@@ -119,41 +112,41 @@ class RegisterController extends AbstractAccountController
         $this->assign([
             'accountName' => $ACCOUNT['accountname'],
             'universe' => $config->uni_name,
-            'toplink'       => "account?page=account",
+            'toplink'       => $this->router->generate('account_account_show'),
             'topname'       => $LNG->format('Back'),
         ]);
         if ($config->uni_status == STATUS_CLOSED || $config->uni_status == STATUS_LOGIN_ONLY || $universe == 0) {
-            $this->printMessage($LNG['registerErrorUniClosed'], [[
+            return $this->messageResponse($LNG['registerErrorUniClosed'], [[
                 'label' => $LNG['registerBack'],
                 'url' => '#',
                 'action' => 'history-back',
             ]]);
         }
 
-        $userName = $this->http()->_GP('username', '', UTF8_SUPPORT);
-        $language = $this->http()->_GP('language', 'en');
-        $imageTheme = $this->http()->_GP('imageTheme', '');
-        $cssTheme = $this->http()->_GP('cssTheme', '');
-        $timezone = (string) $this->http()->_GP('timezone', '');
+        $userName = $this->input()->string('username', '', UTF8_SUPPORT);
+        $language = $this->input()->string('language', 'en');
+        $imageTheme = $this->input()->string('imageTheme');
+        $cssTheme = $this->input()->string('cssTheme');
+        $timezone = $this->input()->string('timezone');
         $timezone = in_array($timezone, \DateTimeZone::listIdentifiers(), true) ? $timezone : (string) $ACCOUNT['timezone'];
         $language = array_key_exists($language, $LNG->getAllowedLangs(false)) ? $language : $LNG->getLanguage();
-        $colors = $this->http()->_GP('colors', 'default');
-        $mission = $this->http()->_GP('missionPrios', 'default');
-        $stb = $this->http()->_GP('stbSettings', 'default');
+        $colors = $this->input()->string('colors', 'default');
+        $mission = $this->input()->string('missionPrios', 'default');
+        $stb = $this->input()->string('stbSettings', 'default');
 
         $errors = $this->newPlayerErrors($userName, $universe);
 
         [$colorSettingsUni, $missionSettingsUni, $stbSettingsUni] = $this->settingsSourceUniverses($colors, $mission, $stb);
 
         if (!empty($errors)) {
-            $this->abortWithErrors($errors);
+            return $this->abortWithErrors($errors);
         }
 
         $referralID = $this->validReferralId($universe);
 
         $validationKey = bin2hex(random_bytes(16));
 
-        [$userID, $planetID] = $this->playerUtil()->createPlayer(
+        [$userID, $planetID] = $this->playerRegistration()->createPlayer(
             $ACCOUNT['id'],
             $universe,
             $userName,
@@ -181,7 +174,7 @@ class RegisterController extends AbstractAccountController
         $session->adminAccess	= 0;
         $session->save();
 
-        $this->http()->redirectTo('game');
+        return $this->redirectResponse('game');
     }
 
     /** Is $uniId one of the universes of this installation? */
@@ -191,21 +184,22 @@ class RegisterController extends AbstractAccountController
     }
 
     /**
-     * Ends the request with the error list as message page (back link = browser history).
+     * The error list as message page (back link = browser history).
      *
      * @param string[] $errors translated error messages
      */
-    private function abortWithErrors(array $errors): never
+    private function abortWithErrors(array $errors): Response
     {
         $LNG = $this->state->LNG;
         $ACCOUNT = $this->state->ACCOUNT;
 
         $this->assign([
             'accountName' => $ACCOUNT['accountname'],
-            'toplink'       => "account?page=account",
+            'toplink'       => $this->router->generate('account_account_show'),
             'topname'       => $LNG->format('Back'),
         ]);
-        $this->printMessage(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
+
+        return $this->messageResponse(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
             'label' => $LNG['registerBack'],
             'url' => '#',
             'action' => 'history-back',
@@ -267,7 +261,7 @@ class RegisterController extends AbstractAccountController
 
     /**
      * Maps the "copy settings from universe" dropdowns (colors, mission priorities, STB settings) to a universe id as
-     * string or 'default'. The dropdowns are keyed by universe id; PlayerUtil::createPlayer only copies from the
+     * string or 'default'. The dropdowns are keyed by universe id; PlayerRegistration::createPlayer only copies from the
      * account's own players.
      *
      * @return array{0: string, 1: string, 2: string} universe of colors, mission priorities and STB settings
@@ -277,7 +271,7 @@ class RegisterController extends AbstractAccountController
         $colorSettingsUni = 'default';
         $missionSettingsUni = 'default';
         $stbSettingsUni = 'default';
-        // the dropdowns are keyed by universe id; PlayerUtil::createPlayer only copies from the account's own players
+        // the dropdowns are keyed by universe id; PlayerRegistration::createPlayer only copies from the account's own players
         if ($colors != 'default' && (int) $colors > 0) {
             $colorSettingsUni = (string) (int) $colors;
         }
@@ -359,6 +353,6 @@ class RegisterController extends AbstractAccountController
         $subject 	= $LNG['registerWelcomePMSubject'];
         $message 	= $LNG->format('registerWelcomePMText', $config->game_name);
 
-        $this->playerUtil()->sendMessage($userID, 1, $senderName, MESSAGE_TYPE_GAME, $subject, $message, $this->state->runtime->timestamp, 1, $universe);
+        $this->playerMessenger()->sendMessage($userID, 1, $senderName, MessageType::Game->value, $subject, $message, $this->state->runtime->timestamp, 1, $universe);
     }
 }

@@ -15,17 +15,17 @@ class PlanetCreator extends CreatorTab
         if ($this->state->requestPost) {
             $db = $this->db;
 
-            $id = $this->http()->_GP('id', 0);
-            $Galaxy = $this->http()->_GP('galaxy', 0);
-            $System = $this->http()->_GP('system', 0);
-            $Planet = $this->http()->_GP('planet', 0);
-            $name = $this->http()->_GP('name', '', UTF8_SUPPORT);
-            $field_max = $this->http()->_GP('field_max', 0);
+            $id = $this->input()->int('id');
+            $Galaxy = $this->input()->int('galaxy');
+            $System = $this->input()->int('system');
+            $Planet = $this->input()->int('planet');
+            $name = $this->input()->string('name', '', UTF8_SUPPORT);
+            $field_max = $this->input()->int('field_max');
 
             $config = $this->configs->get($this->universe()->getEmulated());
 
             if ($Galaxy > $config->max_galaxy || $System > $config->max_system || $Planet > $config->max_planets) {
-                $this->responder->message($LNG['po_complete_all2'], '?page=creator&mode=planet', 3, true);
+                $this->responder->message($LNG['po_complete_all2'], 'admin/creator/planet', 3, true);
             }
 
 
@@ -36,11 +36,11 @@ class PlanetCreator extends CreatorTab
                     ':universe' => $this->universe()->getEmulated(),
                 ],
             );
-            if (!$this->playerUtil()->checkPosition($this->universe()->getEmulated(), $Galaxy, $System, $Planet) || !isset($ISUser)) {
-                $this->responder->message($LNG['po_complete_all'], '?page=creator&mode=planet', 3, true);
+            if (!$this->planetPositions()->checkPosition($this->universe()->getEmulated(), $Galaxy, $System, $Planet) || !isset($ISUser)) {
+                $this->responder->message($LNG['po_complete_all'], 'admin/creator/planet', 3, true);
             }
 
-            $planetId = $this->playerUtil()->createPlanet(
+            $planetId = $this->planetManager()->createPlanet(
                 $Galaxy,
                 $System,
                 $Planet,
@@ -61,7 +61,7 @@ class PlanetCreator extends CreatorTab
             }
             $db->updateRows('PLANETS', $set, ['id' => $planetId]);
 
-            $this->responder->message($LNG['po_complete_succes'], '?page=creator&mode=planet', 3, true);
+            $this->responder->message($LNG['po_complete_succes'], 'admin/creator/planet', 3, true);
         }
 
         $this->responder->assign([

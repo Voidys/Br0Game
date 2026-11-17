@@ -26,6 +26,12 @@ trait GameUtilities
         return $this->gameUtilityInstances[HTTP::class] ??= new HTTP($this->state);
     }
 
+    /** typed request input (`$this->input()->int('id')`) */
+    protected function input(): RequestInput
+    {
+        return $this->gameUtilityInstances[RequestInput::class] ??= new RequestInput($this->state);
+    }
+
     /** factory of the typed User/Planet snapshots built from the state arrays */
     protected function models(): \App\Game\Model\ModelFactory
     {
@@ -50,9 +56,64 @@ trait GameUtilities
         return $this->models()->planet($this->state->PLANET);
     }
 
-    protected function playerUtil(): PlayerUtil
+    protected function planetPositions(): \App\Game\Core\Player\PlanetPositions
     {
-        return $this->gameUtility(PlayerUtil::class);
+        return $this->gameUtility(\App\Game\Core\Player\PlanetPositions::class);
+    }
+
+    protected function planetManager(): \App\Game\Core\Player\PlanetManager
+    {
+        return $this->gameUtility(\App\Game\Core\Player\PlanetManager::class);
+    }
+
+    protected function planetReshuffle(): \App\Game\Core\Player\PlanetReshuffle
+    {
+        return $this->gameUtility(\App\Game\Core\Player\PlanetReshuffle::class);
+    }
+
+    protected function planetQueries(): \App\Game\Core\Player\PlanetQueries
+    {
+        return $this->gameUtility(\App\Game\Core\Player\PlanetQueries::class);
+    }
+
+    protected function playerRegistration(): \App\Game\Core\Player\PlayerRegistration
+    {
+        return $this->gameUtility(\App\Game\Core\Player\PlayerRegistration::class);
+    }
+
+    protected function playerDeletion(): \App\Game\Core\Player\PlayerDeletion
+    {
+        return $this->gameUtility(\App\Game\Core\Player\PlayerDeletion::class);
+    }
+
+    protected function playerMessenger(): \App\Game\Core\Player\PlayerMessenger
+    {
+        return $this->gameUtility(\App\Game\Core\Player\PlayerMessenger::class);
+    }
+
+    protected function vacationMode(): \App\Game\Core\Player\VacationMode
+    {
+        return $this->gameUtility(\App\Game\Core\Player\VacationMode::class);
+    }
+
+    protected function playerLookup(): \App\Game\Core\Player\PlayerLookup
+    {
+        return $this->gameUtility(\App\Game\Core\Player\PlayerLookup::class);
+    }
+
+    protected function protectionRules(): \App\Game\Core\Player\ProtectionRules
+    {
+        return $this->gameUtility(\App\Game\Core\Player\ProtectionRules::class);
+    }
+
+    protected function honorPoints(): \App\Game\Core\Player\HonorPoints
+    {
+        return $this->gameUtility(\App\Game\Core\Player\HonorPoints::class);
+    }
+
+    protected function playerCharts(): \App\Game\Core\Player\PlayerCharts
+    {
+        return $this->gameUtility(\App\Game\Core\Player\PlayerCharts::class);
     }
 
     protected function fleetFunctions(): FleetFunctions

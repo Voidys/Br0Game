@@ -4,11 +4,13 @@
   (homepage), layout.normal (content pages in a card), layout.popup (messages without navigation);
   account/layout.site puts the board in this frame for visitors without login.
 #}
-{% set currentPage = (app.request.query.get('page')|default('index'))|lower %}
+{% set currentPage = (app.request.attributes.get('_page')|default('index'))|lower %}
 <!DOCTYPE html>
 <html lang="{{ lang }}" data-dialog-ok="{{ LNG.dialog_ok }}" data-dialog-cancel="{{ LNG.dialog_cancel }}">
 <head>
   <meta charset="utf-8">
+  {# pages live below the site root (/account/board, /news/7): relative asset URLs resolve against the universe directory #}
+  <base href="{{ app.request.basePath }}/{{ app.request.attributes.get('uni') }}">
   {{ csrf_meta() }}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {# versions all ES modules by mtime (imported modules carry no ?v=): App\\Twig\\GameExtension::importMap #}
@@ -52,19 +54,19 @@
         <a class="site-brand" href="./"><span>{{ gameName }}</span></a>
         <button type="button" class="icon-button site-menu-toggle" data-site-menu aria-expanded="false" aria-controls="site-nav">{{ icon('menu', LNG.home_menu) }}</button>
         <nav class="site-nav" id="site-nav" aria-label="{{ LNG.home_menu }}">
-          <a href="./?page=news"{% if currentPage == 'news' %} aria-current="page"{% endif %}>{{ LNG.menu_news }}</a>
-          <a href="./?page=HoF"{% if currentPage == 'hof' %} aria-current="page"{% endif %}>{{ LNG.siteTitleHOF }}</a>
-          <a href="./?page=battleHall"{% if currentPage == 'battlehall' %} aria-current="page"{% endif %}>{{ LNG.menu_battlehall }}</a>
-          <a href="./?page=screens"{% if currentPage == 'screens' %} aria-current="page"{% endif %}>{{ LNG.buttonScreenshot }}</a>
-          <a href="./?page=rules"{% if currentPage == 'rules' %} aria-current="page"{% endif %}>{{ LNG.menu_rules }}</a>
+          <a href="{{ path('login_news_show') }}"{% if currentPage == 'news' %} aria-current="page"{% endif %}>{{ LNG.menu_news }}</a>
+          <a href="{{ path('login_hof_show') }}"{% if currentPage == 'hof' %} aria-current="page"{% endif %}>{{ LNG.siteTitleHOF }}</a>
+          <a href="{{ path('login_battle_hall_show') }}"{% if currentPage == 'battlehall' %} aria-current="page"{% endif %}>{{ LNG.menu_battlehall }}</a>
+          <a href="{{ path('login_screens_show') }}"{% if currentPage == 'screens' %} aria-current="page"{% endif %}>{{ LNG.buttonScreenshot }}</a>
+          <a href="{{ path('login_rules') }}"{% if currentPage == 'rules' %} aria-current="page"{% endif %}>{{ LNG.menu_rules }}</a>
           {% if game_config('board_enabled', '1') != '0' %}
-            <a href="account?page=board"{% if currentPage == 'board' %} aria-current="page"{% endif %}>{{ LNG.forum }}</a>
+            <a href="{{ path('account_board_show') }}"{% if currentPage == 'board' %} aria-current="page"{% endif %}>{{ LNG.forum }}</a>
           {% endif %}
         </nav>
         {% if loginAccountName is defined and loginAccountName is not null and currentPage != 'index' %}
           <nav class="site-account" aria-label="{{ loginAccountName }}">
             <a class="site-account__name" href="account" title="{{ LNG.home_account_lobby }}">{{ icon('user') }}<span>{{ loginAccountName }}</span></a>
-            <a class="site-account__logout" data-method="post" href="account?page=logout" title="{{ LNG.lm_logout }}">{{ icon('log-out') }}<span class="visually-hidden">{{ LNG.lm_logout }}</span></a>
+            <a class="site-account__logout" data-method="post" href="{{ path('account_logout_show') }}" title="{{ LNG.lm_logout }}">{{ icon('log-out') }}<span class="visually-hidden">{{ LNG.lm_logout }}</span></a>
           </nav>
         {% endif %}
         {% if languages|length > 1 %}
@@ -88,10 +90,10 @@
       <div class="site-wrap site-footer__inner">
         <span>{% if gameName is empty or gameName == 'Br0Game' %}© Project Br0Game{% else %}© {{ gameName }} on Project Br0Game{% endif %}</span>
         <nav aria-label="Footer">
-          <a href="./?page=team">{{ LNG.home_team }}</a>
-          <a href="./?page=banList">{{ LNG.menu_banlist }}</a>
-          <a href="./?page=disclamer">{{ LNG.menu_disclamer }}</a>
-          <a href="./?page=dataPrivacy">{{ LNG.siteTitleDataPrivacy }}</a>
+          <a href="{{ path('login_team_show') }}">{{ LNG.home_team }}</a>
+          <a href="{{ path('login_ban_list_show') }}">{{ LNG.menu_banlist }}</a>
+          <a href="{{ path('login_disclamer_show') }}">{{ LNG.menu_disclamer }}</a>
+          <a href="{{ path('login_data_privacy_show') }}">{{ LNG.siteTitleDataPrivacy }}</a>
           {% set sourceUrl = game_config('source_url') %}
           {% if sourceUrl %}<a href="{{ sourceUrl|e('html_attr') }}" target="_blank" rel="noopener" title="AGPL-3.0">{{ LNG.source_code }}</a>{% endif %}
         </nav>

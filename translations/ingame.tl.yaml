@@ -260,7 +260,7 @@ al_diplo_accept_yes_confirm: Tanggapin ang pact na ito?
 al_diplo_accept_yes_mes: Napirmahan ang pact (%s) sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>!
 al_diplo_ally: Alliance
 al_diplo_ask: Request ng Pact
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Isang request ng pact]</a> (%s) ay ipinadala mula sa <b>%s</b> papunta sa <b>%s</b>.<br>Dahilan: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[Isang request ng pact]</a> (%s) ay ipinadala mula sa <b>%s</b> papunta sa <b>%s</b>.<br>Dahilan: %s'
 al_diplo_confirm_delete: Tapusin ang pact na ito?
 al_diplo_create: Humiling ng pact
 al_diplo_create_done: Naipadala ang request ng pact.
@@ -268,7 +268,7 @@ al_diplo_delete: Natapos ang pact
 al_diplo_delete_mes: Natapos na ang pact (%s) sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>.
 al_diplo_exists: May aktibo o nakabinbing pact ka na sa %s.
 al_diplo_head: Pamamahala ng Diplomasya
-al_diplo_info: '<p>Sa page na ito, mapamamahalaan mo ang mga diplomatic pact ng alliance mo.</p><p>Nakalista sa ibaba ang mga uri ng pact. Karagdagang impormasyon: <a href="game?page=questions">FAQ</a> o ang <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+al_diplo_info: '<p>Sa page na ito, mapamamahalaan mo ang mga diplomatic pact ng alliance mo.</p><p>Nakalista sa ibaba ang mga uri ng pact. Karagdagang impormasyon: <a href="game/faq">FAQ</a> o ang <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
 al_diplo_level:
 - Main
 - Wing
@@ -287,7 +287,7 @@ al_diplo_text: Request/Dahilan
 al_diplo_war: Deklarasyon ng Digmaan
 al_diplo_war_end: Deklarasyon ng Kapayapaan
 al_diplo_war_end_mes: Katatapos lang ng %s sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>.
-al_diplo_war_mes: 'Idineklara ng alliance na <b>%1$s</b> ang %3$s laban sa <b>%2$s</b>! <br>Dahilan:<br>%4$s<br><br>Impormasyon: magsisimula ang digmaan sa loob ng <b>24 oras</b>, kung saan sususpindihin ang Bash Rule.<br>Para sa karagdagang impormasyon, tingnan ang <a href="./?page=rules&lang=en" target="_blank">[Rules]</a>.'
+al_diplo_war_mes: 'Idineklara ng alliance na <b>%1$s</b> ang %3$s laban sa <b>%2$s</b>! <br>Dahilan:<br>%4$s<br><br>Impormasyon: magsisimula ang digmaan sa loob ng <b>24 oras</b>, kung saan sususpindihin ang Bash Rule.<br>Para sa karagdagang impormasyon, tingnan ang <a href="./rules?lang=en" target="_blank">[Rules]</a>.'
 al_diplo_withdraw: Binawi ang request ng pact.
 al_diplo_withdraw_confirm: Bawiin ang request ng pact na ito?
 al_diplo_withdraw_mes: Binawi ang request ng pact (%s) sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>.
@@ -337,7 +337,7 @@ al_name: Palitan ang pangalan ng alliance
 al_name_required: Maglagay ng pangalan ng alliance.
 al_link_too_long: Masyadong mahaba ang link (hanggang 255 character lang).
 al_name_tag_too_long: Hanggang 8 character lang ang tag at 30 ang pangalan.
-al_new_apply: Nakatanggap ang alliance mo ng <a href="?page=alliance&mode=admin&action=manageApply">[isang application]</a> mula sa manlalarong <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_apply: Nakatanggap ang alliance mo ng <a href="game/alliance/admin/applications">[isang application]</a> mula sa manlalarong <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Bagong Miyembro
 al_new_requests: '%d nakabinbin'
 al_newname_specialchar: Titik, numero, espasyo, underscore, gitling at tuldok lang ang puwede sa mga pangalan at tag ng alliance.
@@ -1167,7 +1167,7 @@ ov_temp_unit: °C
 ov_temperature: Temperatura
 ov_ticketbot: Ticketbot
 ov_to: hanggang
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Maling pangalan!
 ov_wrong_pass: Maling password!
 own: Sarili
@@ -1334,7 +1334,7 @@ sys_forward: Susunod
 sys_game_is_setup: <h1>Tapos na ang pagrehistro!</h1><br><p>Inihahanda namin ang universe mo!</p><!--discord_url--><p>Samantala, para hindi ka mahuli sa anuman, sumali sa amin sa</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Hindi aktibo ang module na ito
 sys_nomore_level: Wala kang %s na magigiba.
-sys_notenough_money: 'Kulang ang resource sa %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> para itayo ang %s. <br>Meron ka: %s %s, %s %s at %s %s. <br>Nagkakahalaga ito ng: %s %s, %s %s at %s %s.'
+sys_notenough_money: 'Kulang ang resource sa %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> para itayo ang %s. <br>Meron ka: %s %s, %s %s at %s %s. <br>Nagkakahalaga ito ng: %s %s, %s %s at %s %s.'
 sys_refferal_from: System
 sys_refferal_text: Ang manlalarong %s, na na-recruit mo, ay umabot sa %s puntos.
 sys_refferal_title: Bonus ng Manlalaro %s

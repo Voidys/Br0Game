@@ -27,7 +27,7 @@ class PlayerCharts
      * the viewer lacks spy tech), the viewer's own total points at the same timestamps and relative/absolute score changes.
      *
      * @param int $targetUserId player shown
-     * @param array $USER viewing user row
+     * @param array<string, mixed> $USER viewing user row
      * @param int $timespan seconds of history
      * @return array{userId: int, points: array, bars: array}
      */
@@ -147,9 +147,9 @@ class PlayerCharts
      * Total points history of all members of an alliance for charts.
      *
      * @param int $allyId
-     * @param array $USER viewing user row (timezone)
+     * @param array<string, mixed> $USER viewing user row (timezone)
      * @param int $timespan seconds of history
-     * @return array
+     * @return array<mixed>
      */
     public function getAllianceChartPoints(int $allyId, array $USER, int $timespan = TIME_1_MONTH * 12): array
     {

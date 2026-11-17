@@ -168,7 +168,12 @@ final class LanguageFormatTest extends TestCase
         self::assertSame([], $problems, "placeholder mismatches:\n" . implode("\n", $problems));
     }
 
-    /** the keys the code fills with values: literals in format()/formatHtml()/LNG.format() calls */
+    /**
+     * the keys the code fills with values: literals in format()/formatHtml()/LNG.format() calls
+     *
+     * @param array<mixed> $knownKeys
+     * @return array<mixed>
+     */
     private function usedKeys(string $root, array $knownKeys): array
     {
         $known = array_flip($knownKeys);
@@ -203,7 +208,11 @@ final class LanguageFormatTest extends TestCase
         return array_keys($keys);
     }
 
-    /** all top-level texts of one language (every domain merged, as the game does) */
+    /**
+     * all top-level texts of one language (every domain merged, as the game does)
+     *
+     * @return array<mixed>
+     */
     private function loadLocale(string $root, string $locale): array
     {
         $texts = [];

@@ -1,7 +1,7 @@
 /**
  * Core helpers of the game UI (native ES module, no dependencies): DOM, HTTP, cookies, number and
- * time formatting, visibility-aware intervals. The legacy global names (pretty_number, OpenPopup,
- * ...) stay available on window for inline handlers in the templates.
+ * time formatting, visibility-aware intervals. Modules import what they need; nothing is published on
+ * window (templates have no inline handlers).
  */
 
 // ---------------------------------------------------------------------------------------- DOM
@@ -322,9 +322,3 @@ export function handleErr(message, url, line, col, error) {
   window.Dialog?.alert(`${text}\nClick OK to continue viewing this page.`);
   return true;
 }
-
-// legacy globals for inline handlers and page scripts
-Object.assign(window, {
-  number_format, removeE, pretty_number, shortly_number, pad, dezInt, getFormatedDate, getFormatedTime,
-  getRestTimeFormat, setVisibleInterval, clearVisibleInterval, OpenPopup, NotifyBox, handleErr,
-});

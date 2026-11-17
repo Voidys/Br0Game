@@ -2,6 +2,7 @@
 
 namespace App\Game\Bots\Raid;
 
+use App\Game\Enum\Mission;
 use App\Game\Bots\BotActions;
 use App\Game\Bots\BotLog;
 use App\Game\Core\ConfigRegistry;
@@ -286,6 +287,10 @@ class BotRaids
      *
      * @param array<string, mixed> $target scouted target
      * @param array<string, mixed> $report parsed report
+     * @param array<string, mixed> $bot
+     * @param array<mixed> $mem
+     * @param array<mixed> $personality
+     * @param array<mixed> $s
      * @return int 1 when an attack was sent
      */
     private function considerAttack(BotActions $ctx, array $bot, array $s, array &$mem, array &$personality, array $target, array $report, int $probes, int $now): int
@@ -307,7 +312,7 @@ class BotRaids
         }
         $plan['min_ratio'] = (float) $s['min_profit_ratio'];
         $origin = $plan['origin'];
-        $sent = $this->dispatcher->send($ctx, $ctx->planets[$origin], $plan['fleet'], MISSION_ATTACK, $pid, (int) $target['user_id']);
+        $sent = $this->dispatcher->send($ctx, $ctx->planets[$origin], $plan['fleet'], Mission::Attack->value, $pid, (int) $target['user_id']);
         if (!$sent['ok']) {
             $this->botLog->log($botId, $uni, 'raid_skip', $label . ': game rules refuse the attack (' . $sent['reason'] . ')');
             $mem['targets'][$pid]['skip_until'] = $now + RaidTargetFinder::COOLDOWN;
@@ -453,7 +458,7 @@ class BotRaids
             return false;
         }
         $n = min($n, (int) $ctx->planets[$origin][$e->column(SHIP_PROBE)]);
-        $sent = $this->dispatcher->send($ctx, $ctx->planets[$origin], [SHIP_PROBE => $n], MISSION_SPY, $pid, (int) $target['user_id']);
+        $sent = $this->dispatcher->send($ctx, $ctx->planets[$origin], [SHIP_PROBE => $n], Mission::Spy->value, $pid, (int) $target['user_id']);
         if (!$sent['ok']) {
             $this->botLog->log($botId, $uni, 'raid_skip', $target['name'] . ' [' . $target['coords'] . ']: spying refused (' . $sent['reason'] . ')');
             $mem['targets'][$pid]['skip_until'] = $now + RaidTargetFinder::COOLDOWN;

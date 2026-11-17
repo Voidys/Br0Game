@@ -17,50 +17,40 @@
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
 use App\Game\Core\Log;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /**
  * Multi account list (accounts sharing an IP address); entries can be marked as known or unknown.
  */
-#[\App\Routing\GamePage('admin', 'multiIP')]
 class MultiIPController extends AbstractAdminController
 {
     /**
-     * Multi account list (accounts sharing an IP). Request action=known|unknown with id (MULTI id) and optionally userID: marks the
-     * IP group, or only one user in it, as allowed or not (MULTI / MULTI_TO_USERS `allowed`), logs it (type 7) and redirects. Otherwise lists
-     * the IP groups with their users, mail and last activity.
+     * Multi account list (accounts sharing an IP): the IP groups with their users, mail and last activity.
      */
+    #[GameRoute('admin', 'admin/multi-ip', 'multiIP')]
     public function show(): Response
     {
-        if (isset($this->state->requestQuery['action'])) {
-            $this->markAllowed();
-        }
-
-        $IPs = $this->multiGroups();
-
-        $this->assign([
-            'multiGroups'  => $IPs,
+        return $this->render('admin/MultiIPs.html.twig', [
+            'multiGroups'  => $this->multiGroups(),
         ]);
-        return $this->render('admin/MultiIPs.html.twig');
     }
 
     /**
-     * Marks one IP group (`id`) or a single user of it (`userID`) as known/allowed (`action=known`) or not, writes an
-     * admin log entry (type 7) with the old and new row and redirects back to the list (ends the request).
+     * Marks one IP group (`id`, MULTI id) or a single user of it (`userID`) as known/allowed (`action` known) or not (unknown)
+     * (MULTI / MULTI_TO_USERS `allowed`), writes an admin log entry (type 7) with the old and new row and redirects back to the list.
      */
-    private function markAllowed(): void
+    #[GameRoute('admin', 'admin/multi-ip/{id}/{action}', 'multiIP', 'mark', ['POST'], ['id' => '\d+', 'action' => 'known|unknown'])]
+    public function mark(): Response
     {
         $db = $this->db;
 
-        $id = (int) $this->state->requestQuery['id'];
-        $allowed = $this->state->requestQuery['action'] === 'known' ? 1 : 0;
+        $id = $this->input()->int('id');
+        $allowed = $this->input()->string('action') === 'known' ? 1 : 0;
 
-        if (!isset($this->state->requestQuery['userID'])) {
+        if (!$this->input()->has('userID')) {
             $sql = "SELECT * FROM %%MULTI%% WHERE `multiID` = :multiID;";
             $old = $db->selectSingle($sql, [':multiID' => $id]);
 
@@ -70,7 +60,7 @@ class MultiIPController extends AbstractAdminController
                 ':allowed' => $allowed,
             ]);
         } else {
-            $userID = (int) $this->state->requestQuery['userID'];
+            $userID = $this->input()->int('userID');
             $sql = "SELECT * FROM %%MULTI_TO_USERS%% WHERE `multiID` = :multiID AND userID = :userID;";
             $old = $db->selectSingle($sql, [
                 ':multiID' => $id,
@@ -94,7 +84,7 @@ class MultiIPController extends AbstractAdminController
         $LOG->new = $new;
         $LOG->save();
 
-        $this->http()->redirectTo("admin?page=multiIP");
+        return $this->redirectToRoute('admin_multi_ip_show');
     }
 
     /**

@@ -17,24 +17,16 @@
 
 namespace App\Controller\Game;
 
-use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\BattleHallFilter;
-use App\Game\Core\Config;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Hall of fame of the strongest battles (battle hall) with its filter.
  */
-#[\App\Routing\GamePage('game', 'battleHall')]
 #[\App\Controller\RequireModule('MODULE_BATTLEHALL')]
 class BattleHallController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Builds the filter dropdowns (memorial, time frame, diplomacy, galaxy) of the battle hall.
      */
@@ -78,16 +70,17 @@ class BattleHallController extends AbstractGameController
     /**
      * Hall of fame of the biggest battles with filters. Request: memorial (1 memorial battles only), timeframe, diplomacy, galaxy.
      */
+    #[GameRoute('game', 'game/battle-hall', 'battleHall')]
     public function show(): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
 
 
-        $memorial = $this->http()->_GP('memorial', 1);
-        $timeframe = $this->http()->_GP('timeframe', 0);
-        $diplomacy = $this->http()->_GP('diplomacy', 0);
-        $galaxy = $this->http()->_GP('galaxy', 0);
+        $memorial = $this->input()->int('memorial', 1);
+        $timeframe = $this->input()->int('timeframe');
+        $diplomacy = $this->input()->int('diplomacy');
+        $galaxy = $this->input()->int('galaxy');
 
         $filters = [
             'memorial' => $memorial,
@@ -114,7 +107,7 @@ class BattleHallController extends AbstractGameController
 
         $Selectors = $this->assembleSelectors();
 
-        $this->assign([
+        return $this->render('game/page.battleHall.default.html.twig', [
             'TopKBList'		=> $TopKBList,
             'Selectors'		=> $Selectors,
             'memorial'		=> $memorial,
@@ -122,7 +115,5 @@ class BattleHallController extends AbstractGameController
             'diplomacy'		=> $diplomacy,
             'galaxy'		=> $galaxy,
         ]);
-
-        return $this->render('game/page.battleHall.default.html.twig');
     }
 }

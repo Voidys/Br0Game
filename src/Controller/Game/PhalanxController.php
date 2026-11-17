@@ -18,12 +18,10 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Routing\GameRoute;
 use App\Game\Core\FlyingFleetsTable;
-use App\Game\Core\HTTP;
-use App\Game\Core\Universe;
 
 /** Sensor phalanx: fleet movements around a scanned planet, costs deuterium. */
-#[\App\Routing\GamePage('game', 'phalanx')]
 #[\App\Controller\RequireModule('MODULE_PHALANX')]
 class PhalanxController extends AbstractGameController
 {
@@ -34,6 +32,7 @@ class PhalanxController extends AbstractGameController
      * which is deducted; the target must be within the phalanx range (FleetFunctions::allowPhalanx) and exist. Lists the target planet's fleet
      * movements.
      */
+    #[GameRoute('game', 'game/phalanx', 'phalanx')]
     public function show(): Response
     {
         $PLANET = $this->state->PLANET;
@@ -42,12 +41,12 @@ class PhalanxController extends AbstractGameController
         $this->setWindow('popup');
         $this->addScript('phalanx.js');
 
-        $Galaxy 			= $this->http()->_GP('galaxy', 0);
-        $System 			= $this->http()->_GP('system', 0);
-        $Planet 			= $this->http()->_GP('planet', 0);
+        $Galaxy 			= $this->input()->int('galaxy');
+        $System 			= $this->input()->int('system');
+        $Planet 			= $this->input()->int('planet');
 
         if ($PLANET[$this->elements()->column(RESOURCE_DEUT)] < PHALANX_DEUTERIUM) {
-            $this->printMessage($LNG['px_no_deuterium']);
+            return $this->messageResponse($LNG['px_no_deuterium']);
         }
 
         $db = $this->db;
@@ -65,7 +64,7 @@ class PhalanxController extends AbstractGameController
 
         if (empty($TargetInfo)) {
             // no planet at these coordinates (also: no coordinates given)
-            $this->printMessage($LNG['px_out_of_range']);
+            return $this->messageResponse($LNG['px_out_of_range']);
         }
 
         $sql = "SELECT u.id, s.total_points, u.onlinetime, u.banaday, u.rebuild_protection, u.rebuild_protection_attackers, u.outlaw_time
@@ -80,7 +79,7 @@ class PhalanxController extends AbstractGameController
         ]);
 
         if (empty($TargetUser) || !$this->fleetFunctions()->allowPhalanx($Galaxy, $System, $TargetUser)) {
-            $this->printMessage($LNG['px_out_of_range']);
+            return $this->messageResponse($LNG['px_out_of_range']);
         }
 
         // the scan is only paid when it is possible; the guard keeps parallel scans from spending the same deuterium twice
@@ -89,7 +88,7 @@ class PhalanxController extends AbstractGameController
             ':planetID' => $PLANET['id'],
         ]);
         if ($db->rowCount() !== 1) {
-            $this->printMessage($LNG['px_no_deuterium']);
+            return $this->messageResponse($LNG['px_no_deuterium']);
         }
 
         $fleetTableObj = new FlyingFleetsTable($this->db, $this->configs, $this->state);
@@ -98,7 +97,7 @@ class PhalanxController extends AbstractGameController
         $fleetTableObj->setPlanet($TargetInfo['id']);
         $fleetTable	=  $fleetTableObj->renderTable(true);
 
-        $this->assign([
+        return $this->render('game/page.phalanx.default.html.twig', [
             'galaxy'  		=> $Galaxy,
             'system'  		=> $System,
             'planet'   		=> $Planet,
@@ -107,7 +106,5 @@ class PhalanxController extends AbstractGameController
             'colors'		=> $USER['colors'],
             'servertime'    => $this->viewHelpers()->formatDate("M D d H:i:s", $this->state->runtime->timestamp, $USER['timezone']),
         ]);
-
-        return $this->render('game/page.phalanx.default.html.twig');
     }
 }

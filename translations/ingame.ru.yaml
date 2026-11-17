@@ -260,7 +260,7 @@ al_diplo_accept_yes_confirm: Принять этот договор?
 al_diplo_accept_yes_mes: Договор (%s) между альянсами <b>%s</b> и <b>%s</b> подписан!
 al_diplo_ally: Альянс
 al_diplo_ask: Запрос договора
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Запрос договора]</a> (%s) отправлен от <b>%s</b> к <b>%s</b>.<br>Причина: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[Запрос договора]</a> (%s) отправлен от <b>%s</b> к <b>%s</b>.<br>Причина: %s'
 al_diplo_confirm_delete: Расторгнуть этот договор?
 al_diplo_create: Предложить договор
 al_diplo_create_done: Запрос на договор отправлен.
@@ -268,7 +268,7 @@ al_diplo_delete: Договор расторгнут
 al_diplo_delete_mes: Договор (%s) между альянсами <b>%s</b> и <b>%s</b> расторгнут.
 al_diplo_exists: У тебя уже есть действующий или ожидающий ответа договор с %s.
 al_diplo_head: Управление дипломатией
-al_diplo_info: '<p>На этой странице ты управляешь дипломатическими договорами своего альянса.</p><p>Виды договоров перечислены ниже. Подробнее: <a href="game?page=questions">FAQ</a> или <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">Wiki</a>.</p>'
+al_diplo_info: '<p>На этой странице ты управляешь дипломатическими договорами своего альянса.</p><p>Виды договоров перечислены ниже. Подробнее: <a href="game/faq">FAQ</a> или <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">Wiki</a>.</p>'
 al_diplo_level:
 - Главная
 - Академия
@@ -287,7 +287,7 @@ al_diplo_text: Запрос / причина
 al_diplo_war: Объявление войны
 al_diplo_war_end: Объявление мира
 al_diplo_war_end_mes: '%s между альянсами <b>%s</b> и <b>%s</b> только что закончилась.'
-al_diplo_war_mes: 'Альянс <b>%1$s</b> бросает вызов альянсу <b>%2$s</b>: %3$s! <br>Причина:<br>%4$s<br><br>Информация: война начнётся через <b>24 часа</b>, и с этого момента правило башинга перестаёт действовать.<br>Подробнее читай в <a href="./?page=rules&lang=ru" target="_blank">Правилах</a>.'
+al_diplo_war_mes: 'Альянс <b>%1$s</b> бросает вызов альянсу <b>%2$s</b>: %3$s! <br>Причина:<br>%4$s<br><br>Информация: война начнётся через <b>24 часа</b>, и с этого момента правило башинга перестаёт действовать.<br>Подробнее читай в <a href="./rules?lang=ru" target="_blank">Правилах</a>.'
 al_diplo_withdraw: Запрос на договор отозван.
 al_diplo_withdraw_confirm: Отозвать этот запрос на договор?
 al_diplo_withdraw_mes: Запрос на договор (%s) между альянсами <b>%s</b> и <b>%s</b> отозван.
@@ -337,7 +337,7 @@ al_name: Сменить название альянса
 al_name_required: Введи название альянса.
 al_link_too_long: Ссылка слишком длинная (не более 255 символов).
 al_name_tag_too_long: Тег — не более 8 символов, название — не более 30.
-al_new_apply: В твой альянс поступила <a href="?page=alliance&mode=admin&action=manageApply">[заявка]</a> от игрока <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_apply: В твой альянс поступила <a href="game/alliance/admin/applications">[заявка]</a> от игрока <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Новичок
 al_new_requests: 'Ожидают: %d'
 al_newname_specialchar: Название и тег альянса могут содержать только буквы, цифры, пробелы, _, - и .
@@ -1167,7 +1167,7 @@ ov_temp_unit: °C
 ov_temperature: Температура
 ov_ticketbot: Ticketbot
 ov_to: до
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Неверное название!
 ov_wrong_pass: Неверный пароль!
 own: Собственный
@@ -1334,7 +1334,7 @@ sys_forward: Дальше
 sys_game_is_setup: <h1>Регистрация завершена!</h1><br><p>Мы готовим для тебя вселенную!</p><!--discord_url--><p>А пока, чтобы ничего не пропустить, заходи к нам в</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Этот модуль отключён
 sys_nomore_level: У тебя нет %s для сноса.
-sys_notenough_money: 'На планете %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> не хватает ресурсов для строительства %s. <br>У тебя есть: %s %s, %s %s и %s %s. <br>Стоимость: %s %s, %s %s и %s %s.'
+sys_notenough_money: 'На планете %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> не хватает ресурсов для строительства %s. <br>У тебя есть: %s %s, %s %s и %s %s. <br>Стоимость: %s %s, %s %s и %s %s.'
 sys_refferal_from: Система
 sys_refferal_text: Игрок %s, которого ты привёл, набрал %s очков.
 sys_refferal_title: Бонус за игрока %s

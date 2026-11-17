@@ -17,57 +17,66 @@
 
 namespace App\Controller\Admin;
 
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Twig\GameEscaping;
 use Twig\Markup;
 
 /** Bans and unbans players and login accounts. */
-#[\App\Routing\GamePage('admin', 'ban')]
 class BanController extends AbstractAdminController
 {
     /**
-     * Ban management for players (mode `user`) and login accounts (mode `account`). GET: order/order2 (id or name sort of the
-     * lists), view=bana (only banned). POST: panel / panel_change (show the ban form of ban_id or unban_id), bannow (ban),
-     * unban. Ban data: ban_id, ban_name, why (reason), days/hour/mins/secs (duration in addition to a still running ban),
-     * permanent (until 2147483647), vacat (also put the player(s) in vacation mode). Writes USERS_BANNED / ACCOUNTS_BANNED and
-     * the `bana`/`banaday` flags; an account ban also bans the account's players in the emulated universe. Unbanning
-     * resets the flags. Player id 1 and targets above the admin's authlevel are not offered.
+     * Ban management menu: players or login accounts. The pages are `admin/bans/players` and `admin/bans/accounts`: GET shows the
+     * lists (order/order2: id or name sort of the lists, view=bana: only banned), POST handles the ban forms: panel / panel_change
+     * (show the ban form of ban_id or unban_id), bannow (ban), unban. Ban data: ban_id, ban_name, why (reason), days/hour/mins/secs
+     * (duration in addition to a still running ban), permanent (until 2147483647), vacat (also put the player(s) in vacation mode).
+     * Writes USERS_BANNED / ACCOUNTS_BANNED and the `bana`/`banaday` flags; an account ban also bans the account's players in the
+     * emulated universe. Unbanning resets the flags. Player id 1 and targets above the admin's authlevel are not offered.
      */
+    #[GameRoute('admin', 'admin/bans', 'ban')]
     public function show(): Response
     {
-        if (empty($this->state->requestQuery['mode'])) {
-            $this->state->requestQuery['mode'] = $this->state->requestQuery['page'];
-        }
-        if (!isset($this->state->requestQuery['order'])) {
-            $this->state->requestQuery['order'] = '';
-        }
+        return $this->render('admin/BanPage.html.twig');
+    }
 
-        // "view=bana" restricts the left list to the players that are already banned
-        $onlyBanned = false;
-        if (!isset($this->state->requestQuery['view'])) {
-            $this->state->requestQuery['view'] = '';
-        }
-        if ($this->state->requestQuery['view'] == 'bana') {
-            $onlyBanned = true;
-        }
-        switch ($this->state->requestQuery['mode']) {
-            case 'user':
-                return $this->showUserBans($onlyBanned);
-            case 'account':
-                return $this->showAccountBans($onlyBanned);
-            default:
-                return $this->render('admin/BanPage.html.twig');
-        }
+    /** The player lists. */
+    #[GameRoute('admin', 'admin/bans/players', 'ban', 'players')]
+    public function players(): Response
+    {
+        return $this->showUserBans($this->onlyBanned());
+    }
+
+    /** POST: the ban forms of the player lists. */
+    #[GameRoute('admin', 'admin/bans/players', 'ban', 'playersAct', ['POST'])]
+    public function playersAct(): Response
+    {
+        return $this->showUserBans($this->onlyBanned());
+    }
+
+    /** The account lists. */
+    #[GameRoute('admin', 'admin/bans/accounts', 'ban', 'accounts')]
+    public function accounts(): Response
+    {
+        return $this->showAccountBans($this->onlyBanned());
+    }
+
+    /** POST: the ban forms of the account lists. */
+    #[GameRoute('admin', 'admin/bans/accounts', 'ban', 'accountsAct', ['POST'])]
+    public function accountsAct(): Response
+    {
+        return $this->showAccountBans($this->onlyBanned());
+    }
+
+    /** "view=bana" restricts the left list to the players that are already banned */
+    private function onlyBanned(): bool
+    {
+        return ($this->state->requestQuery['view'] ?? '') == 'bana';
     }
 
     /**
      * Mode `user`: builds both player lists, then handles the posted action (show the ban form, ban, unban) for the
-     * selected player and renders the page. Ban/unban end the request with a message (EndOfRequest).
+     * selected player and renders the page. Ban/unban answer with a message page.
      */
     private function showUserBans(bool $onlyBanned): Response
     {
@@ -76,14 +85,11 @@ class BanController extends AbstractAdminController
 
         [$userSelect['List'], $users] = $this->playerOptionList($onlyBanned);
 
-        if (!isset($this->state->requestQuery['order2'])) {
-            $this->state->requestQuery['order2'] = '';
-        }
         [$userSelect['ListBan'], $banned] = $this->bannedPlayerOptionList();
 
-        $id = $this->http()->_GP('ban_id', 0);
+        $id = $this->input()->int('ban_id');
         if (isset($this->state->requestPost['panel_change']) || isset($this->state->requestPost['unban_id'])) {
-            $id = $this->http()->_GP('unban_id', 0);
+            $id = $this->input()->int('unban_id');
         }
         $sql = "SELECT b.`theme`, b.`longer`, u.`id`, u.`urlaubs_modus`, u.`banaday`, u.`username`
                 FROM %%USERS%% as u 
@@ -108,10 +114,9 @@ class BanController extends AbstractAdminController
             }
             $this->assignBanPanel($bannedUser, $id, $bannedUser['username'], 'user_id', $perma, $vacation);
         } elseif (!empty($bannedUser) && isset($this->state->requestPost['bannow']) && $bannedUser['id'] != 1) {
-            $this->banPlayer($bannedUser);
-            throw new \App\Game\Core\EndOfRequest();
+            return $this->banPlayer($bannedUser);
         } elseif (isset($this->state->requestPost['unban_id'])) {
-            $id = $this->http()->_GP('unban_id', 0);
+            $id = $this->input()->int('unban_id');
 
             $sql = "UPDATE %%USERS%% SET `bana` = 0, `banaday` = 0 
                     WHERE `id` = :user_id AND `universe` = :universe;";
@@ -119,16 +124,14 @@ class BanController extends AbstractAdminController
                 ':user_id'  => $id,
                 ':universe' => $this->universe()->getEmulated(),
             ]);
-            $this->message($LNG['bo_the_player2'] . $bannedUser['username'] . $LNG['bo_unbanned'], '?page=ban');
-            throw new \App\Game\Core\EndOfRequest();
+            return $this->messageResponse($LNG['bo_the_player2'] . $bannedUser['username'] . $LNG['bo_unbanned'], $this->router->generate('admin_ban_show'));
         }
-        $this->assign([
+        return $this->render('admin/BanPageUser.html.twig', [
             'UserSelect'      => array_map(static fn(string $options) => new Markup($options, 'UTF-8'), $userSelect),
             'usercount'       => $users,
             'bancount'        => $banned,
             'bo_select_title' => $LNG['bo_select_title'],
         ]);
-        return $this->render('admin/BanPageUser.html.twig');
     }
 
     /**
@@ -142,14 +145,11 @@ class BanController extends AbstractAdminController
 
         [$accountSelect['List'], $accounts] = $this->accountOptionList($onlyBanned);
 
-        if (!isset($this->state->requestQuery['order2'])) {
-            $this->state->requestQuery['order2'] = '';
-        }
         [$accountSelect['ListBan'], $banned] = $this->bannedAccountOptionList();
 
-        $id = $this->http()->_GP('ban_id', 0);
+        $id = $this->input()->int('ban_id');
         if (isset($this->state->requestPost['panel_change']) || isset($this->state->requestPost['unban_id'])) {
-            $id = $this->http()->_GP('unban_id', 0);
+            $id = $this->input()->int('unban_id');
         }
         $sql = "SELECT b.`theme`, b.`longer`, a.`id`, a.`banaday`, a.`accountname` 
                 FROM %%ACCOUNTS%% as a 
@@ -167,26 +167,23 @@ class BanController extends AbstractAdminController
             $perma = isset($this->state->requestPost['panel_change']) ? ($bannedAccount['banaday'] == 2147483647) : false;
             $this->assignBanPanel($bannedAccount, $id, $bannedAccount['accountname'], 'account_id', $perma, true);
         } elseif (!empty($bannedAccount) && isset($this->state->requestPost['bannow']) && $bannedAccount['id'] != 1) {
-            $this->banAccount($bannedAccount);
-            throw new \App\Game\Core\EndOfRequest();
+            return $this->banAccount($bannedAccount);
         } elseif (isset($this->state->requestPost['unban_id'])) {
-            $id = $this->http()->_GP('unban_id', 0);
+            $id = $this->input()->int('unban_id');
 
             $sql = "UPDATE %%ACCOUNTS%% SET `bana` = 0, `banaday` = 0 
                     WHERE `id` = :account_id;";
             $db->update($sql, [
                 ':account_id' => $id,
             ]);
-            $this->message($LNG['bo_the_player2'] . $bannedAccount['accountname'] . $LNG['bo_unbanned'], '?page=ban');
-            throw new \App\Game\Core\EndOfRequest();
+            return $this->messageResponse($LNG['bo_the_player2'] . $bannedAccount['accountname'] . $LNG['bo_unbanned'], $this->router->generate('admin_ban_show'));
         }
-        $this->assign([
+        return $this->render('admin/BanPageAccount.html.twig', [
             'accountSelect'   => array_map(static fn(string $options) => new Markup($options, 'UTF-8'), $accountSelect),
             'accountCount'    => $accounts,
             'bancount'        => $banned,
             'bo_select_title' => $LNG['bo_select_title'],
         ]);
-        return $this->render('admin/BanPageAccount.html.twig');
     }
 
     /**
@@ -201,7 +198,7 @@ class BanController extends AbstractAdminController
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
 
-        $ORDER = $this->state->requestQuery['order'] == 'id' ? "id" : "username";
+        $ORDER = ($this->state->requestQuery['order'] ?? '') == 'id' ? "id" : "username";
         // $ORDER is one of two fixed column names, never the raw request value
         $qb = $db->qb()
             ->select('`username`', '`id`', '`bana`')
@@ -232,7 +229,7 @@ class BanController extends AbstractAdminController
     private function bannedPlayerOptionList(): array
     {
         $db = $this->db;
-        $ORDER2 = $this->state->requestQuery['order2'] == 'id' ? "id" : "username";
+        $ORDER2 = ($this->state->requestQuery['order2'] ?? '') == 'id' ? "id" : "username";
 
         $html = '';
         $count = 0;
@@ -263,7 +260,7 @@ class BanController extends AbstractAdminController
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
 
-        $ORDER = $this->state->requestQuery['order'] == 'id' ? "id" : "accountname";
+        $ORDER = ($this->state->requestQuery['order'] ?? '') == 'id' ? "id" : "accountname";
         $qb = $db->qb()
             ->select('`accountname`', '`id`', '`bana`')
             ->from($db->table('ACCOUNTS'))
@@ -291,7 +288,7 @@ class BanController extends AbstractAdminController
     private function bannedAccountOptionList(): array
     {
         $db = $this->db;
-        $ORDER2 = $this->state->requestQuery['order2'] == 'id' ? "id" : "accountname";
+        $ORDER2 = ($this->state->requestQuery['order2'] ?? '') == 'id' ? "id" : "accountname";
 
         $html = '';
         $count = 0;
@@ -312,7 +309,7 @@ class BanController extends AbstractAdminController
     /**
      * Assigns the ban form variables (title, current reason and end of a running ban) for a player or an account.
      *
-     * @param array  $row       the USERS/ACCOUNTS row joined with the ban record (theme, longer, banaday)
+     * @param array<string, mixed>  $row       the USERS/ACCOUNTS row joined with the ban record (theme, longer, banaday)
      * @param mixed  $id        selected id (assigned as `$idKey`)
      * @param string $idKey     template variable of the id: `user_id` or `account_id`
      */
@@ -374,18 +371,18 @@ class BanController extends AbstractAdminController
      * Reads the posted ban form: target id, name, reason and the resulting end timestamp (permanent = 2147483647; else
      * now + the posted days/hours/minutes/seconds plus the rest of a still running, non-permanent ban).
      *
-     * @param array $row the current ban row of the target (longer, banaday)
+     * @param array<string, mixed> $row the current ban row of the target (longer, banaday)
      * @return array{id: mixed, name: string, reason: string, until: int, admin: string}
      */
     private function readBanForm(array $row): array
     {
         $id = $row['id'];
-        $Name = $this->http()->_GP('ban_name', '', true);
-        $reas = $this->http()->_GP('why', '', true);
-        $days = $this->http()->_GP('days', 0);
-        $hour = $this->http()->_GP('hour', 0);
-        $mins = $this->http()->_GP('mins', 0);
-        $secs = $this->http()->_GP('secs', 0);
+        $Name = $this->input()->string('ban_name', '', true);
+        $reas = $this->input()->string('why', '', true);
+        $days = $this->input()->int('days');
+        $hour = $this->input()->int('hour');
+        $mins = $this->input()->int('mins');
+        $secs = $this->input()->int('secs');
         $BanTime = $days * 86400 + $hour * 3600 + $mins * 60 + $secs;
 
         if ($row['longer'] > $this->state->runtime->timestamp && $row['banaday'] != 2147483647) {
@@ -409,9 +406,11 @@ class BanController extends AbstractAdminController
 
     /**
      * Bans one player: updates or inserts the USERS_BANNED record, sets the `bana`/`banaday` flags and optionally puts
-     * the player in vacation mode (`vacat`). Ends with a confirmation message (the caller ends the request).
+     * the player in vacation mode (`vacat`). Answers with a confirmation message.
+     *
+     * @param array<mixed> $bannedUser
      */
-    private function banPlayer(array $bannedUser): void
+    private function banPlayer(array $bannedUser): Response
     {
         $db = $this->db;
         $LNG = $this->state->LNG;
@@ -460,17 +459,19 @@ class BanController extends AbstractAdminController
         ]);
         if (isset($this->state->requestPost['vacat'])) {
             $planetDummy = [];
-            $this->playerUtil()->enable_vmode($bannedUser, $planetDummy, true);
+            $this->vacationMode()->enable_vmode($bannedUser, $planetDummy, true);
         }
 
-        $this->message($LNG['bo_the_player'] . $Name . $LNG['bo_banned'], '?page=ban');
+        return $this->messageResponse($LNG['bo_the_player'] . $Name . $LNG['bo_banned'], $this->router->generate('admin_ban_show'));
     }
 
     /**
      * Bans a login account and every player linked to it (ACCOUNTS_BANNED + one USERS_BANNED record per player of the
      * emulated universe, flags on both tables, optional vacation mode per player). Ends with a confirmation message.
+     *
+     * @param array<mixed> $bannedAccount
      */
-    private function banAccount(array $bannedAccount): void
+    private function banAccount(array $bannedAccount): Response
     {
         $db = $this->db;
         $LNG = $this->state->LNG;
@@ -493,15 +494,15 @@ class BanController extends AbstractAdminController
         $this->flagBannedAccount($id, $users, $BannedUntil);
         $this->sessions()->revokeAccountSessions((int) $id);
 
-        $this->message($LNG['bo_the_player'] . $Name . $LNG['bo_banned'], '?page=ban');
+        return $this->messageResponse($LNG['bo_the_player'] . $Name . $LNG['bo_banned'], $this->router->generate('admin_ban_show'));
     }
 
     /**
      * Writes the ban records of an account ban: update of the running ban or insert of a new one in ACCOUNTS_BANNED and
      * one USERS_BANNED record per linked player of the emulated universe.
      *
-     * @param array $bannedAccount the account row joined with its ban (banaday)
-     * @param array $users linked players (id, username)
+     * @param array<mixed> $bannedAccount the account row joined with its ban (banaday)
+     * @param array<mixed> $users linked players (id, username)
      */
     private function storeAccountBanRecords(array $bannedAccount, array $users, mixed $id, mixed $Name, mixed $reas, mixed $admin, mixed $BannedUntil, string $mail): void
     {
@@ -568,7 +569,7 @@ class BanController extends AbstractAdminController
      * Sets the `bana`/`banaday` flags on the account and its players and, with `vacat`, puts each player in vacation
      * mode.
      *
-     * @param array $users linked players (id, username)
+     * @param array<mixed> $users linked players (id, username)
      */
     private function flagBannedAccount(mixed $id, array $users, mixed $BannedUntil): void
     {
@@ -591,7 +592,7 @@ class BanController extends AbstractAdminController
             ]);
             if (isset($this->state->requestPost['vacat'])) {
                 $planetDummy = [];
-                $this->playerUtil()->enable_vmode($user, $planetDummy, true);
+                $this->vacationMode()->enable_vmode($user, $planetDummy, true);
             }
         }
     }

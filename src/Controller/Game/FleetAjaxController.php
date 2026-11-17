@@ -17,19 +17,14 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\Mission;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 use Exception;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 
 /** Fleet shortcuts from the galaxy view (XHR): spy probes, recyclers and missiles, answered as JSON codes. */
-#[\App\Routing\GamePage('game', 'fleetAjax')]
 class FleetAjaxController extends AbstractGameController
 {
     public $returnData = [];
@@ -40,11 +35,16 @@ class FleetAjaxController extends AbstractGameController
         $this->setWindow('ajax');
     }
 
-    private function sendData($Code, $Message)
+    /**
+     * The answer {code, mess, slots, ...}: unwinds the nested checks as a FleetAjaxAnswer,
+     * which show() turns into the JSON response.
+     */
+    private function sendData($Code, $Message): never
     {
         $this->returnData['code'] = $Code;
         $this->returnData['mess'] = $Message;
-        $this->sendJSON($this->returnData);
+
+        throw new FleetAjaxAnswer($this->returnData);
     }
 
     /**
@@ -52,24 +52,28 @@ class FleetAjaxController extends AbstractGameController
      * Checks fleet slots, ships and target restrictions (noob protection, vacation, own planet), may send probes or recyclers directly, and
      * answers JSON codes. Missile attacks are only checked here; they are launched by the missile page.
      */
-    public function show()
+    #[GameRoute('game', 'game/fleet/ajax', 'fleetAjax', 'show', ['POST'])]
+    public function show(): Response
     {
         // user row, then planet row (the order of FleetDispatch): slot count, ships and fuel are read from the locked
-        // rows, so parallel requests cannot all see a free slot. Every answer ends the request with EndOfRequest;
+        // rows, so parallel requests cannot all see a free slot. Every answer unwinds with sendData() (FleetAjaxAnswer, caught below);
         // nothing is written before the fleet is sent, so committing on it is right for refusals and success alike.
         $db = $this->db;
         $db->startTransaction();
         try {
             $this->lockPlayerAndPlanet();
             $this->handleRequest();
-        } catch (\App\Game\Core\EndOfRequest $end) {
+        } catch (FleetAjaxAnswer $answer) {
             $db->commit();
-            throw $end;
+
+            return $answer->data === null ? new Response() : $this->jsonResponse($answer->data);
         } catch (\Throwable $failure) {
             $db->rollback();
             throw $failure;
         }
         $db->commit();
+
+        return new Response();
     }
 
     /** Locks the user and the current planet row and refreshes the planet copy (ships, fuel) from the locked row. */
@@ -91,9 +95,9 @@ class FleetAjaxController extends AbstractGameController
         $LNG = $this->state->LNG;
         $UserDeuterium = $this->state->PLANET['deuterium'];
 
-        $planetID = $this->http()->_GP('planetID', 0);
-        $targetMission = $this->http()->_GP('mission', 0);
-        $confirmed = $this->http()->_GP('confirm', 0) == 1;
+        $planetID = $this->input()->int('planetID');
+        $targetMission = $this->input()->int('mission');
+        $confirmed = $this->input()->int('confirm') == 1;
 
         $activeSlots = $this->fleetFunctions()->getCurrentFleets($this->state->USER['id']);
         $maxSlots = $this->fleetFunctions()->getMaxFleetSlots($this->state->USER);
@@ -118,11 +122,11 @@ class FleetAjaxController extends AbstractGameController
 
         $targetData = $this->getTargetData($targetMission, $planetID, $this->state->USER['id']);
 
-        if (empty($targetData) || ($targetData['destruyed'] != 0 && ($targetMission == MISSION_SPY || $targetMission == MISSION_MISSILE))) {
+        if (empty($targetData) || ($targetData['destruyed'] != 0 && ($targetMission == Mission::Spy->value || $targetMission == Mission::Missile->value))) {
             $this->sendData(601, $LNG['fa_planet_not_exist']);
         }
 
-        if ($targetMission == MISSION_SPY || $targetMission == MISSION_MISSILE) {
+        if ($targetMission == Mission::Spy->value || $targetMission == Mission::Missile->value) {
             $this->checkAttackRestrictions($targetMission, $targetData, $confirmed, $statsHandler);
         }
 
@@ -132,7 +136,7 @@ class FleetAjaxController extends AbstractGameController
             [$targetData['galaxy'], $targetData['system'], $targetData['planet']],
         );
         $SpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $this->state->USER);
-        $Duration = $this->fleetFunctions()->getMissionDuration(MISSION_MISSILE, $SpeedAllMin, $Distance, $SpeedFactor, $this->state->USER);
+        $Duration = $this->fleetFunctions()->getMissionDuration(Mission::Missile->value, $SpeedAllMin, $Distance, $SpeedFactor, $this->state->USER);
         $consumption = $this->fleetFunctions()->getFleetConsumption($fleetArray, $Duration, $Distance, $this->state->USER, $SpeedFactor);
 
         $UserDeuterium -= $consumption;
@@ -146,7 +150,7 @@ class FleetAjaxController extends AbstractGameController
         }
 
         if (connection_aborted()) {
-            throw new \App\Game\Core\EndOfRequest();
+            throw new FleetAjaxAnswer(null);
         }
 
         $this->returnData['slots']++;
@@ -168,8 +172,8 @@ class FleetAjaxController extends AbstractGameController
         $fleetArray = [];
 
         switch ($targetMission) {
-            case MISSION_SPY:
-            case MISSION_PIRATEBASE_SPY:
+            case Mission::Spy->value:
+            case Mission::PiratebaseSpy->value:
                 if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSION_SPY)) {
                     $this->sendData(699, $LNG['sys_module_inactive']);
                 }
@@ -183,8 +187,8 @@ class FleetAjaxController extends AbstractGameController
                 $fleetArray = [SHIP_PROBE => $ships];
                 $this->returnData['ships'][SHIP_PROBE] = $this->state->PLANET[$e->column(SHIP_PROBE)] - $ships;
                 break;
-            case MISSION_RECYCLING:
-            case MISSION_PIRATEBASE_RECYCLING:
+            case Mission::Recycling->value:
+            case Mission::PiratebaseRecycling->value:
                 if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSION_RECYCLE)) {
                     $this->sendData(699, $LNG['sys_module_inactive']);
                 }
@@ -195,7 +199,7 @@ class FleetAjaxController extends AbstractGameController
                     $this->sendData(611, $LNG['fa_no_recyclers']);
                 }
                 break;
-            case MISSION_MISSILE:
+            case Mission::Missile->value:
                 if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSILEATTACK)) {
                     $this->sendData(699, $LNG['sys_module_inactive']);
                 }
@@ -208,7 +212,6 @@ class FleetAjaxController extends AbstractGameController
                 break;
             default:
                 $this->sendData(610, $LNG['fa_not_enough_probes']);
-                break;
         }
 
         $fleetArray = array_filter($fleetArray);
@@ -230,7 +233,7 @@ class FleetAjaxController extends AbstractGameController
     {
         $e = $this->elements();
 
-        if ($targetMission == MISSION_RECYCLING) {
+        if ($targetMission == Mission::Recycling->value) {
             $sql = "SELECT (der_metal + der_crystal) as sum FROM %%PLANETS%% WHERE id = :planetID AND universe = :universe;";
         } else {
             $sql = "SELECT (der_metal + der_crystal) as sum FROM %%PIRATE_BASES%% WHERE id = :planetID AND universe = :universe;";
@@ -290,7 +293,7 @@ class FleetAjaxController extends AbstractGameController
         } catch (Exception $exception) {
         }
 
-        $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($targetData));
+        $IsNoobProtec = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($targetData));
 
         if ($IsNoobProtec['NoobPlayer']) {
             $this->sendData(603, $LNG['fa_week_player']);
@@ -302,10 +305,10 @@ class FleetAjaxController extends AbstractGameController
                 $this->sendData(604, $LNG['fa_strong_player']);
             }
             if (!$confirmed) {
-                $message = $targetMission == MISSION_MISSILE
+                $message = $targetMission == Mission::Missile->value
                     ? 'fl_attack_confirm_outlaw'
                     : 'fl_spy_confirm_outlaw';
-                $targetPlayerData = $this->playerUtil()->getPlayerById($targetData['id_owner']);
+                $targetPlayerData = $this->playerLookup()->getPlayerById($targetData['id_owner']);
                 $this->sendData(
                     602,
                     $LNG->format(
@@ -315,7 +318,7 @@ class FleetAjaxController extends AbstractGameController
                 );
             }
 
-            if ($targetMission == MISSION_MISSILE) {
+            if ($targetMission == Mission::Missile->value) {
                 // Function is used for checks only, the actual fleet will be send in ShowFleetMissilePage
                 $this->sendData(600, '');
             }
@@ -327,7 +330,7 @@ class FleetAjaxController extends AbstractGameController
             $statsHandler->increment($this->state->USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
         }
 
-        if ($targetMission == MISSION_MISSILE) {
+        if ($targetMission == Mission::Missile->value) {
             // Function is used for checks only, the actual fleet will be send in ShowFleetMissilePage
             $this->sendData(600, '');
         }
@@ -408,11 +411,13 @@ class FleetAjaxController extends AbstractGameController
 
     /**
      * Loads the target planet with its owner and statistics (or pirate base) for $mission, or false when it does not exist.
+     *
+     * @return array<mixed>
      */
     private function getTargetData(int $mission, int $planetID, int $userId): array|bool
     {
         $db = $this->db;
-        if ($mission == MISSION_PIRATEBASE_SPY || $mission == MISSION_PIRATEBASE_RECYCLING) {
+        if ($mission == Mission::PiratebaseSpy->value || $mission == Mission::PiratebaseRecycling->value) {
             $config = $this->configs->get();
             $planet = $config->max_planets + 3;
             $sql = "SELECT `id_owner`, `galaxy`, `system`, $planet as planet, `planet_type`

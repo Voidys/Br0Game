@@ -266,7 +266,7 @@ al_diplo_accept_yes_confirm: Diesen Pakt annehmen?
 al_diplo_accept_yes_mes: Der Pakt (%s) zwischen den Allianzen <b>%s</b> und <b>%s</b> wurde geschlossen!
 al_diplo_ally: Allianzname
 al_diplo_ask: Paktanfrage
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">Paktanfrage</a> (%s) von <b>%s</b> an <b>%s</b> gesendet.<br>Begründung: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">Paktanfrage</a> (%s) von <b>%s</b> an <b>%s</b> gesendet.<br>Begründung: %s'
 al_diplo_confirm_delete: Diesen Pakt aufheben?
 al_diplo_create: Pakt anfragen
 al_diplo_create_done: Paktanfrage gesendet.
@@ -274,7 +274,7 @@ al_diplo_delete: Pakt aufgehoben.
 al_diplo_delete_mes: Der Pakt (%s) zwischen den Allianzen <b>%s</b> und <b>%s</b> wurde aufgehoben.
 al_diplo_exists: Mit %s besteht bereits ein aktiver oder ausstehender Pakt.
 al_diplo_head: Diplomatie verwalten
-al_diplo_info: '<p>Hier verwaltest du die diplomatischen Pakte deiner Allianz.</p><p>Die Paktarten findest du unten. Mehr Infos: <a href="game?page=questions">FAQ</a> oder im <a href="{wiki_url}/wiki/Hauptseite" target="_blank">Wiki</a>.</p>'
+al_diplo_info: '<p>Hier verwaltest du die diplomatischen Pakte deiner Allianz.</p><p>Die Paktarten findest du unten. Mehr Infos: <a href="game/faq">FAQ</a> oder im <a href="{wiki_url}/wiki/Hauptseite" target="_blank">Wiki</a>.</p>'
 al_diplo_level:
   - Main
   - Wing
@@ -293,7 +293,7 @@ al_diplo_text: Anfrage/Begründung
 al_diplo_war: Kriegserklärung
 al_diplo_war_end: Friedenserklärung
 al_diplo_war_end_mes: Der %s zwischen den Allianzen <b>%s</b> und <b>%s</b> wurde soeben beendet.
-al_diplo_war_mes: 'Die Allianz <b>%s</b> hat der Allianz <b>%s</b> den %s erklärt!<br>Begründung:<br>%s<br><br>Info: Der Krieg beginnt in <b>24 Stunden</b>, ab dann entfällt die Bash-Regel.<br>Mehr dazu findest du in den <a href="./?page=rules&lang=de" target="_blank">Regeln</a>.'
+al_diplo_war_mes: 'Die Allianz <b>%s</b> hat der Allianz <b>%s</b> den %s erklärt!<br>Begründung:<br>%s<br><br>Info: Der Krieg beginnt in <b>24 Stunden</b>, ab dann entfällt die Bash-Regel.<br>Mehr dazu findest du in den <a href="./rules?lang=de" target="_blank">Regeln</a>.'
 al_diplo_withdraw: Paktanfrage zurückgezogen.
 al_diplo_withdraw_confirm: Paktanfrage wirklich zurückziehen?
 al_diplo_withdraw_mes: Die Paktanfrage (%s) zwischen den Allianzen <b>%s</b> und <b>%s</b> wurde zurückgezogen.
@@ -343,7 +343,7 @@ al_name: Allianzname
 al_name_required: Bitte gib einen Allianznamen ein.
 al_link_too_long: Link zu lang (höchstens 255 Zeichen).
 al_name_tag_too_long: Das Tag darf höchstens 8 Zeichen lang sein, der Name höchstens 30.
-al_new_apply: Deine Allianz hat eine <a href="?page=alliance&mode=admin&action=manageApply">Bewerbung</a> von <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> erhalten.
+al_new_apply: Deine Allianz hat eine <a href="game/alliance/admin/applications">Bewerbung</a> von <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> erhalten.
 al_new_member_rank_text: Neuling
 al_new_requests: '%d ausstehend'
 al_newname_specialchar: Allianznamen und -tags dürfen nur Buchstaben, Zahlen, Leerzeichen, Unterstriche, Bindestriche und Punkte enthalten.
@@ -1200,7 +1200,7 @@ ov_temp_unit: °C
 ov_temperature: Temperatur
 ov_ticketbot: Ticketbot
 ov_to: bis
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Falscher Name. Versuch es noch einmal!
 ov_wrong_pass: Falsches Passwort. Versuch es noch einmal!
 own: Eigene
@@ -1371,7 +1371,7 @@ sys_forward: Weiter
 sys_game_is_setup: <h1>Registrierung geschafft!</h1><br><p>Wir bereiten gerade dein Universum vor!</p><!--discord_url--><p>Um in der Zwischenzeit nichts zu verpassen, komm zu uns auf den</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Dieses Modul ist inaktiv.
 sys_nomore_level: Du hast keine Stufe von %s mehr, die du abreißen könntest.
-sys_notenough_money: 'Auf Planet %s <a href="?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> fehlen dir Rohstoffe, um %s zu bauen. <br>Du hast: %s %s, %s %s und %s %s. <br>Kosten: %s %s, %s %s und %s %s.'
+sys_notenough_money: 'Auf Planet %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> fehlen dir Rohstoffe, um %s zu bauen. <br>Du hast: %s %s, %s %s und %s %s. <br>Kosten: %s %s, %s %s und %s %s.'
 sys_refferal_from: System
 sys_refferal_text: Der von dir geworbene Spieler %s hat nun %s Punkte erreicht.
 sys_refferal_title: Bonus für Spieler %s

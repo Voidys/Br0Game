@@ -262,7 +262,7 @@ al_diplo_accept_yes_confirm: Möchtst Du den Pakt wirklich annehmen?
 al_diplo_accept_yes_mes: Es wurde ein Pakt (%s) zwischen den Allianzen %s und %s geschlossen!
 al_diplo_ally: Allianzname
 al_diplo_ask: Paktanfrage
-al_diplo_ask_mes: 'Es besteht eine <a href="?page=alliance&mode=admin&action=diplomacy">Paktanfrage</a> (%s) der Allianz %s und %s.<br>Begründung: %s'
+al_diplo_ask_mes: 'Es besteht eine <a href="game/alliance/admin/diplomacy">Paktanfrage</a> (%s) der Allianz %s und %s.<br>Begründung: %s'
 al_diplo_confirm_delete: Möchtst Du den Pakt wirklich aufheben?
 al_diplo_create: Einen neuen Pakt erstellen
 al_diplo_create_done: Pakt-Anfrage erfolgreich erstellt.
@@ -289,7 +289,7 @@ al_diplo_text: Anfragetext/Begründung
 al_diplo_war: Kriegserklärung
 al_diplo_war_end: Krieg beendet
 al_diplo_war_end_mes: Der %s von der Allianz %s mit der Allianz %s wurde soeben für beendet erklärt.
-al_diplo_war_mes: 'Die Allianz %s hat der Allianz %s soeben den %s erklärt.<br>Begründung:<br>%s<br><br>Informationen: Der Krieg ist in 24 Stunden gültig. Erst nach den 24 Stunden entfällt die Bashregel. <br>Weitere Informationen findest Du in den <a href="./?page=rules&lang=de" target="_blank">Regeln</a>.'
+al_diplo_war_mes: 'Die Allianz %s hat der Allianz %s soeben den %s erklärt.<br>Begründung:<br>%s<br><br>Informationen: Der Krieg ist in 24 Stunden gültig. Erst nach den 24 Stunden entfällt die Bashregel. <br>Weitere Informationen findest Du in den <a href="./rules?lang=de" target="_blank">Regeln</a>.'
 al_diplo_withdraw: Paktanfrage zurückgezogen
 al_diplo_withdraw_confirm: Möchtest Du die Paktanfrage wirklich zurückziehen?
 al_diplo_withdraw_mes: Die Paktanfrage (%s) zwischen den Allianzen %s und %s wurde zurückgezogen
@@ -339,7 +339,7 @@ al_name: Allianzname
 al_name_required: Du hast keinen Allianznamen angegeben.
 al_link_too_long: Der Link is zu lang (höchstens 255 Zeichen)!
 al_name_tag_too_long: Das Allianz-Tag darf höchstens 8 und der Name höchstens 30 Zeichen lang sein!
-al_new_apply: Ihre Allianz hat eine neue <a href="?page=alliance&mode=admin&action=manageApply">Bewerbung</a> erhalten von - <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
+al_new_apply: Ihre Allianz hat eine neue <a href="game/alliance/admin/applications">Bewerbung</a> erhalten von - <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
 al_new_member_rank_text: Neuling
 al_new_requests: '%d neue Bewerbung(en)'
 al_newname_specialchar: Im Allianzname und -tag sind nur Zahlen, Buchstaben, Leerzeichen, _, -, . erlaubt!
@@ -1167,7 +1167,7 @@ ov_temp_unit: °C
 ov_temperature: Temperatur
 ov_ticketbot: Ticketbot
 ov_to: bis
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Falsches Name. Versuchen sie es noch einmal!
 ov_wrong_pass: Falsches Passwort. Versuchen sie es noch einmal!
 own: Eigene
@@ -1334,7 +1334,7 @@ sys_forward: Weiter
 sys_game_is_setup: <h1>Registrierung Geschafft!</h1><br><p>Wir bereiten gerade das Universum für euch vor!</p><!--discord_url--><p>Um in der Zwischenzeit nichts zu verpassen, komm zu uns auf den</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Modul inaktiv
 sys_nomore_level: Sie versuchen, ein Gebäude zu zerstören, was sie nicht mehr besitzen( %s ).
-sys_notenough_money: Sie verfügen auf Hafen %s <a href="?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> nicht über genügend Ressourcen, um mit dem Bau von %s zu beginnen. <br>Sie verfügen über %s %s , %s %s und %s %s. <br>Die Baukosten betragen %s %s , %s %s und %s %s.
+sys_notenough_money: Sie verfügen auf Hafen %s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> nicht über genügend Ressourcen, um mit dem Bau von %s zu beginnen. <br>Sie verfügen über %s %s , %s %s und %s %s. <br>Die Baukosten betragen %s %s , %s %s und %s %s.
 sys_refferal_from: System
 sys_refferal_text: Der von dir geworbene Spieler %s hat nun %s Punkte erreicht.
 sys_refferal_title: Bonus für Spieler %s

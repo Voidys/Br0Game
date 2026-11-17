@@ -16,13 +16,13 @@
       {% else %}
         {% set canRequeue = not (isBusy.research and (ID == 6 or ID == 31)) and not (isBusy.shipyard and (ID == 15 or ID == 21)) and not (isBusy.repairdock and ID == 35) and RoomIsOk and CanBuildElement and BuildInfoList[ID].buyable %}
       {% endif %}
-      {% set label %}{{ LNG.tech[ID] }} {{ List.level }}{% if List.destroy is defined and List.destroy %} {{ LNG.bd_dismantle }}{% endif %}{% if not empty(List.planet) %} @ {{ List.planet }}{% endif %}{% endset %}
+      {% set label %}{{ LNG.tech[ID] }} {{ List.level }}{% if List.destroy is defined and List.destroy %} {{ LNG.bd_dismantle }}{% endif %}{% if List.planet %} @ {{ List.planet }}{% endif %}{% endset %}
       {% set ctime = ctime + (loop.first ? List.resttime : List.time) %}
       <li class="build-queue__item{% if loop.first %} is-active{% endif %}">
         <span class="build-queue__pos">{{ loop.index }}</span>
         <span class="build-queue__name">
           {% if canRequeue %}
-            <form class="build_form" action="game?page={{ queuePage }}" method="post">
+            <form class="build_form" action="{{ path('game_' ~ queuePage ~ '_command') }}" method="post">
               <input type="hidden" name="cmd" value="insert">
               <input type="hidden" name="{{ queueField }}" value="{{ ID }}">
               <button type="submit" class="build-queue__requeue" title="{{ LNG.bd_build_next_level|default('') }}">{{ label }}</button>
@@ -41,7 +41,7 @@
         <span class="build-queue__end colorPositive{% if loop.first %} timer{% endif %}" data-time="{{ List.endtime }}" data-umode="{{ umode }}">{% if umode == 0 %}{{ List.display }}{% else %}{{ LNG.bd_paused }}{% endif %}</span>
         <span class="build-queue__action">
           {% if umode == 0 %}
-            <form action="game?page={{ queuePage }}" method="post" class="build_form">
+            <form action="{{ path('game_' ~ queuePage ~ '_command') }}" method="post" class="build_form">
               {% if loop.first %}
                 <input type="hidden" name="cmd" value="cancel">
               {% else %}

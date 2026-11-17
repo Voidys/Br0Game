@@ -1,192 +1,127 @@
-import { qs, qsa, show, hide, getText, getJSON, post, cookie, NotifyBox, pageData } from '../app/core.js';
+import { qs, qsa, show, hide, post, cookie, NotifyBox, pageData, pretty_number } from '../app/core.js';
+import { Dialog } from '../app/dialog.js';
 import { registerActions } from '../app/actions.js';
 
 /**
- * Messages: category list and message actions (favourite, delete, reply, forward, spy report toggle,
+ * Messages: category preferences and message actions (favourite, delete, reply, forward, spy report toggle,
  * grouping), the write / forward dialog (receiver search, sending) and the spy report conclusions.
- * Controls are data-action / data-on-* markup (app/actions.js). The write dialog's state arrives in the
- * data island #message-write-data ({action, searchNote, searchNoUser, emptyText, messageGroup, messageID,
- * receiverList}), read each time a dialog is loaded.
+ * Controls are data-action / data-on-* markup (app/actions.js; links carry their route as data-url). The write
+ * dialog's state arrives in the data island #message-write-data ({action, sendUrl, forwardUrl, usersUrl, searchNote,
+ * searchNoUser, emptyText, messageGroup, messageID, receiverList}), read each time a dialog is loaded.
  */
 
-/** Message list helpers; state kept in `MessID` (the category currently shown) and in localStorage (`messages.*` keys). */
-const Message = {
-  MessID: 0,
-  categoryStorageKey: 'messages.lastCategory',
-  openAllStorageKey: 'messages.openAllWithoutCategory',
-  rememberCategoryStorageKey: 'messages.rememberLastCategory',
+const CATEGORY_KEY = 'messages.lastCategory';
+const OPEN_ALL_KEY = 'messages.openAllWithoutCategory';
+const REMEMBER_CATEGORY_KEY = 'messages.rememberLastCategory';
 
-  /**
-   * Category preferences of the message page (localStorage): "open all categories" and "remember last category". Without a
-   * `category` in the URL it redirects to the remembered category or to 100 (all) according to the switches; with one it
-   * remembers it. The two switches exclude each other. Reads/writes localStorage, may replace the location.
-   */
-  initCategoryPreferences: function () {
-    let openAll = localStorage.getItem(Message.openAllStorageKey) === '1';
-    let rememberCategory = localStorage.getItem(Message.rememberCategoryStorageKey) === '1';
-    let openAllSwitch = document.getElementById('message-open-all');
-    let rememberCategorySwitch = document.getElementById('message-remember-category');
-    let url = new URL(window.location.href);
+/** Stores the shown category id in localStorage (numeric ids only). */
+const rememberCategory = (category) => {
+  if (/^\d+$/.test(String(category))) {
+    localStorage.setItem(CATEGORY_KEY, String(category));
+  }
+};
 
-    openAllSwitch.checked = openAll;
-    rememberCategorySwitch.checked = rememberCategory;
+/**
+ * Category preferences of the message page (localStorage): "open all categories" and "remember last category". Without a
+ * `category` in the URL it redirects to the remembered category or to 100 (all) according to the switches; with one it
+ * remembers it. The two switches exclude each other. Reads/writes localStorage, may replace the location.
+ */
+const initCategoryPreferences = () => {
+  const openAll = localStorage.getItem(OPEN_ALL_KEY) === '1';
+  const rememberLast = localStorage.getItem(REMEMBER_CATEGORY_KEY) === '1';
+  const openAllSwitch = document.getElementById('message-open-all');
+  const rememberSwitch = document.getElementById('message-remember-category');
+  const url = new URL(window.location.href);
 
-    if (!url.searchParams.has('category')) {
-      let lastCategory = localStorage.getItem(Message.categoryStorageKey);
-      let categoryItem = /^\d+$/.test(String(lastCategory))
-        ? document.querySelector('[data-message-category="' + lastCategory + '"]')
-        : null;
+  openAllSwitch.checked = openAll;
+  rememberSwitch.checked = rememberLast;
 
-      if (rememberCategory && categoryItem) {
-        url.searchParams.set('category', lastCategory);
-        window.location.replace(url.toString());
-        return;
-      }
+  if (!url.searchParams.has('category')) {
+    const lastCategory = localStorage.getItem(CATEGORY_KEY);
+    const categoryItem = /^\d+$/.test(String(lastCategory))
+      ? qs(`[data-message-category="${lastCategory}"]`)
+      : null;
 
-      if (openAll) {
-        url.searchParams.set('category', '100');
-        window.location.replace(url.toString());
-        return;
-      }
-    } else {
-      Message.rememberCategory(url.searchParams.get('category'));
+    if (rememberLast && categoryItem) {
+      url.searchParams.set('category', lastCategory);
+      window.location.replace(url.toString());
+      return;
     }
 
-    openAllSwitch.addEventListener('change', function () {
-      localStorage.setItem(Message.openAllStorageKey, this.checked ? '1' : '0');
-      if (this.checked) {
-        rememberCategorySwitch.checked = false;
-        localStorage.setItem(Message.rememberCategoryStorageKey, '0');
-      }
-    });
-
-    rememberCategorySwitch.addEventListener('change', function () {
-      localStorage.setItem(Message.rememberCategoryStorageKey, this.checked ? '1' : '0');
-      if (this.checked) {
-        openAllSwitch.checked = false;
-        localStorage.setItem(Message.openAllStorageKey, '0');
-      }
-    });
-  },
-
-  /** Stores the shown category id in localStorage (numeric ids only). */
-  rememberCategory: function (category) {
-    if (/^\d+$/.test(String(category))) {
-      localStorage.setItem(Message.categoryStorageKey, String(category));
+    if (openAll) {
+      url.searchParams.set('category', '100');
+      window.location.replace(url.toString());
+      return;
     }
-  },
+  } else {
+    rememberCategory(url.searchParams.get('category'));
+  }
 
-  /** Adjusts the unread counters in the category list after a category was opened (100 = all: every counter to 0, the "new messages" notice removed). DOM only. */
-  MessageCount: function () {
-    let setText = function (selector, text) {
-      let el = qs(selector);
-      if (el) el.textContent = text;
-    };
-    let num = function (selector) {
-      return parseInt(qs(selector)?.textContent, 10);
-    };
-
-    if (Message.MessID == 100) {
-      [0, 1, 2, 3, 4, 5, 15, 99, 100].forEach(function (id) {
-        setText('#unread_' + id, '0');
-      });
-      setText('#newmes', '');
-    } else {
-      let count = num('#unread_' + Message.MessID);
-      let lmnew = num('#newmesnum');
-
-      setText('#unread_' + Message.MessID, Math.max(0, num('#unread_100') - 10));
-      if (Message.MessID != 999) {
-        setText('#unread_100', num('#unread_100') - count);
-      }
-
-      if (lmnew - count <= 0)
-        setText('#newmes', '');
-      else
-        setText('#newmesnum', lmnew - count);
+  openAllSwitch.addEventListener('change', () => {
+    localStorage.setItem(OPEN_ALL_KEY, openAllSwitch.checked ? '1' : '0');
+    if (openAllSwitch.checked) {
+      rememberSwitch.checked = false;
+      localStorage.setItem(REMEMBER_CATEGORY_KEY, '0');
     }
-  },
+  });
 
-  /** Loads one page of a category via ajax (`game?page=messages&mode=view`) and replaces the message table; updates the unread counters first. */
-  getMessages: async function (MessID, page) {
-    if (typeof page === "undefined") {
-      page = 1;
+  rememberSwitch.addEventListener('change', () => {
+    localStorage.setItem(REMEMBER_CATEGORY_KEY, rememberSwitch.checked ? '1' : '0');
+    if (rememberSwitch.checked) {
+      openAllSwitch.checked = false;
+      localStorage.setItem(OPEN_ALL_KEY, '0');
     }
-    Message.MessID = MessID;
-    Message.MessageCount(MessID);
+  });
+};
 
-    show(qs('#loading'));
+/** Removes tags from a string. */
+const stripHTML = (string) => string.replace(/<(.|\n)*?>/g, '');
 
-    const data = await getText('game?page=messages&mode=view&messcat=' + MessID + '&site=' + page + '&ajax=1');
-    hide(qs('#loading'));
-    qs('#messagestable')?.remove();
-    qs('#content table')?.insertAdjacentHTML('afterend', data);
-  },
+/** Reply subject: prefixes "Re: " or raises an existing "Re[n]: " to "Re[n+1]: "; tags are stripped. */
+const createAnswer = (subject) => {
+  const answer = stripHTML(subject).trim();
+  const prefixes = answer.match(/^(?:Re(?:\[(\d+)\])?:\s*)+/i);
 
-  /** Removes tags from a string. */
-  stripHTML: function (string) {
-    return string.replace(/<(.|\n)*?>/g, '');
-  },
+  if (!prefixes) {
+    return `Re: ${answer}`;
+  }
 
-  /** Reply subject: prefixes "Re: " or raises an existing "Re[n]: " to "Re[n+1]: "; tags are stripped. */
-  CreateAnswer: function (Answer) {
-    let answer = Message.stripHTML(Answer).trim();
-    let prefixes = answer.match(/^(?:Re(?:\[(\d+)\])?:\s*)+/i);
+  const [prefix] = prefixes;
+  const levels = (prefix.match(/Re\[(\d+)\]/gi) || []).map((level) => parseInt(level.match(/\d+/)[0], 10));
+  const replyLevel = Math.max(1, ...levels);
 
-    if (!prefixes) {
-      return 'Re: ' + answer;
-    }
+  return `Re[${replyLevel + 1}]: ${answer.substr(prefix.length)}`;
+};
 
-    let replyLevel = 1;
-    let prefix = prefixes[0];
-    let levelMatches = prefix.match(/Re\[(\d+)\]/gi) || [];
-    for (let i = 0; i < levelMatches.length; i++) {
-      replyLevel = Math.max(replyLevel, parseInt(levelMatches[i].match(/\d+/)[0], 10));
-    }
+/** Deletes a message (ajax POST to the delete route), removes its row and the conversation block when it became empty, shows the server's notice. */
+const deleteMessage = async (id, groupId, url) => {
+  show(qs('#loading'));
 
-    return 'Re[' + (replyLevel + 1) + ']: ' + answer.substr(prefix.length);
-  },
+  const data = await post(`${url}?delMessID=${id}&ajax=1`, {}, 'json');
+  hide(qs('#loading'));
 
-  /** Ids of the checked messages from a list of form fields named `delmes[<id>]` (value "on"). */
-  getMessagesIDs: function (Infos) {
-    let IDs = [];
-    for (const mess of Infos) {
-      if (mess.value == 'on')
-        IDs.push(mess.name.replace(/delmes\[(\d+)\]/, '$1'));
-    }
-    return IDs;
-  },
+  qs(`#message_${id}`)?.remove();
 
-  /** Deletes a message (ajax POST, `mode=deleteMessage`), removes its row and the conversation block when it became empty, shows the server's notice. */
-  delMessage: async function (ID, div_id) {
-    show(qs('#loading'));
+  const group = document.getElementById(groupId);
+  if (group && group.querySelectorAll(':scope > div').length === 0) {
+    group.remove();
+  }
 
-    const data = await post('game?page=messages&mode=deleteMessage&delMessID=' + ID + '&ajax=1', {}, 'json');
-    hide(qs('#loading'));
+  NotifyBox(data.mess);
+};
 
-    qs('#message_' + ID)?.remove();
+/** Toggles the favourite mark of a message (ajax POST to the favorite route): sets the icon state from the answer code (1 = favourite); `favUrl`/`nofavUrl` are image URLs for the old image-based icon. */
+const toggleFavourite = async (id, url, favUrl, nofavUrl) => {
+  show(qs('#loading'));
 
-    const group = document.getElementById(div_id);
-    if (group && group.querySelectorAll(':scope > div').length == 0) {
-      group.remove();
-    }
+  const data = await post(`${url}?favMessID=${id}&ajax=1`, {}, 'json');
+  hide(qs('#loading'));
 
-    NotifyBox(data.mess);
-  },
-
-  /** Toggles the favourite mark of a message (ajax POST, `mode=favMessage`): sets the icon state from the answer code (1 = favourite); `favUrl`/`nofavUrl` are image URLs for the old image-based icon. */
-  favMessage: async function (ID, favUrl, nofavUrl) {
-    show(qs('#loading'));
-
-    const data = await post('game?page=messages&mode=favMessage&favMessID=' + ID + '&ajax=1', {}, 'json');
-    hide(qs('#loading'));
-
-    const img = qs('#imgfav_' + ID);
-    if (img?.classList.contains('msg-fav')) {
-      img.classList.toggle('is-on', data.code == 1); // icon: the state is a class
-    } else if (img) {
-      img.setAttribute('src', data.code == 1 ? favUrl : nofavUrl);
-    }
+  const img = qs(`#imgfav_${id}`);
+  if (img?.classList.contains('msg-fav')) {
+    img.classList.toggle('is-on', data.code == 1); // icon: the state is a class
+  } else if (img) {
+    img.setAttribute('src', data.code == 1 ? favUrl : nofavUrl);
   }
 };
 
@@ -198,66 +133,65 @@ let write = { searchNote: '', searchNoUser: '', emptyText: '', messageGroup: '',
 let receiver = [];
 
 /** (re)reads the write dialog's data island; receiver = ids of the chosen players */
-function initWriteDialog() {
-  const island = document.getElementById('message-write-data');
-  if (!island) return;
+const initWriteDialog = () => {
+  if (!document.getElementById('message-write-data')) return;
   write = pageData('message-write-data');
   receiver = write.action === 'write' ? Object.values(write.receiverList ?? {}).map((r) => r.id) : [];
   selectBox = qs('.select-box');
-}
+};
 document.addEventListener('modal:load', initWriteDialog);
 
-window.onPageInit(function () {
+window.onPageInit(() => {
   initWriteDialog();
   selectBox = qs('.select-box');
   if (qs('#message-open-all')) {
-    Message.initCategoryPreferences();
+    initCategoryPreferences();
   }
   // "select all" boxes (above and below the list) tick every message on the page
   for (const all of qsa('[data-message-select-all]')) {
-    all.addEventListener('change', function () {
+    all.addEventListener('change', () => {
       for (const box of qsa('input[name^="messageID["], [data-message-select-all]')) {
-        box.checked = this.checked;
+        box.checked = all.checked;
       }
     });
   }
 });
 
 /** POSTs a message form to the server (JSON answer), shows the answer text in an alert and closes the modal afterwards. */
-async function sendAndClose(url, data) {
+const sendAndClose = async (url, data) => {
   const result = await post(url, data, 'json');
-  window.Dialog.alert(result, () => window.Dialog.close());
-}
+  Dialog.alert(result, () => Dialog.close());
+};
 
 /** Send button of the write dialog: refuses an empty text, otherwise sends subject, text, group and the chosen receivers. */
-function check() {
+const check = () => {
   const text = qs('#text').value;
   if (text.length === 0) {
-    window.Dialog.alert(write.emptyText);
+    Dialog.alert(write.emptyText);
     return false;
   }
-  sendAndClose('game?page=messages&mode=send&ajax=1', {
+  sendAndClose(`${write.sendUrl}?ajax=1`, {
     'to[]': receiver,
     subject: qs('#subject').value,
-    text: text,
+    text,
     groupid: write.messageGroup,
   });
-}
+};
 
 /** Forward dialog: sends the message id to the chosen receivers. */
-function checkForward() {
-  sendAndClose('game?page=messages&mode=sendForward&ajax=1', {
+const checkForward = () => {
+  sendAndClose(`${write.forwardUrl}?ajax=1`, {
     id: write.messageID,
     'to[]': receiver,
   });
-}
+};
 
 /** Collapses/expands a spy report message (content and details versus the title line); `collapseUrl`/`expandUrl` are image URLs for the old image-based toggle. */
-function toggleSpyReport(messageId, collapseUrl, expandUrl) {
-  let content = document.getElementById('msgcontent_' + messageId);
-  let details = document.getElementById('msgdetails_' + messageId);
-  let title = document.getElementById('spytitle_' + messageId);
-  let icon = document.getElementById('imgtoggle_' + messageId);
+const toggleSpyReport = (messageId, collapseUrl, expandUrl) => {
+  const content = document.getElementById(`msgcontent_${messageId}`);
+  const details = document.getElementById(`msgdetails_${messageId}`);
+  const title = document.getElementById(`spytitle_${messageId}`);
+  const icon = document.getElementById(`imgtoggle_${messageId}`);
 
   const isIcon = icon.classList.contains('msg-toggle'); // icon: the state is a class, else swap the image
   if (content.style.display === 'none') {
@@ -271,30 +205,34 @@ function toggleSpyReport(messageId, collapseUrl, expandUrl) {
     title.style.display = '';
     if (isIcon) icon.classList.add('is-collapsed'); else icon.src = expandUrl;
   }
-}
+};
 
 /** Flips the conversation grouping setting (cookie `msgGrouping` 0/1) and reloads the category. */
-function toggleGrouping(MessID, fav) {
-  let isGrp = parseInt(cookie.get('msgGrouping') || 0);
-  cookie.set('msgGrouping', isGrp === 1 ? 0 : 1);
-  window.location.href = 'game?page=messages&category=' + MessID + '&fav=' + fav;
-}
+const toggleGrouping = (category, fav, url) => {
+  const grouped = parseInt(cookie.get('msgGrouping') || 0);
+  cookie.set('msgGrouping', grouped === 1 ? 0 : 1);
+  window.location.href = `${url}?category=${category}&fav=${fav}`;
+};
 
-/** Player search of the write dialog: from 3 characters asks the server (`mode=loadUser`, JSON), cancelling an older request, and lists the matches that are not yet receivers. */
-async function loadUser() {
+/** A line in the receiver search box. */
+const searchNote = (text) => `<div class="select-box-option">${text}</div>`;
+
+/** Player search of the write dialog: from 3 characters asks the server (`usersUrl` route, JSON), cancelling an older request, and lists the matches that are not yet receivers. */
+const loadUser = async () => {
   const searchtext = qs('#to').value.trim();
 
   request?.abort();
 
   if (searchtext.length < 3) {
-    selectBox.innerHTML = '<div class="select-box-option">' + write.searchNote + '</div>';
+    selectBox.innerHTML = searchNote(write.searchNote);
     return;
   }
 
   request = new AbortController();
   let data;
   try {
-    const response = await fetch('game?page=messages&mode=loadUser&searchtext=' + encodeURIComponent(searchtext) + '&ajax=1', {
+    const query = new URLSearchParams({ searchtext, ajax: 1 });
+    const response = await fetch(`${write.usersUrl}?${query}`, {
       credentials: 'same-origin',
       headers: { Accept: 'application/json' },
       signal: request.signal,
@@ -305,27 +243,27 @@ async function loadUser() {
   }
 
   if (data.error || data.length === 0) {
-    selectBox.innerHTML = '<div class="select-box-option">' + write.searchNoUser + '</div>';
+    selectBox.innerHTML = searchNote(write.searchNoUser);
   } else {
     selectBox.innerHTML = '';
-    for (let i = 0; i < data.length; i++) {
-      if (receiver.includes(data[i].id)) {
+    for (const user of data) {
+      if (receiver.includes(user.id)) {
         continue;
       }
       const option = document.createElement('div');
       option.className = 'select-box-option';
-      option.textContent = data[i].username;
-      option.addEventListener('click', () => addUser(data[i].id, data[i].username));
+      option.textContent = user.username;
+      option.addEventListener('click', () => addUser(user.id, user.username));
       selectBox.append(option);
     }
   }
   if (selectBox.innerHTML === '') {
-    selectBox.innerHTML = '<div class="select-box-option">' + write.searchNoUser + '</div>';
+    selectBox.innerHTML = searchNote(write.searchNoUser);
   }
-}
+};
 
 /** Adds a receiver (once) to the list and the form. */
-function addUser(id, username) {
+const addUser = (id, username) => {
   hide(selectBox);
   qs('#to').value = '';
   selectBox.innerHTML = '';
@@ -336,45 +274,41 @@ function addUser(id, username) {
   receiver.push(id);
   const entry = document.createElement('div');
   entry.className = 'receiver';
-  entry.id = 'receiver-' + id;
-  entry.append(username + ' ');
+  entry.id = `receiver-${id}`;
+  entry.append(`${username} `);
   const remove = document.createElement('span');
   remove.textContent = 'X';
   remove.addEventListener('click', () => removeUser(id));
   entry.append(remove);
   qs('#receiver-list').append(entry);
-}
+};
 
 /** Removes a receiver from the list and the form. */
-function removeUser(id) {
-  receiver = receiver.filter(function (value) {
-    return value !== id;
-  });
-  qs('#receiver-' + id)?.remove();
-}
+const removeUser = (id) => {
+  receiver = receiver.filter((value) => value !== id);
+  qs(`#receiver-${id}`)?.remove();
+};
 
 /** Hides the search result box after a short delay, so a click on a result still registers. */
-function hideSearch() {
-  setTimeout(function () {
-    hide(selectBox);
-  }, 100);
-}
+const hideSearch = () => {
+  setTimeout(() => hide(selectBox), 100);
+};
 
-function showSearch() {
+const showSearch = () => {
   // .select-box is display:none in the stylesheet, so an empty inline value would keep it hidden
   show(selectBox, 'block');
   loadUser();
-}
+};
 
 registerActions({
-  'msg-toggle-grouping': (link) => toggleGrouping(link.dataset.category, link.dataset.fav),
-  'msg-fav': (link) => Message.favMessage(link.dataset.id, link.dataset.favUrl, link.dataset.nofavUrl),
+  'msg-toggle-grouping': (link) => toggleGrouping(link.dataset.category, link.dataset.fav, link.dataset.url),
+  'msg-fav': (link) => toggleFavourite(link.dataset.id, link.dataset.url, link.dataset.favUrl, link.dataset.nofavUrl),
   'msg-reply': (link) => {
-    window.Dialog.PM(JSON.parse(link.dataset.receivers), Message.CreateAnswer(link.dataset.subject), '', link.dataset.group);
+    Dialog.PM(JSON.parse(link.dataset.receivers), createAnswer(link.dataset.subject), '', link.dataset.group);
     return false;
   },
   'msg-toggle-spy': (link) => toggleSpyReport(link.dataset.id, '', ''),
-  'msg-delete': (link) => Message.delMessage(link.dataset.id, link.dataset.group),
+  'msg-delete': (link) => deleteMessage(link.dataset.id, link.dataset.group, link.dataset.url),
   'msg-send': () => check(),
   'msg-forward': () => checkForward(),
   'msg-load-user': () => loadUser(),
@@ -736,12 +670,12 @@ function scavengers() {
 // spy report popup content arrives as modal fragment after the page init (scripts/app/dialog.js)
 document.addEventListener('modal:load', () => scavengers());
 
-window.onPageInit(function () {
+window.onPageInit(() => {
   scavengers();
   for (const checkbox of document.querySelectorAll('input[name*="messageID"]')) {
-    checkbox.addEventListener('change', function () {
-      for (const inp of document.querySelectorAll('input[name="' + this.name + '"]')) {
-        inp.checked = this.checked
+    checkbox.addEventListener('change', () => {
+      for (const same of document.querySelectorAll(`input[name="${checkbox.name}"]`)) {
+        same.checked = checkbox.checked;
       }
     });
   }

@@ -59,7 +59,11 @@ class BotNameGenerator
         return $name;
     }
 
-    /** Random element of a non-empty list. */
+    /**
+     * Random element of a non-empty list.
+     *
+     * @param array<mixed> $list
+     */
     private static function pick(array $list): string
     {
         return $list[random_int(0, count($list) - 1)];
@@ -128,7 +132,7 @@ class BotNameGenerator
             return false;
         }
 
-        if (!$this->playerUtil()->isNameValid($name)) {
+        if (!$this->playerRegistration()->isNameValid($name)) {
             return false;
         }
 

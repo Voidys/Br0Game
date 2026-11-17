@@ -2,6 +2,7 @@
 
 namespace App\Game\Settings;
 
+use App\Game\Enum\AuthLevel;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\Discord;
@@ -11,7 +12,7 @@ use App\Game\Core\Singleton;
 use App\Game\Core\Theme;
 
 /**
- * Saves the player's settings form (page=settings, mode=send): reads and validates the posted values, renames the player
+ * Saves the player's settings form (game/settings, POST): reads and validates the posted values, renames the player
  * (with the name rules and the change cooldown; logs the player out afterwards), writes the admin protection / discord
  * fields of the user and all columns of users_settings, switches the theme and checks the settings achievements.
  *
@@ -134,7 +135,7 @@ class SettingsUpdater
         }
 
         $adminprotection = $form['adminprotection'];
-        if ($this->state->USER['authlevel'] != AUTH_USR) {
+        if ($this->state->USER['authlevel'] != AuthLevel::User->value) {
             $adminprotection = ($adminprotection == 1) ? $this->state->USER['authlevel'] : 0;
         } else {
             $adminprotection = 0;
@@ -203,42 +204,42 @@ class SettingsUpdater
         $THEME = $this->state->THEME;
         $values = [];
         foreach (self::FIELDS as $column => [$parameter, $default]) {
-            $values[$column] = $this->http()->_GP($parameter, $default);
+            $values[$column] = $this->input()->typed($parameter, $default);
             if (str_starts_with($column, 'color')) {
                 $values[$column] = ColorSetting::sanitize($values[$column], (string) $default);
             }
         }
-        $imageThemeInput    = $this->http()->_GP('imageTheme', '');
+        $imageThemeInput    = $this->input()->string('imageTheme');
         if ($imageThemeInput === '') {
-            $imageThemeInput = $this->http()->_GP('theme', $THEME->getImageThemeName());
+            $imageThemeInput = $this->input()->typed('theme', $THEME->getImageThemeName());
         }
         $hangarFilterGroups = [];
-        if ($this->http()->_GP('hangarFilterCivil', 0)) {
+        if ($this->input()->int('hangarFilterCivil')) {
             $hangarFilterGroups[] = 'civil';
         }
-        if ($this->http()->_GP('hangarFilterMilitary', 0)) {
+        if ($this->input()->int('hangarFilterMilitary')) {
             $hangarFilterGroups[] = 'military';
         }
-        if ($this->http()->_GP('hangarFilterRecycler', 0)) {
+        if ($this->input()->int('hangarFilterRecycler')) {
             $hangarFilterGroups[] = 'recycler';
         }
-        if ($this->http()->_GP('hangarFilterAll', 0)) {
+        if ($this->input()->int('hangarFilterAll')) {
             $hangarFilterGroups[] = 'all';
         }
 
         return [
             'values'          => $values,
-            'adminprotection' => $this->http()->_GP('adminprotection', 0),
-            'discord_id'      => $this->http()->_GP('discord_id', ''),
-            'discord_hook'    => $this->http()->_GP('discord_hook', ''),
-            'username'        => $this->http()->_GP('username', $this->state->USER['username'], UTF8_SUPPORT),
-            'language'        => $this->http()->_GP('language', ''),
-            'decimalSeparator' => $this->http()->_GP('decimalSeparator', 0),
+            'adminprotection' => $this->input()->int('adminprotection'),
+            'discord_id'      => $this->input()->string('discord_id'),
+            'discord_hook'    => $this->input()->string('discord_hook'),
+            'username'        => $this->input()->typed('username', $this->state->USER['username'], UTF8_SUPPORT),
+            'language'        => $this->input()->string('language'),
+            'decimalSeparator' => $this->input()->int('decimalSeparator'),
             'imageThemeInput' => $imageThemeInput,
-            'cssThemeInput'   => $this->http()->_GP('cssTheme', $THEME->getCssThemeName()),
-            'spycount'        => $this->http()->_GP('spycount', 1.0),
-            'fleetactions'    => $this->http()->_GP('fleetactions', 5),
-            'messagesPerPage' => $this->http()->_GP('messagesPerPage', 10),
+            'cssThemeInput'   => $this->input()->typed('cssTheme', $THEME->getCssThemeName()),
+            'spycount'        => $this->input()->float('spycount', 1.0),
+            'fleetactions'    => $this->input()->int('fleetactions', 5),
+            'messagesPerPage' => $this->input()->int('messagesPerPage', 10),
             'hangarFilters'   => $this->hangarFilters()->encode($this->hangarFilters()->mergeGroups(
                 $this->hangarFilters()->parse($this->state->USER['hangar_filters'] ?? null),
                 $hangarFilterGroups,
@@ -295,7 +296,7 @@ class SettingsUpdater
         $LNG = $this->state->LNG;
         $db = $this->db;
         if (!empty($username) && $this->state->USER['username'] != $username) {
-            if (!$this->playerUtil()->isNameValid($username)) {
+            if (!$this->playerRegistration()->isNameValid($username)) {
                 throw new SettingsRefused($LNG['op_user_name_no_alphanumeric']);
             } elseif ($this->state->USER['uctime'] >= $this->state->runtime->timestamp - USERNAME_CHANGETIME) {
                 throw new SettingsRefused($LNG['op_change_name_pro_week']);

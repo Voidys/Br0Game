@@ -8,7 +8,7 @@
 	</tr>
 	<tr>
 		<td>
-			<div class="search-bar">
+			<div class="search-bar" data-result-url="{{ path('game_search_result') }}">
 			{{ forms.html_options({'options': modeSelector, 'name': "type", 'id': "type"}) }}
 			<input type="text" name="searchtext" id="searchtext">
 			<input type="button" value="{{ LNG.sh_search }}">

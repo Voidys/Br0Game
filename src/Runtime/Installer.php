@@ -3,7 +3,6 @@
 namespace App\Runtime;
 
 use App\Game\Core\Database;
-use App\Game\Core\HTTP;
 use App\Game\Core\Language;
 use App\Game\Core\Session;
 use App\Game\Core\Singleton;
@@ -51,7 +50,7 @@ final class Installer
      */
     public function run(): void
     {
-        $mode = $this->http()->_GP('mode', '');
+        $mode = $this->input()->string('mode');
         $THEME = $this->state->THEME;
         $configAvailable = file_exists('config/game.php') && filesize('config/game.php') !== 0;
         if ($configAvailable) {
@@ -72,7 +71,7 @@ final class Installer
 
         $enableInstallToolFile = $this->guardInstallTool($mode, $configAvailable);
 
-        $language = $this->http()->_GP('lang', '');
+        $language = $this->input()->string('lang');
         if (!empty($language) && in_array($language, $LNG->getAllowedLangs())) {
             $this->http()->sendCookie('lang', $language);
         }
@@ -159,7 +158,7 @@ final class Installer
      * error), grants the session migration access on the correct posted password and shows the password form
      * otherwise.
      *
-     * @param array $database the `$database` array of config/game.php
+     * @param array<mixed> $database the `$database` array of config/game.php
      * @return \App\Game\Core\Session the session with migration access
      */
     private function authorizeUpgrade(array $database, string $enableInstallToolFile): \App\Game\Core\Session
@@ -170,7 +169,7 @@ final class Installer
                 $this->gameView()->messagePage('Migration password is not set. Please set migration password in config.php and try again.', false, 3, true),
             );
         }
-        $migrationpw = $this->http()->_GP('migrationpw', '');
+        $migrationpw = $this->input()->string('migrationpw');
         if (!empty($migrationpw) && $migrationpw === $database['migrationpw']) {
             $session = $this->sessions()->create();
             $session->migrationAccess = 1;
@@ -381,7 +380,7 @@ final class Installer
      */
     private function install(Language $LNG, string $enableInstallToolFile): void
     {
-        $step = (int) $this->http()->_GP('step', 0);
+        $step = (int) $this->input()->int('step');
         // the build, settings and administrator steps never run against a game that already has an administrator
         if ($step >= 5 && $this->installer->hasAdmin()) {
             $this->http()->redirectTo('./');
@@ -443,13 +442,13 @@ final class Installer
     private function stepDatabase(Language $LNG): void
     {
         $form = [
-            'host' => trim((string) $this->http()->_GP('host', '')),
-            'port' => (string) (int) $this->http()->_GP('port', 3306),
-            'user' => (string) $this->http()->_GP('user', '', true),
-            'dbname' => trim((string) $this->http()->_GP('dbname', '', true)),
-            'prefix' => trim((string) $this->http()->_GP('prefix', 'uni1_')),
+            'host' => trim((string) $this->input()->string('host')),
+            'port' => (string) (int) $this->input()->int('port', 3306),
+            'user' => (string) $this->input()->string('user', '', true),
+            'dbname' => trim((string) $this->input()->string('dbname', '', true)),
+            'prefix' => trim((string) $this->input()->typed('prefix', 'uni1_')),
             'createdb' => !empty($this->state->requestPost['createdb']) ? '1' : '',
-            'migrationpw' => (string) $this->http()->_GP('migrationpw', '', true),
+            'migrationpw' => (string) $this->input()->string('migrationpw', '', true),
         ];
         $password = (string) ($this->state->requestPost['password'] ?? '');
         // the address the installer is opened at becomes DEFAULT_URI (links in mails are built from it)
@@ -473,7 +472,7 @@ final class Installer
     {
         $locale = $LNG->getLanguage();
         $tasks = $this->installer->buildTasks($locale);
-        $task = (string) $this->http()->_GP('task', '');
+        $task = (string) $this->input()->string('task');
         if ($task === '') {
             $this->assign(['tasks' => $tasks]);
             $this->show('ins_step5');
@@ -503,7 +502,11 @@ final class Installer
         $this->sendJson(['ok' => true]);
     }
 
-    /** JSON answer of an AJAX build task; ends the request. */
+    /**
+     * JSON answer of an AJAX build task; ends the request.
+     *
+     * @param array<string, mixed> $data
+     */
     private function sendJson(array $data): never
     {
         $this->http()->sendHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -600,11 +603,11 @@ final class Installer
     private function stepAdmin(Language $LNG): void
     {
         $locale = $LNG->getLanguage();
-        $username = $this->http()->_GP('username', '', UTF8_SUPPORT);
-        $password = $this->http()->rawInput('password');
-        $confirm = $this->http()->rawInput('password_confirm');
-        $mail = $this->http()->_GP('email', '');
-        $bots = max(0, min(50, (int) $this->http()->_GP('bots', 0)));
+        $username = $this->input()->string('username', '', UTF8_SUPPORT);
+        $password = $this->input()->rawString('password');
+        $confirm = $this->input()->rawString('password_confirm');
+        $mail = $this->input()->string('email');
+        $bots = max(0, min(50, (int) $this->input()->int('bots')));
 
         $errors = $this->installer->validateAdmin((string) $username, (string) $password, (string) $confirm, (string) $mail, $locale);
         if ($errors !== []) {

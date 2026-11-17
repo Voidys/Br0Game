@@ -210,6 +210,8 @@ class BotBrain
     /**
      * Mistake probability in percent (0-100). Bots with a skill gain (e.g. the noob profile) make `mistake_chance` percent
      * mistakes at `skill_start` and fall linearly to 0 at `skill_max`; others keep the constant base value.
+     *
+     * @param array<string, mixed> $settings
      */
     public static function mistakeChance(array $settings, float $skill): float
     {
@@ -233,6 +235,8 @@ class BotBrain
      * 1 / (1 + hoursToAfford / (3 * patience)) where hours come from the planet's hourly income (production plus the
      * universe's basic income). `affordable` says whether the price is covered right now.
      *
+     * @param array<mixed> $personality
+     * @param array<string, mixed> $settings
      * @return list<array<string, mixed>> decisions with `type`, `planet`, `element`, `count`, `cat`, `score`, `affordable`, `label`
      */
     private function candidates(BotActions $ctx, array $settings, array $personality, float $skill): array
@@ -250,7 +254,7 @@ class BotBrain
 
         $out = [];
         $planetCount = count($ctx->planets);
-        $maxPlanets = $this->playerUtil()->maxPlanetCount($user);
+        $maxPlanets = $this->planetPositions()->maxPlanetCount($user);
         $colonyOk = $planetCount < $maxPlanets && $ctx->canColonize();
 
         foreach ($ctx->planets as $pid => $planet) {
@@ -380,7 +384,7 @@ class BotBrain
             $crystal = $lv(2);
             $deut = $lv(3);
             $ref = max($metal, $crystal + 2, $deut + 4);
-            $free = (int) $this->playerUtil()->calculateMaxPlanetFields($planet) - (int) $planet['field_current'];
+            $free = (int) $this->planetQueries()->calculateMaxPlanetFields($planet) - (int) $planet['field_current'];
 
             foreach (self::BUILDINGS as $el) {
                 $level = $ctx->buildableLevel($planet, $el);
@@ -415,6 +419,7 @@ class BotBrain
      * @param array<string, mixed> $planet planet row
      * @param callable(array<int, int|float>): array{0: bool, 1: float} $penalty affordability and waiting discount of a cost
      * @param callable(string): float $wf category weight factor
+     * @param array<string, mixed> $settings
      */
     private function researchCandidates(array &$out, BotActions $ctx, array $planet, int|string $pid, string $name, callable $penalty, callable $wf, float $skill, array $settings = []): void
     {
@@ -457,7 +462,7 @@ class BotBrain
         $flies = $raids || (int) ($settings['expedition_chance'] ?? 0) >= 10;
 
         return match ($el) {
-            124 => $this->playerUtil()->currentPlanetCount($ctx->user) >= $this->playerUtil()->maxPlanetCount($ctx->user) ? 1.8 : 0.6,
+            124 => $this->planetPositions()->currentPlanetCount($ctx->user) >= $this->planetPositions()->maxPlanetCount($ctx->user) ? 1.8 : 0.6,
             108 => $this->fleetFunctions()->getMaxFleetSlots($ctx->user) <= 2 + (int) ($settings['expedition_slots'] ?? 0) ? 1.6 : 1.0,
             106 => $raids ? 1.7 : 1.0,
             115, 117 => $flies ? 1.3 : 1.0,
@@ -473,6 +478,7 @@ class BotBrain
      * @param array<string, mixed> $planet planet row
      * @param callable(array<int, int|float>): array{0: bool, 1: float} $penalty affordability and waiting discount of a cost
      * @param callable(string): float $wf category weight factor
+     * @param array<string, mixed> $settings
      */
     private function unitCandidates(array &$out, BotActions $ctx, array $planet, int|string $pid, string $name, callable $penalty, callable $wf, float $skill, bool $colonyOk, array $settings = []): void
     {
@@ -535,6 +541,7 @@ class BotBrain
      *
      * @param list<array<string, mixed>> $out     candidate list, appended to
      * @param callable                   $penalty fn(array $cost): array{0: bool, 1: float} affordable now + waiting factor
+     * @param array<string, mixed> $planet
      */
     private function addUnits(array &$out, BotActions $ctx, array $planet, int $pid, int $el, float $score, string $type, string $cat, float $wf, callable $penalty, string $name): void
     {

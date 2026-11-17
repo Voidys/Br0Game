@@ -123,6 +123,7 @@ final class AuthRound2Test extends GameTestCase
         $container = self::container();
         $controller->withGameServices($this->db, $this->configs, $this->state);
         $controller->setSecurityServices($container->get(AuthRateLimits::class), $container->get(CanonicalUrl::class));
+        $controller->setRouter($container->get('router'));
         $request = Request::create('/', $httpMethod, [], [], [], ['REMOTE_ADDR' => '10.' . random_int(0, 255) . '.' . random_int(0, 255) . '.' . random_int(1, 254)]);
         // pages render the CSRF meta tag, which needs a session
         $request->setSession(new Session(new MockArraySessionStorage()));
@@ -133,11 +134,12 @@ final class AuthRound2Test extends GameTestCase
         $this->state->requestQuery = $input;
         $controller->initialize();
         ob_start();
+        $result = null;
         try {
-            $controller->$method();
+            $result = $controller->$method();
         } catch (EndOfRequest) {
         } finally {
-            $output = (string) ob_get_clean();
+            $output = (string) ob_get_clean() . ($result instanceof \Symfony\Component\HttpFoundation\Response ? (string) $result->getContent() : '');
             $container->get('request_stack')->pop();
         }
 
@@ -203,7 +205,7 @@ final class AuthRound2Test extends GameTestCase
         $this->state->ACCOUNT = ['id' => $account, 'authlevel' => 0, 'accountname' => 'x', 'timezone' => 'Europe/Berlin', 'lang' => 'en', 'referralID' => 0, 'db_deaktjava' => 0, 'signalColors' => []];
 
         // before the fix an unknown universe ended in an exception (HTTP 503); now it is an ordinary error page
-        $this->call(new AccountRegister(), 'send', ['uni' => 999, 'username' => 'nobody1']);
+        $this->call(new AccountRegister(), 'send', ['universe' => 999, 'username' => 'nobody1']);
 
         $this->assertSame(0, (int) $this->db->selectSingle("SELECT COUNT(*) AS c FROM %%USERS%% WHERE username = 'nobody1';", [], 'c'));
     }

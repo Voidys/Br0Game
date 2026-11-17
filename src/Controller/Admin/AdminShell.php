@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Game\Enum\AuthLevel;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
@@ -23,75 +24,76 @@ final class AdminShell
 
     /**
      * group => menu entries; an entry is [label key, icon, tabs]. Tabs are the pages shown under the
-     * entry (switchable inside the page): [page, extra query, tab label key, right (former class name)],
-     * a null right means every admin may open it. Entries with one tab are plain links; an entry is
+     * entry (switchable inside the page): [page, extra query, tab label key, right (former class name), route],
+     * the route (GameRoute name) is the link of the tab (query = its extra parameters).
+     * A null right means every admin may open it. Entries with one tab are plain links; an entry is
      * hidden when the admin may open none of its tabs.
      */
     private const MENU = [
         'mu_general' => [
-            ['adm_cp_index', 'layout-dashboard', [['overview', '', 'adm_cp_index', null]]],
-            ['mu_game_info', 'info', [['information', '', 'mu_game_info', 'ShowInformationPage']]],
+            ['adm_cp_index', 'layout-dashboard', [['overview', '', 'adm_cp_index', null, 'admin_overview_show']]],
+            ['mu_game_info', 'info', [['information', '', 'mu_game_info', 'ShowInformationPage', 'admin_information_show']]],
             ['adm_nav_settings', 'sliders-horizontal', [
-                ['configBasic', '', 'adm_tab_server', 'ShowConfigBasicPage'],
-                ['configUni', '', 'adm_tab_universe', 'ShowConfigUniPage'],
-                ['configPlanets', '', 'adm_tab_planets', 'ShowMultiIPPage'],
-                ['module', '', 'mu_module', 'ShowModulePage'],
+                ['configBasic', '', 'adm_tab_server', 'ShowConfigBasicPage', 'admin_config_basic_show'],
+                ['configUni', '', 'adm_tab_universe', 'ShowConfigUniPage', 'admin_config_uni_show'],
+                ['configPlanets', '', 'adm_tab_planets', 'ShowMultiIPPage', 'admin_config_planets_show'],
+                ['module', '', 'mu_module', 'ShowModulePage', 'admin_module_show'],
             ]],
             ['adm_nav_expeditions', 'compass', [
-                ['expeditionDeck', '', 'adm_tab_card_deck', 'ShowExpeditionDeckPage'],
-                ['expeditionShips', '', 'adm_tab_findable_ships', 'ShowExpeditionShipsPage'],
+                ['expeditionDeck', '', 'adm_tab_card_deck', 'ShowExpeditionDeckPage', 'admin_expedition_deck_show'],
+                ['expeditionShips', '', 'adm_tab_findable_ships', 'ShowExpeditionShipsPage', 'admin_expedition_ships_show'],
             ]],
             ['adm_nav_bots', 'user-cog', [
-                ['bots', 'mode=providers', 'adm_tab_bot_providers', 'ShowBotsPage'],
-                ['bots', 'mode=profiles', 'adm_tab_bot_profiles', 'ShowBotsPage'],
-                ['bots', 'mode=bots', 'adm_tab_bot_list', 'ShowBotsPage'],
+                ['bots', 'mode=providers', 'adm_tab_bot_providers', 'ShowBotsPage', 'admin_bots_providers'],
+                ['bots', 'mode=profiles', 'adm_tab_bot_profiles', 'ShowBotsPage', 'admin_bots_profiles'],
+                ['bots', 'mode=bots', 'adm_tab_bot_list', 'ShowBotsPage', 'admin_bots_bots'],
             ]],
-            ['mu_cronjob', 'calendar-clock', [['cronjob', '', 'mu_cronjob', 'ShowCronjobPage']]],
+            ['mu_cronjob', 'calendar-clock', [['cronjob', '', 'mu_cronjob', 'ShowCronjobPage', 'admin_cronjob_show']]],
         ],
         'adm_group_community' => [
             ['adm_nav_players', 'users', [
-                ['search', 'search=users', 'adm_tab_players', 'ShowSearchPage'],
-                ['search', 'search=online', 'mu_connected', 'ShowSearchPage'],
-                ['search', 'search=planet', 'adm_tab_planets', 'ShowSearchPage'],
-                ['search', 'search=moon', 'adm_tab_moons', 'ShowSearchPage'],
-                ['search', 'search=p_connect', 'mu_active_planets', 'ShowSearchPage'],
-                ['search', '', 'mu_search_page', 'ShowSearchPage'],
+                ['search', 'search=users', 'adm_tab_players', 'ShowSearchPage', 'admin_search_show'],
+                ['search', 'search=online', 'mu_connected', 'ShowSearchPage', 'admin_search_show'],
+                ['search', 'search=planet', 'adm_tab_planets', 'ShowSearchPage', 'admin_search_show'],
+                ['search', 'search=moon', 'adm_tab_moons', 'ShowSearchPage', 'admin_search_show'],
+                ['search', 'search=p_connect', 'mu_active_planets', 'ShowSearchPage', 'admin_search_show'],
+                ['search', '', 'mu_search_page', 'ShowSearchPage', 'admin_search_show'],
             ]],
             ['adm_nav_accounts', 'id-card', [
-                ['accountData', '', 'mu_info_account_page', 'ShowAccountDataPage'],
-                ['accountEditor', '', 'adm_tab_editor', 'ShowAccountEditorPage'],
-                ['creator', '', 'adm_tab_create', 'ShowCreatorPage'],
-                ['accountswap', '', 'adm_tab_swap', 'ShowAccountswapPage'],
+                ['accountData', '', 'mu_info_account_page', 'ShowAccountDataPage', 'admin_account_data_show'],
+                ['accountEditor', '', 'adm_tab_editor', 'ShowAccountEditorPage', 'admin_account_editor_show'],
+                ['creator', '', 'adm_tab_create', 'ShowCreatorPage', 'admin_creator_show'],
+                ['accountswap', '', 'adm_tab_swap', 'ShowAccountswapPage', 'admin_account_swap_show'],
             ]],
             ['adm_nav_moderation', 'shield-check', [
-                ['ban', '', 'adm_tab_bans', 'ShowBanPage'],
-                ['active', '', 'mu_vaild_users', 'ShowActivePage'],
-                ['multiIP', '', 'mu_multiip_page', 'ShowMultiIPPage'],
-                ['abuseReport', '', 'abuse_menu', 'ShowAbuseReportPage'],
-                ['comments', '', 'adm_comments', 'ShowMultiIPPage'],
-                ['analytics', '', 'adm_analytics', 'ShowMultiIPPage'],
+                ['ban', '', 'adm_tab_bans', 'ShowBanPage', 'admin_ban_show'],
+                ['active', '', 'mu_vaild_users', 'ShowActivePage', 'admin_active_show'],
+                ['multiIP', '', 'mu_multiip_page', 'ShowMultiIPPage', 'admin_multi_ip_show'],
+                ['abuseReport', '', 'abuse_menu', 'ShowAbuseReportPage', 'admin_abuse_report_show'],
+                ['comments', '', 'adm_comments', 'ShowMultiIPPage', 'admin_comments_show'],
+                ['analytics', '', 'adm_analytics', 'ShowMultiIPPage', 'admin_analytics_show'],
             ]],
-            ['mu_support', 'ticket', [['support', '', 'mu_support', 'ShowSupportPage']]],
+            ['mu_support', 'ticket', [['support', '', 'mu_support', 'ShowSupportPage', 'admin_support_show']]],
             ['adm_nav_messages', 'messages-square', [
-                ['messageList', '', 'mu_mess_list', 'ShowMessageListPage'],
-                ['sendMessages', '', 'mu_global_message', 'ShowSendMessagesPage'],
+                ['messageList', '', 'mu_mess_list', 'ShowMessageListPage', 'admin_message_list_show'],
+                ['sendMessages', '', 'mu_global_message', 'ShowSendMessagesPage', 'admin_send_messages_show'],
             ]],
             ['adm_nav_content', 'file-text', [
-                ['pages', '', 'adm_tab_pages', 'ShowPagesPage'],
-                ['news', '', 'mu_news', 'ShowNewsPage'],
-                ['hallOfFame', '', 'mu_hall_of_fame', 'ShowHallOfFamePage'],
-                ['team', '', 'adm_tab_team', 'ShowTeamPage'],
+                ['pages', '', 'adm_tab_pages', 'ShowPagesPage', 'admin_pages_show'],
+                ['news', '', 'mu_news', 'ShowNewsPage', 'admin_news_show'],
+                ['hallOfFame', '', 'mu_hall_of_fame', 'ShowHallOfFamePage', 'admin_hall_of_fame_show'],
+                ['team', '', 'adm_tab_team', 'ShowTeamPage', 'admin_team_show'],
             ]],
-            ['adm_nav_voting', 'gift', [['votes', '', 'adm_nav_voting', 'ShowVotesPage']]],
-            ['mu_flying_fleets', 'send', [['flyingFleet', '', 'mu_flying_fleets', 'ShowFlyingFleetPage']]],
+            ['adm_nav_voting', 'gift', [['votes', '', 'adm_nav_voting', 'ShowVotesPage', 'admin_votes_show']]],
+            ['mu_flying_fleets', 'send', [['flyingFleet', '', 'mu_flying_fleets', 'ShowFlyingFleetPage', 'admin_flying_fleet_show']]],
         ],
         'mu_tools' => [
-            ['mu_logs', 'scroll-text', [['log', '', 'mu_logs', 'ShowLogPage']]],
-            ['mu_giveaway', 'gift', [['giveaway', '', 'mu_giveaway', 'ShowGiveawayPage']]],
-            ['mu_dump', 'hard-drive-download', [['dump', '', 'mu_dump', 'ShowDumpPage']]],
-            ['mu_md5_encripter', 'key-round', [['passEncripter', '', 'mu_md5_encripter', 'ShowPassEncripterPage']]],
-            ['adm_nav_maintenance', 'wrench', [['maintenance', '', 'adm_nav_maintenance', 'ShowClearCachePage|ShowStatUpdatePage']]],
-            ['rp_header', 'shuffle', [['reshuffle', '', 'rp_header', 'ShowReshufflePage']]],
+            ['mu_logs', 'scroll-text', [['log', '', 'mu_logs', 'ShowLogPage', 'admin_log_show']]],
+            ['mu_giveaway', 'gift', [['giveaway', '', 'mu_giveaway', 'ShowGiveawayPage', 'admin_giveaway_show']]],
+            ['mu_dump', 'hard-drive-download', [['dump', '', 'mu_dump', 'ShowDumpPage', 'admin_dump_show']]],
+            ['mu_md5_encripter', 'key-round', [['passEncripter', '', 'mu_md5_encripter', 'ShowPassEncripterPage', 'admin_pass_encripter_show']]],
+            ['adm_nav_maintenance', 'wrench', [['maintenance', '', 'adm_nav_maintenance', 'ShowClearCachePage|ShowStatUpdatePage', 'admin_maintenance_show']]],
+            ['rp_header', 'shuffle', [['reshuffle', '', 'rp_header', 'ShowReshufflePage', 'admin_reshuffle_show']]],
         ],
     ];
 
@@ -149,7 +151,7 @@ final class AdminShell
             // also on the notice pages, which carry no page variables
             'signalColors' => $USER['signalColors'] ?? null,
             // body id: the requested page (styling hook)
-            'bodyId' => preg_replace('/\W/', '', (string) ($this->state->requestQuery['page'] ?? '')) ?: 'overview',
+            'bodyId' => preg_replace('/\W/', '', $this->currentPage()) ?: 'overview',
         ] + ($bare ? [] : $this->data());
     }
 
@@ -158,11 +160,11 @@ final class AdminShell
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        $isAdmin = (int) $USER['authlevel'] === AUTH_ADM;
-        $currentPage = strtolower((string) ($this->state->requestQuery['page'] ?? 'overview'));
+        $isAdmin = (int) $USER['authlevel'] === AuthLevel::Admin->value;
+        $currentPage = strtolower($this->currentPage() ?: 'overview');
         $currentPage = self::PAGE_ALIASES[$currentPage] ?? $currentPage;
         $currentSearch = (string) ($this->state->requestQuery['search'] ?? '');
-        $currentMode = (string) ($this->state->requestQuery['mode'] ?? '');
+        $currentMode = $this->currentMode();
 
         $openTickets = (int) $this->db->selectSingle(
             'SELECT COUNT(*) AS anz FROM %%TICKETS%% WHERE `universe` = :universe AND `status` = 0;',
@@ -195,6 +197,7 @@ final class AdminShell
                     'href' => $allowed[0]['href'],
                     'label' => $label,
                     'icon' => $icon,
+                    'page' => $firstPage,
                     'active' => $activeTab !== null,
                     // the filter also finds an entry by the names of its tabs
                     'keywords' => implode(' ', array_column($allowed, 'label')),
@@ -234,14 +237,14 @@ final class AdminShell
         $groups = self::MENU;
         if ($isAdmin) {
             $groups['ad_system'] = [
-                ['mu_universe', 'server', [['universe', '', 'mu_universe', null]]],
+                ['mu_universe', 'server', [['universe', '', 'mu_universe', null, 'admin_universe_show']]],
                 ['mu_moderation_page', 'lock', [
-                    ['rights', 'mode=rights', 'mu_moderation_page', null],
-                    ['rights', 'mode=users', 'ad_authlevel_title', null],
+                    ['rights', 'mode=rights', 'mu_moderation_page', null, 'admin_rights_rights'],
+                    ['rights', 'mode=users', 'ad_authlevel_title', null, 'admin_rights_users'],
                 ]],
             ];
             if ((int) $USER['id'] === 1) {
-                $groups['ad_system'][] = ['re_reset_universe', 'triangle-alert', [['reset', '', 're_reset_universe', null]]];
+                $groups['ad_system'][] = ['re_reset_universe', 'triangle-alert', [['reset', '', 're_reset_universe', null, 'admin_reset_show']]];
             }
         }
 
@@ -252,7 +255,7 @@ final class AdminShell
      * Filters the tabs of one menu entry by the admin's rights (a right like "A|B" is met by either) and marks the tab
      * of the current page (search lists also compare the `search`, tabs with a `mode` compare the mode).
      *
-     * @param list<array{0: string, 1: string, 2: string, 3: ?string}> $entryTabs page, query, label key, right
+     * @param list<array{0: string, 1: string, 2: string, 3: ?string, 4: string}> $entryTabs page, query, label key, right, route
      * @return array{0: list<array<string, mixed>>, 1: ?array<string, mixed>} the allowed tabs and the active one
      */
     private function allowedTabs(array $entryTabs, string $currentPage, string $currentSearch, string $currentMode): array
@@ -261,7 +264,8 @@ final class AdminShell
 
         $allowed = [];
         $activeTab = null;
-        foreach ($entryTabs as [$page, $query, $tabLabelKey, $right]) {
+        foreach ($entryTabs as $entryTab) {
+            [$page, $query, $tabLabelKey, $right] = $entryTab;
             // a right like "A|B" is met by either of them
             if ($right !== null && !array_filter(explode('|', $right), fn(string $one): bool => (bool) $this->viewHelpers()->allowedTo($one))) {
                 continue;
@@ -271,28 +275,55 @@ final class AdminShell
                 && ($page !== 'search' || ($params['search'] ?? '') === $currentSearch)
                 && (!isset($params['mode']) || $params['mode'] === $currentMode);
             $tab = [
-                'href' => 'admin?page=' . $page . ($query !== '' ? '&' . $query : ''),
+                'href' => $this->tabHref($params, $entryTab[4]),
                 'label' => $LNG[$tabLabelKey],
                 'active' => $active,
             ];
             if ($active) {
                 $activeTab = $tab;
             }
-            $allowed[] = $tab + ['page' => $page];
+            $allowed[] = $tab + ['page' => $page, 'tabMode' => $params['mode'] ?? ''];
         }
 
-        // a page called without its mode (e.g. admin?page=bots) shows its first tab, so that tab is the active one
+        // a page called without its mode (e.g. admin/bots) shows its first tab, so that tab is the active one
         if ($activeTab === null && $currentMode === '') {
             foreach ($allowed as $i => $tab) {
-                if (strtolower($tab['page']) === $currentPage && str_contains($tab['href'], '&mode=')) {
+                if (strtolower($tab['page']) === $currentPage && $tab['tabMode'] !== '') {
                     $allowed[$i]['active'] = true;
-                    $activeTab = array_diff_key($allowed[$i], ['page' => true]);
+                    $activeTab = array_diff_key($allowed[$i], ['page' => true, 'tabMode' => true]);
                     break;
                 }
             }
         }
 
         return [$allowed, $activeTab];
+    }
+
+    /** the page of the request: attribute `_page` of the route (the former `?page=`) */
+    private function currentPage(): string
+    {
+        return (string) ($this->state->request?->attributes->get('_page') ?? '');
+    }
+
+    /** the action of the request: attribute `_mode` of the route ("show" is no tab) */
+    private function currentMode(): string
+    {
+        $mode = (string) ($this->state->request?->attributes->get('_mode') ?? '');
+
+        return $mode !== 'show' ? $mode : '';
+    }
+
+    /**
+     * Link of a menu tab: its route (with the extra query as parameters).
+     *
+     * @param array<string, mixed> $params the parsed extra query
+     */
+    private function tabHref(array $params, string $route): string
+    {
+        // the mode of a tab is part of its route, not a query parameter
+        unset($params['mode']);
+
+        return $this->state->twig->getExtension(\Symfony\Bridge\Twig\Extension\RoutingExtension::class)->getPath($route, $params);
     }
 
     /**

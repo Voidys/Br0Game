@@ -7,17 +7,17 @@ namespace App\Tests\Integration;
 use App\Controller\Admin\BanController;
 use App\Controller\Game\AbstractGameController;
 use App\Controller\Game\OverviewController;
-use App\Controller\Game\PlayerCardController;
 use App\Controller\Game\RepairdockController;
 use App\Controller\Game\ResearchController;
 use App\Game\Core\EndOfRequest;
 use App\Game\Core\Language;
-use App\Game\Core\PlayerUtil;
+use App\Game\Core\Player\PlanetManager;
 use App\Game\Core\ResourceUpdate;
 use App\Tests\Support\GameTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use App\Game\Enum\AuthLevel;
 
 /**
  * Regression tests of audit round 3: the ban form acts on the checked id only (AD-1), a ?mode= naming a method with required
@@ -77,7 +77,9 @@ final class AuditRound3Test extends GameTestCase
         }
         ob_start();
         try {
-            $controller->withGameServices($this->db, $this->configs, $this->state)->$action();
+            $controller->withGameServices($this->db, $this->configs, $this->state);
+            $controller->setRouter(self::container()->get('router'));
+            $controller->$action();
         } catch (EndOfRequest) {
         } finally {
             ob_end_clean();
@@ -105,17 +107,17 @@ final class AuditRound3Test extends GameTestCase
         if ($target === ROOT_USER && empty($this->db->selectSingle('SELECT id FROM %%USERS%% WHERE id = :id;', [':id' => ROOT_USER]))) {
             $this->markTestSkipped('the test database has no root user row');
         }
-        [$mod] = $this->createPlayer(['authlevel' => AUTH_MOD]);
+        [$mod] = $this->createPlayer(['authlevel' => AuthLevel::Moderator->value]);
         [$plain] = $this->createPlayer();
         if ($target === -1) {
-            [$high] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+            [$high] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
             $target = (int) $high['id'];
         }
         $before = $this->banRow($target);
 
         // the authorisation looks at unban_id (a plain player); the old form then banned ban_id
         $this->prepare($mod, [], ['bannow' => 1, 'ban_id' => $target, 'unban_id' => $plain['id'], 'permanent' => 1, 'ban_name' => 'x', 'why' => 'x'], ['page' => 'ban', 'mode' => 'user']);
-        $this->drive(new BanController());
+        $this->drive(new BanController(), 'playersAct');
 
         $this->assertEquals($before['bana'], $this->banRow($target)['bana'], 'the higher user stays unbanned');
         $this->assertEquals($before['banaday'], $this->banRow($target)['banaday']);
@@ -125,46 +127,15 @@ final class AuditRound3Test extends GameTestCase
 
     public function testAdminStillBansAPlainPlayer(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [$plain] = $this->createPlayer();
 
         $this->prepare($admin, [], ['bannow' => 1, 'ban_id' => $plain['id'], 'permanent' => 1, 'ban_name' => 'x', 'why' => 'cheating'], ['page' => 'ban', 'mode' => 'user']);
-        $this->drive(new BanController());
+        $this->drive(new BanController(), 'playersAct');
 
         $row = $this->banRow((int) $plain['id']);
         $this->assertSame(1, (int) $row['bana']);
         $this->assertSame(2147483647, (int) $row['banaday']);
-    }
-
-    // ---- SO-1 mode dispatch
-
-    public function testModeWithRequiredParametersIsNotDispatched(): void
-    {
-        [$user, $planet] = $this->createPlayer();
-        $this->prepare($user, $planet, [], ['page' => 'playerCard', 'mode' => 'get_stats']);
-        $this->state->requestInput = ['page' => 'playerCard', 'mode' => 'get_stats'];
-        $controller = (new PlayerCardController())->withGameServices($this->db, $this->configs, $this->state);
-        $method = new \ReflectionMethod($controller, 'isPageMode');
-
-        $this->assertTrue((new \ReflectionMethod($controller, 'get_stats'))->isPublic());
-        $this->assertFalse($method->invoke($controller, 'get_stats'), 'a method that needs arguments is no page mode');
-        $this->assertFalse($method->invoke($controller, 'get_units'));
-        $this->assertTrue($method->invoke($controller, 'show'));
-        $this->assertTrue($method->invoke($controller, 'toggleBlock'));
-
-        // through the route entry: no ArgumentCountError, the page ends like for an unknown mode
-        ob_start();
-        try {
-            $controller();
-            $this->fail('the request should end');
-        } catch (EndOfRequest) {
-        } catch (\ArgumentCountError $e) {
-            $this->fail('get_stats was dispatched: ' . $e->getMessage());
-        } catch (\Throwable) {
-            // the page shell needs more of a browser request than a test has: only the error type matters
-        } finally {
-            ob_end_clean();
-        }
     }
 
     // ---- EC-1 abandon + cancel research
@@ -174,7 +145,7 @@ final class AuditRound3Test extends GameTestCase
         $resource = $this->elements()->columnMap();
         $now = $this->state->runtime->timestamp;
         [$user, $main] = $this->createPlayer([], [$resource[RESEARCH_LABORATORY] => 3, 'metal' => 1000, 'crystal' => 1000, 'deuterium' => 1000, 'last_update' => $now]);
-        $players = new PlayerUtil($this->db, $this->configs, $this->state);
+        $players = new PlanetManager($this->db, $this->configs, $this->state);
         $colonyId = $players->createPlanet(7, 77, 7, 1, (int) $user['id'], 'Colony');
         $this->db->update('UPDATE %%PLANETS%% SET last_update = :t WHERE id = :id;', [':t' => $now, ':id' => $colonyId]);
 
@@ -194,7 +165,7 @@ final class AuditRound3Test extends GameTestCase
         // cancel it on the main planet
         $mainBefore = $this->loadPlanet((int) $main['id']);
         $this->prepare($afterAbandon, $mainBefore, ['cmd' => 'cancel', 'tech' => ENERGY_TECH], ['page' => 'research']);
-        $this->drive(new ResearchController());
+        $this->drive(new ResearchController(), 'command');
 
         $mainAfter = $this->loadPlanet((int) $main['id']);
         foreach (['metal', 'crystal', 'deuterium'] as $column) {

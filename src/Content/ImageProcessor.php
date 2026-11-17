@@ -90,7 +90,10 @@ final class ImageProcessor
         return $written;
     }
 
-    /** @param list<int> $widths @return array{files: int, variants: int, bytes: int} variants() for every WebP below `$root` */
+    /**
+     * @param list<int> $widths @return array{files: int, variants: int, bytes: int} variants() for every WebP below `$root`
+     * @return array<mixed>
+     */
     public function variantTree(string $root, array $widths, bool $force = false): array
     {
         $stats = ['files' => 0, 'variants' => 0, 'bytes' => 0];

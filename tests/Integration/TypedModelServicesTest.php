@@ -6,7 +6,7 @@ namespace App\Tests\Integration;
 
 use App\Game\Core\BuildFunctions;
 use App\Game\Core\FleetMath;
-use App\Game\Core\PlayerUtil;
+use App\Game\Core\Player\ProtectionRules;
 use App\Game\Core\ResourceProduction;
 use App\Game\Model\ModelFactory;
 use App\Game\Model\Planet;
@@ -177,9 +177,9 @@ final class TypedModelServicesTest extends GameTestCase
     {
         [$user, , $userModel] = $this->player();
         [$other] = $this->createPlayer(['onlinetime' => time()], []);
-        $players = new PlayerUtil($this->db, $this->configs, $this->state);
+        $players = new ProtectionRules($this->db, $this->configs, $this->state);
 
-        $this->assertSame($players->getCatchUpFactor($user), $players->catchUpFactorFor($userModel));
+        $this->assertGreaterThan(0.0, $players->catchUpFactorFor($userModel));
 
         $user['total_points'] = 100000;
         $other['total_points'] = 50;
@@ -191,6 +191,6 @@ final class TypedModelServicesTest extends GameTestCase
         $this->assertTrue($players->checkNoobProtectionFor($this->models->user($user), $this->models->user($other))['NoobPlayer']);
         $this->assertTrue($players->checkNoobProtectionFor($this->models->user($other), $this->models->user($user))['StrongPlayer']);
 
-        $this->assertSame($players->spyTechAllowed(4, $other['id'], $user), $players->spyTechAllowedFor(4, (int) $other['id'], $userModel));
+        $this->assertTrue($players->spyTechAllowedFor(4, (int) $other['id'], $userModel));
     }
 }

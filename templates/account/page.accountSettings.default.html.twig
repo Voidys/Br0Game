@@ -25,13 +25,12 @@
       <div class="acc-form__field"><select form="account-settings-form" name="timezone" id="timezone">{{ forms.html_options({'options': Selectors.timezones, 'selected': timezone}) }}</select></div>
     </div>
     <div class="acc-form__actions">
-      <form id="account-settings-form" action="account?page=accountSettings" method="post"><input type="hidden" name="mode" value="send"><input class="btn btn--primary" value="{{ LNG['op_save_changes'] }}" type="submit"></form>
+      <form id="account-settings-form" action="{{ path('account_account_settings_send') }}" method="post"><input class="btn btn--primary" value="{{ LNG['op_save_changes'] }}" type="submit"></form>
     </div>
   </section>
 
   <section class="panel acc-form-panel acc-danger">
-    <form action="account?page=accountSettings" method="post">
-      <input type="hidden" name="mode" value="toggleDelete">
+    <form action="{{ path('account_account_settings_toggle_delete') }}" method="post">
       <input class="btn btn--danger" name="delete" type="submit" value="{% if delete %}{{ LNG.op_stop_dlte_account }}{% else %}{{ LNG.op_dlte_account }}{% endif %}">
     </form>
   </section>

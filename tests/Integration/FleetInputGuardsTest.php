@@ -6,7 +6,6 @@ namespace App\Tests\Integration;
 
 use App\Controller\Game\FleetMissileController;
 use App\Controller\Game\FleetStep2Controller;
-use App\Game\Core\EndOfRequest;
 use App\Game\Core\FleetFunctions;
 use App\Game\Core\Language;
 use App\Tests\Support\GameTestCase;
@@ -36,7 +35,11 @@ final class FleetInputGuardsTest extends GameTestCase
         $this->state->time = ['start' => microtime(true), 'end_common' => microtime(true), 'db' => 0];
     }
 
-    /** @param array<string, mixed> $input */
+    /**
+     * @param array<string, mixed> $input
+     * @param array<string, mixed> $planet
+     * @param array<string, mixed> $user
+     */
     private function callShow(string $class, array $user, array $planet, array $input): string
     {
         // the message page renders the navigation, which reads the unread message counter and the colour settings
@@ -48,12 +51,8 @@ final class FleetInputGuardsTest extends GameTestCase
         $this->state->requestServer = ($this->state->requestServer ?? []) + [];
         $this->state->requestServer['REQUEST_METHOD'] = 'POST';
         $controller = (new $class())->withGameServices($this->db, $this->configs, $this->state);
-        try {
-            $controller->show();
-            $this->fail('the page should end the request');
-        } catch (EndOfRequest $end) {
-            return ($end->getResponse()?->getContent() ?? '') . $end->getOutput();
-        }
+
+        return (string) $controller->show()->getContent();
     }
 
     public function testMissileAtAnUnknownPlanetShowsTheNotFoundMessage(): void
@@ -78,12 +77,8 @@ final class FleetInputGuardsTest extends GameTestCase
             $session->fleet = ['tok' => ['fleet' => [202 => 1], 'fleetRoom' => 5000, 'predefinedResources' => []]];
             $session->save();
             $this->state->requestInput = ['token' => 'tok', 'galaxy' => $planet['galaxy'], 'system' => $planet['system'], 'planet' => $planet['planet'], 'type' => 1, 'speed' => $speed];
-            try {
-                $controller->show();
-                $this->fail('step 2 should end the request');
-            } catch (EndOfRequest) {
-                $this->assertTrue(true, "speed $speed ends the request instead of dividing by zero");
-            }
+            $response = $controller->show();
+            $this->assertTrue($response->isRedirection(), "speed $speed goes back to the fleet page instead of dividing by zero");
         }
     }
 

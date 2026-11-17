@@ -6,10 +6,10 @@ namespace App\Tests\Integration;
 
 use App\Controller\Game\AbstractGameController;
 use App\Controller\Game\InformationController;
-use App\Game\Core\EndOfRequest;
 use App\Game\Core\FleetLauncher;
 use App\Game\Cronjob\FleetEventCronjob;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * Race guards of the fleet rules (security audit F-03, F-05): the missile silo is changed under a row lock and
@@ -28,7 +28,7 @@ final class FleetRaceGuardsTest extends GameTestCase
      *
      * @return array{0: array<string, mixed>, 1: int} sender, fleet id
      */
-    private function launch(int $mission = MISSION_TRANSPORT): array
+    private function launch(int $mission = Mission::Transport->value): array
     {
         [$user, $planet] = $this->createPlayer([], ['small_ship_cargo' => 20, 'metal' => 10000, 'crystal' => 10000, 'deuterium' => 10000]);
         [$targetUser, $target] = $this->createPlayer();
@@ -98,13 +98,8 @@ final class FleetRaceGuardsTest extends GameTestCase
         $controller = new InformationController();
         $property = new \ReflectionProperty(AbstractGameController::class, 'ecoObj');
         $property->setValue($controller, new \App\Game\Core\ResourceUpdate($this->db, $this->configs, $this->state));
-        ob_start();
-        try {
-            $controller->withGameServices($this->db, $this->configs, $this->state)->destroyMissiles();
-        } catch (EndOfRequest) {
-        }
 
-        return (string) ob_get_clean();
+        return (string) $controller->withGameServices($this->db, $this->configs, $this->state)->destroyMissiles()->getContent();
     }
 
     public function testArrivedOutwardFleetCannotBeRecalledBeforeItsEventRan(): void
@@ -123,7 +118,7 @@ final class FleetRaceGuardsTest extends GameTestCase
 
     public function testHoldingFleetCanStillBeRecalledDuringItsStay(): void
     {
-        [$user, $fleetId] = $this->launch(MISSION_HOLD);
+        [$user, $fleetId] = $this->launch(Mission::Hold->value);
         $now = $this->state->runtime->timestamp;
         $this->db->update('UPDATE %%FLEETS%% SET start_time = :s, arrival_time = :a, status = :st WHERE id = :id;', [
             ':s' => $now - 1000,
@@ -137,7 +132,7 @@ final class FleetRaceGuardsTest extends GameTestCase
 
     public function testFleetEventDriverProcessesDueEventsWithoutAPageView(): void
     {
-        [, $fleetId] = $this->launch(MISSION_STATION);
+        [, $fleetId] = $this->launch(Mission::Station->value);
         $now = $this->state->runtime->timestamp;
         $this->db->update('UPDATE %%FLEETS%% SET start_time = :s, arrival_time = :a WHERE id = :id;', [':s' => $now - 700, ':a' => $now - 100, ':id' => $fleetId]);
         $this->db->update('UPDATE %%FLEETS_EVENT%% SET `time` = :t WHERE fleetID = :id;', [':t' => $now - 100, ':id' => $fleetId]);

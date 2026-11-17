@@ -6,6 +6,7 @@ namespace App\Tests\Integration;
 
 use App\Game\Core\ExpeditionFindableShipsHandler;
 use App\Game\Core\MarketManager;
+use App\Game\Missions\Expedition\ExpeditionFleetValue;
 use App\Game\Missions\Expedition\ExpeditionShipEvent;
 use App\Game\Missions\MissionCaseExpedition;
 use App\Tests\Support\GameTestCase;
@@ -137,10 +138,11 @@ final class MarketAndExpeditionTest extends GameTestCase
     {
         [$user] = $this->createPlayer();
         $row = ['owner' => $user['id'], 'ships' => '202,10;203,5;207,3', 'resource_metal' => 1000, 'resource_crystal' => 500];
-        $points = new \ReflectionMethod(MissionCaseExpedition::class, 'calculatePointsAndCapacity');
+        $value = new ExpeditionFleetValue($this->db, $this->configs, $this->state);
+        $defaults = ['resource_metal' => 0, 'resource_crystal' => 0, 'resource_deuterium' => 0, 'universe' => 1];
 
-        $this->goldenAssert('expedition points/capacity', $points->invoke($this->expedition($row)));
-        $this->goldenAssert('expedition points/capacity, empty hold', $points->invoke($this->expedition(['ships' => '210,1', 'owner' => $user['id']])));
+        $this->goldenAssert('expedition points/capacity', $value->pointsAndCapacity($row + $defaults));
+        $this->goldenAssert('expedition points/capacity, empty hold', $value->pointsAndCapacity(['ships' => '210,1', 'owner' => $user['id']] + $defaults));
     }
 
     public function testFindableShipsPerFleet(): void

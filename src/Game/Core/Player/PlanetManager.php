@@ -2,6 +2,7 @@
 
 namespace App\Game\Core\Player;
 
+use App\Game\Enum\PlanetType;
 use Exception;
 use App\Game\Core\Database;
 use App\Game\Core\Config;
@@ -33,17 +34,23 @@ class PlanetManager
     public function getPlanetDataPlanetConfig(): array
     {
         $db = $this->db;
+        $currentUniverse = (int) $this->universe()->current();
+
+        // the generic rows (universe 0) and the ones of this universe in one query
+        $sql = "SELECT * FROM %%PLANET_DATA%% WHERE universe IN (0, :universe)";
+        $rows = $db->select($sql, [
+            ':universe' => $currentUniverse,
+        ]);
         $planetDataBackend = [];
-
-        $sql = "SELECT * FROM %%PLANET_DATA%% WHERE universe = :universe";
-        $planetDataBackend = $db->select($sql, [
-            ':universe' => 0,
-        ]);
-
-        $sql = "SELECT * FROM %%PLANET_DATA%% WHERE universe = :universe";
-        $planetDataBackend_universe = $db->select($sql, [
-            ':universe' => $this->universe()->current(),
-        ]);
+        $planetDataBackend_universe = [];
+        foreach ($rows as $row) {
+            if ((int) $row['universe'] === 0) {
+                $planetDataBackend[] = $row;
+            }
+            if ((int) $row['universe'] === $currentUniverse) {
+                $planetDataBackend_universe[] = $row;
+            }
+        }
 
         // Step 1: Re-index generic array by `planet_position`
         $genericByPosition = [];
@@ -172,8 +179,8 @@ class PlanetManager
      * Resource bonuses apply only when planet_ressource_bonus is enabled.
      *
      * @param bool $isHome
-     * @param array|null $planetArray row with `anz` = number of planets the user owns
-     * @param array|null $band planet data row of the position (fields_min/max, temp_min/max, *BonusPercent)
+     * @param array<mixed>|null $planetArray row with `anz` = number of planets the user owns
+     * @param array<mixed>|null $band planet data row of the position (fields_min/max, temp_min/max, *BonusPercent)
      * @param Config $config universe configuration
      * @return array{0: int, 1: int, 2: mixed, 3: mixed, 4: mixed} maxFields, maxTemperature, metal, crystal, deuterium bonus percent
      */
@@ -218,7 +225,7 @@ class PlanetManager
      * With all_planet_pictures enabled it retries up to MAXPLANETPICTURECOUNT times to avoid an image the
      * owner already uses on a non-destroyed planet.
      *
-     * @param array $planetData picture table per position band (from planet_data.php)
+     * @param array<mixed> $planetData picture table per position band (from planet_data.php)
      * @param int $dataIndex index of the position band
      * @param int $userId owner, whose existing pictures are avoided
      * @param Config $config universe configuration
@@ -449,7 +456,7 @@ class PlanetManager
                     OR (`end_type` = :type AND `end_id` = :moondId);';
         $fleetIds = $db->select($sql, [
             ':planetId' => $planetId,
-            ':type'     => TYPE_MOON,
+            ':type'     => PlanetType::Moon->value,
             ':moondId'  => $planetData['id_luna'],
         ]);
 
@@ -458,7 +465,7 @@ class PlanetManager
             $this->fleetFunctions()->sendFleetBack(['id' => $fleetId['owner']], $fleetId['id']);
         }
 
-        if ($planetData['planet_type'] == TYPE_MOON) {
+        if ($planetData['planet_type'] == PlanetType::Moon->value) {
             $sql = 'DELETE FROM %%PLANETS%% WHERE id = :planetId;';
             $db->delete($sql, [
                 ':planetId' => $planetId,
@@ -499,7 +506,7 @@ class PlanetManager
     /**
      * Sets resources, ships, defense and the hangar queue to zero on every planet of a user (reset helper).
      *
-     * @param array $USER user row
+     * @param array<string, mixed> $USER user row
      */
     public function clearPlanets(array $USER): void
     {

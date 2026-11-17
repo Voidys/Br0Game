@@ -341,7 +341,7 @@ sys_mess_spy_ennemyfleet_1: Des sondes d'espionnage ennemies de la planète %s o
 sys_mess_spy_ennemyfleet_3: Des sondes d'espionnage ennemies de la lune %s ont été
   repérées près de %s.
 sys_mess_spy_link: >-
-  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: 'Probabilité que les sondes d''espionnage soient détectées :
   %d%%'
@@ -380,7 +380,7 @@ sys_stat_mess: Ta flotte de %s %s est arrivée à %s %s %s et a livré %s %s, %s
 sys_stat_mess_stay: Flotte stationnée
 sys_stealed_ressources: Butin
 sys_trade_mess_arr_success: 'Ta flotte marchande est prête à retourner à %1$s %2$s
-  (vol de retour : %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback"
+  (vol de retour : %5$s). <form action="game/fleet/recall"
   method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s"
   type="submit"></form>'
 sys_trade_mess_back: Ta flotte marchande est revenue à %s %s sans succès.

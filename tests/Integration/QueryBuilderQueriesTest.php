@@ -7,10 +7,12 @@ namespace App\Tests\Integration;
 use App\Controller\Admin\SearchController;
 use App\Game\Core\BattleHallFilter;
 use App\Game\Core\Player\PlanetQueries;
-use App\Game\Core\PlayerUtil;
+use App\Game\Core\Player\PlanetManager;
 use App\Game\Messages\MessageMailbox;
 use App\Tests\Support\GameTestCase;
 use Doctrine\DBAL\ArrayParameterType;
+use App\Game\Enum\AuthLevel;
+use App\Game\Enum\MessageType;
 
 /**
  * Queries whose SQL is assembled at runtime and now run through the DBAL QueryBuilder (Database::qb()): each family is
@@ -72,6 +74,7 @@ final class QueryBuilderQueriesTest extends GameTestCase
         $this->state->USER = $admin;
         $this->state->universeEmulated = 1;
         $controller = (new SearchController())->withGameServices($this->db, $this->configs, $this->state);
+        $controller->setRouter(self::container()->get('router'));
         $items = match ($table) {
             'USERS' => ['id', 'username', 'onlinetime', 'register_time', 'user_lastip', 'authlevel', 'bana', 'urlaubs_modus'],
             'PLANETS' => ['p.id', 'p.name', "CONCAT(u.username, ' (ID:&nbsp;', p.id_owner, ')') AS owner", 'p.last_update', 'p.galaxy', 'p.`system`', 'p.planet', 'p.id_luna'],
@@ -110,7 +113,7 @@ final class QueryBuilderQueriesTest extends GameTestCase
     public function testAdminUserSearchMatchesPlainSqlForOrderingAndPaging(): void
     {
         $players = $this->sixPlayers();
-        $admin = $players[0] + ['authlevel' => AUTH_ADM];
+        $admin = $players[0] + ['authlevel' => AuthLevel::Admin->value];
         $admin['timezone'] ??= 'UTC';
         $oracle = static fn($db, string $order, string $dir, int $offset, int $limit) => array_map(
             static fn(array $row): int => (int) $row['id'],
@@ -144,7 +147,7 @@ final class QueryBuilderQueriesTest extends GameTestCase
     public function testAdminPlanetSearchJoinsTheOwnerAndSortsBySystem(): void
     {
         $players = $this->sixPlayers();
-        $admin = $players[0] + ['authlevel' => AUTH_ADM];
+        $admin = $players[0] + ['authlevel' => AuthLevel::Admin->value];
         $admin['timezone'] ??= 'UTC';
         $oracle = $this->db->select(
             "SELECT p.id,p.name,CONCAT(u.username, ' (ID:&nbsp;', p.id_owner, ')') as owner,p.last_update,p.galaxy,p.system,p.planet,p.id_luna FROM %%PLANETS%% p LEFT JOIN %%USERS%% u ON u.id = p.id_owner WHERE p.name LIKE :searchKey AND planet_type = '1' AND p.universe = 1 ORDER BY system DESC LIMIT 0,4",
@@ -155,7 +158,11 @@ final class QueryBuilderQueriesTest extends GameTestCase
         $this->assertSame(array_map(static fn(array $r) => $r['owner'], $oracle), array_map(static fn(array $r) => $r['cells'][2], $result['rows']));
     }
 
-    /** @param array<string, mixed> $filter */
+    /**
+     * @param array<string, mixed> $filter
+     * @param array<string, mixed> $user
+     * @return array<mixed>
+     */
     private function topKbOracle(array $filter, array $user): array
     {
         $memorial = [BattleHallFilter::MEMORIAL_EXCLUDE => ' AND %%TOPKB%%.memorial = 0 ', BattleHallFilter::MEMORIAL_ONLY => ' AND %%TOPKB%%.memorial = 1 '][$filter['memorial']] ?? '';
@@ -238,7 +245,7 @@ final class QueryBuilderQueriesTest extends GameTestCase
     public function testPlanetListFollowsTheSortSettings(): void
     {
         [$user] = $this->createPlayer();
-        $players = new PlayerUtil($this->db, $this->configs, $this->state);
+        $players = new PlanetManager($this->db, $this->configs, $this->state);
         foreach ([[1, 5, 9, 'mmm'], [1, 5, 3, 'aaa'], [1, 2, 7, 'zzz'], [2, 9, 1, 'ccc']] as [$galaxy, $system, $planet, $name]) {
             $players->createPlanet($galaxy, $system, $planet, 1, (int) $user['id'], $name);
         }
@@ -261,6 +268,7 @@ final class QueryBuilderQueriesTest extends GameTestCase
 
     /**
      * @param array<string, mixed> $user
+     * @param array<mixed> $types
      * @return list<int> message ids of the user's mailbox, in creation order
      */
     private function mailbox(array $user, array $types): array
@@ -276,7 +284,10 @@ final class QueryBuilderQueriesTest extends GameTestCase
         return $ids;
     }
 
-    /** @return array<int, array{unread: int, deleted: bool}> */
+    /**
+     * @param array<string, mixed> $user
+     * @return array<int, array{unread: int, deleted: bool}>
+     */
     private function mailboxState(array $user): array
     {
         $state = [];
@@ -292,24 +303,24 @@ final class QueryBuilderQueriesTest extends GameTestCase
         [$user] = $this->createPlayer();
         [$other] = $this->createPlayer();
         $this->state->USER = $user;
-        $mine = $this->mailbox($user, [MESSAGE_TYPE_USER, MESSAGE_TYPE_USER, MESSAGE_TYPE_SYSTEM, MESSAGE_TYPE_USER]);
-        $theirs = $this->mailbox($other, [MESSAGE_TYPE_USER]);
+        $mine = $this->mailbox($user, [MessageType::User->value, MessageType::User->value, MessageType::System->value, MessageType::User->value]);
+        $theirs = $this->mailbox($other, [MessageType::User->value]);
         // message 3 (index 3) is a favourite: deletions skip it
         $this->db->update('UPDATE %%USERS_TO_MESSAGES%% SET message_favorite = 1 WHERE message_id = :m;', [':m' => $mine[3]]);
         $mailbox = new MessageMailbox($this->db, $this->configs, $this->state);
 
-        $mailbox->applyAction('readmarked', MESSAGE_TYPE_ALL, [$mine[0] => 'on', $theirs[0] => 'on', 'x1' => 'on']);
+        $mailbox->applyAction('readmarked', MessageType::All->value, [$mine[0] => 'on', $theirs[0] => 'on', 'x1' => 'on']);
         $this->assertSame([0, 1, 1, 1], array_column(array_values($this->mailboxState($user)), 'unread'));
         $this->assertSame(1, $this->mailboxState($other)[$theirs[0]]['unread'], 'foreign messages stay untouched');
 
-        $mailbox->applyAction('deletemarked', MESSAGE_TYPE_ALL, [$mine[1] => 'on', $mine[3] => 'on']);
+        $mailbox->applyAction('deletemarked', MessageType::All->value, [$mine[1] => 'on', $mine[3] => 'on']);
         $this->assertSame([false, true, false, false], array_column(array_values($this->mailboxState($user)), 'deleted'), 'favourites are not deleted');
 
         // delete everything of the category that is not selected: message 0 is selected, 3 is a favourite, 1 is already gone
-        $mailbox->applyAction('deleteunmarked', MESSAGE_TYPE_USER, [$mine[0] => 'on']);
+        $mailbox->applyAction('deleteunmarked', MessageType::User->value, [$mine[0] => 'on']);
         $this->assertSame([false, true, false, false], array_column(array_values($this->mailboxState($user)), 'deleted'));
         // across all categories the system message goes as well
-        $mailbox->applyAction('deleteunmarked', MESSAGE_TYPE_ALL, [$mine[0] => 'on']);
+        $mailbox->applyAction('deleteunmarked', MessageType::All->value, [$mine[0] => 'on']);
         $this->assertSame([false, true, true, false], array_column(array_values($this->mailboxState($user)), 'deleted'));
         $this->assertFalse($this->mailboxState($other)[$theirs[0]]['deleted']);
     }

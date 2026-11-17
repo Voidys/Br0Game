@@ -8,9 +8,9 @@
 {% set pager %}
   <nav class="pager" aria-label="{{ LNG.mg_page }}">
     <span>{{ LNG.mg_page }}</span>
-    {% if page != 1 %}<a href="./?page=banList&amp;side={{ page - 1 }}">&laquo;</a>{% endif %}
-    {% if maxPage >= 1 %}{% for site in 1..maxPage %}<a href="./?page=banList&amp;side={{ site }}"{% if site == page %} aria-current="page"{% endif %}>{{ site }}</a>{% endfor %}{% endif %}
-    {% if page != maxPage %}<a href="./?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}
+    {% if page != 1 %}<a href="{{ path('login_ban_list_show', {side: page - 1}) }}">&laquo;</a>{% endif %}
+    {% if maxPage >= 1 %}{% for site in 1..maxPage %}<a href="{{ path('login_ban_list_show', {side: site}) }}"{% if site == page %} aria-current="page"{% endif %}>{{ site }}</a>{% endfor %}{% endif %}
+    {% if page != maxPage %}<a href="{{ path('login_ban_list_show', {side: page + 1}) }}">&raquo;</a>{% endif %}
   </nav>
 {% endset %}
 {% if banCount %}

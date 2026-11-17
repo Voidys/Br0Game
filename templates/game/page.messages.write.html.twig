@@ -23,7 +23,7 @@
       {% if action == 'write' %}
         <tr>
           <td><label for="subject">{{ LNG.mg_subject }}</label></td>
-          <td><input type="text" name="subject" id="subject" maxlength="40" value="{% if not empty(subject) %}{{ subject }}{% else %}{{ LNG.mg_no_subject }}{% endif %}"></td>
+          <td><input type="text" name="subject" id="subject" maxlength="40" value="{% if subject %}{{ subject }}{% else %}{{ LNG.mg_no_subject }}{% endif %}"></td>
         </tr>
         <tr>
           <td colspan="2">
@@ -49,6 +49,9 @@
 {% block script %}{{ parent() }}
   {{ data_island('message-write-data', {
     action: action,
+    sendUrl: path('game_messages_send'),
+    forwardUrl: path('game_messages_send_forward'),
+    usersUrl: path('game_messages_load_user'),
     searchNote: LNG.mg_min_3_chars,
     searchNoUser: LNG.mg_no_user,
     emptyText: LNG.mg_empty_text,

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use App\Runtime\ProjectPaths;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Empties the game error log (var/log/game.log) and returns to the maintenance page. POST only (CsrfPolicy); needs the
  * clear-cache right. The file is truncated, not deleted, so its owner and permissions stay.
  */
-#[\App\Routing\GamePage('admin', 'clearLog')]
 class ClearLogController extends AbstractAdminController
 {
     public const LOG_FILE = 'var/log/game.log';
@@ -23,12 +24,14 @@ class ClearLogController extends AbstractAdminController
     }
 
     /** truncates the game log and shows a message */
-    public function show(): never
+    #[GameRoute('admin', 'admin/clear-log', 'clearLog', 'show', ['POST'])]
+    public function show(): Response
     {
         $LNG = $this->state->LNG;
         $file = ProjectPaths::ROOT . self::LOG_FILE;
         $ok = !is_file($file) || (is_writable($file) && file_put_contents($file, '', LOCK_EX) !== false);
-        $this->message($ok ? $LNG['adm_maint_log_cleared'] : $LNG['adm_maint_log_failed'], 'admin?page=maintenance', 3);
+
+        return $this->messageResponse($ok ? $LNG['adm_maint_log_cleared'] : $LNG['adm_maint_log_failed'], $this->router->generate('admin_maintenance_show'), 3);
     }
 
     /**

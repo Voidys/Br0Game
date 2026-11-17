@@ -9,6 +9,8 @@ use App\Game\Core\FlyingFleetsTable;
 use App\Game\Missions\MissionCaseMIP;
 use App\Game\Missions\MissionCaseRecycling;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
+use App\Game\Enum\PlanetType;
 
 /**
  * Pins the SQL that the missions and the fleet table assemble at runtime (debris collection, missile damage, the fleet
@@ -17,7 +19,16 @@ use App\Tests\Support\GameTestCase;
  */
 final class MissionQueriesTest extends GameTestCase
 {
-    /** Sends a fleet from $from to $target with the given ships (arrived in the past) and returns its row. */
+    /**
+     * Sends a fleet from $from to $target with the given ships (arrived in the past) and returns its row.
+     *
+     * @param array<mixed> $from
+     * @param array<mixed> $fromPlanet
+     * @param array<mixed> $ships
+     * @param array<mixed> $to
+     * @param array<mixed> $toPlanet
+     * @return array<mixed>
+     */
     private function fleet(array $from, array $fromPlanet, array $to, array $toPlanet, int $mission, array $ships, int $missileTarget = 0): array
     {
         $now = time();
@@ -54,7 +65,7 @@ final class MissionQueriesTest extends GameTestCase
         $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer([], [$resource[209] => 5, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], ['der_metal' => 1000, 'der_crystal' => 500]);
-        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_RECYCLING, [209 => 1]);
+        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, Mission::Recycling->value, [209 => 1]);
 
         (new MissionCaseRecycling($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
 
@@ -75,7 +86,7 @@ final class MissionQueriesTest extends GameTestCase
         $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer([], [$resource[209] => 5, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], ['der_metal' => 30000, 'der_crystal' => 10000]);
-        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_RECYCLING, [209 => 1]);
+        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, Mission::Recycling->value, [209 => 1]);
         $capacity = $this->elements()->capacity(209);
 
         (new MissionCaseRecycling($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
@@ -99,7 +110,7 @@ final class MissionQueriesTest extends GameTestCase
         $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer([], [$resource[209] => 5, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], ['der_metal' => 1000]);
-        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_RECYCLING, [209 => 1]);
+        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, Mission::Recycling->value, [209 => 1]);
         $this->db->delete('DELETE FROM %%PLANETS%% WHERE id = :id;', [':id' => $ownerPlanet['id']]);
 
         (new MissionCaseRecycling($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
@@ -112,7 +123,7 @@ final class MissionQueriesTest extends GameTestCase
         $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer(['impulse_motor_tech' => 5], [$resource[503] => 10, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], [$resource[502] => 20, $resource[401] => 50]);
-        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_MISSILE, [503 => 10], 401);
+        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, Mission::Missile->value, [503 => 10], 401);
 
         (new MissionCaseMIP($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
 
@@ -127,7 +138,7 @@ final class MissionQueriesTest extends GameTestCase
         $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer(['impulse_motor_tech' => 5], [$resource[503] => 10, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer(['urlaubs_modus' => 1], [$resource[401] => 50]);
-        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_MISSILE, [503 => 10], 401);
+        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, Mission::Missile->value, [503 => 10], 401);
 
         (new MissionCaseMIP($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
         $turned = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleet['id']]);
@@ -144,7 +155,7 @@ final class MissionQueriesTest extends GameTestCase
         $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer(['impulse_motor_tech' => 5, 'military_tech' => 10], [$resource[503] => 10, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], [$resource[502] => 3, $resource[401] => 50]);
-        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_MISSILE, [503 => 10], 401);
+        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, Mission::Missile->value, [503 => 10], 401);
 
         (new MissionCaseMIP($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
 
@@ -162,7 +173,12 @@ final class MissionQueriesTest extends GameTestCase
         return $method->invoke($table, $acsId);
     }
 
-    /** the statements getFleets() ran before it used the QueryBuilder: the oracle */
+    /**
+     * the statements getFleets() ran before it used the QueryBuilder: the oracle
+     *
+     * @param array<mixed> $param
+     * @return array<mixed>
+     */
     private function oracle(string $where, array $param): array
     {
         return $this->db->select('SELECT DISTINCT fleet.*, ownuser.`username` as own_username, targetuser.`username` as target_username,
@@ -180,11 +196,11 @@ final class MissionQueriesTest extends GameTestCase
         $resource = $this->elements()->columnMap();
         [$a, $aPlanet] = $this->createPlayer([], [$resource[202] => 50, $resource[209] => 5, 'deuterium' => 1e6]);
         [$b, $bPlanet] = $this->createPlayer([], [$resource[202] => 50, 'deuterium' => 1e6]);
-        $this->fleet($a, $aPlanet, $b, $bPlanet, MISSION_TRANSPORT, [202 => 1]);
-        $this->fleet($a, $aPlanet, $b, $bPlanet, MISSION_RECYCLING, [209 => 1]);
-        $this->fleet($b, $bPlanet, $a, $aPlanet, MISSION_ATTACK, [202 => 1]);
-        $this->fleet($b, $bPlanet, $b, $bPlanet, MISSION_STATION, [202 => 1]);
-        $rec = [':rec' => MISSION_RECYCLING, ':trade' => MISSION_TRADE];
+        $this->fleet($a, $aPlanet, $b, $bPlanet, Mission::Transport->value, [202 => 1]);
+        $this->fleet($a, $aPlanet, $b, $bPlanet, Mission::Recycling->value, [209 => 1]);
+        $this->fleet($b, $bPlanet, $a, $aPlanet, Mission::Attack->value, [202 => 1]);
+        $this->fleet($b, $bPlanet, $b, $bPlanet, Mission::Station->value, [202 => 1]);
+        $rec = [':rec' => Mission::Recycling->value, ':trade' => Mission::Trade->value];
         $ownOrTargeted = '(fleet.`owner` = :userId OR (fleet.`target_owner` = :userId AND fleet.`mission` != :rec AND fleet.`mission` != :trade))';
 
         $own = new FlyingFleetsTable($this->db, $this->configs, $this->state);
@@ -208,8 +224,8 @@ final class MissionQueriesTest extends GameTestCase
         $phalanxWhere = '(fleet.`start_id` = :planetId AND fleet.`start_type` = :type AND fleet.`mission` != :stay) OR'
             . ' (fleet.`end_id` = :planetId AND fleet.`end_type` = :type AND fleet.`mission` != :rec AND fleet.`mission` != :trade AND fleet.`status` IN (:outward, :return))';
         $this->assertSame($this->oracle($phalanxWhere, [
-            ':planetId' => $bPlanet['id'], ':type' => TYPE_PLANET, ':stay' => MISSION_STATION,
-            ':rec' => MISSION_RECYCLING, ':trade' => MISSION_TRADE, ':outward' => FLEET_OUTWARD, ':return' => FLEET_RETURN,
+            ':planetId' => $bPlanet['id'], ':type' => PlanetType::Planet->value, ':stay' => Mission::Station->value,
+            ':rec' => Mission::Recycling->value, ':trade' => Mission::Trade->value, ':outward' => FLEET_OUTWARD, ':return' => FLEET_RETURN,
         ]), $this->listed($phalanx));
         $this->assertNotEmpty($this->listed($phalanx));
 
@@ -222,7 +238,7 @@ final class MissionQueriesTest extends GameTestCase
         $resource = $this->elements()->columnMap();
         [$a, $aPlanet] = $this->createPlayer([], [$resource[202] => 50, 'deuterium' => 1e6]);
         [$b, $bPlanet] = $this->createPlayer();
-        $fleet = $this->fleet($a, $aPlanet, $b, $bPlanet, MISSION_TRANSPORT, [202 => 1]);
+        $fleet = $this->fleet($a, $aPlanet, $b, $bPlanet, Mission::Transport->value, [202 => 1]);
         $mission = new class ($fleet, $this->db, $this->configs, $this->state) extends \App\Game\Missions\MissionCaseTransport {
             public function change(): void
             {
@@ -247,7 +263,7 @@ final class MissionQueriesTest extends GameTestCase
 
     public function testPhalanxPageListsAnAcsGroupWithoutFailing(): void
     {
-        $this->assertPhalanxListsAnAcsGroup('/game?page=phalanx&galaxy=1');
+        $this->assertPhalanxListsAnAcsGroup('/game/phalanx?galaxy=1');
     }
 
     /** the phalanx table with an incoming ACS group used to fail with a string conversion error of the game state */
@@ -261,7 +277,7 @@ final class MissionQueriesTest extends GameTestCase
         $now = time();
         $id = (new FleetFunctions($this->db, $this->configs, $this->state))->sendFleet(
             [202 => 1],
-            MISSION_ATTACK,
+            Mission::Attack->value,
             (int) $a['id'],
             (int) $aPlanet['id'],
             (int) $aPlanet['galaxy'],

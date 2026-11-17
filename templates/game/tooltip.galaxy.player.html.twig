@@ -29,7 +29,7 @@
     </tr>
     <tr>
         <td>
-            <a href='?page=statistics&amp;who=1&amp;start={{ currentPlanet.user.rank }}'>
+            <a href='{{ path('game_statistics_show', {who: 1, start: currentPlanet.user.rank}) }}'>
                 {{ LNG.gl_see_on_stats }}
             </a>
         </td>

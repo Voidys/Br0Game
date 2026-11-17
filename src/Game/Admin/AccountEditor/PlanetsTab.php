@@ -2,6 +2,8 @@
 
 namespace App\Game\Admin\AccountEditor;
 
+use App\Game\Enum\PlanetType;
+use App\Game\Enum\AuthLevel;
 use App\Game\Core\Log;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,11 +28,11 @@ class PlanetsTab extends AccountEditorTab
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        $id = $this->http()->_GP('id', 0);
-        $change_pos = $this->http()->_GP('change_position', '');
-        $galaxy = $this->http()->_GP('galaxy', 0);
-        $system = $this->http()->_GP('system', 0);
-        $planet = $this->http()->_GP('planet', 0);
+        $id = $this->input()->int('id');
+        $change_pos = $this->input()->string('change_position');
+        $galaxy = $this->input()->int('galaxy');
+        $system = $this->input()->int('system');
+        $planet = $this->input()->int('planet');
 
         $sql = "SELECT p.*, u.`authlevel` FROM %%PLANETS%% p
             JOIN %%USERS%% u ON u.`id` = p.`id_owner`
@@ -41,7 +43,7 @@ class PlanetsTab extends AccountEditorTab
         ]);
 
         if (empty($beforePlanet)) {
-            $this->responder->message($LNG['ad_pla_error_planets2'], '?page=accountEditor&edit=planets');
+            $this->responder->message($LNG['ad_pla_error_planets2'], 'admin/accounts/edit/planets');
         }
 
         // update plan: 'values' (column => bound value) / 'expr' (column => fixed SQL expression) / 'afterPlanet' for the planet itself, the suffix 2 and 3 for the second and
@@ -57,7 +59,7 @@ class PlanetsTab extends AccountEditorTab
         }
         $this->writePlan($plan, $beforePlanet, $id);
 
-        $this->responder->message($LNG['ad_pla_succes'], '?page=accountEditor&edit=planets');
+        $this->responder->message($LNG['ad_pla_succes'], 'admin/accounts/edit/planets');
     }
 
     /**
@@ -69,14 +71,14 @@ class PlanetsTab extends AccountEditorTab
     private function collectFieldChanges(array &$plan): void
     {
         $e = $this->elements();
-        $name = $this->http()->_GP('name', '', UTF8_SUPPORT);
-        $diameter = $this->http()->_GP('diameter', 0);
-        $fields = $this->http()->_GP('fields', 0);
-        $buildings = $this->http()->_GP('0_buildings', '');
-        $ships = $this->http()->_GP('0_ships', '');
-        $defenses = $this->http()->_GP('0_defenses', '');
-        $c_hangar = $this->http()->_GP('0_c_hangar', '');
-        $c_buildings = $this->http()->_GP('0_c_buildings', '');
+        $name = $this->input()->string('name', '', UTF8_SUPPORT);
+        $diameter = $this->input()->int('diameter');
+        $fields = $this->input()->int('fields');
+        $buildings = $this->input()->string('0_buildings');
+        $ships = $this->input()->string('0_ships');
+        $defenses = $this->input()->string('0_defenses');
+        $c_hangar = $this->input()->string('0_c_hangar');
+        $c_buildings = $this->input()->string('0_c_buildings');
 
 
         if (!empty($name)) {
@@ -144,17 +146,17 @@ class PlanetsTab extends AccountEditorTab
     {
         $LNG = $this->state->LNG;
         if (
-            !$this->playerUtil()->checkPosition(
+            !$this->planetPositions()->checkPosition(
                 $this->universe()->getEmulated(),
                 $galaxy,
                 $system,
                 $planet,
-            ) && $beforePlanet['authlevel'] == AUTH_USR
+            ) && $beforePlanet['authlevel'] == AuthLevel::User->value
         ) {
-            $this->responder->message($LNG['ad_pla_error_planets6'], '?page=accountEditor&edit=planets');
+            $this->responder->message($LNG['ad_pla_error_planets6'], 'admin/accounts/edit/planets');
         }
 
-        if ($beforePlanet['planet_type'] == TYPE_PLANET) {
+        if ($beforePlanet['planet_type'] == PlanetType::Planet->value) {
             $this->planPlanetMove($plan, $beforePlanet, $galaxy, $system, $planet);
         } else {
             $this->planMoonSwap($plan, $beforePlanet, $galaxy, $system, $planet);
@@ -172,7 +174,7 @@ class PlanetsTab extends AccountEditorTab
         $LNG = $this->state->LNG;
         $db = $this->db;
         if (
-            !$this->playerUtil()->isPositionFree(
+            !$this->planetPositions()->isPositionFree(
                 $this->universe()->getEmulated(),
                 $galaxy,
                 $system,
@@ -180,7 +182,7 @@ class PlanetsTab extends AccountEditorTab
                 $beforePlanet['planet_type'],
             )
         ) {
-            $this->responder->message($LNG['ad_pla_error_planets3'], '?page=accountEditor&edit=planets');
+            $this->responder->message($LNG['ad_pla_error_planets3'], 'admin/accounts/edit/planets');
         }
 
         $plan['values']['galaxy'] = $galaxy;
@@ -195,7 +197,7 @@ class PlanetsTab extends AccountEditorTab
                 WHERE `id` = :id_luna AND `planet_type` = :type_moon;";
             $plan['beforePlanet2'] = $db->selectSingle($sql, [
                 ':id_luna' => $beforePlanet['id_luna'],
-                ':type_moon' => TYPE_MOON,
+                ':type_moon' => PlanetType::Moon->value,
             ]);
             $plan['afterPlanet2'] = $plan['beforePlanet2'];
 
@@ -228,20 +230,20 @@ class PlanetsTab extends AccountEditorTab
             ':system'   => $system,
             ':planet'   => $planet,
             ':universe' => $this->universe()->getEmulated(),
-            ':type_planet' => TYPE_PLANET,
+            ':type_planet' => PlanetType::Planet->value,
         ]);
         $plan['afterPlanet2'] = $plan['beforePlanet2'];
 
         if (empty($plan['beforePlanet2'])) {
-            $this->responder->message($LNG['ad_pla_error_planets5'], '?page=accountEditor&edit=planets');
+            $this->responder->message($LNG['ad_pla_error_planets5'], 'admin/accounts/edit/planets');
         }
 
         if ($plan['beforePlanet2']['id_owner'] != $beforePlanet['id_owner']) {
-            $this->responder->message($LNG['ad_pla_error_planets'], '?page=accountEditor&edit=planets');
+            $this->responder->message($LNG['ad_pla_error_planets'], 'admin/accounts/edit/planets');
         }
 
         if ($plan['beforePlanet2']['id_luna'] > 0) {
-            $this->responder->message($LNG['ad_pla_error_planets4'], '?page=accountEditor&edit=planets');
+            $this->responder->message($LNG['ad_pla_error_planets4'], 'admin/accounts/edit/planets');
         }
 
         $plan['values']['galaxy'] = $galaxy;
@@ -258,7 +260,7 @@ class PlanetsTab extends AccountEditorTab
             WHERE `id_luna` = :id AND `planet_type` = :type_planet;";
         $plan['beforePlanet3'] = $db->selectSingle($sql, [
             ':id' => $beforePlanet['id'],
-            ':type_planet' => TYPE_PLANET,
+            ':type_planet' => PlanetType::Planet->value,
         ]);
         $plan['afterPlanet3'] = $plan['beforePlanet3'];
 

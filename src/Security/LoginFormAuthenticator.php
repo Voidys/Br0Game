@@ -22,7 +22,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
 /**
- * The game login (POST /?page=login from the start page): e-mail + password checked by Symfony's
+ * The game login (POST /login from the start page): e-mail + password checked by Symfony's
  * password hasher (bcrypt hashes of the accounts table), with the game's rules around it:
  * failed logins are counted per account, accounts that still wait for their e-mail verification are
  * sent to the verification link when the universe does not require it, and visitors without login
@@ -34,7 +34,7 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
  */
 final class LoginFormAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
-    private const ROUTES = ['game_index_login'];
+    private const ROUTES = ['login_login_send'];
 
     public function __construct(
         private readonly AccountProvider $accounts,
@@ -157,7 +157,7 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
         );
         if ($pending !== false && !$this->config->getBool('user_valid')) {
             if (PasswordSupport::verifyAny($password, (string) $pending['password'])) {
-                return new RedirectResponse($this->directory($request) . '?page=vertify&i=' . $pending['validationID'] . '&k=' . $pending['validationKey']);
+                return new RedirectResponse($this->directory($request) . 'verify?i=' . $pending['validationID'] . '&k=' . $pending['validationKey']);
             }
 
             $this->countFailure($this->tables->get('accounts_valid'), 'validationID', $pending['validationID']);

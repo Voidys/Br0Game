@@ -30,7 +30,7 @@
   {% if hasRebuildProtection %}
     <div class="globalWarning">
       {{ icon('shield') }}
-      <span>{{ LNG.rebuild_proteciton_mode }} <a id="drop-rebuild-protection" href="#">{{ LNG.rebuild_proteciton_link }}</a>
+      <span>{{ LNG.rebuild_proteciton_mode }} <a id="drop-rebuild-protection" href="#" data-url="{{ path('game_rebuild_protection_ajax_show') }}">{{ LNG.rebuild_proteciton_link }}</a>
         <span class="countdown" data-time="{{ rebuildProtectionUntil }}"></span></span>
     </div>
   {% endif %}

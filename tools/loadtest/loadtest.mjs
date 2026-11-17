@@ -26,6 +26,12 @@ const PAGES = [
   ['overview', 25], ['buildings', 15], ['research', 8], ['fleetTable', 10], ['galaxy', 8], ['messages', 5],
   ['resources', 8], ['statistics', 4], ['shipyard', 5], ['empire', 4], ['fleetStep1', 3],
 ];
+// path of every page of the mix
+const PATHS = {
+  overview: '/game', buildings: '/game/buildings', research: '/game/research', shipyard: '/game/shipyard', resources: '/game/resources', empire: '/game/empire',
+  statistics: '/game/statistics', fleetTable: '/game/fleet', galaxy: '/game/galaxy/1/1', messages: '/game/messages', fleetStep1: '/game/fleet/step1',
+};
+const pagePath = (page) => PATHS[page];
 const DISPATCH_SHARE = 10; // weight of the fleet dispatch action
 
 const stats = { requests: 0, byPage: {}, status: {}, errors: [], latencies: [], dispatch: { ok: 0, refused: 0, failed: 0 }, logins: 0, loginFailures: 0 };
@@ -77,11 +83,11 @@ class Session {
 
   async login() {
     await this.request('/', { label: 'start' });
-    let r = await this.request('/?page=login', { method: 'POST', form: { email: `${this.player.name}@loadtest.invalid`, password: PASSWORD }, label: 'login' });
+    let r = await this.request('/login', { method: 'POST', form: { email: `${this.player.name}@loadtest.invalid`, password: PASSWORD }, label: 'login' });
     if (!r.location.includes('account')) throw new Error(`login failed for ${this.player.name}: ${r.status} ${r.location}`);
     r = await this.request('/account', { label: 'account' });
-    r = await this.request('/account?page=account', { method: 'POST', form: { mode: 'send', universe: '1', userID: this.player.id, action: 'login' }, label: 'enter' });
-    r = await this.request('/game?page=overview', { label: 'overview' });
+    r = await this.request('/account/enter', { method: 'POST', form: { universe: '1', userID: this.player.id, action: 'login' }, label: 'enter' });
+    r = await this.request('/game', { label: 'overview' });
     if (r.status !== 200) throw new Error(`enter failed for ${this.player.name}: ${r.status}`);
     stats.logins++;
   }
@@ -90,14 +96,14 @@ class Session {
     const target = players[Math.floor(Math.random() * players.length)];
     if (target.id === this.player.id) return;
     const spy = Math.random() < 0.3;
-    let r = await this.request('/game?page=fleetStep1', { method: 'POST', form: spy ? { ship210: '1' } : { ship202: '1' }, label: 'dispatch1' });
+    let r = await this.request('/game/fleet/step1', { method: 'POST', form: spy ? { ship210: '1' } : { ship202: '1' }, label: 'dispatch1' });
     const token = r.text.match(/name="token" value="([^"]+)"/)?.[1];
     if (!token) { stats.dispatch.refused++; return; }
-    r = await this.request('/game?page=fleetStep2', { method: 'POST', form: { token, group: '0', target_mission: '-1', galaxy: target.g, system: target.s, planet: target.p, type: '1', speed: '10' }, label: 'dispatch2' });
+    r = await this.request('/game/fleet/step2', { method: 'POST', form: { token, group: '0', target_mission: '-1', galaxy: target.g, system: target.s, planet: target.p, type: '1', speed: '10' }, label: 'dispatch2' });
     const missions = [...r.text.matchAll(/name="mission" value="(\d+)"/g)].map((x) => x[1]);
     if (missions.length === 0) { stats.dispatch.refused++; return; }
     const mission = (spy && missions.includes('6')) ? '6' : (missions.includes('3') ? '3' : missions[0]);
-    r = await this.request('/game?page=fleetStep3', { method: 'POST', form: { token, mission, metal: mission === '3' ? '100' : '', crystal: '', deuterium: '', staytime: '' }, label: 'dispatch3' });
+    r = await this.request('/game/fleet/step3', { method: 'POST', form: { token, mission, metal: mission === '3' ? '100' : '', crystal: '', deuterium: '', staytime: '' }, label: 'dispatch3' });
     if (r.status === 200 || r.status === 302) stats.dispatch.ok++; else stats.dispatch.failed++;
   }
 }
@@ -131,7 +137,7 @@ async function worker(i, until) {
   while (Date.now() < until) {
     const action = pick();
     if (action === 'dispatch') await s.dispatch();
-    else await s.request(`/game?page=${action}`, { label: action });
+    else await s.request(pagePath(action), { label: action });
     await new Promise((r) => setTimeout(r, Math.random() * THINK * 2));
   }
 }
@@ -142,7 +148,7 @@ const pct = (arr, p) => { const a = [...arr].sort((x, y) => x - y); return a.len
 {
   const warm = new Session(players[0]);
   await warm.login();
-  for (const [page] of PAGES) await warm.request(`/game?page=${page}`, { label: 'warmup' });
+  for (const [page] of PAGES) await warm.request(pagePath(page), { label: 'warmup' });
   stats.requests = 0; stats.latencies = []; stats.byPage = {}; stats.status = {}; stats.errors = []; stats.logins = 0;
 }
 

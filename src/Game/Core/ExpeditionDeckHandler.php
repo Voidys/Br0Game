@@ -17,8 +17,6 @@
 
 namespace App\Game\Core;
 
-use App\Game\Core\Database;
-
 /**
  * Expedition event "deck of cards": every player has a persistent deck per universe (expedition_user_deck) whose
  * slots hold a number of cards per event type and size (Res/Ships/Pirates/Aliens/Fast/Slow, Small/Medium/Big,
@@ -31,7 +29,9 @@ class ExpeditionDeckHandler
 {
     private int $userId;
     private int $universe;
+    /** @var array<mixed> */
     private array $deckArray = [];
+    /** @var array<mixed> */
     public static array $defaultDeckConfig = [
         ['type' => 'Res', 'size' => 'Small', 'count' => 329],  // 37%
         ['type' => 'Res', 'size' => 'Medium', 'count' => 37],
@@ -103,6 +103,8 @@ class ExpeditionDeckHandler
 
     /**
      * Get deck configuration from database or use default
+     *
+     * @return array<mixed>
      */
     private function getDeckConfig(): array
     {
@@ -122,6 +124,8 @@ class ExpeditionDeckHandler
 
     /**
      * Generate deck based on configuration
+     *
+     * @return array<mixed>
      */
     private function generateDeckArray(): array
     {
@@ -154,6 +158,8 @@ class ExpeditionDeckHandler
     /**
      * Draw next card from deck, weighted by remaining counts.
      * Locks the user deck row (FOR UPDATE) within the outer fleet transaction.
+     *
+     * @return array<mixed>
      */
     public function drawCard(): array
     {
@@ -230,6 +236,8 @@ class ExpeditionDeckHandler
 
     /**
      * Update deck configuration for universe
+     *
+     * @param array<mixed> $config
      */
     public function updateDeckConfig(int $universe, array $config): void
     {

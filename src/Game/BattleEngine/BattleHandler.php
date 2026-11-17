@@ -2,14 +2,10 @@
 
 namespace App\Game\BattleEngine;
 
-use App\Game\Achievements\BattleAchievement;
+use App\Game\Enum\PlanetType;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 
 /**
  * Entry point for fights: picks the first available engine (Rust, else the PHP SteemNova engine) and holds the
@@ -155,7 +151,7 @@ class BattleHandler
             $this->battleAchievements()->checkBattleAchievements($reportInfo, $combatResult, $DATA);
 
             if ($this->viewHelpers()->isModuleAvailable(MODULE_HONORPOINTS)) {
-                $DATA['honorpoints'] = $this->honorPoints($combatResult);
+                $DATA['honorpoints'] = $this->calculateHonorPoints($combatResult);
             }
         }
 
@@ -301,9 +297,9 @@ class BattleHandler
      * Honor points of a real fight: the single variant when one user fought on each side, otherwise the multi variant
      * over the first round's fleets.
      *
-     * @return mixed what PlayerUtil::calculate_honorpoints_single()/_multi() return
+     * @return mixed what HonorPoints::calculate_honorpoints_single()/_multi() return
      */
-    private function honorPoints(BattleResult $combatResult): mixed
+    private function calculateHonorPoints(BattleResult $combatResult): mixed
     {
         $startAttackers = $combatResult->startAttackers();
         $startDefenders = $combatResult->startDefenders();
@@ -311,10 +307,10 @@ class BattleHandler
         $defenderIds = array_values(array_unique(array_map(static fn(BattleFleet $fleet): int => (int) $fleet->userId(), $startDefenders)));
 
         if (count($attackerIds) == 1 && count($defenderIds) == 1) {
-            return $this->playerUtil()->calculate_honorpoints_single($attackerIds[0], $defenderIds[0], $combatResult->losses->attackerValue, $combatResult->losses->defenderValue);
+            return $this->honorPoints()->calculate_honorpoints_single($attackerIds[0], $defenderIds[0], $combatResult->losses->attackerValue, $combatResult->losses->defenderValue);
         }
 
-        return $this->playerUtil()->calculate_honorpoints_multi($combatResult->rounds[0]['attackers'], $combatResult->rounds[0]['defenders'], $combatResult->losses->attackerValue, $combatResult->losses->defenderValue);
+        return $this->honorPoints()->calculate_honorpoints_multi($combatResult->rounds[0]['attackers'], $combatResult->rounds[0]['defenders'], $combatResult->losses->attackerValue, $combatResult->losses->defenderValue);
     }
 
     /**
@@ -384,7 +380,7 @@ class BattleHandler
      * shares, remainder to the first fleet), added to the flying fleets (`fleets`, `log_fleets.gained_*`) and
      * counted in the raided/stolen advanced stats; the planet itself is NOT debited here.
      * @param array<int|string, BattleFleet> $attackFleets the attacking fleets that survived the fight (as set up by AbstractBattleMission).
-     * @param array $defenderPlanet planet row (stocks, *_perhour, store levels, planet_type).
+     * @param array<mixed> $defenderPlanet planet row (stocks, *_perhour, store levels, planet_type).
      * @param bool $simulate true: only return the amounts (no honor factor, no stash, no writes).
      * @return array<int,float|int> loot by resource id (901 metal, 902 crystal, 903 deuterium)
      */
@@ -420,15 +416,15 @@ class BattleHandler
             $thirdResource  => 0,
         ];
 
-        if ($this->viewHelpers()->isModuleAvailable(MODULE_RESOURCE_STASH) && !$simulate && $defenderPlanet['planet_type'] != 4) {
+        if ($this->viewHelpers()->isModuleAvailable(MODULE_RESOURCE_STASH) && !$simulate && $defenderPlanet['planet_type'] != PlanetType::PirateBase->value) {
             $protected = $this->protectedStock($defenderPlanet, $universe);
         }
 
         $factorHonorPoints = 1;
-        if ($defenderPlanet['planet_type'] == 4) {
+        if ($defenderPlanet['planet_type'] == PlanetType::PirateBase->value) {
             $factorHonorPoints = 2; // Pirate Base raids take 100% resources
         } elseif (!$simulate && isset($defenderPlanet['id_owner'])) {
-            $factorHonorPoints = $this->playerUtil()->calculate_honorpoints_decrease($defenderPlanet['id_owner']);
+            $factorHonorPoints = $this->honorPoints()->calculate_honorpoints_decrease($defenderPlanet['id_owner']);
         }
 
         $stealResource = $this->fillCapacity($capacity, $planetResource, $protected, $factorHonorPoints);
@@ -614,7 +610,7 @@ class BattleHandler
             $statsHandler->increment($attackFleets[$FleetID]->userId(), AdvancedStatsEnum::RAIDED_CRYSTAL, $share[$secondResource]);
             $statsHandler->increment($attackFleets[$FleetID]->userId(), AdvancedStatsEnum::RAIDED_DEUTERIUM, $share[$thirdResource]);
 
-            if ($defenderPlanet['planet_type'] != 4) {
+            if ($defenderPlanet['planet_type'] != PlanetType::PirateBase->value) {
                 $statsHandler->increment($defenderPlanet['id_owner'], AdvancedStatsEnum::STOLEN_METAL, $share[$firstResource]);
                 $statsHandler->increment($defenderPlanet['id_owner'], AdvancedStatsEnum::STOLEN_CRYSTAL, $share[$secondResource]);
                 $statsHandler->increment($defenderPlanet['id_owner'], AdvancedStatsEnum::STOLEN_DEUTERIUM, $share[$thirdResource]);
@@ -636,6 +632,7 @@ class BattleHandler
     /**
      * Smallest total cargo capacity with which calculateSteal() would take the maximum possible (half of each
      * stock). Binary search over capacity using canStealHalf(); used by the fleet UI to suggest recyclers/cargo.
+     * @param array<mixed> $defenderPlanet
      * @return int capacity in cargo units
      */
     public function calculateMinCapacity(array $defenderPlanet): int
@@ -674,6 +671,8 @@ class BattleHandler
 
     /**
      * Dry run of the calculateSteal() distribution order for a given capacity: true if it reaches half of every resource.
+     *
+     * @param array<mixed> $targetResource
      */
     private function canStealHalf(int $capacity, array $targetResource): bool
     {

@@ -2,7 +2,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=fleetStep3" method="post" data-on-submit="check-resources" id="form" class="form-page">
+<form action="{{ path('game_fleet_step3_show') }}" method="post" data-on-submit="check-resources" id="form" class="form-page">
 <input type="hidden" name="token" value="{{ token }}">
 {% if Exchange %}
 <input type="hidden" name="metal" value="">
@@ -18,7 +18,7 @@
         	<th>{{ LNG.fl_resources }}</th>
         </tr>
 		<tr>
-			<td class="left top w-50 p-0"{% if not empty(StaySelector) %} rowspan="{% if Exchange %}6{% else %}5{% endif %}"{% endif %}>
+			<td class="left top w-50 p-0"{% if StaySelector %} rowspan="{% if Exchange %}6{% else %}5{% endif %}"{% endif %}>
         <div class="mission-list">
           {% for MissionID in MissionSelector %}
           <div class="mission-option">
@@ -135,12 +135,12 @@
 					</td>
 					<td>
 						<select name="markettype">
-							{% if isModuleAvailable(php_const('MODULE_MARKET_TRADE')) and isModuleAvailable(php_const('MODULE_MARKET_TRANSFER')) %}
+							{% if isModuleAvailable(constant('MODULE_MARKET_TRADE')) and isModuleAvailable(constant('MODULE_MARKET_TRANSFER')) %}
 								<option value="0" selected>{{ LNG.fl_mt_resources }}</option>
 								<option value="1">{{ LNG.fl_mt_fleet }}</option>
-							{% elseif isModuleAvailable(php_const('MODULE_MARKET_TRADE')) %}
+							{% elseif isModuleAvailable(constant('MODULE_MARKET_TRADE')) %}
 								<option value="0" selected>{{ LNG.fl_mt_resources }}</option>
-							{% elseif isModuleAvailable(php_const('MODULE_MARKET_TRANSFER')) %}
+							{% elseif isModuleAvailable(constant('MODULE_MARKET_TRANSFER')) %}
 								<option value="1" selected>{{ LNG.fl_mt_fleet }}</option>
 							{% endif %}
 						</select>
@@ -151,7 +151,7 @@
 		</tr>
 		{% endif %}
 
-		{% if not empty(StaySelector) %}
+		{% if StaySelector %}
 		<tr id="stay_head">
 			<th>{{ LNG.fl_hold_time }}</th>
 		</tr>
@@ -177,6 +177,11 @@
 	token: token,
 	questionList: questionList,
 	tradeMarket: tradeMarket,
-	targetMission: mission
+	targetMission: mission,
+	urls: {
+		checkResources: path('game_fleet_step2_check_resources'),
+		release: path('game_fleet_step_ajax_show'),
+		fleetTable: path('game_fleet_table_show')
+	}
 }) }}
 {% endblock %}

@@ -4,32 +4,36 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Team members shown on the public team page (./?page=team), edited in one form.
+ * Team members shown on the public team page (/team), edited in one form.
  */
-#[\App\Routing\GamePage('admin', 'team')]
 class TeamController extends AbstractAdminController
 {
-    /**
-     * Edits the team members of the public team page. action=save stores the submitted rows (saveMembers); always lists the members.
-     */
+    /** Lists the team members of the public team page in one editable form. */
+    #[GameRoute('admin', 'admin/team', 'team')]
     public function show(): Response
     {
-        $LNG = $this->state->LNG;
-        $message = '';
+        return $this->renderMembers('');
+    }
 
-        if ($this->http()->_GP('action', '', true) === 'save') {
-            $this->saveMembers();
-            $message = $LNG['team_saved'];
-        }
+    /** Stores the submitted rows (saveMembers) and lists the members again. */
+    #[GameRoute('admin', 'admin/team', 'team', 'save', ['POST'])]
+    public function save(): Response
+    {
+        $this->saveMembers();
 
-        $this->assign([
+        return $this->renderMembers($this->state->LNG['team_saved']);
+    }
+
+    private function renderMembers(string $message): Response
+    {
+        return $this->render('admin/TeamPage.html.twig', [
             'members' => $this->db->select('SELECT id, name, position, description, contact FROM %%TEAM_MEMBERS%% ORDER BY sort ASC, id ASC;'),
             'message' => $message,
         ]);
-        return $this->render('admin/TeamPage.html.twig');
     }
 
     /** The submitted rows in submitted order replace the stored ones (rows without a name are dropped). */

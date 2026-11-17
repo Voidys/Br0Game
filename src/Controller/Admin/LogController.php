@@ -17,64 +17,22 @@
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 
 /**
  * Admin action log: overview, list per log type (planets, players, settings, presents, alliances) and the detail view.
  */
-#[\App\Routing\GamePage('admin', 'log')]
 class LogController extends AbstractAdminController
 {
     /**
-     * Dispatches on `type` (planet, player, settings, present, alliance, detail; default overview) to the matching list or detail.
+     * The log categories. Log modes: 1 player changes (target = player id), 2 planet changes (target = planet id), 3 settings
+     * pages (target 0 server, 1 universe, 2 stat, 5 imprint), 4 presents, 5 transport missions, 6 alliance changes (target = alliance id).
      */
+    #[GameRoute('admin', 'admin/logs', 'log')]
     public function show(): Response
     {
-        $LNG = $this->state->LNG;
-        $table = $this->http()->_GP('type', '');
-
-        # Modes:
-        # 1 => Playerlist Changes
-        #   target => Player-ID
-        # 2 => Planetlist Changes
-        #   target => Planet-ID
-        # 3 => Div. Settings Pages
-        #   target 0 => Server-Settings
-        #   target 1 => Universe-Settings
-        #   target 2 => Stat-Settings
-        #   target 5 => Impressum-Settings
-        # 4 => Presents
-        # 5 => Transport Missions
-        # 6 => Alliance Changes
-        #   target => Alliance-ID
-        #
-        # TODO: LOG Search
-
-        switch ($table) {
-            case 'planet':
-                return $this->ShowLogPlanetsList();
-            case 'player':
-                return $this->ShowLogPlayersList();
-            case 'settings':
-                return $this->ShowLogSettingsList();
-            case 'present':
-                return $this->ShowLogPresent();
-            case 'alliance':
-                return $this->ShowLogAlliance();
-            case 'detail':
-                return $this->ShowLogDetail();
-            default:
-                return $this->ShowLogOverview();
-        }
-    }
-
-    public function ShowLogOverview(): Response
-    {
-        $USER = $this->state->USER;
         return $this->render('admin/LogOverview.html.twig');
     }
 
@@ -151,11 +109,12 @@ class LogController extends AbstractAdminController
     /**
      * One log entry (request: id): who changed what, with the old and new values side by side.
      */
-    public function ShowLogDetail(): Response
+    #[GameRoute('admin', 'admin/logs/{id}', 'log', 'detail', requirements: ['id' => '\d+'])]
+    public function detail(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        $logid = $this->http()->_GP('id', 0);
+        $logid = $this->input()->int('id');
         $sql = "SELECT l.*, u_a.`username` as admin_username FROM %%LOG%% AS l
         LEFT JOIN %%USERS%% AS u_a ON u_a.`id` = l.`admin`
         WHERE l.`id` = :logid;";
@@ -164,7 +123,7 @@ class LogController extends AbstractAdminController
         ]);
 
         if (empty($result)) {
-            $this->message($LNG['log_no_data']);
+            return $this->messageResponse($LNG['log_no_data']);
         }
         $data = StoredData::tryDecode($result['data']);
         if (!is_array($data)) {
@@ -183,7 +142,7 @@ class LogController extends AbstractAdminController
 
         $this->collectNestedLogRows($LogArray, $Wrapper, $conf_before, $conf_after);
 
-        $this->assign([
+        return $this->render('admin/LogDetail.html.twig', [
             'LogArray'     => $LogArray,
             'admin'        => $result['admin_username'],
             'target'       => $result['universe'],
@@ -198,14 +157,13 @@ class LogController extends AbstractAdminController
             'log_old'      => $LNG['log_old'],
             'log_new'      => $LNG['log_new'],
         ]);
-
-        return $this->render('admin/LogDetail.html.twig');
     }
 
     /**
      * Splits the stored log data into the "before" and "after" values: entries with two arrays are before/after pairs,
      * everything else (e.g. gifts) is a flat "before" list.
      *
+     * @param array<string, mixed> $data
      * @return array{0: array, 1: array} before and after values
      */
     private function splitLogData(array $data): array
@@ -262,7 +220,10 @@ class LogController extends AbstractAdminController
     /**
      * Adds the rows for the nested before-values (tables with keys, up to three levels) next to their "after" values.
      *
-     * @param array $LogArray result rows (appended to)
+     * @param array<mixed> $LogArray result rows (appended to)
+     * @param array<mixed> $Wrapper
+     * @param array<mixed> $conf_after
+     * @param array<mixed> $conf_before
      */
     private function collectNestedLogRows(array &$LogArray, array $Wrapper, array $conf_before, array $conf_after): void
     {
@@ -298,7 +259,8 @@ class LogController extends AbstractAdminController
     /**
      * Log entries of universe settings changes with the acting admin; a message when there are none.
      */
-    public function ShowLogSettingsList(): Response
+    #[GameRoute('admin', 'admin/logs/settings', 'log', 'settings')]
+    public function settings(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
@@ -308,7 +270,7 @@ class LogController extends AbstractAdminController
             . " ORDER BY id DESC");
 
         if (empty($result)) {
-            $this->message($LNG['log_no_data'], '?page=log');
+            return $this->messageResponse($LNG['log_no_data'], $this->router->generate('admin_log_show'));
         }
 
         $targetkey = [
@@ -333,7 +295,7 @@ class LogController extends AbstractAdminController
         if (!isset($LogArray)) {
             $LogArray = [];
         }
-        $this->assign([
+        return $this->render('admin/LogList.html.twig', [
             'LogArray'   => $LogArray,
             'log_log'    => $LNG['log_log'],
             'log_admin'  => $LNG['log_admin'],
@@ -343,13 +305,13 @@ class LogController extends AbstractAdminController
             'log_id'     => $LNG['log_id'],
             'log_view'   => $LNG['log_view'],
         ]);
-        return $this->render('admin/LogList.html.twig');
     }
 
     /**
      * Log entries of planet edits (quick editor): planet, owner and acting admin.
      */
-    public function ShowLogPlanetsList(): Response
+    #[GameRoute('admin', 'admin/logs/planet', 'log', 'planet')]
+    public function planets(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
@@ -360,7 +322,7 @@ class LogController extends AbstractAdminController
              LEFT JOIN %%PLANETS%% as p ON p.id = l.target LEFT JOIN %%USERS%% as u_t ON u_t.id = p.id_owner
              WHERE mode = 2 ORDER BY id DESC");
         if (empty($result)) {
-            $this->message($LNG['log_no_data'], '?page=log');
+            return $this->messageResponse($LNG['log_no_data'], $this->router->generate('admin_log_show'));
         }
 
         foreach ($result as $LogRow) {
@@ -377,7 +339,7 @@ class LogController extends AbstractAdminController
         if (!isset($LogArray)) {
             $LogArray = [];
         }
-        $this->assign([
+        return $this->render('admin/LogList.html.twig', [
             'LogArray'     => $LogArray,
             'log_log'      => $LNG['log_log'],
             'log_admin'    => $LNG['log_admin'],
@@ -387,13 +349,13 @@ class LogController extends AbstractAdminController
             'log_id'       => $LNG['log_id'],
             'log_view'     => $LNG['log_view'],
         ]);
-        return $this->render('admin/LogList.html.twig');
     }
 
     /**
      * Log entries of player edits (quick editor, account editor).
      */
-    public function ShowLogPlayersList(): Response
+    #[GameRoute('admin', 'admin/logs/player', 'log', 'player')]
+    public function players(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
@@ -406,7 +368,7 @@ class LogController extends AbstractAdminController
              ORDER BY l.id DESC");
 
         if (empty($result)) {
-            $this->message($LNG['log_no_data'], '?page=log');
+            return $this->messageResponse($LNG['log_no_data'], $this->router->generate('admin_log_show'));
         }
 
         foreach ($result as $LogRow) {
@@ -422,7 +384,7 @@ class LogController extends AbstractAdminController
         if (!isset($LogArray)) {
             $LogArray = [];
         }
-        $this->assign([
+        return $this->render('admin/LogList.html.twig', [
             'LogArray'   => $LogArray,
             'log_log'    => $LNG['log_log'],
             'log_admin'  => $LNG['log_admin'],
@@ -432,13 +394,13 @@ class LogController extends AbstractAdminController
             'log_id'     => $LNG['log_id'],
             'log_view'   => $LNG['log_view'],
         ]);
-        return $this->render('admin/LogList.html.twig');
     }
 
     /**
      * Log entries of gifts (giveaway).
      */
-    public function ShowLogPresent(): Response
+    #[GameRoute('admin', 'admin/logs/present', 'log', 'present')]
+    public function present(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
@@ -447,7 +409,7 @@ class LogController extends AbstractAdminController
              as admin_username FROM %%LOG%% as l LEFT JOIN %%USERS%% as u_a ON  u_a.id = l.admin WHERE mode = 4
             ORDER BY l.id DESC;");
         if (empty($result)) {
-            $this->message($LNG['log_no_data'], '?page=log');
+            return $this->messageResponse($LNG['log_no_data'], $this->router->generate('admin_log_show'));
         }
 
         foreach ($result as $LogRow) {
@@ -462,7 +424,7 @@ class LogController extends AbstractAdminController
         if (!isset($LogArray)) {
             $LogArray = [];
         }
-        $this->assign([
+        return $this->render('admin/LogList.html.twig', [
             'LogArray'   => $LogArray,
             'log_log'    => $LNG['log_log'],
             'log_admin'  => $LNG['log_admin'],
@@ -472,13 +434,13 @@ class LogController extends AbstractAdminController
             'log_id'     => $LNG['log_id'],
             'log_view'   => $LNG['log_view'],
         ]);
-        return $this->render('admin/LogList.html.twig');
     }
 
     /**
      * Log entries of alliance edits with the alliance names.
      */
-    public function ShowLogAlliance(): Response
+    #[GameRoute('admin', 'admin/logs/alliance', 'log', 'alliance')]
+    public function alliance(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
@@ -492,7 +454,7 @@ class LogController extends AbstractAdminController
         $result = $this->db->select($sql);
 
         if (empty($result)) {
-            $this->message($LNG['log_no_data'], '?page=log');
+            return $this->messageResponse($LNG['log_no_data'], $this->router->generate('admin_log_show'));
         }
 
         foreach ($result as $LogRow) {
@@ -507,7 +469,7 @@ class LogController extends AbstractAdminController
         if (!isset($LogArray)) {
             $LogArray = [];
         }
-        $this->assign([
+        return $this->render('admin/LogList.html.twig', [
             'LogArray'   => $LogArray,
             'log_log'    => $LNG['log_log'],
             'log_admin'  => $LNG['log_admin'],
@@ -517,6 +479,5 @@ class LogController extends AbstractAdminController
             'log_id'     => $LNG['log_id'],
             'log_view'   => $LNG['log_view'],
         ]);
-        return $this->render('admin/LogList.html.twig');
     }
 }

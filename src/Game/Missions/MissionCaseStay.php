@@ -17,9 +17,7 @@
 
 namespace App\Game\Missions;
 
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
+use App\Game\Enum\MessageType;
 
 /**
  * Mission "station" (4, deploy): the fleet moves to one of the player's own planets or moons (or a friendly one)
@@ -156,11 +154,11 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             $stationShips,
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $TargetUserID,
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_TRANSPORT,
+            MessageType::Transport->value,
             $LNG['sys_stat_mess_stay'],
             $TargetMessage,
             $this->_fleet['arrival_time'],
@@ -211,11 +209,11 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             $stationShips,
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['return_time'],

@@ -2,6 +2,7 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\PlanetType;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 
@@ -144,7 +145,7 @@ class ResourcePersistence
                         $buildQueries[] = ', p.' . $column . ' = :' . $column;
                         $params[':' . $column] = floatToString($Count);
 
-                        if ($PLANET['planet_type'] == 3 && ($Element == 22 || $Element == 23 || $Element == 24) && $Count == 3) {
+                        if ($PLANET['planet_type'] == PlanetType::Moon->value && ($Element == 22 || $Element == 23 || $Element == 24) && $Count == 3) {
                             $temp_planet = $PLANET;
                             $temp_planet[$column] = $Count;
                             //  Check for achievement 28: Build all Moon storages to level 3
@@ -262,6 +263,7 @@ class ResourcePersistence
      * the change in the passed planet array.
      * @param array<int, int|float> $resources resource id => amount.
      * @param float $factor multiplier applied to every amount (e.g. a refund share such as 0.5).
+     * @param array<string, mixed> $planet
      */
     public function addResources(int $planetId, array $resources, ?array &$planet = null, float $factor = 1)
     {
@@ -289,6 +291,8 @@ class ResourcePersistence
 
     /**
      * Writes only the metal, crystal and deuterium stocks of the planet row (absolute values, no queue or production data).
+     *
+     * @param array<string, mixed> $PLANET
      */
     public function saveResources(array $PLANET)
     {
@@ -309,6 +313,8 @@ class ResourcePersistence
 
     /**
      * Writes the user's research queue columns (b_tech end time, b_tech_id, b_tech_planet, b_tech_queue) to `users`.
+     *
+     * @param array<string, mixed> $USER
      */
     public function saveTechQueue(array $USER)
     {
@@ -332,6 +338,8 @@ class ResourcePersistence
     /**
      * Writes the planet's building queue columns (b_building end time, b_building_id, watch_id) to `planets`
      * (method name keeps its historic typo).
+     *
+     * @param array<string, mixed> $PLANET
      */
     public function saveBuilingQueue(array $PLANET)
     {
@@ -352,6 +360,8 @@ class ResourcePersistence
 
     /**
      * Writes the planet's shipyard queue columns (b_hangar_id, b_hangar progress time) to `planets`.
+     *
+     * @param array<string, mixed> $PLANET
      */
     public function saveShipyardQueue(array $PLANET)
     {

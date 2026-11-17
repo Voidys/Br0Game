@@ -176,7 +176,7 @@ sys_mess_spy_control: หน่วยข่าวกรองกลาง
 sys_mess_spy_destroyed: "หุ่นสอดแนมของคุณถูกทำลาย!"
 sys_mess_spy_ennemyfleet_1: "พบหุ่นสอดแนมศัตรูจากดาวเคราะห์ %s ใกล้ %s"
 sys_mess_spy_ennemyfleet_3: "พบหุ่นสอดแนมศัตรูจากดวงจันทร์ %s ใกล้ %s"
-sys_mess_spy_link: "<a href=\"game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s\">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>"
+sys_mess_spy_link: "<a href=\"game/galaxy/%3$s/%4$s\">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>"
 sys_mess_spy_lostproba: "โอกาสที่หุ่นสอดแนมจะถูกตรวจพบคือ: %d%%"
 sys_mess_spy_qg: แผนกสอดแนม
 sys_mess_spy_repair_order: ขณะนี้กำลังซ่อมยานในอู่ซ่อมยาน
@@ -204,7 +204,7 @@ sys_spy_fleet: กองเรือ
 sys_stat_mess: "กองเรือของคุณจาก %s %s มาถึง %s %s %s และส่งมอบ %s %s, %s %s และ %s %s %s"
 sys_stat_mess_stay: กองเรือประจำการ
 sys_stealed_ressources: พวกเขาปล้นไป
-sys_trade_mess_arr_success: "กองเรือพ่อค้าของคุณพร้อมกลับไปยัง %1$s %2$s (เที่ยวบินขากลับ: %5$s) <form action=\"game?page=fleetTable&amp;action=sendfleetback\" method=\"post\"><input name=\"fleetID\" value=\"%3$s\" type=\"hidden\"><input value=\"%4$s\" type=\"submit\"></form>"
+sys_trade_mess_arr_success: "กองเรือพ่อค้าของคุณพร้อมกลับไปยัง %1$s %2$s (เที่ยวบินขากลับ: %5$s) <form action=\"game/fleet/recall\" method=\"post\"><input name=\"fleetID\" value=\"%3$s\" type=\"hidden\"><input value=\"%4$s\" type=\"submit\"></form>"
 sys_trade_mess_back: "กองเรือพ่อค้าของคุณกลับมาที่ %s %s โดยไม่ประสบความสำเร็จ"
 sys_trade_mess_back_success: "กองเรือพ่อค้าของคุณกลับมาที่ %4$s %5$s สำเร็จพร้อมโลหะ %1$s คริสตัล %2$s และดิวทีเรียม %3$s"
 sys_tran_mess_back: "กองเรือของคุณกลับมาที่ %s %s แล้ว"

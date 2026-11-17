@@ -6,9 +6,9 @@
       <header class="card__head"><h2 class="card__title">{{ LNG.adm_ae_group_player }}</h2></header>
       <div class="card__body">
         <div class="quick-links">
-          <a class="quick-link" href="?page=accountEditor&amp;edit=personal">{{ icon('user') }}<span>{{ LNG.ad_editor_personal }}</span></a>
-          <a class="quick-link" href="?page=accountEditor&amp;edit=researchs">{{ icon('flask-conical') }}<span>{{ LNG.ad_editor_researchs }}</span></a>
-          <a class="quick-link" href="?page=accountEditor&amp;edit=alliances">{{ icon('handshake') }}<span>{{ LNG.ad_editor_alliances }}</span></a>
+          <a class="quick-link" href="{{ path('admin_account_editor_tab', {tab: 'personal'}) }}">{{ icon('user') }}<span>{{ LNG.ad_editor_personal }}</span></a>
+          <a class="quick-link" href="{{ path('admin_account_editor_tab', {tab: 'researchs'}) }}">{{ icon('flask-conical') }}<span>{{ LNG.ad_editor_researchs }}</span></a>
+          <a class="quick-link" href="{{ path('admin_account_editor_tab', {tab: 'alliances'}) }}">{{ icon('handshake') }}<span>{{ LNG.ad_editor_alliances }}</span></a>
         </div>
       </div>
     </section>
@@ -16,11 +16,11 @@
       <header class="card__head"><h2 class="card__title">{{ LNG.adm_ae_group_planet }}</h2></header>
       <div class="card__body">
         <div class="quick-links">
-          <a class="quick-link" href="?page=accountEditor&amp;edit=planets">{{ icon('orbit') }}<span>{{ LNG.ad_editor_planets }}</span></a>
-          <a class="quick-link" href="?page=accountEditor&amp;edit=resources">{{ icon('database') }}<span>{{ LNG.ad_editor_resources }}</span></a>
-          <a class="quick-link" href="?page=accountEditor&amp;edit=buildings">{{ icon('building-2') }}<span>{{ LNG.ad_editor_buildings }}</span></a>
-          <a class="quick-link" href="?page=accountEditor&amp;edit=ships">{{ icon('rocket') }}<span>{{ LNG.ad_editor_ships }}</span></a>
-          <a class="quick-link" href="?page=accountEditor&amp;edit=defenses">{{ icon('shield') }}<span>{{ LNG.ad_editor_defenses }}</span></a>
+          <a class="quick-link" href="{{ path('admin_account_editor_tab', {tab: 'planets'}) }}">{{ icon('orbit') }}<span>{{ LNG.ad_editor_planets }}</span></a>
+          <a class="quick-link" href="{{ path('admin_account_editor_tab', {tab: 'resources'}) }}">{{ icon('database') }}<span>{{ LNG.ad_editor_resources }}</span></a>
+          <a class="quick-link" href="{{ path('admin_account_editor_tab', {tab: 'buildings'}) }}">{{ icon('building-2') }}<span>{{ LNG.ad_editor_buildings }}</span></a>
+          <a class="quick-link" href="{{ path('admin_account_editor_tab', {tab: 'ships'}) }}">{{ icon('rocket') }}<span>{{ LNG.ad_editor_ships }}</span></a>
+          <a class="quick-link" href="{{ path('admin_account_editor_tab', {tab: 'defenses'}) }}">{{ icon('shield') }}<span>{{ LNG.ad_editor_defenses }}</span></a>
         </div>
       </div>
     </section>

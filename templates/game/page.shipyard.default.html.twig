@@ -6,12 +6,12 @@
 		<p class="repair-infobox">{{ LNG.bd_building_shipyard }}</p><br><br>
 	{% endif %}
 
-	{% if not empty(BuildList) %}
+	{% if BuildList %}
 		{% if umode == 0 %}
 			<div class="text-center">
 				<div id="bx" class="z"></div>
 				<div class="ship">
-					<form action="game?page=shipyard&amp;mode={{ mode }}" method="post" >
+					<form action="{{ path('game_shipyard_order', {kind: mode == 'defense' ? 'defense' : 'shipyard'}) }}" method="post" >
 						<input type="hidden" name="action" value="delete">
 						<div >
 							<select name="auftr[]" id="auftr" multiple class="shipl"><option>&nbsp;</option></select><br><br>{{ LNG.bd_cancel_warning }}<br><input class="z" type="submit" value="{{ LNG.bd_cancel_send }}" />
@@ -24,7 +24,7 @@
 			<div class="text-center">
 				<div id="bxumode" class="zumode"></div>
 				<div class="shipumode">
-					<form action="game?page=shipyard&amp;mode={{ mode }}" method="post" >
+					<form action="{{ path('game_shipyard_order', {kind: mode == 'defense' ? 'defense' : 'shipyard'}) }}" method="post" >
 						<input type="hidden" name="action" value="delete">
 						<div >
 							<select name="auftrumode[]" id="auftrumode" multiple class="shipl"><option>&nbsp;</option></select><br><br><br><input class="z" value="{{ LNG['bd_paused'] }}" />
@@ -38,7 +38,7 @@
 
 	{% if mode == "fleet" %}
 		{% if hangarFiltersEnabled %}
-		<div class="planeto" id="hangar-filters">
+		<div class="planeto" id="hangar-filters" data-save-url="{{ path('game_shipyard_save_filters', {ajax: 1}) }}">
 			{% set hangarHasButton = false %}
 			{% if hangarGroupCivil %}{% if hangarHasButton %}<span class="hangar-filter-sep"> | </span>{% endif %}<button type="button" class="hangar-group-filter" id="ship1" data-filter-selector="{{ civil }}">{{ LNG.fm_civil }}</button>{% set hangarHasButton = true %}{% endif %}
 			{% if hangarGroupMilitary %}{% if hangarHasButton %}<span class="hangar-filter-sep"> | </span>{% endif %}<button type="button" class="hangar-group-filter" id="ship2" data-filter-selector="{{ military }}">{{ LNG.fm_military }}</button>{% set hangarHasButton = true %}{% endif %}
@@ -73,9 +73,9 @@
 			</div>
 			<div class="buildl">
 				<a href="#" data-action="dialog-info" data-id="{{ ID }}">
-					<img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" alt="{{ LNG.tech[ID] }}" width="120" height="120">
+					<img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" alt="{{ LNG.tech[ID] }}" width="120" height="120" loading="lazy" decoding="async">
 				</a>
-				{% if not empty(Element.requirements) %}
+				{% if Element.requirements %}
 					{{ LNG.tt_requirements }}: </br>
 					{% for requireID, NeedLevel in Element.requirements %}
 						<a href="#" data-action="dialog-info" data-id="{{ requireID }}">
@@ -87,18 +87,7 @@
 				{% else %}
 					{{ LNG.bd_remaining }}:<br>
 					{% for ResType, ResCount in Element.costOverflow %}
-						<a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="
-							<table>
-								<tr><th>{{ LNG.tech[ResType] }}</th></tr>
-								<tr>
-									<table class='hoverinfo'>
-									<tr>
-										<td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ ResType ~ '.' ~ ((ResType >=600 and ResType <= 699) ? 'jpg' : 'gif')) }}'></td>
-										<td>{{ LNG.shortDescription[ResType] }}</td>
-									</tr>
-									</table>
-								</tr>
-							</table>">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
+						<a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' {{ tooltip(include('game/tooltip.element.html.twig', {id: ResType})) }}>{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
 					{% endfor %}
 					<p>{{ LNG.bd_max_ships_long }}:<span class="bold"><br>{{ pretty_number(Element.maxBuildable) }}</p>
 				{% endif %}
@@ -106,18 +95,7 @@
 			<div class="buildl">
 				<span>
 					{% for RessID, RessAmount in Element.costResources %}
-						<a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="
-						<table>
-							<tr><th>{{ LNG.tech[RessID] }}</th></tr>
-							<tr>
-								<table class='hoverinfo'>
-								<tr>
-									<td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ RessID ~ '.' ~ ((RessID >=600 and RessID <= 699) ? 'jpg' : 'gif')) }}'></td>
-									<td>{{ LNG.shortDescription[RessID] }}</td>
-								</tr>
-								</table>
-							</tr>
-						</table>">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
+						<a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' {{ tooltip(include('game/tooltip.element.html.twig', {id: RessID})) }}>{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
 					{% endfor %}
 				</span>
 				<br><br>
@@ -125,7 +103,7 @@
 				<span>
 					{% if vacation %}
 						<span class="colorNeutral">{{ LNG.op_options_vacation_activated }}</span>
-					{% elseif not empty(Element.requirements) %}
+					{% elseif Element.requirements %}
 						<span class="colorNeutral">{{ LNG.bd_requirements }}</span>
 					{% elseif Element.AlreadyBuild %}
 						<span class="colorNegative">{{ LNG.bd_protection_shield_only_one }}</span>
@@ -134,7 +112,7 @@
 					{% elseif not Element.buyable %}
 						<span class="colorNeutral">{{ LNG.bd_remaining }}</span>
 					{% else %}
-						<form action="game?page=shipyard&amp;mode={{ mode }}" method="post" id="s{{ ID }}">
+						<form action="{{ path('game_shipyard_order', {kind: mode == 'defense' ? 'defense' : 'shipyard'}) }}" method="post" id="s{{ ID }}">
 							<span class="control-group">
 								<input type="number" name="fmenge[{{ ID }}]" id="input_{{ ID }}" maxlength="{{ maxlength }}" value="0" tabindex="{{ null }}" >
 								<input type="button" value="{{ LNG.bd_max_ships }}" data-action="fill-input" data-target="input_{{ ID }}" data-value="{{ Element.maxBuildable }}">
@@ -147,9 +125,10 @@
 			</div>
 		</div>
 	{% endfor %}
+  {{ tooltip_templates() }}
 {% endblock %}
 {% block script %}{{ parent() }}
-	{% if not empty(BuildList) %}
+	{% if BuildList %}
 	{{ data_island('shipyard-data', {data: BuildList, bdOperating: LNG.bd_operating, bdAvailable: LNG.bd_available}) }}
 	<script type="module" src="./scripts/game/shipyard.js?v={{ asset_version }}"></script>
 	{% endif %}

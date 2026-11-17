@@ -5,7 +5,7 @@
  * Runs on page init and for every report opened in the modal (modal:load, scripts/app/dialog.js);
  * the data comes from the JSON island #raport-data of the report template ({raportData, shipNames, raportLNG}).
  */
-import { qs, qsa, on, show, hide, toggle, pageData } from '../app/core.js';
+import { qs, qsa, on, show, hide, toggle, pageData, pretty_number } from '../app/core.js';
 
 /**
  * Renders the "battle statistics" section of a combat report from the JSON island: per round and side the stat categories
@@ -40,10 +40,7 @@ function renderRaport() {
 
   /** Format a number using the game's formatting settings */
   function fmt(n) {
-    if (typeof pretty_number === 'function') {
-      return pretty_number(n, n % 1 !== 0 ? 1 : 0);
-    }
-    return n.toLocaleString(undefined, { maximumFractionDigits: 1 });
+    return pretty_number(n, n % 1 !== 0 ? 1 : 0);
   }
 
   /**

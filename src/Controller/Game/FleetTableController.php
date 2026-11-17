@@ -17,29 +17,21 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\PlanetType;
+use App\Game\Enum\MessageType;
+use App\Game\Enum\Mission;
 use Doctrine\DBAL\ArrayParameterType;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
 
 /**
  * Fleet movements: flying fleets, fleet selection for dispatch, recall and alliance combat groups (modes: show,
- * createACS, loadACS).
+ * recall, acs).
  */
-#[\App\Routing\GamePage('game', 'fleetTable')]
 #[\App\Controller\RequireModule('MODULE_FLEET_TABLE')]
 class FleetTableController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Creates an alliance combat group (AKS) led by the player's outgoing attack fleet $fleetID: inserts the group with a random name (`AG<number>`), a
      * public id, the fleet's arrival time and target, adds the player as first participant and sets `group` on the fleet and its LOG_FLEETS row.
@@ -138,10 +130,12 @@ class FleetTableController extends AbstractGameController
     /**
      * Combat group dialog for the player's fleet $fleetID (action=acs). Returns [] unless the fleet is outgoing and has not arrived yet, and is either
      * already in a group or an attack fleet (which then gets a new group through createACS()). Request acsName renames the group (valid names only) and
-     * ends the request with JSON `false`; username invites a player of the universe unless unknown, already invited or blocking messages (insert into
+     * answers with the JSON Response (`false`, or the error text); username invites a player of the universe unless unknown, already invited or blocking messages (insert into
      * USERS_TO_ACS and an invitation message in the invitee's language). Returns the invited users, group name, leading fleet id and a status message.
+     *
+     * @return array<string, mixed>|Response
      */
-    public function getACSPageData($fleetID)
+    public function getACSPageData($fleetID): array|Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
@@ -164,7 +158,7 @@ class FleetTableController extends AbstractGameController
         }
 
         // Only outgoing attack fleets can lead an ACS
-        if ($fleetData['group'] == 0 && ($fleetData['mission'] != MISSION_ATTACK || $fleetData['status'] != FLEET_OUTWARD)) {
+        if ($fleetData['group'] == 0 && ($fleetData['mission'] != Mission::Attack->value || $fleetData['status'] != FLEET_OUTWARD)) {
             return [];
         }
 
@@ -182,7 +176,9 @@ class FleetTableController extends AbstractGameController
             return [];
         }
 
-        $this->renameAcs($acsData['id']);
+        if ($renamed = $this->renameAcs($acsData['id'])) {
+            return $renamed;
+        }
 
         $invitedUsers = [];
 
@@ -195,7 +191,7 @@ class FleetTableController extends AbstractGameController
             $invitedUsers[$userRow['id']] = $userRow['username'];
         }
 
-        $newUser = $this->http()->_GP('username', '', UTF8_SUPPORT);
+        $newUser = $this->input()->string('username', '', UTF8_SUPPORT);
         $statusMessage = "";
         if (!empty($newUser)) {
             $statusMessage = $this->inviteToAcs($acsData['id'], $newUser, $invitedUsers);
@@ -211,18 +207,18 @@ class FleetTableController extends AbstractGameController
 
     /**
      * Renames the combat group when the request carries `acsName`: invalid names answer with the error text as JSON,
-     * valid ones are saved and the request ends with JSON `false`. Does nothing without `acsName`.
+     * valid ones are saved and answered with JSON `false`. Returns null (nothing done) without `acsName`.
      */
-    private function renameAcs(int|string $acsID): void
+    private function renameAcs(int|string $acsID): ?Response
     {
         $LNG = $this->state->LNG;
-        $acsName = $this->http()->_GP('acsName', '', UTF8_SUPPORT);
+        $acsName = $this->input()->string('acsName', '', UTF8_SUPPORT);
         if (empty($acsName)) {
-            return;
+            return null;
         }
 
-        if (!$this->playerUtil()->isNameValid($acsName)) {
-            $this->sendJSON($LNG['fl_acs_newname_alphanum']);
+        if (!$this->playerRegistration()->isNameValid($acsName)) {
+            return $this->jsonResponse($LNG['fl_acs_newname_alphanum']);
         }
 
         $sql = "UPDATE %%AKS%% SET `name` = :acsName WHERE `id` = :acsID;";
@@ -230,7 +226,8 @@ class FleetTableController extends AbstractGameController
             ':acsName' => $acsName,
             ':acsID' => $acsID,
         ]);
-        $this->sendJSON(false);
+
+        return $this->jsonResponse(false);
     }
 
     /**
@@ -252,8 +249,8 @@ class FleetTableController extends AbstractGameController
             ':universe' => $this->universe()->current(),
             ':username' => $newUser,
         ], 'id');
-        $blocked    = $this->playerUtil()->get_block_status($USER['id'], $newUserID);
-        $blockedInverted = $this->playerUtil()->get_block_status($newUserID, $USER['id']);
+        $blocked    = $this->playerLookup()->get_block_status($USER['id'], $newUserID);
+        $blockedInverted = $this->playerLookup()->get_block_status($newUserID, $USER['id']);
 
         if (empty($newUserID)) {
             return $LNG['fl_player'] . " " . $newUser . " " . $LNG['fl_dont_exist'];
@@ -276,15 +273,15 @@ class FleetTableController extends AbstractGameController
         $invitedUsers[$newUserID] = $newUser;
 
         // get target player language while sending ACS invite instead of attack owner.
-        $GetTargetLang = $this->playerUtil()->getLanguage(null, $newUserID);
+        $GetTargetLang = $this->playerLookup()->getLanguage(null, $newUserID);
         $inviteTitle = $GetTargetLang['fl_acs_invitation_title'];
         $inviteMessage = $GetTargetLang['fl_player'] . $USER['username']
             . $GetTargetLang['fl_acs_invitation_message'];
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $newUserID,
             $USER['id'],
             $USER['username'],
-            MESSAGE_TYPE_USER,
+            MessageType::User->value,
             $inviteTitle,
             $inviteMessage,
             $this->state->runtime->timestamp,
@@ -294,35 +291,72 @@ class FleetTableController extends AbstractGameController
     }
 
     /**
-     * Fleet movements page. Request: fleetID with action = sendfleetback (recall the fleet) or acs (combat group dialog, see getACSPageData; both
-     * ignored in vacation mode); galaxy, system, planet, planettype and target_mission are passed on as preselection for the dispatch form. Lists the
+     * Fleet movements page. Request: galaxy, system, planet, planettype and target_mission are passed on as preselection for the dispatch form. Lists the
      * player's fleets (missiles excluded) with the next event time, route, cargo and ships, the fleet and expedition slots in use, the ships on the
      * current planet with their speed, the planet count, the research bonuses and the "cargo calculator" (resources and needed small/large cargos for the
      * current planet and for the element each planet watches).
      */
+    #[GameRoute('game', 'game/fleet', 'fleetTable')]
     public function show(): Response
+    {
+        return $this->fleetTablePage([]);
+    }
+
+    /**
+     * Recalls the player's fleet (request fleetID; ignored in vacation mode) and shows the fleet page.
+     */
+    #[GameRoute('game', 'game/fleet/recall', 'fleetTable', 'recall', ['GET', 'POST'])]
+    public function recall(): Response
+    {
+        if ($redirect = $this->redirectUnlessPost('game_fleet_table_show')) {
+            return $redirect;
+        }
+
+        $fleetID = $this->input()->int('fleetID');
+        if (!empty($fleetID) && !IsVacationMode($this->state->USER)) {
+            $this->fleetFunctions()->sendFleetBack($this->state->USER, $fleetID);
+        }
+
+        return $this->fleetTablePage([]);
+    }
+
+    /**
+     * Combat group dialog of the fleet (request fleetID, see getACSPageData; ignored in vacation mode) on top of the fleet page; with acsName
+     * (rename) the answer is JSON.
+     */
+    #[GameRoute('game', 'game/fleet/acs', 'fleetTable', 'acs', ['GET', 'POST'])]
+    public function acs(): Response
+    {
+        if ($redirect = $this->redirectUnlessPost('game_fleet_table_show')) {
+            return $redirect;
+        }
+
+        $acsData = [];
+        $fleetID = $this->input()->int('fleetID');
+        if (!empty($fleetID) && !IsVacationMode($this->state->USER)) {
+            $acsData = $this->getACSPageData($fleetID);
+            if ($acsData instanceof Response) {
+                return $acsData;
+            }
+        }
+
+        return $this->fleetTablePage($acsData);
+    }
+
+    /**
+     * The fleet page, with the combat group dialog data when $acsData is set.
+     *
+     * @param array<string, mixed> $acsData
+     */
+    private function fleetTablePage(array $acsData): Response
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
         $e = $this->elements();
         $LNG = $this->state->LNG;
         $LNG->includeData(['FLEET']);
-        $acsData = [];
-        $FleetID = $this->http()->_GP('fleetID', 0);
-        $GetAction = $this->http()->_GP('action', "");
 
         $this->addScript('flotten.js');
-
-        if (!empty($FleetID) && !IsVacationMode($USER)) {
-            switch ($GetAction) {
-                case "sendfleetback":
-                    $this->fleetFunctions()->sendFleetBack($USER, $FleetID);
-                    break;
-                case "acs":
-                    $acsData = $this->getACSPageData($FleetID);
-                    break;
-            }
-        }
 
         $techExpedition = $USER[$e->column(124)];
 
@@ -334,22 +368,22 @@ class FleetTableController extends AbstractGameController
             $maxExpedition = 0;
         }
 
-        $currentPlanetCount = $this->playerUtil()->currentPlanetCount($USER);
-        $maxPlanetCount = $this->playerUtil()->maxPlanetCount($USER);
+        $currentPlanetCount = $this->planetPositions()->currentPlanetCount($USER);
+        $maxPlanetCount = $this->planetPositions()->maxPlanetCount($USER);
 
         $maxFleetSlots = $this->fleetFunctions()->getMaxFleetSlots($USER);
 
-        $targetGalaxy = $this->http()->_GP('galaxy', (int) $PLANET['galaxy']);
-        $targetSystem = $this->http()->_GP('system', (int) $PLANET['system']);
-        $targetPlanet = $this->http()->_GP('planet', (int) $PLANET['planet']);
-        $targetType = $this->http()->_GP('planettype', (int) $PLANET['planet_type']);
-        $targetMission = $this->http()->_GP('target_mission', -1);
+        $targetGalaxy = $this->input()->int('galaxy', (int) $PLANET['galaxy']);
+        $targetSystem = $this->input()->int('system', (int) $PLANET['system']);
+        $targetPlanet = $this->input()->int('planet', (int) $PLANET['planet']);
+        $targetType = $this->input()->int('planettype', (int) $PLANET['planet_type']);
+        $targetMission = $this->input()->int('target_mission', -1);
 
         [$FlyingFleetList, $activeFleetSlots] = $this->flyingFleets();
         [$FleetsOnPlanet, $shipinfos] = $this->shipsOnPlanet();
         $watchList = $this->cargoWatchList($shipinfos);
 
-        $this->assign([
+        return $this->render('game/page.fleetTable.default.html.twig', [
             'FleetsOnPlanet'        => $FleetsOnPlanet,
             'FlyingFleetList'       => $FlyingFleetList,
             'activeExpedition'      => $activeExpedition,
@@ -375,8 +409,6 @@ class FleetTableController extends AbstractGameController
             'shiptypes'             => $shipinfos,
             'watchList'             => $watchList,
         ]);
-
-        return $this->render('game/page.fleetTable.default.html.twig');
     }
 
     /**
@@ -395,7 +427,7 @@ class FleetTableController extends AbstractGameController
             ORDER BY `return_time` ASC;";
         $fleetResult = $db->select($sql, [
             ':userID' => $USER['id'],
-            ':missile' => MISSION_MISSILE,
+            ':missile' => Mission::Missile->value,
         ]);
 
         $activeFleetSlots = $db->rowCount();
@@ -405,7 +437,7 @@ class FleetTableController extends AbstractGameController
         foreach ($fleetResult as $fleetsRow) {
             $FleetList[$fleetsRow['id']] = $this->fleetFunctions()->unserialize($fleetsRow['ships']);
 
-            if ($fleetsRow['mission'] == MISSION_STATION && $fleetsRow['status'] == FLEET_OUTWARD) {
+            if ($fleetsRow['mission'] == Mission::Station->value && $fleetsRow['status'] == FLEET_OUTWARD) {
                 $returnTime = $fleetsRow['arrival_time'];
             } else {
                 $returnTime = $fleetsRow['return_time'];
@@ -413,7 +445,7 @@ class FleetTableController extends AbstractGameController
 
             if ($fleetsRow['arrival_time'] > $this->state->runtime->timestamp && $fleetsRow['status'] == FLEET_OUTWARD) {
                 $NextEventTime = $fleetsRow['arrival_time'];
-            } elseif ($fleetsRow['stay_time'] > $this->state->runtime->timestamp && $fleetsRow['mission'] == MISSION_HOLD) {
+            } elseif ($fleetsRow['stay_time'] > $this->state->runtime->timestamp && $fleetsRow['mission'] == Mission::Hold->value) {
                 $NextEventTime = $fleetsRow['stay_time'];
             } else {
                 $NextEventTime = $fleetsRow['return_time'];
@@ -537,7 +569,7 @@ class FleetTableController extends AbstractGameController
             [
                 'elementId' => 0,
                 'name'      => $LNG['fl_cargo_current_planet'],
-                'coords'    => $PLANET['galaxy'] . ':' . $PLANET['system'] . ':' . $PLANET['planet'] . ($PLANET['planet_type'] == 3 ? ' (M)' : ''),
+                'coords'    => $PLANET['galaxy'] . ':' . $PLANET['system'] . ':' . $PLANET['planet'] . ($PLANET['planet_type'] == PlanetType::Moon->value ? ' (M)' : ''),
                 'galaxy'    => $PLANET['galaxy'],
                 'system'    => $PLANET['system'],
                 'planet'    => $PLANET['planet'],
@@ -570,7 +602,7 @@ class FleetTableController extends AbstractGameController
                 $restCost = [
                     'elementId' => $levelRow['watch_id'],
                     'name'      => $LNG['tech'][$levelRow['watch_id']],
-                    'coords'    => $levelRow['galaxy'] . ':' . $levelRow['system'] . ':' . $levelRow['planet'] . ($levelRow['planet_type'] == 3 ? ' (M)' : ''),
+                    'coords'    => $levelRow['galaxy'] . ':' . $levelRow['system'] . ':' . $levelRow['planet'] . ($levelRow['planet_type'] == PlanetType::Moon->value ? ' (M)' : ''),
                     'galaxy'    => $levelRow['galaxy'],
                     'system'    => $levelRow['system'],
                     'planet'    => $levelRow['planet'],

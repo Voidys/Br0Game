@@ -17,32 +17,36 @@
 
 namespace App\Controller\Admin;
 
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Lists pending account activations and deletes entries. */
-#[\App\Routing\GamePage('admin', 'active')]
 class ActiveController extends AbstractAdminController
 {
     /**
-     * Pending (not yet verified) registrations from ACCOUNTS_VALID. action=delete with id (validation id) removes one entry;
-     * always lists the remaining ones with their registration date in the admin's timezone.
+     * Deletes the pending registration `id` (validation id) and returns to the list.
      */
+    #[GameRoute('admin', 'admin/active/delete', 'active', 'delete', ['POST'])]
+    public function delete(): Response
+    {
+        $id = $this->input()->int('id');
+        if (!empty($id)) {
+            $sql = "DELETE FROM %%ACCOUNTS_VALID%% WHERE `validationID` = :validationID;";
+            $this->db->delete($sql, [':validationID' => $id]);
+        }
+
+        return $this->show();
+    }
+
+    /**
+     * Pending (not yet verified) registrations from ACCOUNTS_VALID with their registration date in the admin's timezone.
+     */
+    #[GameRoute('admin', 'admin/active', 'active')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
         $db = $this->db;
-
-        $id = $this->http()->_GP('id', 0);
-        $action = $this->http()->_GP('action', '');
-        if ($action == 'delete' && !empty($id)) {
-            $sql = "DELETE FROM %%ACCOUNTS_VALID%% WHERE `validationID` = :validationID;";
-            $db->delete($sql, [':validationID' => $id]);
-        }
 
         $sql = "SELECT * FROM %%ACCOUNTS_VALID%% ORDER BY validationID ASC;";
         $accounts = $db->select($sql);
@@ -50,10 +54,9 @@ class ActiveController extends AbstractAdminController
             $account['date'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $account['date'], $USER['timezone']);
         }
 
-        $this->assign([
+        return $this->render('admin/ActivePage.html.twig', [
             'accounts'     => $accounts,
             'uni'          => $this->universe()->getEmulated(),
         ]);
-        return $this->render('admin/ActivePage.html.twig');
     }
 }

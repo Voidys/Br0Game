@@ -2,11 +2,7 @@
 
 namespace App\Game\AdvancedStats;
 
-use App\Game\Core\Config;
 use Doctrine\DBAL\ArrayParameterType;
-use App\Game\Core\Database;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 
 /**
  * Reads and writes the per-player "advanced statistics" counters (table advanced_stats: userId, universe,
@@ -31,8 +27,9 @@ class AdvancedStatsHandler
      * @param AdvancedStatsEnum|null $statKey null (no stat exists for that element) is a no-op.
      * @param int|float|string $value amount to add; the column is an integer (bigint), so fractions (e.g. debris
      *        values) are cut off toward zero, explicitly (an implicit float-to-int conversion is deprecated).
+     * @param int|null $universe the player's universe when the caller has it at hand (saves the lookup query)
      */
-    public function increment(int $userId, ?AdvancedStatsEnum $statKey, int|float|string $value = 1): void
+    public function increment(int $userId, ?AdvancedStatsEnum $statKey, int|float|string $value = 1, ?int $universe = null): void
     {
         if ($statKey == null) {
             return;
@@ -46,7 +43,7 @@ class AdvancedStatsHandler
 
         $this->db->insert($sql, [
             ':userId'       => $userId,
-            ':universe'     => $this->playerUtil()->getUniverse($userId),
+            ':universe'     => $universe ?? $this->playerLookup()->getUniverse($userId),
             ':statkey'      => $statKey->name,
             ':statvalue'    => $value,
         ]);
@@ -68,7 +65,7 @@ class AdvancedStatsHandler
 
         $this->db->insert($sql, [
             ':userId'       => $userId,
-            ':universe'     => $this->playerUtil()->getUniverse($userId),
+            ':universe'     => $this->playerLookup()->getUniverse($userId),
             ':statkey'      => $statKey->name,
             ':statvalue'    => $value,
         ]);
@@ -86,7 +83,7 @@ class AdvancedStatsHandler
         if ($statKey == null) {
             return;
         }
-        $universe = $this->playerUtil()->getUniverse($userId);
+        $universe = $this->playerLookup()->getUniverse($userId);
 
         $sql = "INSERT IGNORE INTO %%ADVANCED_STATS%% 
                 (userId, universe, statkey, statvalue) 

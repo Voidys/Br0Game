@@ -36,9 +36,13 @@ class MarketManager
     private int $_restype_crystal = 2;
     private int $_restype_deuterium = 3;
 
+    /** @var array<mixed> */
     private array $_mdVolume = [];
+    /** @var array<mixed> */
     private array $_cdVolume = [];
+    /** @var array<mixed> */
     private ?array $_storedRatios = null;
+    /** @var array<mixed> */
     private array $_pairRatios = [];
     private bool $_ratiosPersisted = false;
 
@@ -52,6 +56,8 @@ class MarketManager
 
     /**
      * Last stored ratios of the universe (metDeutRatio, crysDeutRatio); defaults 3.0 and 2.0 for a new market. Cached per instance.
+     *
+     * @return array<mixed>
      */
     private function getStoredRatios(): array
     {
@@ -143,6 +149,8 @@ class MarketManager
 
     /**
      * the following functions get a 7 day trade list of all trades on a single resource pair
+     *
+     * @return array<mixed>
      */
     private function getMetSales(int $expectedrestype): array
     {
@@ -263,6 +271,8 @@ class MarketManager
 
     /**
      * next 2: calculate total trade volume for a given resource pair
+     *
+     * @return array<mixed>
      */
     private function getTotalMetDeutVolume(): array
     {
@@ -416,6 +426,9 @@ class MarketManager
         ];
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getReferenceRatios(): array
     {
         return $this->normalizeReferenceRatios($this->getDeutRelativeRatios());
@@ -424,6 +437,9 @@ class MarketManager
     /**
      * Scale pair rates so the most valuable resource is 1.00.
      * A crystal/deut rate of 0.9 becomes 1.00 crystal and 1.11 deuterium.
+     *
+     * @param array<mixed> $ratios
+     * @return array<mixed>
      */
     private function normalizeReferenceRatios(array $ratios): array
     {
@@ -441,6 +457,7 @@ class MarketManager
 
     /**
      * @param array ['metal' => x, 'crystal' => y, 'deuterium' => z]
+     * @param array<mixed> $input
      * round AND int-cast because only int-cast just cuts off decimals
      */
     public function convertToDeut(array $input): int
@@ -459,7 +476,10 @@ class MarketManager
             + ($input['deuterium']));
     }
 
-    /** @param array [901, 902, 903] mkd **/
+    /**
+     * @param array [901, 902, 903] mkd *
+     * @param array<mixed> $input
+     */
     public function convertToDeutNumeric(array $input): int
     {
         $output = [
@@ -493,7 +513,7 @@ class MarketManager
     }
 
     /**
-     * @param $fleetArray format:
+     * @param array<mixed> $fleetArray format:
      * [
      * 		202 => 5, // kt?
      * 		203 => 4, // gt?
@@ -584,6 +604,9 @@ class MarketManager
         return max(0, min(90, (float) $this->configs->get()->market_push_tolerance)) / 100;
     }
 
+    /**
+     * @param array<mixed> $fleetArray
+     */
     public function isFleetPush(array $fleetArray, int $ask, int $sellerId, int $buyerId): bool
     {
         $fleetScore = $this->getFleetValue($fleetArray, true);

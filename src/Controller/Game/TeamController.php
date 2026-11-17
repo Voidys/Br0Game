@@ -15,11 +15,21 @@
 
 namespace App\Controller\Game;
 
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Team page with links to the player cards of the game team.
  */
-#[\App\Routing\GamePage('game', 'team')]
 class TeamController extends AbstractGameController
 {
-    use \App\Controller\Shared\TeamPage;
+    use \App\Controller\Shared\TeamPage {
+        show as protected renderTeam;
+    }
+
+    #[GameRoute('game', 'game/team', 'team')]
+    public function show(): Response
+    {
+        return $this->renderTeam();
+    }
 }

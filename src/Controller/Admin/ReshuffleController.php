@@ -13,35 +13,18 @@
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Config;
-use App\Game\Core\HTTP;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
-use App\Game\Core\Universe;
 
 /**
  * Reshuffles the positions of the planets in the galaxy.
  */
-#[\App\Routing\GamePage('admin', 'reshuffle')]
 class ReshuffleController extends AbstractAdminController
 {
-    /**
-     * action=send with universe: reshuffles the positions of all planets of that universe (PlayerUtil::reshuffleAllPlanets) and ends with
-     * the result text. Otherwise renders the universe picker.
-     */
+    /** Renders the universe picker. */
+    #[GameRoute('admin', 'admin/reshuffle', 'reshuffle')]
     public function show(): Response
     {
-        $LNG = $this->state->LNG;
-        $ACTION = $this->http()->_GP('action', '');
-        if ($ACTION == 'send') {
-            $selectedUniverse = $this->http()->_GP('universe', '');
-            $result = $this->playerUtil()->reshuffleAllPlanets($selectedUniverse);
-            if ($result === true) {
-                throw new \App\Game\Core\EndOfRequest($LNG['rp_done']);
-            }
-            throw new \App\Game\Core\EndOfRequest($result);
-        }
         $universeSelect = [];
         foreach ($this->universe()->availableUniverses() as $uniId) {
             $config = $this->configs->get($uniId);
@@ -49,9 +32,21 @@ class ReshuffleController extends AbstractAdminController
         }
         ksort($universeSelect);
 
-        $this->assign([
+        return $this->render('admin/ReshufflePage.html.twig', [
             'universes'    => $universeSelect,
         ]);
-        return $this->render('admin/ReshufflePage.html.twig');
+    }
+
+    /**
+     * Reshuffles the positions of all planets of the posted `universe` (PlanetReshuffle::reshuffleAllPlanets) and answers with the
+     * result text (shown in the dialog by the page script).
+     */
+    #[GameRoute('admin', 'admin/reshuffle', 'reshuffle', 'send', ['POST'])]
+    public function send(): Response
+    {
+        $selectedUniverse = $this->input()->int('universe');
+        $result = $this->planetReshuffle()->reshuffleAllPlanets($selectedUniverse);
+
+        return new Response($result === true ? $this->state->LNG['rp_done'] : $result);
     }
 }

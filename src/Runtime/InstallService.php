@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Runtime;
 
+use App\Game\Enum\AuthLevel;
 use App\Game\Bots\BotProfiles;
 use App\Game\Bots\BotSpawner;
 use App\Game\Core\Config\ConfigFieldSchema;
@@ -83,7 +84,7 @@ final class InstallService
     public function hasAdmin(): bool
     {
         try {
-            return (int) $this->db->selectSingle('SELECT COUNT(*) AS n FROM %%USERS%% WHERE `authlevel` = :level;', [':level' => AUTH_ADM], 'n') > 0;
+            return (int) $this->db->selectSingle('SELECT COUNT(*) AS n FROM %%USERS%% WHERE `authlevel` = :level;', [':level' => AuthLevel::Admin->value], 'n') > 0;
         } catch (\Throwable) {
             return false;
         }
@@ -270,7 +271,9 @@ final class InstallService
      *
      * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
      * @param \Closure(string, string): array $fail records a failed check and builds the failure result
-     * @return array|null the failure result, null when the step passed
+     * @param array<string, mixed> $fail
+     * @param array<string, mixed> $form
+     * @return array<mixed>|null the failure result, null when the step passed
      */
     private function checkDatabaseInput(array $form, string $migrationpw, string $locale, array &$checks, \Closure $fail): ?array
     {
@@ -301,7 +304,9 @@ final class InstallService
      * @param \Closure(string, string): array $fail records a failed check and builds the failure result
      * @param PDO|null $pdo set to the connection on success (out parameter)
      * @param string|null $version set to the server version on success (out parameter)
-     * @return array|null the failure result, null when the step passed
+     * @param array<string, mixed> $fail
+     * @param array<string, mixed> $form
+     * @return array<mixed>|null the failure result, null when the step passed
      */
     private function checkServerConnection(array $form, string $password, string $locale, array &$checks, \Closure $fail, ?PDO &$pdo = null, ?string &$version = null): ?array
     {
@@ -326,7 +331,9 @@ final class InstallService
      *
      * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
      * @param \Closure(string, string): array $fail records a failed check and builds the failure result
-     * @return array|null the failure result, null when the step passed
+     * @param array<string, mixed> $fail
+     * @param array<string, mixed> $form
+     * @return array<mixed>|null the failure result, null when the step passed
      */
     private function checkDatabaseExists(PDO $pdo, array $form, string $locale, array &$checks, \Closure $fail): ?array
     {
@@ -357,7 +364,9 @@ final class InstallService
      *
      * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
      * @param \Closure(string, string): array $fail records a failed check and builds the failure result
-     * @return array|null the failure result, null when the step passed
+     * @param array<string, mixed> $fail
+     * @param array<string, mixed> $form
+     * @return array<mixed>|null the failure result, null when the step passed
      */
     private function checkNoGameTables(PDO $pdo, array $form, string $locale, array &$checks, \Closure $fail): ?array
     {
@@ -381,7 +390,9 @@ final class InstallService
      *
      * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
      * @param \Closure(string, string): array $fail records a failed check and builds the failure result
-     * @return array|null the failure result, null when the step passed
+     * @param array<string, mixed> $fail
+     * @param array<string, mixed> $form
+     * @return array<mixed>|null the failure result, null when the step passed
      */
     private function writeGameConfig(array $form, string $password, string $migrationpw, string $locale, array &$checks, \Closure $fail): ?array
     {
@@ -415,7 +426,9 @@ final class InstallService
      *
      * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
      * @param \Closure(string, string): array $fail records a failed check and builds the failure result
-     * @return array|null the failure result, null when the step passed
+     * @param array<string, mixed> $fail
+     * @param array<string, mixed> $form
+     * @return array<mixed>|null the failure result, null when the step passed
      */
     private function writeEnvLocalFile(array $form, string $password, string $version, string $baseUrl, string $locale, array &$checks, \Closure $fail): ?array
     {
@@ -483,7 +496,11 @@ final class InstallService
             : $e->getMessage();
     }
 
-    /** sets the given keys in .env.local (other lines stay), values quoted for Symfony's Dotenv */
+    /**
+     * sets the given keys in .env.local (other lines stay), values quoted for Symfony's Dotenv
+     *
+     * @param array<mixed> $values
+     */
     public function writeEnvLocal(array $values): bool
     {
         $file = $this->root . '.env.local';
@@ -525,6 +542,8 @@ final class InstallService
     {
         $LNG = $this->lng($locale);
         $db = $this->db;
+        // the tasks fill or replace the config tables
+        $this->configs->invalidateCache();
         switch ($task) {
             case 'tables':
                 if ($db->selectSingle('SELECT COUNT(*) AS n FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = :name', [':name' => $db->getTablePrefix() . 'config'], 'n') > 0) {
@@ -615,7 +634,11 @@ final class InstallService
         return ['error' => $error, 'values' => $values];
     }
 
-    /** Writes validated game settings (see validateGameSettings()) to the global and universe 1 configuration. */
+    /**
+     * Writes validated game settings (see validateGameSettings()) to the global and universe 1 configuration.
+     *
+     * @param array<mixed> $values
+     */
     public function applyGameSettings(array $values): void
     {
         $global = 'INSERT INTO %%CONFIG%% (`key`, `value`) VALUES (:key, :value) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);';
@@ -638,6 +661,7 @@ final class InstallService
         foreach ($universe as $key => $value) {
             $this->db->update($sql, [':key' => $key, ':value' => $value]);
         }
+        $this->configs->invalidateCache();
         if ($this->configs->isLoaded()) {
             $this->configs->reload();
         }
@@ -668,13 +692,18 @@ final class InstallService
         return ['error' => $error, 'values' => $values];
     }
 
-    /** Writes validated legal settings (see validateLegalSettings()) to the global configuration. */
+    /**
+     * Writes validated legal settings (see validateLegalSettings()) to the global configuration.
+     *
+     * @param array<mixed> $values
+     */
     public function applyLegalSettings(array $values): void
     {
         $global = 'INSERT INTO %%CONFIG%% (`key`, `value`) VALUES (:key, :value) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);';
         $this->db->insert($global, [':key' => 'privacy_region', ':value' => $values['privacy_region']]);
         $this->db->insert($global, [':key' => 'rules_default', ':value' => $values['rules_default'] === 'default' ? '1' : '0']);
         $this->db->insert($global, [':key' => 'board_enabled', ':value' => $values['board_enabled'] ? '1' : '0']);
+        $this->configs->invalidateCache();
         if ($this->configs->isLoaded()) {
             $this->configs->reload();
         }
@@ -711,8 +740,8 @@ final class InstallService
     public function createAdmin(string $username, string $password, string $mail, string $language): array
     {
         (new GameData($this->db, $this->configs, $this->state))->load();
-        $accountId = $this->accountUtil()->createAccount($username, $this->accountUtil()->cryptPassword($password), $mail, $language, AUTH_ADM);
-        [$userId, $planetId] = $this->playerUtil()->createPlayer(
+        $accountId = $this->accountUtil()->createAccount($username, $this->accountUtil()->cryptPassword($password), $mail, $language, AuthLevel::Admin->value);
+        [$userId, $planetId] = $this->playerRegistration()->createPlayer(
             $accountId,
             $this->universe()->current(),
             $username,
@@ -721,7 +750,7 @@ final class InstallService
             1,
             2,
             null,
-            AUTH_ADM,
+            AuthLevel::Admin->value,
         );
 
         return [(int) $accountId, (int) $userId, (int) $planetId];

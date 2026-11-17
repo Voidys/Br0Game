@@ -7,7 +7,7 @@
 <hr>
 <h2>3. Đẩy điểm (Pushing)</h2>
 <p>Đẩy điểm nói chung bị cấm. Đẩy điểm bao gồm, ví dụ, mọi vận chuyển tài nguyên và moonshot không có bồi hoàn tương xứng từ tài khoản điểm thấp hơn sang tài khoản điểm cao hơn.<br>
-Một giao dịch phải hoàn tất trong 24 giờ. Ngoại lệ phải được điều hành viên chấp thuận trước qua ticket Discord hoặc tin nhắn riêng trong game. <a href="./?page=team">Bạn có thể xem đội ngũ tại đây.</a>.<br>
+Một giao dịch phải hoàn tất trong 24 giờ. Ngoại lệ phải được điều hành viên chấp thuận trước qua ticket Discord hoặc tin nhắn riêng trong game. <a href="./team">Bạn có thể xem đội ngũ tại đây.</a>.<br>
 Không xin phép hoặc bỏ qua quy tắc có thể dẫn đến bị cấm.</p>
 
 <h2>3.1 Giao dịch và tấn công</h2>

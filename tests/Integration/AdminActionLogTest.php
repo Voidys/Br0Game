@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use App\Game\Enum\AuthLevel;
 
 /**
  * Every write of the account editor tabs and of the rights page leaves exactly one admin log row (with old and new
@@ -82,7 +83,7 @@ final class AdminActionLogTest extends GameTestCase
 
     public function testAccountEditorTabsLogOneRowPerAction(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [$user, $planet] = $this->createPlayer();
         $this->state->USER = $admin;
         $pid = (int) $planet['id'];
@@ -103,7 +104,7 @@ final class AdminActionLogTest extends GameTestCase
 
     public function testAllianceEditsAreLogged(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [$member] = $this->createPlayer();
         $this->state->USER = $admin;
         $this->db->insert("INSERT INTO %%ALLIANCE%% (ally_name, ally_tag, ally_owner, ally_register_time, ally_universe, ally_events, ally_members) VALUES ('LogAl', 'LGA', :o, :t, 1, '', 1);", [':o' => $member['id'], ':t' => time()]);
@@ -116,34 +117,35 @@ final class AdminActionLogTest extends GameTestCase
 
     public function testAuthlevelAndRightsChangesAreLogged(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [$user] = $this->createPlayer();
         $uid = (int) $user['id'];
         $this->state->USER = $admin;
         $this->state->universeEmulated = 1;
         $controller = (new RightsController())->withGameServices($this->db, $this->configs, $this->state);
+        $controller->setRouter(self::container()->get('router'));
 
-        $run = function (array $post, array $query) use ($controller): void {
+        $run = function (array $post, array $query, string $action) use ($controller): void {
             $this->state->requestPost = $post;
             $this->state->requestQuery = $query;
             $this->state->requestInput = $post + $query;
             $this->withBrowserSession();
             try {
-                $controller->show();
+                $controller->{$action}();
             } catch (\Throwable) {
             }
         };
 
         $before = $this->logCount();
-        $run(['id_1' => $uid, 'authlevel' => AUTH_MOD], ['page' => 'rights', 'mode' => 'users']);
+        $run(['id_1' => $uid, 'authlevel' => AuthLevel::Moderator->value], ['page' => 'rights', 'mode' => 'users'], 'users');
         $this->assertSame($before + 1, $this->logCount());
-        $this->assertSame(AUTH_MOD, (int) $this->loadUser($uid)['authlevel']);
+        $this->assertSame(AuthLevel::Moderator->value, (int) $this->loadUser($uid)['authlevel']);
         $row = $this->lastLog();
-        $this->assertSame([[ 'authlevel' => AUTH_USR], ['authlevel' => AUTH_MOD]], StoredData::tryDecode($row['data']));
+        $this->assertSame([[ 'authlevel' => AuthLevel::User->value], ['authlevel' => AuthLevel::Moderator->value]], StoredData::tryDecode($row['data']));
         $this->assertSame($uid, (int) $row['target']);
 
         $before = $this->logCount();
-        $run(['id_1' => $uid, 'action' => 'send', 'rights' => ['ShowLogPage.php' => 1]], ['page' => 'rights', 'mode' => 'rights']);
+        $run(['id_1' => $uid, 'action' => 'send', 'rights' => ['ShowLogPage.php' => 1]], ['page' => 'rights', 'mode' => 'rights'], 'show');
         $this->assertSame($before + 1, $this->logCount());
         $this->assertSame(['ShowLogPage.php' => 1], StoredData::tryDecode($this->lastLog()['data'])[1]);
     }

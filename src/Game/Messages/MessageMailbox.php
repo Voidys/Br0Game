@@ -2,6 +2,7 @@
 
 namespace App\Game\Messages;
 
+use App\Game\Enum\MessageType;
 use Doctrine\DBAL\ArrayParameterType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
@@ -85,7 +86,7 @@ class MessageMailbox
      * without a selection means "delete the whole category", and "...typeall" of the category ALL means "...all".
      *
      * @param string               $action     requested action
-     * @param mixed                $MessCategory message type (MESSAGE_TYPE_*) the list showed
+     * @param mixed                $MessCategory message type (MessageType value) the list showed
      * @param array<mixed, mixed>  $messageIDs  checkbox selection: message id => value
      */
     public function applyAction(string $action, mixed $MessCategory, mixed $messageIDs): void
@@ -94,11 +95,11 @@ class MessageMailbox
             $action	= 'deletetypeall';
         }
 
-        if ($action == 'deletetypeall' && $MessCategory == MESSAGE_TYPE_ALL) {
+        if ($action == 'deletetypeall' && $MessCategory == MessageType::All->value) {
             $action	= 'deleteall';
         }
 
-        if ($action == 'readtypeall' && $MessCategory == MESSAGE_TYPE_ALL) {
+        if ($action == 'readtypeall' && $MessCategory == MessageType::All->value) {
             $action	= 'readall';
         }
 
@@ -264,7 +265,7 @@ class MessageMailbox
             ->setParameter('timestamp', $this->state->runtime->timestamp)
             ->setParameter('userId', $USER['id'])
             ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER);
-        if ($MessCategory != MESSAGE_TYPE_ALL) {
+        if ($MessCategory != MessageType::All->value) {
             $qb->andWhere('`message_id` IN (SELECT m.`message_id` FROM ' . $messages . ' m WHERE m.`message_type` = :messCategory)')
                 ->setParameter('messCategory', $MessCategory);
         } else {

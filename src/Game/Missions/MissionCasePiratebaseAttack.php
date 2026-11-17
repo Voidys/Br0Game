@@ -17,14 +17,11 @@
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\MessageType;
 use OutOfRangeException;
 use App\Game\Core\BattleReportStore;
 use App\Game\BattleEngine\BattleFleet;
 use App\Game\BattleEngine\BattleHandler;
-use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
-use App\Game\Core\Singleton;
 
 /**
  * Mission "pirate base attack" (20): attack on an NPC pirate base (table `pirate_bases`, spawned by
@@ -276,11 +273,11 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
                     $this->viewHelpers()->prettyNumber($debris[902]),
                 );
 
-                $this->playerUtil()->sendMessage(
+                $this->playerMessenger()->sendMessage(
                     $userID,
                     0,
                     $LNG['sys_mess_tower'],
-                    MESSAGE_TYPE_BATTLE_REPORT,
+                    MessageType::BattleReport->value,
                     $LNG['sys_mess_attack_report'],
                     $message,
                     $this->_fleet['arrival_time'],
@@ -293,7 +290,12 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         }
     }
 
-    /** Takes the loot from the base and sets its debris fields to the old ones plus the new debris. */
+    /**
+     * Takes the loot from the base and sets its debris fields to the old ones plus the new debris.
+     *
+     * @param array<mixed> $planetDebris
+     * @param array<mixed> $stealResource
+     */
     private function updateBase(array $stealResource, array $planetDebris): void
     {
         $db = $this->db;
@@ -369,11 +371,11 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
                     GetTargetAddressLink($this->_fleet),
                 );
 
-                $this->playerUtil()->sendMessage(
+                $this->playerMessenger()->sendMessage(
                     $userID,
                     0,
                     $LNG['sys_mess_tower'],
-                    MESSAGE_TYPE_BATTLE_REPORT,
+                    MessageType::BattleReport->value,
                     $LNG['sys_mess_attack_report'],
                     $message,
                     $this->state->runtime->timestamp,
@@ -511,7 +513,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
 	<table>
 		<tr>
 			<td colspan="2">
-			<a href="game?page=raport&raport=%s" target="_blank"><span class="%s">%s %s (%s)</span></a>
+			<a href="report/%s" target="_blank"><span class="%s">%s %s (%s)</span></a>
 			</td>
 		</tr>
 		<tr>

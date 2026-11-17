@@ -17,11 +17,11 @@
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\MessageType;
+use App\Game\Enum\Mission;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
 use App\Game\Core\Language;
-use App\Game\Core\PlayerUtil;
 use App\Game\Core\ResourceUpdate;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Singleton;
@@ -100,7 +100,7 @@ class MissionFunctions
     protected function SaveFleet()
     {
         $targetMission = $this->_fleet['mission'];
-        if ($targetMission != MISSION_COLONISATION && $targetMission != MISSION_EXPEDITION && $targetMission != MISSION_TRADE) {
+        if ($targetMission != Mission::Colonisation->value && $targetMission != Mission::Expedition->value && $targetMission != Mission::Trade->value) {
             // set points of fleet and target owner during arrival (SaveFleet is always called on TargetEvent)
             if ($this->_fleet['group'] != 0) {
                 $sql = 'UPDATE %%LOG_FLEETS%% l
@@ -235,7 +235,11 @@ class MissionFunctions
         return [$collectedGoods, $remainingGoods];
     }
 
-    /** Checks the recycling achievements for a fleet that found an empty debris field (nothing collected). */
+    /**
+     * Checks the recycling achievements for a fleet that found an empty debris field (nothing collected).
+     *
+     * @param array<mixed> $collectedGoods
+     */
     protected function checkEmptyRecycling(array $collectedGoods): void
     {
         $e = $this->elements();
@@ -280,11 +284,11 @@ class MissionFunctions
             $LNG['tech'][SHIP_RECYCLER],
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_TRANSPORT,
+            MessageType::Transport->value,
             $LNG['sys_recy_report'],
             $Message,
             $this->_fleet['arrival_time'],
@@ -404,7 +408,7 @@ class MissionFunctions
             return false;
         }
 
-        if ($this->_fleet['group'] != 0 && $this->_fleet['mission'] == MISSION_ATTACK) {
+        if ($this->_fleet['group'] != 0 && $this->_fleet['mission'] == Mission::Attack->value) {
             $sql = 'DELETE %%AKS%%, %%USERS_TO_ACS%%
                 FROM %%AKS%%
                 LEFT JOIN %%USERS_TO_ACS%% ON `acsID` = %%AKS%%.id
@@ -529,11 +533,11 @@ class MissionFunctions
             }
         }
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['return_time'],
@@ -555,11 +559,11 @@ class MissionFunctions
             GetTargetAddressLink($this->_fleet, ''),
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $message,
             $this->state->runtime->timestamp,

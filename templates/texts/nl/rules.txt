@@ -7,7 +7,7 @@
 <hr>
 <h2>3. Pushen</h2>
 <p>Pushen is in het algemeen verboden. Pushen omvat bijvoorbeeld alle grondstoffentransporten en moonshots zonder passende tegenprestatie van accounts met minder punten naar accounts met meer punten.<br>
-Een handel moet binnen 24 uur worden afgerond. Uitzonderingen moeten vooraf door de moderators worden goedgekeurd via een Discord-ticket of een privébericht in het spel. <a href="./?page=team">Het team vind je hier.</a>.<br>
+Een handel moet binnen 24 uur worden afgerond. Uitzonderingen moeten vooraf door de moderators worden goedgekeurd via een Discord-ticket of een privébericht in het spel. <a href="./team">Het team vind je hier.</a>.<br>
 Het niet aanvragen van toestemming of het negeren van de regel kan leiden tot een ban.</p>
 
 <h2>3.1 Handel en aanvallen</h2>

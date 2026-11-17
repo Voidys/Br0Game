@@ -70,8 +70,9 @@ final class CsrfListenerTest extends TestCase
      * @param array<string, mixed> $query
      * @param array<string, mixed> $post
      * @param array<string, string> $headers
+     * @param array<string, mixed> $attributes
      */
-    private function request(string $method, string $route, array $query = [], array $post = [], array $headers = [], string $controller = FixtureGameController::class . '::show'): Request
+    private function request(string $method, string $route, array $query = [], array $post = [], array $headers = [], string $controller = FixtureGameController::class . '::show', array $attributes = []): Request
     {
         $request = Request::create('/game', $method, $method === 'GET' ? $query : $post + [], [], [], []);
         if ($method !== 'GET') {
@@ -79,6 +80,9 @@ final class CsrfListenerTest extends TestCase
         }
         $request->attributes->set('_route', $route);
         $request->attributes->set('_controller', $controller);
+        foreach ($attributes as $name => $value) {
+            $request->attributes->set($name, $value);
+        }
         foreach ($headers as $name => $value) {
             $request->headers->set($name, $value);
         }
@@ -149,13 +153,18 @@ final class CsrfListenerTest extends TestCase
         self::assertFalse($accepted->hasResponse());
     }
 
-    public function testAccountModeSendByGetNeedsTheToken(): void
+    public function testRoutedStateChangingGetActionNeedsTheToken(): void
     {
-        foreach (['game_account_register' => 'send', 'game_account_account' => 'send'] as $route => $mode) {
-            $event = $this->dispatch($this->request('GET', $route, query: ['mode' => $mode]));
+        $event = $this->dispatch($this->request('GET', 'account_logout_show', attributes: ['_area' => 'account', '_page' => 'logout', '_mode' => 'show']));
 
-            self::assertSame(403, $event->getResponse()?->getStatusCode(), $route);
-        }
+        self::assertSame(403, $event->getResponse()?->getStatusCode());
+    }
+
+    public function testRoutedPostActionNeedsTheToken(): void
+    {
+        $event = $this->dispatch($this->request('POST', 'account_account_send', attributes: ['_area' => 'account', '_page' => 'account', '_mode' => 'send']));
+
+        self::assertSame(403, $event->getResponse()?->getStatusCode());
     }
 
     /** @return iterable<string, array{array<string, string>, array<string, mixed>}> */
@@ -188,50 +197,33 @@ final class CsrfListenerTest extends TestCase
         self::assertFalse($this->dispatch($this->request('GET', 'game_game_buddylist', ['mode' => 'show']))->hasResponse());
     }
 
-    public function testStateChangingGetNeedsTokenAndAcceptsItInTheQuery(): void
+    public function testRoutedPostActionNeedsTokenAndAcceptsItInTheQuery(): void
     {
-        $query = ['mode' => 'delete', 'id' => '5'];
+        $attributes = ['_area' => 'game', '_page' => 'buddylist', '_mode' => 'delete'];
 
-        self::assertSame(403, $this->dispatch($this->request('GET', 'game_game_buddylist', $query))->getResponse()?->getStatusCode());
-        self::assertFalse($this->dispatch($this->request('GET', 'game_game_buddylist', $query + [CsrfPolicy::FIELD => $this->token()]))->hasResponse());
+        self::assertSame(403, $this->dispatch($this->request('POST', 'game_buddy_list_delete', attributes: $attributes))->getResponse()?->getStatusCode());
+        self::assertFalse($this->dispatch($this->request('POST', 'game_buddy_list_delete', [CsrfPolicy::FIELD => $this->token()], attributes: $attributes))->hasResponse());
+        // the read-only view of the same page needs none
+        self::assertFalse($this->dispatch($this->request('GET', 'game_buddy_list_show', attributes: ['_area' => 'game', '_page' => 'buddylist', '_mode' => 'show']))->hasResponse());
     }
 
-    public function testAdminActionGetsAreCoveredButViewsAreNot(): void
+    public function testAdminActionsArePostRoutesAndViewsAreNotChecked(): void
     {
-        self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_cronjob', ['action' => 'run', 'id' => '1']))->getResponse()?->getStatusCode());
-        self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_module', ['mode' => 'aktiv', 'id' => '3']))->getResponse()?->getStatusCode());
-        self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_search', ['delete' => 'user', 'user' => '5']))->getResponse()?->getStatusCode());
-        self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_flyingfleet', ['id' => '3', 'lock' => '1']))->getResponse()?->getStatusCode());
-        self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_flyingfleet', ['massunlock' => '1']))->getResponse()?->getStatusCode());
-        self::assertFalse($this->dispatch($this->request('GET', 'game_admin_cronjob', ['action' => 'detail', 'id' => '1']))->hasResponse());
-        self::assertFalse($this->dispatch($this->request('GET', 'game_admin_overview'))->hasResponse());
+        // the module switch is a POST route: every POST needs the token
+        $module = ['_area' => 'admin', '_page' => 'module', '_mode' => 'activate'];
+        self::assertSame(403, $this->dispatch($this->request('POST', 'admin_module_activate', attributes: $module))->getResponse()?->getStatusCode());
+        self::assertFalse($this->dispatch($this->request('POST', 'admin_module_activate', [CsrfPolicy::FIELD => $this->token()], attributes: $module))->hasResponse());
+        self::assertFalse($this->dispatch($this->request('GET', 'admin_cronjob_detail', ['id' => '1'], attributes: ['_area' => 'admin', '_page' => 'cronjob', '_mode' => 'detail']))->hasResponse());
+        self::assertFalse($this->dispatch($this->request('GET', 'admin_overview_show', attributes: ['_area' => 'admin', '_page' => 'overview', '_mode' => 'show']))->hasResponse());
     }
 
-    /** @return iterable<string, array{string}> */
-    public static function disguisedActions(): iterable
+    public function testPhalanxScanByGetNeedsTheToken(): void
     {
-        yield 'leading space' => [' sendfleetback'];
-        yield 'trailing space' => ['sendfleetback '];
-        yield 'trailing nul byte' => ["sendfleetback\0"];
-        yield 'nul byte inside' => ["send\0fleetback"];
-        yield 'upper and lower case' => ['SendFleetBack'];
-        yield 'line break around' => ["\nsendfleetback\r\n"];
-    }
+        $attributes = ['_area' => 'game', '_page' => 'phalanx', '_mode' => 'show'];
+        $query = ['galaxy' => '1', 'system' => '2', 'planet' => '3'];
 
-    #[DataProvider('disguisedActions')]
-    public function testActionNamesNeedTheTokenLikeTheGameReadsThem(string $action): void
-    {
-        $plain = $this->dispatch($this->request('GET', 'game_game_fleettable', ['action' => 'sendfleetback', 'fleetid' => '3']));
-        $disguised = $this->dispatch($this->request('GET', 'game_game_fleettable', ['action' => $action, 'fleetid' => '3']));
-
-        self::assertSame(403, $plain->getResponse()?->getStatusCode());
-        self::assertSame(403, $disguised->getResponse()?->getStatusCode(), 'the game trims and lower-cases the action, so must the policy');
-    }
-
-    public function testArrayActionDoesNotMatchAndOtherActionsStayFree(): void
-    {
-        self::assertFalse($this->dispatch($this->request('GET', 'game_game_fleettable', ['action' => ['sendfleetback']]))->hasResponse());
-        self::assertFalse($this->dispatch($this->request('GET', 'game_game_fleettable', ['action' => 'other']))->hasResponse());
+        self::assertSame(403, $this->dispatch($this->request('GET', 'game_phalanx_show', $query, attributes: $attributes))->getResponse()?->getStatusCode());
+        self::assertFalse($this->dispatch($this->request('GET', 'game_phalanx_show', $query + [CsrfPolicy::FIELD => $this->token()], attributes: $attributes))->hasResponse());
     }
 
     public function testControllersOutsideTheGameAreNotChecked(): void
@@ -244,17 +236,18 @@ final class CsrfListenerTest extends TestCase
     public function testForeignNavigationIntoAuthenticatedPageIsBounced(): void
     {
         $headers = ['Sec-Fetch-Site' => 'cross-site', 'Sec-Fetch-Mode' => 'navigate'];
+        $alliance = ['_area' => 'game', '_page' => 'alliance', '_mode' => 'apply'];
 
-        $response = $this->dispatch($this->request('GET', 'game_game_alliance', ['mode' => 'apply'], headers: $headers))->getResponse();
+        $response = $this->dispatch($this->request('GET', 'game_alliance_apply', headers: $headers, attributes: $alliance))->getResponse();
         self::assertInstanceOf(RedirectResponse::class, $response);
         self::assertSame('/game', $response->getTargetUrl());
 
         // public pages and ordinary same-origin/typed-in navigation are left alone
-        self::assertFalse($this->dispatch($this->request('GET', 'game_game_raport', headers: $headers))->hasResponse());
-        self::assertFalse($this->dispatch($this->request('GET', 'game_game_alliance', headers: ['Sec-Fetch-Site' => 'same-origin', 'Sec-Fetch-Mode' => 'navigate']))->hasResponse());
-        self::assertFalse($this->dispatch($this->request('GET', 'game_game_alliance', headers: ['Sec-Fetch-Site' => 'none', 'Sec-Fetch-Mode' => 'navigate']))->hasResponse());
+        self::assertFalse($this->dispatch($this->request('GET', 'game_raport_show', headers: $headers, attributes: ['_area' => 'game', '_page' => 'raport', '_mode' => 'show']))->hasResponse());
+        self::assertFalse($this->dispatch($this->request('GET', 'game_alliance_apply', headers: ['Sec-Fetch-Site' => 'same-origin', 'Sec-Fetch-Mode' => 'navigate'], attributes: $alliance))->hasResponse());
+        self::assertFalse($this->dispatch($this->request('GET', 'game_alliance_apply', headers: ['Sec-Fetch-Site' => 'none', 'Sec-Fetch-Mode' => 'navigate'], attributes: $alliance))->hasResponse());
         // the login area (index) can be linked from anywhere (e-mail links)
-        self::assertFalse($this->dispatch($this->request('GET', 'game_index_lostpassword', headers: $headers))->hasResponse());
+        self::assertFalse($this->dispatch($this->request('GET', 'login_lost_password_new_password', headers: $headers, attributes: ['_area' => 'index', '_page' => 'lostpassword', '_mode' => 'newpassword']))->hasResponse());
     }
 }
 

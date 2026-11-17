@@ -4,8 +4,7 @@
 {% block content %}
 	<table class="form-table">
 		<tbody>
-			<form action="game?page=settings" method="post">
-				<input type="hidden" name="mode" value="send">
+			<form action="{{ path('game_settings_send') }}" method="post">
 				{% if userAuthlevel > 0 %}
 					<tr>
 						<th colspan="2">{{ LNG.op_admin_title_options }}</th>
@@ -581,14 +580,12 @@
 			</tr>
 			<tr>
 				<td class="ctr">
-					<form action="game?page=settings" method="post">
-						<input type="hidden" name="mode" value="toggleVacation">
+					<form action="{{ path('game_settings_toggle_vacation') }}" method="post">
 						<input name="vacation" type="submit" value="{{ LNG.op_activate_vacation_mode }}" data-confirm="{{ LNG.op_activate_vacation_mode_confirm|e('html_attr') }}"> <img src="./styles/resource/images/admin/i.webp" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_activate_vacation_mode_descrip }}">
 					</form>
 				</td>
 				<td class="ctr">
-					<form action="game?page=settings" method="post">
-						<input type="hidden" name="mode" value="toggleDelete">
+					<form action="{{ path('game_settings_toggle_delete') }}" method="post">
 						<input name="delete" type="submit" value="{% if delete %}{{ LNG.op_stop_dlte_account }}{% else %}{{ LNG.op_dlte_account }}{% endif %}"> <img src="./styles/resource/images/admin/i.webp" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_dlte_account_descrip }}">
 					</form>
 				</td>

@@ -25,8 +25,8 @@ class PlanetQueries
     /**
      * The user's main planet row by the home coordinates stored on the user.
      *
-     * @param array $user user row (universe, galaxy, system, planet)
-     * @return array planet row, or [] if missing
+     * @param array<string, mixed> $user user row (universe, galaxy, system, planet)
+     * @return array<mixed> planet row, or [] if missing
      */
     public function getMainPlanet(array $user): array
     {
@@ -52,7 +52,7 @@ class PlanetQueries
      *
      * Array adapter of maxFieldsFor().
      *
-     * @param array $planet planet row
+     * @param array<string, mixed> $planet planet row
      * @return int|float
      */
     public function calculateMaxPlanetFields($planet)
@@ -106,7 +106,7 @@ class PlanetQueries
      * Non-destroyed planets and moons of a user for lists/menus, ordered by the user's planet_sort settings
      * (id, coordinates, name; ascending or descending). Returns the cached `PLANETS` entry of the user row if present.
      *
-     * @param array $USER user row
+     * @param array<string, mixed> $USER user row
      * @return array<int, array> planet id => reduced planet row
      */
     public function getPlanets($USER)

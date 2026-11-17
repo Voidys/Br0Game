@@ -1,2 +1,2 @@
 {# board, visitor without login: reading is open, writing needs an account #}
-<p class="infobox board-guest">{{ icon('info') }}<span>{{ LNG.board_guest_hint }} <a href="./">{{ LNG.board_guest_login }}</a> &middot; <a href="./?page=register">{{ LNG.board_guest_register }}</a></span></p>
+<p class="infobox board-guest">{{ icon('info') }}<span>{{ LNG.board_guest_hint }} <a href="./">{{ LNG.board_guest_login }}</a> &middot; <a href="{{ path('login_register_show') }}">{{ LNG.board_guest_register }}</a></span></p>

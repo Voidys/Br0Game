@@ -92,4 +92,10 @@ final class AuthRateLimits
     {
         return $this->adminElevation->create($ip . '|' . $accountId)->consume()->isAccepted();
     }
+
+    /** A correct admin password ends the series of attempts: only failures use up the budget. */
+    public function clearAdminElevation(string $ip, int $accountId): void
+    {
+        $this->adminElevation->create($ip . '|' . $accountId)->reset();
+    }
 }

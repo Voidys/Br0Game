@@ -175,3 +175,74 @@ classes must autoload without re-dumping and code changes must apply without res
   fleet log entry.
 - PHP boot (Symfony kernel + game bootstrap) is now the largest share of a request (about 15 of 22 ms); the deployment
   settings above are the remaining cheap win.
+
+## Per-request overhead pass (2026-11-17)
+
+Same harness as above (PHP built-in server, `APP_ENV=prod`, interleaved A/B requests, 21 per page, median ms), dev data. The
+machine is slower than in the first pass, compare the columns, not the absolute values. Game results are unchanged: crawl
+diff of 60 pages (game, account, admin) is HTML-identical except CSRF tokens, the full test suite passes, and 20 concurrent
+shipyard orders (plus parallel page views) on one planet gave the same queue length and resource deduction before and after.
+
+| Page | default before → after | tuned before → after | queries before → after |
+| --- | ---: | ---: | ---: |
+| `/` | 21.8 → 18.0 | 16.1 → 12.9 | 9 → 5 |
+| `/news` | 21.7 → 18.1 | 14.0 → 10.9 | 10 → 6 |
+| `/account` | 22.4 → 19.7 | 16.3 → 12.9 | 12 → 8 |
+| game overview | 34.5 → 29.5 | 27.0 → 21.2 | 38 → 25 |
+| buildings | 36.7 → 31.7 | 27.3 → 23.1 | 33 → 20 |
+| research | 34.2 → 28.7 | 25.5 → 21.2 | 33 → 21 |
+| shipyard | 33.8 → 26.8 | 23.8 → 19.4 | 32 → 19 |
+| galaxy (own system) | 43.8 → 37.5 | 30.5 → 25.5 | 38 → 25 |
+| messages | 36.5 → 30.8 | 27.3 → 22.4 | 42 → 30 |
+| statistics | 40.8 → 34.5 | 25.9 → 21.3 | 36 → 24 |
+| empire | 41.3 → 36.1 | 32.6 → 28.0 | 42 → 28 |
+| alliance | 35.9 → 30.0 | 27.2 → 23.3 | 43 → 31 |
+| admin overview | 26.6 → 22.4 | 17.5 → 15.0 | 16 → 11 |
+
+Seeded database (1000 players, 100k messages), tuned: overview 25.6 → 20.4, buildings 26.9 → 21.9, messages 36.2 → 32.0,
+statistics 35.1 → 29.7, empire 32.2 → 27.2 ms; default: overview 35.5 → 30.5, messages 44.5 → 38.7 ms.
+
+The query counts are for requests within the same second (the harness). With a second or more between requests (real play)
+the planet update writes, so the saving is smaller: overview 41 → 31, buildings 35 → 27 queries (26.9 → 23.3 ms, 31.2 → 23.7 ms tuned).
+
+Changes:
+- **Config cache** (`ConfigCache`, `var/game/cache.config.php`): the parsed `config`, `config_universe` and module rows are
+  read from an opcache-friendly PHP file; the field schema (and the admin language texts it loaded) is built only when
+  something needs it. Every writer calls `ConfigRegistry::invalidateCache()` (`Config::save*`, `reload()`, installer,
+  universe create/delete, clear cache), which writes a new generation stamp. A reader takes the stamp before it reads
+  the database and stores under it, so a request that read old rows cannot publish them after a save. Rows edited by
+  hand in the database need `var/game/` cleared (admin "clear cache"). Off in the test environment (`app.config_cache`).
+- **Migration check** cached ("nothing pending", `cache.dbstatus.php`, keyed by database, migration directory mtime and
+  `config/game.php`): no `system` scan per request. Pending migrations are never cached.
+- **One init round trip**: charset/sql_mode and `READ COMMITTED` in the same init command (`Database::INIT_COMMAND`).
+- **Resource update**: a plain GET page view that would not change the planet (same second as the last update, vacation
+  mode, closed universe) opens no transaction and takes no row locks (`ResourceUpdate::wouldUpdate()`); POST requests and
+  every request that writes keep the locking exactly as before.
+- **Boot queries**: fleet events claim with one read when nothing is due (instead of transaction + UPDATE + commit);
+  account row of the ban check taken from the security user refresh; alliance, diplomacy and buddy counters in one
+  query; the tutorial popup needs no query while the player has no open step (remembered with the once-a-minute sync).
+- **Symfony pipeline**: CSRF token manager, translator and the three rate limiters are lazy services (a plain GET built
+  them for nothing): about -0.9 ms.
+- **Import map** built once into `var/game/cache.importmap.php` (key: git version and script directory mtimes) outside debug,
+  instead of stat-ing 67 files per request.
+
+Not changed: the firewall itself (session, user refresh, `lazy: true` already), the router.
+
+### Production tuning (measured, tuned column above)
+
+The DDEV default (`opcache.validate_timestamps=1`, `revalidate_freq=0`) stats every file on every request. In production:
+
+```ini
+opcache.enable=1
+opcache.validate_timestamps=0        ; reload PHP-FPM (or opcache_reset()) on every deploy
+opcache.memory_consumption=256
+opcache.max_accelerated_files=20000
+opcache.preload=/path/to/br0game/config/preload.php
+opcache.preload_user=www-data
+```
+
+plus `composer install --no-dev --optimize-autoloader --classmap-authoritative`. Effect on this machine: overview 34.5 →
+27.0 ms (-22 %), start page 21.8 → 16.1 ms. Deploy steps: `git pull`, `composer install ...`, `bin/console cache:clear`,
+clear `var/game/`, reload PHP-FPM. With `validate_timestamps=0` PHP never notices edited files by itself; the game's own
+cache files are safe because they are compared by key, not by file time. `config/preload.php` loads the container preload
+file Symfony writes on cache warmup (`var/cache/prod/*.preload.php`); run `bin/console cache:warmup` before reloading.

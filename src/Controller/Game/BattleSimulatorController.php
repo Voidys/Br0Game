@@ -18,58 +18,50 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Routing\GameRoute;
 use App\Game\Core\BattleReportStore;
 use App\Game\BattleEngine\BattleFleet;
 use App\Game\BattleEngine\BattleHandler;
-use App\Game\Core\Config;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 
 /**
  * Battle simulator: prepares the form with the player's techs and resources and renders the simulated report.
  */
-#[\App\Routing\GamePage('game', 'battleSimulator')]
 #[\App\Controller\RequireModule('MODULE_SIMULATOR')]
 class BattleSimulatorController extends AbstractGameController
 {
     /** Most ships and defenses of all slots together one simulation may contain (a fight of 20 million per side takes about 17 s of CPU). */
     public const MAX_SIMULATED_UNITS = 10000000;
 
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Runs a simulation (XHR). Request: battleinput (slots with fleets, techs and resources; sanitized, ids numeric and amounts capped). Throttled to 10
      * stored simulations per user per minute (marker `sim:<userId>` in RW.attacker). Simulates with the battle engine on virtual fleets (fixed 1:33:7
      * coordinates), stores the report in RW and answers the report id as JSON, or 0 for invalid or rejected input.
      */
-    public function send()
+    #[GameRoute('game', 'game/simulator', 'battleSimulator', 'send', ['POST'])]
+    public function send(): Response
     {
         $e = $this->elements();
         $LNG = $this->state->LNG;
         if (!isset($this->state->requestInput['battleinput'])) {
-            $this->sendJSON(0);
+            return $this->jsonResponse(0);
         }
 
         $BattleArray = $this->sanitizeBattleInput($this->state->requestInput['battleinput']);
         if ($BattleArray === null) {
-            $this->sendJSON(0);
+            return $this->jsonResponse(0);
         }
 
         // Throttle: stored simulator reports are marked in `attacker`, at most 10 per user per minute
         $simMarker = 'sim:' . $this->state->USER['id'];
         if ($this->recentSimulations($simMarker) >= 10) {
-            $this->sendJSON(0);
+            return $this->jsonResponse(0);
         }
 
         [$fleetAttack, $fleetDefend, $battleElementAmount] = $this->simulatedFleets($BattleArray);
 
         //Move defending planet to the end to match mission attack
         if (empty($fleetAttack) || !isset($fleetDefend[0])) {
-            $this->sendJSON(0);
+            return $this->jsonResponse(0);
         }
         $tempFleet = $fleetDefend[0];
         unset($fleetDefend[0]);
@@ -77,7 +69,7 @@ class BattleSimulatorController extends AbstractGameController
         // the fleets are keyed by their list position (as before); the planet is fleet 0 and fires last
 
         if ($battleElementAmount > self::MAX_SIMULATED_UNITS) {
-            $this->sendJSON($this->state->LNG->format('bs_too_many_units', $this->viewHelpers()->prettyNumber(self::MAX_SIMULATED_UNITS)));
+            return $this->jsonResponse($this->state->LNG->format('bs_too_many_units', $this->viewHelpers()->prettyNumber(self::MAX_SIMULATED_UNITS)));
         }
 
         $LNG->includeData(['FLEET']);
@@ -87,7 +79,7 @@ class BattleSimulatorController extends AbstractGameController
         // one simulation at a time per player: the throttle above only counts stored reports, parallel requests would all pass it
         $lockName = $this->db->getDatabaseName() . ':' . $simMarker;
         if (!(int) $this->db->selectSingle('SELECT GET_LOCK(:name, 0) AS acquired;', [':name' => $lockName], 'acquired')) {
-            $this->sendJSON($this->state->LNG['bs_busy']);
+            return $this->jsonResponse($this->state->LNG['bs_busy']);
         }
         try {
             $combatResult = $battleHandler->engine->fight($fleetAttack, $fleetDefend, $this->state->USER['universe'], true);
@@ -96,7 +88,7 @@ class BattleSimulatorController extends AbstractGameController
         }
 
         if (!$combatResult) {
-            $this->sendJSON(0); // return
+            return $this->jsonResponse(0); // return
         }
 
         // resources of the defending planet (slot 0) the attackers can plunder
@@ -121,7 +113,7 @@ class BattleSimulatorController extends AbstractGameController
         $reportData = $battleHandler->GenerateReport($combatResult, $reportInfo, SIM_FIGHT, $fleetAttack, $fleetDefend, $battleHandler->engine->getName());
         unset($reportData['repaired']);
 
-        $this->sendJSON($this->storeReport($reportData, $battleHandler->engine->getName(), $simMarker));
+        return $this->jsonResponse($this->storeReport($reportData, $battleHandler->engine->getName(), $simMarker));
     }
 
     /** The text about how many small and large cargos the plunder of the defending planet would need. */
@@ -332,6 +324,8 @@ class BattleSimulatorController extends AbstractGameController
     /**
      * Normalises the posted slots: only numeric ids, amounts cast to non-negative numbers (capped), techs capped.
      * Slot 0 needs both an attacker [0] and a defender [1] entry, otherwise null is returned.
+     *
+     * @return array<mixed>
      */
     private function sanitizeBattleInput(mixed $input): ?array
     {
@@ -384,16 +378,44 @@ class BattleSimulatorController extends AbstractGameController
     }
 
     /**
-     * Simulator page. Request: slots (number of slots), action=moreslots (adds slots), battleinput[] (prefill, e.g. from a spy report; otherwise the form
-     * starts with the player's own techs).
+     * Simulator page. Request: slots (number of slots), battleinput[] (prefill, e.g. from a spy report; otherwise the form starts with the player's
+     * own techs).
      */
+    #[GameRoute('game', 'game/simulator', 'battleSimulator')]
     public function show(): Response
+    {
+        return $this->simulatorPage('');
+    }
+
+    /** Reloads the form with one more attacker slot (POST of the form: slots, battleinput). */
+    #[GameRoute('game', 'game/simulator/more-slots', 'battleSimulator', 'moreSlots', ['GET', 'POST'])]
+    public function moreSlots(): Response
+    {
+        if ($redirect = $this->redirectUnlessPost('game_battle_simulator_show')) {
+            return $redirect;
+        }
+
+        return $this->simulatorPage('moreslots');
+    }
+
+    /** Reloads the form with attackers and defenders swapped (POST of the form: slots, battleinput). */
+    #[GameRoute('game', 'game/simulator/switch', 'battleSimulator', 'switch', ['GET', 'POST'])]
+    public function switch(): Response
+    {
+        if ($redirect = $this->redirectUnlessPost('game_battle_simulator_show')) {
+            return $redirect;
+        }
+
+        return $this->simulatorPage('switch');
+    }
+
+    /** The simulator form for the action of the route ('' = just show, 'moreslots', 'switch'). */
+    private function simulatorPage(string $action): Response
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
         $e = $this->elements();
-        $Slots = $this->http()->_GP('slots', 1);
-        $action = $this->http()->_GP('action', '');
+        $Slots = $this->input()->int('slots', 1);
 
         $BattleArray[0][0][MILITARY_TECH] = $USER[$e->column(MILITARY_TECH)];
         $BattleArray[0][0][SHIELD_TECH] = $USER[$e->column(SHIELD_TECH)];
@@ -410,7 +432,7 @@ class BattleSimulatorController extends AbstractGameController
                 $BattleArray[0][0][$ID] = $PLANET[$e->column($ID)];
             }
         } else {
-            $BattleArray = $this->http()->_GP('battleinput', []);
+            $BattleArray = $this->input()->stringTree('battleinput');
         }
 
         if ($action == 'moreslots') {
@@ -425,20 +447,18 @@ class BattleSimulatorController extends AbstractGameController
         }
 
         if (isset($this->state->requestInput['im'])) {
-            foreach ($this->state->requestInput['im'] as $ID => $Count) {
+            foreach ($this->input()->bigNumberMap('im') as $ID => $Count) {
                 $BattleArray[0][1][$ID] = floatToString($Count);
             }
         }
 
         $this->addScript('battlesim.js');
 
-        $this->assign([
+        return $this->render('game/page.battleSimulator.default.html.twig', [
             'Slots'         => $Slots,
             'battleinput'   => $BattleArray,
             'fleetList'     => $e->ids('fleet'),
             'defensiveList' => $e->ids('defense'),
         ]);
-
-        return $this->render('game/page.battleSimulator.default.html.twig');
     }
 }

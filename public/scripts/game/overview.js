@@ -1,11 +1,12 @@
 import { qs, qsa, on, now, getRestTimeFormat, setVisibleInterval } from '../app/core.js';
+import { env } from '../app/env.js';
 
 /**
  * Overview page: live countdowns (fleet movements `.fleets`, building/research `.timer`, planet repair `.timerrepair`,
  * short form `.timershort`) and the toggles of the news and event blocks. Countdown elements carry the remaining
  * seconds at render time in data attributes; in vacation mode (`.timer[data-umode=1]`) they stay frozen.
  */
-const elapsed = () => (now().getTime() - (window.startTime ?? now().getTime())) / 1000;
+const elapsed = () => (now().getTime() - env.startTime) / 1000;
 
 /** Remaining seconds of an element (data-time): absolute since page render, frozen in vacation mode. */
 function remaining(el, umode) {

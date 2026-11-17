@@ -18,40 +18,44 @@
 namespace App\Controller\Admin;
 
 use Exception;
-use App\Game\Core\ExpeditionFindableShipsHandler;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Edits the ships that expeditions can find in a universe. */
-#[\App\Routing\GamePage('admin', 'expeditionShips')]
 class ExpeditionShipsController extends AbstractAdminController
 {
     /**
-     * Selection of ships that an expedition can find (request: uniID, default emulated; action=update with findable_ships[] saves it
-     * through ExpeditionShips::saveConfigForUniverse).
+     * Selection of ships that an expedition can find (request: uniID, default emulated).
      */
+    #[GameRoute('admin', 'admin/expedition/ships', 'expeditionShips')]
     public function show(): Response
     {
+        return $this->renderShips();
+    }
+
+    /**
+     * POST findable_ships[]: saves the selection through ExpeditionShips::saveConfigForUniverse and shows the page with the result message.
+     */
+    #[GameRoute('admin', 'admin/expedition/ships', 'expeditionShips', 'update', ['POST'])]
+    public function update(): Response
+    {
         $LNG = $this->state->LNG;
+        try {
+            $universe = $this->input()->int('uniID', (int) $this->universe()->getEmulated());
+            $this->expeditionShips()->saveConfigForUniverse($universe, $this->submittedShips());
 
-        $universe = $this->http()->_GP('uniID', $this->universe()->getEmulated());
-        $action = $this->http()->_GP('action', 'show');
-
-        $message = '';
-        $messageType = '';
-
-        if ($action === 'update' && !empty($this->state->requestPost)) {
-            try {
-                $this->expeditionShips()->saveConfigForUniverse($universe, $this->http()->_GP('findable_ships', []));
-                $message = $LNG['adm_exp_ships_saved'];
-                $messageType = 'success';
-            } catch (Exception $e) {
-                $message = $e->getMessage();
-                $messageType = 'error';
-            }
+            return $this->renderShips($LNG['adm_exp_ships_saved'], 'success');
+        } catch (Exception $e) {
+            return $this->renderShips($e->getMessage(), 'error');
         }
+    }
+
+    /** the page of the universe `uniID` (default: the emulated one), with an optional result message */
+    private function renderShips(string $message = '', string $messageType = ''): Response
+    {
+        $LNG = $this->state->LNG;
+        $universe = $this->input()->int('uniID', (int) $this->universe()->getEmulated());
 
         $shipConfig = $this->expeditionShips()->getConfigForUniverse($universe);
 
@@ -69,13 +73,34 @@ class ExpeditionShipsController extends AbstractAdminController
             }
         }
 
-        $this->assign([
+        return $this->render('admin/ExpeditionShips.html.twig', [
             'universe' => $universe,
             'findableShips' => $shipConfig,
             'message' => $message,
             'messageType' => $messageType,
         ]);
+    }
 
-        return $this->render('admin/ExpeditionShips.html.twig');
+    /**
+     * The posted `findable_ships[<ship id>][is_findable|findable_by[]]` as the handler expects it (flag and finder ids).
+     *
+     * @return array<int, array{is_findable: int, findable_by: list<int>}>
+     */
+    private function submittedShips(): array
+    {
+        $submitted = [];
+        $input = $this->state->requestInput['findable_ships'] ?? [];
+        foreach (is_array($input) ? $input : [] as $shipId => $config) {
+            if (!is_array($config)) {
+                continue;
+            }
+            $finders = is_array($config['findable_by'] ?? null) ? array_filter($config['findable_by'], 'is_scalar') : [];
+            $submitted[(int) $shipId] = [
+                'is_findable' => (int) ($config['is_findable'] ?? 0),
+                'findable_by' => array_values(array_map('intval', $finders)),
+            ];
+        }
+
+        return $submitted;
     }
 }

@@ -17,7 +17,8 @@
 
 namespace App\Controller\Admin;
 
-use Exception;
+use App\Game\Enum\AuthLevel;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -25,7 +26,6 @@ use Symfony\Component\HttpFoundation\Response;
  * The password is only read from a POST body (never from the URL), attempts are limited per IP and
  * account, and the session id is renewed when the access is granted (session fixation).
  */
-#[\App\Routing\GamePage('admin', 'login')]
 class LoginController extends AbstractAdminController
 {
     /**
@@ -34,7 +34,7 @@ class LoginController extends AbstractAdminController
     protected function construct(): void
     {
         $USER = $this->state->USER;
-        if ($USER['authlevel'] == AUTH_USR) {
+        if ($USER['authlevel'] == AuthLevel::User->value) {
             $this->deny();
         }
 
@@ -42,36 +42,59 @@ class LoginController extends AbstractAdminController
     }
 
     /**
-     * Admin password prompt. POST admin_pw is checked against the account password (rate limited, failures are throttled and answered
-     * with a message); on success admin access is stored in the session and the request redirects to /admin.
+     * The admin password prompt (shown at any admin URL until the session has admin access); with admin access it
+     * redirects to /admin.
      */
+    #[GameRoute('admin', 'admin/login', 'login')]
     public function show(): Response
     {
         $USER = $this->state->USER;
-        $accountId = $this->playerUtil()->get_account_id($USER['id']);
+        $accountId = $this->playerLookup()->get_account_id($USER['id']);
         $account = $this->accountUtil()->get_account($accountId);
 
         $session = $this->sessions()->create();
         $session->universe = $USER['universe'];
         if ($session->adminAccess == 1) {
-            $this->http()->redirectTo('admin');
+            return $this->redirectToRoute('admin_index_show');
+        }
+
+        return $this->render('admin/LoginPage.html.twig', [
+            'bodyclass'    => 'standalone',
+            'email'        => $account['email'],
+        ]);
+    }
+
+    /**
+     * POST admin_pw is checked against the account password (rate limited, failures are throttled and answered
+     * with a message); on success admin access is stored in the session and the request redirects to /admin, a wrong
+     * password shows the prompt again.
+     */
+    #[GameRoute('admin', 'admin/login', 'login', 'send', ['POST'])]
+    public function send(): Response
+    {
+        $USER = $this->state->USER;
+        $accountId = $this->playerLookup()->get_account_id($USER['id']);
+        $account = $this->accountUtil()->get_account($accountId);
+
+        $session = $this->sessions()->create();
+        $session->universe = $USER['universe'];
+        if ($session->adminAccess == 1) {
+            return $this->redirectToRoute('admin_index_show');
         }
 
         if (isset($this->state->requestPost['admin_pw']) && is_string($this->state->requestPost['admin_pw'])) {
             if (!$this->rateLimits->allowAdminElevation($this->sessions()->getClientIp(), (int) $accountId)) {
-                $this->message($this->state->LNG['adm_login_throttled'], 'admin?page=login', 5, true);
+                return $this->messageResponse($this->state->LNG['adm_login_throttled'], $this->router->generate('admin_login_show'), 5, true);
             }
             if (\App\Security\PasswordSupport::verifyAny($this->state->requestPost['admin_pw'], $account['password'])) {
+                $this->rateLimits->clearAdminElevation($this->sessions()->getClientIp(), (int) $accountId);
                 $session->adminAccess = 1;
                 $this->sessions()->regenerateId();
-                $this->http()->redirectTo('admin');
+
+                return $this->redirectToRoute('admin_index_show');
             }
         }
 
-        $this->assign([
-            'bodyclass'    => 'standalone',
-            'email'        => $account['email'],
-        ]);
-        return $this->render('admin/LoginPage.html.twig');
+        return $this->show();
     }
 }

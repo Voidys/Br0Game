@@ -2,8 +2,10 @@
 
 namespace App\Game\Core;
 
+use App\Game\Core\Config\ConfigCache;
 use App\Game\Core\Config\ConfigFieldProcessor;
 use App\Game\Core\Config\ConfigFieldSchema;
+use App\Runtime\SafeFile;
 use Exception;
 
 /**
@@ -22,10 +24,46 @@ class ConfigRegistry
     /** @var array<int, array<string, string>> per-universe key/value rows as stored (untransformed) */
     private array $rawUniverse = [];
 
+    private ?ConfigCache $cache = null;
+
+    /**
+     * @param bool $cacheEnabled false: always read the database (tests write the config tables directly)
+     * @param string|null $cacheDir directory of the cache files with trailing slash, default var/game/
+     */
     public function __construct(
         private Database $db,
         private Singleton $state,
+        private bool $cacheEnabled = true,
+        private ?string $cacheDir = null,
     ) {}
+
+    /**
+     * Declares the cached configuration stale. Call it after every write to `config`, `config_universe` or
+     * `config_universe_modules` that does not go through Config::save*() (installer, universe admin, migrations).
+     */
+    public function invalidateCache(): void
+    {
+        $this->cache()->invalidate();
+    }
+
+    private function cache(): ConfigCache
+    {
+        return $this->cache ??= new ConfigCache($this->cacheDir ?? $this->state->runtime->cachePath, $this->cacheEnabled);
+    }
+
+    /** Cache validity beyond the stamp: database, schema code and the module list (all fixed per deploy). */
+    private function cacheFingerprint(): string
+    {
+        $root = $this->state->runtime->rootPath . 'src/Game/Core/Config/';
+
+        return md5(implode('|', [
+            $this->db->getDatabaseName(),
+            $this->db->getTablePrefix(),
+            SafeFile::mtime($root . 'ConfigFieldSchema.php'),
+            SafeFile::mtime($root . 'Schema'),
+            json_encode($this->state->modules),
+        ]));
+    }
 
     /** true once the instances are built (texts loaded during the build must not ask for the config) */
     public function isLoaded(): bool
@@ -41,9 +79,7 @@ class ConfigRegistry
     public function get(int $universe = 0): Config
     {
         if (empty($this->instances)) {
-            $this->schemaGlobal = new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_BASIC, $this->state, $this);
-            $this->schemaUni = new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_UNI, $this->state, $this);
-            $this->generateInstances();
+            $this->generateInstances(true);
         }
 
         if ($universe === 0) {
@@ -66,7 +102,8 @@ class ConfigRegistry
      */
     public function reload(): void
     {
-        $this->generateInstances();
+        $this->cache()->invalidate();
+        $this->generateInstances(false);
     }
 
     /**
@@ -95,13 +132,14 @@ class ConfigRegistry
     /** @internal for Config */
     public function globalSchema(): ConfigFieldSchema
     {
-        return $this->schemaGlobal;
+        // built on first use: the labels need the language files, which a cached request does not touch
+        return $this->schemaGlobal ??= new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_BASIC, $this->state, $this);
     }
 
     /** @internal for Config */
     public function universeSchema(): ConfigFieldSchema
     {
-        return $this->schemaUni;
+        return $this->schemaUni ??= new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_UNI, $this->state, $this);
     }
 
     /**
@@ -109,21 +147,37 @@ class ConfigRegistry
      * missing keys with their schema default and missing modules as disabled, merges global and universe keys and
      * creates one Config per universe (registering it with Universe). Also remembers the raw rows for App\Runtime\GameConfig.
      */
-    private function generateInstances(): void
+    private function generateInstances(bool $useCache): void
     {
-        [$globalConfig, $rawGlobal] = $this->loadGlobalConfig();
-        [$universeConfigs, $rawUniverse] = $this->loadUniverseConfigs();
+        $cache = $this->cache();
+        $stamp = $cache->stamp();
+        $fingerprint = $this->cacheFingerprint();
+        $data = $useCache ? $cache->load($stamp, $fingerprint) : null;
 
-        $this->rawGlobal = $rawGlobal;
-        $this->rawUniverse = $rawUniverse;
+        if ($data === null) {
+            [$globalConfig, $rawGlobal] = $this->loadGlobalConfig();
+            [$universeConfigs, $rawUniverse] = $this->loadUniverseConfigs();
+            $moduls = [];
+            foreach (array_keys($universeConfigs) as $uni) {
+                $moduls[$uni] = $this->loadModules($uni);
+            }
+            $data = [
+                'global' => $globalConfig,
+                'rawGlobal' => $rawGlobal,
+                'universes' => $universeConfigs,
+                'rawUniverse' => $rawUniverse,
+                'moduls' => $moduls,
+            ];
+            $cache->store($stamp, $fingerprint, $data);
+        }
 
-        // Load modules for each universe
-        foreach ($universeConfigs as $uni => $config) {
-            $moduls = $this->loadModules($uni);
+        $this->rawGlobal = $data['rawGlobal'];
+        $this->rawUniverse = $data['rawUniverse'];
 
+        foreach ($data['universes'] as $uni => $config) {
             // Merge global config with universe config
-            $configData = array_merge($globalConfig, $config);
-            $configData['moduls'] = $moduls;
+            $configData = array_merge($data['global'], $config);
+            $configData['moduls'] = $data['moduls'][$uni];
             $configData['uni'] = $uni;
 
             $this->instances[$uni] = new Config($configData, $this);
@@ -151,7 +205,7 @@ class ConfigRegistry
             $value = $row['value'];
             $rawGlobal[$key] = $value;
 
-            $field = $this->schemaGlobal->getField($key);
+            $field = $this->globalSchema()->getField($key);
             if ($field && isset($field['transform'])) {
                 $value = ConfigFieldProcessor::applyTypeTransform($value, $field['transform']);
             }
@@ -159,11 +213,11 @@ class ConfigRegistry
         }
 
         // Ensure all expected keys are present in global config
-        $expectedKeys = array_keys($this->schemaGlobal->getAllFields());
+        $expectedKeys = array_keys($this->globalSchema()->getAllFields());
         $keysMissing = array_diff($expectedKeys, array_keys($globalConfig));
         $sql = 'INSERT INTO %%CONFIG%% (`key`, `value`) VALUES (:key, :value);';
         foreach ($keysMissing as $missingKey) {
-            $fieldConfig = $this->schemaGlobal->getField($missingKey);
+            $fieldConfig = $this->globalSchema()->getField($missingKey);
             $db->insert($sql, [
                 ':key' => $missingKey,
                 ':value' => $fieldConfig['default'] ?? '',
@@ -197,7 +251,7 @@ class ConfigRegistry
             $value = $row['value'];
             $rawUniverse[$uni][$key] = $value;
 
-            $field = $this->schemaUni->getField($key);
+            $field = $this->universeSchema()->getField($key);
             if ($field && isset($field['transform'])) {
                 $value = ConfigFieldProcessor::applyTypeTransform($value, $field['transform']);
             }
@@ -209,13 +263,13 @@ class ConfigRegistry
         }
 
         // Ensure all expected keys are present for each universe config
-        $expectedKeys = array_keys($this->schemaUni->getAllFields());
+        $expectedKeys = array_keys($this->universeSchema()->getAllFields());
         foreach ($universeConfigs as $uni => $configs) {
             $keysMissing = array_diff($expectedKeys, array_keys($configs));
 
             $sql = 'INSERT INTO %%CONFIG_UNIVERSE%% (`uni`, `key`, `value`) VALUES (:uni, :key, :value);';
             foreach ($keysMissing as $missingKey) {
-                $fieldConfig = $this->schemaUni->getField($missingKey);
+                $fieldConfig = $this->universeSchema()->getField($missingKey);
                 $db->insert($sql, [
                     ':uni' => $uni,
                     ':key' => $missingKey,

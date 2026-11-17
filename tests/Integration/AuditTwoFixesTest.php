@@ -10,6 +10,7 @@ use App\Game\Core\FleetLauncher;
 use App\Game\Core\Language;
 use App\Game\Missions\MissionCaseMIP;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\Mission;
 
 /**
  * Second audit round: an ACS group recall is all-or-nothing (R-04) and missile arrivals never take a planet's
@@ -55,7 +56,7 @@ final class AuditTwoFixesTest extends GameTestCase
         $now = $this->state->runtime->timestamp;
         $id = (new FleetLauncher($this->db, $this->configs, $this->state))->sendFleet(
             [202 => 5],
-            MISSION_ATTACK,
+            Mission::Attack->value,
             (int) $user['id'],
             (int) $planet['id'],
             (int) $planet['galaxy'],
@@ -121,7 +122,7 @@ final class AuditTwoFixesTest extends GameTestCase
             $this->state->PLANET = $senderPlanet;
             $id = (new FleetFunctions($this->db, $this->configs, $this->state))->sendFleet(
                 [503 => $amount],
-                MISSION_MISSILE,
+                Mission::Missile->value,
                 (int) $sender['id'],
                 (int) $senderPlanet['id'],
                 (int) $senderPlanet['galaxy'],

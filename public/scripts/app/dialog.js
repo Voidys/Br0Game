@@ -15,7 +15,7 @@
  * (translation keys dialog_ok / dialog_cancel, domain l18n); English is the fallback. Focus returns to the element
  * that had it before the modal opened. Native confirm(), alert() and prompt() are not used anywhere.
  */
-import { on } from './core.js';
+import { on, pageData } from './core.js';
 
 const CLOSE_BUTTON = '<button type="button" class="modal__close" data-dialog-close aria-label="Close">'
   + '<svg class="icon" aria-hidden="true"><use href="./styles/resource/icons/lucide.svg#i-x"></use></svg></button>';
@@ -299,7 +299,7 @@ export const Dialog = {
   },
 
   info(id) {
-    return Dialog.open(`game?page=information&id=${id}`, 590);
+    return Dialog.open(window.urls.information.replace(/0$/, id), 590);
   },
 
   PM(ids, subject = '', message = '', group = '') {
@@ -309,14 +309,14 @@ export const Dialog = {
       message: typeof message === 'string' ? message : '',
       groupid: group ? String(group) : '',
     });
-    return Dialog.open(`game?page=messages&mode=write&${receivers}&${query}`, 650);
+    return Dialog.open(`${pageData('game-routes').messageWrite}?${receivers}&${query}`, 650);
   },
 
-  Forward: (id) => Dialog.open(`game?page=messages&mode=forward&id=${id}`, 450),
+  Forward: (id) => Dialog.open(`${pageData('game-routes').messageForward}?id=${id}`, 450),
   Playercard: (id) => (window.isPlayerCardActive === true || window.isPlayerCardActive === 'true')
-    && Dialog.open(`game?page=playerCard&id=${id}`, 650),
-  Buddy: (id) => Dialog.open(`game?page=buddyList&mode=request&id=${id}`, 650),
-  PlanetAction: () => Dialog.open('game?page=overview&mode=actions', 400),
+    && Dialog.open(`${pageData('game-routes').playerCard}?id=${id}`, 650),
+  Buddy: (id) => Dialog.open(`${pageData('game-routes').buddyRequest}?id=${id}`, 650),
+  PlanetAction: () => Dialog.open(window.urls.planetActions, 400),
   /** achievement texts are inline <template>s on the achievements page */
   ach: (id) => Dialog.show(document.getElementById(`achievement-info-${id}`), { width: 480 }),
 };
@@ -333,13 +333,14 @@ on(document, 'click', '[data-dialog]', (event, link) => {
 });
 
 /**
- * battle reports (links with target="_blank" in messages, battle hall, expedition texts) open as modal
+ * battle reports (links /report/<id> with target="_blank" in messages, battle hall, expedition texts) open as modal
  * inside the game; ctrl/cmd/shift click and middle click still open a new tab
  */
-on(document, 'click', 'a[href*="raport="]', (event, link) => {
-  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !/\/game$/.test(location.pathname)) return;
+on(document, 'click', 'a[href*="report/"], a[href*="raport="]', (event, link) => {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !/\/game(\/|$)/.test(location.pathname)) return;
   const url = new URL(link.getAttribute('href'), document.baseURI);
-  const isReport = (url.searchParams.get('page') === 'raport' || /\/CombatReport$/.test(url.pathname)) && url.searchParams.has('raport');
+  // /report/<id> (stored messages of the old URL form `CombatReport?raport=<id>` redirect there)
+  const isReport = /\/report\/[A-Za-z0-9]+$/.test(url.pathname) || (/\/CombatReport$/.test(url.pathname) && url.searchParams.has('raport'));
   if (!isReport || url.origin !== location.origin) return;
   event.preventDefault();
   Dialog.open(url.href, 1100);

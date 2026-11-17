@@ -1,13 +1,13 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_board }}{{ parent() }}{% endblock %}
 {% block content %}
-<div class="board" data-board data-csrf="{{ csrf }}" data-vote-url="account?page=board&amp;mode=vote">
+<div class="board" data-board data-csrf="{{ csrf }}" data-vote-url="{{ path('account_board_vote') }}">
   <div class="board__head">
     <h1 class="acc-title">{{ icon('messages-square') }}{{ LNG.lm_board }}</h1>
     {% if isGuest %}
       <a class="btn btn--primary" href="./">{{ icon('log-in') }}{{ LNG.board_guest_login }}</a>
     {% else %}
-      <a class="btn btn--primary" href="account?page=board&amp;mode=submit">{{ icon('plus') }}{{ LNG.board_create }}</a>
+      <a class="btn btn--primary" href="{{ path('account_board_submit') }}">{{ icon('plus') }}{{ LNG.board_create }}</a>
     {% endif %}
   </div>
   {% if isGuest %}{% include 'account/board.guest_hint.html.twig' %}{% endif %}

@@ -15,8 +15,9 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Enum\PlanetType;
 use App\Controller\GameControllerInterface;
-use App\Controller\PageModeDispatch;
+use App\Controller\GuardsModule;
 use App\Controller\RendersPages;
 use App\Game\Core\DeviceLinks;
 use App\Game\Core\EndOfRequest;
@@ -29,22 +30,22 @@ use App\Game\Tutorials\TutorialUtil;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Base for the in-game controllers (/game?page=...).
+ * Base for the in-game controllers (/game/...).
  *
  * initialize() runs after the game is bootstrapped: it locks and updates the current player and
  * planet (resource production since the last request) unless $disableEcoSystem is set, and picks
- * the window (full page, or "ajax" for XHR requests). ?mode= is dispatched by PageModeDispatch.
+ * the window (full page, or "ajax" for XHR requests).
  *
  * Pages render with RendersPages; the game layout gets the navigation (planet list, resources,
  * counters) for full pages and the player/clock settings for every non-ajax page.
  */
-abstract class AbstractGameController implements GameControllerInterface
+abstract class AbstractGameController implements GameControllerInterface, \App\Controller\ModuleGuard
 {
     use \App\Game\Core\GameUtilities;
 
     use \App\Controller\GameServices;
 
-    use PageModeDispatch;
+    use GuardsModule;
 
     use RendersPages {
         render as private renderPage;
@@ -102,7 +103,8 @@ abstract class AbstractGameController implements GameControllerInterface
             $this->setWindow('full');
             if (!$this->disableEcoSystem) {
 
-                if (!empty($this->state->USER) && !empty($this->state->PLANET)) {
+                // POST requests and every request that updates the planet keep the locked re-read (see isUntouchedView())
+                if (!empty($this->state->USER) && !empty($this->state->PLANET) && !$this->isUntouchedView()) {
                     $db = $this->db;
                     $db->startTransaction();
                     // User row first, then planets: the same order as the
@@ -131,6 +133,16 @@ abstract class AbstractGameController implements GameControllerInterface
         } else {
             $this->setWindow('ajax');
         }
+    }
+
+    /**
+     * True for a plain page view (GET/HEAD) whose resource update would not change the planet: the boot's own reads are
+     * as good as locked ones, so initialize() opens no transaction and takes no row locks.
+     */
+    private function isUntouchedView(): bool
+    {
+        return $this->state->request?->isMethodSafe() === true
+            && !$this->ecoObj->wouldUpdate($this->state->USER, $this->state->PLANET);
     }
 
     /**
@@ -179,11 +191,11 @@ abstract class AbstractGameController implements GameControllerInterface
 
         $LNG = $this->state->LNG;
         $category = (int) ($USER['showMessageCategory'] ?? 0) === 1 && is_numeric($USER['message_type'] ?? null)
-            ? '&category=' . (int) $USER['message_type'] : '';
+            ? ['category' => (int) $USER['message_type']] : [];
 
         return [
             'text' => $count === 1 ? $LNG['ov_have_new_message'] : $LNG->format('ov_have_new_messages', $count),
-            'url'  => 'game?page=messages' . $category,
+            'url'  => $this->router->generate('game_messages_show', $category),
         ];
     }
 
@@ -192,32 +204,7 @@ abstract class AbstractGameController implements GameControllerInterface
 
     private function accountIdOfUser(int $userId): int
     {
-        return $this->accountIds[$userId] ??= $this->playerUtil()->get_account_id($userId);
-    }
-
-    /**
-     * Query string (page, mode, id) of the current request, e.g. for the language/theme switch links.
-     */
-    protected function getQueryString()
-    {
-        $queryString = [];
-        $page = $this->http()->_GP('page', '');
-
-        if (!empty($page)) {
-            $queryString['page'] = $page;
-        }
-
-        $mode = $this->http()->_GP('mode', '');
-        if (!empty($mode)) {
-            $queryString['mode'] = $mode;
-        }
-
-        $id = $this->http()->_GP('id', '');
-        if (!empty($id)) {
-            $queryString['id'] = $id;
-        }
-
-        return http_build_query($queryString);
+        return $this->accountIds[$userId] ??= $this->playerLookup()->get_account_id($userId);
     }
 
     /**
@@ -252,17 +239,12 @@ abstract class AbstractGameController implements GameControllerInterface
             }
         }
 
-        $allyrequests = $this->allianceRequestCount();
+        [$allyrequests, $buddyRequests] = $this->navigationCounters();
         $vacation = $this->vacationNotice();
 
         $sql = "SELECT * FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID;";
         $wreckfieldData = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
         $wreckfield = $wreckfieldData && empty($wreckfieldData['repair_order']) && !empty($wreckfieldData['ships']);
-
-        $sql = "SELECT COUNT(b.`id`) as count FROM %%BUDDY%% b
-            JOIN %%BUDDY_REQUEST%% br ON br.`id` = b.`id`
-            WHERE b.`sender` = :userID OR b.`owner` = :userID;";
-        $buddyRequests = $db->selectSingle($sql, [':userID' => $this->state->USER['id']], 'count');
 
         $deletion = $this->deletionNotice($config);
 
@@ -323,11 +305,11 @@ abstract class AbstractGameController implements GameControllerInterface
         }
 
         if (!isset($this->state->USER['PLANETS'])) {
-            $this->state->USER['PLANETS'] = $this->playerUtil()->getPlanets($this->state->USER);
+            $this->state->USER['PLANETS'] = $this->planetQueries()->getPlanets($this->state->USER);
         }
 
         foreach ($this->state->USER['PLANETS'] as $PlanetQuery) {
-            $PlanetSelect[$PlanetQuery['id']] = $PlanetQuery['name'] . (($PlanetQuery['planet_type'] == 3) ? " (" . $LNG['fcm_moon'] . ")" : "") . " [" . $PlanetQuery['galaxy'] . ":" . $PlanetQuery['system'] . ":" . $PlanetQuery['planet'] . "]";
+            $PlanetSelect[$PlanetQuery['id']] = $PlanetQuery['name'] . (($PlanetQuery['planet_type'] == PlanetType::Moon->value) ? " (" . $LNG['fcm_moon'] . ")" : "") . " [" . $PlanetQuery['galaxy'] . ":" . $PlanetQuery['system'] . ":" . $PlanetQuery['planet'] . "]";
         }
 
         return $PlanetSelect;
@@ -350,7 +332,7 @@ abstract class AbstractGameController implements GameControllerInterface
             $resourceTable[$resourceID]['name'] = $e->column($resourceID);
             $resourceTable[$resourceID]['current'] = floor($PLANET[$e->column($resourceID)]);
             $resourceTable[$resourceID]['max'] = $PLANET[$e->column($resourceID) . '_max'];
-            if ($this->state->USER['urlaubs_modus'] == 1 || $PLANET['planet_type'] != 1) {
+            if ($this->state->USER['urlaubs_modus'] == 1 || $PLANET['planet_type'] != PlanetType::Planet->value) {
                 $resourceTable[$resourceID]['production'] = $PLANET[$e->column($resourceID) . '_perhour'];
             } else {
                 $resourceTable[$resourceID]['production'] = $PLANET[$e->column($resourceID) . '_perhour'] + $config->{$e->column($resourceID) . '_basic_income'} * $resourceSpeed;
@@ -372,40 +354,37 @@ abstract class AbstractGameController implements GameControllerInterface
     }
 
     /**
-     * Number of open alliance matters the player may handle: applications (owner or MANAGEAPPLY right) plus pending
-     * diplomacy requests (owner or DIPLOMATIC right). Players without an alliance have none (no query).
+     * The counters of the navigation in one query: open alliance matters the player may handle (applications as owner
+     * or with MANAGEAPPLY right, plus pending diplomacy requests as owner or with DIPLOMATIC right; players without an
+     * alliance have none) and the player's buddy requests.
+     *
+     * @return array{0: int|string, 1: int|string} [alliance requests, buddy requests]
      */
-    private function allianceRequestCount(): int|string
+    private function navigationCounters(): array
     {
-        $db = $this->db;
-        // players without an alliance have no requests to manage (no alliance has id 0)
-        $allyApplyRequests = 0;
-        $allyDiploRequests = 0;
-        if (!empty($this->state->USER['ally_id'])) {
-            $sql = "SELECT COUNT(r.applyID) AS applies
+        $sql = "SELECT
+            (SELECT COUNT(r.applyID)
                 FROM %%ALLIANCE_REQUEST%% r
                 JOIN %%USERS%% u ON u.ally_id = r.allianceID
                 JOIN %%ALLIANCE%% a ON a.id = u.ally_id
                 LEFT JOIN %%ALLIANCE_RANK%% ra ON ra.allianceID = u.ally_id AND ra.rankID = u.ally_rank_id
-                WHERE r.allianceID = :allianceID AND u.id = :userID AND (u.id = a.ally_owner OR ra.MANAGEAPPLY = 1);";
-            $allyApplyRequests = $db->selectSingle($sql, [
-                ':allianceID' => $this->state->USER['ally_id'],
-                ':userID' => $this->state->USER['id'],
-            ], 'applies');
-
-            $sql = "SELECT COUNT(d.id) AS diplos
+                WHERE r.allianceID = :allianceID AND u.id = :userID AND (u.id = a.ally_owner OR ra.MANAGEAPPLY = 1)) AS applies,
+            (SELECT COUNT(d.id)
                 FROM %%DIPLO%% d
                 JOIN %%USERS%% u ON u.ally_id = d.owner_2
                 JOIN %%ALLIANCE%% a ON a.id = u.ally_id
                 LEFT JOIN %%ALLIANCE_RANK%% ra ON ra.allianceID = u.ally_id AND ra.rankID = u.ally_rank_id
-                WHERE d.owner_2 = :allianceID AND accept = 0 AND u.id = :userID AND (u.id = a.ally_owner OR ra.DIPLOMATIC = 1);";
-            $allyDiploRequests = $db->selectSingle($sql, [
-                ':allianceID' => $this->state->USER['ally_id'],
-                ':userID' => $this->state->USER['id'],
-            ], 'diplos');
-        }
+                WHERE d.owner_2 = :allianceID AND accept = 0 AND u.id = :userID AND (u.id = a.ally_owner OR ra.DIPLOMATIC = 1)) AS diplos,
+            (SELECT COUNT(b.`id`) FROM %%BUDDY%% b
+                JOIN %%BUDDY_REQUEST%% br ON br.`id` = b.`id`
+                WHERE b.`sender` = :userID OR b.`owner` = :userID) AS buddies;";
+        $row = $this->db->selectSingle($sql, [
+            // no alliance has id 0: players without one count nothing
+            ':allianceID' => $this->state->USER['ally_id'] ?: 0,
+            ':userID' => $this->state->USER['id'],
+        ]);
 
-        return $allyApplyRequests + $allyDiploRequests;
+        return [$row['applies'] + $row['diplos'], $row['buddies']];
     }
 
     /**
@@ -505,13 +484,39 @@ abstract class AbstractGameController implements GameControllerInterface
             'isPlayerCardActive' => $this->viewHelpers()->isModuleAvailable(MODULE_PLAYERCARD),
             'REV' => substr($config->version, -4),
             'Offset' => $dateTimeUser->getOffset() - $dateTimeServer->getOffset(),
-            'queryString' => $this->getQueryString(),
             'themeSettings' => $THEME->getStyleSettings(),
         ];
     }
 
     /**
-     * Shows a message page and ends the request.
+     * The message page of the area.
+     *
+     * @param string|\Twig\Markup $message plain text is escaped, pass Twig\Markup for HTML
+     * @param list<array{url: string, label: string}>|null $redirectButtons links under the message
+     * @param array{0: string, 1: int}|null $redirect [url, seconds] automatic redirect
+     * @param bool $fullSide false: popup window
+     */
+    protected function messageResponse($message, $redirectButtons = null, $redirect = null, $fullSide = true): Response
+    {
+        $context = [
+            'message' => $message,
+            'redirectButtons' => $redirectButtons,
+        ];
+
+        if (isset($redirect)) {
+            $context += ['goto' => $redirect[0], 'gotoinsec' => $redirect[1]];
+        }
+
+        if (!$fullSide) {
+            $this->setWindow('popup');
+        }
+
+        return $this->render('game/error.default.html.twig', $context);
+    }
+
+    /**
+     * Shows a message page and ends the request (initialize() and helpers that cannot return the Response; an action
+     * returns messageResponse()).
      *
      * @param string|\Twig\Markup $message plain text is escaped, pass Twig\Markup for HTML
      * @param list<array{url: string, label: string}>|null $redirectButtons links under the message
@@ -520,20 +525,20 @@ abstract class AbstractGameController implements GameControllerInterface
      */
     protected function printMessage($message, $redirectButtons = null, $redirect = null, $fullSide = true): never
     {
-        $this->assign([
-            'message' => $message,
-            'redirectButtons' => $redirectButtons,
-        ]);
+        throw EndOfRequest::withResponse($this->messageResponse($message, $redirectButtons, $redirect, $fullSide));
+    }
 
-        if (isset($redirect)) {
-            $this->assign(['goto' => $redirect[0], 'gotoinsec' => $redirect[1]]);
+    /**
+     * For an action that is posted by its form: a plain GET of its URL (the planet selector reloads the page with `?cp=`) goes to
+     * the page route instead of ending in "method not allowed"; null for the POST itself.
+     */
+    protected function redirectUnlessPost(string $pageRoute): ?Response
+    {
+        if (($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST') {
+            return null;
         }
 
-        if (!$fullSide) {
-            $this->setWindow('popup');
-        }
-
-        $this->display('game/error.default.html.twig');
+        return $this->redirectToRoute($pageRoute);
     }
 
     /**
@@ -575,6 +580,8 @@ abstract class AbstractGameController implements GameControllerInterface
             'lang'              => $LNG->getLanguage(),
             'dpath'             => $THEME->getTheme(),
             'themeCssPath'      => $THEME->getThemeCssPath(),
+            // also in fragments (ajax window): page templates read the row counts of the theme
+            'themeSettings'     => $THEME->getStyleSettings(),
             'basepath'          => $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpBase,
             'TIMEZONESTRING'    => $this->state->USER['timezone'],
             'signalColors'      => $this->state->USER['signalColors'],
@@ -583,11 +590,15 @@ abstract class AbstractGameController implements GameControllerInterface
         ]);
     }
 
-    /** RendersPages::render() plus the Server-Timing header (bootstrap, page, rendering, database) */
-    protected function render(string $template): Response
+    /**
+     * RendersPages::render() plus the Server-Timing header (bootstrap, page, rendering, database)
+     *
+     * @param array<string, mixed> $context
+     */
+    protected function render(string $template, array $context = []): Response
     {
         $this->state->time['end_page'] = microtime(true);
-        $response = $this->renderPage($template);
+        $response = $this->renderPage($template, $context);
         $this->state->time['end_template'] = microtime(true);
 
         $ms = static fn(float $from, float $to): float => ($to - $from) * 1000;
@@ -620,6 +631,5 @@ abstract class AbstractGameController implements GameControllerInterface
     {
         // $this->updatePlanetTime();
         $this->http()->redirectTo($url);
-        throw new EndOfRequest();
     }
 }

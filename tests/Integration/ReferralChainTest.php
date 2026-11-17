@@ -49,6 +49,7 @@ final class ReferralChainTest extends GameTestCase
         // a fresh client IP per call: the registration rate limit is stored outside the test transaction
         $this->state->request = \Symfony\Component\HttpFoundation\Request::create('/', 'POST', [], [], [], ['REMOTE_ADDR' => '10.' . random_int(0, 255) . '.' . random_int(0, 255) . '.' . random_int(1, 254)]);
         $controller->setSecurityServices($container->get(AuthRateLimits::class), $container->get(CanonicalUrl::class));
+        $controller->setRouter($container->get('router'));
 
         if ($controller instanceof LoginRegister) {
             $controller->setBotProtection($container->get(\App\Security\BotProtection::class));
@@ -58,7 +59,10 @@ final class ReferralChainTest extends GameTestCase
         return $controller;
     }
 
-    /** @param array<string, mixed> $input */
+    /**
+     * @param array<string, mixed> $input
+     * @param array<mixed> $account
+     */
     private function call(object $controller, string $method, array $input, array $account = []): void
     {
         $this->state->requestPost = $input;
@@ -79,12 +83,19 @@ final class ReferralChainTest extends GameTestCase
         }
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function accountRow(int $id): array
     {
         return $this->db->selectSingle('SELECT * FROM %%ACCOUNTS%% WHERE id = :id;', [':id' => $id]);
     }
 
-    /** a verified account without any player, carrying $referral */
+    /**
+     * a verified account without any player, carrying $referral
+     *
+     * @return array<mixed>
+     */
     private function freshAccount(int $referral): array
     {
         $name = 'refacc' . random_int(1000, 999999);
@@ -105,10 +116,14 @@ final class ReferralChainTest extends GameTestCase
         return base64_encode((string) json_encode(['salt' => $challenge['salt'], 'challenge' => $challenge['challenge'], 'signature' => $challenge['signature'], 'number' => $n]));
     }
 
+    /**
+     * @param array<mixed> $account
+     * @return array<mixed>
+     */
     private function registerPlayer(array $account, string $username): ?array
     {
         $controller = $this->wire(new AccountRegister());
-        $this->call($controller, 'send', ['uni' => 1, 'username' => $username, 'language' => 'en', 'timezone' => 'Europe/Berlin'], $account);
+        $this->call($controller, 'send', ['universe' => 1, 'username' => $username, 'language' => 'en', 'timezone' => 'Europe/Berlin'], $account);
 
         return $this->db->selectSingle('SELECT * FROM %%USERS%% WHERE username = :n;', [':n' => $username]) ?: null;
     }

@@ -20,20 +20,48 @@ namespace App\Controller\Admin;
 use App\Game\Core\Config;
 use App\Game\Core\Config\ConfigFieldProcessor;
 use App\Game\Core\Log;
-use App\Game\Core\Mail;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 use App\Game\Core\Config\ConfigFieldSchema;
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Basic game settings of the emulated universe (schema driven form). */
-#[\App\Routing\GamePage('admin', 'configBasic')]
 class ConfigBasicController extends AbstractAdminController
 {
     /**
-     * Basic (global) game settings as a schema driven form (ConfigFieldSchema). Any POST saves the processed fields through Config::saveGlobalKeys
-     * and writes an admin log entry (type 3). POST field `test` additionally tests the SMTP connection and changes the label of the test button.
+     * Saves the posted fields through Config::saveGlobalKeys, writes an admin log entry (type 3) and shows the form again.
      */
+    #[GameRoute('admin', 'admin/config/basic', 'configBasic', 'save', ['POST'])]
+    public function save(): Response
+    {
+        $config = $this->configs->get($this->universe()->getEmulated());
+        $schema = new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_BASIC, $this->state, $this->configs);
+
+        $config_before = ConfigFieldProcessor::createSnapshot($config, $schema);
+
+        $config_after = ConfigFieldProcessor::processPostData($schema->getAllFields(), $this->input(), $config);
+
+        // Apply all config changes at once
+        foreach ($config_after as $key => $value) {
+            $config->$key = $value;
+        }
+        $config->saveGlobalKeys();
+
+        // Logging
+        $LOG = new Log($this->db, $this->configs, $this->state, 3);
+        $LOG->target = 0;
+        $LOG->old = ConfigFieldProcessor::maskSecrets($config_before, $schema);
+        $LOG->new = ConfigFieldProcessor::maskSecrets($config_after, $schema);
+        $LOG->save();
+
+        return $this->show();
+    }
+
+    /**
+     * Basic (global) game settings as a schema driven form (ConfigFieldSchema). POST field `test` (sent with the save) additionally
+     * tests the SMTP connection and changes the label of the test button.
+     */
+    #[GameRoute('admin', 'admin/config/basic', 'configBasic')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -41,25 +69,6 @@ class ConfigBasicController extends AbstractAdminController
 
         // Schema laden
         $schema = new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_BASIC, $this->state, $this->configs);
-
-        if (!empty($this->state->requestPost)) {
-            $config_before = ConfigFieldProcessor::createSnapshot($config, $schema);
-
-            $config_after = ConfigFieldProcessor::processPostData($schema->getAllFields(), $this->http(), $config);
-
-            // Apply all config changes at once
-            foreach ($config_after as $key => $value) {
-                $config->$key = $value;
-            }
-            $config->saveGlobalKeys();
-
-            // Logging
-            $LOG = new Log($this->db, $this->configs, $this->state, 3);
-            $LOG->target = 0;
-            $LOG->old = ConfigFieldProcessor::maskSecrets($config_before, $schema);
-            $LOG->new = ConfigFieldProcessor::maskSecrets($config_after, $schema);
-            $LOG->save();
-        }
 
         $configValues = ConfigFieldProcessor::prepareTemplateData($config, $schema);
 
@@ -73,12 +82,10 @@ class ConfigBasicController extends AbstractAdminController
         }
 
         // Selector Options + Config Values
-        $this->assign([
+        return $this->render('admin/ConfigBasic.html.twig', [
             'configValues' => $configValues,
             'configSchema' => $schema->getSchema(),
             'smtpTest' => $smtpTest,
         ]);
-
-        return $this->render('admin/ConfigBasic.html.twig');
     }
 }

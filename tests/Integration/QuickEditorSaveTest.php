@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Integration;
 
 use App\Controller\Admin\QuickEditorController;
-use App\Game\Core\EndOfRequest;
 use App\Tests\Support\GameTestCase;
+use App\Game\Enum\AuthLevel;
 
 /**
  * Admin quick editor saves: only fields present in the request change (a partial POST must not zero anything),
@@ -14,7 +14,10 @@ use App\Tests\Support\GameTestCase;
  */
 final class QuickEditorSaveTest extends GameTestCase
 {
-    /** @param array<string, mixed> $input */
+    /**
+     * @param array<string, mixed> $input
+     * @param array<mixed> $admin
+     */
     private function save(string $edit, int $id, array $input, array $admin): void
     {
         $this->state->USER = $admin;
@@ -22,13 +25,13 @@ final class QuickEditorSaveTest extends GameTestCase
         $this->state->requestPost = $input;
         $this->state->requestInput = ['edit' => $edit, 'id' => $id, 'action' => 'send'] + $input;
         $controller = (new QuickEditorController())->withGameServices($this->db, $this->configs, $this->state);
-        try {
-            $controller->show();
-            $this->fail('save should end the request');
-        } catch (EndOfRequest) {
-        }
+        $controller->setRouter(self::container()->get('router'));
+        $controller->save();
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function loadPlanetRow(int $id): array
     {
         return $this->db->selectSingle('SELECT * FROM %%PLANETS%% WHERE id = :id;', [':id' => $id]);
@@ -41,7 +44,7 @@ final class QuickEditorSaveTest extends GameTestCase
 
     public function testPartialPlanetPostLeavesOtherFieldsUnchanged(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [, $planet] = $this->createPlayer([], ['metal_mine' => 7, 'light_hunter' => 50, 'metal' => 1000, 'crystal' => 500, 'name' => 'Keep']);
 
         $this->save('planet', (int) $planet['id'], ['crystal' => '1234.4'], $admin);
@@ -58,7 +61,7 @@ final class QuickEditorSaveTest extends GameTestCase
 
     public function testFullPlanetPostUpdatesAndClamps(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [, $planet] = $this->createPlayer([], ['metal_mine' => 7]);
 
         $this->save('planet', (int) $planet['id'], ['metal_mine' => '9', 'solar_plant' => '999', 'light_hunter' => '-5', 'metal' => '-3', 'field_max' => '200', 'name' => 'New'], $admin);
@@ -75,7 +78,7 @@ final class QuickEditorSaveTest extends GameTestCase
 
     public function testUnknownFieldNamesAreIgnored(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [, $planet] = $this->createPlayer([], ['metal' => 10]);
 
         $this->save('planet', (int) $planet['id'], ['metal` = 999999, `crystal' => '5', 'id_owner' => '1', 'metal' => '11'], $admin);
@@ -87,7 +90,7 @@ final class QuickEditorSaveTest extends GameTestCase
 
     public function testPartialPlayerPostKeepsTechsAndPasswordChangeIsHashed(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [$user] = $this->createPlayer(['computer_tech' => 4, 'spy_tech' => 6]);
 
         $this->save('player', (int) $user['id'], ['spy_tech' => '300'], $admin);
@@ -108,7 +111,7 @@ final class QuickEditorSaveTest extends GameTestCase
 
     public function testFullPlayerPostUpdatesNameAndTechs(): void
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [$user] = $this->createPlayer(['computer_tech' => 4]);
 
         $this->save('player', (int) $user['id'], ['name' => 'Renamed', 'computer_tech' => '8', 'spy_tech' => '1'], $admin);

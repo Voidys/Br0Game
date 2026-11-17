@@ -13,24 +13,19 @@
 
 namespace App\Controller\Game;
 
-use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Achievement;
-use App\Game\Core\Singleton;
+use App\Routing\GameRoute;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Achievements overview of the player.
  */
-#[\App\Routing\GamePage('game', 'achievements')]
 class AchievementsController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Achievement list with the unlock date of those the player has earned (not-yet-implemented achievements are hidden) and the unlocked count.
      */
+    #[GameRoute('game', 'game/achievements', 'achievements')]
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -60,12 +55,10 @@ class AchievementsController extends AbstractGameController
         }
         $unlockedCount = count(array_filter($achievements, static fn(array $a): bool => $a['unlocked']));
 
-        $this->assign([
+        return $this->render('game/page.achievements.default.html.twig', [
             'achievements'          => $achievements,
             'unlockedCount'         => $unlockedCount,
             'totalCount'            => count($achievements),
         ]);
-
-        return $this->render('game/page.achievements.default.html.twig');
     }
 }

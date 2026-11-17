@@ -2,7 +2,7 @@
 {% block heading %}{{ header }}{% endblock %}
 {% block panel %}
   <h2>{{ LNG.upgrade_intro_welcome }}</h2>
-  {% if not empty(updates) %}
+  {% if updates %}
     <form action="?mode=doupgrade" method="POST">
       <p>{{ LNG.format('upgrade_available', sql_revision, file_revision) }}</p>
       {% for file, content in updates %}

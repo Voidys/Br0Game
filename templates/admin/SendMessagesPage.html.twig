@@ -1,6 +1,6 @@
 {% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
-<form name="message" id="message" action="admin?page=sendMessages&amp;action=send&amp;ajax=1" class="stack" data-empty-text="{{ LNG.mg_empty_text|e('html_attr') }}" data-confirm-text="{{ LNG.ma_send_global_message|e('html_attr') }}">
+<form name="message" id="message" action="{{ path('admin_send_messages_send') }}" class="stack" data-empty-text="{{ LNG.mg_empty_text|e('html_attr') }}" data-confirm-text="{{ LNG.ma_send_global_message|e('html_attr') }}">
   <div class="cols cols--wide-left">
     <section class="card">
       <header class="card__head"><h2 class="card__title">{{ icon('megaphone') }}{{ LNG.ma_send_global_message }}</h2></header>

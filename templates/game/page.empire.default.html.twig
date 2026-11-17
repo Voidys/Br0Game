@@ -25,7 +25,7 @@
       <td class="num empire-col empire-sigma">&Sigma;</td>
         {% for image in planetList.image %}
           <td class="num empire-col">
-            <a href="game?page=overview&amp;cp={{ image.id }}">
+            <a href="{{ path('game_overview_show', {cp: image.id}) }}">
               {% if enablePlanetStyles == 0 %}
                 <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" src="{{ theme_asset('planeten/' ~ image.picture ~ '.jpg') }}">
               {% else %}
@@ -57,7 +57,7 @@
       <td>{{ LNG.lv_coords }}</td>
       <td class="num">-</td>
         {% for coords in planetList.coords %}
-          <td class="num"><a href="game?page=galaxy&amp;galaxy={{ coords.galaxy }}&amp;system={{ coords.system }}">[{{ coords.galaxy }}:{{ coords.system }}:{{ coords.planet }}]</a></td>
+          <td class="num"><a href="{{ path('game_galaxy_show', {galaxy: coords.galaxy, system: coords.system}) }}">[{{ coords.galaxy }}:{{ coords.system }}:{{ coords.planet }}]</a></td>
         {% endfor %}
     </tr>
     <tr>

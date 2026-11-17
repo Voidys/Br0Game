@@ -24,7 +24,9 @@ class ConfigFieldSchema
     public const TYPE_FLOAT = 'float';
     public const TYPE_SLIDER = 'slider';
 
+    /** @var array<mixed> */
     private array $schema = [];
+    /** @var array<mixed> */
     private array $fields = [];
 
     /**
@@ -76,7 +78,7 @@ class ConfigFieldSchema
      *   ]
      * ```
      *
-     * @return array
+     * @return array<mixed>
      */
     private function getBasicSchema(): array
     {
@@ -128,7 +130,7 @@ class ConfigFieldSchema
      *   ]
      * ```
      *
-     * @return array
+     * @return array<mixed>
      */
     private function getUniSchema(): array
     {
@@ -160,7 +162,7 @@ class ConfigFieldSchema
     /**
      * Returns all categories with their respective fields and metadata
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getSchema(): array
     {
@@ -170,7 +172,7 @@ class ConfigFieldSchema
     /**
      * Returns all fields (without categories)
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getAllFields(): array
     {
@@ -179,6 +181,8 @@ class ConfigFieldSchema
 
     /**
      * Returns a specific field
+     *
+     * @return array<mixed>
      */
     public function getField(string $fieldName): ?array
     {

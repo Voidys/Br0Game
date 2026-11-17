@@ -23,7 +23,7 @@
             {% for Users in comments %}
             <tr>
               <td class="num">{{ Users.user_id }}</td>
-              <td><a href="admin?page=accountData&amp;id_u={{ Users.user_id }}">{{ Users.username }}</a></td>
+              <td><a href="{{ path('admin_account_data_detail', {id_u: Users.user_id}) }}">{{ Users.username }}</a></td>
               <td>{{ Users.ally_name }}</td>
               <td class="break">{{ Users.comment }}</td>
               <td class="break">{{ Users.info }}</td>

@@ -15,22 +15,22 @@
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
 use App\Game\Core\Discord;
-use App\Game\Core\Singleton;
 use App\Game\Core\Statbuilder;
 
 /**
  * Recalculates the statistics (points) manually and shows the result.
  */
-#[\App\Routing\GamePage('admin', 'statUpdate')]
 class StatUpdateController extends AbstractAdminController
 {
     /**
      * Runs the statistics build (Statbuilder::generateStats) in the request, reports duration, memory and SQL count, and logs the result
      * to Discord. Failures are shown and logged as well.
      */
+    #[GameRoute('admin', 'admin/stat-update', 'statUpdate', 'run', ['POST'])]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -46,11 +46,10 @@ class StatUpdateController extends AbstractAdminController
             $this->discord()->sendLog('Statistik (manual)', $result);
 
             // the translations carry <br>; all dynamic parts are numbers
-            $this->message(new \Twig\Markup($LNG['sb_stats_updated'] . $stats_end_time . $memory_i . $memory_e . $memory_p . $stats_sql, 'UTF-8'), 'admin?page=maintenance', 0);
+            return $this->messageResponse(new \Twig\Markup($LNG['sb_stats_updated'] . $stats_end_time . $memory_i . $memory_e . $memory_p . $stats_sql, 'UTF-8'), $this->router->generate('admin_maintenance_show'), 0);
         } catch (Exception $exception) {
-            // report first: message() ends the request
             $this->discord()->sendLog('Statistik (manual) FAILED', null, $exception);
-            $this->message($exception->getMessage(), 'admin?page=maintenance', 0, true);
+            return $this->messageResponse($exception->getMessage(), $this->router->generate('admin_maintenance_show'), 0, true);
         }
     }
 }

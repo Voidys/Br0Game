@@ -17,32 +17,25 @@
 
 namespace App\Controller\Login;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /** Public hall of fame of the biggest battles. */
-#[\App\Routing\GamePage('index', 'battleHall')]
 class BattleHallController extends AbstractLoginController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
      * Public hall of fame of the biggest battles (top 100 by units lost, battles older than 6 hours). Request: universe
      * (id, default current), memorial (0 = normal battles, 1 = memorial battles only). Reads TOPKB with the participants.
      */
+    #[GameRoute('index', 'battle-hall', 'battleHall')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
 
-        $universe = $this->http()->_GP('universe', $this->universe()->current());
-        $memorial = $this->http()->_GP('memorial', 0);
+        $universe = $this->input()->int('universe', (int) $this->universe()->current());
+        $memorial = $this->input()->int('memorial');
 
         $sql = "SELECT *, (
             SELECT DISTINCT
@@ -83,13 +76,13 @@ class BattleHallController extends AbstractLoginController
             1 => $LNG['tkb_memorial'] . ' ' . $LNG['tkb_only'],
         ];
 
-        $this->assign([
+
+        return $this->render('login/page.battleHall.default.html.twig', [
             'universeSelect'    => $universeSelect,
             'memorialSelect'    => $memorialSelect,
             'hallList'          => $hallList,
             'universe'          => $universe,
             'memorial'          => $memorial,
         ]);
-        return $this->render('login/page.battleHall.default.html.twig');
     }
 }

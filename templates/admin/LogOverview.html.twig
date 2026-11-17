@@ -4,11 +4,11 @@
     <header class="card__head"><h2 class="card__title">{{ icon('scroll-text') }}{{ LNG.log_cat }}</h2></header>
     <div class="card__body">
       <div class="quick-links">
-        <a class="quick-link" href="?page=log&amp;type=planet">{{ icon('globe') }}<span>{{ LNG.log_planet }}</span></a>
-        <a class="quick-link" href="?page=log&amp;type=player">{{ icon('user-cog') }}<span>{{ LNG.log_player }}</span></a>
-        <a class="quick-link" href="?page=log&amp;type=settings">{{ icon('settings') }}<span>{{ LNG.log_settings }}</span></a>
-        <a class="quick-link" href="?page=log&amp;type=alliance">{{ icon('building-2') }}<span>{{ LNG.log_alliance }}</span></a>
-        <a class="quick-link" href="?page=log&amp;type=present">{{ icon('gift') }}<span>{{ LNG.log_present }}</span></a>
+        <a class="quick-link" href="{{ path('admin_log_planet') }}">{{ icon('globe') }}<span>{{ LNG.log_planet }}</span></a>
+        <a class="quick-link" href="{{ path('admin_log_player') }}">{{ icon('user-cog') }}<span>{{ LNG.log_player }}</span></a>
+        <a class="quick-link" href="{{ path('admin_log_settings') }}">{{ icon('settings') }}<span>{{ LNG.log_settings }}</span></a>
+        <a class="quick-link" href="{{ path('admin_log_alliance') }}">{{ icon('building-2') }}<span>{{ LNG.log_alliance }}</span></a>
+        <a class="quick-link" href="{{ path('admin_log_present') }}">{{ icon('gift') }}<span>{{ LNG.log_present }}</span></a>
       </div>
     </div>
   </section>

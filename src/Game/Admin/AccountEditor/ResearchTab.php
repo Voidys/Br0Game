@@ -15,7 +15,7 @@ class ResearchTab extends AccountEditorTab
         $e = $this->elements();
         $db = $this->db;
         if ($this->state->requestPost) {
-            $id = $this->http()->_GP('id', 0);
+            $id = $this->input()->int('id');
             foreach ($e->ids('tech') as $ID) {
                 $fields[] = "`" . $e->column($ID) . "`";
             }
@@ -31,7 +31,7 @@ class ResearchTab extends AccountEditorTab
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
                 foreach ($e->ids('tech') as $ID) {
-                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
+                    $count = max(0, round($this->input()->float($e->column($ID))));
                     if ($count > 0) {
                         $QryUpdate[$e->column($ID)] = $count;
                         $afterResearch[$ID] = $beforeResearch[$e->column($ID)] + $count;
@@ -43,7 +43,7 @@ class ResearchTab extends AccountEditorTab
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
                 foreach ($e->ids('tech') as $ID) {
-                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
+                    $count = max(0, round($this->input()->float($e->column($ID))));
                     if ($count > 0) {
                         $QryUpdate[$e->column($ID)] = -$count;
                         $afterResearch[$ID] = max(0, $beforeResearch[$e->column($ID)] - $count);
@@ -63,9 +63,9 @@ class ResearchTab extends AccountEditorTab
                 $LOG->save();
             }
             if (isset($this->state->requestPost['add'])) {
-                $this->responder->message($LNG['ad_add_tech_success'], '?page=accountEditor&edit=researchs');
+                $this->responder->message($LNG['ad_add_tech_success'], 'admin/accounts/edit/researchs');
             } elseif (isset($this->state->requestPost['delete'])) {
-                $this->responder->message($LNG['ad_delete_tech_success'], '?page=accountEditor&edit=researchs');
+                $this->responder->message($LNG['ad_delete_tech_success'], 'admin/accounts/edit/researchs');
             }
         }
 

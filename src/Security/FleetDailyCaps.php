@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Game\Enum\Mission;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
@@ -16,7 +17,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 final class FleetDailyCaps
 {
     /** mission ids that count as an attack: attack, ACS attack, ACS join (2) and destruction, missile */
-    private const ATTACK_MISSIONS = [MISSION_ATTACK, MISSION_ACS, MISSION_DESTRUCTION, MISSION_MISSILE];
+    private const ATTACK_MISSIONS = [Mission::Attack->value, Mission::Acs->value, Mission::Destruction->value, Mission::Missile->value];
 
     public function __construct(
         #[Autowire(service: 'limiter.fleet_launches')]

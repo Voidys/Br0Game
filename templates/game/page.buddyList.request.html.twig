@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_buddylist }}{{ parent() }}{% endblock %}
 {% block content %}
-<form name="buddy" id="buddy" action="game?page=buddyList&amp;mode=send&amp;ajax=1" method="post">
+<form name="buddy" id="buddy" action="{{ path('game_buddy_list_send', {ajax: 1}) }}" method="post">
 <input type="hidden" name="id" value="{{ id }}">
     <table class="form-table">
     <tr>

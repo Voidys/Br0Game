@@ -17,6 +17,9 @@
 
 namespace App\Game\Core;
 
+use App\Game\Enum\MessageType;
+use App\Game\Enum\Mission;
+
 /**
  * Builds the rows of the galaxy view for one system (setGalaxy()/setSystem(), then getGalaxyData()): per planet
  * position the planet, moon, debris field, owner, alliance, available missions and action buttons as seen by the
@@ -28,9 +31,16 @@ class GalaxyRows
 
     private int $Galaxy;
     private int $System;
+    /** @var array<mixed> */
     private array $galaxyData = [];
+    /** @var array<mixed> */
     private array $galaxyRow = [];
+    /** @var array<mixed> */
     private array $spyReportAges = [];
+    /** @var array<int|string, bool> isModuleAvailable() per module, asked once per request instead of once per row */
+    private array $moduleFlags = [];
+    /** phalanx availability of the current row (planet block and action buttons share it), null = not asked yet */
+    private ?bool $rowPhalanx = null;
 
     public const PLANET_DESTROYED = true;
 
@@ -101,6 +111,7 @@ class GalaxyRows
 
         foreach ($galaxyResult as $galaxyRow) {
             $this->galaxyRow = $galaxyRow;
+            $this->rowPhalanx = null;
 
             $this->galaxyData[$this->galaxyRow['planet']] = [];
 
@@ -174,22 +185,22 @@ class GalaxyRows
         $elements = $this->elements();
         $this->galaxyData[$this->galaxyRow['planet']]['missions'] = [
             1 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
-                && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_ATTACK),
-            3 => $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_TRANSPORT),
+                && $this->module(MODULE_MISSION_ATTACK),
+            3 => $this->module(MODULE_MISSION_TRANSPORT),
             4 => $this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
-                && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_STATION),
+                && $this->module(MODULE_MISSION_STATION),
             5 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
-                && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_HOLD),
+                && $this->module(MODULE_MISSION_HOLD),
             6 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
-                && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_SPY),
-            8 => $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_RECYCLE),
+                && $this->module(MODULE_MISSION_SPY),
+            8 => $this->module(MODULE_MISSION_RECYCLE),
             9 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
                 && ($PLANET[$elements->find(SHIP_RIP)?->column] > 0 || $PLANET[$elements->find(VOID_TITAN)?->column] > 0)
-                && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_DESTROY),
+                && $this->module(MODULE_MISSION_DESTROY),
             10 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
                 && $PLANET[$elements->find(INTERPLANETARY_MISSILE)?->column] > 0
-                && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_ATTACK)
-                && $this->viewHelpers()->isModuleAvailable(MODULE_MISSILEATTACK)
+                && $this->module(MODULE_MISSION_ATTACK)
+                && $this->module(MODULE_MISSILEATTACK)
                 && $this->fleetFunctions()->inMissileRange($PLANET, $this->galaxyRow, $USER[$elements->find(117)?->column]),
         ];
     }
@@ -206,16 +217,15 @@ class GalaxyRows
         } else {
             $this->galaxyData[$this->galaxyRow['planet']]['action'] = [
                 'esp'     => $USER['settings_esp'] == 1
-                    && $this->galaxyData[$this->galaxyRow['planet']]['missions'][MISSION_SPY],
+                    && $this->galaxyData[$this->galaxyRow['planet']]['missions'][Mission::Spy->value],
                 'message' => $USER['settings_wri'] == 1
-                    && $this->viewHelpers()->isModuleAvailable(MODULE_MESSAGES),
+                    && $this->module(MODULE_MESSAGES),
                 'buddy'   => $USER['settings_bud'] == 1
-                    && $this->viewHelpers()->isModuleAvailable(MODULE_BUDDYLIST) && $this->galaxyRow['buddy'] == 0,
+                    && $this->module(MODULE_BUDDYLIST) && $this->galaxyRow['buddy'] == 0,
                 'missle'  => $USER['settings_mis'] == 1
-                    && $this->galaxyData[$this->galaxyRow['planet']]['missions'][MISSION_MISSILE],
+                    && $this->galaxyData[$this->galaxyRow['planet']]['missions'][Mission::Missile->value],
                 'spyReport' => $USER['settings_rep'] == 1,
-                'phalanx' => $this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) && $this->galaxyRow['urlaubs_modus'] == 0
-                    && $this->fleetFunctions()->allowPhalanx($this->galaxyRow['galaxy'], $this->galaxyRow['system'], $this->galaxyRow),
+                'phalanx' => $this->phalanxAvailable(),
             ];
         }
     }
@@ -228,15 +238,15 @@ class GalaxyRows
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($this->galaxyRow));
-        $Class = $this->playerUtil()->userStatus($this->galaxyRow, $IsNoobProtec);
+        $IsNoobProtec = $this->protectionRules()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($this->galaxyRow));
+        $Class = $this->protectionRules()->userStatus($this->galaxyRow, $IsNoobProtec);
 
         $this->galaxyData[$this->galaxyRow['planet']]['user'] = [
             'id'            => $this->galaxyRow['id'],
             'username'      => htmlspecialchars($this->galaxyRow['username'], ENT_QUOTES, "UTF-8"),
             'rank'          => $this->galaxyRow['total_rank'],
             'points'        => $this->viewHelpers()->prettyNumber($this->galaxyRow['total_points']),
-            'playerrank'    => $this->viewHelpers()->isModuleAvailable(MODULE_STATISTICS) ? $LNG->format(
+            'playerrank'    => $this->module(MODULE_STATISTICS) ? $LNG->format(
                 'gl_in_the_rank',
                 htmlspecialchars($this->galaxyRow['username'], ENT_QUOTES, "UTF-8"),
                 $this->galaxyRow['total_rank'],
@@ -385,10 +395,22 @@ class GalaxyRows
             'id'            => $this->galaxyRow['planet_id'],
             'name'          => htmlspecialchars($this->galaxyRow['name'], ENT_QUOTES, "UTF-8"),
             'image'         => $image,
-            'phalanx'       => $this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) && $this->galaxyRow['urlaubs_modus'] == 0
-                && $this->fleetFunctions()->allowPhalanx($this->galaxyRow['galaxy'], $this->galaxyRow['system'], $this->galaxyRow),
+            'phalanx'       => $this->phalanxAvailable(),
             'type'     => 1,
         ];
+    }
+
+    /** Whether the phalanx can scan the current row (module on, owner not in vacation, in range); asked once per row. */
+    private function phalanxAvailable(): bool
+    {
+        return $this->rowPhalanx ??= $this->module(MODULE_PHALANX) && $this->galaxyRow['urlaubs_modus'] == 0
+            && $this->fleetFunctions()->allowPhalanx($this->galaxyRow['galaxy'], $this->galaxyRow['system'], $this->galaxyRow);
+    }
+
+    /** isModuleAvailable() of a module, remembered for the rest of the request (the module settings do not change within it). */
+    private function module(int|string $module): bool
+    {
+        return $this->moduleFlags[$module] ??= (bool) $this->viewHelpers()->isModuleAvailable($module);
     }
 
     /**
@@ -412,7 +434,7 @@ class GalaxyRows
             GROUP BY p.id";
 
         $results = $db->select($sql, [
-            ':messageType' => MESSAGE_TYPE_SPY_REPORT,
+            ':messageType' => MessageType::SpyReport->value,
             ':userId'      => $USER['id'],
             ':galaxy'      => $this->Galaxy,
             ':system'      => $this->System,

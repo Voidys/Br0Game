@@ -1,12 +1,13 @@
 {# shared by BanPageUser / BanPageAccount: expects ban = {mode, id, nameLabel, list, listBan, total, totalLabel, bannedLabel} #}
 {% import 'admin/AdminPicker.macros.html.twig' as picker %}
+{% set banRoute = ban.mode == 'user' ? 'admin_ban_players' : 'admin_ban_accounts' %}
 <div class="stack">
   <nav class="tabs">
-    <a href="?page=ban&amp;mode=account"{% if ban.mode == 'account' %} aria-current="page"{% endif %}>{{ icon('id-card') }}{{ LNG.adm_ban_accounts }}</a>
-    <a href="?page=ban&amp;mode=user"{% if ban.mode == 'user' %} aria-current="page"{% endif %}>{{ icon('user') }}{{ LNG.adm_ban_users }}</a>
+    <a href="{{ path('admin_ban_accounts') }}"{% if ban.mode == 'account' %} aria-current="page"{% endif %}>{{ icon('id-card') }}{{ LNG.adm_ban_accounts }}</a>
+    <a href="{{ path('admin_ban_players') }}"{% if ban.mode == 'user' %} aria-current="page"{% endif %}>{{ icon('user') }}{{ LNG.adm_ban_users }}</a>
   </nav>
 
-  {% if isset(name) %}
+  {% if name is defined and name is not null %}
     <form action="" method="post" name="countt" class="card card--danger" data-track-dirty>
       <input type="hidden" name="ban_id" value="{{ ban.id }}">
       <header class="card__head">
@@ -61,9 +62,9 @@
       <header class="card__head">
         <h2 class="card__title">{{ icon('ban') }}{{ LNG.bo_ban_player }}</h2>
         <div class="card__actions small">
-          <a href="?page=ban&amp;mode={{ ban.mode }}">{{ LNG.bo_order_username|trim('[] ') }}</a>
-          <a href="?page=ban&amp;mode={{ ban.mode }}&amp;order=id">{{ LNG.bo_order_id|trim('[] ') }}</a>
-          <a href="?page=ban&amp;mode={{ ban.mode }}&amp;view=bana">{{ LNG.bo_order_banned|trim('[] ') }}</a>
+          <a href="{{ path(banRoute) }}">{{ LNG.bo_order_username|trim('[] ') }}</a>
+          <a href="{{ path(banRoute, {order: 'id'}) }}">{{ LNG.bo_order_id|trim('[] ') }}</a>
+          <a href="{{ path(banRoute, {view: 'bana'}) }}">{{ LNG.bo_order_banned|trim('[] ') }}</a>
         </div>
       </header>
       <div class="card__body stack">
@@ -82,8 +83,8 @@
       <header class="card__head">
         <h2 class="card__title">{{ icon('shield-check') }}{{ LNG.bo_unban_player }}</h2>
         <div class="card__actions small">
-          <a href="?page=ban&amp;mode={{ ban.mode }}">{{ LNG.bo_order_username|trim('[] ') }}</a>
-          <a href="?page=ban&amp;mode={{ ban.mode }}&amp;order2=id">{{ LNG.bo_order_id|trim('[] ') }}</a>
+          <a href="{{ path(banRoute) }}">{{ LNG.bo_order_username|trim('[] ') }}</a>
+          <a href="{{ path(banRoute, {order2: 'id'}) }}">{{ LNG.bo_order_id|trim('[] ') }}</a>
         </div>
       </header>
       <div class="card__body stack">

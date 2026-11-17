@@ -49,6 +49,10 @@ final class TechTree
     /**
      * One node per element; requirements on unknown (disabled) elements are dropped, "met" compares the own level.
      *
+     * @param array<mixed> $groups
+     * @param array<mixed> $levels
+     * @param array<mixed> $names
+     * @param array<mixed> $requirements
      * @return array<int, array<string, mixed>>
      */
     private function nodes(array $groups, array $requirements, array $levels, array $names): array
@@ -86,7 +90,11 @@ final class TechTree
         return $nodes;
     }
 
-    /** depth = longest requirement path from a root (an element without requirements has depth 0) */
+    /**
+     * depth = longest requirement path from a root (an element without requirements has depth 0)
+     *
+     * @param array<mixed> $nodes
+     */
     private function assignDepths(array &$nodes): void
     {
         $depth = [];
@@ -113,6 +121,7 @@ final class TechTree
      * nodes), grouped by depth (empty depths are skipped) and ordered to reduce crossings.
      *
      * @param list<int> $ids elements of the category
+     * @param array<mixed> $nodes
      * @return list<list<int>> element ids per row, top row first
      */
     private function rows(array $nodes, array $ids): array
@@ -138,6 +147,7 @@ final class TechTree
      * elements that sit on a requirement path between two visible nodes (so no line ends in nowhere).
      *
      * @param list<int> $ids elements of the category
+     * @param array<mixed> $nodes
      * @return array<int, true>
      */
     private function visibleMembers(array $nodes, array $ids): array
@@ -167,7 +177,10 @@ final class TechTree
         return $members;
     }
 
-    /** @return array<int, true> all elements an element transitively requires */
+    /**
+     * @param array<mixed> $nodes
+     * @return array<int, true> all elements an element transitively requires
+     */
     private function ancestors(array $nodes, int $id): array
     {
         $found = [];
@@ -189,6 +202,8 @@ final class TechTree
      * (down sweep) and below (up sweep); positions are relative to the row width so rows of different size compare.
      *
      * @param list<list<int>> $rows
+     * @param array<mixed> $members
+     * @param array<mixed> $nodes
      * @return list<list<int>>
      */
     private function orderRows(array $rows, array $nodes, array $members): array

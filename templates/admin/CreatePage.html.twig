@@ -1,11 +1,11 @@
 {% include 'admin/overall_header.html.twig' %}
 <div class="stack">
   <div class="quick-links">
-    <a class="quick-link" href="?page=creator&amp;mode=account">{{ icon('id-card') }}<span>{{ LNG.new_creator_title_a }}</span></a>
-    <a class="quick-link" href="?page=creator&amp;mode=user">{{ icon('user-plus') }}<span>{{ LNG.new_creator_title_u }}</span></a>
-    <a class="quick-link" href="?page=creator&amp;mode=planet">{{ icon('globe') }}<span>{{ LNG.new_creator_title_p }}</span></a>
-    <a class="quick-link" href="?page=creator&amp;mode=moon">{{ icon('moon') }}<span>{{ LNG.new_creator_title_l }}</span></a>
-    <a class="quick-link" href="?page=creator&amp;mode=testData">{{ icon('flask-conical') }}<span>{{ LNG.new_creator_title_t }}</span></a>
+    <a class="quick-link" href="{{ path('admin_creator_tab', {tab: 'account'}) }}">{{ icon('id-card') }}<span>{{ LNG.new_creator_title_a }}</span></a>
+    <a class="quick-link" href="{{ path('admin_creator_tab', {tab: 'user'}) }}">{{ icon('user-plus') }}<span>{{ LNG.new_creator_title_u }}</span></a>
+    <a class="quick-link" href="{{ path('admin_creator_tab', {tab: 'planet'}) }}">{{ icon('globe') }}<span>{{ LNG.new_creator_title_p }}</span></a>
+    <a class="quick-link" href="{{ path('admin_creator_tab', {tab: 'moon'}) }}">{{ icon('moon') }}<span>{{ LNG.new_creator_title_l }}</span></a>
+    <a class="quick-link" href="{{ path('admin_creator_tab', {tab: 'test-data'}) }}">{{ icon('flask-conical') }}<span>{{ LNG.new_creator_title_t }}</span></a>
   </div>
 </div>
 {% include 'admin/overall_footer.html.twig' %}

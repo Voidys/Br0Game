@@ -44,6 +44,7 @@ final class GameRateLimitsTest extends GameTestCase
     {
         $request = Request::create('/game', $method, $method === 'GET' ? $query : []);
         $request->attributes->set('_route', $route);
+        $request->attributes->set('_area', 'game');
         $request->attributes->set('_controller', $controller . '::show');
 
         return $request;
@@ -52,7 +53,7 @@ final class GameRateLimitsTest extends GameTestCase
     public function testBurstOfPostsTripsAfterTheBucketIsEmpty(): void
     {
         $limits = $this->limits();
-        $request = $this->request('game_game_shipyard', ShipyardController::class);
+        $request = $this->request('game_shipyard_order', ShipyardController::class);
         for ($i = 0; $i < 5; $i++) {
             $this->assertNull($limits->check($request, 42), "request $i");
         }
@@ -66,7 +67,7 @@ final class GameRateLimitsTest extends GameTestCase
     public function testPacedPlayDoesNotTrip(): void
     {
         $limits = $this->limits(true, 2);
-        $request = $this->request('game_game_shipyard', ShipyardController::class);
+        $request = $this->request('game_shipyard_order', ShipyardController::class);
         // one request per second is the refill rate: it never runs dry
         for ($i = 0; $i < 6; $i++) {
             $this->assertNull($limits->check($request, 42), "request $i");
@@ -77,7 +78,7 @@ final class GameRateLimitsTest extends GameTestCase
     public function testPlainReadsAreNotCounted(): void
     {
         $limits = $this->limits();
-        $request = $this->request('game_game_overview', OverviewController::class, 'GET');
+        $request = $this->request('game_overview_show', OverviewController::class, 'GET');
         for ($i = 0; $i < 100; $i++) {
             $this->assertNull($limits->check($request, 42));
         }
@@ -86,13 +87,13 @@ final class GameRateLimitsTest extends GameTestCase
     public function testExpensiveReadsHaveTheirOwnBucket(): void
     {
         $limits = $this->limits();
-        $galaxy = $this->request('game_game_galaxy', GalaxyController::class, 'GET');
+        $galaxy = $this->request('game_galaxy_show', GalaxyController::class, 'GET');
         for ($i = 0; $i < 8; $i++) {
             $this->assertNull($limits->check($galaxy, 42), "read $i");
         }
         $this->assertNotNull($limits->check($galaxy, 42));
         // the action bucket is untouched
-        $this->assertNull($limits->check($this->request('game_game_shipyard', ShipyardController::class), 42));
+        $this->assertNull($limits->check($this->request('game_shipyard_order', ShipyardController::class), 42));
         // refill
         usleep(1_050_000);
         $this->assertNull($limits->check($galaxy, 42));
@@ -101,27 +102,27 @@ final class GameRateLimitsTest extends GameTestCase
     public function testReadOnlyAjaxModesCountInTheReadsBucket(): void
     {
         $limits = $this->limits();
-        $check = $this->request('game_game_fleetstep1', \App\Controller\Game\FleetStep1Controller::class, 'GET', ['mode' => ' checkTarget']);
+        $check = $this->request('game_fleet_step1_check_target', \App\Controller\Game\FleetStep1Controller::class, 'GET');
         for ($i = 0; $i < 8; $i++) {
             $this->assertNull($limits->check($check, 42), "read $i");
         }
         $this->assertNotNull($limits->check($check, 42));
-        // the same page without the mode is not a read of this kind
-        $plain = $this->request('game_game_fleetstep1', \App\Controller\Game\FleetStep1Controller::class, 'GET');
+        // the fleet step page itself is not a read of this kind
+        $plain = $this->request('game_fleet_step1_show', \App\Controller\Game\FleetStep1Controller::class, 'GET');
         $this->assertNull($limits->check($plain, 42));
     }
 
     public function testAnonymousPublicPagesAreLimitedPerIp(): void
     {
         $limits = $this->limits();
-        $report = $this->request('game_game_raport', \App\Controller\Game\RaportController::class, 'GET', ['raport' => 'x']);
+        $report = $this->request('game_raport_show', \App\Controller\Game\RaportController::class, 'GET');
         for ($i = 0; $i < 3; $i++) {
             $this->assertNull($limits->checkAnonymous($report, '10.0.0.1'), "hit $i");
         }
         $this->assertNotNull($limits->checkAnonymous($report, '10.0.0.1'));
         $this->assertNull($limits->checkAnonymous($report, '10.0.0.2'));
         // other pages are not covered
-        $overview = $this->request('game_game_overview', OverviewController::class, 'GET');
+        $overview = $this->request('game_overview_show', OverviewController::class, 'GET');
         $this->assertNull($limits->checkAnonymous($overview, '10.0.0.1'));
         $this->assertNull($this->limits(false)->checkAnonymous($report, '10.0.0.1'));
     }
@@ -129,7 +130,9 @@ final class GameRateLimitsTest extends GameTestCase
     public function testStateChangingGetLinkIsAnAction(): void
     {
         $limits = $this->limits(true, 2);
-        $link = $this->request('game_game_buddylist', \App\Controller\Game\BuddyListController::class, 'GET', ['mode' => 'delete']);
+        // a state-changing GET route (CsrfPolicy::GET_ROUTES): the logout link
+        $link = $this->request('account_logout_show', \App\Controller\Game\BuddyListController::class, 'GET');
+        $link->attributes->set('_area', 'account');
         $this->assertNull($limits->check($link, 42));
         $this->assertNull($limits->check($link, 42));
         $this->assertNotNull($limits->check($link, 42));
@@ -138,7 +141,7 @@ final class GameRateLimitsTest extends GameTestCase
     public function testDisabledAndVisitorsAreNeverLimited(): void
     {
         $off = $this->limits(false, 1);
-        $request = $this->request('game_game_shipyard', ShipyardController::class);
+        $request = $this->request('game_shipyard_order', ShipyardController::class);
         for ($i = 0; $i < 50; $i++) {
             $this->assertNull($off->check($request, 42));
         }
@@ -177,6 +180,7 @@ final class GameRateLimitsTest extends GameTestCase
         $this->state->requestServer['REQUEST_METHOD'] = 'POST';
         $controller = (new BoardController())->withGameServices($this->db, $this->configs, $this->state);
         $controller->setSecurityServices(self::container()->get(AuthRateLimits::class), self::container()->get(\App\Runtime\CanonicalUrl::class));
+        $controller->setRouter(self::container()->get('router'));
 
         return [$controller, $me];
     }
@@ -189,12 +193,14 @@ final class GameRateLimitsTest extends GameTestCase
         $this->state->requestQuery = [];
         ob_start();
         try {
-            $controller->$method();
-            ob_end_clean();
-            $this->fail('the page should end the request');
+            $response = $controller->$method();
         } catch (EndOfRequest $end) {
             return ob_get_clean() . ($end->getResponse()?->getContent() ?? '') . $end->getOutput();
         }
+        $echoed = (string) ob_get_clean();
+        $this->assertInstanceOf(\Symfony\Component\HttpFoundation\Response::class, $response, 'the page should answer with a Response');
+
+        return $echoed . $response->getContent();
     }
 
     private function insertPost(int $accountId): int

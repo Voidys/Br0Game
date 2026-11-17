@@ -17,10 +17,9 @@
 
 namespace App\Game\Missions;
 
+use App\Game\Enum\MessageType;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\Core\Database;
-use App\Game\Core\FleetFunctions;
-use App\Game\Core\PlayerUtil;
 
 /**
  * Mission "colonise" (7): founds a new colony on a free position with the colony ship.
@@ -57,11 +56,11 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
 
         $message = $this->tryColonise($senderUser, $LNG);
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_colo_mess_from'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_colo_mess_report'],
             $message,
             $this->_fleet['arrival_time'],
@@ -86,13 +85,13 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
         // serialise with every other colonisation of this player (planet limit) before anything is checked
         $this->db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $this->_fleet['owner']]);
 
-        $checkPosition = $this->playerUtil()->checkPosition(
+        $checkPosition = $this->planetPositions()->checkPosition(
             $this->_fleet['universe'],
             $this->_fleet['end_galaxy'],
             $this->_fleet['end_system'],
             $this->_fleet['end_planet'],
         );
-        $isPositionFree = $this->playerUtil()->isPositionFree(
+        $isPositionFree = $this->planetPositions()->isPositionFree(
             $this->_fleet['universe'],
             $this->_fleet['end_galaxy'],
             $this->_fleet['end_system'],
@@ -102,12 +101,12 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
         if (!$isPositionFree || !$checkPosition) {
             $message = $LNG->format('sys_colo_notfree', GetTargetAddressLink($this->_fleet, ''));
         } else {
-            $allowPlanetPosition = $this->playerUtil()->allowPlanetPosition($this->_fleet['end_planet'], $senderUser);
+            $allowPlanetPosition = $this->planetPositions()->allowPlanetPosition($this->_fleet['end_planet'], $senderUser);
             if (!$allowPlanetPosition) {
                 $message = $LNG->format('sys_colo_notech', GetTargetAddressLink($this->_fleet, ''));
             } else {
-                $currentPlanetCount = $this->playerUtil()->currentPlanetCount($senderUser);
-                $maxPlanetCount = $this->playerUtil()->maxPlanetCount($senderUser);
+                $currentPlanetCount = $this->planetPositions()->currentPlanetCount($senderUser);
+                $maxPlanetCount = $this->planetPositions()->maxPlanetCount($senderUser);
 
                 if ($currentPlanetCount >= $maxPlanetCount) {
                     $message = $LNG->format(
@@ -117,7 +116,7 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
                     );
                 } else {
                     try {
-                        $NewOwnerPlanet = $this->playerUtil()->createPlanet(
+                        $NewOwnerPlanet = $this->planetManager()->createPlanet(
                             $this->_fleet['end_galaxy'],
                             $this->_fleet['end_system'],
                             $this->_fleet['end_planet'],
@@ -227,11 +226,11 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
             $remainingShips,
         );
 
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $this->_fleet['owner'],
             0,
             $LNG['sys_mess_tower'],
-            MESSAGE_TYPE_SYSTEM,
+            MessageType::System->value,
             $LNG['sys_mess_fleetback'],
             $Message,
             $this->_fleet['return_time'],

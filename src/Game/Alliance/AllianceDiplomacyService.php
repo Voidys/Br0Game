@@ -2,6 +2,7 @@
 
 namespace App\Game\Alliance;
 
+use App\Game\Enum\DiploType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -90,24 +91,24 @@ class AllianceDiplomacyService
     public function overview(array $alliance): array
     {
         $emptyStatus = [
-            DIPLO_MAIN => [],
-            DIPLO_WING => [],
-            DIPLO_ALLIANCE_PACT => [],
-            DIPLO_TRADE_PACT => [],
-            DIPLO_NON_AGRESSION_PACT => [],
-            DIPLO_WAR => [],
-            DIPLO_SECRET_ALLIANCE_PACT => [],
-            DIPLO_PEACE => [],
+            DiploType::Main->value => [],
+            DiploType::Wing->value => [],
+            DiploType::AlliancePact->value => [],
+            DiploType::TradePact->value => [],
+            DiploType::NonAgressionPact->value => [],
+            DiploType::War->value => [],
+            DiploType::SecretAlliancePact->value => [],
+            DiploType::Peace->value => [],
         ];
         $diplomaticList = [
             0 => [
-                DIPLO_MAIN => [],
-                DIPLO_WING => [],
-                DIPLO_ALLIANCE_PACT => [],
-                DIPLO_TRADE_PACT => [],
-                DIPLO_NON_AGRESSION_PACT => [],
-                DIPLO_WAR => [],
-                DIPLO_SECRET_ALLIANCE_PACT => [],
+                DiploType::Main->value => [],
+                DiploType::Wing->value => [],
+                DiploType::AlliancePact->value => [],
+                DiploType::TradePact->value => [],
+                DiploType::NonAgressionPact->value => [],
+                DiploType::War->value => [],
+                DiploType::SecretAlliancePact->value => [],
             ],
             1 => $emptyStatus,
             2 => $emptyStatus,
@@ -122,8 +123,8 @@ class AllianceDiplomacyService
         ]);
 
         foreach ($diplomaticResult as $diplomaticRow) {
-            if ($diplomaticRow['level'] == DIPLO_WING && $diplomaticRow['owner_2'] == $alliance['id']) {
-                $diplomaticRow['level'] = DIPLO_MAIN;
+            if ($diplomaticRow['level'] == DiploType::Wing->value && $diplomaticRow['owner_2'] == $alliance['id']) {
+                $diplomaticRow['level'] = DiploType::Main->value;
             }
             $own = $diplomaticRow['owner_1'] == $alliance['id'];
             if ($diplomaticRow['accept'] == 1) {
@@ -181,7 +182,7 @@ class AllianceDiplomacyService
     /**
      * Data for the "new treaty" dialog: the selectable alliances and levels.
      *
-     * @param int|string $diploMode DIPLO_PEACE offers peace to the one alliance `$id` we are at war with
+     * @param int|string $diploMode DiploType::Peace->value offers peace to the one alliance `$id` we are at war with
      * @return array{diploLevel: array, AllyList: array, IdList: array}
      */
     public function createFormData(int|string $diploMode, int $id): array
@@ -192,13 +193,13 @@ class AllianceDiplomacyService
         $AllyList = [];
         $IdList = [];
 
-        if ($diploMode == DIPLO_PEACE) {
+        if ($diploMode == DiploType::Peace->value) {
             $diplomaticAlly = $this->targetAlliance($id, $id == $USER['ally_id']);
             $IdList[] = $diplomaticAlly['id'];
             $AllyList[] = $diplomaticAlly['ally_name'];
 
             $diplo_level = [
-                DIPLO_PEACE => $LNG['al_diplo_level'][DIPLO_PEACE],
+                DiploType::Peace->value => $LNG['al_diplo_level'][DiploType::Peace->value],
             ];
         } else {
             $sql = "SELECT `ally_tag`, `ally_name`, `id` FROM %%ALLIANCE%% WHERE `id` != :allianceId AND `ally_universe` = :universe ORDER BY `ally_tag` ASC;";
@@ -242,15 +243,15 @@ class AllianceDiplomacyService
             ':allianceId' => $alliance['id'],
         ], 'c');
         if (!$canAccept) {
-            throw AllianceException::redirect('game?page=alliance&mode=admin&action=diplomacy');
+            throw AllianceException::redirect('game_alliance_admin_diplomacy');
         }
 
-        if ($targetAlliance['diplo'] == DIPLO_PEACE) {
+        if ($targetAlliance['diplo'] == DiploType::Peace->value) {
             $sql = "DELETE FROM %%DIPLO%% WHERE `level` IN (:war,:piece)
                 AND `owner_1` IN (:allianceId1,:allianceId2) AND `owner_2` IN (:allianceId1,:allianceId2)";
             $db->delete($sql, [
-                ':war'          => DIPLO_WAR,
-                ':piece'        => DIPLO_PEACE,
+                ':war'          => DiploType::War->value,
+                ':piece'        => DiploType::Peace->value,
                 ':allianceId1'  => $alliance['id'],
                 ':allianceId2'  => $targetAlliance['id'],
             ]);
@@ -264,7 +265,7 @@ class AllianceDiplomacyService
             ]);
         }
 
-        $isWar = $targetAlliance['diplo'] == DIPLO_WAR;
+        $isWar = $targetAlliance['diplo'] == DiploType::War->value;
         $this->messenger->sendDiplomatic(
             $this->bothSides($targetAlliance, $alliance),
             $alliance['ally_tag'],
@@ -361,7 +362,7 @@ class AllianceDiplomacyService
 
         $targetAlliance = $this->targetAlliance((int) $id, true);
 
-        if (!in_array((int) $level, [DIPLO_WING, DIPLO_ALLIANCE_PACT, DIPLO_TRADE_PACT, DIPLO_NON_AGRESSION_PACT, DIPLO_WAR, DIPLO_SECRET_ALLIANCE_PACT, DIPLO_PEACE], true)) {
+        if (!in_array((int) $level, [DiploType::Wing->value, DiploType::AlliancePact->value, DiploType::TradePact->value, DiploType::NonAgressionPact->value, DiploType::War->value, DiploType::SecretAlliancePact->value, DiploType::Peace->value], true)) {
             throw AllianceException::home();
         }
         $level = (int) $level;
@@ -373,7 +374,7 @@ class AllianceDiplomacyService
             ]);
         }
 
-        if (!empty($targetAlliance['diplo']) && ($targetAlliance['diplo'] != DIPLO_WAR || $level != DIPLO_PEACE)) {
+        if (!empty($targetAlliance['diplo']) && ($targetAlliance['diplo'] != DiploType::War->value || $level != DiploType::Peace->value)) {
             throw AllianceException::json([
                 'error' => true,
                 'message' => $LNG->format('al_diplo_exists', $targetAlliance['ally_name']),
@@ -386,7 +387,7 @@ class AllianceDiplomacyService
             ]);
         }
 
-        if ($level == DIPLO_WAR) {
+        if ($level == DiploType::War->value) {
             $this->messenger->sendDiplomatic(
                 $this->bothSides($targetAlliance, $alliance),
                 $alliance['ally_tag'],
@@ -424,7 +425,7 @@ class AllianceDiplomacyService
             ':allianceId' => $USER['ally_id'],
             ':allianceTargetID' => $targetAlliance['id'],
             ':level' => $level,
-            ':accept' => $level == DIPLO_WAR ? 1 : 0,
+            ':accept' => $level == DiploType::War->value ? 1 : 0,
             ':text' => $text,
             ':universe' => $this->universe()->current(),
             ':request_time' => $this->state->runtime->timestamp,
@@ -434,6 +435,8 @@ class AllianceDiplomacyService
     /**
      * Receivers on both sides of a treaty: members of the two alliances, each user once.
      *
+     * @param array<string, mixed> $alliance
+     * @param array<mixed> $targetAlliance
      * @return list<array{id: int|string, lang: string}>
      */
     private function bothSides(array $targetAlliance, array $alliance): array
@@ -452,7 +455,12 @@ class AllianceDiplomacyService
         return array_values($receivers);
     }
 
-    /** the standard treaty message: level name, own alliance and other alliance as "[tag] name" */
+    /**
+     * the standard treaty message: level name, own alliance and other alliance as "[tag] name"
+     *
+     * @param array<string, mixed> $alliance
+     * @param array<mixed> $targetAlliance
+     */
     private function treatyText(string $key, Language $lang, int $level, array $alliance, array $targetAlliance): string
     {
         return $lang->formatHtml(
@@ -463,7 +471,11 @@ class AllianceDiplomacyService
         );
     }
 
-    /** deletes a treaty row, only when the alliance is one of its two parties */
+    /**
+     * deletes a treaty row, only when the alliance is one of its two parties
+     *
+     * @param array<string, mixed> $alliance
+     */
     private function deleteRow(array $alliance, int $id): void
     {
         $sql = "DELETE FROM %%DIPLO%% WHERE `id` = :id AND (`owner_1` = :allianceId OR `owner_2` = :allianceId);";

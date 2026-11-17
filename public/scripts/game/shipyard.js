@@ -1,4 +1,5 @@
-import { qs, qsa, setVisibleInterval, clearVisibleInterval, getRestTimeFormat, pretty_number, pageData } from '../app/core.js';
+import { qs, qsa, setVisibleInterval, clearVisibleInterval, now, getRestTimeFormat, pretty_number, pageData } from '../app/core.js';
+import { env } from '../app/env.js';
 
 /**
  * Shipyard / defense queue display: replays the build queue from the page-load state plus the elapsed
@@ -23,7 +24,7 @@ function pageElapsedSeconds() {
     if (umode) {
         return 0;
     }
-    return (window.serverTime.getTime() - window.startTime) / 1000;
+    return (now().getTime() - env.startTime) / 1000;
 }
 
 /** Takes the queue snapshot from the data island, reads the units already available from the page, renders once and starts the 1 s refresh (not in vacation mode). */
@@ -144,14 +145,14 @@ function BuildlistShipyard() {
     if (state.remaining.length === 0) {
         let emptyBox = document.getElementById(boxId);
         if (emptyBox) {
-            emptyBox.innerHTML = window.Ready;
+            emptyBox.innerHTML = env.ready;
         }
         let emptyList = document.getElementById(listId);
         if (emptyList) {
             while (emptyList.length > 0) {
                 emptyList.options[emptyList.length - 1] = null;
             }
-            emptyList.options[0] = new Option(window.Ready);
+            emptyList.options[0] = new Option(env.ready);
         }
         if (ShipyardInterval) {
             clearVisibleInterval(ShipyardInterval);
@@ -205,9 +206,9 @@ window.onPageInit(function () {
         qsa('.timer').forEach(function (el) {
             let s = Number(el.dataset.time);
             if (!umode) {
-                s = s - (window.serverTime.getTime() - window.startTime) / 1000;
+                s = s - (now().getTime() - env.startTime) / 1000;
             }
-            el.textContent = s <= 0 ? window.Ready : getRestTimeFormat(s);
+            el.textContent = s <= 0 ? env.ready : getRestTimeFormat(s);
         });
     }, 1000);
 });

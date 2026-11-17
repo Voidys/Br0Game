@@ -2,7 +2,7 @@
 <div class="stack">
   {% if message %}<div class="notice notice--success" role="status">{{ message }}</div>{% endif %}
 
-  <form method="POST" action="?page=team&amp;action=save" class="card card--flush" id="team-form" data-track-dirty>
+  <form method="POST" action="{{ path('admin_team_save') }}" class="card card--flush" id="team-form" data-track-dirty>
     <header class="card__head">
       <h2 class="card__title">{{ icon('users') }}{{ LNG.adm_tab_team }} <span class="badge badge--muted" data-team-count>{{ members|length }}</span></h2>
       <div class="card__actions"><button type="button" class="button btn--small" data-team-add>{{ icon('plus') }}{{ LNG.team_add }}</button></div>

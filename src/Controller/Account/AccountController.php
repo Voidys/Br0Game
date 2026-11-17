@@ -8,25 +8,16 @@
 
 namespace App\Controller\Account;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\AccountUtil;
-use App\Game\Core\Database;
-use App\Game\Core\HTTP;
-use App\Game\Core\Session;
-use App\Game\Core\Singleton;
 
 /** Account lobby: lists the universes with the account's players and enters one (modes: show, send). */
-#[\App\Routing\GamePage('account', 'account', default: true)]
 class AccountController extends AbstractAccountController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
     /**
-     * Account lobby (/account?page=account): lists the universes the account has a player in and the ones it can still register in.
+     * Account lobby (/account): lists the universes the account has a player in and the ones it can still register in.
      */
+    #[GameRoute('account', 'account', 'account')]
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -34,17 +25,16 @@ class AccountController extends AbstractAccountController
         $ACCOUNT = $this->state->ACCOUNT;
         $newUniverses = $this->accountUtil()->get_non_player_universes($ACCOUNT['id']);
         $playerUniverses = $this->accountUtil()->get_player_universes($ACCOUNT['id']);
-        $this->assign([
+
+        return $this->render('account/page.account.default.html.twig', [
             'id'                => $ACCOUNT['id'],
             'username'          => $ACCOUNT['accountname'],
             'authlevel'         => $ACCOUNT['authlevel'],
             'newUniverses'      => $newUniverses,
             'playerUniverses'   => $playerUniverses,
-            'toplink'           => "account?page=accountSettings",
+            'toplink'           => $this->router->generate('account_account_settings_show'),
             'topname'           => $LNG->format('Settings'),
         ]);
-
-        return $this->render('account/page.account.default.html.twig');
     }
 
     /**
@@ -52,10 +42,11 @@ class AccountController extends AbstractAccountController
      * Checks that the player belongs to the logged in account (ACCOUNTS_TO_USERS), switches the session to that player and universe
      * (admin access is dropped) and redirects to /game. A foreign player id redirects back to the lobby.
      */
-    public function send()
+    #[GameRoute('account', 'account/enter', 'account', 'send', ['POST'])]
+    public function send(): Response
     {
         $ACCOUNT = $this->state->ACCOUNT;
-        $userID = $this->http()->_GP('userID', 0);
+        $userID = $this->input()->int('userID');
 
         $db = $this->db;
         // the universe is the one the player lives in (the request's `universe` is not trusted)
@@ -63,7 +54,7 @@ class AccountController extends AbstractAccountController
         $universe = $db->selectSingle($sql, [':accountId' => $ACCOUNT['id'], ':userId' => $userID], 'universe');
 
         if (empty($universe)) {
-            $this->http()->redirectTo('account?page=account');
+            return $this->redirectToRoute('account_account_show');
         }
 
         $session	= $this->sessions()->create();
@@ -73,6 +64,6 @@ class AccountController extends AbstractAccountController
         $session->adminAccess	= 0;
         $session->save();
 
-        $this->http()->redirectTo('game');
+        return $this->redirectResponse('game');
     }
 }

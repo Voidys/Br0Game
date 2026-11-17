@@ -14,7 +14,7 @@
 	</tr>
 	{% if banCount %}
 	<tr>
-		<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="game?page=banList&amp;side={{ page - 1 }}">&laquo;</a>&nbsp;{% endif %}{% if (maxPage) >= (1) %}{% for site in 1..maxPage %}<a href="game?page=banList&amp;side={{ site }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% endif %}{% if page != maxPage %}&nbsp;<a href="game?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}</td>
+		<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="{{ path('game_ban_list_show', {side: page - 1}) }}">&laquo;</a>&nbsp;{% endif %}{% if (maxPage) >= (1) %}{% for site in 1..maxPage %}<a href="{{ path('game_ban_list_show', {side: site}) }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% endif %}{% if page != maxPage %}&nbsp;<a href="{{ path('game_ban_list_show', {side: page + 1}) }}">&raquo;</a>{% endif %}</td>
 	</tr>
 	{% for banRow in banList %}
 	<tr>
@@ -26,7 +26,7 @@
 	</tr>
 	{% endfor %}
 	<tr>
-		<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="game?page=banList&amp;side={{ page - 1 }}">&laquo;</a>&nbsp;{% endif %}{% if (maxPage) >= (1) %}{% for site in 1..maxPage %}<a href="game?page=banList&amp;side={{ site }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% endif %}{% if page != maxPage %}&nbsp;<a href="game?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}</td>
+		<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="{{ path('game_ban_list_show', {side: page - 1}) }}">&laquo;</a>&nbsp;{% endif %}{% if (maxPage) >= (1) %}{% for site in 1..maxPage %}<a href="{{ path('game_ban_list_show', {side: site}) }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% endif %}{% if page != maxPage %}&nbsp;<a href="{{ path('game_ban_list_show', {side: page + 1}) }}">&raquo;</a>{% endif %}</td>
 	</tr>
 	<tr>
 		<td colspan="5">{{ LNG.bn_exists }}{{ pretty_number(banCount) }}{{ LNG.bn_players_banned }}</td>

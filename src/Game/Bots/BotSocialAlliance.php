@@ -2,11 +2,11 @@
 
 namespace App\Game\Bots;
 
+use App\Game\Enum\MessageType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
 use App\Game\Core\Singleton;
-use Throwable;
 
 /**
  * Alliance part of the bot social behaviour: applies to alliances, founds one, accepts or declines applications to the
@@ -232,12 +232,12 @@ class BotSocialAlliance
             [':ally' => $alliance['id']],
         );
         foreach ($receivers as $receiver) {
-            $l = $this->playerUtil()->getLanguage($receiver['lang']);
-            $this->playerUtil()->sendMessage(
+            $l = $this->playerLookup()->getLanguage($receiver['lang']);
+            $this->playerMessenger()->sendMessage(
                 (int) $receiver['id'],
                 0,
                 $l['al_alliance'],
-                MESSAGE_TYPE_ALLIANCE,
+                MessageType::Alliance->value,
                 $l['al_request'],
                 $l->formatHtml('al_new_apply', $bot, $ctx['me']['username'], $ctx['me']['username']),
                 time(),
@@ -253,6 +253,8 @@ class BotSocialAlliance
      * least 2 planets (planet type 1, not destroyed) and a rank within the best 30 % of the universe by points. Tries up
      * to ten random name/tag combinations from ALLY_WORDS that pass name validation and are free in the universe,
      * then creates the alliance (bot as owner, 1 member) and assigns it in the users and statpoints tables.
+     *
+     * @param array<mixed> $ctx
      */
     private function maybeFound(array $ctx, float $points): void
     {
@@ -279,7 +281,7 @@ class BotSocialAlliance
             $name = $word . (mt_rand(0, 2) === 0 ? ' ' . BotSocialMessaging::pick(self::ALLY_WORDS) : '');
             $tag = strtoupper(substr(preg_replace('/[^A-Za-z]/', '', $word), 0, mt_rand(3, 5)));
             $name = preg_replace('/[^a-zA-Z0-9 (-)_äöüßÄÖÜ]/', '', $name);
-            if ($tag === '' || $name === '' || !$this->playerUtil()->isNameValid($name) || !$this->playerUtil()->isNameValid($tag)) {
+            if ($tag === '' || $name === '' || !$this->playerRegistration()->isNameValid($name) || !$this->playerRegistration()->isNameValid($tag)) {
                 continue;
             }
             $exists = (int) $db->selectSingle(
@@ -291,7 +293,7 @@ class BotSocialAlliance
                 continue;
             }
 
-            $lang = $this->playerUtil()->getLanguage(null, $bot);
+            $lang = $this->playerLookup()->getLanguage(null, $bot);
             $db->insert(
                 'INSERT INTO %%ALLIANCE%% SET ally_name = :name, ally_tag = :tag, ally_owner = :bot, ally_owner_range = :range,
                  ally_members = 1, ally_register_time = :time, ally_universe = :uni;',
@@ -332,7 +334,7 @@ class BotSocialAlliance
         $accept = $roll <= 70;
         $userId = (int) $apply['userID'];
         $applyId = (int) $apply['applyID'];
-        $l = $this->playerUtil()->getLanguage(null, $userId);
+        $l = $this->playerLookup()->getLanguage(null, $userId);
         $welcome = $accept ? BotPersona::escapeForStorage(BotSocialMessaging::pick(self::WELCOME[$l->getLanguage() ?? 'en'] ?? self::WELCOME['en']), false) : '';
 
         if ($accept) {
@@ -367,11 +369,11 @@ class BotSocialAlliance
             $text = $l['al_hi_the_alliance'] . $alliance['ally_name'] . $l['al_has_declined'];
             $subject = $l['al_you_was_declined'] . $alliance['ally_name'];
         }
-        $this->playerUtil()->sendMessage(
+        $this->playerMessenger()->sendMessage(
             $userId,
             $bot,
             $l['al_the_alliance'] . $alliance['ally_name'] . ' [' . $alliance['ally_tag'] . ']',
-            MESSAGE_TYPE_ALLIANCE,
+            MessageType::Alliance->value,
             $subject,
             $text,
             time(),

@@ -7,7 +7,7 @@ namespace App\Tests\Support;
 use App\Game\Core\AccountUtil;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
-use App\Game\Core\PlayerUtil;
+use App\Game\Core\Player\PlayerRegistration;
 use App\Game\Core\Singleton;
 use App\Game\Model\ElementCatalog;
 use App\Kernel;
@@ -161,7 +161,7 @@ abstract class GameTestCase extends TestCase
     {
         $container = self::container();
         $accounts = new AccountUtil($this->db, $this->configs, $this->state);
-        $players = new PlayerUtil($this->db, $this->configs, $this->state);
+        $players = new PlayerRegistration($this->db, $this->configs, $this->state);
 
         $n = ++self::$positionCounter;
         $name = 'tester' . $n;

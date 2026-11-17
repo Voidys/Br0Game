@@ -2,6 +2,7 @@
 
 namespace App\Game\Bots;
 
+use App\Game\Enum\Mission;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -56,7 +57,7 @@ class BotExpeditions
             return null;
         }
         $hours = (int) $ctx->user[$e->column(124)] >= 2 && mt_rand(1, 100) <= 30 ? 2 : 1;
-        $id = $ctx->dispatch($planet, $fleet, MISSION_EXPEDITION, (int) $planet['galaxy'], (int) $planet['system'], (int) $ctx->config->max_planets + 1, $hours);
+        $id = $ctx->dispatch($planet, $fleet, Mission::Expedition->value, (int) $planet['galaxy'], (int) $planet['system'], (int) $ctx->config->max_planets + 1, $hours);
         if ($id === null) {
             return null;
         }
@@ -135,6 +136,7 @@ class BotExpeditions
      * (half the ships). A fleet that is back (status return) is compared with what it started with, then forgotten.
      *
      * @param array<string, mixed> $personality changed in place
+     * @param array<string, mixed> $bot
      */
     public function settle(array $bot, array &$personality, int $now): void
     {

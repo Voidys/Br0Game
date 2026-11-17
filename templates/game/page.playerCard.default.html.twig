@@ -12,11 +12,11 @@
 	</tr>
 	<tr>
 		<td colspan="2">{{ LNG.pl_homeplanet }}</td>
-		<td colspan="3">{{ homeplanet }} <a href="game?page=galaxy&amp;galaxy={{ galaxy }}&amp;system={{ system }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a></td>
+		<td colspan="3">{{ homeplanet }} <a href="{{ path('game_galaxy_show', {galaxy: galaxy, system: system}) }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a></td>
 	</tr>
 	<tr>
 		<td colspan="2">{{ LNG.pl_ally }}</td>
-		<td colspan="3">{% if allyname %}<a href="game?page=alliance&amp;mode=info&amp;id={{ allyid }}">{{ allyname }}</a>{% else %}-{% endif %}</td>
+		<td colspan="3">{% if allyname %}<a href="{{ path('game_alliance_info', {id: allyid}) }}">{{ allyname }}</a>{% else %}-{% endif %}</td>
 	</tr>
 	<tr>
 		<th colspan="2">&nbsp;</th>
@@ -125,7 +125,7 @@
 			<td class="num">100%</td>
 			<td></td>
 		</tr>
-		{% if isModuleAvailable(php_const('MODULE_HONORPOINTS')) %}
+		{% if isModuleAvailable(constant('MODULE_HONORPOINTS')) %}
 			<tr>
 				<th colspan="5">{{ LNG.honorpoints }}:</th>
 			</tr>
@@ -359,11 +359,11 @@
 		<td colspan="3"><a href="#" data-action="dialog-pm" data-id="{{ id }}" title="{{ LNG.pl_message }}">{{ LNG.pl_message }}</a></td>
 	</tr>
 	{% if targetRights == 0 %}
-		<form action="game?page=playerCard&id={{ id }}" method="post">
+		<form action="{{ path('game_player_card_toggle_block', {id: id}) }}" method="post">
 			<tr>
 				<td></td>
-				<td colspan="1"><label for="blockTrade">{{ LNG.blockTrade }}</label> <input data-action="player-block" data-id="{{ id }}" name="blockTrade" id="blockTrade" type="checkbox" value="1" {% if blockTrade == 1 %}checked="checked" {% endif %}></td>
-				<td colspan="3"><label for="blockDm">{{ LNG.blockDm }}</label> <input data-action="player-block" data-id="{{ id }}" name="blockDm" id="blockDm" type="checkbox" value="1" {% if blockDm == 1 %}checked="checked" {% endif %}></td>
+				<td colspan="1"><label for="blockTrade">{{ LNG.blockTrade }}</label> <input data-action="player-block" data-id="{{ id }}" data-url="{{ path('game_player_card_toggle_block') }}" name="blockTrade" id="blockTrade" type="checkbox" value="1" {% if blockTrade == 1 %}checked="checked" {% endif %}></td>
+				<td colspan="3"><label for="blockDm">{{ LNG.blockDm }}</label> <input data-action="player-block" data-id="{{ id }}" data-url="{{ path('game_player_card_toggle_block') }}" name="blockDm" id="blockDm" type="checkbox" value="1" {% if blockDm == 1 %}checked="checked" {% endif %}></td>
 			</tr>
 		</form>
 	{% endif %}

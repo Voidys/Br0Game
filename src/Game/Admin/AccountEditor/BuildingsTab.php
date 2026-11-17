@@ -15,13 +15,13 @@ class BuildingsTab extends AccountEditorTab
         $e = $this->elements();
         $db = $this->db;
         if ($this->state->requestPost) {
-            $id = $this->http()->_GP('id', 0);
+            $id = $this->input()->int('id');
             $sql = "SELECT * FROM %%PLANETS%% WHERE `id` = :planetID;";
             $PlanetData = $db->selectSingle($sql, [
                 ':planetID' => $id,
             ]);
             if (!isset($PlanetData)) {
-                $this->responder->message($LNG['ad_add_not_exist'], '?page=accountEditor&edit=buildings');
+                $this->responder->message($LNG['ad_add_not_exist'], 'admin/accounts/edit/buildings');
             }
             $beforeBuildings = [];
             $afterBuildings = [];
@@ -32,7 +32,7 @@ class BuildingsTab extends AccountEditorTab
                 $QryUpdate = [];
                 $fields = 0;
                 foreach ($e->allowedOn($PlanetData['planet_type']) as $ID) {
-                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
+                    $count = max(0, round($this->input()->float($e->column($ID))));
                     if ($count > 0) {
                         $QryUpdate[$e->column($ID)] = $count;
                         $afterBuildings[$ID] = $beforeBuildings[$ID] + $count;
@@ -46,7 +46,7 @@ class BuildingsTab extends AccountEditorTab
                 $QryUpdate = [];
                 $fields = 0;
                 foreach ($e->allowedOn($PlanetData['planet_type']) as $ID) {
-                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
+                    $count = max(0, round($this->input()->float($e->column($ID))));
                     if ($count > 0) {
                         $QryUpdate[$e->column($ID)] = -$count;
                         $afterBuildings[$ID] = max($beforeBuildings[$ID] - $count, 0);
@@ -68,9 +68,9 @@ class BuildingsTab extends AccountEditorTab
             }
 
             if (isset($this->state->requestPost['add'])) {
-                $this->responder->message($LNG['ad_add_build_success'], '?page=accountEditor&edit=buildings');
+                $this->responder->message($LNG['ad_add_build_success'], 'admin/accounts/edit/buildings');
             } elseif (isset($this->state->requestPost['delete'])) {
-                $this->responder->message($LNG['ad_delete_build_success'], '?page=accountEditor&edit=buildings');
+                $this->responder->message($LNG['ad_delete_build_success'], 'admin/accounts/edit/buildings');
             }
         }
 

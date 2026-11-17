@@ -12,7 +12,7 @@
 	</tr>
 	<tr>
 		<td colspan="2">{{ LNG.pl_homeplanet }}</td>
-		<td colspan="3">{{ homeplanet }} <a href="game?page=galaxy&amp;galaxy={{ galaxy }}&amp;system={{ system }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a></td>
+		<td colspan="3">{{ homeplanet }} <a href="{{ path('game_galaxy_show', {galaxy: galaxy, system: system}) }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a></td>
 	</tr>
 	<tr>
 		<td colspan="2">{{ LNG.al_request_register_time }}</td>
@@ -262,7 +262,7 @@
 			<td colspan="2"></td>
 		</tr>
 	{% endif %}
-	{% if not empty(applyDetail.text) %}
+	{% if applyDetail.text is not empty %}
 	<tr>
 		<th colspan="5">{{ LNG.al_message }}</th>
 	</tr>
@@ -272,7 +272,7 @@
 	{% endif %}
 	</table>
 <br>
-<form action="game?page=alliance&amp;mode=admin&amp;action=sendAnswerToApply&amp;id={{ applyDetail.applyID }}" method="post">
+<form action="{{ path('game_alliance_admin_answer_apply', {id: applyDetail.applyID}) }}" method="post">
 <table class="form-table">
 	<tr>
 		<th colspan="2"><label for="message">{{ LNG.al_reply_to_request }}</label></th>

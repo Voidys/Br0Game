@@ -266,7 +266,7 @@ al_diplo_accept_yes_confirm: Bu anlaşmayı kabul etmek istiyor musun?
 al_diplo_accept_yes_mes: (%s) anlaşması <b>%s</b> ve <b>%s</b> ittifakları arasında imzalandı!
 al_diplo_ally: İttifak
 al_diplo_ask: Anlaşma isteği
-al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Anlaşma isteği]</a> (%s), <b>%s</b> ittifakından <b>%s</b> ittifakına gönderildi.<br>Gerekçe: %s'
+al_diplo_ask_mes: '<a href="game/alliance/admin/diplomacy">[Anlaşma isteği]</a> (%s), <b>%s</b> ittifakından <b>%s</b> ittifakına gönderildi.<br>Gerekçe: %s'
 al_diplo_confirm_delete: Bu anlaşmayı sonlandırmak istiyor musun?
 al_diplo_create: Anlaşma iste
 al_diplo_create_done: Anlaşma isteği gönderildi.
@@ -274,7 +274,7 @@ al_diplo_delete: Anlaşma sona erdi
 al_diplo_delete_mes: (%s) anlaşması <b>%s</b> ve <b>%s</b> ittifakları arasında sona erdi.
 al_diplo_exists: '%s ile zaten aktif ya da bekleyen bir anlaşman var.'
 al_diplo_head: Diplomasi yönetimi
-al_diplo_info: '<p>Bu sayfada ittifakının diplomatik anlaşmalarını yönetebilirsin.</p><p>Anlaşma türleri aşağıda listelenmiştir. Daha fazla bilgi: <a href="game?page=questions">SSS</a> veya <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+al_diplo_info: '<p>Bu sayfada ittifakının diplomatik anlaşmalarını yönetebilirsin.</p><p>Anlaşma türleri aşağıda listelenmiştir. Daha fazla bilgi: <a href="game/faq">SSS</a> veya <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
 al_diplo_level:
 - Ana
 - Kanat
@@ -293,7 +293,7 @@ al_diplo_text: İstek / gerekçe
 al_diplo_war: Savaş ilanı
 al_diplo_war_end: Barış ilanı
 al_diplo_war_end_mes: <b>%2$s</b> ve <b>%3$s</b> ittifakları arasındaki %1$s az önce sona erdi.
-al_diplo_war_mes: '<b>%1$s</b> ittifakı <b>%2$s</b> ittifakına %3$s ilan etti! <br>Gerekçe:<br>%4$s<br><br>Bilgi: Savaş <b>24 saat</b> sonra başlar; o andan itibaren Bash kuralı askıya alınır.<br>Daha fazla bilgi için <a href="./?page=rules" target="_blank">Kurallar</a> sayfasına bak.'
+al_diplo_war_mes: '<b>%1$s</b> ittifakı <b>%2$s</b> ittifakına %3$s ilan etti! <br>Gerekçe:<br>%4$s<br><br>Bilgi: Savaş <b>24 saat</b> sonra başlar; o andan itibaren Bash kuralı askıya alınır.<br>Daha fazla bilgi için <a href="./rules" target="_blank">Kurallar</a> sayfasına bak.'
 al_diplo_withdraw: Anlaşma isteği geri çekildi.
 al_diplo_withdraw_confirm: Bu anlaşma isteğini geri çekmek istiyor musun?
 al_diplo_withdraw_mes: (%s) anlaşma isteği <b>%s</b> ve <b>%s</b> ittifakları arasında geri çekildi.
@@ -343,7 +343,7 @@ al_name: İttifak adını değiştir
 al_name_required: Lütfen bir ittifak adı gir.
 al_link_too_long: Bağlantı çok uzun (en fazla 255 karakter).
 al_name_tag_too_long: Etiket en fazla 8, ad en fazla 30 karakter olabilir.
-al_new_apply: İttifakına <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> adlı oyuncudan <a href="?page=alliance&mode=admin&action=manageApply">[bir başvuru]</a> geldi.
+al_new_apply: İttifakına <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> adlı oyuncudan <a href="game/alliance/admin/applications">[bir başvuru]</a> geldi.
 al_new_member_rank_text: Yeni üye
 al_new_requests: '%d bekliyor'
 al_newname_specialchar: İttifak adları ve etiketleri yalnızca harf, rakam, boşluk, alt çizgi, tire ve nokta içerebilir.
@@ -1173,7 +1173,7 @@ ov_temp_unit: °C
 ov_temperature: Sıcaklık
 ov_ticketbot: Ticketbot
 ov_to: ila
-ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_userrank_info: '%s (%s <a href="game/statistics?range=%d">%d</a> %s %s)'
 ov_wrong_name: Yanlış ad!
 ov_wrong_pass: Yanlış şifre!
 own: Kendi
@@ -1340,7 +1340,7 @@ sys_forward: İleri
 sys_game_is_setup: <h1>Kayıt tamamlandı!</h1><br><p>Evrenini hazırlıyoruz!</p><!--discord_url--><p>Bu arada hiçbir şeyi kaçırmamak için bize katıl:</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Bu modül etkin değil
 sys_nomore_level: Yıkılacak %s yok.
-sys_notenough_money: '%s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> üzerinde %s inşa etmek için yeterli kaynak yok. <br>Sende var: %s %s, %s %s ve %s %s. <br>Maliyet: %s %s, %s %s ve %s %s.'
+sys_notenough_money: '%s <a href="./game/buildings?cp=%d&amp;re=0">[%d:%d:%d]</a> üzerinde %s inşa etmek için yeterli kaynak yok. <br>Sende var: %s %s, %s %s ve %s %s. <br>Maliyet: %s %s, %s %s ve %s %s.'
 sys_refferal_from: Sistem
 sys_refferal_text: Seni davetiyle gelen %s adlı oyuncu %s puana ulaştı.
 sys_refferal_title: Oyuncu bonusu %s

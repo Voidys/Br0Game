@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -11,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
  * links in the menu; the actions themselves stay their own pages (clearCache, statUpdate) and lead
  * back here.
  */
-#[\App\Routing\GamePage('admin', 'maintenance')]
 class MaintenanceController extends AbstractAdminController
 {
     /**
@@ -28,13 +28,13 @@ class MaintenanceController extends AbstractAdminController
     /**
      * Renders the maintenance page (cache clearing, statistics recalculation).
      */
+    #[GameRoute('admin', 'admin/maintenance', 'maintenance')]
     public function show(): Response
     {
-        $this->assign([
+        return $this->render('admin/MaintenancePage.html.twig', [
             'canClearCache' => $this->viewHelpers()->allowedTo('ShowClearCachePage'),
             'canUpdateStats' => $this->viewHelpers()->allowedTo('ShowStatUpdatePage'),
             'gameLog' => ClearLogController::logInfo(),
         ]);
-        return $this->render('admin/MaintenancePage.html.twig');
     }
 }

@@ -9,6 +9,7 @@ use App\Game\Admin\AccountEditor\PersonalTab;
 use App\Game\Admin\ClosureAdminResponder;
 use App\Tests\Support\GameTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Enum\AuthLevel;
 
 /**
  * Saves of the admin account editor tabs that were broken (alliance deletion, removing a member, personal data without
@@ -41,7 +42,7 @@ final class AccountEditorTabsTest extends GameTestCase
     /** @return array{0: int, 1: array<string, mixed>, 2: array<string, mixed>} alliance id, admin, member */
     private function allianceWithMember(): array
     {
-        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$admin] = $this->createPlayer(['authlevel' => AuthLevel::Admin->value]);
         [$member] = $this->createPlayer();
         $this->state->USER = $admin;
         $this->db->insert("INSERT INTO %%ALLIANCE%% (ally_name, ally_tag, ally_owner, ally_register_time, ally_universe, ally_events, ally_members) VALUES ('EdFix', 'EDF', :o, :t, 1, '', 1);", [':o' => $member['id'], ':t' => time()]);

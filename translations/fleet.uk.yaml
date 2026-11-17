@@ -176,7 +176,7 @@ sys_mess_spy_control: Центральна розвідка
 sys_mess_spy_destroyed: Твої шпигунські зонди знищено!
 sys_mess_spy_ennemyfleet_1: Ворожі шпигунські зонди з планети %s помічено біля %s.
 sys_mess_spy_ennemyfleet_3: Ворожі шпигунські зонди з Місяця %s помічено біля %s.
-sys_mess_spy_link: <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_link: <a href="game/galaxy/%3$s/%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
 sys_mess_spy_lostproba: 'Шанс, що шпигунські зонди помітять: %d%%'
 sys_mess_spy_qg: Шпигунський відділ
 sys_mess_spy_repair_order: Зараз у ремонтному доку відновлюють кораблі.
@@ -204,7 +204,7 @@ sys_spy_fleet: Флот
 sys_stat_mess: Твій флот із %s %s прибув на %s %s %s і доставив %s %s, %s %s і %s %s. %s
 sys_stat_mess_stay: Розміщений флот
 sys_stealed_ressources: Вони грабують
-sys_trade_mess_arr_success: 'Твій торговий флот готовий повернутися на %1$s %2$s (зворотний політ: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
+sys_trade_mess_arr_success: 'Твій торговий флот готовий повернутися на %1$s %2$s (зворотний політ: %5$s). <form action="game/fleet/recall" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
 sys_trade_mess_back: Твій торговий флот повернувся на %s %s ні з чим.
 sys_trade_mess_back_success: Твій торговий флот успішно повернувся на %4$s %5$s з %1$s металу, %2$s кристалу й %3$s дейтерію.
 sys_tran_mess_back: Твій флот повернувся на %s %s.

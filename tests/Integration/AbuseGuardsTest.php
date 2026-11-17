@@ -57,12 +57,16 @@ final class AbuseGuardsTest extends GameTestCase
             self::container()->get(\App\Runtime\CanonicalUrl::class),
         );
         $controller->setFleetCaps(self::container()->get(\App\Security\FleetDailyCaps::class));
+        $controller->setRouter(self::container()->get('router'));
         if ($class === \App\Controller\Game\TicketController::class) {
             $controller->initialize();
         }
         ob_start();
         try {
-            $controller->$method();
+            $response = $controller->$method();
+            if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
+                return ob_get_clean() . $response->getContent();
+            }
             ob_end_clean();
             $this->fail('the page should end the request');
         } catch (EndOfRequest $end) {
@@ -204,19 +208,35 @@ final class AbuseGuardsTest extends GameTestCase
         $this->assertStringContainsString(htmlspecialchars($this->lng->format('ti_error_too_many_open', 5), ENT_QUOTES), $out);
     }
 
-    public function testEmptyAllianceAdminActionShowsTheOverview(): void
+    public function testCorrectAdminPasswordClearsTheElevationAttempts(): void
+    {
+        $limits = self::container()->get(\App\Security\AuthRateLimits::class);
+        $ip = '203.0.113.' . random_int(1, 250);
+        $account = random_int(900000, 990000);
+        for ($i = 0; $i < 5; $i++) {
+            $this->assertTrue($limits->allowAdminElevation($ip, $account), "attempt $i");
+        }
+        $this->assertFalse($limits->allowAdminElevation($ip, $account));
+        // a successful elevation ends the series: repeated logins do not trip the limit
+        $limits->clearAdminElevation($ip, $account);
+        $this->assertTrue($limits->allowAdminElevation($ip, $account));
+    }
+
+    public function testAllianceAdminWithoutAllianceRedirectsHome(): void
     {
         [$user, $planet] = $this->createPlayer();
         $this->state->USER = $user + ['messages' => 0, 'signalColors' => '', 'colors' => ''];
         $this->state->PLANET = $planet;
-        $this->state->requestInput = $this->state->requestQuery = ['action' => ''];
+        $this->state->requestInput = $this->state->requestQuery = [];
         $controller = (new AllianceController())->withGameServices($this->db, $this->configs, $this->state);
         $controller->setSecurityServices(
             self::container()->get(\App\Security\AuthRateLimits::class),
             self::container()->get(\App\Runtime\CanonicalUrl::class),
         );
+        $controller->setRouter(self::container()->get('router'));
         // no alliance: the overview handler redirects home instead of recursing
-        $this->expectException(EndOfRequest::class);
-        $controller->admin();
+        $response = $controller->admin();
+        $this->assertTrue($response->isRedirect());
+        $this->assertStringEndsWith('/game/alliance', (string) $response->headers->get('Location'));
     }
 }
