@@ -1171,3 +1171,10 @@ Technical changes per migration step, newest last.
 ## 149. PER-CS everywhere
 
 - One code style for all PHP (`src`, `tests`, `config`, `install`, `bin`, `public`): `.php-cs-fixer.dist.php` with `@PER-CS` + short arrays; the separate legacy PSR-12 config is removed. 119 files reformatted (formatting only: tests, PHPStan, lint and the page crawl are unchanged).
+
+## 150. Unit data only through the element catalog
+
+- All reads of the former state arrays `resource`, `reslist`, `pricelist`, `requeriments`, `CombatCaps`, `ProdGrid` (about 810 accesses in about 90 files: game core, fleet, market, statistics, achievements, tutorials, cron, all controllers, admin, missions, bots, battle engines) go through `ElementCatalog`; statistics code uses per-universe catalogs (`fromVarsData`).
+- `GameData::load()` stores only `$state->elementCatalog` (built straight from the vars cache); the six arrays are no longer published. `elements()` fails clearly when game data is not loaded.
+- The catalog keeps the numeric type of the game data (`Model\Numeric`: ints stay ints, floats stay floats), so results are identical: both battle engines produce strictly identical results and Rust input JSON for three reference fleets before/after (only run times differ); 923 tests, the page crawl and the visual diff unchanged.
+- Tests read the unit data through `GameTestCase::elements()`; `ElementCatalogTest` compares against a reference loader of the raw vars cache. Fixed on the way: galaxy rows with ship ids missing from a universe (tolerant lookups), the account editor ship-delete log value.

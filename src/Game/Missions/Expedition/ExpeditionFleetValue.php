@@ -28,13 +28,12 @@ class ExpeditionFleetValue
      */
     public function pointsAndCapacity(array $fleet): array
     {
-        $pricelist = $this->state->pricelist;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $expeditionPoints = [];
 
-        foreach ($reslist['fleet'] as $shipId) {
-            $expeditionPoints[$shipId] = ($pricelist[$shipId]['cost'][RESOURCE_METAL]
-                    + $pricelist[$shipId]['cost'][RESOURCE_CRYSTAL]) * 5 / 1000;
+        foreach ($e->ids('fleet') as $shipId) {
+            $expeditionPoints[$shipId] = ($e->cost($shipId)->metal
+                    + $e->cost($shipId)->crystal) * 5 / 1000;
         }
 
         $fleetArray = $this->fleetFunctions()->unserialize($fleet['ships']);
@@ -42,7 +41,7 @@ class ExpeditionFleetValue
         $fleetCapacity = 0;
 
         foreach ($fleetArray as $shipId => $shipAmount) {
-            $fleetCapacity += $shipAmount * $pricelist[$shipId]['capacity'];
+            $fleetCapacity += $shipAmount * $e->capacity($shipId);
             $fleetPoints += $shipAmount * $expeditionPoints[$shipId];
         }
 

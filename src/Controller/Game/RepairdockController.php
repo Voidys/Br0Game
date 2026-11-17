@@ -52,8 +52,7 @@ class RepairdockController extends AbstractGameController
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $db = $this->db;
 
         $sql = "SELECT * FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID;";
@@ -90,7 +89,7 @@ class RepairdockController extends AbstractGameController
             $ships = $this->remainingWrecks($ships, $ElementQueue, $this->orderRate($wreckfield, $PLANET));
         }
 
-        $elementIDs = $reslist['fleet'];
+        $elementIDs = $e->ids('fleet');
         $elementList = [];
         foreach ($elementIDs as $elementID) {
             if (!isset($ships[$elementID])) {
@@ -98,11 +97,11 @@ class RepairdockController extends AbstractGameController
             }
 
             $elementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $elementID);
-            $maxBuildable = floor($ships[$elementID] * $this->getRepairRate($PLANET[$resource[REPAIR_DOCK]]));
+            $maxBuildable = floor($ships[$elementID] * $this->getRepairRate($PLANET[$e->column(REPAIR_DOCK)]));
 
             $elementList[$elementID] = [
                 'id' => $elementID,
-                'available' => $PLANET[$resource[$elementID]],
+                'available' => $PLANET[$e->column($elementID)],
                 'elementTime' => $elementTime,
                 'maxBuildable' => floatToString($maxBuildable),
                 'wrecks' => $ships[$elementID],
@@ -115,14 +114,14 @@ class RepairdockController extends AbstractGameController
         $this->addScript('repairdock.js');
 
         $this->assign([
-            'repdock_level' => $PLANET[$resource[REPAIR_DOCK]],
+            'repdock_level' => $PLANET[$e->column(REPAIR_DOCK)],
             'umode'         => $USER['urlaubs_modus'],
             'wftime'        => $wreckfield['created'] + TIME_72_HOURS - $this->state->runtime->timestamp,
             'busy'          => $busy,
             'elementList'   => $elementList,
             'List'          => $buildList,
             'SolarEnergy'   => $SolarEnergy,
-            'repairRate'    => $this->getRepairRate($PLANET[$resource[REPAIR_DOCK]]) * 100,
+            'repairRate'    => $this->getRepairRate($PLANET[$e->column(REPAIR_DOCK)]) * 100,
         ]);
 
         return $this->render('game/page.repairdock.default.html.twig');
@@ -138,7 +137,7 @@ class RepairdockController extends AbstractGameController
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
 
@@ -160,7 +159,7 @@ class RepairdockController extends AbstractGameController
 
         $repaired = [];
         foreach ($ElementQueue as $elementID => $amount) {
-            $repaired[$resource[$elementID]] = $amount;
+            $repaired[$e->column($elementID)] = $amount;
             $statsHandler->increment($USER['id'], AdvancedStatsEnum::getRepaired($elementID), $amount);
         }
         $ships = $this->remainingWrecks($queuedShips, $ElementQueue, $this->orderRate($locked, $PLANET));
@@ -195,7 +194,7 @@ class RepairdockController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         $ElementQueue = [];
 
@@ -216,7 +215,7 @@ class RepairdockController extends AbstractGameController
             if (!empty($ships[$element])) {
                 $amount = is_numeric($amount) ? round($amount) : 0;
                 if ($amount > 0) {
-                    $ElementQueue[$element] = max(0, min($amount, floor($ships[$element] * $this->getRepairRate($PLANET[$resource[REPAIR_DOCK]]))));
+                    $ElementQueue[$element] = max(0, min($amount, floor($ships[$element] * $this->getRepairRate($PLANET[$e->column(REPAIR_DOCK)]))));
                     $ElementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $element);
                     $QueueTime += $ElementTime * $ElementQueue[$element];
                 }
@@ -238,7 +237,7 @@ class RepairdockController extends AbstractGameController
             ':repair_order' => StoredData::encode(array_filter($ElementQueue)),
             ':start_time' => $this->state->runtime->timestamp,
             ':end_time' => $this->state->runtime->timestamp + $QueueTime,
-            ':rate' => $this->getRepairRate($PLANET[$resource[REPAIR_DOCK]]),
+            ':rate' => $this->getRepairRate($PLANET[$e->column(REPAIR_DOCK)]),
             ':planetID' => $PLANET['id'],
         ]);
 
@@ -261,7 +260,7 @@ class RepairdockController extends AbstractGameController
     {
         $stored = (float) ($wreckfield['repair_order_rate'] ?? 0);
 
-        return $stored > 0 ? $stored : $this->getRepairRate($planet[$this->state->resource[REPAIR_DOCK]]);
+        return $stored > 0 ? $stored : $this->getRepairRate($planet[$this->elements()->column(REPAIR_DOCK)]);
     }
 
     /**

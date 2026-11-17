@@ -453,9 +453,9 @@ class PlanetPositions
      */
     private function getAstroTech(array $USER): int
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
-        $astroTech = $USER[$resource[124]];
+        $astroTech = $USER[$elements->column(124)];
 
         $CurrentQueue = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
         if (!empty($CurrentQueue) && count($CurrentQueue) > 0) {
@@ -478,7 +478,7 @@ class PlanetPositions
      */
     public function maxPlanetCount(array $USER): int
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $config = $this->configs->get($USER['universe']);
 
         $planetPerTech = $config->max_additional_planets;

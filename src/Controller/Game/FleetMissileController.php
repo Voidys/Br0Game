@@ -136,8 +136,7 @@ class FleetMissileController extends AbstractGameController
     {
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         $error = "";
 
@@ -151,9 +150,9 @@ class FleetMissileController extends AbstractGameController
             $error = $LNG['ma_not_send_other_galaxy'];
         } elseif (empty($target)) {
             $error = $LNG['ma_planet_doesnt_exists'];
-        } elseif (!$this->fleetFunctions()->inMissileRange($PLANET, $target, $this->state->USER[$resource[117]])) {
+        } elseif (!$this->fleetFunctions()->inMissileRange($PLANET, $target, $this->state->USER[$e->column(117)])) {
             $error = $LNG['ma_no_range'];
-        } elseif (!in_array($primaryTarget, $reslist['defense']) && $primaryTarget != 0) {
+        } elseif (!in_array($primaryTarget, $e->ids('defense')) && $primaryTarget != 0) {
             $error = $LNG['ma_wrong_target'];
         } elseif ($missileCount == 0) {
             $error = $LNG['ma_no_missiles'];

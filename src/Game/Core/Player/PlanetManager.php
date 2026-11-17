@@ -503,23 +503,22 @@ class PlanetManager
      */
     public function clearPlanets(array $USER): void
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         $db = $this->db;
 
         // fixed assignments plus the resource, fleet and defense columns from the game's resource table
         $expressions = ['b_hangar' => '0', 'b_hangar_id' => "''"];
-        $expressions[$resource[RESOURCE_METAL]] = '0';
-        $expressions[$resource[RESOURCE_CRYSTAL]] = '0';
-        $expressions[$resource[RESOURCE_DEUT]] = '0';
+        $expressions[$elements->column(RESOURCE_METAL)] = '0';
+        $expressions[$elements->column(RESOURCE_CRYSTAL)] = '0';
+        $expressions[$elements->column(RESOURCE_DEUT)] = '0';
 
-        foreach ($reslist['fleet'] as $element) {
-            $expressions[$resource[$element]] = '0';
+        foreach ($elements->ids('fleet') as $element) {
+            $expressions[$elements->column($element)] = '0';
         }
 
-        foreach ($reslist['defense'] as $element) {
-            $expressions[$resource[$element]] = '0';
+        foreach ($elements->ids('defense') as $element) {
+            $expressions[$elements->column($element)] = '0';
         }
 
         $db->updateRows('PLANETS', [], ['id_owner' => $USER['id']], $expressions);

@@ -344,9 +344,7 @@ class AdvancedStatsHandler
     public function updateDestroyedAdvancedStats(int $attacker, int $defender, int $Element, int $amount = 1, bool $tf = true)
     {
         if ($attacker > 0) {
-            $pricelist = $this->state->pricelist;
-
-            $units = ($pricelist[$Element]['cost'][901] + $pricelist[$Element]['cost'][902]) * $amount;
+            $units = ($this->elements()->find($Element)?->cost->metalCrystal() ?? 0.0) * $amount;
 
             $this->increment($attacker, AdvancedStatsEnum::getDestroyed($Element), $amount);
             $this->increment($attacker, AdvancedStatsEnum::DESUNITS_REAL, $units);
@@ -373,13 +371,12 @@ class AdvancedStatsHandler
             return;
         }
 
-        $reslist = $this->state->reslist;
-        $pricelist = $this->state->pricelist;
+        $elements = $this->elements();
         $config = $this->configs->get();
 
-        $debrisFactor = in_array($Element, $reslist['fleet']) ? $config->fleet_debris_percentage : $config->def_debris_percentage;
-        $unitsMetal = $pricelist[$Element]['cost'][901] * $amount;
-        $unitsCrystal = $pricelist[$Element]['cost'][902] * $amount;
+        $debrisFactor = in_array($Element, $elements->ids('fleet')) ? $config->fleet_debris_percentage : $config->def_debris_percentage;
+        $unitsMetal = ($elements->find((int) $Element)?->cost->metal ?? 0.0) * $amount;
+        $unitsCrystal = ($elements->find((int) $Element)?->cost->crystal ?? 0.0) * $amount;
         $debrisMetal = $unitsMetal * $debrisFactor / 100;
         $debrisCrystal =  $unitsCrystal * $debrisFactor / 100;
 
@@ -398,11 +395,11 @@ class AdvancedStatsHandler
             return;
         }
 
-        $pricelist = $this->state->pricelist;
+        $elements = $this->elements();
 
         foreach ($fleetArray as $Element => $Count) {
             $this->increment($user, AdvancedStatsEnum::getLost($Element), $Count);
-            $this->increment($user, AdvancedStatsEnum::LOSTUNITS_REAL, ($pricelist[$Element]['cost'][901] + $pricelist[$Element]['cost'][902]) * $Count);
+            $this->increment($user, AdvancedStatsEnum::LOSTUNITS_REAL, ($elements->find((int) $Element)?->cost->metalCrystal() ?? 0.0) * $Count);
         }
     }
 

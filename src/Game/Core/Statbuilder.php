@@ -46,9 +46,8 @@ class Statbuilder
     private array $memory;
     private int $time;
     private array $universes;
-    private array $resources;
-    private array $reslists;
-    private array $pricelists;
+    /** @var array<int, \App\Game\Model\ElementCatalog> universe => game data of that universe */
+    private array $catalogs = [];
     private StatScores $scores;
     private StatPointsWriter $writer;
 
@@ -69,16 +68,9 @@ class Statbuilder
         $cache  = new Cache($this->db, $this->state);
         $vars = $cache->getData('vars');
         foreach ($this->universes as $uni) {
-            $result = $vars[0];
-            if (isset($vars[$uni])) {
-                $result = array_replace_recursive($result, $vars[$uni]);
-            }
-
-            $this->resources[$uni] = $result['resource'];
-            $this->reslists[$uni] = $result['reslist'];
-            $this->pricelists[$uni] = $result['pricelist'];
+            $this->catalogs[$uni] = \App\Game\Model\ElementCatalog::fromVarsData($vars, $uni);
         }
-        $this->scores = new StatScores($this->configs, $this->resources, $this->reslists, $this->pricelists);
+        $this->scores = new StatScores($this->configs, $this->catalogs);
         $this->writer = new StatPointsWriter($this->db);
     }
 
@@ -92,7 +84,7 @@ class Statbuilder
     final public function generateStats(): array
     {
         $allianceScores = [];
-        $userStats = (new StatDataLoader($this->db, $this->universes, $this->resources, $this->reslists))->load();
+        $userStats = (new StatDataLoader($this->db, $this->universes, $this->catalogs))->load();
         $userScores = $this->setUserScoresByPlanets($userStats);
         $universeData = [];
 
@@ -115,10 +107,13 @@ class Statbuilder
                 continue;
             }
 
-            $resource = $this->resources[$userData['universe']];
+            $elements = $this->catalogs[$userData['universe']];
             if (isset($userStats['Fleets'][$userData['id']])) {
                 foreach ($userStats['Fleets'][$userData['id']] as $ID => $Amount) {
-                    $userData[$resource[$ID]] += $Amount;
+                    $column = $elements->find((int) $ID)?->column;
+                    if ($column !== null) {
+                        $userData[$column] += $Amount;
+                    }
                 }
             }
 
@@ -316,7 +311,7 @@ class Statbuilder
     /** Rebuilds the records table (see StatRecords::buildRecords()). */
     public function buildRecords(): void
     {
-        (new StatRecords($this->db, $this->configs, $this->universes, $this->resources, $this->reslists))->buildRecords();
+        (new StatRecords($this->db, $this->configs, $this->universes, $this->catalogs))->buildRecords();
     }
 
     /** Archives the statistics into the history tables (see StatArchive::archive()). */

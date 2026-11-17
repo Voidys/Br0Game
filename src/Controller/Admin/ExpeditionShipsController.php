@@ -36,7 +36,6 @@ class ExpeditionShipsController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
 
         $universe = $this->http()->_GP('uniID', $this->universe()->getEmulated());
         $action = $this->http()->_GP('action', 'show');
@@ -62,7 +61,7 @@ class ExpeditionShipsController extends AbstractAdminController
 
             $finderIds = array_fill_keys($config['findable_by'], true);
             $config['finders'] = [];
-            foreach ($reslist['fleet'] as $finderShip) {
+            foreach ($this->elements()->ids('fleet') as $finderShip) {
                 $config['finders'][] = [
                     'id' => $finderShip,
                     'label' => $LNG['tech'][$finderShip] ?? $finderShip,

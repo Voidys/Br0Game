@@ -49,7 +49,7 @@ class BotLogistics
      */
     public function consolidate(BotActions $ctx, array $goal): ?string
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $target = $ctx->planets[$goal['planet']] ?? null;
         if (!in_array($goal['type'] ?? 'build', ['build', 'research'], true) || $target === null || count($ctx->planets) < 2 || $ctx->freeFleetSlots() < 1) {
             return null;
@@ -64,7 +64,7 @@ class BotLogistics
                 continue;
             }
             $load = $this->surplus($planet, $missing);
-            $ships = (int) $planet[$resource[SHIP_LARGE_CARGO]] + (int) $planet[$resource[SHIP_SMALL_CARGO]];
+            $ships = (int) $planet[$e->column(SHIP_LARGE_CARGO)] + (int) $planet[$e->column(SHIP_SMALL_CARGO)];
             if ($ships > 0 && array_sum($load) >= 400 && ($best === null || array_sum($load) > array_sum($best[1]))) {
                 $best = [$id, $load];
             }
@@ -98,7 +98,7 @@ class BotLogistics
      */
     private function missing(BotActions $ctx, array $target, array $cost): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $incoming = [RESOURCE_METAL => 0.0, RESOURCE_CRYSTAL => 0.0, RESOURCE_DEUT => 0.0];
         $rows = $this->db->select(
             'SELECT resource_metal, resource_crystal, resource_deuterium FROM %%FLEETS%% WHERE owner = :u AND end_id = :p AND mission = :m AND status = :s;',
@@ -111,7 +111,7 @@ class BotLogistics
         }
         $out = [];
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $id) {
-            $out[$id] = max(0.0, (float) ($cost[$id] ?? 0) - floor((float) $target[$resource[$id]]) - $incoming[$id]);
+            $out[$id] = max(0.0, (float) ($cost[$id] ?? 0) - floor((float) $target[$e->column($id)]) - $incoming[$id]);
         }
 
         return $out;
@@ -126,11 +126,11 @@ class BotLogistics
      */
     private function surplus(array $planet, array $missing): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $out = [];
         foreach ($missing as $id => $want) {
-            $reserve = 0.15 * (float) ($planet[$resource[$id] . '_max'] ?? 0);
-            $out[$id] = floor(max(0.0, min($want, (float) $planet[$resource[$id]] - $reserve)));
+            $reserve = 0.15 * (float) ($planet[$e->column($id) . '_max'] ?? 0);
+            $out[$id] = floor(max(0.0, min($want, (float) $planet[$e->column($id)] - $reserve)));
         }
 
         return $out;
@@ -144,14 +144,13 @@ class BotLogistics
      */
     private function cargoFleet(array $planet, int $amount): array
     {
-        $resource = $this->state->resource;
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $fleet = [];
         foreach ([SHIP_LARGE_CARGO, SHIP_SMALL_CARGO] as $id) {
-            $n = min((int) $planet[$resource[$id]], (int) ceil($amount * 1.05 / max(1, (int) $pricelist[$id]['capacity'])));
+            $n = min((int) $planet[$e->column($id)], (int) ceil($amount * 1.05 / max(1, (int) $e->capacity($id))));
             if ($n > 0) {
                 $fleet[$id] = $n;
-                $amount -= $n * (int) $pricelist[$id]['capacity'];
+                $amount -= $n * (int) $e->capacity($id);
             }
             if ($amount <= 0) {
                 break;
@@ -197,10 +196,10 @@ class BotLogistics
     /** Whether any planet has ships that could be saved. */
     private function hasFleet(BotActions $ctx): bool
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         foreach ($ctx->planets as $planet) {
-            foreach ($this->state->reslist['fleet'] as $id) {
-                if (!in_array($id, self::STAY, true) && (int) $planet[$resource[$id]] > 0) {
+            foreach ($this->elements()->ids('fleet') as $id) {
+                if (!in_array($id, self::STAY, true) && (int) $planet[$e->column($id)] > 0) {
                     return true;
                 }
             }
@@ -216,12 +215,12 @@ class BotLogistics
      */
     private function saveFrom(BotActions $ctx, int $from, int $offline, string $reason): bool
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $planet = &$ctx->planets[$from];
         $fleet = [];
-        foreach ($this->state->reslist['fleet'] as $id) {
-            if (!in_array($id, self::STAY, true) && (int) $planet[$resource[$id]] > 0) {
-                $fleet[$id] = (int) $planet[$resource[$id]];
+        foreach ($this->elements()->ids('fleet') as $id) {
+            if (!in_array($id, self::STAY, true) && (int) $planet[$e->column($id)] > 0) {
+                $fleet[$id] = (int) $planet[$e->column($id)];
             }
         }
         if ($fleet === []) {
@@ -281,14 +280,14 @@ class BotLogistics
      */
     private function affordable(BotActions $ctx, array $planet, array $fleet, array $target, int $offline): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         foreach ([1.0, 0.7, 0.5, 0.3, 0.15] as $share) {
             $part = $share === 1.0 ? $fleet : array_filter(array_map(static fn(int $n): int => (int) floor($n * $share), $fleet));
             if ($part === []) {
                 break;
             }
             [$speed, $flight] = $this->speedFor($ctx, $planet, $part, $target, $offline);
-            if ((float) $planet[$resource[RESOURCE_DEUT]] >= $flight['consumption']) {
+            if ((float) $planet[$e->column(RESOURCE_DEUT)] >= $flight['consumption']) {
                 return [$part, $speed, $flight];
             }
         }
@@ -325,10 +324,10 @@ class BotLogistics
      */
     private function cargoOf(array $planet, float $room, float $fuel): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $cargo = [];
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $id) {
-            $have = (float) $planet[$resource[$id]] * (1 - self::KEEP) - ($id === RESOURCE_DEUT ? $fuel : 0);
+            $have = (float) $planet[$e->column($id)] * (1 - self::KEEP) - ($id === RESOURCE_DEUT ? $fuel : 0);
             $take = floor(max(0.0, min($have, $room)));
             $cargo[$id] = $take;
             $room -= $take;
@@ -404,7 +403,7 @@ class BotLogistics
      */
     private function visibleFleet(BotActions $ctx, array $row): ?array
     {
-        $spy = (int) $ctx->user[$this->state->resource[SPY_TECH]];
+        $spy = (int) $ctx->user[$this->elements()->column(SPY_TECH)];
         if ($spy < 2) {
             return null;
         }

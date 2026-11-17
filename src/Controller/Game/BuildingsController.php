@@ -498,18 +498,16 @@ class BuildingsController extends AbstractGameController
      */
     private function energyChange(int $Element, int $levelToBuild, object $config): array
     {
-        $ProdGrid = $this->state->ProdGrid;
-
         /* Data for eval */
         $BuildEnergy        = $this->state->USER[$this->elements()->column(ENERGY_TECH)];
         $BuildLevelFactor   = 10;
         $BuildTemp          = $this->state->PLANET['temp_max'];
 
         $BuildLevel = $this->state->PLANET[$this->elements()->column($Element)];
-        $Need       = FormulaEvaluator::evaluate($ProdGrid[$Element]['production'][RESOURCE_ENERGY], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
+        $Need       = FormulaEvaluator::evaluate($this->elements()->productionFormula($Element, RESOURCE_ENERGY), compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
 
         $BuildLevel = $levelToBuild + 1;
-        $Prod       = FormulaEvaluator::evaluate($ProdGrid[$Element]['production'][RESOURCE_ENERGY], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
+        $Prod       = FormulaEvaluator::evaluate($this->elements()->productionFormula($Element, RESOURCE_ENERGY), compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
 
         $requireEnergy  = $Prod - $Need;
         $requireEnergy  = round($requireEnergy * $config->energy_multiplier);

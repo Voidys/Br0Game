@@ -14,10 +14,10 @@ final readonly class CombatStats
      * @param array<int, int> $rapidFire target element id => rapidfire value (`$CombatCaps[$id]['sd']`)
      */
     public function __construct(
-        public float $attack,
-        public float $shield,
-        public float $bigShield,
-        public float $stun,
+        public int|float $attack,
+        public int|float $shield,
+        public int|float $bigShield,
+        public int|float $stun,
         public array $rapidFire,
     ) {}
 
@@ -38,10 +38,10 @@ final readonly class CombatStats
         }
 
         return new self(
-            (float) ($caps['attack'] ?? 0),
-            (float) ($caps['shield'] ?? 0),
-            (float) ($caps['bigshield'] ?? 0),
-            (float) ($caps['stun'] ?? 0),
+            Numeric::of($caps['attack'] ?? 0),
+            Numeric::of($caps['shield'] ?? 0),
+            Numeric::of($caps['bigshield'] ?? 0),
+            Numeric::of($caps['stun'] ?? 0),
             $rapid,
         );
     }

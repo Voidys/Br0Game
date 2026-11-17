@@ -45,7 +45,7 @@ final class RepairdockTest extends GameTestCase
     /** @return array{0: array<string, mixed>, 1: array<string, mixed>} user, planet with a repair dock of the given level and wrecks of 3 cruisers (ship 206) */
     private function dockWithWrecks(int $level, array $wrecks = [206 => 3], string $order = '', int $orderEnd = 0, float $rate = 0): array
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$user, $planet] = $this->createPlayer([], [$resource[REPAIR_DOCK] => $level]);
         $this->wreckfields[] = (int) $planet['id'];
         $this->db->delete('DELETE FROM %%PLANET_WRECKFIELD%% WHERE planetID = :id;', [':id' => $planet['id']]);
@@ -102,7 +102,7 @@ final class RepairdockTest extends GameTestCase
 
     public function testDeployConsumesTheWrecksWithTheRateOfTheOrder(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         // order of 10 cruisers started at 25 % (40 wrecks consumed), dock meanwhile upgraded to level 9 (51 %)
         [$user, $planet] = $this->dockWithWrecks(9, [206 => 40], '{"206":10}', $this->state->runtime->timestamp - 10, 0.25);
 

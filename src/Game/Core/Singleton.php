@@ -4,7 +4,7 @@ namespace App\Game\Core;
 
 /**
  * The game state of a request or console run, a shared container service: a bag of named values ($state->USER,
- * PLANET, LNG, resource, reslist, pricelist, request data, session, ...) read and written as properties, plus the
+ * PLANET, LNG, elementCatalog, request data, session, ...) read and written as properties, plus the
  * read-only RuntimeContext ($state->runtime: time, mode, paths, URLs). Values are stored by reference so they can be written in place
  * (`$this->state->USER['key'] = ...`); no local reference aliases.
  *
@@ -14,13 +14,7 @@ namespace App\Game\Core;
  * @property array<string, mixed> $PLANET the current planet's row
  * @property \App\Game\Core\Language $LNG the active language
  * @property \App\Game\Core\Theme $THEME the player's theme
- * @property array<int, string> $resource element id => database column (former vars.php)
- * @property array<string, mixed> $reslist element id lists by group (build, tech, fleet, defense, ..., nested by type)
- * @property array<int, array<string, mixed>> $pricelist element id => cost, factor, consumption, speed, ...
- * @property array<int, array<string, mixed>> $CombatCaps element id => attack, shield, bigshield, stun, sd (rapidfire)
- * @property array<int, array<string, mixed>> $ProdGrid element id => production and storage formulas by resource id
- * @property array<int, array<int, mixed>> $requeriments element id => required element id => level
- * @property \App\Game\Model\ElementCatalog|null $elementCatalog typed view of the game data, built lazily (GameUtilities::elements())
+ * @property \App\Game\Model\ElementCatalog $elementCatalog typed game data (units, costs, production, ...), set by GameData::load()
  */
 class Singleton
 {

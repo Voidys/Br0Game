@@ -39,11 +39,11 @@ class BotExpeditions
      */
     public function send(BotActions $ctx, array &$personality, int $now): ?string
     {
-        $resource = $ctx->res();
+        $e = $this->elements();
         if (!$ctx->canSendExpedition()) {
             return null;
         }
-        $ids = array_keys(array_filter($ctx->planets, static fn(array $p): bool => (int) $p[$resource[SHIP_SMALL_CARGO]] + (int) $p[$resource[SHIP_LARGE_CARGO]] >= 1));
+        $ids = array_keys(array_filter($ctx->planets, static fn(array $p): bool => (int) $p[$e->column(SHIP_SMALL_CARGO)] + (int) $p[$e->column(SHIP_LARGE_CARGO)] >= 1));
         if ($ids === []) {
             return null;
         }
@@ -55,7 +55,7 @@ class BotExpeditions
         if ($fleet === []) {
             return null;
         }
-        $hours = (int) $ctx->user[$resource[124]] >= 2 && mt_rand(1, 100) <= 30 ? 2 : 1;
+        $hours = (int) $ctx->user[$e->column(124)] >= 2 && mt_rand(1, 100) <= 30 ? 2 : 1;
         $id = $ctx->dispatch($planet, $fleet, MISSION_EXPEDITION, (int) $planet['galaxy'], (int) $planet['system'], (int) $ctx->config->max_planets + 1, $hours);
         if ($id === null) {
             return null;
@@ -64,7 +64,7 @@ class BotExpeditions
         $personality['_expo']['fleets'] = array_slice($personality['_expo']['fleets'], -6, null, true);
         $parts = [];
         foreach ($fleet as $ship => $count) {
-            $parts[] = $count . ' ' . $resource[$ship];
+            $parts[] = $count . ' ' . $e->column($ship);
         }
 
         return implode(', ', $parts) . ' (' . round($this->points($fleet)) . ' points, cap ' . $this->cap() . ', ' . $hours . ' h) from ' . $ctx->planetLabel($planet) . ($caution < 1 ? ' [careful after losses]' : '');
@@ -85,13 +85,13 @@ class BotExpeditions
      */
     public function compose(array $planet, float $caution = 1.0): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $cap = $this->cap();
         $share = mt_rand(80, 100) / 100 * $caution;
         $fleet = [];
         $points = 0.0;
         foreach ([SHIP_LARGE_CARGO, SHIP_SMALL_CARGO] as $id) {
-            $have = (int) floor((int) $planet[$resource[$id]] * $share);
+            $have = (int) floor((int) $planet[$e->column($id)] * $share);
             $each = $this->points([$id => 1]);
             $n = $points >= $cap ? 0 : min($have, (int) ceil(($cap - $points) / max(0.001, $each)));
             if ($n > 0) {
@@ -104,7 +104,7 @@ class BotExpeditions
         }
         foreach ([SHIP_CRUISER, SHIP_HEAVY_FIGHTER, SHIP_LIGHT_FIGHTER] as $id) {
             $each = $this->points([$id => 1]);
-            $n = min((int) floor((int) $planet[$resource[$id]] * $share), (int) floor(0.1 * $points / max(0.001, $each)));
+            $n = min((int) floor((int) $planet[$e->column($id)] * $share), (int) floor(0.1 * $points / max(0.001, $each)));
             if ($n > 0) {
                 $fleet[$id] = $n;
                 break;
@@ -121,10 +121,10 @@ class BotExpeditions
      */
     public function points(array $fleet): float
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $sum = 0.0;
         foreach ($fleet as $id => $count) {
-            $sum += $count * ($pricelist[$id]['cost'][RESOURCE_METAL] + $pricelist[$id]['cost'][RESOURCE_CRYSTAL]) * 5 / 1000;
+            $sum += $count * ($e->cost($id)->metal + $e->cost($id)->crystal) * 5 / 1000;
         }
 
         return $sum;

@@ -51,7 +51,7 @@ final class MissionQueriesTest extends GameTestCase
 
     public function testRecyclersTakeTheWholeDebrisFieldWhenTheyHaveRoom(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer([], [$resource[209] => 5, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], ['der_metal' => 1000, 'der_crystal' => 500]);
         $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_RECYCLING, [209 => 1]);
@@ -72,11 +72,11 @@ final class MissionQueriesTest extends GameTestCase
 
     public function testRecyclersTakeAShareOfABigDebrisFieldAndLeaveTheRest(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer([], [$resource[209] => 5, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], ['der_metal' => 30000, 'der_crystal' => 10000]);
         $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_RECYCLING, [209 => 1]);
-        $capacity = $this->state->pricelist[209]['capacity'];
+        $capacity = $this->elements()->capacity(209);
 
         (new MissionCaseRecycling($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
 
@@ -96,7 +96,7 @@ final class MissionQueriesTest extends GameTestCase
 
     public function testRecyclingAVanishedPlanetSendsTheFleetHome(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer([], [$resource[209] => 5, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], ['der_metal' => 1000]);
         $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_RECYCLING, [209 => 1]);
@@ -109,7 +109,7 @@ final class MissionQueriesTest extends GameTestCase
 
     public function testMissilesAreInterceptedBeforeTheyHitTheDefense(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer(['impulse_motor_tech' => 5], [$resource[503] => 10, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], [$resource[502] => 20, $resource[401] => 50]);
         $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_MISSILE, [503 => 10], 401);
@@ -124,7 +124,7 @@ final class MissionQueriesTest extends GameTestCase
 
     public function testMissilesAtAVacationTargetAreSpentWithoutLeavingAZombieEvent(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer(['impulse_motor_tech' => 5], [$resource[503] => 10, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer(['urlaubs_modus' => 1], [$resource[401] => 50]);
         $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_MISSILE, [503 => 10], 401);
@@ -141,7 +141,7 @@ final class MissionQueriesTest extends GameTestCase
 
     public function testMissilesDestroyDefenseWhenSomeGetThrough(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer(['impulse_motor_tech' => 5, 'military_tech' => 10], [$resource[503] => 10, 'deuterium' => 1e6]);
         [$owner, $ownerPlanet] = $this->createPlayer([], [$resource[502] => 3, $resource[401] => 50]);
         $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_MISSILE, [503 => 10], 401);
@@ -177,7 +177,7 @@ final class MissionQueriesTest extends GameTestCase
 
     public function testFleetTableListsTheSameRowsAsThePlainSql(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$a, $aPlanet] = $this->createPlayer([], [$resource[202] => 50, $resource[209] => 5, 'deuterium' => 1e6]);
         [$b, $bPlanet] = $this->createPlayer([], [$resource[202] => 50, 'deuterium' => 1e6]);
         $this->fleet($a, $aPlanet, $b, $bPlanet, MISSION_TRANSPORT, [202 => 1]);
@@ -219,7 +219,7 @@ final class MissionQueriesTest extends GameTestCase
 
     public function testFleetUpdateWritesOnlyTheChangedColumns(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$a, $aPlanet] = $this->createPlayer([], [$resource[202] => 50, 'deuterium' => 1e6]);
         [$b, $bPlanet] = $this->createPlayer();
         $fleet = $this->fleet($a, $aPlanet, $b, $bPlanet, MISSION_TRANSPORT, [202 => 1]);
@@ -255,7 +255,7 @@ final class MissionQueriesTest extends GameTestCase
     {
         $previousServer = $this->state->requestServer;
         $this->state->requestServer = ['REQUEST_URI' => $requestUri];
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$a, $aPlanet] = $this->createPlayer([], [$resource[202] => 50, 'deuterium' => 1e6]);
         [$b, $bPlanet] = $this->createPlayer();
         $now = time();

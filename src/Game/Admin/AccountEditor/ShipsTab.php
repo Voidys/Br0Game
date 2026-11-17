@@ -12,13 +12,12 @@ class ShipsTab extends AccountEditorTab
     public function handle(): Response
     {
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         if ($this->state->requestPost) {
             $id = $this->http()->_GP('id', 0);
-            foreach ($reslist['fleet'] as $ID) {
-                $fields[] = "`" . $resource[$ID] . "`";
+            foreach ($e->ids('fleet') as $ID) {
+                $fields[] = "`" . $e->column($ID) . "`";
             }
             // the columns come from the game's resource table
             $beforeShips = $db->fetchRow(
@@ -31,11 +30,11 @@ class ShipsTab extends AccountEditorTab
             $afterShips = [];
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
-                foreach ($reslist['fleet'] as $ID) {
-                    $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
+                foreach ($e->ids('fleet') as $ID) {
+                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[$resource[$ID]] = $count;
-                        $afterShips[$ID] = ($beforeShips[$resource[$ID]] ?? 0) + $count;
+                        $QryUpdate[$e->column($ID)] = $count;
+                        $afterShips[$ID] = ($beforeShips[$e->column($ID)] ?? 0) + $count;
                     }
                 }
                 if (!empty($QryUpdate)) {
@@ -43,11 +42,11 @@ class ShipsTab extends AccountEditorTab
                 }
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
-                foreach ($reslist['fleet'] as $ID) {
-                    $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
+                foreach ($e->ids('fleet') as $ID) {
+                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[$resource[$ID]] = -$count;
-                        $afterShips[$ID] = max(0, $beforeShips[$ID] - $count);
+                        $QryUpdate[$e->column($ID)] = -$count;
+                        $afterShips[$ID] = max(0, ($beforeShips[$e->column($ID)] ?? 0) - $count);
                     }
                 }
                 if (!empty($QryUpdate)) {
@@ -71,9 +70,9 @@ class ShipsTab extends AccountEditorTab
         }
 
         $parse['ships'] = "";
-        foreach ($reslist['fleet'] as $ID) {
+        foreach ($e->ids('fleet') as $ID) {
             $INPUT[$ID] = [
-                'type' => $resource[$ID],
+                'type' => $e->column($ID),
             ];
         }
 

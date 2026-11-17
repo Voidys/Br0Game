@@ -459,7 +459,7 @@ class MarketManager
      */
     public function getFleetValue(array $fleetArray, bool $useScore = false): int
     {
-        $pricelist = $this->state->pricelist;
+        $elements = $this->elements();
 
         $totalCostArray = [
             901 => 0,
@@ -468,9 +468,13 @@ class MarketManager
         ];
 
         foreach ($fleetArray as $ship => $count) {
-            $totalCostArray[901] += $pricelist[$ship]['cost'][901] * $count;
-            $totalCostArray[902] += $pricelist[$ship]['cost'][902] * $count;
-            $totalCostArray[903] += $pricelist[$ship]['cost'][903] * $count;
+            $cost = $elements->find((int) $ship)?->cost;
+            if ($cost === null) {
+                continue;
+            }
+            $totalCostArray[901] += $cost->metal * $count;
+            $totalCostArray[902] += $cost->crystal * $count;
+            $totalCostArray[903] += $cost->deuterium * $count;
         }
 
         if ($useScore) { // return value in points, not metal

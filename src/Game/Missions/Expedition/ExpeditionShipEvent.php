@@ -34,14 +34,14 @@ class ExpeditionShipEvent extends ExpeditionEvent
      */
     private function determineFoundShips(int $foundPoints, array $findableShips): array
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $Found = [];
         $upperValue = 3;
 
         $remainingPoints = $foundPoints;
         while ($findableShips !== [] && $upperValue > 0) {
             $ID = $findableShips[rand(0, count($findableShips) - 1)];
-            $shipCost = ($pricelist[$ID]['cost'][RESOURCE_METAL] + $pricelist[$ID]['cost'][RESOURCE_CRYSTAL]);
+            $shipCost = ($e->cost($ID)->metal + $e->cost($ID)->crystal);
             if ($shipCost <= 0) {
                 $upperValue--;
                 continue;
@@ -86,7 +86,7 @@ class ExpeditionShipEvent extends ExpeditionEvent
      */
     public function run(): string
     {
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
 
         $LNG = $this->LNG;
         $Size = 0;
@@ -134,7 +134,7 @@ class ExpeditionShipEvent extends ExpeditionEvent
         if (empty($Found)) {
             $Message .= '<br><br>' . $LNG['sys_expe_found_ships_nothing'];
         } else {
-            foreach ($reslist['fleet'] as $ID) {
+            foreach ($e->ids('fleet') as $ID) {
                 $Count = 0;
                 if (!empty($Found[$ID])) {
                     $Count += $Found[$ID];

@@ -67,9 +67,7 @@ class FleetStatistics
     public function calculateCurrentTotalFleetState(int $userID): array
     {
         $db = $this->db;
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
-        $pricelist = $this->state->pricelist;
+        $elements = $this->elements();
 
         $FlyingFleets = [];
         $sql = 'SELECT `ships` FROM %%FLEETS%% WHERE `owner` = :userID;';
@@ -98,8 +96,8 @@ class FleetStatistics
         }
 
         $select_fleets = '';
-        foreach ($reslist['fleet'] as $shipID) {
-            $select_fleets .= " SUM(p.`" . $resource[$shipID] . "`) as " . $resource[$shipID] . ",";
+        foreach ($elements->ids('fleet') as $shipID) {
+            $select_fleets .= " SUM(p.`" . $elements->column($shipID) . "`) as " . $elements->column($shipID) . ",";
         }
         $select_fleets = rtrim($select_fleets, ",");
         $sql = 'SELECT ' . $select_fleets . ' FROM %%PLANETS%% as p WHERE p.`id_owner` = :userID AND p.`destruyed` = 0;';
@@ -110,24 +108,26 @@ class FleetStatistics
 
         if (!empty($FlyingFleets)) {
             foreach ($FlyingFleets as $ID => $Amount) {
-                if (!isset($userData[$resource[$ID]])) {
+                $column = $elements->find((int) $ID)?->column;
+                if ($column === null || !isset($userData[$column])) {
                     continue; //Missiles and any unknown
                 }
-                $userData[$resource[$ID]] += $Amount;
+                $userData[$column] += $Amount;
             }
         }
 
         $totalUnits = 0;
         $totalCapacity = 0;
-        foreach ($reslist['fleet'] as $shipID) {
-            if (!isset($userData[$resource[$shipID]]) || $userData[$resource[$shipID]] == 0) {
+        foreach ($elements->ids('fleet') as $shipID) {
+            $column = $elements->column($shipID);
+            if (!isset($userData[$column]) || $userData[$column] == 0) {
                 continue;
             }
-            $amount = $userData[$resource[$shipID]];
+            $amount = $userData[$column];
 
-            $Units = $pricelist[$shipID]['cost'][901] + $pricelist[$shipID]['cost'][902];
+            $Units = $elements->cost($shipID)->metalCrystal();
             $totalUnits += $Units * $amount;
-            $totalCapacity += $pricelist[$shipID]['capacity'] * $amount;
+            $totalCapacity += $elements->capacity($shipID) * $amount;
         }
 
         return ['totalUnits' => $totalUnits, 'totalCapacity' => $totalCapacity];

@@ -135,17 +135,16 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     private function cargoNeeded(array $targetBase): array
     {
-        $pricelist = $this->state->pricelist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
 
         $capacityNeeded = $battleHandler->calculateMinCapacity([
-            'metal' => getNumber($targetBase[$resource[RESOURCE_METAL]]),
-            'crystal' => getNumber($targetBase[$resource[RESOURCE_CRYSTAL]]),
-            'deuterium' => getNumber($targetBase[$resource[RESOURCE_DEUT]]),
+            'metal' => getNumber($targetBase[$e->column(RESOURCE_METAL)]),
+            'crystal' => getNumber($targetBase[$e->column(RESOURCE_CRYSTAL)]),
+            'deuterium' => getNumber($targetBase[$e->column(RESOURCE_DEUT)]),
         ]);
-        $smallCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity']);
-        $largeCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity']);
+        $smallCargoNeeded = ceil($capacityNeeded / $e->capacity(SHIP_SMALL_CARGO));
+        $largeCargoNeeded = ceil($capacityNeeded / $e->capacity(SHIP_LARGE_CARGO));
 
         return [$smallCargoNeeded, $largeCargoNeeded];
     }
@@ -185,13 +184,13 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     private function collectSpyData(array $classIDs, array $senderUser, array $targetBase, array $targetFleet, int|float &$totalShipDefCount): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $spyData = [];
         foreach ($classIDs as $classID => $elementIDs) {
             if ($classID == 900) {
                 foreach ($elementIDs as $elementID) {
-                    if (isset($targetBase[$resource[$elementID]])) {
-                        $spyData[$classID][$elementID] = $targetBase[$resource[$elementID]];
+                    if (isset($targetBase[$e->column($elementID)])) {
+                        $spyData[$classID][$elementID] = $targetBase[$e->column($elementID)];
                     } else {
                         $spyData[$classID][$elementID] = 0;
                     }
@@ -209,9 +208,9 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
                     }
                 }
             } elseif ($classID == 100) {
-                $spyData[$classID][MILITARY_TECH] = max($senderUser[$resource[MILITARY_TECH]] - 3, 0);
-                $spyData[$classID][SHIELD_TECH] = max($senderUser[$resource[SHIELD_TECH]] - 3, 0);
-                $spyData[$classID][DEFENCE_TECH] = max($senderUser[$resource[DEFENCE_TECH]] - 3, 0);
+                $spyData[$classID][MILITARY_TECH] = max($senderUser[$e->column(MILITARY_TECH)] - 3, 0);
+                $spyData[$classID][SHIELD_TECH] = max($senderUser[$e->column(SHIELD_TECH)] - 3, 0);
+                $spyData[$classID][DEFENCE_TECH] = max($senderUser[$e->column(DEFENCE_TECH)] - 3, 0);
             }
 
             if ($senderUser['spyMessagesMode'] == 1 && isset($spyData[$classID])) {
@@ -228,7 +227,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     private function destroyProbes(int|float|string $fleetAmount): void
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $config = $this->configs->get($this->_fleet['universe']);
 
         $sql = 'UPDATE %%PIRATE_BASES%% SET
@@ -237,8 +236,8 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
                 WHERE `id` = :baseId;';
 
         $this->db->update($sql, [
-            ':metal'    => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] * $config->fleet_debris_percentage / 100,
-            ':crystal'  => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL] * $config->fleet_debris_percentage / 100,
+            ':metal'    => $fleetAmount * $e->cost(SHIP_PROBE)->metal * $config->fleet_debris_percentage / 100,
+            ':crystal'  => $fleetAmount * $e->cost(SHIP_PROBE)->crystal * $config->fleet_debris_percentage / 100,
             ':baseId' => $this->_fleet['end_id'],
         ]);
 
@@ -252,13 +251,13 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     public function getDangerValue($spyData)
     {
-        $CombatCaps = $this->state->CombatCaps;
+        $e = $this->elements();
         $dangerValue = 0;
 
         // ships
         if (isset($spyData[200])) {
             foreach ($spyData[200] as $elementID => $amount) {
-                $dangerValue += $CombatCaps[$elementID]['attack'] * $amount;
+                $dangerValue += $e->combat($elementID)->attack * $amount;
             }
         }
 
@@ -269,7 +268,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
                     !($elementID == INTERCEPTOR_MISSILE)
                     and !($elementID == INTERPLANETARY_MISSILE)
                 ) {
-                    $dangerValue += $CombatCaps[$elementID]['attack'] * $amount;
+                    $dangerValue += $e->combat($elementID)->attack * $amount;
                 }
             }
         }
@@ -282,7 +281,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     public function getRecyleValue($spyData)
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
 
         $config = $this->configs->get($this->_fleet['universe']);
         $fleetIntoDebris = $config->fleet_debris_percentage;
@@ -293,16 +292,16 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         // ships
         if (isset($spyData[200]) && $fleetIntoDebris > 0) {
             foreach ($spyData[200] as $elementID => $amount) {
-                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL]
-                    + $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $fleetIntoDebris / 100) * $amount;
+                $recycleValue += (($e->cost($elementID)->metal
+                    + $e->cost($elementID)->crystal) * $fleetIntoDebris / 100) * $amount;
             }
         }
 
         // defence
         if (isset($spyData[400]) && $defIntoDebris > 0) {
             foreach ($spyData[400] as $elementID => $amount) {
-                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL]
-                    + $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $defIntoDebris / 100) * $amount;
+                $recycleValue += (($e->cost($elementID)->metal
+                    + $e->cost($elementID)->crystal) * $defIntoDebris / 100) * $amount;
             }
         }
 
@@ -314,8 +313,8 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     public function estimateRecyclers($recycleValue)
     {
-        $pricelist = $this->state->pricelist;
-        return ceil($recycleValue / $pricelist[SHIP_RECYCLER]["capacity"]) + 1;
+        $e = $this->elements();
+        return ceil($recycleValue / $e->capacity(SHIP_RECYCLER)) + 1;
     }
 
 
@@ -361,7 +360,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     private function getClassIDs($fleetAmount, $senderSpyTech, $targetSpyTech): array
     {
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $classIDs = [];
 
         $techDifference = abs($senderSpyTech - $targetSpyTech);
@@ -371,22 +370,22 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         $SpyBuild = $fleetAmount >= $MinAmount + 3 * SPY_VIEW_FACTOR;
         $SpyTechno = $fleetAmount >= $MinAmount + 5 * SPY_VIEW_FACTOR;
 
-        $classIDs[900] = array_merge($reslist['resstype'][1]);
+        $classIDs[900] = array_merge($e->resourceIds(1));
 
         if ($SpyFleet) {
-            $classIDs[200] = $reslist['fleet'];
+            $classIDs[200] = $e->ids('fleet');
         }
 
         if ($SpyDef) {
-            $classIDs[400] = array_merge($reslist['defense'], $reslist['missile']);
+            $classIDs[400] = array_merge($e->ids('defense'), $e->ids('missile'));
         }
 
         if ($SpyBuild) {
-            $classIDs[0] = $reslist['build'];
+            $classIDs[0] = $e->ids('build');
         }
 
         if ($SpyTechno) {
-            $classIDs[100] = $reslist['tech'];
+            $classIDs[100] = $e->ids('tech');
         }
 
         return $classIDs;

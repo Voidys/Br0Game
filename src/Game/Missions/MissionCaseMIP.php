@@ -49,11 +49,10 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
      */
     public function TargetEvent(): void
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $db	= $this->db;
 
-        $elementIDs	= array_merge($reslist['defense'], $reslist['missile']);
+        $elementIDs	= array_merge($e->ids('defense'), $e->ids('missile'));
 
         $targetData	= $this->loadTarget($elementIDs);
 
@@ -71,7 +70,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         }
 
         // The interceptor column may be missing from the query (no element class) or NULL: always an integer
-        $targetData[$resource[INTERCEPTOR_MISSILE]] = (int) ($targetData[$resource[INTERCEPTOR_MISSILE]] ?? 0);
+        $targetData[$e->column(INTERCEPTOR_MISSILE)] = (int) ($targetData[$e->column(INTERCEPTOR_MISSILE)] ?? 0);
 
         $sql = 'SELECT us.`lang`, u.`military_tech` FROM %%USERS%% u 
             INNER JOIN %%USERS_SETTINGS%% us ON us.`user_id` = u.`id` 
@@ -81,7 +80,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         ]);
 
         if (
-            !in_array($this->_fleet['missile_target'], array_merge($reslist['defense'], $reslist['missile']))
+            !in_array($this->_fleet['missile_target'], array_merge($e->ids('defense'), $e->ids('missile')))
             || $this->_fleet['missile_target'] == INTERCEPTOR_MISSILE
             || $this->_fleet['missile_target'] == 0
         ) {
@@ -93,7 +92,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         $targetDefensive    = [];
 
         foreach ($elementIDs as $elementID) {
-            $targetDefensive[$elementID]	= $targetData[$resource[$elementID]];
+            $targetDefensive[$elementID]	= $targetData[$e->column($elementID)];
         }
 
         unset($targetDefensive[INTERCEPTOR_MISSILE]);
@@ -129,7 +128,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
      */
     private function loadTarget(array $elementIDs): array|false
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         $targetQuery = $db->qb()
             ->select('us.`lang`', 'u.`defence_tech`', 'p.`id`', 'p.`name`', 'p.`id_owner`')
@@ -139,7 +138,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
             ->where('p.`id` = :planetId')
             ->setParameter('planetId', $this->_fleet['end_id']);
         foreach ($elementIDs as $elementID) {
-            $targetQuery->addSelect('p.`' . $resource[$elementID] . '`');
+            $targetQuery->addSelect('p.`' . $e->column($elementID) . '`');
         }
 
         return $db->fetchRow($targetQuery);
@@ -158,21 +157,21 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
      */
     private function resolveHit(array &$senderData, array &$targetData, array $targetDefensive, int $primaryTarget): void
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
 
-        if ($targetData[$resource[INTERCEPTOR_MISSILE]] >= $this->_fleet['ship_amount']) {
+        if ($targetData[$e->column(INTERCEPTOR_MISSILE)] >= $this->_fleet['ship_amount']) {
             $senderData['MSG'] 	= $senderData['LNG']['sys_irak_no_att'];
             $targetData['MSG']	= $targetData['LNG']['sys_irak_no_att'];
-            $db->updateRows('PLANETS', [], ['id' => $targetData['id']], [], [$resource[INTERCEPTOR_MISSILE] => $this->negated($this->_fleet['ship_amount'])]);
+            $db->updateRows('PLANETS', [], ['id' => $targetData['id']], [], [$e->column(INTERCEPTOR_MISSILE) => $this->negated($this->_fleet['ship_amount'])]);
             $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['target_owner'], $this->_fleet['owner'], INTERPLANETARY_MISSILE, $this->_fleet['ship_amount'], false);
             $this->statsHandler->updateLostAdvancedStats($this->_fleet['target_owner'], [INTERCEPTOR_MISSILE => $this->_fleet['ship_amount']]);
         } else {
-            if ($targetData[$resource[INTERCEPTOR_MISSILE]] > 0) {
-                $db->updateRows('PLANETS', [$resource[INTERCEPTOR_MISSILE] => 0], ['id' => $targetData['id']]);
+            if ($targetData[$e->column(INTERCEPTOR_MISSILE)] > 0) {
+                $db->updateRows('PLANETS', [$e->column(INTERCEPTOR_MISSILE) => 0], ['id' => $targetData['id']]);
 
-                $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['target_owner'], $this->_fleet['owner'], INTERPLANETARY_MISSILE, $targetData[$resource[INTERCEPTOR_MISSILE]], false);
-                $this->statsHandler->updateLostAdvancedStats($this->_fleet['target_owner'], [INTERCEPTOR_MISSILE => $targetData[$resource[INTERCEPTOR_MISSILE]]]);
+                $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['target_owner'], $this->_fleet['owner'], INTERPLANETARY_MISSILE, $targetData[$e->column(INTERCEPTOR_MISSILE)], false);
+                $this->statsHandler->updateLostAdvancedStats($this->_fleet['target_owner'], [INTERCEPTOR_MISSILE => $targetData[$e->column(INTERCEPTOR_MISSILE)]]);
             }
 
             $targetDefensive = array_filter($targetDefensive);
@@ -184,14 +183,14 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
                     $this->_fleet['ship_amount'],
                     $targetDefensive,
                     $primaryTarget,
-                    $targetData[$resource[INTERCEPTOR_MISSILE]],
+                    $targetData[$e->column(INTERCEPTOR_MISSILE)],
                 );
 
                 $result		= array_filter($result);
 
 
-                $senderData['MSG'] 	= $senderData['LNG']->format('sys_irak_def', $targetData[$resource[INTERCEPTOR_MISSILE]]) . '<br><br>';
-                $targetData['MSG']	= $targetData['LNG']->format('sys_irak_def', $targetData[$resource[INTERCEPTOR_MISSILE]]) . '<br><br>';
+                $senderData['MSG'] 	= $senderData['LNG']->format('sys_irak_def', $targetData[$e->column(INTERCEPTOR_MISSILE)]) . '<br><br>';
+                $targetData['MSG']	= $targetData['LNG']->format('sys_irak_def', $targetData[$e->column(INTERCEPTOR_MISSILE)]) . '<br><br>';
 
                 ksort($result, SORT_NUMERIC);
 
@@ -199,10 +198,10 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
                     $senderData['MSG'] 	.= sprintf('%s (- %d)<br>', $senderData['LNG']['tech'][$Element], $destroy);
                     $targetData['MSG']	.= sprintf('%s (- %d)<br>', $targetData['LNG']['tech'][$Element], $destroy);
 
-                    $db->updateRows('PLANETS', [], ['id' => $targetData['id']], [], [$resource[$Element] => $this->negated($destroy)]);
+                    $db->updateRows('PLANETS', [], ['id' => $targetData['id']], [], [$e->column($Element) => $this->negated($destroy)]);
                     $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['owner'], $this->_fleet['target_owner'], $Element, $destroy);
                 }
-                $this->statsHandler->updateLostAdvancedStats($this->_fleet['owner'], [INTERPLANETARY_MISSILE => $this->_fleet['ship_amount'] - $targetData[$resource[INTERCEPTOR_MISSILE]]]);
+                $this->statsHandler->updateLostAdvancedStats($this->_fleet['owner'], [INTERPLANETARY_MISSILE => $this->_fleet['ship_amount'] - $targetData[$e->column(INTERCEPTOR_MISSILE)]]);
             } else {
                 $this->statsHandler->updateLostAdvancedStats($this->_fleet['owner'], [INTERPLANETARY_MISSILE => $this->_fleet['ship_amount']]);
                 $senderData['MSG'] 	= $senderData['LNG']['sys_irak_no_def'];
@@ -279,8 +278,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         int $firstTarget,
         int $defenseMissles,
     ): array {
-        $pricelist = $this->state->pricelist;
-        $CombatCaps = $this->state->CombatCaps;
+        $e = $this->elements();
         $destroyShips = [];
         $countMissles = $missiles - $defenseMissles;
 
@@ -288,7 +286,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
             return $destroyShips;
         }
 
-        $totalAttack = $countMissles * $CombatCaps[INTERPLANETARY_MISSILE]['attack'] * (1 +  0.1 * $OwnerAttTech);
+        $totalAttack = $countMissles * $e->combat(INTERPLANETARY_MISSILE)->attack * (1 +  0.1 * $OwnerAttTech);
 
         // Select primary target, if exists
         if (isset($targetDefensive[$firstTarget])) {
@@ -301,7 +299,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
             if ($element == 0) {
                 throw new \Exception("Unknown error. Please report this error at https://github.com/Voidys/Br0Game/issues. Debuginforations:<br><br>" . json_encode([$TargetDefTech, $OwnerAttTech, $missiles, $targetDefensive, $firstTarget, $defenseMissles]));
             }
-            $elementStructurePoints = ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]) * (1 + 0.1 * $TargetDefTech) / 10;
+            $elementStructurePoints = ($e->cost($element)->metal + $e->cost($element)->crystal) * (1 + 0.1 * $TargetDefTech) / 10;
             $destroyCount           = floor($totalAttack / $elementStructurePoints);
             $destroyCount           = min($destroyCount, $count);
             $totalAttack           -= $destroyCount * $elementStructurePoints;

@@ -12,13 +12,12 @@ class DefensesTab extends AccountEditorTab
     public function handle(): Response
     {
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         if ($this->state->requestPost) {
             $id = $this->http()->_GP('id', 0);
-            foreach ($reslist['defense'] as $ID) {
-                $fields[] = "`" . $resource[$ID] . "`";
+            foreach ($e->ids('defense') as $ID) {
+                $fields[] = "`" . $e->column($ID) . "`";
             }
             // the columns come from the game's resource table
             $beforeDef = $db->fetchRow(
@@ -31,11 +30,11 @@ class DefensesTab extends AccountEditorTab
             $afterDef = [];
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
-                foreach ($reslist['defense'] as $ID) {
-                    $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
+                foreach ($e->ids('defense') as $ID) {
+                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[$resource[$ID]] = $count;
-                        $afterDef[$ID] = $beforeDef[$resource[$ID]] + $count;
+                        $QryUpdate[$e->column($ID)] = $count;
+                        $afterDef[$ID] = $beforeDef[$e->column($ID)] + $count;
                     }
                 }
                 if (!empty($QryUpdate)) {
@@ -43,11 +42,11 @@ class DefensesTab extends AccountEditorTab
                 }
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
-                foreach ($reslist['defense'] as $ID) {
-                    $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
+                foreach ($e->ids('defense') as $ID) {
+                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[$resource[$ID]] = -$count;
-                        $afterDef[$ID] = max(0, $beforeDef[$resource[$ID]] - $count);
+                        $QryUpdate[$e->column($ID)] = -$count;
+                        $afterDef[$ID] = max(0, $beforeDef[$e->column($ID)] - $count);
                     }
                 }
                 if (!empty($QryUpdate)) {
@@ -70,8 +69,8 @@ class DefensesTab extends AccountEditorTab
             }
         }
 
-        foreach ($reslist['defense'] as $ID) {
-            $INPUT[$ID] = ['type' => $resource[$ID]];
+        foreach ($e->ids('defense') as $ID) {
+            $INPUT[$ID] = ['type' => $e->column($ID)];
         }
 
         $this->responder->assign([

@@ -150,8 +150,7 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
      */
     private function getUserShips(int $userId, array $planets): array
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
 
         $sql = "SELECT `ships` FROM %%FLEETS%% WHERE `owner` = :userId;";
         $fleets = $this->db->select($sql, [
@@ -159,12 +158,12 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
         ]);
 
         $userShips = [];
-        foreach ($reslist['fleet'] as $elementId) {
+        foreach ($elements->ids('fleet') as $elementId) {
             if (!isset($userShips[$elementId])) {
                 $userShips[$elementId] = 0;
             }
             foreach ($planets as $planet) {
-                $userShips[$elementId] += $planet[$resource[$elementId]];
+                $userShips[$elementId] += $planet[$elements->column($elementId)];
             }
         }
         foreach ($fleets as $fleet) {

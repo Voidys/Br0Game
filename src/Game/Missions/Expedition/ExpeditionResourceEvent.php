@@ -20,7 +20,7 @@ class ExpeditionResourceEvent extends ExpeditionEvent
      */
     public function run(): string
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         $LNG = $this->LNG;
         $config = $this->configs->get($this->fleet['universe']);
@@ -83,9 +83,9 @@ class ExpeditionResourceEvent extends ExpeditionEvent
             );
         }
         $this->ctx->eventvalue = '{"' . $resourceId . '":' . $foundResources . "}";
-        $fleetColName = 'resource_' . $resource[$resourceId];
+        $fleetColName = 'resource_' . $e->column($resourceId);
         $this->ctx->updateFleet($fleetColName, $this->fleet[$fleetColName] + $foundResources);
-        $logColName = 'gained_' . $resource[$resourceId];
+        $logColName = 'gained_' . $e->column($resourceId);
         $this->ctx->updateFleetLog($logColName, $foundResources);
         $this->ctx->stats->increment($this->fleet['owner'], AdvancedStatsEnum::getExpoFound($resourceId), $foundResources);
         $this->ctx->stats->setTimestamp($this->fleet['owner'], AdvancedStatsEnum::getExpoFirst($resourceId), $this->fleet['stay_time']);

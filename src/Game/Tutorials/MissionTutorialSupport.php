@@ -68,9 +68,7 @@ class MissionTutorialSupport extends AbstractTutorialSupport
     {
         $LNG = $this->state->LNG;
         $LNG->includeData(['TUTORIAL']);
-        $reslist = $this->state->reslist;
-
-        if (in_array($elementID, $reslist['fleet'])) {
+        if ($this->elements()->isFleet($elementID)) {
             return parent::getGoalName($elementID);
         }
         return $LNG['tutorial_goal']['mission'][$elementID];
@@ -83,13 +81,11 @@ class MissionTutorialSupport extends AbstractTutorialSupport
      */
     public function isFullfilled(): bool
     {
-        $reslist = $this->state->reslist;
-
         $goals = $this->listGoals();
         $fullfilled = true;
 
         foreach ($goals as $elementID => $goalRow) {
-            if (in_array($elementID, $reslist['fleet'])) {
+            if ($this->elements()->isFleet((int) $elementID)) {
                 $fullfilled = $fullfilled && $goalRow['fullfilled'];
             } elseif ($goalRow['fullfilled'] != 1) {
                 $sql = "SELECT COUNT(`id`) as amount FROM %%LOG_FLEETS%%

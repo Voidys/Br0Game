@@ -328,21 +328,21 @@ class FleetLauncher
      */
     private function takeFromStartPlanet(array $fleetArray, array $fleetResource, int $fleetStartPlanetID, float $consumption): array
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $fleetData = [];
 
         // column => amount to take from the start planet (negative = decrement for Database::updateRows)
         $take = [];
         foreach ($fleetArray as $ShipID => $ShipCount) {
             $fleetData[] = $ShipID . ',' . floatToString($ShipCount);
-            $take[$resource[$ShipID]] = '-' . ltrim(floatToString($ShipCount), '-');
+            $take[$elements->column($ShipID)] = '-' . ltrim(floatToString($ShipCount), '-');
         }
 
         foreach ($fleetResource as $resourceId => $amount) {
             if ($resourceId == RESOURCE_DEUT && $consumption > 0) {
                 $amount += $consumption;
             }
-            $take[$resource[$resourceId]] = is_string($amount) ? '-' . ltrim($amount, '-') : -$amount;
+            $take[$elements->column($resourceId)] = is_string($amount) ? '-' . ltrim($amount, '-') : -$amount;
         }
 
         $this->db->updateRows('PLANETS', [], ['id' => $fleetStartPlanetID], [], $take);

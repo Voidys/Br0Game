@@ -297,7 +297,7 @@ class HonorPoints
      */
     private function collectSide(array $fleets, string $side, array &$playerData, string $militarySql, array $honorDataTop, AdvancedStatsHandler $statsHandler): array
     {
-        $pricelist = $this->state->pricelist;
+        $elements = $this->elements();
         $sumMilitaryPoints = 0;
         $hasBandit = false;
         $fullPoints = 0;
@@ -324,7 +324,7 @@ class HonorPoints
             }
 
             foreach ($player['unit'] as $ShipID => $Amount) {
-                $fullCost = $pricelist[$ShipID]['cost'][901] + $pricelist[$ShipID]['cost'][902] + $pricelist[$ShipID]['cost'][903];
+                $fullCost = $elements->cost($ShipID)->metalCrystalDeuterium();
                 $playerData[$playerID]['fightpoints'] += $Amount * $fullCost;
                 $fullPoints += $Amount * $fullCost;
             }

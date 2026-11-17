@@ -42,7 +42,7 @@ class ProtectionRules
      */
     public function getCatchUpFactor(array $USER): float
     {
-        return $this->catchUpFactorFor(User::fromState($USER, $this->state->resource));
+        return $this->catchUpFactorFor(User::fromState($USER, $this->elements()->columnMap()));
     }
 
     /**
@@ -132,7 +132,7 @@ class ProtectionRules
      */
     public function spyTechAllowed(int $necessaryLevel, int $PlayerID, array $USER): bool
     {
-        return $this->spyTechAllowedFor($necessaryLevel, $PlayerID, User::fromState($USER, $this->state->resource));
+        return $this->spyTechAllowedFor($necessaryLevel, $PlayerID, User::fromState($USER, $this->elements()->columnMap()));
     }
 
     /**
@@ -200,8 +200,8 @@ class ProtectionRules
     public function checkNoobProtection($OwnerPlayer, $TargetPlayer)
     {
         return $this->checkNoobProtectionFor(
-            User::fromState($OwnerPlayer, $this->state->resource),
-            User::fromState($TargetPlayer, $this->state->resource),
+            User::fromState($OwnerPlayer, $this->elements()->columnMap()),
+            User::fromState($TargetPlayer, $this->elements()->columnMap()),
         );
     }
 

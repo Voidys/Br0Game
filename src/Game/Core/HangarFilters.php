@@ -50,8 +50,7 @@ class HangarFilters
      */
     public function sanitize(array $items): array
     {
-        $reslist = $this->state->reslist;
-        $fleet = $reslist['fleet'] ?? [];
+        $fleet = $this->elements()->ids('fleet');
 
         $groups = [];
         foreach (self::GROUPS as $group) {

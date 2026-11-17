@@ -296,17 +296,16 @@ class BattleAchievement
             $fleet_points = $db->selectSingle($sql, [
                 ':id' => $planetDefender,
             ], 'fleet_points');
-            $reslist = $this->state->reslist;
-            $pricelist = $this->state->pricelist;
+            $elements = $this->elements();
             $lostFleetPoints = 0;
 
-            foreach ($reslist['fleet'] as $Fleet) {
+            foreach ($elements->ids('fleet') as $Fleet) {
 
                 if ($combatResult->startDefenders()[0]->units == 0) {
                     continue;
                 }
 
-                $Units = $pricelist[$Fleet]['cost'][901] + $pricelist[$Fleet]['cost'][902];
+                $Units = $elements->cost($Fleet)->metalCrystal();
 
                 $lostFleetPoints += $Units / 1000 ;
             }

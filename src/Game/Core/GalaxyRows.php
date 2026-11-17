@@ -171,7 +171,7 @@ class GalaxyRows
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $this->galaxyData[$this->galaxyRow['planet']]['missions'] = [
             1 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
                 && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_ATTACK),
@@ -184,13 +184,13 @@ class GalaxyRows
                 && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_SPY),
             8 => $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_RECYCLE),
             9 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
-                && ($PLANET[$resource[SHIP_RIP]] > 0 || $PLANET[$resource[VOID_TITAN]] > 0)
+                && ($PLANET[$elements->find(SHIP_RIP)?->column] > 0 || $PLANET[$elements->find(VOID_TITAN)?->column] > 0)
                 && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_DESTROY),
             10 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
-                && $PLANET[$resource[INTERPLANETARY_MISSILE]] > 0
+                && $PLANET[$elements->find(INTERPLANETARY_MISSILE)?->column] > 0
                 && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_ATTACK)
                 && $this->viewHelpers()->isModuleAvailable(MODULE_MISSILEATTACK)
-                && $this->fleetFunctions()->inMissileRange($PLANET, $this->galaxyRow, $USER[$resource[117]]),
+                && $this->fleetFunctions()->inMissileRange($PLANET, $this->galaxyRow, $USER[$elements->find(117)?->column]),
         ];
     }
 

@@ -65,7 +65,7 @@ final class FleetRaceGuardsTest extends GameTestCase
     public function testDestroyMissilesDoesNotRestoreMissilesLaunchedBehindItsBack(): void
     {
         [$user, $planet] = $this->createPlayer([], ['interceptor_misil' => 10, 'interplanetary_misil' => 10]);
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
 
         $this->state->USER = $user + ['messages' => 0];
         $this->state->PLANET = $planet; // stale copy: 10 / 10

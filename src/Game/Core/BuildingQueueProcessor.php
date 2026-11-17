@@ -27,8 +27,7 @@ class BuildingQueueProcessor
      */
     public function finishFirst(QueueState $st)
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
         if (empty($st->planet['b_building_id']) || empty($st->planet['b_building_id']) || $st->planet['b_building'] > $st->time) {
             return false;
         }
@@ -44,16 +43,16 @@ class BuildingQueueProcessor
             $st->builded[$Element] = 0;
         }
 
-        $OnHash = in_array($Element, $reslist['prod']);
+        $OnHash = in_array($Element, $elements->ids('prod'));
         ($st->updateResource)($BuildEndTime, !$OnHash);
 
         if ($BuildMode == 'build') {
             $st->planet['field_current']      += 1;
-            $st->planet[$resource[$Element]]  = $BuildLevel;
+            $st->planet[$elements->column($Element)]  = $BuildLevel;
             $st->builded[$Element]            = $BuildLevel;
         } else {
             $st->planet['field_current']      -= 1;
-            $st->planet[$resource[$Element]]  = $BuildLevel - 1;
+            $st->planet[$elements->column($Element)]  = $BuildLevel - 1;
             $st->builded[$Element]            = $BuildLevel - 1;
         }
 
@@ -77,7 +76,7 @@ class BuildingQueueProcessor
      */
     public function startNext(QueueState $st)
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $notifier = $this->gameUtility(QueueFailureNotifier::class);
         $LNG = $notifier->language($st->user['id']);
 
@@ -112,7 +111,7 @@ class BuildingQueueProcessor
             $CurrentQueue[0] = [$Element, $Level, $BuildTime, $BuildEndTime, $BuildMode, $costResources];
             $HaveNoMoreLevel = false;
 
-            if ($ForDestroy && $st->planet[$resource[$Element]] == 0) {
+            if ($ForDestroy && $st->planet[$elements->column($Element)] == 0) {
                 $HaveResources = false;
                 $HaveNoMoreLevel = true;
             }
@@ -159,12 +158,12 @@ class BuildingQueueProcessor
      */
     private function payFromWorkingPlanet(QueueState $st, array $costResources): void
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceId) {
             if (isset($costResources[$resourceId])) {
                 $st->builded[$resourceId] -= $costResources[$resourceId];
-                $st->planet[$resource[$resourceId]] -= $costResources[$resourceId];
+                $st->planet[$elements->column($resourceId)] -= $costResources[$resourceId];
             }
         }
     }

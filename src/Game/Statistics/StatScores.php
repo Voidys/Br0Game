@@ -3,6 +3,7 @@
 namespace App\Game\Statistics;
 
 use App\Game\Core\ConfigRegistry;
+use App\Game\Model\ElementCatalog;
 
 /**
  * Score formulas of the statistics: research, building, defense and fleet points of a player or planet from the element
@@ -13,15 +14,11 @@ use App\Game\Core\ConfigRegistry;
 class StatScores
 {
     /**
-     * @param array<int, array<int, string>>           $resources  universe => element id => column name
-     * @param array<int, array<string, array<int>>>    $reslists   universe => list name => element ids
-     * @param array<int, array<int, array<string, mixed>>> $pricelists universe => element id => price data
+     * @param array<int, ElementCatalog> $catalogs universe => game data of that universe
      */
     public function __construct(
         private readonly ConfigRegistry $configs,
-        private readonly array $resources,
-        private readonly array $reslists,
-        private readonly array $pricelists,
+        private readonly array $catalogs,
     ) {}
 
     /** @var array<int, array<int, array<int, float|int>>> cost of an element level by universe, element, level */
@@ -30,11 +27,8 @@ class StatScores
     /** Total cost of building/researching $element up to $level (level $level only), memoized. */
     private function levelCost(int $uni, int $element, int $level): float|int
     {
-        return $this->levelCosts[$uni][$element][$level] ??= (
-            $this->pricelists[$uni][$element]['cost'][901]
-            + $this->pricelists[$uni][$element]['cost'][902]
-            + $this->pricelists[$uni][$element]['cost'][903]
-        ) * pow($this->pricelists[$uni][$element]['factor'], $level - 1);
+        return $this->levelCosts[$uni][$element][$level] ??= $this->catalogs[$uni]->cost($element)->metalCrystalDeuterium()
+            * pow($this->catalogs[$uni]->factor($element), $level - 1);
     }
 
     /**
@@ -46,22 +40,20 @@ class StatScores
      */
     public function researchByUser(array $USER): array
     {
-        $resource = $this->resources[$USER['universe']];
-        $reslist = $this->reslists[$USER['universe']];
-        $pricelist = $this->pricelists[$USER['universe']];
+        $elements = $this->catalogs[$USER['universe']];
         $TechCounts = 0;
         $TechPoints = 0;
 
-        foreach ($reslist['tech'] as $Techno) {
-            if ($USER[$resource[$Techno]] == 0) {
+        foreach ($elements->ids('tech') as $Techno) {
+            if ($USER[$elements->column($Techno)] == 0) {
                 continue;
             }
 
             // PointsPerCot == Config::get()->stat_settings
-            for ($i = 1; $i <= $USER[$resource[$Techno]]; $i++) {
+            for ($i = 1; $i <= $USER[$elements->column($Techno)]; $i++) {
                 $TechPoints += $this->levelCost($USER['universe'], $Techno, $i);
             }
-            $TechCounts += $USER[$resource[$Techno]];
+            $TechCounts += $USER[$elements->column($Techno)];
         }
 
         return ['count' => $TechCounts, 'points' => ($TechPoints / $this->configs->get()->stat_settings)];
@@ -75,22 +67,20 @@ class StatScores
      */
     public function buildingByPlanet(array $PLANET): array
     {
-        $resource = $this->resources[$PLANET['universe']];
-        $reslist = $this->reslists[$PLANET['universe']];
-        $pricelist = $this->pricelists[$PLANET['universe']];
+        $elements = $this->catalogs[$PLANET['universe']];
         $BuildCounts = 0;
         $BuildPoints = 0;
 
-        foreach ($reslist['build'] as $Build) {
-            if ($PLANET[$resource[$Build]] == 0) {
+        foreach ($elements->ids('build') as $Build) {
+            if ($PLANET[$elements->column($Build)] == 0) {
                 continue;
             }
 
             // PointsPerCost == Config::get()->stat_settings
-            for ($i = 1; $i <= $PLANET[$resource[$Build]]; $i++) {
+            for ($i = 1; $i <= $PLANET[$elements->column($Build)]; $i++) {
                 $BuildPoints += $this->levelCost($PLANET['universe'], $Build, $i);
             }
-            $BuildCounts += $PLANET[$resource[$Build]];
+            $BuildCounts += $PLANET[$elements->column($Build)];
         }
         return ['count' => $BuildCounts, 'points' => ($BuildPoints / $this->configs->get()->stat_settings)];
     }
@@ -103,20 +93,18 @@ class StatScores
      */
     public function defenseByUser(array $USER): array
     {
-        $resource = $this->resources[$USER['universe']];
-        $reslist = $this->reslists[$USER['universe']];
-        $pricelist = $this->pricelists[$USER['universe']];
+        $elements = $this->catalogs[$USER['universe']];
         $DefenseCounts = 0;
         $DefensePoints = 0;
 
-        foreach (array_merge($reslist['defense'], $reslist['missile']) as $Defense) {
-            if ($USER[$resource[$Defense]] == 0) {
+        foreach (array_merge($elements->ids('defense'), $elements->ids('missile')) as $Defense) {
+            if ($USER[$elements->column($Defense)] == 0) {
                 continue;
             }
 
-            $Units = $pricelist[$Defense]['cost'][901] + $pricelist[$Defense]['cost'][902] + $pricelist[$Defense]['cost'][903];
-            $DefensePoints += $Units * $USER[$resource[$Defense]];
-            $DefenseCounts += $USER[$resource[$Defense]];
+            $Units = $elements->cost($Defense)->metalCrystalDeuterium();
+            $DefensePoints += $Units * $USER[$elements->column($Defense)];
+            $DefenseCounts += $USER[$elements->column($Defense)];
         }
 
         return ['count' => $DefenseCounts, 'points' => ($DefensePoints / $this->configs->get()->stat_settings)];
@@ -130,20 +118,18 @@ class StatScores
      */
     public function fleetByUser(array $USER): array
     {
-        $resource = $this->resources[$USER['universe']];
-        $reslist = $this->reslists[$USER['universe']];
-        $pricelist = $this->pricelists[$USER['universe']];
+        $elements = $this->catalogs[$USER['universe']];
         $FleetCounts = 0;
         $FleetPoints = 0;
 
-        foreach ($reslist['fleet'] as $Fleet) {
-            if ($USER[$resource[$Fleet]] == 0) {
+        foreach ($elements->ids('fleet') as $Fleet) {
+            if ($USER[$elements->column($Fleet)] == 0) {
                 continue;
             }
 
-            $Units = $pricelist[$Fleet]['cost'][901] + $pricelist[$Fleet]['cost'][902] + $pricelist[$Fleet]['cost'][903];
-            $FleetPoints += $Units * $USER[$resource[$Fleet]];
-            $FleetCounts += $USER[$resource[$Fleet]];
+            $Units = $elements->cost($Fleet)->metalCrystalDeuterium();
+            $FleetPoints += $Units * $USER[$elements->column($Fleet)];
+            $FleetCounts += $USER[$elements->column($Fleet)];
         }
 
         return ['count' => $FleetCounts, 'points' => ($FleetPoints / $this->configs->get()->stat_settings)];

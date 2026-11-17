@@ -102,7 +102,7 @@ class RaportController extends AbstractGameController
         $USER = $this->state->USER;
         $LNG->includeData(['FLEET']);
         $this->setWindow('popup');
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
 
         $db = $this->db;
 
@@ -153,7 +153,7 @@ class RaportController extends AbstractGameController
             'Raport'        => $combatReport,
             'Info'          => $Info,
             'pageTitle'     => $LNG['sys_mess_attack_report'],
-            'recCapacity'   => $pricelist[SHIP_RECYCLER]['capacity'],
+            'recCapacity'   => $e->capacity(SHIP_RECYCLER),
         ]);
 
         if ($reportData['battleengine'] === 'rust') {

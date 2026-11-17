@@ -68,8 +68,7 @@ class PlanetsTab extends AccountEditorTab
      */
     private function collectFieldChanges(array &$plan): void
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $name = $this->http()->_GP('name', '', UTF8_SUPPORT);
         $diameter = $this->http()->_GP('diameter', 0);
         $fields = $this->http()->_GP('fields', 0);
@@ -86,22 +85,22 @@ class PlanetsTab extends AccountEditorTab
         }
 
         if ($buildings == 'on') {
-            foreach ($reslist['build'] as $ID) {
-                $plan['expr'][$resource[$ID]] = "'0'";
+            foreach ($e->ids('build') as $ID) {
+                $plan['expr'][$e->column($ID)] = "'0'";
                 $plan['afterPlanet'][$ID] = 0;
             }
         }
 
         if ($ships == 'on') {
-            foreach ($reslist['fleet'] as $ID) {
-                $plan['expr'][$resource[$ID]] = "'0'";
+            foreach ($e->ids('fleet') as $ID) {
+                $plan['expr'][$e->column($ID)] = "'0'";
                 $plan['afterPlanet'][$ID] = 0;
             }
         }
 
         if ($defenses == 'on') {
-            foreach ($reslist['defense'] as $ID) {
-                $plan['expr'][$resource[$ID]] = "'0'";
+            foreach ($e->ids('defense') as $ID) {
+                $plan['expr'][$e->column($ID)] = "'0'";
                 $plan['afterPlanet'][$ID] = 0;
             }
         }

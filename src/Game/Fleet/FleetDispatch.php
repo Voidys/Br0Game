@@ -312,7 +312,7 @@ class FleetDispatch
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $LNG = $this->state->LNG;
         $db = $this->db;
         $this->targetPlanetData = $this->fetchTargetRow();
@@ -340,7 +340,7 @@ class FleetDispatch
         }
         $this->containsOnlyProbes = true;
         foreach ($this->fleetArray as $Ship => $Count) {
-            if ($Count > $PLANET[$resource[$Ship]]) {
+            if ($Count > ($PLANET[$elements->find((int) $Ship)?->column] ?? null)) {
                 $this->refuse($LNG['fl_not_all_ship_avalible'], 'game?page=fleetTable');
             }
             if ($Ship != SHIP_PROBE) {
@@ -459,7 +459,7 @@ class FleetDispatch
     private function planFlight(): void
     {
         $USER = $this->state->USER;
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $LNG = $this->state->LNG;
         $userModel = $this->models()->user($USER);
         $this->fleetMaxSpeed = $this->fleetFunctions()->fleetMaxSpeedFor($this->fleetArray, $userModel);
@@ -467,7 +467,7 @@ class FleetDispatch
         $this->duration = $this->fleetFunctions()->missionDurationFor($this->fleetSpeed, $this->fleetMaxSpeed, $this->distance, $SpeedFactor, $userModel);
         $this->consumption = $this->fleetFunctions()->fleetConsumptionFor($this->fleetArray, $this->duration, $this->distance, $userModel, $SpeedFactor);
 
-        if ($this->state->PLANET[$resource[903]] < $this->consumption) {
+        if ($this->state->PLANET[$elements->column(903)] < $this->consumption) {
             $this->refuse($LNG['fl_not_enough_deuterium'], 'game?page=fleetTable');
         }
 
@@ -484,9 +484,9 @@ class FleetDispatch
         $this->fleetStorage -= $this->consumption;
 
         $this->fleetResource = [
-            901 => min($this->TransportMetal, floor($this->state->PLANET[$resource[901]])),
-            902 => min($this->TransportCrystal, floor($this->state->PLANET[$resource[902]])),
-            903 => min($this->TransportDeuterium, floor($this->state->PLANET[$resource[903]] - $this->consumption)),
+            901 => min($this->TransportMetal, floor($this->state->PLANET[$elements->column(901)])),
+            902 => min($this->TransportCrystal, floor($this->state->PLANET[$elements->column(902)])),
+            903 => min($this->TransportDeuterium, floor($this->state->PLANET[$elements->column(903)] - $this->consumption)),
         ];
 
         $this->checkPushGuard();
@@ -499,22 +499,22 @@ class FleetDispatch
 
 
         if ($this->targetMission == MISSION_TRANSFER) {
-            $attack = $USER[$resource[109]] * 10;
-            $shield = $USER[$resource[110]] * 10;
-            $defensive = $USER[$resource[111]] * 10;
+            $attack = $USER[$elements->column(109)] * 10;
+            $shield = $USER[$elements->column(110)] * 10;
+            $defensive = $USER[$elements->column(111)] * 10;
 
-            $attack_targ = $this->targetPlayerData[$resource[109]] * 10;
-            $shield_targ = $this->targetPlayerData[$resource[110]] * 10;
-            $defensive_targ = $this->targetPlayerData[$resource[111]] * 10;
+            $attack_targ = $this->targetPlayerData[$elements->column(109)] * 10;
+            $shield_targ = $this->targetPlayerData[$elements->column(110)] * 10;
+            $defensive_targ = $this->targetPlayerData[$elements->column(111)] * 10;
 
             if ($attack < $attack_targ || $defensive < $defensive_targ || $shield < $shield_targ) {
                 $this->refuse($LNG['fl_stronger_techs'], 'game?page=fleetTable');
             }
         }
 
-        $this->state->PLANET[$resource[901]] -= $this->fleetResource[901];
-        $this->state->PLANET[$resource[902]] -= $this->fleetResource[902];
-        $this->state->PLANET[$resource[903]] -= $this->fleetResource[903] + $this->consumption;
+        $this->state->PLANET[$elements->column(901)] -= $this->fleetResource[901];
+        $this->state->PLANET[$elements->column(902)] -= $this->fleetResource[902];
+        $this->state->PLANET[$elements->column(903)] -= $this->fleetResource[903] + $this->consumption;
 
         $this->fleetStartTime = floor($this->duration) + $this->state->runtime->timestamp;
         $timeDifference = round(max(0, $this->fleetStartTime - $this->ACSTime));

@@ -708,8 +708,8 @@ class FlyingFleetsTable
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        $resource = $this->state->resource;
-        $SpyTech        = $USER[$resource[106]];
+        $elements = $this->elements();
+        $SpyTech        = $USER[$elements->column(106)];
         $Owner          = $fleetRow['owner'] == $this->userId;
         $FleetRec       = explode(';', $fleetRow['ships']);
         $FleetPopup     = '<a href="#" data-tooltip-content="<table class=\'tip-table\'>';

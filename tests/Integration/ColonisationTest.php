@@ -62,7 +62,7 @@ final class ColonisationTest extends GameTestCase
     public function testASecondColonisationAtATakenPositionIsRefused(): void
     {
         $this->setUniverseConfig(['max_initial_planets' => 9]);
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$a, $aPlanet] = $this->createPlayer([], [$resource[208] => 5, 'deuterium' => 1e6]);
         [$b, $bPlanet] = $this->createPlayer([], [$resource[208] => 5, 'deuterium' => 1e6]);
         $first = $this->colonyFleet($a, $aPlanet);
@@ -79,7 +79,7 @@ final class ColonisationTest extends GameTestCase
     public function testThePlanetLimitIsEnforced(): void
     {
         $this->setUniverseConfig(['max_initial_planets' => 1]);
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$user, $planet] = $this->createPlayer([], [$resource[208] => 5, 'deuterium' => 1e6]);
 
         (new MissionCaseColonisation($this->colonyFleet($user, $planet), $this->db, $this->configs, $this->state))->TargetEvent();

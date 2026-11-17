@@ -27,7 +27,7 @@ final class PirateBaseSpyMissionTest extends GameTestCase
     /** @return array{0: array<string, mixed>, 1: int} the sender and the base id; the fleet id is in $this->fleetId */
     private function spy(int $probes, string $baseShips, bool $baseExists = true): array
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer(['spy_tech' => 8, 'military_tech' => 7, 'shield_tech' => 5, 'defence_tech' => 4], [$resource[210] => $probes, 'deuterium' => 1e6]);
         $this->db->insert('INSERT INTO %%PIRATE_BASES%% SET id_owner = 0, universe = 1, galaxy = :g, system = :s, planet_type = 4, metal = 9000, crystal = 4000, deuterium = 2000, ships = :ships;', [
             ':g' => $senderPlanet['galaxy'], ':s' => $senderPlanet['system'] + 1, ':ships' => $baseShips,

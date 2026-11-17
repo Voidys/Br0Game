@@ -17,6 +17,11 @@ class RaidSpyReports
         private readonly Singleton $state,
     ) {}
 
+    private function elements(): \App\Game\Model\ElementCatalog
+    {
+        return $this->state->elementCatalog ?? throw new \LogicException('game data not loaded');
+    }
+
     /**
      * The newest report of the bot about a planet, not older than `$since` (unix time of the probes' arrival), marked as read.
      *
@@ -59,7 +64,7 @@ class RaidSpyReports
             return null;
         }
         $spy = $data['spyData'];
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $res = [];
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $id) {
             $res[$id] = (float) ($spy[900][$id] ?? 0);
@@ -70,10 +75,10 @@ class RaidSpyReports
             'planet_id' => $planetId,
             'time' => (int) ($data['time'] ?? 0),
             'resources' => $res,
-            'fleet' => isset($spy[200]) ? $this->counts((array) $spy[200], $reslist['fleet']) : null,
-            'defense' => isset($spy[400]) ? $this->counts((array) $spy[400], $reslist['defense']) : null,
-            'buildings' => isset($spy[0]) ? $this->counts((array) $spy[0], $reslist['build']) : null,
-            'techs' => isset($spy[100]) ? $this->counts((array) $spy[100], $reslist['tech']) : null,
+            'fleet' => isset($spy[200]) ? $this->counts((array) $spy[200], $e->ids('fleet')) : null,
+            'defense' => isset($spy[400]) ? $this->counts((array) $spy[400], $e->ids('defense')) : null,
+            'buildings' => isset($spy[0]) ? $this->counts((array) $spy[0], $e->ids('build')) : null,
+            'techs' => isset($spy[100]) ? $this->counts((array) $spy[100], $e->ids('tech')) : null,
             'name' => (string) ($target['name'] ?? ''),
             'coords' => ($target['galaxy'] ?? '?') . ':' . ($target['system'] ?? '?') . ':' . ($target['planet'] ?? '?'),
         ];

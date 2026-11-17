@@ -28,16 +28,16 @@ class FleetMath
      */
     private function getShipConsumption(int $Ship, User $Player): float
     {
-        $pricelist = $this->state->pricelist;
+        $ship = $this->elements()->get($Ship);
 
-        if (($pricelist[$Ship]['tech3'] > 1 && $Player->level(HYPERSPACE_MOTOR_TECH) >= $pricelist[$Ship]['tech3'])
-            || $pricelist[$Ship]['tech3'] == 1) {
-            $consumption = $pricelist[$Ship]['consumption3'];
-        } elseif (($pricelist[$Ship]['tech2'] > 1 && $Player->level(IMPULSE_MOTOR_TECH) >= $pricelist[$Ship]['tech2'])
-            || $pricelist[$Ship]['tech2'] == 1) {
-            $consumption = $pricelist[$Ship]['consumption2'];
+        if (($ship->speedTech(3) > 1 && $Player->level(HYPERSPACE_MOTOR_TECH) >= $ship->speedTech(3))
+            || $ship->speedTech(3) == 1) {
+            $consumption = $ship->consumption(3);
+        } elseif (($ship->speedTech(2) > 1 && $Player->level(IMPULSE_MOTOR_TECH) >= $ship->speedTech(2))
+            || $ship->speedTech(2) == 1) {
+            $consumption = $ship->consumption(2);
         } else {
-            $consumption = $pricelist[$Ship]['consumption1'];
+            $consumption = $ship->consumption(1);
         }
 
         $consumption *= (1 - (0.02 * $Player->level(FUEL_EFFICIENCY_TECH)));
@@ -51,18 +51,18 @@ class FleetMath
      */
     private function getShipSpeed(int $Ship, User $Player): int
     {
-        $pricelist = $this->state->pricelist;
+        $ship = $this->elements()->get($Ship);
 
-        if (($pricelist[$Ship]['tech3'] > 1 && $Player->level(HYPERSPACE_MOTOR_TECH) >= $pricelist[$Ship]['tech3'])
-            || $pricelist[$Ship]['tech3'] == 1) {
-            $base_speed = $pricelist[$Ship]['speed3'];
+        if (($ship->speedTech(3) > 1 && $Player->level(HYPERSPACE_MOTOR_TECH) >= $ship->speedTech(3))
+            || $ship->speedTech(3) == 1) {
+            $base_speed = $ship->speed(3);
             $speed = $base_speed * (1 + (0.3 * $Player->level(HYPERSPACE_MOTOR_TECH)));
-        } elseif (($pricelist[$Ship]['tech2'] > 1 && $Player->level(IMPULSE_MOTOR_TECH) >= $pricelist[$Ship]['tech2'])
-            || $pricelist[$Ship]['tech2'] == 1) {
-            $base_speed = $pricelist[$Ship]['speed2'];
+        } elseif (($ship->speedTech(2) > 1 && $Player->level(IMPULSE_MOTOR_TECH) >= $ship->speedTech(2))
+            || $ship->speedTech(2) == 1) {
+            $base_speed = $ship->speed(2);
             $speed = $base_speed * (1 + (0.2 * $Player->level(IMPULSE_MOTOR_TECH)));
         } else {
-            $base_speed = $pricelist[$Ship]['speed1'];
+            $base_speed = $ship->speed(1);
             $speed = $base_speed * (1 + (0.1 * $Player->level(COMBUSTION_TECH)));
         }
 
@@ -286,10 +286,10 @@ class FleetMath
      */
     public function getFleetRoom(array $Fleet): int
     {
-        $pricelist = $this->state->pricelist;
+        $elements = $this->elements();
         $FleetRoom = 0;
         foreach ($Fleet as $ShipID => $amount) {
-            $FleetRoom += $pricelist[$ShipID]['capacity'] * $amount;
+            $FleetRoom += ($elements->has((int) $ShipID) ? $elements->capacity((int) $ShipID) : 0.0) * $amount;
         }
         return floor($FleetRoom);
     }

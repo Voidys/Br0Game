@@ -152,7 +152,7 @@ class MissionFunctions
      */
     protected function lockDebrisField(string $tableKey, int|string $rowId, array $debrisIDs): array|false
     {
-        $columns = array_map(fn(int $debrisID): string => '`der_' . $this->state->resource[$debrisID] . '`', $debrisIDs);
+        $columns = array_map(fn(int $debrisID): string => '`der_' . $this->elements()->column($debrisID) . '`', $debrisIDs);
         $qb = $this->db->qb()
             ->select(...$columns)
             ->addSelect('(' . implode(' + ', $columns) . ') AS total')
@@ -176,7 +176,7 @@ class MissionFunctions
             ->where('`id` = :planetId')
             ->setParameter('planetId', $rowId);
         foreach ($collectedGoods as $debrisID => $amount) {
-            $column = '`der_' . $this->state->resource[$debrisID] . '`';
+            $column = '`der_' . $this->elements()->column($debrisID) . '`';
             $qb->set($column, 'GREATEST(0, ' . $column . ' - :take' . $debrisID . ')')->setParameter('take' . $debrisID, $amount);
         }
         $this->db->execute($qb);
@@ -194,8 +194,7 @@ class MissionFunctions
      */
     protected function collectDebris(string $tableKey, array $targetData): array
     {
-        $pricelist = $this->state->pricelist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $debrisIDs = [RESOURCE_METAL, RESOURCE_CRYSTAL];
         $collectedGoods = [];
         $remainingGoods = [];
@@ -203,16 +202,16 @@ class MissionFunctions
         $recyclerStorage = 0;
         $otherFleetStorage = 0;
         foreach ($this->fleetFunctions()->unserialize($this->_fleet['ships']) as $shipId => $shipAmount) {
-            if (isset($this->state->reslist['ship_type'][SHIP_TYPE_RECYCLER][$shipId])) {
-                $recyclerStorage += $pricelist[$shipId]['capacity'] * $shipAmount;
+            if ($e->isShipType($shipId, SHIP_TYPE_RECYCLER)) {
+                $recyclerStorage += $e->capacity($shipId) * $shipAmount;
             } else {
-                $otherFleetStorage += $pricelist[$shipId]['capacity'] * $shipAmount;
+                $otherFleetStorage += $e->capacity($shipId) * $shipAmount;
             }
         }
 
         $incomingGoods = 0;
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceID) {
-            $incomingGoods += $this->_fleet['resource_' . $resource[$resourceID]];
+            $incomingGoods += $this->_fleet['resource_' . $e->column($resourceID)];
         }
 
         $totalStorage = $recyclerStorage + min(0, $otherFleetStorage - $incomingGoods);
@@ -220,9 +219,9 @@ class MissionFunctions
         // fast way
         $collectFactor = min(1, $totalStorage / $targetData['total']);
         foreach ($debrisIDs as $debrisID) {
-            $fleetColName = 'resource_' . $resource[$debrisID];
-            $logColName = 'gained_' . $resource[$debrisID];
-            $debrisColName = 'der_' . $resource[$debrisID];
+            $fleetColName = 'resource_' . $e->column($debrisID);
+            $logColName = 'gained_' . $e->column($debrisID);
+            $debrisColName = 'der_' . $e->column($debrisID);
 
             $collectedGoods[$debrisID] = ceil($targetData[$debrisColName] * $collectFactor);
             $remainingGoods[$debrisID] = max(0, $targetData[$debrisColName] - $collectedGoods[$debrisID]);
@@ -239,10 +238,11 @@ class MissionFunctions
     /** Checks the recycling achievements for a fleet that found an empty debris field (nothing collected). */
     protected function checkEmptyRecycling(array $collectedGoods): void
     {
+        $e = $this->elements();
         $fleetData = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
         $recCount = 0;
         foreach ($fleetData as $shipId => $shipAmount) {
-            if (isset($this->state->reslist['ship_type'][SHIP_TYPE_RECYCLER][$shipId])) {
+            if ($e->isShipType($shipId, SHIP_TYPE_RECYCLER)) {
                 $recCount += $shipAmount;
             }
         }
@@ -259,8 +259,7 @@ class MissionFunctions
      */
     protected function sendRecyclingReport(array $collectedGoods, array $remainingGoods, array $targetData): void
     {
-        $pricelist = $this->state->pricelist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);
         $LNG->includeData(['INGAME']);
 
@@ -269,15 +268,15 @@ class MissionFunctions
             GetTargetAddressLink($this->_fleet, ''),
             $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_METAL]),
             $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_CRYSTAL]),
-            $this->viewHelpers()->prettyNumber($targetData['der_' . $resource[RESOURCE_METAL]]),
-            $this->viewHelpers()->prettyNumber($targetData['der_' . $resource[RESOURCE_CRYSTAL]]),
+            $this->viewHelpers()->prettyNumber($targetData['der_' . $e->column(RESOURCE_METAL)]),
+            $this->viewHelpers()->prettyNumber($targetData['der_' . $e->column(RESOURCE_CRYSTAL)]),
             $LNG['tech'][RESOURCE_METAL],
             $LNG['tech'][RESOURCE_CRYSTAL],
         );
         $Message .= '<br>';
         $Message .= $LNG->format(
             'bs_derbis_raport',
-            $this->viewHelpers()->prettyNumber(ceil(array_sum($remainingGoods) / $pricelist[SHIP_RECYCLER]['capacity'])),
+            $this->viewHelpers()->prettyNumber(ceil(array_sum($remainingGoods) / $e->capacity(SHIP_RECYCLER))),
             $LNG['tech'][SHIP_RECYCLER],
         );
 
@@ -325,7 +324,7 @@ class MissionFunctions
      */
     protected function RestoreFleet($onStart = true)
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         $fleetData = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
 
@@ -345,9 +344,9 @@ class MissionFunctions
         ];
 
         foreach ($fleetData as $shipId => $shipAmount) {
-            $updateQuery[] = "p.`" . $resource[$shipId] . "` = p.`" . $resource[$shipId]
-                . "` + :" . $resource[$shipId];
-            $param[':' . $resource[$shipId]] = $shipAmount;
+            $updateQuery[] = "p.`" . $e->column($shipId) . "` = p.`" . $e->column($shipId)
+                . "` + :" . $e->column($shipId);
+            $param[':' . $e->column($shipId)] = $shipAmount;
         }
 
         $sql = 'UPDATE %%PLANETS%% as p, %%USERS%% as u SET
@@ -478,7 +477,7 @@ class MissionFunctions
      */
     public function sendAttackReturnMessage()
     {
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
 
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);
 
@@ -516,7 +515,7 @@ class MissionFunctions
                 if ($fleetAmmountStart > $fleetAmmount) {
                     $Message .= '<br><br>' . $LNG->format('sys_expe_back_home_ships_lost');
                 }
-                foreach ($reslist['fleet'] as $shipId) {
+                foreach ($e->ids('fleet') as $shipId) {
                     if (isset($fleetArrayStart[$shipId]) && isset($fleetArray[$shipId])) {
                         if ($fleetArrayStart[$shipId] != $fleetArray[$shipId]) {
                             $Message .= '<br>' . $LNG['tech'][$shipId] . ': ' . $this->viewHelpers()->prettyNumber(abs($fleetArrayStart[$shipId] - $fleetArray[$shipId]));

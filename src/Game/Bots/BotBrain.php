@@ -158,15 +158,15 @@ class BotBrain
      */
     private function hoursToAfford(BotActions $ctx, array $planet, array $cost): float
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $config = $ctx->config;
         $hours = 0.0;
         foreach ($cost as $rid => $amount) {
-            $missing = $amount - floor((float) $planet[$resource[$rid]]);
+            $missing = $amount - floor((float) $planet[$e->column($rid)]);
             if ($missing <= 0) {
                 continue;
             }
-            $name = $resource[$rid];
+            $name = $e->column($rid);
             $income = (float) ($planet[$name . '_perhour'] ?? 0) + (float) ($config->{$name . '_basic_income'} ?? 0) * ((float) $config->resource_multiplier / 2500);
             $hours = max($hours, $income > 0 ? $missing / $income : 99.0);
         }
@@ -192,13 +192,13 @@ class BotBrain
         if ($c['planet'] !== $goal['planet']) {
             return true; // another planet pays from its own stock
         }
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $goalPlanet = $ctx->planets[$goal['planet']];
         $planet = $ctx->planets[$c['planet']];
         foreach ($goal['cost'] as $rid => $amount) {
-            $missing = $amount - floor((float) $goalPlanet[$resource[$rid]]);
-            $max = (float) ($planet[$resource[$rid] . '_max'] ?? 0);
-            $overflowing = $max > 0 && (float) $planet[$resource[$rid]] >= 0.9 * $max;
+            $missing = $amount - floor((float) $goalPlanet[$e->column($rid)]);
+            $max = (float) ($planet[$e->column($rid) . '_max'] ?? 0);
+            $overflowing = $max > 0 && (float) $planet[$e->column($rid)] >= 0.9 * $max;
             if ($missing > 0 && !$overflowing && (float) ($c['cost'][$rid] ?? 0) > 0.08 * $missing) {
                 return false;
             }
@@ -237,7 +237,7 @@ class BotBrain
      */
     private function candidates(BotActions $ctx, array $settings, array $personality, float $skill): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $config = $ctx->config;
         $user = $ctx->user;
         $patience = (float) ($personality['patience'] ?? 1.0);
@@ -260,13 +260,13 @@ class BotBrain
                     + (float) $config->{$name . '_basic_income'} * ((float) $config->resource_multiplier / 2500);
             }
             // penalty by hours needed to afford, patient bots tolerate more waiting
-            $penalty = static function (array $cost) use ($planet, $resource, $income, $patience): array {
+            $penalty = static function (array $cost) use ($planet, $e, $income, $patience): array {
                 $ttf = 0.0;
                 foreach ($cost as $rid => $amount) {
                     if (!isset($income[$rid])) {
                         continue;
                     }
-                    $missing = $amount - floor((float) $planet[$resource[$rid]]);
+                    $missing = $amount - floor((float) $planet[$e->column($rid)]);
                     if ($missing > 0) {
                         $ttf = max($ttf, $income[$rid] > 0 ? $missing / $income[$rid] : 99.0);
                     }
@@ -301,8 +301,8 @@ class BotBrain
      */
     private function buildingScore(int $el, array $planet, int $level, float $bal, int $metal, int $crystal, int $deut, int $ref, int $free): ?array
     {
-        $resource = $this->state->resource;
-        $lv = static fn(int $id): int => (int) $planet[$resource[$id]];
+        $e = $this->elements();
+        $lv = static fn(int $id): int => (int) $planet[$e->column($id)];
         switch ($el) {
             case 1:
             case 2:
@@ -326,8 +326,8 @@ class BotBrain
             case 23:
             case 24:
                 $rid = [22 => 901, 23 => 902, 24 => 903][$el];
-                $max = (float) ($planet[$resource[$rid] . '_max'] ?? 0);
-                $fill = $max > 0 ? (float) $planet[$resource[$rid]] / $max : 0;
+                $max = (float) ($planet[$e->column($rid) . '_max'] ?? 0);
+                $fill = $max > 0 ? (float) $planet[$e->column($rid)] / $max : 0;
                 $score = 12 + 110 * max(0, $fill - 0.55) + ($fill >= 0.85 ? 120 : 0); // a nearly full store is spent or enlarged before it overflows
                 $cat = 'storage';
                 break;
@@ -370,9 +370,9 @@ class BotBrain
      */
     private function buildingCandidates(array &$out, BotActions $ctx, array $planet, int|string $pid, string $name, callable $penalty, callable $wf): void
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $user = $ctx->user;
-        $lv = static fn(int $id): int => (int) $planet[$resource[$id]];
+        $lv = static fn(int $id): int => (int) $planet[$e->column($id)];
 
         if ($ctx->canStartBuilding($planet)) {
             $bal = (float) $planet['energy'] + (float) $planet['energy_used'];
@@ -401,7 +401,7 @@ class BotBrain
                 $out[] = [
                     'type' => 'build', 'planet' => $pid, 'element' => $el, 'count' => 1, 'cat' => $cat, 'cost' => $cost, 'raw' => $score * $wf($cat),
                     'score' => $score * $wf($cat) * $factor, 'affordable' => $ok,
-                    'label' => $resource[$el] . ' ' . $level . ' on ' . $name,
+                    'label' => $e->column($el) . ' ' . $level . ' on ' . $name,
                 ];
             }
         }
@@ -418,9 +418,9 @@ class BotBrain
      */
     private function researchCandidates(array &$out, BotActions $ctx, array $planet, int|string $pid, string $name, callable $penalty, callable $wf, float $skill, array $settings = []): void
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $user = $ctx->user;
-        $lv = static fn(int $id): int => (int) $planet[$resource[$id]];
+        $lv = static fn(int $id): int => (int) $planet[$e->column($id)];
 
         if ($lv(31) > 0 && $ctx->isResearchQueueEmpty() && !$ctx->labInConstruction()) {
             foreach (self::RESEARCH as $el => [$base, $cap]) {
@@ -438,7 +438,7 @@ class BotBrain
                 $out[] = [
                     'type' => 'research', 'planet' => $pid, 'element' => $el, 'count' => 1, 'cat' => 'research', 'cost' => $cost, 'raw' => $score * $wf('research'),
                     'score' => $score * $wf('research') * $factor, 'affordable' => $ok,
-                    'label' => $resource[$el] . ' ' . $level . ' on ' . $name,
+                    'label' => $e->column($el) . ' ' . $level . ' on ' . $name,
                 ];
             }
         }
@@ -476,8 +476,8 @@ class BotBrain
      */
     private function unitCandidates(array &$out, BotActions $ctx, array $planet, int|string $pid, string $name, callable $penalty, callable $wf, float $skill, bool $colonyOk, array $settings = []): void
     {
-        $resource = $this->state->resource;
-        $lv = static fn(int $id): int => (int) $planet[$resource[$id]];
+        $e = $this->elements();
+        $lv = static fn(int $id): int => (int) $planet[$e->column($id)];
 
         if ($ctx->canQueueUnits($planet)) {
             $cargo = $this->cargoNeed($ctx);
@@ -515,13 +515,12 @@ class BotBrain
      */
     private function cargoNeed(BotActions $ctx): float
     {
-        $resource = $this->state->resource;
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $capacity = 0;
         $stock = 0;
         foreach ($ctx->planets as $planet) {
-            $capacity += (int) $planet[$resource[SHIP_SMALL_CARGO]] * (int) $pricelist[SHIP_SMALL_CARGO]['capacity']
-                + (int) $planet[$resource[SHIP_LARGE_CARGO]] * (int) $pricelist[SHIP_LARGE_CARGO]['capacity'];
+            $capacity += (int) $planet[$e->column(SHIP_SMALL_CARGO)] * (int) $e->capacity(SHIP_SMALL_CARGO)
+                + (int) $planet[$e->column(SHIP_LARGE_CARGO)] * (int) $e->capacity(SHIP_LARGE_CARGO);
             $stock = max($stock, (float) $planet['metal'] + (float) $planet['crystal'] + (float) $planet['deuterium']);
         }
         $need = max(20000.0, 0.5 * $stock);
@@ -539,14 +538,14 @@ class BotBrain
      */
     private function addUnits(array &$out, BotActions $ctx, array $planet, int $pid, int $el, float $score, string $type, string $cat, float $wf, callable $penalty, string $name): void
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         if ($score <= 0 || !$ctx->unitsAllowed($planet, $el)) {
             return;
         }
 
         $single = $this->buildFunctions()->getElementPrice($ctx->user, $planet, $el);
         $maxAfford = (int) $this->buildFunctions()->getMaxConstructibleElements($ctx->user, $planet, $el, $single);
-        if (in_array($el, [208, 210]) || in_array($el, $this->state->reslist['one'])) {
+        if (in_array($el, [208, 210]) || in_array($el, $this->elements()->ids('one'))) {
             $count = 1;
         } elseif ($maxAfford >= 1) {
             $count = max(1, (int) floor($maxAfford * (mt_rand(15, 60) / 100)));
@@ -560,7 +559,7 @@ class BotBrain
         $out[] = [
             'type' => $type, 'planet' => $pid, 'element' => $el, 'count' => $count, 'cat' => $cat, 'cost' => $cost, 'raw' => $score * $wf,
             'score' => $score * $wf * $factor, 'affordable' => $ok,
-            'label' => $count . ' x ' . $resource[$el] . ' on ' . $name,
+            'label' => $count . ' x ' . $e->column($el) . ' on ' . $name,
         ];
     }
 }

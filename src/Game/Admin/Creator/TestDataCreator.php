@@ -181,13 +181,13 @@ class TestDataCreator extends CreatorTab
      */
     private function updateAbsoluteValues(string $table, $rowId, array $valueLists): void
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         // column names come from the game's resource table; a later list overwrites an earlier value of the same column
         $columns = [];
         foreach ($valueLists as $values) {
             foreach ($values as $ID => $value) {
-                $columns[$resource[$ID]] = $value;
+                $columns[$e->column($ID)] = $value;
             }
         }
 

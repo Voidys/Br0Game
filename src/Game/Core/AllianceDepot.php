@@ -50,13 +50,13 @@ class AllianceDepot
      */
     public function hourlyCost(array $ships, ?int $ownerId = null): int
     {
-        $pricelist = $this->state->pricelist;
+        $elements = $this->elements();
         $real = $ownerId !== null && $this->configs->get()->depot_cost_real_consumption
             ? $this->realConsumptions($ships, $ownerId)
             : null;
         $sum = 0.0;
         foreach ($ships as $shipId => $count) {
-            $per = $real[$shipId] ?? $this->baseConsumption($pricelist[$shipId] ?? []);
+            $per = $real[$shipId] ?? $elements->find((int) $shipId)?->baseConsumption() ?? 0.0;
             $sum += (float) $count * $per;
         }
 
@@ -78,20 +78,6 @@ class AllianceDepot
         $info = $this->fleetFunctions()->getFleetShipInfo($ships, $owner);
 
         return array_map(static fn(array $row): float => (float) $row['consumption'], $info);
-    }
-
-    /**
-     * @param array<string, mixed> $ship pricelist entry of the ship
-     */
-    private function baseConsumption(array $ship): float
-    {
-        foreach (['consumption1', 'consumption2', 'consumption3'] as $column) {
-            if (!empty($ship[$column])) {
-                return (float) $ship[$column];
-            }
-        }
-
-        return 0.0;
     }
 
     /**
@@ -218,7 +204,7 @@ class AllianceDepot
 
         // the request's planet copy mirrors the debit (the transaction may have run more than once)
         if (($this->state->PLANET['id'] ?? 0) == $planetId) {
-            $this->state->PLANET[$this->state->resource[RESOURCE_DEUT]] -= $result['cost'];
+            $this->state->PLANET[$this->elements()->column(RESOURCE_DEUT)] -= $result['cost'];
         }
 
         return $result;

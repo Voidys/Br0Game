@@ -69,11 +69,11 @@ class PlanetRessAchievement
             $this->achievement()->setAchievement($userId, 9);
         }
         if ($element == SHIP_RIP && !$this->achievement()->checkAchievement($userId, 52)) {
-            $reslist = $this->state->reslist;
+            $elements = $this->elements();
             $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
 
             $count = 0;
-            foreach ($reslist['ship_type']['military'] as $elementId) {
+            foreach ($elements->shipTypeIds('military') as $elementId) {
                 $count += $statsHandler->getValue($userId, AdvancedStatsEnum::getBuild($elementId));
             }
 

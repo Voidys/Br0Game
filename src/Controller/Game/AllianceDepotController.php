@@ -26,7 +26,7 @@ class AllianceDepotController extends AbstractGameController
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $level = (int) ($PLANET[$this->state->resource[34]] ?? 0);
+        $level = (int) ($PLANET[$this->elements()->column(34)] ?? 0);
         $back = [['label' => $LNG['bd_continue'], 'url' => 'game?page=allianceDepot']];
 
         if ($level < 1) {
@@ -73,7 +73,7 @@ class AllianceDepotController extends AbstractGameController
         $this->assign([
             'depotLevel' => $level,
             'fleets' => $fleets,
-            'deuterium' => $PLANET[$this->state->resource[RESOURCE_DEUT]],
+            'deuterium' => $PLANET[$this->elements()->column(RESOURCE_DEUT)],
             'maxStay' => $this->allianceDepot()->maxRemainingStayHours(),
         ]);
         $this->addScript('allianceDepot.js');

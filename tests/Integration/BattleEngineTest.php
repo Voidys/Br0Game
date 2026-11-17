@@ -182,7 +182,6 @@ final class BattleEngineTest extends GameTestCase
     public function testResultInvariantsHoldForEveryFight(string $engine): void
     {
         $this->setUniverseConfig(['fleet_debris_percentage' => 30, 'def_debris_percentage' => 0]);
-        $pricelist = $this->state->pricelist;
         $setup = self::FLEET_D;
 
         for ($run = 0; $run < 5; $run++) {
@@ -201,8 +200,8 @@ final class BattleEngineTest extends GameTestCase
             $lostAttackerMetal = $lostAttackerCrystal = 0;
             foreach ($setup[0] as $unit => $start) {
                 $lost = $start - ($result['attackersLeft'][0][$unit] ?? 0);
-                $lostAttackerMetal += $lost * $pricelist[$unit]['cost'][901];
-                $lostAttackerCrystal += $lost * $pricelist[$unit]['cost'][902];
+                $lostAttackerMetal += $lost * $this->elements()->cost($unit)->metal;
+                $lostAttackerCrystal += $lost * $this->elements()->cost($unit)->crystal;
             }
             $this->assertEqualsWithDelta($lostAttackerMetal * 0.3, $result['debris']['attacker'][901], 0.01);
             $this->assertEqualsWithDelta($lostAttackerCrystal * 0.3, $result['debris']['attacker'][902], 0.01);
@@ -223,9 +222,9 @@ final class BattleEngineTest extends GameTestCase
      */
     private function fightingUnits(): array
     {
-        $caps = $this->state->CombatCaps;
-        $ships = array_values(array_filter([202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215], static fn(int $id): bool => isset($caps[$id])));
-        $defence = array_values(array_filter([401, 402, 403, 404, 405, 406, 407, 408], static fn(int $id): bool => isset($caps[$id])));
+        $elements = $this->elements();
+        $ships = array_values(array_filter([202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215], static fn(int $id): bool => $elements->has($id)));
+        $defence = array_values(array_filter([401, 402, 403, 404, 405, 406, 407, 408], static fn(int $id): bool => $elements->has($id)));
 
         return [$ships, $defence];
     }

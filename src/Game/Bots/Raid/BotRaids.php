@@ -160,12 +160,11 @@ class BotRaids
     /** Whether any planet has cargo ships or warships. */
     private function hasRaiders(BotActions $ctx): bool
     {
-        $resource = $this->state->resource;
-        $caps = $this->state->CombatCaps;
+        $e = $this->elements();
         foreach ($ctx->planets as $planet) {
-            foreach ($this->state->reslist['fleet'] as $id) {
-                $fighter = ($caps[$id]['attack'] ?? 0) > 0 && !in_array($id, [SHIP_COLOSHIP, SHIP_RECYCLER, SHIP_PROBE, SHIP_SOLSAT], true);
-                if ($fighter && (int) ($planet[$resource[$id]] ?? 0) > 0) {
+            foreach ($this->elements()->ids('fleet') as $id) {
+                $fighter = $e->combat($id)->attack > 0 && !in_array($id, [SHIP_COLOSHIP, SHIP_RECYCLER, SHIP_PROBE, SHIP_SOLSAT], true);
+                if ($fighter && (int) ($planet[$e->column($id)] ?? 0) > 0) {
                     return true;
                 }
             }
@@ -177,10 +176,10 @@ class BotRaids
     /** Total probes on all planets. */
     private function probesAtHome(BotActions $ctx): int
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $sum = 0;
         foreach ($ctx->planets as $planet) {
-            $sum += (int) $planet[$resource[SHIP_PROBE]];
+            $sum += (int) $planet[$e->column(SHIP_PROBE)];
         }
 
         return $sum;
@@ -336,7 +335,7 @@ class BotRaids
     {
         $ships = [];
         foreach ($plan['fleet'] as $id => $count) {
-            $ships[] = $count . ' ' . $this->state->resource[$id];
+            $ships[] = $count . ' ' . $this->elements()->column($id);
         }
 
         return $label . ' with ' . implode(', ', $ships) . ': expected loot ' . round($plan['loot']) . ' vs cost ' . round($plan['cost'])
@@ -435,13 +434,13 @@ class BotRaids
      */
     private function spy(BotActions $ctx, int $botId, int $uni, array &$mem, array $target, int $now): bool
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $pid = (int) $target['planet_id'];
         $n = $this->probeCount($ctx, $mem['targets'][$pid] ?? []);
         $origin = null;
         $bestDistance = PHP_INT_MAX;
         foreach ($ctx->planets as $id => $planet) {
-            if ((int) $planet[$resource[SHIP_PROBE]] < 1) {
+            if ((int) $planet[$e->column(SHIP_PROBE)] < 1) {
                 continue;
             }
             $d = $this->fleetFunctions()->getTargetDistance([$planet['galaxy'], $planet['system'], $planet['planet']], [$target['galaxy'], $target['system'], $target['planet']]);
@@ -453,7 +452,7 @@ class BotRaids
         if ($origin === null) {
             return false;
         }
-        $n = min($n, (int) $ctx->planets[$origin][$resource[SHIP_PROBE]]);
+        $n = min($n, (int) $ctx->planets[$origin][$e->column(SHIP_PROBE)]);
         $sent = $this->dispatcher->send($ctx, $ctx->planets[$origin], [SHIP_PROBE => $n], MISSION_SPY, $pid, (int) $target['user_id']);
         if (!$sent['ok']) {
             $this->botLog->log($botId, $uni, 'raid_skip', $target['name'] . ' [' . $target['coords'] . ']: spying refused (' . $sent['reason'] . ')');
@@ -476,7 +475,7 @@ class BotRaids
      */
     public function probeCount(BotActions $ctx, array $known): int
     {
-        $own = max(1, (int) $ctx->user[$this->state->resource[SPY_TECH]]);
+        $own = max(1, (int) $ctx->user[$this->elements()->column(SPY_TECH)]);
         if (isset($known['tspy'])) {
             $t = max(1, (int) $known['tspy']);
             $base = ($own > $t ? -1 : 1) * pow(abs($own - $t) * SPY_DIFFENCE_FACTOR, 2);

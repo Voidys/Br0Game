@@ -6,15 +6,15 @@ namespace App\Game\Model;
 
 /**
  * Base cost of an element per resource (level 1 for buildings and research, one unit for ships, defense and missiles).
- * Immutable. A resource the element does not cost reads as 0.0.
+ * Immutable. A resource the element does not cost reads as 0. Values keep the type the game data has (int or float, see Numeric).
  */
 final readonly class ResourceCost
 {
     public function __construct(
-        public float $metal,
-        public float $crystal,
-        public float $deuterium,
-        public float $energy,
+        public int|float $metal,
+        public int|float $crystal,
+        public int|float $deuterium,
+        public int|float $energy,
     ) {}
 
     /**
@@ -23,29 +23,29 @@ final readonly class ResourceCost
     public static function fromArray(array $cost): self
     {
         return new self(
-            (float) ($cost[RESOURCE_METAL] ?? 0),
-            (float) ($cost[RESOURCE_CRYSTAL] ?? 0),
-            (float) ($cost[RESOURCE_DEUT] ?? 0),
-            (float) ($cost[RESOURCE_ENERGY] ?? 0),
+            Numeric::of($cost[RESOURCE_METAL] ?? 0),
+            Numeric::of($cost[RESOURCE_CRYSTAL] ?? 0),
+            Numeric::of($cost[RESOURCE_DEUT] ?? 0),
+            Numeric::of($cost[RESOURCE_ENERGY] ?? 0),
         );
     }
 
-    /** Cost in one resource; 0.0 for an id that is no resource. */
-    public function of(int $resourceId): float
+    /** Cost in one resource; 0 for an id that is no resource. */
+    public function of(int $resourceId): int|float
     {
         return match ($resourceId) {
             RESOURCE_METAL => $this->metal,
             RESOURCE_CRYSTAL => $this->crystal,
             RESOURCE_DEUT => $this->deuterium,
             RESOURCE_ENERGY => $this->energy,
-            default => 0.0,
+            default => 0,
         };
     }
 
     /**
      * Only the resources with a non-zero cost, keyed by resource id, in the order metal, crystal, deuterium, energy.
      *
-     * @return array<int, float>
+     * @return array<int, int|float>
      */
     public function nonZero(): array
     {
@@ -63,7 +63,7 @@ final readonly class ResourceCost
      * All four resources keyed by resource id in the order metal, crystal, deuterium, energy: the shape of
      * `$pricelist[$id]['cost']`.
      *
-     * @return array<int, float>
+     * @return array<int, int|float>
      */
     public function toArray(): array
     {
@@ -76,13 +76,13 @@ final readonly class ResourceCost
     }
 
     /** Metal plus crystal (`cost[901] + cost[902]`), the base of the structure points and debris. */
-    public function metalCrystal(): float
+    public function metalCrystal(): int|float
     {
         return $this->metal + $this->crystal;
     }
 
     /** Metal plus crystal plus deuterium (`cost[901] + cost[902] + cost[903]`), the base of the statistic points. */
-    public function metalCrystalDeuterium(): float
+    public function metalCrystalDeuterium(): int|float
     {
         return $this->metal + $this->crystal + $this->deuterium;
     }

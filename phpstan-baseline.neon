@@ -6568,24 +6568,6 @@ parameters:
 			path: src/Game/Core/Statbuilder.php
 
 		-
-			message: '#^Property App\\Game\\Core\\Statbuilder\:\:\$pricelists type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/Statbuilder.php
-
-		-
-			message: '#^Property App\\Game\\Core\\Statbuilder\:\:\$reslists type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/Statbuilder.php
-
-		-
-			message: '#^Property App\\Game\\Core\\Statbuilder\:\:\$resources type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/Statbuilder.php
-
-		-
 			message: '#^Property App\\Game\\Core\\Statbuilder\:\:\$universes type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

@@ -65,8 +65,7 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
     protected function initCombatValues(&$fleets): array
     {
         // INIT COMBAT VALUES
-        $CombatCaps = $this->state->CombatCaps;
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $attArray = [];
         foreach ($fleets as $fleetID => $attacker) {
 
@@ -78,9 +77,9 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
             $fleets[$fleetID]['techs'] = [$attTech, $shieldTech, $armorTech];
 
             foreach ($attacker['unit'] as $element => $amount) {
-                $attArray[$fleetID][$element]['def'] = $amount * ($pricelist[$element]['cost'][901] + $pricelist[$element]['cost'][902]) / 10 * $armorTech;
-                $attArray[$fleetID][$element]['shield'] = $amount * ($CombatCaps[$element]['shield']) * $shieldTech;
-                $attArray[$fleetID][$element]['att'] = $amount * ($CombatCaps[$element]['attack']) * $attTech;
+                $attArray[$fleetID][$element]['def'] = $amount * ($e->cost($element)->metal + $e->cost($element)->crystal) / 10 * $armorTech;
+                $attArray[$fleetID][$element]['shield'] = $amount * ($e->combat($element)->shield) * $shieldTech;
+                $attArray[$fleetID][$element]['att'] = $amount * ($e->combat($element)->attack) * $attTech;
             }
         }
 

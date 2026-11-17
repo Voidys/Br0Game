@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Game\Model;
 
-use App\Game\Core\Singleton;
-
 /**
- * Read-only catalog of the game elements of the current universe: the typed view of the game data tables that the
- * game state carries as the untyped arrays `$resource`, `$reslist`, `$pricelist`, `$CombatCaps`, `$ProdGrid` and
- * `$requeriments` (loaded by GameData from the vars cache).
+ * Read-only catalog of the game elements of the current universe: the only source of the game data tables (formerly
+ * the state arrays `$resource`, `$reslist`, `$pricelist`, `$CombatCaps`, `$ProdGrid`, `$requeriments`; GameData builds
+ * the catalog from the vars cache and publishes it as `$state->elementCatalog`).
  *
- * New code reads element data from here instead of from those arrays: `$this->elements()->get($id)->cost`,
+ * Element data is read like this: `$this->elements()->get($id)->cost`,
  * `->column($id)`, `->ids('fleet')`, `->isDefense($id)`. Groups: build, tech, fleet, defense, missile, prod, storage,
  * one, ressources; nested ones through allowedOn() (planet type), shipTypeIds() and resourceIds() (resource type).
  *
@@ -118,10 +116,10 @@ final class ElementCatalog
                 shipType: $shipType,
                 planetTypes: $planetTypes,
                 cost: ResourceCost::fromArray(is_array($price['cost'] ?? null) ? $price['cost'] : []),
-                factor: (float) ($price['factor'] ?? 0),
+                factor: Numeric::of($price['factor'] ?? 0),
                 maxLevel: isset($price['max']) ? (int) $price['max'] : null,
                 maxUsefulLevel: (int) ($price['max_useful_level'] ?? 0),
-                capacity: (float) ($price['capacity'] ?? 0),
+                capacity: Numeric::of($price['capacity'] ?? 0),
                 consumption: self::drives($price, 'consumption'),
                 speed: self::drives($price, 'speed'),
                 speedTech: array_map('intval', self::drives($price, 'tech')),
@@ -169,19 +167,6 @@ final class ElementCatalog
             is_array($data['CombatCaps'] ?? null) ? $data['CombatCaps'] : [],
             is_array($data['ProdGrid'] ?? null) ? $data['ProdGrid'] : [],
             is_array($data['requeriments'] ?? null) ? $data['requeriments'] : [],
-        );
-    }
-
-    /** Catalog of the game data currently loaded in the state. */
-    public static function fromState(Singleton $state): self
-    {
-        return self::fromArrays(
-            $state->resource ?? [],
-            $state->reslist ?? [],
-            $state->pricelist ?? [],
-            $state->CombatCaps ?? [],
-            $state->ProdGrid ?? [],
-            $state->requeriments ?? [],
         );
     }
 
@@ -309,7 +294,7 @@ final class ElementCatalog
     }
 
     /** Cost growth factor per level (`$pricelist[$id]['factor']`). */
-    public function factor(int $id): float
+    public function factor(int $id): int|float
     {
         return $this->get($id)->factor;
     }
@@ -321,7 +306,7 @@ final class ElementCatalog
     }
 
     /** Cargo capacity of a ship (`$pricelist[$id]['capacity']`). */
-    public function capacity(int $id): float
+    public function capacity(int $id): int|float
     {
         return $this->get($id)->capacity;
     }
@@ -485,13 +470,13 @@ final class ElementCatalog
 
     /**
      * @param array<string, mixed> $price pricelist entry
-     * @return array<int, float>
+     * @return array<int, int|float>
      */
     private static function drives(array $price, string $prefix): array
     {
         $values = [];
         foreach ([1, 2, 3] as $drive) {
-            $values[$drive] = (float) ($price[$prefix . $drive] ?? 0);
+            $values[$drive] = Numeric::of($price[$prefix . $drive] ?? 0);
         }
 
         return $values;

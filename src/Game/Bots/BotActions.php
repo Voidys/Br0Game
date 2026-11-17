@@ -71,7 +71,7 @@ class BotActions
         $this->planets = [];
         foreach ($planets as $planet) {
             [$user, $planet] = $this->eco->CalcResource($user, $planet, true);
-            $planet[$this->res()[RESEARCH_LABORATORY] . '_inter'] = $this->eco->getNetworkLevel($user, $planet);
+            $planet[$this->elements()->column(RESEARCH_LABORATORY) . '_inter'] = $this->eco->getNetworkLevel($user, $planet);
             $this->planets[(int) $planet['id']] = $planet;
         }
         $this->user = $user;
@@ -88,7 +88,7 @@ class BotActions
     /** Element id => column name map (`$resource` from the game data). */
     public function res(): array
     {
-        return $this->state->resource;
+        return $this->elements()->columnMap();
     }
 
     /** True when no building is under construction on the planet. */
@@ -161,12 +161,10 @@ class BotActions
     /** Can the element be bought as a building right now, ignoring resources? Returns level to build or null. */
     public function buildableLevel(array $planet, int $element): ?int
     {
-        $resource = $this->res();
-        $reslist = $this->state->reslist;
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
 
         if (
-            !in_array($element, $reslist['allow'][$planet['planet_type']])
+            !in_array($element, $e->allowedOn((int) $planet['planet_type']))
             || !$this->buildFunctions()->isEnabled($element)
             || !$this->buildFunctions()->isTechnologieAccessible($this->user, $planet, $element)
             || ($element == RESEARCH_LABORATORY && $this->user['b_tech_planet'] != 0)
@@ -175,8 +173,8 @@ class BotActions
             return null;
         }
 
-        $level = (int) $planet[$resource[$element]] + 1;
-        if ($pricelist[$element]['max'] < $level) {
+        $level = (int) $planet[$e->column($element)] + 1;
+        if (($e->maxLevel($element) ?? 0) < $level) {
             return null;
         }
 
@@ -190,8 +188,7 @@ class BotActions
      */
     public function build(int $planetId, int $element): ?string
     {
-        $resource = $this->res();
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $planet = &$this->planets[$planetId];
 
         if (!$this->canStartBuilding($planet)) {
@@ -218,25 +215,23 @@ class BotActions
         $planet['b_building'] = $end;
         $this->eco->saveBuilingQueue($planet);
 
-        return $resource[$element] . ' ' . $level . ' on ' . $this->planetLabel($planet);
+        return $e->column($element) . ' ' . $level . ' on ' . $this->planetLabel($planet);
     }
 
     /** Next research level of `$element` if it may be researched from this planet (listed, enabled, requirements met, below max), else null. Resources are not checked. */
     public function researchLevel(array $planet, int $element): ?int
     {
-        $resource = $this->res();
-        $reslist = $this->state->reslist;
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
 
         if (
-            !in_array($element, $reslist['tech'])
+            !in_array($element, $e->ids('tech'))
             || !$this->buildFunctions()->isEnabled($element)
             || !$this->buildFunctions()->isTechnologieAccessible($this->user, $planet, $element)
         ) {
             return null;
         }
-        $level = (int) $this->user[$resource[$element]] + 1;
-        if ($pricelist[$element]['max'] < $level) {
+        $level = (int) $this->user[$e->column($element)] + 1;
+        if (($e->maxLevel($element) ?? 0) < $level) {
             return null;
         }
 
@@ -250,7 +245,7 @@ class BotActions
      */
     public function research(int $planetId, int $element): ?string
     {
-        $resource = $this->res();
+        $e = $this->elements();
         $planet = &$this->planets[$planetId];
 
         if (!$this->isResearchQueueEmpty() || $this->labInConstruction()) {
@@ -284,14 +279,14 @@ class BotActions
         $this->user['b_tech_planet'] = $planet['id'];
         $this->eco->saveTechQueue($this->user);
 
-        return $resource[$element] . ' ' . $level . ' on ' . $this->planetLabel($planet);
+        return $e->column($element) . ' ' . $level . ' on ' . $this->planetLabel($planet);
     }
 
     /** Can ships/defense be queued on this planet at all (shipyard present, not blocked, queue not full)? */
     public function canQueueUnits(array $planet): bool
     {
-        $resource = $this->res();
-        if ($planet[$resource[SHIPYARD]] < 1 || $this->shipyardInConstruction($planet)) {
+        $e = $this->elements();
+        if ($planet[$e->column(SHIPYARD)] < 1 || $this->shipyardInConstruction($planet)) {
             return false;
         }
         $max = (int) $this->config->max_elements_ships;
@@ -302,18 +297,17 @@ class BotActions
     /** Whether the ship or defense `$element` may be built on the planet: enabled, requirements met, and for one-per-planet units (e.g. shields) not yet built or queued. */
     public function unitsAllowed(array $planet, int $element): bool
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->res();
+        $e = $this->elements();
 
         if (
-            !in_array($element, array_merge($reslist['fleet'], $reslist['defense']))
+            !in_array($element, array_merge($e->ids('fleet'), $e->ids('defense')))
             || !$this->buildFunctions()->isEnabled($element)
             || !$this->buildFunctions()->isTechnologieAccessible($this->user, $planet, $element)
         ) {
             return false;
         }
-        if (in_array($element, $reslist['one'])) {
-            if ($planet[$resource[$element]] != 0) {
+        if (in_array($element, $e->ids('one'))) {
+            if ($planet[$e->column($element)] != 0) {
                 return false;
             }
             $queue = !empty($planet['b_hangar_id']) ? StoredData::decode($planet['b_hangar_id']) : [];
@@ -334,8 +328,7 @@ class BotActions
      */
     public function units(int $planetId, int $element, int $count): ?string
     {
-        $resource = $this->res();
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $planet = &$this->planets[$planetId];
 
         if (!$this->canQueueUnits($planet) || !$this->unitsAllowed($planet, $element)) {
@@ -344,7 +337,7 @@ class BotActions
 
         $count = max(0, min($count, (int) $this->config->max_fleet_per_build));
         $count = min($count, (int) $this->buildFunctions()->getMaxConstructibleElements($this->user, $planet, $element));
-        if (in_array($element, $reslist['one'])) {
+        if (in_array($element, $e->ids('one'))) {
             $count = min($count, 1);
         }
         if ($count < 1) {
@@ -364,7 +357,7 @@ class BotActions
         $this->eco->removeResources($planet['id'], $cost, $planet);
         $this->eco->saveShipyardQueue($planet);
 
-        return $count . ' x ' . $resource[$element] . ' on ' . $this->planetLabel($planet);
+        return $count . ' x ' . $e->column($element) . ' on ' . $this->planetLabel($planet);
     }
 
     // ------------------------------------------------------------------
@@ -394,7 +387,7 @@ class BotActions
      */
     public function dispatch(array &$planet, array $fleetArray, int $mission, int $galaxy, int $system, int $pos, int $stayHours = 0): ?int
     {
-        $resource = $this->res();
+        $e = $this->elements();
 
         $targetPlanetData = ['id' => 0, 'id_owner' => 0];
         $misInfo = [
@@ -414,7 +407,7 @@ class BotActions
         }
 
         foreach ($fleetArray as $ship => $count) {
-            if ($count < 1 || $count > $planet[$resource[$ship]]) {
+            if ($count < 1 || $count > $planet[$e->column($ship)]) {
                 return null;
             }
         }
@@ -427,7 +420,7 @@ class BotActions
         $speedFactor = $this->fleetFunctions()->getGameSpeedFactor();
         $duration = $this->fleetFunctions()->getMissionDuration(10, $maxSpeed, $distance, $speedFactor, $this->user);
         $consumption = $this->fleetFunctions()->getFleetConsumption($fleetArray, $duration, $distance, $this->user, $speedFactor);
-        if ($planet[$resource[903]] < $consumption) {
+        if ($planet[$e->column(903)] < $consumption) {
             return null;
         }
 
@@ -463,9 +456,9 @@ class BotActions
 
         // keep the in-memory planet in sync with what sendFleet deducted
         foreach ($fleetArray as $ship => $count) {
-            $planet[$resource[$ship]] -= $count;
+            $planet[$e->column($ship)] -= $count;
         }
-        $planet[$resource[903]] -= $consumption;
+        $planet[$e->column(903)] -= $consumption;
 
         return $id;
     }
@@ -495,14 +488,14 @@ class BotActions
      */
     public function colonize(): ?string
     {
-        $resource = $this->res();
+        $e = $this->elements();
         if (!$this->canColonize()) {
             return null;
         }
 
         $origin = null;
         foreach ($this->planets as $id => $planet) {
-            if ($planet[$resource[SHIP_COLOSHIP]] >= 1) {
+            if ($planet[$e->column(SHIP_COLOSHIP)] >= 1) {
                 $origin = $id;
                 break;
             }

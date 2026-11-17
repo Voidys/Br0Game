@@ -60,15 +60,14 @@ class QuickEditorController extends AbstractAdminController
      */
     private function planetForm(mixed $action, mixed $id): Response
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
 
-        $DataIDs = array_merge($reslist['fleet'], $reslist['build'], $reslist['defense']);
+        $DataIDs = array_merge($e->ids('fleet'), $e->ids('build'), $e->ids('defense'));
         // the element columns come from the game's resource table
         $planetColumns = [];
         foreach ($DataIDs as $ID) {
-            $planetColumns[] = '`' . $resource[$ID] . '`';
+            $planetColumns[] = '`' . $e->column($ID) . '`';
         }
         $PlanetData = $db->fetchRow(
             $db->qb()
@@ -93,9 +92,9 @@ class QuickEditorController extends AbstractAdminController
             ':universe' => $this->universe()->getEmulated(),
         ]);
 
-        $build = $this->elementRows($reslist['allow'][$PlanetData['planet_type']], $PlanetData);
-        $fleet = $this->elementRows($reslist['fleet'], $PlanetData);
-        $defense = $this->elementRows($reslist['defense'], $PlanetData);
+        $build = $this->elementRows($e->allowedOn($PlanetData['planet_type']), $PlanetData);
+        $fleet = $this->elementRows($e->ids('fleet'), $PlanetData);
+        $defense = $this->elementRows($e->ids('defense'), $PlanetData);
 
         $this->assign([
             'build'        => $build,
@@ -130,14 +129,13 @@ class QuickEditorController extends AbstractAdminController
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
 
-        $DataIDs = $reslist['tech'];
+        $DataIDs = $e->ids('tech');
         $userColumns = [];
         foreach ($DataIDs as $ID) {
-            $userColumns[] = '`' . $resource[$ID] . '`';
+            $userColumns[] = '`' . $e->column($ID) . '`';
         }
         $UserData = $db->fetchRow(
             $db->qb()
@@ -167,7 +165,7 @@ class QuickEditorController extends AbstractAdminController
             ':universe' => $this->universe()->getEmulated(),
         ]);
 
-        $tech = $this->elementRows($reslist['tech'], $UserData);
+        $tech = $this->elementRows($e->ids('tech'), $UserData);
 
         $this->assign([
             'tech'         => $tech,
@@ -197,15 +195,15 @@ class QuickEditorController extends AbstractAdminController
     private function elementRows(array $ids, array $row): array
     {
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         $rows = [];
         foreach ($ids as $ID) {
             $rows[] = [
-                'type'  => $resource[$ID],
+                'type'  => $e->column($ID),
                 'name'  => $LNG['tech'][$ID],
-                'count' => $this->viewHelpers()->prettyNumber($row[$resource[$ID]]),
-                'input' => $row[$resource[$ID]],
+                'count' => $this->viewHelpers()->prettyNumber($row[$e->column($ID)]),
+                'input' => $row[$e->column($ID)],
             ];
         }
         return $rows;
@@ -238,8 +236,7 @@ class QuickEditorController extends AbstractAdminController
     private function savePlanet(int $id, array $PlanetData, array $DataIDs): never
     {
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         // columns to write (column => value, bound by Database::updateRows)
         $values = [];
@@ -248,7 +245,7 @@ class QuickEditorController extends AbstractAdminController
         $fields = $PlanetData['field_current'];
 
         foreach ($DataIDs as $ID) {
-            $column = $resource[$ID];
+            $column = $e->column($ID);
             $old[$ID] = $PlanetData[$column];
             $new[$ID] = $PlanetData[$column];
             if (!$this->has($column)) {
@@ -256,8 +253,8 @@ class QuickEditorController extends AbstractAdminController
             }
 
             $level = max(0, round($this->http()->_GP($column, 0.0)));
-            $level = in_array($ID, $reslist['build']) ? min($level, 255) : $level;
-            if (in_array($ID, $reslist['allow'][$PlanetData['planet_type']])) {
+            $level = $e->isBuilding($ID) ? min($level, 255) : $level;
+            if ($e->isAllowedOn($ID, (int) $PlanetData['planet_type'])) {
                 $fields += $level - $PlanetData[$column];
             }
 
@@ -266,7 +263,7 @@ class QuickEditorController extends AbstractAdminController
         }
 
         foreach (['metal', 'crystal', 'deuterium'] as $column) {
-            $ID = array_search($column, $resource, true);
+            $ID = $e->idOfColumn($column);
             $old[$ID] = $PlanetData[$column];
             $new[$ID] = $PlanetData[$column];
             if ($this->has($column)) {
@@ -317,7 +314,7 @@ class QuickEditorController extends AbstractAdminController
     private function savePlayer(int $id, array $UserData, array $DataIDs, bool $ChangePW): never
     {
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         $values = [];
         $old = [];
@@ -325,7 +322,7 @@ class QuickEditorController extends AbstractAdminController
         $newPasswordHash = null;
 
         foreach ($DataIDs as $ID) {
-            $column = $resource[$ID];
+            $column = $e->column($ID);
             $old[$ID] = $UserData[$column];
             $new[$ID] = $UserData[$column];
             if ($this->has($column)) {

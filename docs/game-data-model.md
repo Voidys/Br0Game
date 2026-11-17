@@ -4,7 +4,7 @@ The game state still carries the old untyped arrays, but new code reads through 
 
 ## Element catalog (game data tables)
 
-`$this->state->resource`, `reslist`, `pricelist`, `CombatCaps`, `ProdGrid` and `requeriments` are loaded by `GameData::load()` from the vars cache. `ElementCatalog` is the typed read-only view of them:
+The former state arrays `resource`, `reslist`, `pricelist`, `CombatCaps`, `ProdGrid` and `requeriments` are retired: `GameData::load()` builds `ElementCatalog` from the vars cache and publishes only it, as `$state->elementCatalog` (`GameUtilities::elements()` throws `LogicException('game data not loaded')` before that). The catalog is the only source of the unit data; the `was $...` notes and the migration table below are history. `ElementCatalogTest` proves it equal to the raw vars data with its own reference loader.
 
 ```php
 $elements = $this->elements();               // GameUtilities, built lazily once per loaded game data

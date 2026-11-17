@@ -126,10 +126,10 @@ class RaidPlanner
      */
     private function origins(BotActions $ctx, array $target): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $list = [];
         foreach ($ctx->planets as $id => $planet) {
-            $ships = (int) $planet[$resource[SHIP_SMALL_CARGO]] + (int) $planet[$resource[SHIP_LARGE_CARGO]];
+            $ships = (int) $planet[$e->column(SHIP_SMALL_CARGO)] + (int) $planet[$e->column(SHIP_LARGE_CARGO)];
             if ($ships + array_sum($this->warships($planet)) > 0) {
                 $list[$id] = $this->fleetFunctions()->getTargetDistance([$planet['galaxy'], $planet['system'], $planet['planet']], [$target['galaxy'], $target['system'], $target['planet']]);
             }
@@ -146,12 +146,11 @@ class RaidPlanner
      */
     private function warships(array $planet): array
     {
-        $resource = $this->state->resource;
-        $caps = $this->state->CombatCaps;
+        $e = $this->elements();
         $out = [];
-        foreach ($this->state->reslist['fleet'] as $id) {
-            $count = (int) ($planet[$resource[$id]] ?? 0);
-            if ($count > 0 && !in_array($id, self::NOT_RAIDERS, true) && !in_array($id, [SHIP_SMALL_CARGO, SHIP_LARGE_CARGO], true) && ($caps[$id]['attack'] ?? 0) > 0) {
+        foreach ($this->elements()->ids('fleet') as $id) {
+            $count = (int) ($planet[$e->column($id)] ?? 0);
+            if ($count > 0 && !in_array($id, self::NOT_RAIDERS, true) && !in_array($id, [SHIP_SMALL_CARGO, SHIP_LARGE_CARGO], true) && $e->combat($id)->attack > 0) {
                 $out[$id] = $count;
             }
         }
@@ -166,7 +165,7 @@ class RaidPlanner
      */
     private function planFrom(BotActions $ctx, array $planet, array $report, array $target, float $minRatio): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $warships = $this->warships($planet);
         $needed = $this->capacityNeeded($report['resources']);
         $best = null;
@@ -180,7 +179,7 @@ class RaidPlanner
             }
             $seen[$key] = true;
             $flight = $this->flight($ctx, $planet, $fleet, (int) $target['galaxy'], (int) $target['system'], (int) $target['planet']);
-            if ((float) $planet[$resource[RESOURCE_DEUT]] < $flight['consumption']) {
+            if ((float) $planet[$e->column(RESOURCE_DEUT)] < $flight['consumption']) {
                 $reason = 'not enough deuterium for the flight';
                 continue;
             }
@@ -229,24 +228,23 @@ class RaidPlanner
      */
     private function compose(array $planet, array $warships, int $needed, float $share): array
     {
-        $resource = $this->state->resource;
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $fleet = [];
         $capacity = 0;
         foreach ($warships as $id => $count) {
             $n = $share > 0 ? max(1, (int) floor($count * $share)) : 0;
             if ($n > 0) {
                 $fleet[$id] = $n;
-                $capacity += $n * (int) $pricelist[$id]['capacity'];
+                $capacity += $n * (int) $e->capacity($id);
             }
         }
         foreach ([SHIP_LARGE_CARGO, SHIP_SMALL_CARGO] as $id) {
-            $have = (int) $planet[$resource[$id]];
+            $have = (int) $planet[$e->column($id)];
             $missing = $needed - $capacity;
-            $n = $missing > 0 ? min($have, (int) ceil($missing / max(1, (int) $pricelist[$id]['capacity']))) : 0;
+            $n = $missing > 0 ? min($have, (int) ceil($missing / max(1, (int) $e->capacity($id)))) : 0;
             if ($n > 0) {
                 $fleet[$id] = $n;
-                $capacity += $n * (int) $pricelist[$id]['capacity'];
+                $capacity += $n * (int) $e->capacity($id);
             }
         }
 
@@ -331,16 +329,16 @@ class RaidPlanner
      */
     public function planetHolds(BotActions $ctx, array $planet, array $attackers): bool
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $own = [];
-        foreach (array_merge($this->state->reslist['fleet'], $this->state->reslist['defense']) as $id) {
-            if ((int) ($planet[$resource[$id]] ?? 0) > 0 && $id !== SHIP_SOLSAT) {
-                $own[$id] = (int) $planet[$resource[$id]];
+        foreach (array_merge($this->elements()->ids('fleet'), $this->elements()->ids('defense')) as $id) {
+            if ((int) ($planet[$e->column($id)] ?? 0) > 0 && $id !== SHIP_SOLSAT) {
+                $own[$id] = (int) $planet[$e->column($id)];
             }
         }
         $techs = [];
         foreach ([MILITARY_TECH, SHIELD_TECH, DEFENCE_TECH] as $id) {
-            $techs[$resource[$id]] = (int) $ctx->user[$resource[$id]];
+            $techs[$e->column($id)] = (int) $ctx->user[$e->column($id)];
         }
         $attacker = new BattleFleet(1, ['id' => 1001, 'username' => 'attacker'] + array_map(static fn(int $t): int => $t + 1, $techs), $attackers, $this->fleetDetail());
         $defender = new BattleFleet(0, ['id' => 2001, 'username' => (string) $ctx->user['username']] + $techs, $own, $this->fleetDetail());
@@ -357,10 +355,10 @@ class RaidPlanner
      */
     private function defenderTechs(BotActions $ctx, array $report): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $out = [];
         foreach ([MILITARY_TECH, SHIELD_TECH, DEFENCE_TECH] as $id) {
-            $out[$resource[$id]] = $report['techs'] !== null ? (int) ($report['techs'][$id] ?? 0) : (int) $ctx->user[$resource[$id]] + 1;
+            $out[$e->column($id)] = $report['techs'] !== null ? (int) ($report['techs'][$id] ?? 0) : (int) $ctx->user[$e->column($id)] + 1;
         }
 
         return $out;
@@ -373,10 +371,10 @@ class RaidPlanner
      */
     private function attackerFleet(BotActions $ctx, array $units): BattleFleet
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $player = ['id' => 1001, 'username' => (string) $ctx->user['username']];
         foreach ([MILITARY_TECH, SHIELD_TECH, DEFENCE_TECH] as $id) {
-            $player[$resource[$id]] = (int) $ctx->user[$resource[$id]];
+            $player[$e->column($id)] = (int) $ctx->user[$e->column($id)];
         }
 
         return new BattleFleet(1, $player, $units, $this->fleetDetail());
@@ -415,11 +413,11 @@ class RaidPlanner
      */
     private function fleetValue(array $units): float
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $sum = 0.0;
         foreach ($units as $id => $count) {
             foreach (self::VALUE as $res => $weight) {
-                $sum += (float) $count * (float) ($pricelist[$id]['cost'][$res] ?? 0) * $weight;
+                $sum += (float) $count * (float) ($e->find($id)?->cost->of($res) ?? 0) * $weight;
             }
         }
 
@@ -434,12 +432,12 @@ class RaidPlanner
      */
     private function named(array $resources): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         return [
-            $resource[RESOURCE_METAL] => $resources[RESOURCE_METAL],
-            $resource[RESOURCE_CRYSTAL] => $resources[RESOURCE_CRYSTAL],
-            $resource[RESOURCE_DEUT] => $resources[RESOURCE_DEUT],
+            $e->column(RESOURCE_METAL) => $resources[RESOURCE_METAL],
+            $e->column(RESOURCE_CRYSTAL) => $resources[RESOURCE_CRYSTAL],
+            $e->column(RESOURCE_DEUT) => $resources[RESOURCE_DEUT],
         ];
     }
 

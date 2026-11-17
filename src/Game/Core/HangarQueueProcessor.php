@@ -26,7 +26,7 @@ class HangarQueueProcessor
      */
     public function process(QueueState $st)
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         $BuildQueue = !empty($st->planet['b_hangar_id']) ? StoredData::decode($st->planet['b_hangar_id']) : [];
         if (!$BuildQueue) {
@@ -59,7 +59,7 @@ class HangarQueueProcessor
                     }
 
                     $st->builded[$Element]            += $Count;
-                    $st->planet[$resource[$Element]]  += $Count;
+                    $st->planet[$elements->column($Element)]  += $Count;
                     continue;
                 }
 
@@ -77,7 +77,7 @@ class HangarQueueProcessor
 
                 $st->builded[$Element]            += $Build;
                 $st->planet['b_hangar']           -= $Build * $BuildTime;
-                $st->planet[$resource[$Element]]  += $Build;
+                $st->planet[$elements->column($Element)]  += $Build;
                 $Count                              -= $Build;
 
                 if ($Count == 0) {

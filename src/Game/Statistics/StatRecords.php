@@ -4,6 +4,7 @@ namespace App\Game\Statistics;
 
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
+use App\Game\Model\ElementCatalog;
 
 /**
  * The records table of the statistics: highest tech levels and building levels with their holders.
@@ -12,26 +13,23 @@ class StatRecords
 {
     /**
      * @param list<int>                                $universes ids of all universes
-     * @param array<int, array<int, string>>           $resources universe => element id => column name
-     * @param array<int, array<string, array<int>>>    $reslists  universe => list name => element ids
+     * @param array<int, ElementCatalog>               $catalogs  universe => game data of that universe
      */
     public function __construct(
         private readonly Database $db,
         private readonly ConfigRegistry $configs,
         private readonly array $universes,
-        private readonly array $resources,
-        private readonly array $reslists,
+        private readonly array $catalogs,
     ) {}
 
     /** Records of the highest research levels of the (non-hidden) players of a universe, per tech. */
     private function getHighestUser(string $type, int $uni): array
     {
-        $resource = $this->resources[$uni];
-        $reslist = $this->reslists[$uni];
+        $elements = $this->catalogs[$uni];
 
         $columns = [];
-        foreach ($reslist[$type] as $Techno) {
-            $columns[$Techno] = $resource[$Techno];
+        foreach ($elements->ids($type) as $Techno) {
+            $columns[$Techno] = $elements->column($Techno);
         }
 
         // Highest level per column among the non-hidden users, then every user holding such a level
@@ -42,12 +40,11 @@ class StatRecords
     /** Records of the highest building levels of the (non-hidden) players' planets of a universe, per building. */
     private function getHighestPlanet(string $type, int $uni): array
     {
-        $resource = $this->resources[$uni];
-        $reslist = $this->reslists[$uni];
+        $elements = $this->catalogs[$uni];
 
         $columns = [];
-        foreach ($reslist[$type] as $kind) {
-            $columns[$kind] = $resource[$kind];
+        foreach ($elements->ids($type) as $kind) {
+            $columns[$kind] = $elements->column($kind);
         }
 
         return $this->getHighestRows('PLANETS', 'id_owner', $columns, $uni);

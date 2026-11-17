@@ -76,18 +76,17 @@ final class TypedModelServicesTest extends GameTestCase
         [$user, $planet, $userModel, $planetModel] = $this->player();
         $production = new ResourceProduction($this->db, $this->configs, $this->state);
         $config = $this->configs->get(1);
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $resource = $this->elements()->columnMap();
 
         $this->assertSame($production->createHash($user, $planet, $config), $production->hashFor($userModel, $planetModel, $config));
 
         // the stored eco_hash values were made from the raw array values: keep the string identical
         $hash = [];
-        foreach ($reslist['prod'] as $id) {
+        foreach ($this->elements()->ids('prod') as $id) {
             $hash[] = $planet[$resource[$id]];
             $hash[] = $planet[$resource[$id] . '_porcent'];
         }
-        foreach (array_merge([], $reslist['resstype'][1], $reslist['resstype'][2]) as $id) {
+        foreach (array_merge([], $this->elements()->resourceIds(1), $this->elements()->resourceIds(2)) as $id) {
             $hash[] = $config->{$resource[$id] . '_basic_income'};
         }
         array_push($hash, $config->resource_multiplier, $config->storage_multiplier, $config->energy_multiplier);

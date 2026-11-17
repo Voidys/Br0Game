@@ -50,7 +50,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
      */
     public function TargetEvent()
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);
 
@@ -333,13 +333,13 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
      */
     private function debrisOf(array $targetBase, \App\Game\BattleEngine\BattleResult $combatResult): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $debris = [];
         $planetDebris = [];
         $debrisResource = [RESOURCE_METAL, RESOURCE_CRYSTAL];
         foreach ($debrisResource as $elementID) {
             $debris[$elementID] = $combatResult->debris->total($elementID);
-            $planetDebris[$elementID] = $targetBase['der_' . $resource[$elementID]] + $debris[$elementID];
+            $planetDebris[$elementID] = $targetBase['der_' . $e->column($elementID)] + $debris[$elementID];
         }
 
         return [$debris, $planetDebris];

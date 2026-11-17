@@ -89,8 +89,7 @@ class AccountDataController extends AbstractAdminController
      */
     private function loadPlayer(mixed $id_u): array
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         // the research columns come from the game's resource table, not from the request
         $userColumns = [
@@ -99,8 +98,8 @@ class AccountDataController extends AbstractAdminController
             'u.`onlinetime`', 'u.`urlaubs_modus`', 'u.`urlaubs_until`', 'u.`ally_id`', 'u.`ally_register_time`',
             'u.`ally_rank_id`', 'u.`bana`', 'u.`banaday`',
         ];
-        foreach ($reslist['tech'] as $ID) {
-            $userColumns[] = 'u.`' . $resource[$ID] . '`';
+        foreach ($e->ids('tech') as $ID) {
+            $userColumns[] = 'u.`' . $e->column($ID) . '`';
         }
         $UserQuery = $db->fetchRow(
             $db->qb()
@@ -126,8 +125,7 @@ class AccountDataController extends AbstractAdminController
      */
     private function accountVars(array $UserQuery): array
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
         $reg_time = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $UserQuery['register_time'], $this->state->USER['timezone']);
         $onlinetime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $UserQuery['onlinetime'], $this->state->USER['timezone']);
@@ -147,10 +145,10 @@ class AccountDataController extends AbstractAdminController
         $suspen = $LNG['one_is_yes_' . $UserQuery['bana']];
 
         $technologyRows = [];
-        foreach ($reslist['tech'] as $ID) {
+        foreach ($e->ids('tech') as $ID) {
             $technologyRows[] = [
                 'name'  => $LNG['tech'][$ID],
-                'level' => $UserQuery[$resource[$ID]],
+                'level' => $UserQuery[$e->column($ID)],
             ];
         }
 
@@ -316,8 +314,7 @@ class AccountDataController extends AbstractAdminController
      */
     private function planetVars(mixed $id_u): array
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         $planetCols = [];
 
@@ -327,8 +324,8 @@ class AccountDataController extends AbstractAdminController
             '`field_current`', '`field_max`', '`temp_min`', '`temp_max`', '`metal`', '`crystal`', '`deuterium`',
             '`energy`', '`energy_used`',
         ];
-        foreach (array_merge($reslist['fleet'], $reslist['build'], $reslist['defense']) as $ID) {
-            $planetColumns[] = '`' . $resource[$ID] . '`';
+        foreach (array_merge($e->ids('fleet'), $e->ids('build'), $e->ids('defense')) as $ID) {
+            $planetColumns[] = '`' . $e->column($ID) . '`';
         }
         $PlanetsQuery = $db->fetchAll(
             $db->qb()
@@ -368,9 +365,9 @@ class AccountDataController extends AbstractAdminController
                 $hasDestroyedPlanets = true;
             }
         }
-        $buildingRows = $this->elementMatrix($reslist['build'], $listedPlanets);
-        $fleetRows = $this->elementMatrix($reslist['fleet'], $listedPlanets);
-        $defenseRows = $this->elementMatrix($reslist['defense'], $listedPlanets);
+        $buildingRows = $this->elementMatrix($e->ids('build'), $listedPlanets);
+        $fleetRows = $this->elementMatrix($e->ids('fleet'), $listedPlanets);
+        $defenseRows = $this->elementMatrix($e->ids('defense'), $listedPlanets);
 
         return [
             'planetRows'          => $planetRows,
@@ -435,7 +432,7 @@ class AccountDataController extends AbstractAdminController
      */
     private function elementMatrix(array $ids, array $listedPlanets): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
 
         $rows = [];
@@ -443,8 +440,8 @@ class AccountDataController extends AbstractAdminController
             $cells = [];
             foreach ($listedPlanets as $planetData) {
                 $cells[] = [
-                    'short' => $this->viewHelpers()->shortlyNumber($planetData[$resource[$ID]]),
-                    'full'  => $this->viewHelpers()->prettyNumber($planetData[$resource[$ID]]),
+                    'short' => $this->viewHelpers()->shortlyNumber($planetData[$e->column($ID)]),
+                    'full'  => $this->viewHelpers()->prettyNumber($planetData[$e->column($ID)]),
                 ];
             }
             $rows[] = ['name' => $LNG['tech'][$ID], 'cells' => $cells];

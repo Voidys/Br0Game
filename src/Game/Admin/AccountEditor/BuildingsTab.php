@@ -12,8 +12,7 @@ class BuildingsTab extends AccountEditorTab
     public function handle(): Response
     {
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         if ($this->state->requestPost) {
             $id = $this->http()->_GP('id', 0);
@@ -26,16 +25,16 @@ class BuildingsTab extends AccountEditorTab
             }
             $beforeBuildings = [];
             $afterBuildings = [];
-            foreach ($reslist['allow'][$PlanetData['planet_type']] as $ID) {
-                $beforeBuildings[$ID] = $PlanetData[$resource[$ID]];
+            foreach ($e->allowedOn($PlanetData['planet_type']) as $ID) {
+                $beforeBuildings[$ID] = $PlanetData[$e->column($ID)];
             }
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
                 $fields = 0;
-                foreach ($reslist['allow'][$PlanetData['planet_type']] as $ID) {
-                    $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
+                foreach ($e->allowedOn($PlanetData['planet_type']) as $ID) {
+                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[$resource[$ID]] = $count;
+                        $QryUpdate[$e->column($ID)] = $count;
                         $afterBuildings[$ID] = $beforeBuildings[$ID] + $count;
                         $fields += $count;
                     }
@@ -46,10 +45,10 @@ class BuildingsTab extends AccountEditorTab
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
                 $fields = 0;
-                foreach ($reslist['allow'][$PlanetData['planet_type']] as $ID) {
-                    $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
+                foreach ($e->allowedOn($PlanetData['planet_type']) as $ID) {
+                    $count = max(0, round($this->http()->_GP($e->column($ID), 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[$resource[$ID]] = -$count;
+                        $QryUpdate[$e->column($ID)] = -$count;
                         $afterBuildings[$ID] = max($beforeBuildings[$ID] - $count, 0);
                         $fields += $count;
                     }
@@ -75,8 +74,8 @@ class BuildingsTab extends AccountEditorTab
             }
         }
 
-        foreach ($reslist['build'] as $ID) {
-            $INPUT[$ID] = ['type' => $resource[$ID]];
+        foreach ($e->ids('build') as $ID) {
+            $INPUT[$ID] = ['type' => $e->column($ID)];
         }
 
         $this->responder->assign([

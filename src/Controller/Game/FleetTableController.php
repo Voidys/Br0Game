@@ -306,7 +306,7 @@ class FleetTableController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
         $LNG->includeData(['FLEET']);
         $acsData = [];
@@ -326,7 +326,7 @@ class FleetTableController extends AbstractGameController
             }
         }
 
-        $techExpedition = $USER[$resource[124]];
+        $techExpedition = $USER[$e->column(124)];
 
         if ($techExpedition >= 1) {
             $activeExpedition = $this->fleetFunctions()->getCurrentFleets($USER['id'], 15, true);
@@ -367,12 +367,12 @@ class FleetTableController extends AbstractGameController
             'targetMission'         => $targetMission,
             'acsData'               => $acsData,
             'isVacation'            => IsVacationMode($USER),
-            'bonusAttack'           => $USER[$resource[109]] * 10,
-            'bonusShield'           => $USER[$resource[110]] * 10,
-            'bonusDefensive'        => $USER[$resource[111]] * 10,
-            'bonusCombustion'       => $USER[$resource[115]] * 10,
-            'bonusImpulse'          => $USER[$resource[117]] * 20,
-            'bonusHyperspace'       => $USER[$resource[118]] * 30,
+            'bonusAttack'           => $USER[$e->column(109)] * 10,
+            'bonusShield'           => $USER[$e->column(110)] * 10,
+            'bonusDefensive'        => $USER[$e->column(111)] * 10,
+            'bonusCombustion'       => $USER[$e->column(115)] * 10,
+            'bonusImpulse'          => $USER[$e->column(117)] * 20,
+            'bonusHyperspace'       => $USER[$e->column(118)] * 30,
             'maxExpo'               => $this->fleetFunctions()->calculateMaxFactorRes($this->universe()->current()),
             'shiptypes'             => $shipinfos,
             'watchList'             => $watchList,
@@ -462,27 +462,26 @@ class FleetTableController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $resource = $this->state->resource;
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
 
         $FleetsOnPlanet = [];
         $shipinfos = [];
-        foreach ($this->state->reslist['fleet'] as $FleetID) {
+        foreach ($e->ids('fleet') as $FleetID) {
             $shipinfos[$FleetID] = [
                 'id' => $FleetID,
-                'expo' => ($pricelist[$FleetID]['cost'][901] + $pricelist[$FleetID]['cost'][902]) * 5 / 1000,
-                'capacity' => $pricelist[$FleetID]['capacity'],
+                'expo' => $e->cost($FleetID)->metalCrystal() * 5 / 1000,
+                'capacity' => $e->capacity($FleetID),
             ];
 
 
-            if ($PLANET[$resource[$FleetID]] == 0) {
+            if ($PLANET[$e->column($FleetID)] == 0) {
                 continue;
             }
 
             $FleetsOnPlanet[$FleetID] = [
                 'id' => $FleetID,
                 'speed' => $this->fleetFunctions()->getFleetMaxSpeed($FleetID, $USER),
-                'count' => $PLANET[$resource[$FleetID]],
+                'count' => $PLANET[$e->column($FleetID)],
             ];
         }
 
@@ -497,12 +496,12 @@ class FleetTableController extends AbstractGameController
      */
     private function watchedColumns(): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $keys = [];
         $ids = [];
 
         foreach ($this->state->USER['PLANETS'] as $planet) {
-            $watchKey = $resource[$planet['watch_id']];
+            $watchKey = $e->find((int) $planet['watch_id'])?->column;
 
             if ($planet['watch_id'] > 0 && $planet['watch_id'] < 100) {
                 $keys[] = 'p.' . $watchKey;
@@ -529,7 +528,7 @@ class FleetTableController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
         $db = $this->db;
 
@@ -569,7 +568,7 @@ class FleetTableController extends AbstractGameController
             );
 
             foreach ($watchLevels as $levelRow) {
-                $cost = $this->buildFunctions()->getElementPrice($USER, $PLANET, $levelRow['watch_id'], false, $levelRow[$resource[$levelRow['watch_id']]] + 1);
+                $cost = $this->buildFunctions()->getElementPrice($USER, $PLANET, $levelRow['watch_id'], false, $levelRow[$e->column($levelRow['watch_id'])] + 1);
                 $restCost = [
                     'elementId' => $levelRow['watch_id'],
                     'name'      => $LNG['tech'][$levelRow['watch_id']],
@@ -578,7 +577,7 @@ class FleetTableController extends AbstractGameController
                     'system'    => $levelRow['system'],
                     'planet'    => $levelRow['planet'],
                     'planet_type' => $levelRow['planet_type'],
-                    'level'     => $levelRow[$resource[$levelRow['watch_id']]] + 1,
+                    'level'     => $levelRow[$e->column($levelRow['watch_id'])] + 1,
                     'metal'     => ceil(max(0, $cost[901] - $levelRow['metal']) / 10) * 10,
                     'crystal'   => ceil(max(0, $cost[902] - $levelRow['crystal']) / 10) * 10,
                     'deuterium' => ceil(max(0, $cost[903] - $levelRow['deuterium']) / 10) * 10,

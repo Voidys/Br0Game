@@ -137,7 +137,7 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
      */
     protected function computeDebris(array &$targetPlanet, BattleResult $combatResult): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
         $debris = [];
         $planetDebris = [];
@@ -155,7 +155,7 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
 
         foreach ($debrisResource as $elementID) {
             $debris[$elementID] = $combatResult->debris->total($elementID);
-            $planetDebris[$elementID] = $targetPlanet['der_' . $resource[$elementID]] + $debris[$elementID];
+            $planetDebris[$elementID] = $targetPlanet['der_' . $e->column($elementID)] + $debris[$elementID];
         }
 
         return [$debris, $planetDebris];

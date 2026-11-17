@@ -161,7 +161,6 @@ final class MarketAndExpeditionTest extends GameTestCase
         $context = (new \ReflectionProperty(MissionCaseExpedition::class, 'ctx'))->getValue($mission);
         $mission = new ExpeditionShipEvent($this->db, $this->configs, $this->state, $context);
         $found = new \ReflectionMethod(ExpeditionShipEvent::class, 'determineFoundShips');
-        $pricelist = $this->state->pricelist;
 
         // the draw uses random_int(): not reproducible, so it is pinned by invariants
         for ($run = 0; $run < 50; $run++) {
@@ -170,7 +169,7 @@ final class MarketAndExpeditionTest extends GameTestCase
             foreach ($ships as $id => $amount) {
                 $this->assertContains($id, [202, 203, 204, 210]);
                 $this->assertGreaterThan(0, $amount);
-                $cost += $amount * ($pricelist[$id]['cost'][901] + $pricelist[$id]['cost'][902]);
+                $cost += $amount * ($this->elements()->cost($id)->metalCrystal());
             }
             $this->assertLessThanOrEqual(40, $cost, 'found ships are worth at most the expedition points');
         }

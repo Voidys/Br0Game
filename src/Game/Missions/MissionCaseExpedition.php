@@ -352,8 +352,7 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
      */
     public function ReturnEvent(): void
     {
-        $pricelist = $this->state->pricelist;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $LNG = $this->LNG;
         $sql = 'SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetId;';
         $planetName = $this->db->selectSingle($sql, [
@@ -402,7 +401,7 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
                 } elseif ($fleetAmmountStart > $fleetAmmount) {
                     $Message .= '<br><br>' . $LNG->format('sys_expe_back_home_ships_lost');
                 }
-                foreach ($reslist['fleet'] as $shipId) {
+                foreach ($e->ids('fleet') as $shipId) {
                     if (isset($fleetArrayStart[$shipId]) && isset($fleetArray[$shipId])) {
                         if ($fleetArrayStart[$shipId] != $fleetArray[$shipId]) {
                             $Message .= '<br>' . $LNG['tech'][$shipId] . ': '

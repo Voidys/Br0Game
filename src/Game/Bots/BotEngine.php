@@ -54,7 +54,7 @@ class BotEngine
     public function useUniverse(int $universe): void
     {
         $current = $this->state->universeCurrent;
-        if ((int) $current === $universe && !empty($this->state->resource)) {
+        if ((int) $current === $universe && $this->elements()->all() !== []) {
             return;
         }
 

@@ -497,11 +497,11 @@ class FleetStep2Controller extends AbstractGameController
      */
     private function checkShipsAvailable(array $fleetArray, mixed $targetMission): void
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
         $containsOnlyProbes = true;
         foreach ($fleetArray as $Ship => $Count) {
-            if ($Count > $this->state->PLANET[$resource[$Ship]]) {
+            if ($Count > $this->state->PLANET[$e->column($Ship)]) {
                 $this->backToFleetTable($LNG['fl_not_all_ship_avalible']);
             }
             if ($Ship != SHIP_PROBE) {

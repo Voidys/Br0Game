@@ -110,7 +110,7 @@ final class EconomyReviewFixesTest extends GameTestCase
 
     public function testResearchCannotBeTornDown(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$user, $planet] = $this->createPlayer([], [$resource[RESEARCH_LABORATORY] => 3, 'metal' => 100000, 'crystal' => 100000, 'deuterium' => 100000]);
 
         $this->prepare($user, $planet, ['cmd' => 'destroy', 'tech' => ENERGY_TECH]);
@@ -355,7 +355,7 @@ final class EconomyReviewFixesTest extends GameTestCase
 
     public function testSiloCannotBeDemolishedWhileMissilesAreQueued(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$user, $planet] = $this->createPlayer([], [$resource[SHIPYARD] => 2, $resource[SILO] => 3, 'b_hangar_id' => '[[' . INTERCEPTOR_MISSILE . ',4]]']);
         $this->prepare($user, $planet, []);
         $controller = (new BuildingsController())->withGameServices($this->db, $this->configs, $this->state);
@@ -388,7 +388,7 @@ final class EconomyReviewFixesTest extends GameTestCase
 
     public function testShipyardRefusesAnOrderWhileTheShipyardIsUpgrading(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$user, $planet] = $this->createPlayer([$resource[COMBUSTION_TECH] => 2], [$resource[SHIPYARD] => 2, 'metal' => 100000, 'crystal' => 100000, 'deuterium' => 100000]);
         // the upgrade is queued after the page started: the page-start copy does not know it
         $this->db->update('UPDATE %%PLANETS%% SET b_building = :t, b_building_id = :q WHERE id = :id;', [
@@ -422,7 +422,7 @@ final class EconomyReviewFixesTest extends GameTestCase
 
     public function testShipyardKeysAreIntegerIds(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$user, $planet] = $this->createPlayer([$resource[COMBUSTION_TECH] => 2], [$resource[SHIPYARD] => 2, 'metal' => 100000, 'crystal' => 100000, 'deuterium' => 100000]);
 
         $this->prepare($user, $planet, ['fmenge' => ['202.0' => 3, '202abc' => 3, 202 => 2]]);

@@ -43,8 +43,7 @@ class FleetDealerController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $pricelist = $this->state->pricelist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $shipID = $this->http()->_GP('shipID', 0);
         $Count = max(0, round($this->http()->_GP('count', 0.0)));
         $allowedShipIDs = explode(',', $this->configs->get()->trade_allowed_ships);
@@ -61,7 +60,7 @@ class FleetDealerController extends AbstractGameController
             $this->backToDealer($LNG['tr_exchange_error']);
         }
 
-        $shipColumn = $resource[$shipID];
+        $shipColumn = $e->column($shipID);
         $db = $this->db;
         $db->startTransaction();
         $sql = 'SELECT * FROM %%PLANETS%% WHERE id = :planetID FOR UPDATE;';
@@ -76,9 +75,9 @@ class FleetDealerController extends AbstractGameController
 
         $tradeCharge = 1 - ($this->configs->get()->trade_charge / 100);
         $resources = [
-            RESOURCE_METAL => $Count * $pricelist[$shipID]['cost'][RESOURCE_METAL] * $tradeCharge,
-            RESOURCE_CRYSTAL => $Count * $pricelist[$shipID]['cost'][RESOURCE_CRYSTAL] * $tradeCharge,
-            RESOURCE_DEUT => $Count * $pricelist[$shipID]['cost'][RESOURCE_DEUT] * $tradeCharge,
+            RESOURCE_METAL => $Count * $e->cost($shipID)->metal * $tradeCharge,
+            RESOURCE_CRYSTAL => $Count * $e->cost($shipID)->crystal * $tradeCharge,
+            RESOURCE_DEUT => $Count * $e->cost($shipID)->deuterium * $tradeCharge,
         ];
 
         // Debit ships first with a stock guard so a parallel sell cannot
@@ -122,16 +121,14 @@ class FleetDealerController extends AbstractGameController
     {
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $pricelist = $this->state->pricelist;
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $Cost = [];
 
         $allowedShipIDs = explode(',', $this->configs->get()->trade_allowed_ships);
 
         foreach ($allowedShipIDs as $shipID) {
-            if (in_array($shipID, $reslist['fleet']) || in_array($shipID, $reslist['defense'])) {
-                $Cost[$shipID]  = [$PLANET[$resource[$shipID]], $LNG['tech'][$shipID], $pricelist[$shipID]['cost']];
+            if (in_array($shipID, $e->ids('fleet')) || in_array($shipID, $e->ids('defense'))) {
+                $Cost[$shipID]  = [$PLANET[$e->column((int) $shipID)], $LNG['tech'][$shipID], $e->cost((int) $shipID)->toArray()];
             }
         }
 

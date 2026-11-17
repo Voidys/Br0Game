@@ -38,7 +38,7 @@ $ids = $db->fetchAll($qb->orderBy('p.id', 'ASC')->setFirstResult($offset)->setMa
   affected rows): they keep the query counter, the DB time, `rowCount()`/`lastInsertId()` and the debug log of the wrapper and throw
   `Exception` with the query text on errors. `getSQL()` shows the generated statement.
 - `IN` lists: `->where('id IN (:ids)')->setParameter('ids', $ids, ArrayParameterType::INTEGER)` (or `STRING`), never `implode()`.
-- Column names and sort expressions must be fixed code (`$resource[...]`, `$reslist`, `AllianceRights::AVAILABLE`, explicit maps), never
+- Column names and sort expressions must be fixed code (`$this->elements()->column(...)`, `ids()`, `AllianceRights::AVAILABLE`, explicit maps), never
   request input; directions are limited to `ASC`/`DESC`. Values are bound with `setParameter()`.
 - A DBAL 4 `UPDATE` builder has no table alias and no join: write unqualified columns, or use a subselect for the join condition.
 - Keep a secondary sort column when the primary one can tie (`ORDER BY units DESC, time ASC`), exactly like the SQL it replaced.

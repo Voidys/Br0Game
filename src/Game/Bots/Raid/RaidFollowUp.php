@@ -116,14 +116,14 @@ class RaidFollowUp
         if (empty($fleet) || (int) $fleet['status'] !== FLEET_OUTWARD) {
             return 0;
         }
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $origin = $this->probePlanet($ctx, (int) $attack['origin'], (int) $attack['n']);
         if ($origin === null) {
             $this->botLog->log($botId, $uni, 'raid_keep', 'no re-spy: no probes at home, keeping the attack on ' . $attack['name']);
 
             return 0;
         }
-        $n = min((int) $attack['n'], (int) $ctx->planets[$origin][$resource[SHIP_PROBE]]);
+        $n = min((int) $attack['n'], (int) $ctx->planets[$origin][$e->column(SHIP_PROBE)]);
         $t = $attack['target'];
         $flight = $this->planner->flight($ctx, $ctx->planets[$origin], [SHIP_PROBE => $n], (int) $t['galaxy'], (int) $t['system'], (int) $t['planet']);
         if ($now + $flight['duration'] + 10 > (int) $attack['impact'] - 90) {
@@ -153,8 +153,8 @@ class RaidFollowUp
      */
     private function probePlanet(BotActions $ctx, int $preferred, int $wanted): ?int
     {
-        $resource = $this->state->resource;
-        $have = static fn(array $p): int => (int) $p[$resource[SHIP_PROBE]];
+        $e = $this->elements();
+        $have = static fn(array $p): int => (int) $p[$e->column(SHIP_PROBE)];
         if (isset($ctx->planets[$preferred]) && $have($ctx->planets[$preferred]) >= 1) {
             return $preferred;
         }

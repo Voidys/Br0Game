@@ -40,7 +40,6 @@ class PhalanxController extends AbstractGameController
     {
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
         $USER = $this->state->USER;
         $this->setWindow('popup');
         $this->addScript('phalanx.js');
@@ -49,7 +48,7 @@ class PhalanxController extends AbstractGameController
         $System 			= $this->http()->_GP('system', 0);
         $Planet 			= $this->http()->_GP('planet', 0);
 
-        if ($PLANET[$resource[903]] < PHALANX_DEUTERIUM) {
+        if ($PLANET[$this->elements()->column(RESOURCE_DEUT)] < PHALANX_DEUTERIUM) {
             $this->printMessage($LNG['px_no_deuterium']);
         }
 

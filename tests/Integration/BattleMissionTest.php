@@ -29,7 +29,7 @@ final class BattleMissionTest extends GameTestCase
     /** @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>, 3: int} attacker, defender, defender planet, fleet id */
     private function fight(int $mission, bool $moonTarget = false): array
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$attacker, $attackerPlanet] = $this->createPlayer(['computer_tech' => 5], ['metal' => 1e7, 'crystal' => 1e7, 'deuterium' => 1e7, $resource[207] => 1000]);
         [$defender, $defenderPlanet] = $this->createPlayer([], [$resource[202] => 1, 'metal' => 100000, 'crystal' => 50000, 'deuterium' => 20000]);
         $target = $defenderPlanet;

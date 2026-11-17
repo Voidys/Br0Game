@@ -18,20 +18,48 @@ final class ElementCatalogTest extends GameTestCase
 {
     use GameUtilities;
 
+    /**
+     * Reference loader: the raw game data arrays read from the vars cache exactly like the former
+     * GameData::load() (universe 0 merged with the current universe, plus the fixed resources).
+     *
+     * @return array{resource: array<int, string>, reslist: array<string, mixed>, pricelist: array<int, array<string, mixed>>, CombatCaps: array<int, array<string, mixed>>, ProdGrid: array<int, array<string, mixed>>, requeriments: array<int, array<int, mixed>>}
+     */
+    private function raw(): array
+    {
+        $universe = (new Universe($this->state))->current();
+        $vars = (new Cache($this->db, $this->state))->getData('vars');
+        $result = $vars[0];
+        if (isset($vars[$universe])) {
+            $result = array_replace_recursive($result, $vars[$universe]);
+        }
+
+        $result['resource'][901] = 'metal';
+        $result['resource'][902] = 'crystal';
+        $result['resource'][903] = 'deuterium';
+        $result['resource'][911] = 'energy';
+
+        $result['reslist']['ressources'] = [901, 902, 903, 911];
+        $result['reslist']['resstype'][1] = [901, 902, 903];
+        $result['reslist']['resstype'][2] = [911];
+        $result['reslist']['resstype'][3] = [];
+
+        return $result;
+    }
+
     private function catalog(): ElementCatalog
     {
-        return ElementCatalog::fromState($this->state);
+        return $this->elements();
     }
 
     public function testEveryElementMatchesTheArrays(): void
     {
         $catalog = $this->catalog();
-        $resource = $this->state->resource;
-        $pricelist = $this->state->pricelist;
-        $caps = $this->state->CombatCaps;
-        $grid = $this->state->ProdGrid;
-        $requirements = $this->state->requeriments;
-        $reslist = $this->state->reslist;
+        $resource = $this->raw()['resource'];
+        $pricelist = $this->raw()['pricelist'];
+        $caps = $this->raw()['CombatCaps'];
+        $grid = $this->raw()['ProdGrid'];
+        $requirements = $this->raw()['requeriments'];
+        $reslist = $this->raw()['reslist'];
 
         $this->assertNotEmpty($resource);
         $this->assertSame(array_map('intval', array_keys($resource)), array_keys($catalog->all()));
@@ -90,7 +118,7 @@ final class ElementCatalogTest extends GameTestCase
     public function testGroupListsKeepTheOrderOfTheGameData(): void
     {
         $catalog = $this->catalog();
-        $reslist = $this->state->reslist;
+        $reslist = $this->raw()['reslist'];
 
         foreach (ElementCatalog::GROUPS as $group) {
             $this->assertEquals(array_values($reslist[$group]), $catalog->ids($group), $group);
@@ -124,7 +152,7 @@ final class ElementCatalogTest extends GameTestCase
         $this->assertTrue($catalog->isFleet(202));
         $this->assertTrue($catalog->isHangarUnit(401));
         $this->assertTrue($catalog->isMissile(502));
-        $this->assertSame(2000.0, $catalog->get(202)->cost->metal);
+        $this->assertSame(2000, $catalog->get(202)->cost->metal);
         $this->assertSame('metal', $catalog->column(RESOURCE_METAL));
     }
 
@@ -144,35 +172,35 @@ final class ElementCatalogTest extends GameTestCase
     public function testWholeTablesKeepShapeAndOrderOfTheArrays(): void
     {
         $catalog = $this->catalog();
-        $state = $this->state;
+        $state = $this->raw();
 
-        $this->assertSame($state->resource, $catalog->columnMap());
-        $this->assertSame(array_keys($state->resource), array_keys($catalog->columnMap()));
-        $this->assertEquals($state->requeriments, $catalog->requirementMap());
-        $this->assertSame(array_keys($state->requeriments), array_keys($catalog->requirementMap()));
-        $this->assertEquals(array_map('array_values', $state->reslist['allow']), $catalog->allowedMap());
-        $this->assertEquals(array_map('array_values', $state->reslist['ship_type']), $catalog->shipTypes());
-        $this->assertEquals(array_map('array_values', $state->reslist['resstype']), $catalog->resourceTypes());
+        $this->assertSame($state['resource'], $catalog->columnMap());
+        $this->assertSame(array_keys($state['resource']), array_keys($catalog->columnMap()));
+        $this->assertEquals($state['requeriments'], $catalog->requirementMap());
+        $this->assertSame(array_keys($state['requeriments']), array_keys($catalog->requirementMap()));
+        $this->assertEquals(array_map('array_values', $state['reslist']['allow']), $catalog->allowedMap());
+        $this->assertEquals(array_map('array_values', $state['reslist']['ship_type']), $catalog->shipTypes());
+        $this->assertEquals(array_map('array_values', $state['reslist']['resstype']), $catalog->resourceTypes());
         foreach (ElementCatalog::GROUPS as $group) {
-            $this->assertEquals(array_values($state->reslist[$group]), $catalog->groupMap()[$group]);
+            $this->assertEquals(array_values($state['reslist'][$group]), $catalog->groupMap()[$group]);
         }
         $this->assertSame(['metal', 'crystal'], $catalog->columns([RESOURCE_METAL, RESOURCE_CRYSTAL]));
         $this->assertSame(RESOURCE_DEUT, $catalog->idOfColumn('deuterium'));
         $this->assertNull($catalog->idOfColumn('no_such_column'));
         $this->assertNull($catalog->find(999999));
         $this->assertSame([], $catalog->requirements(999999));
-        foreach ($state->resource as $id => $column) {
+        foreach ($state['resource'] as $id => $column) {
             foreach ([1, 3] as $type) {
-                $this->assertSame(in_array($id, $state->reslist['allow'][$type]), $catalog->isAllowedOn($id, $type));
+                $this->assertSame(in_array($id, $state['reslist']['allow'][$type]), $catalog->isAllowedOn($id, $type));
             }
-            foreach ($state->reslist['ship_type'] as $type => $ids) {
+            foreach ($state['reslist']['ship_type'] as $type => $ids) {
                 $this->assertSame(isset($ids[$id]), $catalog->isShipType($id, (string) $type));
             }
         }
         $this->assertTrue($catalog->isResource(RESOURCE_ENERGY));
         $this->assertFalse($catalog->isResource(1));
-        foreach ($state->resource as $id => $column) {
-            $this->assertSame($id, array_search($column, $state->resource, true));
+        foreach ($state['resource'] as $id => $column) {
+            $this->assertSame($id, array_search($column, $state['resource'], true));
             $this->assertSame($id, $catalog->idOfColumn($column));
         }
     }
@@ -180,12 +208,12 @@ final class ElementCatalogTest extends GameTestCase
     public function testShortcutsAndHelpersMatchTheArrays(): void
     {
         $catalog = $this->catalog();
-        $state = $this->state;
+        $state = $this->raw();
 
-        foreach ($state->resource as $id => $column) {
-            $price = $state->pricelist[$id] ?? [];
-            $caps = $state->CombatCaps[$id] ?? [];
-            $grid = $state->ProdGrid[$id] ?? [];
+        foreach ($state['resource'] as $id => $column) {
+            $price = $state['pricelist'][$id] ?? [];
+            $caps = $state['CombatCaps'][$id] ?? [];
+            $grid = $state['ProdGrid'][$id] ?? [];
 
             $this->assertSame($catalog->get($id)->cost, $catalog->cost($id));
             $this->assertSame($catalog->get($id)->combat, $catalog->combat($id));
@@ -238,7 +266,7 @@ final class ElementCatalogTest extends GameTestCase
                     );
                 }
             }
-            $this->assertEquals($state->requeriments[$id] ?? [], $catalog->requirements($id));
+            $this->assertEquals($state['requeriments'][$id] ?? [], $catalog->requirements($id));
         }
     }
 

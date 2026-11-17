@@ -41,7 +41,7 @@ final class BotSmartTest extends GameTestCase
     /** A bot with two planets (the second one taken over from a helper player) and ships on the first. */
     private function bot(array $user = [], array $first = [], array $second = []): array
     {
-        $r = $this->state->resource;
+        $r = $this->elements()->columnMap();
         [$u, $a] = $this->player($user + ['computer_tech' => 10, 'spy_tech' => 8], $first + [$r[203] => 40, $r[202] => 40, $r[206] => 20, 'metal' => 500000, 'crystal' => 800000, 'deuterium' => 200000, 'metal_max' => 2000000, 'crystal_max' => 2000000, 'deuterium_max' => 2000000]);
         [$helper, $b] = $this->player([], $second + ['metal' => 10, 'crystal' => 10, 'deuterium' => 10, 'metal_max' => 1000000, 'crystal_max' => 1000000, 'deuterium_max' => 1000000]);
         $this->db->update('UPDATE %%PLANETS%% SET id_owner = :o WHERE id = :id;', [':o' => $u['id'], ':id' => $b['id']]);
@@ -150,7 +150,7 @@ final class BotSmartTest extends GameTestCase
         $this->assertGreaterThan(2 * $fastest, $home, 'slower than full speed');
         $this->assertTrue($home >= $offline || $home >= 2 * 10 * $fastest * 0.8, 'covers the offline time or flies as slowly as possible');
         $planet = $this->loadPlanet((int) $a['id']);
-        $this->assertSame(0, (int) $planet[$this->state->resource[203]], 'the ships left the planet');
+        $this->assertSame(0, (int) $planet[$this->elements()->column(203)], 'the ships left the planet');
         $this->assertGreaterThan(0.15 * 500000, (float) $planet['metal'], 'a share of the stock stays for local building');
         $this->assertStringContainsString('home again in', $this->log((int) $bot['id'])['fleetsave']);
     }
@@ -164,7 +164,7 @@ final class BotSmartTest extends GameTestCase
         $this->assertSame(0, $logistics->fleetSave($this->ctx($bot), $this->settings(['fleetsave_chance' => 100]), 600, 'test'), 'a short break is not worth it');
         $this->assertSame(0, $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%FLEETS%% WHERE owner = :u;', [':u' => $bot['id']], 'c') + 0);
 
-        [$lonely, $planet] = $this->player(['computer_tech' => 5], [$this->state->resource[203] => 5]);
+        [$lonely, $planet] = $this->player(['computer_tech' => 5], [$this->elements()->column(203) => 5]);
         $this->db->insert('INSERT INTO %%BOT_PLAYERS%% SET user_id = :u, universe = 1, profile_id = 4, skill = 0.9, personality = :p, created_at = :t;', [':u' => $lonely['id'], ':p' => '{}', ':t' => time()]);
         $this->assertSame(0, $logistics->fleetSave($this->ctx($lonely), $this->settings(['fleetsave_chance' => 100]), 6 * 3600, 'test'));
         $this->assertStringContainsString('no second planet', $this->log((int) $lonely['id'])['fleetsave_skip']);
@@ -175,7 +175,7 @@ final class BotSmartTest extends GameTestCase
     {
         $columns = [];
         foreach ($ships as $id => $count) {
-            $columns[$this->state->resource[$id]] = $count;
+            $columns[$this->elements()->column($id)] = $count;
         }
         [$enemy, $enemyPlanet] = $this->player([], $columns);
         $this->state->USER = $enemy;
@@ -206,7 +206,7 @@ final class BotSmartTest extends GameTestCase
 
     public function testStrongerIncomingAttackTriggersFleetsaveAndAWeakOneDefense(): void
     {
-        $r = $this->state->resource;
+        $r = $this->elements()->columnMap();
         [$bot, $a] = $this->bot(['spy_tech' => 8, 'military_tech' => 2, 'shield_tech' => 2, 'defence_tech' => 2]);
         $this->db->update('UPDATE %%PLANETS%% SET ' . $r[207] . ' = 3000, ' . $r[212] . ' = 0, hangar = 5 WHERE id = :id;', [':id' => $a['id']]);
         $enemyShips = [207 => 5000];
@@ -225,7 +225,7 @@ final class BotSmartTest extends GameTestCase
 
     public function testAHarmlessAttackGetsDefenseNotAFleetsave(): void
     {
-        $r = $this->state->resource;
+        $r = $this->elements()->columnMap();
         [$bot, $a] = $this->bot(['spy_tech' => 8], [$r[401] => 400, 'hangar' => 6]);
         $logistics = self::container()->get(BotLogistics::class);
         $personality = [];
@@ -260,7 +260,7 @@ final class BotSmartTest extends GameTestCase
 
     public function testExpeditionFleetFollowsTheGamesPointCap(): void
     {
-        $r = $this->state->resource;
+        $r = $this->elements()->columnMap();
         [$bot, $a, $b] = $this->bot([], [$r[203] => 2000, $r[202] => 500, $r[206] => 500]);
         $expeditions = self::container()->get(BotExpeditions::class);
         $cap = $expeditions->cap();
@@ -335,7 +335,7 @@ final class BotSmartTest extends GameTestCase
 
     public function testColonyPositionsAreChosenLikeAPlayerWould(): void
     {
-        $r = $this->state->resource;
+        $r = $this->elements()->columnMap();
         [$bot, $a] = $this->bot([$r[124] => 8], [$r[208] => 1]);
         $ctx = $this->ctx($bot);
         $method = new \ReflectionMethod($ctx, 'colonyTarget');

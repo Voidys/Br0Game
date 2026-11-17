@@ -37,13 +37,13 @@ class ExpeditionFindableShipsHandler
      */
     private function buildDefaultConfig(bool $findable = false): array
     {
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
         $config = [];
 
-        foreach ($reslist['fleet'] as $targetShipId) {
+        foreach ($elements->ids('fleet') as $targetShipId) {
             $findableByResult = [];
             foreach (self::LEGACY_FINDABLE_SHIPS as $shipId => $findableBy) {
-                if (in_array($targetShipId, $findableBy) && in_array($shipId, $reslist['fleet'])) {
+                if (in_array($targetShipId, $findableBy) && in_array($shipId, $elements->ids('fleet'))) {
                     $findableByResult[] = $shipId;
                 }
             }
@@ -69,7 +69,7 @@ class ExpeditionFindableShipsHandler
      */
     public function getConfigForUniverse(int $universe, bool $findable = false): array
     {
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
         $sql = "SELECT `ship_id`, `is_findable`, `findable_by`
             FROM %%EXPEDITION_FINDABLE_SHIPS%%
             WHERE `universe` = :universe;";
@@ -82,7 +82,7 @@ class ExpeditionFindableShipsHandler
 
         $result = $this->buildDefaultConfig($findable);
         foreach ($rows as $row) {
-            if ($findable && ($row['is_findable'] == 0 || !in_array($row['ship_id'], $reslist['fleet']))) {
+            if ($findable && ($row['is_findable'] == 0 || !in_array($row['ship_id'], $elements->ids('fleet')))) {
                 unset($result[$row['ship_id']]);
                 continue;
             }
@@ -102,14 +102,14 @@ class ExpeditionFindableShipsHandler
      */
     public function saveConfigForUniverse(int $universe, array $submittedConfig): void
     {
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
         $db = $this->db;
 
         $sql = 'INSERT INTO %%EXPEDITION_FINDABLE_SHIPS%% (`universe`, `ship_id`, `is_findable`, `findable_by`)
                 VALUES (:universe, :ship_id, :is_findable, :findable_by)
                 ON DUPLICATE KEY UPDATE `is_findable` = VALUES(`is_findable`), `findable_by` = VALUES(`findable_by`);';
 
-        foreach ($reslist['fleet'] as $shipId) {
+        foreach ($elements->ids('fleet') as $shipId) {
             $shipConfig = $submittedConfig[$shipId] ?? ['is_findable' => 0, 'findable_by' => []];
             $isFindable = !empty($shipConfig['is_findable']) && !empty($shipConfig['findable_by']) && is_array($shipConfig['findable_by']);
             $db->insert(

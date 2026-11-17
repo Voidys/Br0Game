@@ -51,10 +51,8 @@ class GalaxyController extends AbstractGameController
     public function show(): Response
     {
         $USER = $this->state->USER;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $pricelist = $this->state->pricelist;
         $config			= $this->configs->get();
 
         [$galaxy, $system] = $this->requestedSystem($config);
@@ -70,7 +68,7 @@ class GalaxyController extends AbstractGameController
             $Result = [];
         }
 
-        $hiddenDebris = ($pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] + $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL]) * ($config->fleet_debris_percentage / 100);
+        $hiddenDebris = $e->cost(SHIP_PROBE)->metalCrystal() * ($config->fleet_debris_percentage / 100);
 
         $Duration = $this->fleetFunctions()->getMIPDuration($this->state->PLANET['system'], $system);
 
@@ -83,8 +81,8 @@ class GalaxyController extends AbstractGameController
         $enablePlanetStyles = $USER['enable_planet_styles'];
 
         $recyclerCount = 0;
-        foreach ($reslist['ship_type'][SHIP_TYPE_RECYCLER] as $elementID) {
-            $recyclerCount += $this->state->PLANET[$resource[$elementID]];
+        foreach ($e->shipTypeIds(SHIP_TYPE_RECYCLER) as $elementID) {
+            $recyclerCount += $this->state->PLANET[$e->column($elementID)];
         }
 
         $pirateBase = $this->pirateBaseIn($galaxy, $system);
@@ -101,9 +99,9 @@ class GalaxyController extends AbstractGameController
             'type'						=> null, // never set in this page (the former variable was undefined)
             'maxfleetcount'				=> $this->fleetFunctions()->getCurrentFleets($USER['id']),
             'fleetmax'					=> $this->fleetFunctions()->getMaxFleetSlots($USER),
-            'currentmip'				=> $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]],
+            'currentmip'				=> $this->state->PLANET[$e->column(INTERPLANETARY_MISSILE)],
             'recyclers'   				=> $recyclerCount,
-            'spyprobes'   				=> $this->state->PLANET[$resource[SHIP_PROBE]],
+            'spyprobes'   				=> $this->state->PLANET[$e->column(SHIP_PROBE)],
             'spyShips'					=> [SHIP_PROBE => $USER['spio_anz']],
             'settings_fleetactions'		=> $USER['settings_fleetactions'],
             'current_galaxy'			=> $this->state->PLANET['galaxy'],
@@ -220,7 +218,7 @@ class GalaxyController extends AbstractGameController
     private function missileSelector(): array
     {
         $LNG = $this->state->LNG;
-        $targetDefensive    = $this->state->reslist['defense'];
+        $targetDefensive    = $this->elements()->ids('defense');
         $targetDefensive[]	= INTERCEPTOR_MISSILE;
         $missileSelector[0]	= $LNG['gl_all_defenses'];
         foreach ($targetDefensive as $Element) {

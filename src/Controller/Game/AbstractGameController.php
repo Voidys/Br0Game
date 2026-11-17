@@ -204,7 +204,6 @@ abstract class AbstractGameController implements GameControllerInterface
     {
         $PLANET = $this->state->PLANET;
         $THEME = $this->state->THEME;
-        $resource = $this->state->resource;
         $config = $this->configs->get();
         $db = $this->db;
 
@@ -274,7 +273,7 @@ abstract class AbstractGameController implements GameControllerInterface
             'hasAdminAccess' => !empty($this->sessions()->load()->adminAccess),
             'hasRebuildProtection' => $config->rebuild_protection == 1 && $this->state->USER['rebuild_protection'] > 0,
             'rebuildProtectionUntil' => $this->state->USER['rebuild_protection'] + TIME_24_HOURS * 2 - $this->state->runtime->timestamp,
-            'hasGate' => $PLANET[$resource[43]] > 0,
+            'hasGate' => $PLANET[$this->elements()->column(43)] > 0,
             'communityNav' => $this->communityNav(!empty($tutorialDetails['id'] ?? null)),
             'tutorial' => !$tutorialDetails || empty($tutorialDetails) ? false : $tutorialDetails,
             'noobInterface' => $this->state->USER['noob_interface'],
@@ -317,31 +316,30 @@ abstract class AbstractGameController implements GameControllerInterface
     private function resourceBar(object $config): array
     {
         $PLANET = $this->state->PLANET;
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
 
         $resourceTable = [];
         $resourceSpeed = $config->resource_multiplier / 2500;
-        foreach ($reslist['resstype'][1] as $resourceID) {
-            $resourceTable[$resourceID]['name'] = $resource[$resourceID];
-            $resourceTable[$resourceID]['current'] = floor($PLANET[$resource[$resourceID]]);
-            $resourceTable[$resourceID]['max'] = $PLANET[$resource[$resourceID] . '_max'];
+        foreach ($e->resourceIds(1) as $resourceID) {
+            $resourceTable[$resourceID]['name'] = $e->column($resourceID);
+            $resourceTable[$resourceID]['current'] = floor($PLANET[$e->column($resourceID)]);
+            $resourceTable[$resourceID]['max'] = $PLANET[$e->column($resourceID) . '_max'];
             if ($this->state->USER['urlaubs_modus'] == 1 || $PLANET['planet_type'] != 1) {
-                $resourceTable[$resourceID]['production'] = $PLANET[$resource[$resourceID] . '_perhour'];
+                $resourceTable[$resourceID]['production'] = $PLANET[$e->column($resourceID) . '_perhour'];
             } else {
-                $resourceTable[$resourceID]['production'] = $PLANET[$resource[$resourceID] . '_perhour'] + $config->{$resource[$resourceID] . '_basic_income'} * $resourceSpeed;
+                $resourceTable[$resourceID]['production'] = $PLANET[$e->column($resourceID) . '_perhour'] + $config->{$e->column($resourceID) . '_basic_income'} * $resourceSpeed;
             }
         }
 
-        foreach ($reslist['resstype'][2] as $resourceID) {
-            $resourceTable[$resourceID]['name'] = $resource[$resourceID];
-            $resourceTable[$resourceID]['used'] = $PLANET[$resource[$resourceID] . '_used'];
-            $resourceTable[$resourceID]['max'] = $PLANET[$resource[$resourceID]];
+        foreach ($e->resourceIds(2) as $resourceID) {
+            $resourceTable[$resourceID]['name'] = $e->column($resourceID);
+            $resourceTable[$resourceID]['used'] = $PLANET[$e->column($resourceID) . '_used'];
+            $resourceTable[$resourceID]['max'] = $PLANET[$e->column($resourceID)];
         }
 
-        foreach ($reslist['resstype'][3] as $resourceID) {
-            $resourceTable[$resourceID]['name'] = $resource[$resourceID];
-            $resourceTable[$resourceID]['current'] = $this->state->USER[$resource[$resourceID]];
+        foreach ($e->resourceIds(3) as $resourceID) {
+            $resourceTable[$resourceID]['name'] = $e->column($resourceID);
+            $resourceTable[$resourceID]['current'] = $this->state->USER[$e->column($resourceID)];
         }
 
         return $resourceTable;

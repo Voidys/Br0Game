@@ -188,15 +188,14 @@ trait BattleFleetHandling
      */
     private function planetBattleUnits(array $targetPlanet): array
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $planetUnits = [];
-        foreach (array_merge($reslist['fleet'], $reslist['defense']) as $elementID) {
-            if (empty($targetPlanet[$resource[$elementID]])) {
+        foreach (array_merge($e->ids('fleet'), $e->ids('defense')) as $elementID) {
+            if (empty($targetPlanet[$e->column($elementID)])) {
                 continue;
             }
 
-            $planetUnits[$elementID] = $targetPlanet[$resource[$elementID]];
+            $planetUnits[$elementID] = $targetPlanet[$e->column($elementID)];
         }
 
         return $planetUnits;
@@ -208,7 +207,7 @@ trait BattleFleetHandling
      */
     protected function applyLosses(BattleSetup $setup, string $reportID): void
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         foreach ($setup->fleetAttack as $fleetID => $fleet) {
             if ($this->saveFleetSurvivors($fleetID, $fleet, $reportID)) {
@@ -226,7 +225,7 @@ trait BattleFleetHandling
                 // Planet fleet: the surviving ships and defense (the resource names are fixed game data)
                 $survivorColumns = [];
                 foreach ($fleet->units as $elementID => $amount) {
-                    $survivorColumns[$resource[$elementID]] = $amount;
+                    $survivorColumns[$e->column($elementID)] = $amount;
                 }
                 $this->db->updateRows('PLANETS', $survivorColumns, ['id' => $this->_fleet['end_id']]);
             }

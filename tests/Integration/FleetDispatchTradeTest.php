@@ -49,7 +49,7 @@ final class FleetDispatchTradeTest extends GameTestCase
     /** @param array<string, mixed> $input posted resources */
     private function dispatchTrade(array $input): array
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$user, $planet] = $this->createPlayer([], [$resource[202] => 10, 'metal' => 1e6, 'crystal' => 1e6, 'deuterium' => 1e6]);
         $this->state->USER = $user;
         $this->state->PLANET = $planet;

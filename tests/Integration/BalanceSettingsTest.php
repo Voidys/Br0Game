@@ -47,7 +47,7 @@ final class BalanceSettingsTest extends GameTestCase
 
     public function testDepotCostDefaultIsBaseConsumption(): void
     {
-        [$owner] = $this->createPlayer([$this->state->resource[FUEL_EFFICIENCY_TECH] => 10]);
+        [$owner] = $this->createPlayer([$this->elements()->column(FUEL_EFFICIENCY_TECH) => 10]);
         $depot = new AllianceDepot($this->db, $this->configs, $this->state);
         $fleet = (new FleetString())->unserialize('202,10');
 
@@ -58,7 +58,7 @@ final class BalanceSettingsTest extends GameTestCase
 
     public function testDepotCostByRealConsumptionUsesTheOwnersTechs(): void
     {
-        [$owner] = $this->createPlayer([$this->state->resource[FUEL_EFFICIENCY_TECH] => 10]);
+        [$owner] = $this->createPlayer([$this->elements()->column(FUEL_EFFICIENCY_TECH) => 10]);
         $this->setUniverseConfig(['depot_cost_real_consumption' => 1]);
         $depot = new AllianceDepot($this->db, $this->configs, $this->state);
         $fleet = (new FleetString())->unserialize('202,10');
@@ -180,7 +180,7 @@ final class BalanceSettingsTest extends GameTestCase
         $this->state->time = ['start' => microtime(true), 'end_common' => microtime(true), 'db' => 0];
         $this->setUniverseConfig(['noob_protection' => 0] + $config);
 
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$user, $planet] = $this->createPlayer([], [$resource[203] => 20, 'metal' => 1e6, 'crystal' => 1e6, 'deuterium' => 1e6]);
         [$other, $otherPlanet] = $this->createPlayer();
         $target = $toOwnPlanet ? $this->createPlanetFor($user) : $otherPlanet;

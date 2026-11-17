@@ -16,7 +16,7 @@ namespace App\Game\Model;
  *
  * How to get one: `$this->models()->user($USER)` in any class using the `GameUtilities` trait, or
  * `User::fromState($row, $resource)` where `$resource` is the element id => column name table of the game data
- * (`$this->state->resource`). Missing or NULL keys never raise: they read as 0 / '' / false, tech levels not present
+ * (`ElementCatalog::columnMap()`). Missing or NULL keys never raise: they read as 0 / '' / false, tech levels not present
  * in the row are reported by `has()` as false and read as 0.
  */
 final readonly class User
@@ -61,7 +61,7 @@ final readonly class User
      * Builds the snapshot from a player row / `$USER` state array.
      *
      * @param array<string, mixed> $row      the player row (extra keys such as `factor` or `total_points` are used when present)
-     * @param array<int, string>   $resource element id => column name table (`$this->state->resource`)
+     * @param array<int, string>   $resource element id => column name table (`ElementCatalog::columnMap()`)
      */
     public static function fromState(array $row, array $resource): self
     {

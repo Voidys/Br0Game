@@ -139,7 +139,7 @@ class InformationController extends AbstractGameController
     private function checkJumpGates(): int
     {
         $USER = $this->state->USER;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
         $db = $this->db;
 
@@ -151,7 +151,7 @@ class InformationController extends AbstractGameController
         }
 
         // The source planet needs a jump gate itself
-        if ($this->state->PLANET[$resource[43]] <= 0) {
+        if ($this->state->PLANET[$e->column(43)] <= 0) {
             $this->sendJSON([
                 'message'   => $LNG['in_jump_gate_doesnt_have_one'],
                 'error'     => true,
@@ -203,8 +203,7 @@ class InformationController extends AbstractGameController
      */
     private function takeShipsForJump(): array
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
 
         $ShipArray      = [];
         $shipsOut       = [];
@@ -213,19 +212,19 @@ class InformationController extends AbstractGameController
             $Ships = [];
         }
 
-        foreach ($reslist['fleet'] as $Ship) {
+        foreach ($e->ids('fleet') as $Ship) {
             if (!isset($Ships[$Ship]) || $Ship == 212) {
                 continue;
             }
 
-            $ShipArray[$Ship]   = max(0, min((int) $Ships[$Ship], (int) $this->state->PLANET[$resource[$Ship]]));
+            $ShipArray[$Ship]   = max(0, min((int) $Ships[$Ship], (int) $this->state->PLANET[$e->column($Ship)]));
 
             if (empty($ShipArray[$Ship])) {
                 continue;
             }
 
-            $shipsOut[$resource[$Ship]] = $ShipArray[$Ship];
-            $this->state->PLANET[$resource[$Ship]] -= $ShipArray[$Ship];
+            $shipsOut[$e->column($Ship)] = $ShipArray[$Ship];
+            $this->state->PLANET[$e->column($Ship)] -= $ShipArray[$Ship];
         }
 
         return $shipsOut;
@@ -270,17 +269,16 @@ class InformationController extends AbstractGameController
      */
     private function getAvailableFleets()
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $PLANET = $this->state->PLANET;
         $fleetList  = [];
 
-        foreach ($reslist['fleet'] as $Ship) {
-            if ($Ship == 212 || $PLANET[$resource[$Ship]] <= 0) {
+        foreach ($e->ids('fleet') as $Ship) {
+            if ($Ship == 212 || $PLANET[$e->column($Ship)] <= 0) {
                 continue;
             }
 
-            $fleetList[$Ship]   = $PLANET[$resource[$Ship]];
+            $fleetList[$Ship]   = $PLANET[$e->column($Ship)];
         }
 
         return $fleetList;
@@ -292,7 +290,7 @@ class InformationController extends AbstractGameController
      */
     public function destroyMissiles()
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
 
         $Missle = $this->http()->_GP('missile', []);
@@ -300,7 +298,7 @@ class InformationController extends AbstractGameController
             $Missle = [];
         }
         $planetId = (int) $this->state->PLANET['id'];
-        $columns = ['`' . $resource[502] . '`', '`' . $resource[503] . '`'];
+        $columns = ['`' . $e->column(502) . '`', '`' . $e->column(503) . '`'];
 
         // The request-start PLANET copy is stale (a launch or an attack may have changed the silo meanwhile): lock the
         // row, clamp against its current counts and deduct relatively.
@@ -325,8 +323,8 @@ class InformationController extends AbstractGameController
             return [(int) $locked['interceptor'] - $interceptor, (int) $locked['interplanetary'] - $interplanetary];
         });
 
-        $this->state->PLANET[$resource[502]] = $remaining[0];
-        $this->state->PLANET[$resource[503]] = $remaining[1];
+        $this->state->PLANET[$e->column(502)] = $remaining[0];
+        $this->state->PLANET[$e->column(503)] = $remaining[1];
 
         $this->sendJSON($remaining);
     }
@@ -336,7 +334,7 @@ class InformationController extends AbstractGameController
      */
     private function getTargetGates()
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
         $db = $this->db;
@@ -345,12 +343,12 @@ class InformationController extends AbstractGameController
         $sort  = $USER['planet_sort'];
 
         $moonQuery = $db->qb()
-            ->select('id', 'name', 'galaxy', '`system`', 'planet', 'last_jump_time', 'sprungtor', '`' . $resource[43] . '`')
+            ->select('id', 'name', 'galaxy', '`system`', 'planet', 'last_jump_time', 'sprungtor', '`' . $e->column(43) . '`')
             ->from($db->table('PLANETS'))
             ->where('id != :planetID')
             ->andWhere('id_owner = :userID')
             ->andWhere("planet_type = '3'")
-            ->andWhere('`' . $resource[43] . '` > 0')
+            ->andWhere('`' . $e->column(43) . '` > 0')
             ->setParameter('planetID', $PLANET['id'])
             ->setParameter('userID', $USER['id']);
         PlanetQueries::orderBySetting($moonQuery, $sort, $order);
@@ -377,8 +375,7 @@ class InformationController extends AbstractGameController
     {
 
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $elementID  = $this->http()->_GP('id', 0);
 
         $this->setWindow('popup');
@@ -390,24 +387,24 @@ class InformationController extends AbstractGameController
 
         $CurrentLevel       = 0;
 
-        $ressIDs            = array_merge([], $reslist['resstype'][1], $reslist['resstype'][2]);
+        $ressIDs            = array_merge([], $e->resourceIds(1), $e->resourceIds(2));
 
-        if (in_array($elementID, $reslist['prod'])) {
-            $CurrentLevel       = $this->state->PLANET[$resource[$elementID]];
+        if (in_array($elementID, $e->ids('prod'))) {
+            $CurrentLevel       = $this->state->PLANET[$e->column($elementID)];
             $this->addProductionLevels($productionTable, $elementID, $ressIDs, $CurrentLevel);
         }
-        if (in_array($elementID, $reslist['storage'])) {
-            $CurrentLevel       = $this->state->PLANET[$resource[$elementID]];
+        if (in_array($elementID, $e->ids('storage'))) {
+            $CurrentLevel       = $this->state->PLANET[$e->column($elementID)];
             $this->addStorageLevels($productionTable, $elementID, $ressIDs, $CurrentLevel);
         }
-        if (in_array($elementID, $reslist['fleet'])) {
+        if (in_array($elementID, $e->ids('fleet'))) {
             $FleetInfo = $this->shipInfo($elementID);
         }
-        if (in_array($elementID, $reslist['defense'])) {
+        if (in_array($elementID, $e->ids('defense'))) {
             $FleetInfo = $this->defenseInfo($elementID);
         }
 
-        if ($elementID == 43 && $this->state->PLANET[$resource[43]] > 0) {
+        if ($elementID == 43 && $this->state->PLANET[$e->column(43)] > 0) {
             $this->addScript('gate.js');
             $nextTime   = $this->getNextJumpWaitTime($this->state->PLANET['last_jump_time'], $this->state->PLANET['sprungtor']);
             $gateData   = [
@@ -417,10 +414,10 @@ class InformationController extends AbstractGameController
                 'gateList'  => $this->getTargetGates(),
                 'fleetList' => $this->getAvailableFleets(),
             ];
-        } elseif ($elementID == 44 && $this->state->PLANET[$resource[44]] > 0) {
+        } elseif ($elementID == 44 && $this->state->PLANET[$e->column(44)] > 0) {
             $MissileList    = [
-                502 => $this->state->PLANET[$resource[502]],
-                503 => $this->state->PLANET[$resource[503]],
+                502 => $this->state->PLANET[$e->column(502)],
+                503 => $this->state->PLANET[$e->column(503)],
             ];
         }
 
@@ -447,25 +444,24 @@ class InformationController extends AbstractGameController
      */
     private function addProductionLevels(array &$productionTable, mixed $elementID, array $ressIDs, int|string $CurrentLevel): void
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
-        $ProdGrid = $this->state->ProdGrid;
+        $e = $this->elements();
 
         /* Data for eval */
-        $BuildEnergy        = $this->state->USER[$resource[113]];
+        $BuildEnergy        = $this->state->USER[$e->column(113)];
         $BuildTemp          = $this->state->PLANET['temp_max'];
-        $BuildLevelFactor   = $this->state->PLANET[$resource[$elementID] . '_porcent'];
+        $BuildLevelFactor   = $this->state->PLANET[$e->column($elementID) . '_porcent'];
 
         $BuildStartLvl      = max($CurrentLevel - 2, 0);
         for ($BuildLevel = $BuildStartLvl; $BuildLevel < $BuildStartLvl + 15; $BuildLevel++) {
             foreach ($ressIDs as $ID) {
-                if (!isset($ProdGrid[$elementID]['production'][$ID])) {
+                $formula = $e->productionFormula((int) $elementID, $ID);
+                if ($formula === null) {
                     continue;
                 }
 
-                $Production = FormulaEvaluator::evaluate($ProdGrid[$elementID]['production'][$ID], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
+                $Production = FormulaEvaluator::evaluate($formula, compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
 
-                if (in_array($ID, $reslist['resstype'][2])) {
+                if (in_array($ID, $e->resourceIds(2))) {
                     $Production *= $this->configs->get()->energy_multiplier;
                 } else {
                     $Production *= ($this->configs->get()->resource_multiplier / 2500);
@@ -487,16 +483,17 @@ class InformationController extends AbstractGameController
      */
     private function addStorageLevels(array &$productionTable, mixed $elementID, array $ressIDs, int|string $CurrentLevel): void
     {
-        $ProdGrid = $this->state->ProdGrid;
+        $e = $this->elements();
         $BuildStartLvl      = max($CurrentLevel - 2, 0);
 
         for ($BuildLevel = $BuildStartLvl; $BuildLevel < $BuildStartLvl + 15; $BuildLevel++) {
             foreach ($ressIDs as $ID) {
-                if (!isset($ProdGrid[$elementID]['storage'][$ID])) {
+                $formula = $e->storageFormula((int) $elementID, $ID);
+                if ($formula === null) {
                     continue;
                 }
 
-                $production = round(FormulaEvaluator::evaluate($ProdGrid[$elementID]['storage'][$ID], compact('BuildLevel')));
+                $production = round(FormulaEvaluator::evaluate($formula, compact('BuildLevel')));
                 $production *= $this->configs->get()->storage_multiplier;
 
                 $productionTable['storage'][$BuildLevel][$ID]   = $production;
@@ -514,22 +511,22 @@ class InformationController extends AbstractGameController
      */
     private function shipInfo(mixed $elementID): array
     {
-        $pricelist = $this->state->pricelist;
-        $CombatCaps = $this->state->CombatCaps;
+        $e = $this->elements();
+        $element = $e->get((int) $elementID);
         $FleetInfo  = [
-            'structure'     => $pricelist[$elementID]['cost'][901] + $pricelist[$elementID]['cost'][902],
-            'tech1'         => $pricelist[$elementID]['tech1'],
-            'tech2'         => $pricelist[$elementID]['tech2'],
-            'tech3'         => $pricelist[$elementID]['tech3'],
-            'attack'        => $CombatCaps[$elementID]['attack'],
-            'shield'        => $CombatCaps[$elementID]['shield'],
-            'capacity'      => $pricelist[$elementID]['capacity'],
-            'speed1'        => $pricelist[$elementID]['speed1'],
-            'speed2'        => $pricelist[$elementID]['speed2'],
-            'speed3'        => $pricelist[$elementID]['speed3'],
-            'consumption1'  => $pricelist[$elementID]['consumption1'],
-            'consumption2'  => $pricelist[$elementID]['consumption2'],
-            'consumption3'  => $pricelist[$elementID]['consumption3'],
+            'structure'     => $e->cost((int) $elementID)->metalCrystal(),
+            'tech1'         => $element->speedTech(1),
+            'tech2'         => $element->speedTech(2),
+            'tech3'         => $element->speedTech(3),
+            'attack'        => $e->combat((int) $elementID)->attack,
+            'shield'        => $e->combat((int) $elementID)->shield,
+            'capacity'      => $e->capacity((int) $elementID),
+            'speed1'        => $element->speed(1),
+            'speed2'        => $element->speed(2),
+            'speed3'        => $element->speed(3),
+            'consumption1'  => $element->consumption(1),
+            'consumption2'  => $element->consumption(2),
+            'consumption3'  => $element->consumption(3),
             'rapidfire'     => $this->rapidFire($elementID),
         ];
 
@@ -543,13 +540,12 @@ class InformationController extends AbstractGameController
      */
     private function defenseInfo(mixed $elementID): array
     {
-        $pricelist = $this->state->pricelist;
-        $CombatCaps = $this->state->CombatCaps;
+        $e = $this->elements();
 
         return [
-            'structure'     => $pricelist[$elementID]['cost'][901] + $pricelist[$elementID]['cost'][902],
-            'attack'        => $CombatCaps[$elementID]['attack'],
-            'shield'        => $CombatCaps[$elementID]['shield'],
+            'structure'     => $e->cost((int) $elementID)->metalCrystal(),
+            'attack'        => $e->combat((int) $elementID)->attack,
+            'shield'        => $e->combat((int) $elementID)->shield,
             'rapidfire'     => $this->rapidFire($elementID),
         ];
     }
@@ -562,23 +558,22 @@ class InformationController extends AbstractGameController
      */
     private function rapidFire(mixed $elementID): array
     {
-        $reslist = $this->state->reslist;
-        $CombatCaps = $this->state->CombatCaps;
+        $e = $this->elements();
         $rapidfire = [
             'from'  => [],
             'to'    => [],
         ];
 
-        $fleetIDs   = array_merge($reslist['fleet'], $reslist['defense']);
+        $fleetIDs   = array_merge($e->ids('fleet'), $e->ids('defense'));
 
         foreach ($fleetIDs as $fleetID) {
-            if (isset($CombatCaps[$elementID]['sd']) && !empty($CombatCaps[$elementID]['sd'][$fleetID]) && $CombatCaps[$elementID]['sd'][$fleetID] > 1) {
-                $shoots = $CombatCaps[$elementID]['sd'][$fleetID];
+            $shoots = $e->combat((int) $elementID)->rapidFireAgainst($fleetID);
+            if ($shoots > 1) {
                 $rapidfire['to'][$fleetID] = round(($shoots - 1) / $shoots * 100, 2);
             }
 
-            if (isset($CombatCaps[$fleetID]['sd']) && !empty($CombatCaps[$fleetID]['sd'][$elementID]) && $CombatCaps[$fleetID]['sd'][$elementID] > 1) {
-                $shoots = $CombatCaps[$fleetID]['sd'][$elementID];
+            $shoots = $e->combat($fleetID)->rapidFireAgainst((int) $elementID);
+            if ($shoots > 1) {
                 $rapidfire['from'][$fleetID] = round(($shoots - 1) / $shoots * 100, 2);
             }
         }

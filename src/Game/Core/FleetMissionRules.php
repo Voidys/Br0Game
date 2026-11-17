@@ -33,7 +33,7 @@ class FleetMissionRules
      */
     public function getFleetMissions(array $USER, array $MisInfo, array $Planet): array
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $Missions = $this->getAvailableMissions($USER, $MisInfo, $Planet);
         $stayBlock = [];
         $exchange = false;
@@ -41,7 +41,7 @@ class FleetMissionRules
         $haltSpeed = $this->configs->get($USER['universe'])->expo_hold_multiplier;
 
         if (in_array(MISSION_EXPEDITION, $Missions)) {
-            for ($i = 1; $i <= $USER[$resource[124]]; $i++) {
+            for ($i = 1; $i <= $USER[$elements->column(124)]; $i++) {
                 $stayBlock[$i] = round($i / $haltSpeed, 2);
             }
         } elseif (in_array(MISSION_HOLD, $Missions)) {
@@ -135,12 +135,12 @@ class FleetMissionRules
      */
     private function recyclingMissions(array $MissionInfo, array $GetInfoPlanet, bool $UsedPlanet, bool $YourPlanet, bool $PirateBasePosition): array
     {
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
         $availableMissions = [];
 
         $recs = false;
         foreach ($MissionInfo['Ship'] as $ShipID => $ShipCount) {
-            if (isset($reslist['ship_type'][SHIP_TYPE_RECYCLER][$ShipID]) && $ShipCount > 0) {
+            if ($elements->isShipType((int) $ShipID, SHIP_TYPE_RECYCLER) && $ShipCount > 0) {
                 $recs = true;
                 break;
             }
@@ -221,15 +221,15 @@ class FleetMissionRules
     public function allowPhalanx($toGalaxy, $toSystem, $targetUser)
     {
         $PLANET = $this->state->PLANET;
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $USER = $this->state->USER;
         $checknoob = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetUser));
 
-        if ($PLANET['galaxy'] != $toGalaxy || $PLANET[$resource[42]] == 0 || !$this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) || $PLANET[$resource[903]] < PHALANX_DEUTERIUM || $USER['urlaubs_modus'] == 1 || $checknoob['NoobPlayer'] || $checknoob['StrongPlayer']) {
+        if ($PLANET['galaxy'] != $toGalaxy || $PLANET[$elements->column(42)] == 0 || !$this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) || $PLANET[$elements->column(903)] < PHALANX_DEUTERIUM || $USER['urlaubs_modus'] == 1 || $checknoob['NoobPlayer'] || $checknoob['StrongPlayer']) {
             return false;
         }
 
-        $PhRange	= (new FleetMath($this->db, $this->configs, $this->state))->getPhalanxRange($PLANET[$resource[42]]);
+        $PhRange	= (new FleetMath($this->db, $this->configs, $this->state))->getPhalanxRange($PLANET[$elements->column(42)]);
         // if ($this->configs->get()->galaxy_type == 2) {
         // TODO or else
         // } else if

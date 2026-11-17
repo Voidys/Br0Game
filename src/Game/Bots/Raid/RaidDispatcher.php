@@ -49,16 +49,16 @@ class RaidDispatcher
             return ['ok' => false, 'reason' => $refusal, 'id' => 0, 'arrival' => 0, 'duration' => 0, 'consumption' => 0.0];
         }
         [$targetPlanet] = $refusal;
-        $resource = $this->state->resource;
+        $e = $this->elements();
 
         $flight = $this->planner->flight($ctx, $planet, $fleet, (int) $targetPlanet['galaxy'], (int) $targetPlanet['system'], (int) $targetPlanet['planet'], max(1, min(10, $speedSetting)));
         $no = static fn(string $reason): array => ['ok' => false, 'reason' => $reason, 'id' => 0, 'arrival' => 0, 'duration' => 0, 'consumption' => 0.0];
-        if ((float) $planet[$resource[RESOURCE_DEUT]] < $flight['consumption'] + $cargo[RESOURCE_DEUT]) {
+        if ((float) $planet[$e->column(RESOURCE_DEUT)] < $flight['consumption'] + $cargo[RESOURCE_DEUT]) {
             return $no('not enough deuterium');
         }
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL] as $resourceId) {
-            if ((float) $planet[$resource[$resourceId]] < $cargo[$resourceId]) {
-                return $no('not enough ' . $resource[$resourceId]);
+            if ((float) $planet[$e->column($resourceId)] < $cargo[$resourceId]) {
+                return $no('not enough ' . $e->column($resourceId));
             }
         }
         if (array_sum($cargo) > $this->fleetFunctions()->getFleetRoom($fleet) - $flight['consumption']) {
@@ -92,11 +92,11 @@ class RaidDispatcher
         );
 
         foreach ($fleet as $ship => $count) {
-            $planet[$resource[$ship]] -= $count;
+            $planet[$e->column($ship)] -= $count;
         }
-        $planet[$resource[RESOURCE_DEUT]] -= $flight['consumption'];
+        $planet[$e->column(RESOURCE_DEUT)] -= $flight['consumption'];
         foreach ($cargo as $resourceId => $amount) {
-            $planet[$resource[$resourceId]] -= $amount;
+            $planet[$e->column($resourceId)] -= $amount;
         }
 
         return ['ok' => true, 'reason' => '', 'id' => $id, 'arrival' => $arrival, 'duration' => $flight['duration'], 'consumption' => $flight['consumption']];
@@ -119,7 +119,7 @@ class RaidDispatcher
      */
     private function refusal(BotActions $ctx, array $planet, array $fleet, int $mission, int $targetPlanetId, int $targetUserId): string|array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $user = $ctx->user;
         if (IsVacationMode($user)) {
             return 'own vacation mode';
@@ -128,7 +128,7 @@ class RaidDispatcher
             return 'no free fleet slot';
         }
         foreach ($fleet as $ship => $count) {
-            if ($count < 1 || $count > (int) $planet[$resource[$ship]]) {
+            if ($count < 1 || $count > (int) $planet[$e->column($ship)]) {
                 return 'ships not on the planet';
             }
         }

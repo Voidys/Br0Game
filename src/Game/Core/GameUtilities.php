@@ -32,10 +32,10 @@ trait GameUtilities
         return $this->gameUtilityInstances[\App\Game\Model\ModelFactory::class] ??= new \App\Game\Model\ModelFactory($this->state);
     }
 
-    /** typed read-only catalog of the game elements (cost, groups, columns, ...), built once per loaded game data */
+    /** typed read-only catalog of the game elements (cost, groups, columns, ...), built once by GameData::load() */
     protected function elements(): \App\Game\Model\ElementCatalog
     {
-        return $this->state->elementCatalog ??= \App\Game\Model\ElementCatalog::fromState($this->state);
+        return $this->state->elementCatalog ?? throw new \LogicException('game data not loaded');
     }
 
     /** typed snapshot of the current player (`$USER`) for reading; never cached, writes keep using the state array */

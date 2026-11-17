@@ -17,7 +17,7 @@ namespace App\Game\Model;
  *
  * How to get one: `$this->models()->planet($PLANET)` in any class using the `GameUtilities` trait, or
  * `Planet::fromState($row, $resource)` where `$resource` is the element id => column name table of the game data
- * (`$this->state->resource`). Missing or NULL keys never raise: they read as 0 / '' / null, `has()` tells whether the
+ * (`ElementCatalog::columnMap()`). Missing or NULL keys never raise: they read as 0 / '' / null, `has()` tells whether the
  * row carried the element at all.
  */
 final readonly class Planet
@@ -75,7 +75,7 @@ final readonly class Planet
      * Builds the snapshot from a planet row / `$PLANET` state array.
      *
      * @param array<string, mixed> $row      the planet row (extra keys such as `<lab>_inter` are used when present)
-     * @param array<int, string>   $resource element id => column name table (`$this->state->resource`)
+     * @param array<int, string>   $resource element id => column name table (`ElementCatalog::columnMap()`)
      */
     public static function fromState(array $row, array $resource): self
     {

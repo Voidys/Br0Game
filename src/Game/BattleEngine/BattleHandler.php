@@ -375,7 +375,7 @@ class BattleHandler
     public function calculateSteal(array $attackFleets, $defenderPlanet, $universe, $simulate = false)
     {
         // See: http://www.owiki.de/Beute
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $firstResource = RESOURCE_METAL;
         $secondResource = RESOURCE_CRYSTAL;
         $thirdResource = RESOURCE_DEUT;
@@ -394,9 +394,9 @@ class BattleHandler
         }
 
         $planetResource = [
-            $firstResource  => $defenderPlanet[$resource[$firstResource]],
-            $secondResource => $defenderPlanet[$resource[$secondResource]],
-            $thirdResource  => $defenderPlanet[$resource[$thirdResource]],
+            $firstResource  => $defenderPlanet[$e->column($firstResource)],
+            $secondResource => $defenderPlanet[$e->column($secondResource)],
+            $thirdResource  => $defenderPlanet[$e->column($thirdResource)],
         ];
         $protected = [
             $firstResource  => 0,
@@ -435,7 +435,7 @@ class BattleHandler
      */
     private function raidCapacities(array $attackFleets): array
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $SortFleets = [];
         $capacity = 0;
 
@@ -444,7 +444,7 @@ class BattleHandler
 
             foreach ($Attacker->units as $Element => $amount) {
                 if ($Element != 210) { //Exclude spy drone from raid capacity
-                    $SortFleets[$FleetID] += $pricelist[$Element]['capacity'] * $amount;
+                    $SortFleets[$FleetID] += $e->capacity($Element) * $amount;
                 }
             }
 
@@ -469,7 +469,7 @@ class BattleHandler
      */
     private function protectedStock(array $defenderPlanet, int|string $universe): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $firstResource = RESOURCE_METAL;
         $secondResource = RESOURCE_CRYSTAL;
         $thirdResource = RESOURCE_DEUT;
@@ -481,9 +481,9 @@ class BattleHandler
         ];
 
         return [
-            $firstResource  => $dailyProduction[$firstResource] * min(0.1, 0.01 * $defenderPlanet[$resource[METAL_STORE]]),
-            $secondResource => $dailyProduction[$secondResource] * min(0.1, 0.01 * $defenderPlanet[$resource[CRYSTAL_STORE]]),
-            $thirdResource  => $dailyProduction[$thirdResource] * min(0.1, 0.01 * $defenderPlanet[$resource[DEUTERIUM_STORE]]),
+            $firstResource  => $dailyProduction[$firstResource] * min(0.1, 0.01 * $defenderPlanet[$e->column(METAL_STORE)]),
+            $secondResource => $dailyProduction[$secondResource] * min(0.1, 0.01 * $defenderPlanet[$e->column(CRYSTAL_STORE)]),
+            $thirdResource  => $dailyProduction[$thirdResource] * min(0.1, 0.01 * $defenderPlanet[$e->column(DEUTERIUM_STORE)]),
         ];
     }
 
@@ -624,16 +624,15 @@ class BattleHandler
      */
     public function calculateMinCapacity(array $defenderPlanet): int
     {
-        $pricelist = $this->state->pricelist;
-        $resource  = $this->state->resource;
+        $e = $this->elements();
 
         $targetResource = [
-            RESOURCE_METAL   => $defenderPlanet[$resource[RESOURCE_METAL]]   / 2,
-            RESOURCE_CRYSTAL => $defenderPlanet[$resource[RESOURCE_CRYSTAL]] / 2,
-            RESOURCE_DEUT    => $defenderPlanet[$resource[RESOURCE_DEUT]]    / 2,
+            RESOURCE_METAL   => $defenderPlanet[$e->column(RESOURCE_METAL)]   / 2,
+            RESOURCE_CRYSTAL => $defenderPlanet[$e->column(RESOURCE_CRYSTAL)] / 2,
+            RESOURCE_DEUT    => $defenderPlanet[$e->column(RESOURCE_DEUT)]    / 2,
         ];
 
-        $shipCapacity = $pricelist[SHIP_SMALL_CARGO]['capacity'];
+        $shipCapacity = (int) $e->capacity(SHIP_SMALL_CARGO);
 
         $low  = 0;
         $high = max(

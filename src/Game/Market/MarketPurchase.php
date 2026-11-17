@@ -339,19 +339,19 @@ class MarketPurchase
      */
     private function payTrip(array $fleetResource, int|float $consumption): bool
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         if (
-            $this->state->PLANET[$resource[RESOURCE_METAL]] - $fleetResource[RESOURCE_METAL] < 0
-            || $this->state->PLANET[$resource[RESOURCE_CRYSTAL]] - $fleetResource[RESOURCE_CRYSTAL] < 0
-            || $this->state->PLANET[$resource[RESOURCE_DEUT]] - $fleetResource[RESOURCE_DEUT] - $consumption < 0
+            $this->state->PLANET[$elements->column(RESOURCE_METAL)] - $fleetResource[RESOURCE_METAL] < 0
+            || $this->state->PLANET[$elements->column(RESOURCE_CRYSTAL)] - $fleetResource[RESOURCE_CRYSTAL] < 0
+            || $this->state->PLANET[$elements->column(RESOURCE_DEUT)] - $fleetResource[RESOURCE_DEUT] - $consumption < 0
         ) {
             return false;
         }
 
-        $this->state->PLANET[$resource[RESOURCE_METAL]] -= $fleetResource[RESOURCE_METAL];
-        $this->state->PLANET[$resource[RESOURCE_CRYSTAL]] -= $fleetResource[RESOURCE_CRYSTAL];
-        $this->state->PLANET[$resource[RESOURCE_DEUT]] -= $fleetResource[RESOURCE_DEUT] + $consumption;
+        $this->state->PLANET[$elements->column(RESOURCE_METAL)] -= $fleetResource[RESOURCE_METAL];
+        $this->state->PLANET[$elements->column(RESOURCE_CRYSTAL)] -= $fleetResource[RESOURCE_CRYSTAL];
+        $this->state->PLANET[$elements->column(RESOURCE_DEUT)] -= $fleetResource[RESOURCE_DEUT] + $consumption;
 
         return true;
     }
@@ -582,9 +582,8 @@ class MarketPurchase
      */
     private function calculateFleetSize(array $fleetResult, mixed $shipType): array|false
     {
-        $pricelist = $this->state->pricelist;
         $PLANET = $this->state->PLANET;
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         // sorry world.
         $amount = $fleetResult['ex_resource_amount'];
 
@@ -592,15 +591,15 @@ class MarketPurchase
         $F1type = 0;
         if ($shipType == 1) {
             // PRIO for LC
-            $F1capacity = $pricelist[SHIP_SMALL_CARGO]['capacity'];
+            $F1capacity = $elements->capacity(SHIP_SMALL_CARGO);
             $F1type = SHIP_SMALL_CARGO;
         } else {
             // PRIO for HC
-            $F1capacity = $pricelist[SHIP_LARGE_CARGO]['capacity'];
+            $F1capacity = $elements->capacity(SHIP_LARGE_CARGO);
             $F1type = SHIP_LARGE_CARGO;
         }
 
-        $F1 = min($PLANET[$resource[$F1type]], ceil($amount / $F1capacity));
+        $F1 = min($PLANET[$elements->column($F1type)], ceil($amount / $F1capacity));
 
         //taken
         $amountTMP = $amount - $F1 * $F1capacity;
@@ -611,14 +610,14 @@ class MarketPurchase
         if ($amountTMP > 0) {
             if ($shipType == 1) {
                 // We need HC
-                $F2capacity = $pricelist[SHIP_LARGE_CARGO]['capacity'];
+                $F2capacity = $elements->capacity(SHIP_LARGE_CARGO);
                 $F2type = SHIP_LARGE_CARGO;
             } else {
                 // We need LC
-                $F2capacity = $pricelist[SHIP_SMALL_CARGO]['capacity'];
+                $F2capacity = $elements->capacity(SHIP_SMALL_CARGO);
                 $F2type = SHIP_SMALL_CARGO;
             }
-            $F2 = min($PLANET[$resource[$F2type]], ceil($amountTMP / $F2capacity));
+            $F2 = min($PLANET[$elements->column($F2type)], ceil($amountTMP / $F2capacity));
             $amountTMP -= $F2 * $F2capacity;
         }
 

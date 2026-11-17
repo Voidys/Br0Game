@@ -166,7 +166,7 @@ class FleetAjaxController extends AbstractGameController
      */
     private function fleetForMission(mixed $targetMission, mixed $planetID): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
         $fleetArray = [];
 
@@ -177,14 +177,14 @@ class FleetAjaxController extends AbstractGameController
                     $this->sendData(699, $LNG['sys_module_inactive']);
                 }
 
-                $ships = min($this->state->USER['spio_anz'], $this->state->PLANET[$resource[SHIP_PROBE]]);
+                $ships = min($this->state->USER['spio_anz'], $this->state->PLANET[$e->column(SHIP_PROBE)]);
 
                 if (empty($ships)) {
                     $this->sendData(611, $LNG['fa_no_spios']);
                 }
 
                 $fleetArray = [SHIP_PROBE => $ships];
-                $this->returnData['ships'][SHIP_PROBE] = $this->state->PLANET[$resource[SHIP_PROBE]] - $ships;
+                $this->returnData['ships'][SHIP_PROBE] = $this->state->PLANET[$e->column(SHIP_PROBE)] - $ships;
                 break;
             case MISSION_RECYCLING:
             case MISSION_PIRATEBASE_RECYCLING:
@@ -203,7 +203,7 @@ class FleetAjaxController extends AbstractGameController
                     $this->sendData(699, $LNG['sys_module_inactive']);
                 }
 
-                $ships = $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]];
+                $ships = $this->state->PLANET[$e->column(INTERPLANETARY_MISSILE)];
                 if (empty($ships)) {
                     $this->sendData(611, $LNG['ma_no_missiles']);
                 }
@@ -231,9 +231,7 @@ class FleetAjaxController extends AbstractGameController
      */
     private function recyclersFor(mixed $targetMission, mixed $planetID): array
     {
-        $resource = $this->state->resource;
-        $pricelist = $this->state->pricelist;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
 
         if ($targetMission == MISSION_RECYCLING) {
             $sql = "SELECT (der_metal + der_crystal) as sum FROM %%PLANETS%% WHERE id = :planetID AND universe = :universe;";
@@ -247,13 +245,13 @@ class FleetAjaxController extends AbstractGameController
 
         $fleetArray = [];
 
-        foreach ($reslist['ship_type'][SHIP_TYPE_RECYCLER] as $elementID) {
-            $a = $pricelist[$elementID]['capacity'];
-            $shipsNeed = min(ceil($totalDebris / $a), $this->state->PLANET[$resource[$elementID]]);
+        foreach ($e->shipTypeIds(SHIP_TYPE_RECYCLER) as $elementID) {
+            $a = $e->capacity($elementID);
+            $shipsNeed = min(ceil($totalDebris / $a), $this->state->PLANET[$e->column($elementID)]);
             $totalDebris -= ($shipsNeed * $a);
 
             $fleetArray[$elementID] = $shipsNeed;
-            $this->returnData['ships'][$elementID] = $this->state->PLANET[$resource[$elementID]] - $shipsNeed;
+            $this->returnData['ships'][$elementID] = $this->state->PLANET[$e->column($elementID)] - $shipsNeed;
 
             if ($totalDebris <= 0) {
                 break;

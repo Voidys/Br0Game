@@ -70,13 +70,12 @@ class ResourcePersistence
      */
     private function baseParams(array $USER, array $PLANET): array
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
 
         $currentBuildings = 0;
-        foreach ($reslist['build'] as $Element) {
-            if (isset($PLANET[$resource[$Element]])) {
-                $currentBuildings += $PLANET[$resource[$Element]];
+        foreach ($elements->ids('build') as $Element) {
+            if (isset($PLANET[$elements->column($Element)])) {
+                $currentBuildings += $PLANET[$elements->column($Element)];
             }
         }
 
@@ -118,8 +117,7 @@ class ResourcePersistence
      */
     private function collectElementChanges(array $USER, array $PLANET, array $builded, array $repaired, int|float|null $time, array &$params): array
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
 
         $buildQueries = [];
         $statsUpdateBuild = [];
@@ -130,33 +128,34 @@ class ResourcePersistence
             foreach ($builded as $Element => $Count) {
                 $Element = (int) $Element;
 
-                if (empty($resource[$Element])) {
+                $column = $elements->find($Element)?->column;
+                if (empty($column)) {
                     continue;
                 }
 
-                if (in_array($Element, $reslist['one'])) {
-                    $buildQueries[] = ', p.' . $resource[$Element] . ' = :' . $resource[$Element];
-                    $params[':' . $resource[$Element]] = '1';
+                if ($elements->isOnePerPlanet($Element)) {
+                    $buildQueries[] = ', p.' . $column . ' = :' . $column;
+                    $params[':' . $column] = '1';
                     // Update First stats timestams
                     $statsUpdateFirst[] = [AdvancedStatsEnum::getFirst($Element), $time];
                     $statsUpdateBuild[] = [AdvancedStatsEnum::getBuild($Element), '1'];
-                } elseif (isset($PLANET[$resource[$Element]])) {
+                } elseif (isset($PLANET[$column])) {
                     if ($Element < 100) { // Set building level directly
-                        $buildQueries[] = ', p.' . $resource[$Element] . ' = :' . $resource[$Element];
-                        $params[':' . $resource[$Element]] = floatToString($Count);
+                        $buildQueries[] = ', p.' . $column . ' = :' . $column;
+                        $params[':' . $column] = floatToString($Count);
 
                         if ($PLANET['planet_type'] == 3 && ($Element == 22 || $Element == 23 || $Element == 24) && $Count == 3) {
                             $temp_planet = $PLANET;
-                            $temp_planet[$resource[$Element]] = $Count;
+                            $temp_planet[$column] = $Count;
                             //  Check for achievement 28: Build all Moon storages to level 3
-                            $this->planetRessAchievements()->checkPlanetRessAchievements28($temp_planet, $resource, $USER['id']);
+                            $this->planetRessAchievements()->checkPlanetRessAchievements28($temp_planet, $elements->columnMap(), $USER['id']);
                         }
                     } else {
-                        $buildQueries[] = ', p.' . $resource[$Element] . ' = p.' . $resource[$Element] . ' + :' . $resource[$Element];
+                        $buildQueries[] = ', p.' . $column . ' = p.' . $column . ' + :' . $column;
                         if ($Element >= 900 && $Element < 1000) {
-                            $params[':' . $resource[$Element]] = floatToString($Count, 6);
+                            $params[':' . $column] = floatToString($Count, 6);
                         } else {
-                            $params[':' . $resource[$Element]] = floatToString($Count);
+                            $params[':' . $column] = floatToString($Count);
                         }
                     }
                     // Check for ship achievements
@@ -174,9 +173,9 @@ class ResourcePersistence
                     }
                     // Update First stats timestams
                     $statsUpdateFirst[] = [AdvancedStatsEnum::getFirst($Element), $time];
-                } elseif (isset($USER[$resource[$Element]])) { // Set research level directly
-                    $buildQueries[] = ', u.' . $resource[$Element] . ' = :' . $resource[$Element];
-                    $params[':' . $resource[$Element]] = floatToString($Count);
+                } elseif (isset($USER[$column])) { // Set research level directly
+                    $buildQueries[] = ', u.' . $column . ' = :' . $column;
+                    $params[':' . $column] = floatToString($Count);
 
                     // Check for research achievements
                     $this->planetRessAchievements()->checkPlanetRessAchievementsResearch($Element, $USER['id'], $Count);
@@ -234,7 +233,7 @@ class ResourcePersistence
      */
     public function removeResources(int $planetId, array $resources, ?array &$planet = null)
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         $params = [':planetId' => $planetId];
         $planetQuery = [];
@@ -242,11 +241,11 @@ class ResourcePersistence
             if ($resourceId == RESOURCE_ENERGY) {
                 continue;
             }
-            $planetQuery[] = $resource[$resourceId] . " = " . $resource[$resourceId] . " - :" . $resource[$resourceId];
-            $params[':' . $resource[$resourceId]] = $amount;
+            $planetQuery[] = $elements->column($resourceId) . " = " . $elements->column($resourceId) . " - :" . $elements->column($resourceId);
+            $params[':' . $elements->column($resourceId)] = $amount;
 
-            if (isset($planet, $planet[$resource[$resourceId]])) {
-                $planet[$resource[$resourceId]] -= $amount;
+            if (isset($planet, $planet[$elements->column($resourceId)])) {
+                $planet[$elements->column($resourceId)] -= $amount;
             }
         }
 
@@ -266,7 +265,7 @@ class ResourcePersistence
      */
     public function addResources(int $planetId, array $resources, ?array &$planet = null, float $factor = 1)
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         $params = [':planetId' => $planetId];
         $planetQuery = [];
@@ -274,11 +273,11 @@ class ResourcePersistence
             if ($resourceId == RESOURCE_ENERGY) {
                 continue;
             }
-            $planetQuery[] = $resource[$resourceId] . " = " . $resource[$resourceId] . " + :" . $resource[$resourceId];
-            $params[':' . $resource[$resourceId]] = $amount * $factor;
+            $planetQuery[] = $elements->column($resourceId) . " = " . $elements->column($resourceId) . " + :" . $elements->column($resourceId);
+            $params[':' . $elements->column($resourceId)] = $amount * $factor;
 
-            if (isset($planet, $planet[$resource[$resourceId]])) {
-                $planet[$resource[$resourceId]] += $amount * $factor;
+            if (isset($planet, $planet[$elements->column($resourceId)])) {
+                $planet[$elements->column($resourceId)] += $amount * $factor;
             }
         }
 

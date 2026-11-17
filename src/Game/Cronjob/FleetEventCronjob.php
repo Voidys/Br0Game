@@ -67,7 +67,7 @@ class FleetEventCronjob extends AbstractCronjobTask
      */
     private function useUniverse(int $universe): void
     {
-        if ((int) $this->state->universeCurrent === $universe && !empty($this->state->resource)) {
+        if ((int) $this->state->universeCurrent === $universe && $this->elements()->all() !== []) {
             return;
         }
 

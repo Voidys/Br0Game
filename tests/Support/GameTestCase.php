@@ -9,6 +9,7 @@ use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
+use App\Game\Model\ElementCatalog;
 use App\Kernel;
 use App\Runtime\GameKernel;
 use PHPUnit\Framework\TestCase;
@@ -40,6 +41,12 @@ abstract class GameTestCase extends TestCase
     protected Database $db;
     protected ConfigRegistry $configs;
     protected Singleton $state;
+
+    /** the typed game data of the booted game (the only source of the unit tables) */
+    protected function elements(): ElementCatalog
+    {
+        return $this->state->elementCatalog;
+    }
 
     public static function container(): ContainerInterface
     {

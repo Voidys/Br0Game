@@ -4,20 +4,19 @@ namespace App\Game\Statistics;
 
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\Core\Database;
+use App\Game\Model\ElementCatalog;
 
 /** Reads the data the statistics run works on (see load()). Read only. */
 class StatDataLoader
 {
     /**
      * @param list<int>                                $universes ids of all universes
-     * @param array<int, array<int, string>>           $resources universe => element id => column name
-     * @param array<int, array<string, array<int>>>    $reslists  universe => list name => element ids
+     * @param array<int, ElementCatalog>               $catalogs  universe => game data of that universe
      */
     public function __construct(
         private readonly Database $db,
         private readonly array $universes,
-        private readonly array $resources,
-        private readonly array $reslists,
+        private readonly array $catalogs,
     ) {}
 
     /**
@@ -97,10 +96,10 @@ class StatDataLoader
     private function loadPlanets(int $uni): array
     {
         $database = $this->db;
-        $resource = $this->resources[$uni];
+        $elements = $this->catalogs[$uni];
         $select_buildings = '';
-        foreach ($this->reslists[$uni]['build'] as $Building) {
-            $select_buildings .= " p." . $resource[$Building] . ",";
+        foreach ($elements->ids('build') as $Building) {
+            $select_buildings .= " p." . $elements->column($Building) . ",";
         }
 
         return $database->select(
@@ -121,26 +120,25 @@ class StatDataLoader
     private function loadUsers(int $uni): array
     {
         $database = $this->db;
-        $resource = $this->resources[$uni];
-        $reslist = $this->reslists[$uni];
+        $elements = $this->catalogs[$uni];
         $select_defenses = '';
         $selected_tech = '';
         $select_fleets = '';
 
-        foreach ($reslist['tech'] as $Techno) {
-            $selected_tech .= " u." . $resource[$Techno] . ",";
+        foreach ($elements->ids('tech') as $Techno) {
+            $selected_tech .= " u." . $elements->column($Techno) . ",";
         }
 
-        foreach ($reslist['fleet'] as $Fleet) {
-            $select_fleets .= " SUM(p." . $resource[$Fleet] . ") as " . $resource[$Fleet] . ",";
+        foreach ($elements->ids('fleet') as $Fleet) {
+            $select_fleets .= " SUM(p." . $elements->column($Fleet) . ") as " . $elements->column($Fleet) . ",";
         }
 
-        foreach ($reslist['defense'] as $Defense) {
-            $select_defenses .= " SUM(p." . $resource[$Defense] . ") as " . $resource[$Defense] . ",";
+        foreach ($elements->ids('defense') as $Defense) {
+            $select_defenses .= " SUM(p." . $elements->column($Defense) . ") as " . $elements->column($Defense) . ",";
         }
 
-        foreach ($reslist['missile'] as $Defense) {
-            $select_defenses .= " SUM(p." . $resource[$Defense] . ") as " . $resource[$Defense] . ",";
+        foreach ($elements->ids('missile') as $Defense) {
+            $select_defenses .= " SUM(p." . $elements->column($Defense) . ") as " . $elements->column($Defense) . ",";
         }
 
         return $database->select(

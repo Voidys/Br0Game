@@ -49,13 +49,12 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     private function getPlanetFleet($targetPlanet)
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $planetfleet = [];
-        $resourceIDs = $reslist['fleet'];
+        $resourceIDs = $e->ids('fleet');
 
         foreach ($resourceIDs as $shiptype) {
-            $planetfleet[$shiptype] = $targetPlanet[$resource[$shiptype]];
+            $planetfleet[$shiptype] = $targetPlanet[$e->column($shiptype)];
         }
 
         return $planetfleet;
@@ -66,13 +65,12 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     private function getPlanetDefense($targetPlanet)
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $planetdef = [];
-        $resourceIDs = $reslist['defense'];
+        $resourceIDs = $e->ids('defense');
 
         foreach ($resourceIDs as $deftype) {
-            $planetdef[$deftype] = $targetPlanet[$resource[$deftype]];
+            $planetdef[$deftype] = $targetPlanet[$e->column($deftype)];
         }
 
         return $planetdef;
@@ -95,8 +93,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     public function TargetEvent()
     {
-        $pricelist = $this->state->pricelist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $db = $this->db;
 
         $sql = 'SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;';
@@ -248,17 +245,16 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     private function cargoNeeded(array $targetPlanet): array
     {
-        $pricelist = $this->state->pricelist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
 
         $capacityNeeded = $battleHandler->calculateMinCapacity([
-            'metal' => getNumber($targetPlanet[$resource[RESOURCE_METAL]]),
-            'crystal' => getNumber($targetPlanet[$resource[RESOURCE_CRYSTAL]]),
-            'deuterium' => getNumber($targetPlanet[$resource[RESOURCE_DEUT]]),
+            'metal' => getNumber($targetPlanet[$e->column(RESOURCE_METAL)]),
+            'crystal' => getNumber($targetPlanet[$e->column(RESOURCE_CRYSTAL)]),
+            'deuterium' => getNumber($targetPlanet[$e->column(RESOURCE_DEUT)]),
         ]);
-        $smallCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity']);
-        $largeCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity']);
+        $smallCargoNeeded = ceil($capacityNeeded / $e->capacity(SHIP_SMALL_CARGO));
+        $largeCargoNeeded = ceil($capacityNeeded / $e->capacity(SHIP_LARGE_CARGO));
 
         return [$smallCargoNeeded, $largeCargoNeeded];
     }
@@ -323,7 +319,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     private function addHoldFleets(array $targetPlanet): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $sql = 'SELECT * FROM %%FLEETS%%
             WHERE `end_id` = :planetId
             AND `mission` = :mission
@@ -339,7 +335,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         foreach ($targetStayFleets as $fleetRow) {
             $fleetData = $this->fleetFunctions()->unserialize($fleetRow['ships']);
             foreach ($fleetData as $shipId => $shipAmount) {
-                $targetPlanet[$resource[$shipId]] += $shipAmount;
+                $targetPlanet[$e->column($shipId)] += $shipAmount;
             }
         }
 
@@ -356,7 +352,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     private function visibleClasses(int|float|string $fleetAmount, int|float|string $senderSpyTech, int|float|string $targetSpyTech): array
     {
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $techDifference = abs($senderSpyTech - $targetSpyTech);
         $MinAmount = ($senderSpyTech > $targetSpyTech ? -1 : 1) * pow($techDifference * SPY_DIFFENCE_FACTOR, 2);
         $SpyFleet = $fleetAmount >= $MinAmount;
@@ -364,22 +360,22 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         $SpyBuild = $fleetAmount >= $MinAmount + 3 * SPY_VIEW_FACTOR;
         $SpyTechno = $fleetAmount >= $MinAmount + 5 * SPY_VIEW_FACTOR;
 
-        $classIDs[900] = array_merge($reslist['resstype'][1], $reslist['resstype'][2]);
+        $classIDs[900] = array_merge($e->resourceIds(1), $e->resourceIds(2));
 
         if ($SpyFleet) {
-            $classIDs[200] = $reslist['fleet'];
+            $classIDs[200] = $e->ids('fleet');
         }
 
         if ($SpyDef) {
-            $classIDs[400] = array_merge($reslist['defense'], $reslist['missile']);
+            $classIDs[400] = array_merge($e->ids('defense'), $e->ids('missile'));
         }
 
         if ($SpyBuild) {
-            $classIDs[0] = $reslist['build'];
+            $classIDs[0] = $e->ids('build');
         }
 
         if ($SpyTechno) {
-            $classIDs[100] = $reslist['tech'];
+            $classIDs[100] = $e->ids('tech');
         }
 
         return [$classIDs, $SpyFleet];
@@ -395,7 +391,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     private function collectSpyData(array $classIDs, array|false $senderUser, array|false $targetUser, array $targetPlanet): array
     {
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $spyData = [];
 
         foreach ($classIDs as $classID => $elementIDs) {
@@ -403,17 +399,17 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
                 if (!$this->buildFunctions()->isEnabled($elementID)) {
                     continue;
                 }
-                if (isset($targetUser[$resource[$elementID]])) {
+                if (isset($targetUser[$e->column($elementID)])) {
                     if ($elementID == DECOY) {
-                        $spyData[$classID][MISSILE_LAUNCHER] = $targetPlanet[$resource[$elementID]];
+                        $spyData[$classID][MISSILE_LAUNCHER] = $targetPlanet[$e->column($elementID)];
                     } else {
-                        $spyData[$classID][$elementID] = $targetUser[$resource[$elementID]];
+                        $spyData[$classID][$elementID] = $targetUser[$e->column($elementID)];
                     }
                 } else {
                     if ($elementID == DECOY) {
-                        $spyData[$classID][MISSILE_LAUNCHER] += $targetPlanet[$resource[$elementID]];
+                        $spyData[$classID][MISSILE_LAUNCHER] += $targetPlanet[$e->column($elementID)];
                     } else {
-                        $spyData[$classID][$elementID] = $targetPlanet[$resource[$elementID]];
+                        $spyData[$classID][$elementID] = $targetPlanet[$e->column($elementID)];
                     }
                 }
             }
@@ -517,7 +513,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     private function destroyProbes(int|float|string $fleetAmount): void
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $config = $this->configs->get($this->_fleet['universe']);
         $whereCol = $this->_fleet['end_type'] == 3 ? "id_luna" : "id";
 
@@ -528,8 +524,8 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
 			WHERE ' . $whereCol . ' = :planetId;';
 
         $this->db->update($sql, [
-            ':metal'    => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] * $config->fleet_debris_percentage / 100,
-            ':crystal'  => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL] * $config->fleet_debris_percentage / 100,
+            ':metal'    => $fleetAmount * $e->cost(SHIP_PROBE)->metal * $config->fleet_debris_percentage / 100,
+            ':crystal'  => $fleetAmount * $e->cost(SHIP_PROBE)->crystal * $config->fleet_debris_percentage / 100,
             ':new_debris' => 1,
             ':planetId' => $this->_fleet['end_id'],
         ]);
@@ -544,13 +540,13 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     public function getDangerValue($spyData)
     {
-        $CombatCaps = $this->state->CombatCaps;
+        $e = $this->elements();
         $dangerValue = 0;
 
         // ships
         if (isset($spyData[200])) {
             foreach ($spyData[200] as $elementID => $amount) {
-                $dangerValue += $CombatCaps[$elementID]['attack'] * $amount;
+                $dangerValue += $e->combat($elementID)->attack * $amount;
             }
         }
 
@@ -561,7 +557,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
                     !($elementID == INTERCEPTOR_MISSILE)
                     and !($elementID == INTERPLANETARY_MISSILE)
                 ) {
-                    $dangerValue += $CombatCaps[$elementID]['attack'] * $amount;
+                    $dangerValue += $e->combat($elementID)->attack * $amount;
                 }
             }
         }
@@ -574,7 +570,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     public function getRecyleValue($spyData)
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
 
         $config = $this->configs->get($this->_fleet['universe']);
         $fleetIntoDebris = $config->fleet_debris_percentage;
@@ -585,16 +581,16 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         // ships
         if (isset($spyData[200]) && $fleetIntoDebris > 0) {
             foreach ($spyData[200] as $elementID => $amount) {
-                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL]
-                    + $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $fleetIntoDebris / 100) * $amount;
+                $recycleValue += (($e->cost($elementID)->metal
+                    + $e->cost($elementID)->crystal) * $fleetIntoDebris / 100) * $amount;
             }
         }
 
         // defence
         if (isset($spyData[400]) && $defIntoDebris > 0) {
             foreach ($spyData[400] as $elementID => $amount) {
-                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL]
-                    + $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $defIntoDebris / 100) * $amount;
+                $recycleValue += (($e->cost($elementID)->metal
+                    + $e->cost($elementID)->crystal) * $defIntoDebris / 100) * $amount;
             }
         }
 
@@ -606,8 +602,8 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     public function estimateRecyclers($recycleValue)
     {
-        $pricelist = $this->state->pricelist;
-        return ceil($recycleValue / $pricelist[SHIP_RECYCLER]["capacity"]) + 1;
+        $e = $this->elements();
+        return ceil($recycleValue / $e->capacity(SHIP_RECYCLER)) + 1;
     }
 
     /**

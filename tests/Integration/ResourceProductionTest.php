@@ -260,9 +260,9 @@ final class ResourceProductionTest extends GameTestCase
         $eco = new \App\Game\Core\ResourceProduction($this->db, $this->configs, $this->state);
 
         $count = 0;
-        foreach ($this->state->ProdGrid as $element => $kinds) {
-            foreach (['production', 'storage'] as $kind) {
-                foreach (array_filter($kinds[$kind] ?? [], 'is_string') as $resource => $formula) {
+        foreach ($this->elements()->all() as $element => $data) {
+            foreach (['production' => $data->production, 'storage' => $data->storage] as $kind => $kindFormulas) {
+                foreach ($kindFormulas as $resource => $formula) {
                     foreach (self::FORMULA_INPUTS as [$level, $temp, $energy, $factor]) {
                         $value = $runFormula->invoke($eco, $formula, $level, $temp, $energy, $factor);
                         $this->goldenAssert("formula $element $kind $resource L$level T$temp E$energy F$factor", $value);
@@ -278,9 +278,9 @@ final class ResourceProductionTest extends GameTestCase
     {
         // the formula strings themselves: a later change to the vars data (or its parser) must be deliberate
         $formulas = [];
-        foreach ($this->state->ProdGrid as $element => $kinds) {
-            foreach (['production', 'storage'] as $kind) {
-                foreach (array_filter($kinds[$kind] ?? [], 'is_string') as $resource => $formula) {
+        foreach ($this->elements()->all() as $element => $data) {
+            foreach (['production' => $data->production, 'storage' => $data->storage] as $kind => $kindFormulas) {
+                foreach ($kindFormulas as $resource => $formula) {
                     $formulas["$element/$kind/$resource"] = $formula;
                 }
             }

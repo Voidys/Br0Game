@@ -102,12 +102,13 @@ abstract class AbstractTutorialSupport
      */
     public function listGoals(): array
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         $goals = [];
         foreach ($this->tutorialGoals as $goalRow) {
             $elementID = $goalRow['elementID'];
-            if ((array_key_exists($resource[$elementID], $this->user) || array_key_exists($resource[$elementID], $this->planet))
+            $column = $elements->find((int) $elementID)?->column;
+            if ((array_key_exists($column, $this->user) || array_key_exists($column, $this->planet))
                 && !$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
@@ -117,10 +118,10 @@ abstract class AbstractTutorialSupport
             }
 
             $owned = 0;
-            if (array_key_exists($resource[$elementID], $this->user)) {
-                $owned = $this->user[$resource[$elementID]];
-            } elseif (array_key_exists($resource[$elementID], $this->planet)) {
-                $owned = $this->planet[$resource[$elementID]];
+            if (array_key_exists($column, $this->user)) {
+                $owned = $this->user[$column];
+            } elseif (array_key_exists($column, $this->planet)) {
+                $owned = $this->planet[$column];
             } elseif ($goalRow['fullfilled'] == 1) {
                 $owned = $goalRow['ammount'];
             }
@@ -220,13 +221,14 @@ abstract class AbstractTutorialSupport
             return [];
         }
 
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $LNG = $this->state->LNG;
 
         $rewards = [];
         foreach ($this->tutorialRewards as $rewardRow) {
             $elementID = $rewardRow['elementID'];
-            if ((array_key_exists($resource[$elementID], $this->user) || array_key_exists($resource[$elementID], $this->planet))
+            $column = $elements->find((int) $elementID)?->column;
+            if ((array_key_exists($column, $this->user) || array_key_exists($column, $this->planet))
                 && !$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
@@ -253,7 +255,7 @@ abstract class AbstractTutorialSupport
         if (!$this->isFullfilled()) {
             return;
         }
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         $sql = "UPDATE %%USERS_TUTORIAL%% SET `completed` = 1, `claimed` = 1 WHERE `userID` = :userID"
             . " AND `tutorialID` = :tutorialID AND `completed` = 0";
@@ -268,10 +270,11 @@ abstract class AbstractTutorialSupport
         }
 
         foreach ($this->listRewards() as $elementID => $rewardRow) {
-            if (array_key_exists($resource[$elementID], $this->user)) {
-                $this->db->updateRows('USERS', [], ['id' => $this->user['id']], [], [$resource[$elementID] => $rewardRow['ammount']]);
-            } elseif (array_key_exists($resource[$elementID], $this->planet)) {
-                $this->db->updateRows('PLANETS', [], ['id' => $this->planet['id']], [], [$resource[$elementID] => $rewardRow['ammount']]);
+            $column = $elements->find((int) $elementID)?->column;
+            if (array_key_exists($column, $this->user)) {
+                $this->db->updateRows('USERS', [], ['id' => $this->user['id']], [], [$column => $rewardRow['ammount']]);
+            } elseif (array_key_exists($column, $this->planet)) {
+                $this->db->updateRows('PLANETS', [], ['id' => $this->planet['id']], [], [$column => $rewardRow['ammount']]);
             }
         }
     }

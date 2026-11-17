@@ -82,35 +82,34 @@ class ResetController extends AbstractAdminController
      */
     private function resetColumns(): array
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $config = $this->configs->get($this->universe()->getEmulated());
 
-        foreach ($reslist['build'] as $ID) {
-            $dbcol['build'][$resource[$ID]] = '0';
+        foreach ($e->ids('build') as $ID) {
+            $dbcol['build'][$e->column($ID)] = '0';
         }
 
-        foreach ($reslist['tech'] as $ID) {
-            $dbcol['tech'][$resource[$ID]] = '0';
+        foreach ($e->ids('tech') as $ID) {
+            $dbcol['tech'][$e->column($ID)] = '0';
         }
 
-        foreach ($reslist['fleet'] as $ID) {
-            $dbcol['fleet'][$resource[$ID]] = '0';
+        foreach ($e->ids('fleet') as $ID) {
+            $dbcol['fleet'][$e->column($ID)] = '0';
         }
 
-        foreach ($reslist['defense'] as $ID) {
-            $dbcol['defense'][$resource[$ID]] = '0';
+        foreach ($e->ids('defense') as $ID) {
+            $dbcol['defense'][$e->column($ID)] = '0';
         }
 
-        foreach ($reslist['resstype'][1] as $ID) {
-            if (isset($config->{$resource[$ID] . '_start'})) {
-                $dbcol['resource_planet_start'][$resource[$ID]] = $config->{$resource[$ID] . '_start'};
+        foreach ($e->resourceIds(1) as $ID) {
+            if (isset($config->{$e->column($ID) . '_start'})) {
+                $dbcol['resource_planet_start'][$e->column($ID)] = $config->{$e->column($ID) . '_start'};
             }
         }
 
-        foreach ($reslist['resstype'][3] as $ID) {
-            if (isset($config->{$resource[$ID] . '_start'})) {
-                $dbcol['resource_user_start'][$resource[$ID]] = $config->{$resource[$ID] . '_start'};
+        foreach ($e->resourceIds(3) as $ID) {
+            if (isset($config->{$e->column($ID) . '_start'})) {
+                $dbcol['resource_user_start'][$e->column($ID)] = $config->{$e->column($ID) . '_start'};
             }
         }
 

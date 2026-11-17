@@ -22,8 +22,8 @@ final readonly class Element
      * @param array<int, int>  $requirements   required element id => level
      * @param array<int, string> $production   resource id => production formula (non-empty only)
      * @param array<int, string> $storage      resource id => storage formula (non-empty only)
-     * @param array<int, float> $consumption   drive 1..3 => fuel consumption
-     * @param array<int, float> $speed         drive 1..3 => base speed
+     * @param array<int, int|float> $consumption   drive 1..3 => fuel consumption
+     * @param array<int, int|float> $speed         drive 1..3 => base speed
      * @param array<int, int>   $speedTech     drive 1..3 => technology that drives it
      */
     public function __construct(
@@ -33,10 +33,10 @@ final readonly class Element
         public ?string $shipType,
         public array $planetTypes,
         public ResourceCost $cost,
-        public float $factor,
+        public int|float $factor,
         public ?int $maxLevel,
         public int $maxUsefulLevel,
-        public float $capacity,
+        public int|float $capacity,
         public array $consumption,
         public array $speed,
         public array $speedTech,
@@ -88,14 +88,14 @@ final readonly class Element
         return $this->inGroup('one');
     }
 
-    public function consumption(int $drive): float
+    public function consumption(int $drive): int|float
     {
-        return $this->consumption[$drive] ?? 0.0;
+        return $this->consumption[$drive] ?? 0;
     }
 
-    public function speed(int $drive): float
+    public function speed(int $drive): int|float
     {
-        return $this->speed[$drive] ?? 0.0;
+        return $this->speed[$drive] ?? 0;
     }
 
     public function speedTech(int $drive): int
@@ -124,7 +124,7 @@ final readonly class Element
     /**
      * Fuel consumption of the first drive with a non-zero value (drive 1, 2, then 3), 0 when the element has none.
      */
-    public function baseConsumption(): float
+    public function baseConsumption(): int|float
     {
         foreach ([1, 2, 3] as $drive) {
             if ($this->consumption($drive) != 0) {
@@ -132,6 +132,6 @@ final readonly class Element
             }
         }
 
-        return 0.0;
+        return 0;
     }
 }

@@ -172,7 +172,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
      */
     private function tallyStartValues(array $attackers, array $defenders): array
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $unitsLost = ['attacker' => [], 'defender' => []];
         $capacityLost = ['attacker' => [], 'defender' => []];
 
@@ -189,12 +189,12 @@ class BattleEngineSteemNova extends AbstractBattleEngine
                 $capacityLost['attacker'][$attacker['player']['id']] = 0;
             }
             foreach ($attacker['unit'] as $element => $amount) {
-                $ARES['metal'] += $pricelist[$element]['cost'][901] * $amount;
-                $ARES['crystal'] += $pricelist[$element]['cost'][902] * $amount;
+                $ARES['metal'] += $e->cost($element)->metal * $amount;
+                $ARES['crystal'] += $e->cost($element)->crystal * $amount;
 
-                $unitsLost['attacker'][$attacker['player']['id']] += $pricelist[$element]['cost'][901] * $amount;
-                $unitsLost['attacker'][$attacker['player']['id']] += $pricelist[$element]['cost'][902] * $amount;
-                $capacityLost['attacker'][$attacker['player']['id']] += $pricelist[$element]['capacity'] * $amount;
+                $unitsLost['attacker'][$attacker['player']['id']] += $e->cost($element)->metal * $amount;
+                $unitsLost['attacker'][$attacker['player']['id']] += $e->cost($element)->crystal * $amount;
+                $capacityLost['attacker'][$attacker['player']['id']] += $e->capacity($element) * $amount;
             }
         }
         $TRES['attacker'] = $ARES['metal'] + $ARES['crystal'];
@@ -208,12 +208,12 @@ class BattleEngineSteemNova extends AbstractBattleEngine
             foreach ($defender['unit'] as $element => $amount) {
                 if ($element < 300) {
                     // ships
-                    $DRES['metal'] += $pricelist[$element]['cost'][901] * $amount;
-                    $DRES['crystal'] += $pricelist[$element]['cost'][902] * $amount;
+                    $DRES['metal'] += $e->cost($element)->metal * $amount;
+                    $DRES['crystal'] += $e->cost($element)->crystal * $amount;
 
-                    $unitsLost['defender'][$defender['player']['id']] += $pricelist[$element]['cost'][901] * $amount;
-                    $unitsLost['defender'][$defender['player']['id']] += $pricelist[$element]['cost'][902] * $amount;
-                    $capacityLost['defender'][$defender['player']['id']] += $pricelist[$element]['capacity'] * $amount;
+                    $unitsLost['defender'][$defender['player']['id']] += $e->cost($element)->metal * $amount;
+                    $unitsLost['defender'][$defender['player']['id']] += $e->cost($element)->crystal * $amount;
+                    $capacityLost['defender'][$defender['player']['id']] += $e->capacity($element) * $amount;
                 }
 
                 if ($fleetID == 0) {
@@ -223,8 +223,8 @@ class BattleEngineSteemNova extends AbstractBattleEngine
                     $STARTDEF[$element] += $amount;
                 }
 
-                $TRES['defender'] += $pricelist[$element]['cost'][901] * $amount;
-                $TRES['defender'] += $pricelist[$element]['cost'][902] * $amount;
+                $TRES['defender'] += $e->cost($element)->metal * $amount;
+                $TRES['defender'] += $e->cost($element)->crystal * $amount;
             }
         }
 
@@ -355,18 +355,18 @@ class BattleEngineSteemNova extends AbstractBattleEngine
      */
     private function subtractSurvivors(array &$tally, array $attackers): void
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         foreach ($attackers as $fleetID => $attacker) {                    // flotte attaquant en CDR
             foreach ($attacker['unit'] as $element => $amount) {
-                $tally['TRES']['attacker'] -= $pricelist[$element]['cost'][901] * $amount;
-                $tally['TRES']['attacker'] -= $pricelist[$element]['cost'][902] * $amount;
+                $tally['TRES']['attacker'] -= $e->cost($element)->metal * $amount;
+                $tally['TRES']['attacker'] -= $e->cost($element)->crystal * $amount;
 
-                $tally['ARES']['metal'] -= $pricelist[$element]['cost'][901] * $amount;
-                $tally['ARES']['crystal'] -= $pricelist[$element]['cost'][902] * $amount;
+                $tally['ARES']['metal'] -= $e->cost($element)->metal * $amount;
+                $tally['ARES']['crystal'] -= $e->cost($element)->crystal * $amount;
 
-                $tally['unitsLost']['attacker'][$attacker['player']['id']] -= $pricelist[$element]['cost'][901] * $amount;
-                $tally['unitsLost']['attacker'][$attacker['player']['id']] -= $pricelist[$element]['cost'][902] * $amount;
-                $tally['capacityLost']['attacker'][$attacker['player']['id']] -= $pricelist[$element]['capacity'] * $amount;
+                $tally['unitsLost']['attacker'][$attacker['player']['id']] -= $e->cost($element)->metal * $amount;
+                $tally['unitsLost']['attacker'][$attacker['player']['id']] -= $e->cost($element)->crystal * $amount;
+                $tally['capacityLost']['attacker'][$attacker['player']['id']] -= $e->capacity($element) * $amount;
             }
         }
     }
@@ -385,7 +385,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
      */
     private function settleDefenders(array &$tally, array &$defenders, object $config, bool $sim, AdvancedStatsHandler $statsHandler): array
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $STARTDEF = $tally['STARTDEF'];
         $DRESDefs = ['metal' => 0, 'crystal' => 0];
 
@@ -400,26 +400,26 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         foreach ($defenders as $fleetID => $defender) {
             foreach ($defender['unit'] as $element => $amount) {
                 if ($element < 300) {                           // flotte defenseur en CDR
-                    $tally['DRES']['metal'] -= $pricelist[$element]['cost'][901] * $amount;
-                    $tally['DRES']['crystal'] -= $pricelist[$element]['cost'][902] * $amount;
+                    $tally['DRES']['metal'] -= $e->cost($element)->metal * $amount;
+                    $tally['DRES']['crystal'] -= $e->cost($element)->crystal * $amount;
 
-                    $tally['TRES']['defender'] -= $pricelist[$element]['cost'][901] * $amount;
-                    $tally['TRES']['defender'] -= $pricelist[$element]['cost'][902] * $amount;
+                    $tally['TRES']['defender'] -= $e->cost($element)->metal * $amount;
+                    $tally['TRES']['defender'] -= $e->cost($element)->crystal * $amount;
 
-                    $tally['unitsLost']['defender'][$defender['player']['id']] -= $pricelist[$element]['cost'][901] * $amount;
-                    $tally['unitsLost']['defender'][$defender['player']['id']] -= $pricelist[$element]['cost'][902] * $amount;
-                    $tally['capacityLost']['defender'][$defender['player']['id']] -= $pricelist[$element]['capacity'] * $amount;
+                    $tally['unitsLost']['defender'][$defender['player']['id']] -= $e->cost($element)->metal * $amount;
+                    $tally['unitsLost']['defender'][$defender['player']['id']] -= $e->cost($element)->crystal * $amount;
+                    $tally['capacityLost']['defender'][$defender['player']['id']] -= $e->capacity($element) * $amount;
 
                     if ($fleetID == 0 && $this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) && $STARTDEF[$element] > $amount) {
                         $lost = $STARTDEF[$element] - $amount;
 
                         $wreckfield[$element] = floor($lost * (1 - ($config->fleet_debris_percentage / 100)));
-                        $defendingPlayer['lost'] += $pricelist[$element]['cost'][901] * $lost;
-                        $defendingPlayer['lost'] += $pricelist[$element]['cost'][902] * $lost;
+                        $defendingPlayer['lost'] += $e->cost($element)->metal * $lost;
+                        $defendingPlayer['lost'] += $e->cost($element)->crystal * $lost;
                     }
                 } else {                                    // defs defenseur en CDR + reconstruction
-                    $tally['TRES']['defender'] -= $pricelist[$element]['cost'][901] * $amount;
-                    $tally['TRES']['defender'] -= $pricelist[$element]['cost'][902] * $amount;
+                    $tally['TRES']['defender'] -= $e->cost($element)->metal * $amount;
+                    $tally['TRES']['defender'] -= $e->cost($element)->crystal * $amount;
 
                     $lost = $STARTDEF[$element] - $amount;
                     $giveback = 0;
@@ -440,8 +440,8 @@ class BattleEngineSteemNova extends AbstractBattleEngine
                             $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::getRepaired($element), $giveback);
                         }
                     }
-                    $DRESDefs['metal'] += $pricelist[$element]['cost'][901] * ($lost - $giveback);
-                    $DRESDefs['crystal'] += $pricelist[$element]['cost'][902] * ($lost - $giveback);
+                    $DRESDefs['metal'] += $e->cost($element)->metal * ($lost - $giveback);
+                    $DRESDefs['crystal'] += $e->cost($element)->crystal * ($lost - $giveback);
                 }
             }
         }
@@ -656,8 +656,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
     private function shoot($attacker, $unit, &$defenders, &$ad, $sim, &$advancedStats)
     {
         // SHOOT
-        $CombatCaps = $this->state->CombatCaps;
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $count = 0;
         foreach ($defenders as $fID => &$defender) {
             $count += count($defender['units']);
@@ -674,8 +673,8 @@ class BattleEngineSteemNova extends AbstractBattleEngine
                 $victimShipId = rand(0, count($defender['units']) - 1);
                 $victimShip = &$defender['units'][$victimShipId];
                 $armorTech = (1 + (0.1 * $defender['player']['defence_tech']));
-                $initialArmor = ($pricelist[$victimShip['unit']]['cost'][901]
-                        + $pricelist[$victimShip['unit']]['cost'][902]) / 10 * $armorTech;
+                $initialArmor = ($e->cost($victimShip['unit'])->metal
+                        + $e->cost($victimShip['unit'])->crystal) / 10 * $armorTech;
                 break;
             }
         }
@@ -717,13 +716,11 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         // else bounced hit (Weaponry of the shooting unit is less than 1% of the Shielding of the target unit)
 
         // Rapid fire
-        if (isset($CombatCaps[$unit['unit']]['sd'])) {
-            foreach ($CombatCaps[$unit['unit']]['sd'] as $sdId => $count) {
-                if ($victimShip['unit'] == $sdId) {
-                    $ran = rand(1, $count);
-                    if ($ran < $count) {
-                        $this->shoot($attacker, $unit, $defenders, $ad, $sim, $advancedStats);
-                    }
+        foreach ($e->combat($unit['unit'])->rapidFire as $sdId => $count) {
+            if ($victimShip['unit'] == $sdId) {
+                $ran = rand(1, $count);
+                if ($ran < $count) {
+                    $this->shoot($attacker, $unit, $defenders, $ad, $sim, $advancedStats);
                 }
             }
         }
@@ -739,8 +736,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
     protected function initCombatValues(&$fleets, $firstInit = false): array
     {
         // INIT COMBAT VALUES
-        $CombatCaps = $this->state->CombatCaps;
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $attackAmount = ['total' => 0];
         $attArray = [];
         foreach ($fleets as $fleetID => $attacker) {
@@ -764,9 +760,9 @@ class BattleEngineSteemNova extends AbstractBattleEngine
             foreach ($attacker['unit'] as $element => $amount) {
                 // dont randomize +/-20% of attack power. The random factor is high enough
 
-                $thisAtt = ($CombatCaps[$element]['attack']) * $attTech; // * (rand(80, 120) / 100);
-                $thisShield = ($CombatCaps[$element]['shield']) * $shieldTech;
-                $thisArmor = ($pricelist[$element]['cost'][901] + $pricelist[$element]['cost'][902]) / 10 * $armorTech;
+                $thisAtt = ($e->combat($element)->attack) * $attTech; // * (rand(80, 120) / 100);
+                $thisShield = ($e->combat($element)->shield) * $shieldTech;
+                $thisArmor = ($e->cost($element)->metal + $e->cost($element)->crystal) / 10 * $armorTech;
 
                 $attArray[$fleetID][$element]['def'] = 0;
                 $attArray[$fleetID][$element]['shield'] = 0;
@@ -800,11 +796,11 @@ class BattleEngineSteemNova extends AbstractBattleEngine
      */
     private function restoreShields(&$fleets)
     {
-        $CombatCaps = $this->state->CombatCaps;
+        $e = $this->elements();
         foreach ($fleets as $fleetID => $attacker) {
             $shieldTech = (1 + (0.1 * $attacker['player']['shield_tech']));
             foreach ($attacker['units'] as $element => $unit) {
-                $fleets[$fleetID]['units'][$element]['shield'] = ($CombatCaps[$unit['unit']]['shield']) * $shieldTech;
+                $fleets[$fleetID]['units'][$element]['shield'] = ($e->combat($unit['unit'])->shield) * $shieldTech;
             }
         }
     }

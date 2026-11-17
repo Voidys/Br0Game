@@ -195,10 +195,10 @@ class ResourceUpdate
             }
             if ($this->st->planet['planet_type'] != 3) { // moons produce nothing
                 $produced = $this->production()->produceFor($this->models()->planet($this->st->planet), $ProductionTime, $this->config);
-                $resource = $this->state->resource;
+                $elements = $this->elements();
                 foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceId) {
                     $this->st->builded[$resourceId] += $produced->delta($resourceId);
-                    $this->st->planet[$resource[$resourceId]] += $produced->delta($resourceId);
+                    $this->st->planet[$elements->column($resourceId)] += $produced->delta($resourceId);
                 }
             }
         }

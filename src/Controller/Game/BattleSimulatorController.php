@@ -50,7 +50,7 @@ class BattleSimulatorController extends AbstractGameController
      */
     public function send()
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
         if (!isset($this->state->requestInput['battleinput'])) {
             $this->sendJSON(0);
@@ -118,9 +118,9 @@ class BattleSimulatorController extends AbstractGameController
 
         $stealResourceInformation = $LNG->format(
             'bs_steal_raport',
-            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity'])),
+            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $e->capacity(SHIP_SMALL_CARGO))),
             $LNG['tech'][SHIP_SMALL_CARGO],
-            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity'])),
+            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $e->capacity(SHIP_LARGE_CARGO))),
             $LNG['tech'][SHIP_LARGE_CARGO],
         );
 
@@ -232,7 +232,7 @@ class BattleSimulatorController extends AbstractGameController
      */
     private function simulatedFleets(array $BattleArray): array
     {
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $LNG = $this->state->LNG;
         $battleElementAmount = 0;
         $fleetDefend = [];
@@ -248,7 +248,7 @@ class BattleSimulatorController extends AbstractGameController
                 ];
 
                 foreach ($BattleSlot[0] as $ID => $Count) {
-                    $isFleet = in_array($ID, $reslist['fleet']);
+                    $isFleet = in_array($ID, $e->ids('fleet'));
                     if (!$isFleet || getNumber($BattleSlot[0][$ID]) <= 0 || $ID == SHIP_SOLSAT) {
                         unset($BattleSlot[0][$ID]);
                     } elseif ($isFleet) {
@@ -269,7 +269,7 @@ class BattleSimulatorController extends AbstractGameController
                 ];
 
                 foreach ($BattleSlot[1] as $ID => $Count) {
-                    $isBattleElement = in_array($ID, $reslist['fleet']) || in_array($ID, $reslist['defense']);
+                    $isBattleElement = in_array($ID, $e->ids('fleet')) || in_array($ID, $e->ids('defense'));
                     if (!$isBattleElement || getNumber($BattleSlot[1][$ID]) <= 0) {
                         unset($BattleSlot[1][$ID]);
                     } elseif ($isBattleElement) {
@@ -391,24 +391,23 @@ class BattleSimulatorController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         $Slots = $this->http()->_GP('slots', 1);
         $action = $this->http()->_GP('action', '');
 
-        $BattleArray[0][0][MILITARY_TECH] = $USER[$resource[MILITARY_TECH]];
-        $BattleArray[0][0][SHIELD_TECH] = $USER[$resource[SHIELD_TECH]];
-        $BattleArray[0][0][DEFENCE_TECH] = $USER[$resource[DEFENCE_TECH]];
+        $BattleArray[0][0][MILITARY_TECH] = $USER[$e->column(MILITARY_TECH)];
+        $BattleArray[0][0][SHIELD_TECH] = $USER[$e->column(SHIELD_TECH)];
+        $BattleArray[0][0][DEFENCE_TECH] = $USER[$e->column(DEFENCE_TECH)];
 
         if (empty($this->state->requestInput['battleinput'])) {
-            foreach ($reslist['resstype'][1] as $ID) {
-                $BattleArray[0][0][$ID] = floor($PLANET[$resource[$ID]]);
+            foreach ($e->resourceIds(1) as $ID) {
+                $BattleArray[0][0][$ID] = floor($PLANET[$e->column($ID)]);
             }
-            foreach ($reslist['fleet'] as $ID) {
-                $BattleArray[0][0][$ID] = $PLANET[$resource[$ID]];
+            foreach ($e->ids('fleet') as $ID) {
+                $BattleArray[0][0][$ID] = $PLANET[$e->column($ID)];
             }
-            foreach ($reslist['defense'] as $ID) {
-                $BattleArray[0][0][$ID] = $PLANET[$resource[$ID]];
+            foreach ($e->ids('defense') as $ID) {
+                $BattleArray[0][0][$ID] = $PLANET[$e->column($ID)];
             }
         } else {
             $BattleArray = $this->http()->_GP('battleinput', []);
@@ -436,8 +435,8 @@ class BattleSimulatorController extends AbstractGameController
         $this->assign([
             'Slots'         => $Slots,
             'battleinput'   => $BattleArray,
-            'fleetList'     => $reslist['fleet'],
-            'defensiveList' => $reslist['defense'],
+            'fleetList'     => $e->ids('fleet'),
+            'defensiveList' => $e->ids('defense'),
         ]);
 
         return $this->render('game/page.battleSimulator.default.html.twig');

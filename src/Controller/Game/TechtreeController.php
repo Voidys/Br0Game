@@ -57,7 +57,7 @@ class TechtreeController extends AbstractGameController
         }
 
         $this->assign([
-            'TechTree' => (new TechTree())->build($groups, $this->state->requeriments, $levels, $names),
+            'TechTree' => (new TechTree())->build($groups, $this->elements()->requirementMap(), $levels, $names),
             'Headlines' => array_map(static fn(int $id): string => $LNG['tech'][$id] ?? '', TechTree::HEADLINES),
         ]);
 

@@ -50,7 +50,7 @@ final class BotRaidTest extends GameTestCase
     /** A bot with ships and fuel; returns the user row (bot_players row written). */
     private function bot(array $user = [], array $planet = []): array
     {
-        $r = $this->state->resource;
+        $r = $this->elements()->columnMap();
         [$u, $p] = $this->player(
             $user + ['spy_tech' => 8, 'computer_tech' => 10, 'military_tech' => 3, 'shield_tech' => 3, 'defence_tech' => 3, 'onlinetime' => time()],
             $planet + [$r[203] => 60, $r[202] => 100, $r[206] => 30, $r[210] => 6, 'metal' => 1e6, 'crystal' => 1e6, 'deuterium' => 1e6],
@@ -195,7 +195,7 @@ final class BotRaidTest extends GameTestCase
 
         $ctx = $this->ctx($bot);
         $dispatcher = self::container()->get(RaidDispatcher::class);
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         $results = [];
         for ($i = 0; $i < 3; $i++) {
             $results[] = $dispatcher->send($ctx, $ctx->planets[$botPlanet['id']], [206 => 2, 203 => 2], MISSION_ATTACK, (int) $targetPlanet['id'], (int) $target['id']);
@@ -240,8 +240,8 @@ final class BotRaidTest extends GameTestCase
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $sent['id']]);
         $this->assertSame((int) MISSION_ATTACK, (int) $fleet['mission']);
         $this->assertSame((int) $bot['id'], (int) $fleet['owner']);
-        $this->assertEquals(29, $ctx->planets[$botPlanet['id']][$this->state->resource[206]], 'the in-memory planet follows');
-        $this->assertSame(29, (int) $this->loadPlanet((int) $botPlanet['id'])[$this->state->resource[206]], 'ships and fuel are taken from the planet in the database');
+        $this->assertEquals(29, $ctx->planets[$botPlanet['id']][$this->elements()->column(206)], 'the in-memory planet follows');
+        $this->assertSame(29, (int) $this->loadPlanet((int) $botPlanet['id'])[$this->elements()->column(206)], 'ships and fuel are taken from the planet in the database');
     }
 
     public function testNoFleetSlotRefusesTheDispatch(): void
@@ -401,7 +401,7 @@ final class BotRaidTest extends GameTestCase
 
     public function testWholeRaidFromScoutingToAttackToRecall(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$bot, $botPlanet] = $this->bot();
         $this->db->update('UPDATE %%STATPOINTS%% SET total_points = 100000 WHERE id_owner = :id AND stat_type = 1;', [':id' => $bot['id']]);
         [$target, $targetPlanet] = $this->player(['spy_tech' => 1], [$resource[1] => 5, 'metal' => 400000, 'crystal' => 200000, 'deuterium' => 100000], 90000);
@@ -461,7 +461,7 @@ final class BotRaidTest extends GameTestCase
 
     public function testReRespyKeepsAGoodAttack(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$bot, $botPlanet] = $this->bot();
         $this->db->update('UPDATE %%STATPOINTS%% SET total_points = 100000 WHERE id_owner = :id AND stat_type = 1;', [':id' => $bot['id']]);
         [$target, $targetPlanet] = $this->player(['spy_tech' => 1], ['metal' => 400000, 'crystal' => 200000, 'deuterium' => 100000], 90000);

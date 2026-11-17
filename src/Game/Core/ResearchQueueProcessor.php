@@ -28,7 +28,7 @@ class ResearchQueueProcessor
      */
     public function finishCurrent(QueueState $st)
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         if (empty($st->user['b_tech_id']) || $st->user['b_tech'] > $st->time) {
             return false;
@@ -62,7 +62,7 @@ class ResearchQueueProcessor
         }
 
         $st->builded[$Element] = $BuildLevel;
-        $st->user[$resource[$Element]] = $BuildLevel;
+        $st->user[$elements->column($Element)] = $BuildLevel;
 
         array_shift($CurrentQueue);
 
@@ -88,7 +88,7 @@ class ResearchQueueProcessor
      */
     public function startNext(QueueState $st)
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $notifier = $this->gameUtility(QueueFailureNotifier::class);
         $LNG = $notifier->language($st->user['id']);
         if (empty($st->user['b_tech_queue'])) {
@@ -104,7 +104,7 @@ class ResearchQueueProcessor
             $PLANET = $isAnotherPlanet ? $this->loadOtherPlanet($st, $ListIDArray[4]) : $st->planet;
 
             $userModel = $this->models()->user($st->user);
-            $PLANET[$resource[31] . '_inter'] = $this->gameUtility(ResourceProduction::class)->networkLevelFor($userModel, $this->models()->planet($PLANET));
+            $PLANET[$elements->column(31) . '_inter'] = $this->gameUtility(ResourceProduction::class)->networkLevelFor($userModel, $this->models()->planet($PLANET));
             $planetModel = $this->models()->planet($PLANET);
 
             $Element = $ListIDArray[0];
@@ -173,14 +173,14 @@ class ResearchQueueProcessor
      */
     private function payResearch(QueueState $st, array &$PLANET, array $costResources, bool $isAnotherPlanet): void
     {
-        $resource = $this->state->resource;
+        $elements = $this->elements();
 
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceId) {
             if (isset($costResources[$resourceId])) {
                 if (!$isAnotherPlanet) {
                     $st->builded[$resourceId] -= $costResources[$resourceId];
                 }
-                $PLANET[$resource[$resourceId]] -= $costResources[$resourceId];
+                $PLANET[$elements->column($resourceId)] -= $costResources[$resourceId];
             }
         }
     }

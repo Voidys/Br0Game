@@ -34,7 +34,7 @@ class ResourceProduction
      */
     public function createHash(array $user, array $planet, Config $config): string
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
 
         return $this->hashFor(User::fromState($user, $resource), Planet::fromState($planet, $resource), $config);
     }
@@ -87,7 +87,7 @@ class ResourceProduction
      */
     public function rebuild(array $user, array $planet, Config $config): array
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
 
         return array_replace(
             $planet,
@@ -158,7 +158,7 @@ class ResourceProduction
      */
     public function produce(array $planet, int|float $productionTime, Config $config, array &$builded): array
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         if ($planet['planet_type'] == 3) {
             return $planet;
         }
@@ -229,7 +229,7 @@ class ResourceProduction
      */
     public function getNetworkLevel(array $user, array $planet): array
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
 
         return $this->networkLevelFor(User::fromState($user, $resource), Planet::fromState($planet, $resource));
     }

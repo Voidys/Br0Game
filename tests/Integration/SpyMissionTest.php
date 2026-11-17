@@ -26,7 +26,7 @@ final class SpyMissionTest extends GameTestCase
     /** @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>} sender, target, target planet; the fleet is stored in $this->fleet */
     private function spy(int $probes, int $senderSpyTech, array $targetPlanetColumns): array
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$sender, $senderPlanet] = $this->createPlayer(['spy_tech' => $senderSpyTech], [$resource[210] => $probes, 'deuterium' => 1e6]);
         [$target, $targetPlanet] = $this->createPlayer(['spy_tech' => 1], $targetPlanetColumns + ['metal' => 5000, 'crystal' => 3000, 'deuterium' => 1000, $resource[1] => 4]);
         $now = time();
@@ -73,7 +73,7 @@ final class SpyMissionTest extends GameTestCase
 
     public function testProbesWithTheBetterTechSeeEverythingAndReturn(): void
     {
-        [$sender, $target] = $this->spy(20, 10, [$this->state->resource[202] => 3]);
+        [$sender, $target] = $this->spy(20, 10, [$this->elements()->column(202) => 3]);
 
         $this->goldenAssert('big tech report', $this->report($sender));
         $fleet = $this->db->selectSingle('SELECT status FROM %%FLEETS%% WHERE id = :id;', [':id' => $this->fleetId]);
@@ -83,14 +83,14 @@ final class SpyMissionTest extends GameTestCase
 
     public function testProbesWithoutTechOnlySeeTheResources(): void
     {
-        [$sender] = $this->spy(1, 1, [$this->state->resource[202] => 3]);
+        [$sender] = $this->spy(1, 1, [$this->elements()->column(202) => 3]);
 
         $this->goldenAssert('no tech report', $this->report($sender));
     }
 
     public function testCertainDetectionShootsTheProbesDownAndLeavesDebris(): void
     {
-        $resource = $this->state->resource;
+        $resource = $this->elements()->columnMap();
         [$sender, , $targetPlanet] = $this->spy(100, 1, [$resource[202] => 1000]);
 
         $this->assertFalse($this->db->selectSingle('SELECT id FROM %%FLEETS%% WHERE id = :id;', [':id' => $this->fleetId]), 'the probes are gone');

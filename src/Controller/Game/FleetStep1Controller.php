@@ -139,10 +139,10 @@ class FleetStep1Controller extends AbstractGameController
      */
     private function selectedShips(): array
     {
-        $pricelist = $this->state->pricelist;
+        $e = $this->elements();
         $Fleet = [];
         $FleetRoom = 0;
-        foreach ($this->state->reslist['fleet'] as $id => $ShipID) {
+        foreach ($e->ids('fleet') as $ShipID) {
             $amount = max(0, round($this->http()->_GP('ship' . $ShipID, 0.0, 0.0)));
 
             if ($amount < 1 || $ShipID == 212) {
@@ -150,7 +150,7 @@ class FleetStep1Controller extends AbstractGameController
             }
 
             $Fleet[$ShipID] = $amount;
-            $FleetRoom += $pricelist[$ShipID]['capacity'] * $amount;
+            $FleetRoom += $e->capacity($ShipID) * $amount;
         }
 
         return [$Fleet, $FleetRoom];
@@ -237,10 +237,10 @@ class FleetStep1Controller extends AbstractGameController
     private function checkShipsAvailable(array $Fleet): void
     {
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
+        $e = $this->elements();
         //check if all ships are available
         foreach ($Fleet as $Ship => $Count) {
-            if ($Count > $this->state->PLANET[$resource[$Ship]]) {
+            if ($Count > $this->state->PLANET[$e->column($Ship)]) {
                 $this->printMessage($LNG['fl_not_all_ship_avalible'], [[
                     'label' => $LNG['sys_back'],
                     'url'   => 'game?page=fleetTable',
@@ -587,7 +587,7 @@ class FleetStep1Controller extends AbstractGameController
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        if ($USER[$this->state->resource[124]] == 0) {
+        if ($USER[$this->elements()->column(124)] == 0) {
             $this->sendJSON($LNG['fl_expedition_tech_required']);
         }
 

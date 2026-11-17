@@ -39,8 +39,7 @@ class GiveawayController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $e = $this->elements();
         $db = $this->db;
         $action = $this->http()->_GP('action', '');
         if ($action == 'send') {
@@ -67,12 +66,12 @@ class GiveawayController extends AbstractAdminController
             $params = [':universe' => $this->universe()->getEmulated()];
 
             $DataIDs = array_merge(
-                $reslist['resstype'][1],
-                $reslist['resstype'][3],
-                $reslist['build'],
-                $reslist['tech'],
-                $reslist['fleet'],
-                $reslist['defense'],
+                $e->resourceIds(1),
+                $e->resourceIds(3),
+                $e->ids('build'),
+                $e->ids('tech'),
+                $e->ids('fleet'),
+                $e->ids('defense'),
             );
 
             $logOld = [];
@@ -80,7 +79,7 @@ class GiveawayController extends AbstractAdminController
 
             foreach ($DataIDs as $ID) {
                 $amount = max(0, round($this->http()->_GP('element_' . $ID, 0.0)));
-                $data[] = $resource[$ID] . " = " . $resource[$ID] . " + :element" . $ID;
+                $data[] = $e->column($ID) . " = " . $e->column($ID) . " + :element" . $ID;
                 $params[':element' . $ID] = sprintf('%.0f', $amount);
 
                 $logOld[$ID] = 0;
@@ -110,7 +109,7 @@ class GiveawayController extends AbstractAdminController
         }
 
         $this->assign([
-            'reslist'      => $reslist,
+            'reslist'      => $e->groupMap() + ['resstype' => $e->resourceTypes()],
         ]);
         return $this->render('admin/giveaway.html.twig');
     }
