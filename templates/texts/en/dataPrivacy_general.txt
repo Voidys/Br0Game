@@ -48,6 +48,7 @@
 <p>We only use cookies and browser storage that are needed to provide the service you request:</p>
 <ul>
 <li><strong>2Moons</strong>: session cookie that keeps you logged in. It expires 12 hours after your last activity, or when you log out.</li>
+<li><strong>br0_device</strong>: random device ID (2 years). Only a hash of it is stored per account, for 90 days after the last visit, to detect several accounts played from the same browser.</li>
 <li><strong>lang</strong>: remembers the language you selected.</li>
 <li><strong>account</strong>: remembers that this browser has been used to log in, so the start page can show the login first. It contains no personal data.</li>
 <li>Local storage: display preferences of the game interface (for example the last opened message category). They stay in your browser and are not sent to us.</li>

@@ -26,6 +26,10 @@ parameters:
     app.game_rate_limit.anonymous_burst: 30
     app.game_rate_limit.anonymous_interval: '2 seconds'
     # board: votes and posts+comments one account may make per day (sliding window)
+    # fleet caps per account and day (FleetDailyCaps, fixed window of 24 h; 0 = off): launches = every fleet dispatch
+    # incl. spy/recycle shortcuts and missiles (market purchase fleets excluded); attacks = attack, ACS attack/join, destruction, missile
+    app.fleet_launches_per_day: 0
+    app.attacks_per_day: 0
     app.board_votes_per_day: 200
     app.board_writes_per_day: 50
     app.alliance_applications_per_day: 10
@@ -72,6 +76,9 @@ services:
             $connection: '@doctrine.dbal.default_connection'
             $debug: '%kernel.debug%'
     App\Game\Core\ConfigRegistry: ~
+    App\Game\Core\DeviceLinks:
+        arguments:
+            $secret: '%kernel.secret%'
     App\Game\Core\ViewHelpers: ~
     App\Game\Core\ErrorReporter: ~
     App\Game\Cronjob\Cronjob: ~

@@ -43,7 +43,7 @@ class AllianceDepot
      * Base consumption is the pricelist consumption of the drive the ship is built with (the first of consumption1..3
      * that is set), independent of the owner's drive and fuel techs, so the price is the same for every fleet.
      *
-     * With the universe setting depot_cost_real_consumption (default off) and the fleet owner given, the fleet's actual
+     * With the universe setting depot_cost_real_consumption (default on) and the fleet owner given, the fleet's actual
      * consumption (the owner's drive and fuel efficiency techs, as for a flight) is used instead of the base one.
      *
      * @param array<int|string, int|float|string> $ships ship id => count

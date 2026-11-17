@@ -3,10 +3,10 @@
 namespace App\Game\Core;
 
 /**
- * Collusion check between two accounts: same last IP, same multi group (MULTI_TO_USERS) and, optionally, the social
+ * Collusion check between two accounts: same last IP, same multi group (MULTI_TO_USERS), same device (USER_DEVICES) and, optionally, the social
  * links same alliance and buddies. Used by the rebuild protection and the bash war exemption.
  *
- * Collaborators: Database (USERS, MULTI_TO_USERS, BUDDY).
+ * Collaborators: Database (USERS, MULTI_TO_USERS, USER_DEVICES, BUDDY).
  */
 class AccountLinks
 {
@@ -46,6 +46,10 @@ class AccountLinks
             return true;
         }
 
+        if ($this->sharedDevice($a, $b)) {
+            return true;
+        }
+
         if (!$includeSocial) {
             return false;
         }
@@ -62,5 +66,22 @@ class AccountLinks
         );
 
         return $buddy > 0;
+    }
+
+    /**
+     * Whether both accounts were seen on the same browser (same hashed device id, see DeviceLinks).
+     */
+    public function sharedDevice(int $a, int $b): bool
+    {
+        if ($a === $b) {
+            return false;
+        }
+
+        return $this->db->selectSingle(
+            'SELECT count(*) as anz FROM %%USER_DEVICES%% x JOIN %%USER_DEVICES%% y ON y.`device_hash` = x.`device_hash`
+            WHERE x.`user_id` = :a AND y.`user_id` = :b;',
+            [':a' => $a, ':b' => $b],
+            'anz',
+        ) > 0;
     }
 }

@@ -73,8 +73,9 @@ class HTTP
         ?string $domain = null,
         bool $secure = false,
         bool $httpOnly = false,
+        ?string $sameSite = null,
     ): void {
-        $this->responseHeaders()->setCookie(Cookie::create($name, $value, $toTime ?? 0, $path, $domain, $secure, $httpOnly, false, null));
+        $this->responseHeaders()->setCookie(Cookie::create($name, $value, $toTime ?? 0, $path, $domain, $secure, $httpOnly, false, $sameSite));
     }
 
     /**

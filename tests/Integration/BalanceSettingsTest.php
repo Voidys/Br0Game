@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
+use App\Game\Core\Config\ConfigFieldSchema;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\Core\AllianceDepot;
@@ -26,7 +27,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
  */
 final class BalanceSettingsTest extends GameTestCase
 {
-    public function testPushToleranceDefaultIsThirtyPercentAndConfigurable(): void
+    public function testPushToleranceDefaultIsTenPercentAndConfigurable(): void
     {
         [$seller] = $this->createPlayer();
         [$buyer] = $this->createPlayer();
@@ -34,32 +35,33 @@ final class BalanceSettingsTest extends GameTestCase
             $this->db->insert('INSERT INTO %%STATPOINTS%% SET id_owner = :id, universe = 1, stat_type = 1, total_points = 100 ON DUPLICATE KEY UPDATE total_points = 100;', [':id' => $user['id']]);
         }
         $market = new MarketManager($this->db, $this->configs, $this->state);
-        $this->assertSame(30, (int) $this->configs->get()->market_push_tolerance);
+        $this->assertSame(10, (int) $this->configs->get()->market_push_tolerance);
 
-        // equal scores: pushing when the ask is below 70 % of the highest value
-        $this->assertFalse($market->isPush(100, 70, $seller['id'], $buyer['id']));
-        $this->assertTrue($market->isPush(100, 69, $seller['id'], $buyer['id']));
-
-        $this->setUniverseConfig(['market_push_tolerance' => 10]);
+        // equal scores: pushing when the ask is below 90 % of the highest value
         $this->assertTrue($market->isPush(100, 80, $seller['id'], $buyer['id']));
         $this->assertFalse($market->isPush(100, 90, $seller['id'], $buyer['id']));
+
+        // the old tolerance is still reachable: pushing below 70 %
+        $this->setUniverseConfig(['market_push_tolerance' => 30]);
+        $this->assertFalse($market->isPush(100, 70, $seller['id'], $buyer['id']));
+        $this->assertTrue($market->isPush(100, 69, $seller['id'], $buyer['id']));
     }
 
-    public function testDepotCostDefaultIsBaseConsumption(): void
+    public function testDepotCostBaseConsumptionWhenRealConsumptionIsOff(): void
     {
         [$owner] = $this->createPlayer([$this->elements()->column(FUEL_EFFICIENCY_TECH) => 10]);
         $depot = new AllianceDepot($this->db, $this->configs, $this->state);
         $fleet = (new FleetString())->unserialize('202,10');
 
-        $this->assertFalse((bool) $this->configs->get()->depot_cost_real_consumption);
+        $this->setUniverseConfig(['depot_cost_real_consumption' => 0]);
         $this->assertSame(10, $depot->hourlyCost($fleet));
         $this->assertSame(10, $depot->hourlyCost($fleet, (int) $owner['id']));
     }
 
-    public function testDepotCostByRealConsumptionUsesTheOwnersTechs(): void
+    public function testDepotCostByRealConsumptionIsTheDefaultAndUsesTheOwnersTechs(): void
     {
         [$owner] = $this->createPlayer([$this->elements()->column(FUEL_EFFICIENCY_TECH) => 10]);
-        $this->setUniverseConfig(['depot_cost_real_consumption' => 1]);
+        $this->assertTrue((bool) $this->configs->get()->depot_cost_real_consumption);
         $depot = new AllianceDepot($this->db, $this->configs, $this->state);
         $fleet = (new FleetString())->unserialize('202,10');
 
@@ -91,17 +93,17 @@ final class BalanceSettingsTest extends GameTestCase
         return [$attacker, $planet];
     }
 
-    public function testWarExemptsFromBashByDefault(): void
+    public function testWarExemptsFromBashWhenTheExemptionIsOn(): void
     {
         [, $planet] = $this->warScenario();
-        $this->assertTrue((bool) $this->configs->get()->bash_war_exempt);
+        $this->setUniverseConfig(['bash_war_exempt' => 1]);
         $this->assertFalse((new BashRules($this->db, $this->configs, $this->state))->checkBash((int) $planet['id']));
     }
 
-    public function testWarAttacksCountWhenTheExemptionIsOff(): void
+    public function testWarAttacksCountByDefault(): void
     {
         [, $planet] = $this->warScenario();
-        $this->setUniverseConfig(['bash_war_exempt' => 0]);
+        $this->assertFalse((bool) $this->configs->get()->bash_war_exempt);
         $this->assertTrue((new BashRules($this->db, $this->configs, $this->state))->checkBash((int) $planet['id']));
     }
 
@@ -123,16 +125,21 @@ final class BalanceSettingsTest extends GameTestCase
         return (int) (new AdvancedStatsHandler($this->db, $this->configs, $this->state))->getValue($user, AdvancedStatsEnum::HONORABLE_FIGHTS);
     }
 
-    public function testHonorIsUnlimitedByDefault(): void
+    public function testHonorIsUnlimitedWhenThePairCapIsZero(): void
     {
         [$a, $d] = $this->honorPair();
         $honor = new HonorPoints($this->db, $this->configs, $this->state);
-        $this->assertSame(0, (int) $this->configs->get()->honor_pair_cap);
+        $this->setUniverseConfig(['honor_pair_cap' => 0]);
         for ($i = 0; $i < 4; $i++) {
             $honor->calculate_honorpoints_single((int) $a['id'], (int) $d['id'], 1000000, 1000000);
         }
         $this->assertSame(4, $this->honorFights((int) $a['id']));
         $this->assertSame(0, (int) $this->db->selectSingle('SELECT COUNT(*) AS anz FROM %%HONOR_FIGHTS%%;', [], 'anz'));
+    }
+
+    public function testHonorPairCapDefaultsToThree(): void
+    {
+        $this->assertSame(3, (int) $this->configs->get()->honor_pair_cap);
     }
 
     public function testHonorPairCapStopsFurtherAwardsInBothDirections(): void
@@ -253,10 +260,20 @@ final class BalanceSettingsTest extends GameTestCase
         return $this->db->selectSingle('SELECT * FROM %%PLANETS%% WHERE id = :id;', [':id' => $this->db->lastInsertId()]);
     }
 
-    public function testLargeTransportIsAllowedWithTheGuardOffByDefault(): void
+    public function testLargeTransportIsAllowedWithTheGuardOff(): void
     {
-        $this->assertFalse((bool) $this->configs->get()->transport_push_check);
-        $this->assertNull($this->transport(['transport_push_limit' => 1000]));
+        $this->assertNull($this->transport(['transport_push_check' => 0, 'transport_push_limit' => 1000]));
+    }
+
+    public function testPushGuardIsOnByDefault(): void
+    {
+        // the schema default (what the installer seeds), independent of settings other tests changed in memory
+        $lng = new Language($this->configs, 'en');
+        $lng->includeData(['L18N', 'INGAME', 'ADMIN', 'PUBLIC', 'CUSTOM', 'TECH']);
+        $this->state->LNG = $lng;
+        $schema = new ConfigFieldSchema('uni', $this->state, $this->configs);
+        $this->assertTrue($schema->getField('transport_push_check')['default']);
+        $this->assertSame(100000, $schema->getField('transport_push_limit')['default']);
     }
 
     public function testTransportAboveTheLimitIsRefusedWhenTheGuardIsOn(): void
@@ -291,9 +308,8 @@ final class BalanceSettingsTest extends GameTestCase
         $this->transferGuard()();
     }
 
-    public function testTransferPassesWithTheGuardOffByDefault(): void
+    public function testTransferPassesWithTheGuardOff(): void
     {
-        // the in-memory settings of earlier tests persist: back to the schema defaults
         $this->setUniverseConfig(['transport_push_check' => false, 'transport_push_limit' => 0]);
         $this->transferGuard()();
         $this->addToAssertionCount(1);

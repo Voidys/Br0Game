@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Read-only abuse report of the universe the admin acts in: one-sided transports/holds, repeated market trades with a
- * skewed value ratio, rebuild-protection grants and recalls at or after the arrival time, with link markers (shared
- * IP / multi group). Filter: `days` (look-back window, default 7).
+ * skewed value ratio, rebuild-protection grants, recalls at or after the arrival time, value-flow clusters (trade graph) and
+ * the accounts with the most fleet launches in 24 h, with link markers (shared IP / device / multi group). Filter: `days` (look-back window, default 7).
  */
 #[\App\Routing\GamePage('admin.php', 'abuseReport')]
 #[\App\Routing\GamePage('admin.php', 'abuseReport', uniPrefix: true)]
@@ -51,6 +51,10 @@ class AbuseReportController extends AbstractAdminController
             'returnShare' => (int) round(AbuseReportQuery::MAX_RETURN_SHARE * 100),
             'minTrades' => AbuseReportQuery::MIN_REPEATED_TRADES,
             'outlierPercent' => (int) round((AbuseReportQuery::TRADE_OUTLIER_RATIO - 1) * 100),
+            'graphDays' => AbuseReportQuery::GRAPH_DAYS,
+            'graphMinValue' => AbuseReportQuery::GRAPH_MIN_VALUE_FACTOR * AbuseReportQuery::MIN_TRANSFER_VALUE,
+            'graphMinFlows' => AbuseReportQuery::GRAPH_MIN_FLOWS,
+            'graphMaxClusters' => AbuseReportQuery::GRAPH_MAX_CLUSTERS,
             'maxDays' => AbuseReportQuery::MAX_DAYS,
         ]);
 

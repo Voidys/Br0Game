@@ -7,6 +7,7 @@ use App\Game\Core\Database;
 use App\Game\Core\Singleton;
 use App\Runtime\CanonicalUrl;
 use App\Security\AuthRateLimits;
+use App\Security\FleetDailyCaps;
 use Symfony\Contracts\Service\Attribute\Required;
 
 /**
@@ -22,6 +23,7 @@ trait GameServices
     protected Singleton $state;
     protected AuthRateLimits $rateLimits;
     protected CanonicalUrl $canonicalUrl;
+    protected FleetDailyCaps $fleetCaps;
 
     /**
      * Container (setter) injection of database, config registry and game state.
@@ -40,6 +42,13 @@ trait GameServices
     {
         $this->rateLimits = $rateLimits;
         $this->canonicalUrl = $canonicalUrl;
+    }
+
+    /** Daily fleet launch and attack caps, for the controllers that send fleets. */
+    #[Required]
+    public function setFleetCaps(FleetDailyCaps $fleetCaps): void
+    {
+        $this->fleetCaps = $fleetCaps;
     }
 
     /**

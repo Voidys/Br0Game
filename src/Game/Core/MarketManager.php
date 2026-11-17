@@ -577,7 +577,7 @@ class MarketManager
 
     /**
      * Accepted market volatility (share of the value) that does not trigger the push check: universe setting
-     * market_push_tolerance in percent (default 30).
+     * market_push_tolerance in percent (default 10).
      */
     private function pushTolerance(): float
     {

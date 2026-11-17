@@ -681,6 +681,8 @@ fl_attack_confirm_buddy: Das Ziel steht auf deiner Buddyliste. Willst du wirklic
 fl_attack_confirm_diplo: Du hast einen Pakt (%s) mit %s. Trotzdem angreifen?
 fl_attack_confirm_outlaw: Wenn du %s angreifst, wirst du für 7 Tage zum Gesetzlosen.
 fl_bash_protection: Das würde die Bash-Regel verletzen.
+fl_daily_cap_reached: "Tageslimit von %1$d Flotten erreicht. Es wird in %2$d Std. %3$d Min. zurückgesetzt."
+fl_daily_attack_cap_reached: "Tageslimit von %1$d Angriffen erreicht. Es wird in %2$d Std. %3$d Min. zurückgesetzt."
 fl_beginning: Herkunft
 fl_blocked: ' nimmt keine Einladungen an.'
 fl_bonus: Bonus

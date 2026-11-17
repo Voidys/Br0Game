@@ -49,6 +49,8 @@ final class AbuseReportQueryTest extends GameTestCase
         $this->assertSame([], $report['trades']);
         $this->assertSame([], $report['protections']);
         $this->assertSame([], $report['recalls']);
+        $this->assertSame([], $report['graph']);
+        $this->assertSame([], $report['activity']);
         $this->assertSame(7, $report['days']);
     }
 
@@ -222,5 +224,97 @@ final class AbuseReportQueryTest extends GameTestCase
 
         $this->assertCount(1, $recalls);
         $this->assertSame(30, (int) $recalls[0]['late']);
+    }
+
+    public function testChainOfTransfersFormsOneClusterAndSmallFlowsDoNot(): void
+    {
+        [$a, $b, $c, $d, $e] = array_map(fn(): int => (int) $this->createPlayer()[0]['id'], range(1, 5));
+
+        // a -> b -> c chain: 3 flows of 2 000 each (6 000 >= 5 x MIN_TRANSFER_VALUE is 5 000)
+        for ($i = 0; $i < 3; ++$i) {
+            $this->logFleet(['owner' => $a, 'target_owner' => $b, 'resource_metal' => 2000]);
+            $this->logFleet(['owner' => $b, 'target_owner' => $c, 'resource_metal' => 1000, 'resource_crystal' => 1000]);
+        }
+        // d -> e: plenty of value but only two flows; c -> d: three flows of tiny value
+        $this->logFleet(['owner' => $d, 'target_owner' => $e, 'resource_metal' => 50000]);
+        $this->logFleet(['owner' => $d, 'target_owner' => $e, 'resource_metal' => 50000]);
+        for ($i = 0; $i < 3; ++$i) {
+            $this->logFleet(['owner' => $c, 'target_owner' => $d, 'resource_metal' => 10]);
+        }
+
+        $report = $this->query();
+        $graph = $report['graph'];
+
+        $this->assertCount(1, $graph);
+        $this->assertEqualsCanonicalizing([$a, $b, $c], array_column($graph[0]['members'], 'id'));
+        $this->assertSame(6, $graph[0]['flows']);
+        $this->assertEqualsWithDelta(6000 + 3 * (1000 + 1000 * $report['weights']['crystal']), $graph[0]['value'], 0.01);
+        $this->assertSame($c, $graph[0]['top']['to']);
+    }
+
+    public function testTradesAndLootJoinTheGraphAndOldFlowsAreIgnored(): void
+    {
+        [$a, $b, $c] = array_map(fn(): int => (int) $this->createPlayer()[0]['id'], range(1, 3));
+        $time = date('Y-m-d H:i:s', self::NOW - 3600);
+        for ($i = 0; $i < 3; ++$i) {
+            $seller = $this->logFleet(['owner' => $a, 'target_owner' => 0]);
+            $buyer = $this->logFleet(['owner' => $b, 'target_owner' => 0]);
+            $this->db->insert(
+                'INSERT INTO %%TRADES%% SET `seller_fleet_id` = :s, `buyer_fleet_id` = :b, `buy_time` = :t, `transaction_type` = 0, `resource_type` = 1, `resource_amount` = 2000, `ex_resource_type` = 1, `ex_resource_amount` = 1000;',
+                [':s' => $seller, ':b' => $buyer, ':t' => $time],
+            );
+            $this->logFleet(['owner' => $c, 'target_owner' => $b, 'mission' => MISSION_ATTACK, 'gained_metal' => 2000]);
+            // too old for the 30 day window
+            $this->logFleet(['owner' => $c, 'target_owner' => $a, 'resource_metal' => 90000, 'start_time' => self::NOW - 40 * 86400]);
+        }
+
+        $graph = $this->query()['graph'];
+
+        $this->assertCount(1, $graph);
+        $this->assertEqualsCanonicalizing([$a, $b, $c], array_column($graph[0]['members'], 'id'));
+        $this->assertSame(6, $graph[0]['flows']);
+        $this->assertEqualsWithDelta(9000 + 6000, $graph[0]['value'], 0.01);
+    }
+
+    public function testDeviceMarkerNeedsASharedDeviceHash(): void
+    {
+        $table = $this->db->getTablePrefix() . 'user_devices';
+        [$a, $b, $c] = array_map(fn(): int => (int) $this->createPlayer()[0]['id'], range(1, 3));
+        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'resource_metal' => 5000]);
+        $this->logFleet(['owner' => $a, 'target_owner' => $c, 'resource_metal' => 4000]);
+
+        $insert = "INSERT INTO `$table` SET `user_id` = :u, `device_hash` = :h, `first_seen` = 1, `last_seen` = 1;";
+        $this->db->insert($insert, [':u' => $a, ':h' => 'abuse-test-device']);
+        $this->db->insert($insert, [':u' => $b, ':h' => 'abuse-test-device']);
+        $this->db->insert($insert, [':u' => $c, ':h' => 'abuse-test-other']);
+
+        $byTarget = [];
+        foreach ($this->query()['transfers'] as $row) {
+            $byTarget[(int) $row['to']] = $row;
+        }
+
+        $this->assertTrue($byTarget[$b]['device']);
+        $this->assertFalse($byTarget[$c]['device']);
+    }
+
+    public function testActivityListsTheBusiestAccountsFirstWithHourlyPeak(): void
+    {
+        [$busy, $calm] = array_map(fn(): int => (int) $this->createPlayer()[0]['id'], range(1, 2));
+        // busy: 4 launches in one hour plus 1 earlier; calm: 2 spread out; one launch older than 24 h is ignored
+        foreach ([600, 700, 800, 900] as $ago) {
+            $this->logFleet(['owner' => $busy, 'start_time' => self::NOW - $ago]);
+        }
+        $this->logFleet(['owner' => $busy, 'start_time' => self::NOW - 10 * 3600]);
+        $this->logFleet(['owner' => $calm, 'start_time' => self::NOW - 5 * 3600]);
+        $this->logFleet(['owner' => $calm, 'start_time' => self::NOW - 8 * 3600]);
+        $this->logFleet(['owner' => $calm, 'start_time' => self::NOW - 30 * 3600]);
+
+        $activity = $this->query()['activity'];
+
+        $this->assertSame([$busy, $calm], array_column($activity, 'id'));
+        $this->assertSame(5, $activity[0]['launches']);
+        $this->assertGreaterThanOrEqual(2, $activity[0]['peak']);
+        $this->assertSame(2, $activity[1]['launches']);
+        $this->assertSame(1, $activity[1]['peak']);
     }
 }

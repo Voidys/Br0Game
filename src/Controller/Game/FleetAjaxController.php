@@ -360,6 +360,12 @@ class FleetAjaxController extends AbstractGameController
         $fleetStayTime = $fleetStartTime;
         $fleetEndTime = $fleetStayTime + $Duration;
 
+        // last check: a refused launch must not use up the daily quota (audit F-14)
+        $capped = $this->fleetCaps->consume((int) $this->state->USER['id'], $targetMission);
+        if ($capped !== null) {
+            $this->sendData(621, $LNG->format($capped['key'], $capped['limit'], $capped['hours'], $capped['minutes']));
+        }
+
         $shipID = array_keys($fleetArray);
         $this->state->PLANET['deuterium'] -= $consumption;
 

@@ -2,9 +2,10 @@
 {% macro player(id, name) %}<a href="admin?page=accountData&amp;id_u={{ id }}">{{ name }}</a>{% endmacro %}
 {% macro links(row) %}
   {% if row.ip %}<span class="badge badge--danger">{{ LNG.abuse_link_ip }}</span>{% endif %}
+  {% if row.device %}<span class="badge badge--danger">{{ LNG.abuse_link_device }}</span>{% endif %}
   {% if row.multi %}<span class="badge {{ row.multiKnown ? 'badge--muted' : 'badge--warn' }}">{{ row.multiKnown ? LNG.abuse_link_multi_known : LNG.abuse_link_multi }}</span>{% endif %}
   {% if row.subnet %}<span class="badge badge--muted">{{ LNG.abuse_link_subnet }}</span>{% endif %}
-  {% if not row.ip and not row.multi and not row.subnet %}<span class="muted">-</span>{% endif %}
+  {% if not row.ip and not row.device and not row.multi and not row.subnet %}<span class="muted">-</span>{% endif %}
 {% endmacro %}
 <div class="stack">
   <form action="" method="get" class="card">
@@ -181,6 +182,79 @@
       {% endif %}
     </div>
     <div class="card__body"><p class="muted small">{{ LNG.abuse_missiles_skipped }}</p></div>
+  </section>
+
+  <section class="card">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('network') }}{{ LNG.abuse_graph }}</h2>
+      <div class="card__actions"><span class="badge badge--muted">{{ report.graph|length }}</span></div>
+    </header>
+    <div class="card__body">
+      <p class="muted small">{{ LNG.format('abuse_graph_info', graphDays, graphMinValue, graphMinFlows, graphMaxClusters) }}</p>
+    </div>
+    <div class="card__body">
+      {% if report.graph %}
+      <div class="table-wrap">
+        <table class="data data--compact">
+          <thead><tr>
+            <th>{{ LNG.abuse_members }}</th><th class="num">{{ LNG.abuse_value }}</th><th class="num">{{ LNG.abuse_flows }}</th>
+            <th>{{ LNG.abuse_top_edge }}</th>
+          </tr></thead>
+          <tbody>
+            {% for cluster in report.graph %}
+            <tr>
+              <td>
+                {% for m in cluster.members %}
+                  <div>{{ _self.player(m.id, m.name) }} {{ _self.links(m) }}</div>
+                {% endfor %}
+              </td>
+              <td class="num"><strong>{{ pretty_number(cluster.value) }}</strong></td>
+              <td class="num">{{ cluster.flows }}</td>
+              <td>
+                {{ _self.player(cluster.top.from, cluster.top.fromName) }} &rarr; {{ _self.player(cluster.top.to, cluster.top.toName) }}
+                <span class="muted small">{{ pretty_number(cluster.top.net) }} ({{ (cluster.top.share * 100)|round }} %)</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty">{{ icon('network') }}<p>{{ LNG.abuse_none }}</p></div>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('activity') }}{{ LNG.abuse_activity }}</h2>
+      <div class="card__actions"><span class="badge badge--muted">{{ report.activity|length }}</span></div>
+    </header>
+    <div class="card__body">
+      <p class="muted small">{{ LNG.abuse_activity_info }}</p>
+    </div>
+    <div class="card__body">
+      {% if report.activity %}
+      <div class="table-wrap">
+        <table class="data data--compact">
+          <thead><tr>
+            <th>{{ LNG.abuse_player }}</th><th class="num">{{ LNG.abuse_launches }}</th><th class="num">{{ LNG.abuse_peak }}</th>
+          </tr></thead>
+          <tbody>
+            {% for row in report.activity %}
+            <tr>
+              <td>{{ _self.player(row.id, row.name) }}</td>
+              <td class="num">{{ row.launches }}</td>
+              <td class="num">{{ row.peak }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty">{{ icon('activity') }}<p>{{ LNG.abuse_none }}</p></div>
+      {% endif %}
+    </div>
   </section>
 </div>
 {% include 'admin/overall_footer.html.twig' %}

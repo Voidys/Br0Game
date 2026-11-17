@@ -18,6 +18,7 @@ namespace App\Controller\Game;
 use App\Controller\GameControllerInterface;
 use App\Controller\PageModeDispatch;
 use App\Controller\RendersPages;
+use App\Game\Core\DeviceLinks;
 use App\Game\Core\EndOfRequest;
 use DateTime;
 use DateTimeZone;
@@ -47,6 +48,14 @@ abstract class AbstractGameController implements GameControllerInterface
 
     use RendersPages {
         render as private renderPage;
+    }
+
+    protected \App\Game\Core\DeviceLinks $deviceLinks;
+
+    #[\Symfony\Contracts\Service\Attribute\Required]
+    public function setDeviceLinks(\App\Game\Core\DeviceLinks $deviceLinks): void
+    {
+        $this->deviceLinks = $deviceLinks;
     }
 
     /** popups requested by the modal loader (X-Game-Fragment, ?ajax=1) render as fragments (layout.ajax) */
@@ -96,6 +105,7 @@ abstract class AbstractGameController implements GameControllerInterface
      */
     public function initialize(): void
     {
+        $this->trackDevice();
         // pages (also in XHR/fragment mode) debit and credit through it; only the recalculation below is skipped for XHR
         $this->ecoObj = new ResourceUpdate($this->db, $this->configs, $this->state);
         if (!$this->state->runtime->ajax) {
@@ -131,6 +141,31 @@ abstract class AbstractGameController implements GameControllerInterface
         } else {
             $this->setWindow('ajax');
         }
+    }
+
+    /**
+     * Device cookie (br0_device, created when missing) and, at most once per hour and player, the hashed device id in
+     * USER_DEVICES (account links). Skipped for XHR and when the service is not injected.
+     */
+    private function trackDevice(): void
+    {
+        if (!isset($this->deviceLinks) || empty($this->state->USER['id']) || $this->state->runtime->ajax) {
+            return;
+        }
+        $deviceId = $this->state->requestCookies[DeviceLinks::COOKIE] ?? null;
+        if (!$this->deviceLinks->isValidDeviceId($deviceId)) {
+            $deviceId = $this->deviceLinks->newDeviceId();
+            $this->http()->sendCookie(DeviceLinks::COOKIE, $deviceId, $this->state->runtime->timestamp + DeviceLinks::COOKIE_LIFETIME, '/', null, $this->state->runtime->https, true, 'lax');
+        }
+
+        $session = $this->sessions()->symfonySession();
+        $key = 'device_seen_' . (int) $this->state->USER['id'] . '_' . substr($this->deviceLinks->hash($deviceId), 0, 8);
+        $now = $this->state->runtime->timestamp;
+        if ($now - (int) $session->get($key, 0) < DeviceLinks::RECORD_INTERVAL) {
+            return;
+        }
+        $session->set($key, $now);
+        $this->deviceLinks->record((int) $this->state->USER['id'], $deviceId, $now);
     }
 
     /**

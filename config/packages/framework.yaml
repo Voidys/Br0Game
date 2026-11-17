@@ -84,6 +84,15 @@ framework:
             policy: sliding_window
             limit: '%app.board_votes_per_day%'
             interval: '1 day'
+        # fleet launches and attacks per account and day (FleetDailyCaps; the cap itself is skipped when the parameter is 0)
+        fleet_launches:
+            policy: fixed_window
+            limit: '%app.fleet_launches_per_day%'
+            interval: '1 day'
+        fleet_attacks:
+            policy: fixed_window
+            limit: '%app.attacks_per_day%'
+            interval: '1 day'
         board_writes:
             policy: sliding_window
             limit: '%app.board_writes_per_day%'

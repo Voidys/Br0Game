@@ -8,6 +8,7 @@ use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
 use App\Game\Core\Singleton;
+use App\Security\FleetDailyCaps;
 use Exception;
 
 /**
@@ -63,6 +64,7 @@ class FleetDispatch
         protected Database $db,
         protected ConfigRegistry $configs,
         protected Singleton $state,
+        private readonly ?FleetDailyCaps $dailyCaps = null,
     ) {}
 
     /**
@@ -540,6 +542,11 @@ class FleetDispatch
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
+        // last check: a refused launch must not use up the daily quota (audit F-14)
+        $capped = $this->dailyCaps?->consume((int) $USER['id'], $this->targetMission);
+        if ($capped !== null) {
+            $this->refuse($this->state->LNG->format($capped['key'], $capped['limit'], $capped['hours'], $capped['minutes']), 'game?page=fleetTable');
+        }
         $id = $this->fleetFunctions()->sendFleet(
             $this->fleetArray,
             $this->targetMission,

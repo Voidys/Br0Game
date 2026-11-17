@@ -53,6 +53,7 @@ $dbTableNames   = [
     'FLEETS_EVENT'            => $prefix . 'fleet_event',
     'LOG'                     => $prefix . 'log',
     'HONOR_FIGHTS'            => $prefix . 'honor_fights',
+    'USER_DEVICES'            => $prefix . 'user_devices',
     'LOG_FLEETS'              => $prefix . 'log_fleets',
     'LOSTPASSWORD'            => $prefix . 'lostpassword',
     'NEWS'                    => $prefix . 'news',

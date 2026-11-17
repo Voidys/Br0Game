@@ -56,6 +56,7 @@ final class AbuseGuardsTest extends GameTestCase
             self::container()->get(\App\Security\AuthRateLimits::class),
             self::container()->get(\App\Runtime\CanonicalUrl::class),
         );
+        $controller->setFleetCaps(self::container()->get(\App\Security\FleetDailyCaps::class));
         if ($class === \App\Controller\Game\TicketController::class) {
             $controller->initialize();
         }

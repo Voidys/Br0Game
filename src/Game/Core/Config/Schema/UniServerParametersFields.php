@@ -244,7 +244,7 @@ final class UniServerParametersFields
             'depot_cost_real_consumption' => [
                 'type' => ConfigFieldSchema::TYPE_CHECKBOX,
                 'transform' => 'bool',
-                'default' => false,
+                'default' => true,
             ],
             'debug' => [
                 'type' => ConfigFieldSchema::TYPE_CHECKBOX,

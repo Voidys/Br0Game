@@ -109,6 +109,11 @@ class FleetMissileController extends AbstractGameController
             }
 
             if ($error == "") {
+                // last check: a refused launch must not use up the daily quota (audit F-14)
+                $capped = $this->fleetCaps->consume((int) $this->state->USER['id'], MISSION_MISSILE);
+                if ($capped !== null) {
+                    return $LNG->format($capped['key'], $capped['limit'], $capped['hours'], $capped['minutes']);
+                }
                 $this->launch($target, $targetGalaxy, $targetSystem, $targetPlanet, $targetType, $primaryTarget, $anz);
                 $sent = (int) $anz;
             }

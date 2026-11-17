@@ -642,6 +642,8 @@ fl_attack_confirm_buddy: |-
 fl_attack_confirm_diplo: 'You have a pact (%s) with %s. Attack anyway?'
 fl_attack_confirm_outlaw: 'Attacking %s will make you an outlaw for 7 days.'
 fl_bash_protection: That would break the bash rule.
+fl_daily_cap_reached: "Daily fleet limit of %1$d reached. It resets in %2$dh %3$dmin."
+fl_daily_attack_cap_reached: "Daily attack limit of %1$d reached. It resets in %2$dh %3$dmin."
 fl_beginning: Origin
 fl_blocked: ' does not accept invites.'
 fl_bonus: Bonus

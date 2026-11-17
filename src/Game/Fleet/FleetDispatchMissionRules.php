@@ -99,7 +99,7 @@ trait FleetDispatchMissionRules
     }
 
     /**
-     * Anti-push guard (audit F-02, off by default): with the universe setting transport_push_check on and
+     * Anti-push guard (audit F-02, on by default): with the universe setting transport_push_check on and
      * transport_push_limit above 0, a transport, hold or transfer to another player is refused when, over the last
      * 7 days, the value sent to that player (cargo, plus the ships of transfers; deuterium units at the current market
      * ratios, this fleet included) exceeds the value that player sent back by more than the limit.

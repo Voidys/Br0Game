@@ -117,6 +117,7 @@ final class CollusionGuardsTest extends GameTestCase
 
     public function testWarExemptionStillWorksForUnlinkedPlayers(): void
     {
+        $this->setUniverseConfig(['bash_war_exempt' => 1]);
         [, $planet] = $this->warScenario('10.8.8.1', '10.8.8.2');
         $this->assertFalse((new BashRules($this->db, $this->configs, $this->state))->checkBash((int) $planet['id']));
     }

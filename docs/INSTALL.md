@@ -256,16 +256,17 @@ not depend on it: they are built from `DEFAULT_URI`.
 
 ### Anti-abuse settings
 
-These universe settings decide how hard pushing and collusion are. Every default reproduces the classic rule, so a
-fresh universe is as open as the original game until you change them:
+These universe settings decide how hard pushing and collusion are. The defaults are the safe values (existing
+universes still on the former permissive defaults were switched by migration 1794902100). Operators may relax them;
+the admin overview warns while a setting is relaxed:
 
 | Setting | Default | Recommended | Effect |
 | --- | --- | --- | --- |
-| `transport_push_check` + `transport_push_limit` | off, `0` | on, e.g. `100000` | refuses transports, holds and transfers to another player when the 7-day value sent minus the value returned (deuterium units, transferred ships at cost) exceeds the limit; both must be set |
-| `market_push_tolerance` | `30` % | `10` | allowed value skew of a market trade |
-| `honor_pair_cap` | `0` (unlimited) | `3` | honourable fights per pair of players per day |
-| `bash_war_exempt` | on | off | a declared war lifts the bash limit (never between accounts sharing an IP or a multi group) |
-| `depot_cost_real_consumption` | off | on | alliance depot holds cost the fleet's real consumption |
+| `transport_push_check` + `transport_push_limit` | on, `100000` | on, e.g. `100000` | refuses transports, holds and transfers to another player when the 7-day value sent minus the value returned (deuterium units, transferred ships at cost) exceeds the limit; both must be set |
+| `market_push_tolerance` | `10` % | `10` | allowed value skew of a market trade |
+| `honor_pair_cap` | `3` | `3` (`0` = unlimited) | honourable fights per pair of players per day |
+| `bash_war_exempt` | off | off | a declared war lifts the bash limit (never between accounts sharing an IP or a multi group) |
+| `depot_cost_real_consumption` | on | on | alliance depot holds cost the fleet's real consumption |
 
 Always on, no setting: no rebuild protection after losing a fleet only to linked accounts (shared IP, multi group,
 alliance, buddy). By rule, interplanetary missile flights never occupy a fleet slot (they are still counted for bash
@@ -289,6 +290,10 @@ protection grants and late recalls for review.
   normal play never sees it. Tune or switch off with the `app.game_rate_limit.*` parameters in `config/services.yaml`
   (`enabled: false` turns it off); the board's daily caps are `app.board_votes_per_day` and `app.board_writes_per_day`.
   Counters live in the cache pool `cache.rate_limiter` (see above).
+- Optional daily fleet caps per account (`App\Security\FleetDailyCaps`, fixed window of 24 h from the first counted
+  launch), off by default (`0`): `app.fleet_launches_per_day` limits all fleet launches (including the galaxy spy and
+  recycle shortcuts and missiles, but not market purchase fleets), `app.attacks_per_day` limits attacks (attack, ACS
+  attack and join, destruction, missile). Set them in `config/services.yaml`; a refused launch is not counted.
 - Responses carry `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` and `Permissions-Policy` headers.
 
 ## Troubleshooting

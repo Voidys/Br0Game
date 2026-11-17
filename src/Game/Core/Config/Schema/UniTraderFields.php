@@ -38,18 +38,18 @@ final class UniTraderFields
                     'unit' => '%',
                     'min' => 0,
                     'max' => 90,
-                    'default' => 30,
+                    'default' => 10,
                 ],
                 'transport_push_check' => [
                     'type' => ConfigFieldSchema::TYPE_CHECKBOX,
                     'transform' => 'bool',
-                    'default' => false,
+                    'default' => true,
                 ],
                 'transport_push_limit' => [
                     'type' => ConfigFieldSchema::TYPE_NUMBER,
                     'transform' => 'int',
                     'min' => 0,
-                    'default' => 0,
+                    'default' => 100000,
                 ],
             ],
         ];

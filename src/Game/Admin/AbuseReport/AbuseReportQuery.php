@@ -21,6 +21,9 @@ use App\Game\Model\ElementCatalog;
  * (multi_to_users); a group both players were marked as known/allowed in is reported as "known". A shared /24 IPv4 (or
  * /64 IPv6) prefix of user_lastip with different addresses is only a weaker "same subnet" marker (`subnet`).
  *
+ * Device marker (`device`): the two players share a device_hash in USER_DEVICES (strong, like the IP); without that table
+ * there is no device data and the flag stays off.
+ *
  * Transfers: transports and holds count with their cargo; transfer missions (ships handed over) count with their cargo
  * plus the ships at their build cost (the log keeps the fleet string), so the ship value needs the element catalog.
  */
@@ -38,11 +41,27 @@ final class AbuseReportQuery
     /** value ratio between the two sides of a pair that is flagged (the market's push tolerance of 30 %) */
     public const TRADE_OUTLIER_RATIO = 1.3;
 
+    /** look-back window (days) of the trade graph, fixed independent of the `days` filter */
+    public const GRAPH_DAYS = 30;
+    /** an edge of the trade graph counts from this many MIN_TRANSFER_VALUEs moved in total (both directions) ... */
+    public const GRAPH_MIN_VALUE_FACTOR = 5;
+    /** ... and from this many flows (transport/hold/transfer fleets, trades, looting attacks) */
+    public const GRAPH_MIN_FLOWS = 3;
+    /** clusters listed at most */
+    public const GRAPH_MAX_CLUSTERS = 50;
+    /** rows read per source of the trade graph */
+    public const GRAPH_MAX_SOURCE_ROWS = 20000;
+    /** accounts listed in the activity hint (fleet launches of the last 24 hours) */
+    public const ACTIVITY_LIMIT = 20;
+
     /** cap of the directed pairs / transfer log rows read before the pair filter (the output stays capped by LIMIT) */
     private const MAX_SOURCE_ROWS = 5000;
 
     private const DEFAULT_MET_DEUT = 3.0;
     private const DEFAULT_CRYS_DEUT = 2.0;
+
+    /** @var string|null|false prefixed device table name, null = does not exist, false = not looked up yet */
+    private string|false|null $deviceTable = false;
 
     public function __construct(private readonly Database $db, private readonly ?ElementCatalog $elements = null) {}
 
@@ -54,7 +73,9 @@ final class AbuseReportQuery
      *     transfers: list<array<string, mixed>>,
      *     trades: list<array<string, mixed>>,
      *     protections: list<array<string, mixed>>,
-     *     recalls: list<array<string, mixed>>
+     *     recalls: list<array<string, mixed>>,
+     *     graph: list<array<string, mixed>>,
+     *     activity: list<array<string, mixed>>
      * }
      */
     public function report(int $universe, int $days, int $now): array
@@ -71,6 +92,8 @@ final class AbuseReportQuery
             'trades' => $this->trades($universe, $since, $weights),
             'protections' => $this->protections($universe, $since, $weights),
             'recalls' => $this->recalls($universe, $since),
+            'graph' => $this->tradeGraph($universe, $now - self::GRAPH_DAYS * 86400, $weights),
+            'activity' => $this->activity($universe, $now),
         ];
     }
 
@@ -96,38 +119,7 @@ final class AbuseReportQuery
      */
     private function transfers(int $universe, int $since, array $weights): array
     {
-        $value = sprintf('SUM(`resource_metal` + `resource_crystal` * %F + `resource_deuterium` * %F)', $weights['crystal'], $weights['deuterium']);
-        // flow[from][to] = [count, value, last]
-        $flow = [];
-        $add = static function (int $from, int $to, int $count, float $value, int $last) use (&$flow): void {
-            $entry = $flow[$from][$to] ?? [0, 0.0, 0];
-            $flow[$from][$to] = [$entry[0] + $count, $entry[1] + $value, max($entry[2], $last)];
-        };
-
-        $pairs = $this->db->select(
-            "SELECT `owner` AS a, `target_owner` AS b, COUNT(*) AS n, $value AS v, MAX(`start_time`) AS last
-            FROM %%LOG_FLEETS%%
-            WHERE `universe` = :universe AND `mission` IN (:transport, :hold) AND `owner` <> `target_owner` AND `target_owner` > 0
-                AND `hasCanceled` = 0 AND `start_time` >= :since
-            GROUP BY `owner`, `target_owner` ORDER BY v DESC LIMIT " . self::MAX_SOURCE_ROWS . ';',
-            [':universe' => $universe, ':transport' => MISSION_TRANSPORT, ':hold' => MISSION_HOLD, ':since' => $since],
-        );
-        foreach ($pairs as $row) {
-            $add((int) $row['a'], (int) $row['b'], (int) $row['n'], (float) $row['v'], (int) $row['last']);
-        }
-
-        $transfers = $this->db->select(
-            'SELECT `owner`, `target_owner`, `ships`, `start_time`, `resource_metal`, `resource_crystal`, `resource_deuterium`
-            FROM %%LOG_FLEETS%%
-            WHERE `universe` = :universe AND `mission` = :transfer AND `owner` <> `target_owner` AND `target_owner` > 0
-                AND `hasCanceled` = 0 AND `start_time` >= :since
-            ORDER BY `start_time` DESC LIMIT ' . self::MAX_SOURCE_ROWS . ';',
-            [':universe' => $universe, ':transfer' => MISSION_TRANSFER, ':since' => $since],
-        );
-        foreach ($transfers as $row) {
-            $cargo = (float) $row['resource_metal'] + (float) $row['resource_crystal'] * $weights['crystal'] + (float) $row['resource_deuterium'] * $weights['deuterium'];
-            $add((int) $row['owner'], (int) $row['target_owner'], 1, $cargo + $this->shipValue((string) $row['ships'], $weights), (int) $row['start_time']);
-        }
+        $flow = $this->transferFlow($universe, $since, $weights, self::MAX_SOURCE_ROWS);
 
         $rows = [];
         foreach ($flow as $from => $targets) {
@@ -144,6 +136,51 @@ final class AbuseReportQuery
         usort($rows, static fn(array $x, array $y): int => $y['net'] <=> $x['net']);
 
         return $this->withLinks(array_slice($rows, 0, self::LIMIT), 'from', 'to', $universe);
+    }
+
+    /**
+     * Directed value flows of transports/holds/transfers (not recalled) in the window.
+     *
+     * @param array{metal: float, crystal: float, deuterium: float} $weights
+     * @param int $limit cap of the pair / transfer rows read
+     * @return array<int, array<int, array{0: int, 1: float, 2: int}>> flow[from][to] = [count, value, last]
+     */
+    private function transferFlow(int $universe, int $since, array $weights, int $limit): array
+    {
+        $value = sprintf('SUM(`resource_metal` + `resource_crystal` * %F + `resource_deuterium` * %F)', $weights['crystal'], $weights['deuterium']);
+        // flow[from][to] = [count, value, last]
+        $flow = [];
+        $add = static function (int $from, int $to, int $count, float $value, int $last) use (&$flow): void {
+            $entry = $flow[$from][$to] ?? [0, 0.0, 0];
+            $flow[$from][$to] = [$entry[0] + $count, $entry[1] + $value, max($entry[2], $last)];
+        };
+
+        $pairs = $this->db->select(
+            "SELECT `owner` AS a, `target_owner` AS b, COUNT(*) AS n, $value AS v, MAX(`start_time`) AS last
+            FROM %%LOG_FLEETS%%
+            WHERE `universe` = :universe AND `mission` IN (:transport, :hold) AND `owner` <> `target_owner` AND `target_owner` > 0
+                AND `hasCanceled` = 0 AND `start_time` >= :since
+            GROUP BY `owner`, `target_owner` ORDER BY v DESC LIMIT " . $limit . ';',
+            [':universe' => $universe, ':transport' => MISSION_TRANSPORT, ':hold' => MISSION_HOLD, ':since' => $since],
+        );
+        foreach ($pairs as $row) {
+            $add((int) $row['a'], (int) $row['b'], (int) $row['n'], (float) $row['v'], (int) $row['last']);
+        }
+
+        $transfers = $this->db->select(
+            'SELECT `owner`, `target_owner`, `ships`, `start_time`, `resource_metal`, `resource_crystal`, `resource_deuterium`
+            FROM %%LOG_FLEETS%%
+            WHERE `universe` = :universe AND `mission` = :transfer AND `owner` <> `target_owner` AND `target_owner` > 0
+                AND `hasCanceled` = 0 AND `start_time` >= :since
+            ORDER BY `start_time` DESC LIMIT ' . $limit . ';',
+            [':universe' => $universe, ':transfer' => MISSION_TRANSFER, ':since' => $since],
+        );
+        foreach ($transfers as $row) {
+            $cargo = (float) $row['resource_metal'] + (float) $row['resource_crystal'] * $weights['crystal'] + (float) $row['resource_deuterium'] * $weights['deuterium'];
+            $add((int) $row['owner'], (int) $row['target_owner'], 1, $cargo + $this->shipValue((string) $row['ships'], $weights), (int) $row['start_time']);
+        }
+
+        return $flow;
     }
 
     /**
@@ -381,12 +418,12 @@ final class AbuseReportQuery
 
     /**
      * @param list<int> $ids
-     * @return array{names: array<int, string>, ips: array<int, string>, groups: array<int, array<int, bool>>} multi groups per user (id => allowed)
+     * @return array{names: array<int, string>, ips: array<int, string>, groups: array<int, array<int, bool>>, devices: array<int, array<string, true>>} multi groups per user (id => allowed), device hashes per user
      */
     private function linkData(array $ids, int $universe): array
     {
         $ids = array_values(array_unique(array_filter($ids, static fn(int $id): bool => $id > 0)));
-        $data = ['names' => [], 'ips' => [], 'groups' => []];
+        $data = ['names' => [], 'ips' => [], 'groups' => [], 'devices' => []];
         if ($ids === []) {
             return $data;
         }
@@ -403,13 +440,19 @@ final class AbuseReportQuery
         ) as $row) {
             $data['groups'][(int) $row['userID']][(int) $row['multiID']] = (int) $row['allowed'] === 1;
         }
+        $devices = $this->deviceTable();
+        if ($devices !== null) {
+            foreach ($this->db->select("SELECT `user_id`, `device_hash` FROM `$devices` WHERE `user_id` IN ($in);") as $row) {
+                $data['devices'][(int) $row['user_id']][(string) $row['device_hash']] = true;
+            }
+        }
 
         return $data;
     }
 
     /**
-     * @param array{names: array<int, string>, ips: array<int, string>, groups: array<int, array<int, bool>>} $links
-     * @return array{ip: bool, subnet: bool, multi: bool, multiKnown: bool}
+     * @param array{names: array<int, string>, ips: array<int, string>, groups: array<int, array<int, bool>>, devices: array<int, array<string, true>>} $links
+     * @return array{ip: bool, subnet: bool, multi: bool, multiKnown: bool, device: bool}
      */
     private function compare(array $links, int $a, int $b): array
     {
@@ -424,7 +467,216 @@ final class AbuseReportQuery
             $known = $known && $links['groups'][$a][$multiId] && $links['groups'][$b][$multiId];
         }
 
-        return ['ip' => $ip, 'subnet' => $subnet, 'multi' => $shared !== [], 'multiKnown' => $known];
+        $device = array_intersect_key($links['devices'][$a] ?? [], $links['devices'][$b] ?? []) !== [];
+
+        return ['ip' => $ip, 'subnet' => $subnet, 'multi' => $shared !== [], 'multiKnown' => $known, 'device' => $device];
+    }
+
+    /** Prefixed name of the device table (USER_DEVICES), null while it does not exist (then there is no device data). */
+    private function deviceTable(): ?string
+    {
+        if ($this->deviceTable === false) {
+            try {
+                $name = $this->db->table('USER_DEVICES');
+            } catch (\Throwable) {
+                $name = $this->db->getTablePrefix() . 'user_devices';
+            }
+            $found = $this->db->selectSingle(
+                'SELECT 1 FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = :name;',
+                [':name' => $name],
+            );
+            $this->deviceTable = $found ? $name : null;
+        }
+
+        return $this->deviceTable;
+    }
+
+    /**
+     * Value-flow clusters of the last GRAPH_DAYS days. Undirected graph of players: the edge weight is the value moved
+     * between two players in both directions by transports/holds/transfers (ships at build cost), completed market trades
+     * (both sides at the market ratios) and attack loot (gained resources of attack/ACS/destroy fleets, taken from the
+     * target). Only edges of at least GRAPH_MIN_VALUE_FACTOR x MIN_TRANSFER_VALUE and GRAPH_MIN_FLOWS flows connect
+     * players; connected components of at least two players are clusters, biggest total value first.
+     *
+     * @param array{metal: float, crystal: float, deuterium: float} $weights
+     * @return list<array<string, mixed>> members (id, name, link flags), value, flows, top (most one-sided edge)
+     */
+    private function tradeGraph(int $universe, int $since, array $weights): array
+    {
+        $limit = self::GRAPH_MAX_SOURCE_ROWS;
+        // edge[lo][hi] = [flows, value lo -> hi, value hi -> lo]
+        $edges = [];
+        $add = static function (int $from, int $to, int $count, float $value) use (&$edges): void {
+            if ($from === $to || $from <= 0 || $to <= 0) {
+                return;
+            }
+            $forward = $from < $to;
+            $lo = $forward ? $from : $to;
+            $hi = $forward ? $to : $from;
+            $edge = $edges[$lo][$hi] ?? [0, 0.0, 0.0];
+            $edge[0] += $count;
+            $edge[$forward ? 1 : 2] += $value;
+            $edges[$lo][$hi] = $edge;
+        };
+
+        foreach ($this->transferFlow($universe, $since, $weights, $limit) as $from => $targets) {
+            foreach ($targets as $to => [$count, $value]) {
+                $add($from, $to, $count, $value);
+            }
+        }
+
+        $unit = static fn(string $type, string $amount): string => sprintf(
+            '(%s * CASE %s WHEN 1 THEN 1 WHEN 2 THEN %F WHEN 3 THEN %F ELSE 0 END)',
+            $amount,
+            $type,
+            $weights['crystal'],
+            $weights['deuterium'],
+        );
+        $offered = $unit('t.`resource_type`', 't.`resource_amount`');
+        $wanted = $unit('t.`ex_resource_type`', 't.`ex_resource_amount`');
+        foreach ($this->db->select(
+            "SELECT s.`owner` AS seller, b.`owner` AS buyer, COUNT(*) AS n, SUM($offered) AS offered, SUM($wanted) AS wanted
+            FROM %%TRADES%% t
+            JOIN %%LOG_FLEETS%% s ON s.`id` = t.`seller_fleet_id`
+            JOIN %%LOG_FLEETS%% b ON b.`id` = t.`buyer_fleet_id`
+            WHERE t.`transaction_type` = 0 AND t.`buy_time` >= :since AND s.`universe` = :universe AND s.`owner` <> b.`owner`
+            GROUP BY s.`owner`, b.`owner` LIMIT $limit;",
+            [':since' => $this->db->formatDate($since), ':universe' => $universe],
+        ) as $row) {
+            // the seller gave the offered resources, the buyer the wanted ones
+            $add((int) $row['seller'], (int) $row['buyer'], (int) $row['n'], (float) $row['offered']);
+            $add((int) $row['buyer'], (int) $row['seller'], 0, (float) $row['wanted']);
+        }
+
+        // loot: the attacker takes resources from the target
+        $loot = sprintf('SUM(`gained_metal` + `gained_crystal` * %F + `gained_deuterium` * %F)', $weights['crystal'], $weights['deuterium']);
+        foreach ($this->db->select(
+            "SELECT `owner`, `target_owner`, COUNT(*) AS n, $loot AS v
+            FROM %%LOG_FLEETS%%
+            WHERE `universe` = :universe AND `mission` IN (:attack, :acs, :destroy) AND `owner` <> `target_owner` AND `target_owner` > 0
+                AND `start_time` >= :since AND `gained_metal` + `gained_crystal` + `gained_deuterium` > 0
+            GROUP BY `owner`, `target_owner` LIMIT $limit;",
+            [':universe' => $universe, ':attack' => MISSION_ATTACK, ':acs' => MISSION_ACS, ':destroy' => MISSION_DESTRUCTION, ':since' => $since],
+        ) as $row) {
+            $add((int) $row['target_owner'], (int) $row['owner'], (int) $row['n'], (float) $row['v']);
+        }
+
+        // union-find over the edges that reach the thresholds
+        $parent = [];
+        $find = static function (int $x) use (&$parent): int {
+            while ($parent[$x] !== $x) {
+                $parent[$x] = $parent[$parent[$x]];
+                $x = $parent[$x];
+            }
+
+            return $x;
+        };
+        $strong = [];
+        foreach ($edges as $lo => $targets) {
+            foreach ($targets as $hi => [$flows, $forward, $backward]) {
+                if ($flows < self::GRAPH_MIN_FLOWS || $forward + $backward < self::GRAPH_MIN_VALUE_FACTOR * self::MIN_TRANSFER_VALUE) {
+                    continue;
+                }
+                $parent[$lo] ??= $lo;
+                $parent[$hi] ??= $hi;
+                $parent[$find($lo)] = $find($hi);
+                $strong[] = [$lo, $hi, $flows, $forward, $backward];
+            }
+        }
+
+        /** @var array<int, array{ids: array<int, true>, value: float, flows: int, top: array{from: int, to: int, net: float, value: float, share: float}|null}> $clusters */
+        $clusters = [];
+        foreach ($strong as [$lo, $hi, $flows, $forward, $backward]) {
+            $root = $find($lo);
+            $cluster = &$clusters[$root];
+            $cluster ??= ['ids' => [], 'value' => 0.0, 'flows' => 0, 'top' => null];
+            $cluster['ids'][$lo] = $cluster['ids'][$hi] = true;
+            $cluster['value'] += $forward + $backward;
+            $cluster['flows'] += $flows;
+            $net = abs($forward - $backward);
+            if ($cluster['top'] === null || $net > $cluster['top']['net']) {
+                $cluster['top'] = [
+                    'from' => $forward >= $backward ? $lo : $hi, 'to' => $forward >= $backward ? $hi : $lo,
+                    'net' => $net, 'value' => $forward + $backward, 'share' => $forward + $backward > 0.0 ? $net / ($forward + $backward) : 0.0,
+                ];
+            }
+            unset($cluster);
+        }
+        usort($clusters, static fn(array $x, array $y): int => $y['value'] <=> $x['value']);
+        $clusters = array_slice($clusters, 0, self::GRAPH_MAX_CLUSTERS);
+
+        $allIds = [];
+        foreach ($clusters as $cluster) {
+            array_push($allIds, ...array_keys($cluster['ids']));
+        }
+        $links = $this->linkData($allIds, $universe);
+
+        $out = [];
+        foreach ($clusters as $cluster) {
+            $ids = array_keys($cluster['ids']);
+            $members = [];
+            foreach ($ids as $id) {
+                $member = ['id' => $id, 'name' => $links['names'][$id] ?? ('#' . $id), 'ip' => false, 'subnet' => false, 'multi' => false, 'multiKnown' => true, 'device' => false];
+                foreach ($ids as $other) {
+                    if ($other === $id) {
+                        continue;
+                    }
+                    $pair = $this->compare($links, $id, $other);
+                    $member['ip'] = $member['ip'] || $pair['ip'];
+                    $member['subnet'] = $member['subnet'] || $pair['subnet'];
+                    $member['device'] = $member['device'] || $pair['device'];
+                    if ($pair['multi']) {
+                        $member['multi'] = true;
+                        $member['multiKnown'] = $member['multiKnown'] && $pair['multiKnown'];
+                    }
+                }
+                $members[] = $member;
+            }
+            $top = $cluster['top'];
+            $top['fromName'] = $links['names'][$top['from']] ?? ('#' . $top['from']);
+            $top['toName'] = $links['names'][$top['to']] ?? ('#' . $top['to']);
+            $out[] = ['members' => $members, 'value' => $cluster['value'], 'flows' => $cluster['flows'], 'top' => $top];
+        }
+
+        return $out;
+    }
+
+    /**
+     * Accounts with the most fleet launches (LOG_FLEETS start_time) in the 24 hours before $now, with the busiest clock
+     * hour of that period (launches/hour peak) to spot scripted play.
+     *
+     * @return list<array{id: int, name: string, launches: int, peak: int}>
+     */
+    private function activity(int $universe, int $now): array
+    {
+        $since = $now - 86400;
+        $rows = $this->db->select(
+            'SELECT `owner`, MAX(`owner_name`) AS name, COUNT(*) AS n FROM %%LOG_FLEETS%%
+            WHERE `universe` = :universe AND `owner` > 0 AND `start_time` >= :since AND `start_time` <= :now
+            GROUP BY `owner` ORDER BY n DESC, `owner` ASC LIMIT ' . self::ACTIVITY_LIMIT . ';',
+            [':universe' => $universe, ':since' => $since, ':now' => $now],
+        );
+        if ($rows === []) {
+            return [];
+        }
+
+        $in = implode(',', array_map(static fn(array $row): int => (int) $row['owner'], $rows));
+        $peak = [];
+        foreach ($this->db->select(
+            "SELECT `owner`, COUNT(*) AS n FROM %%LOG_FLEETS%%
+            WHERE `owner` IN ($in) AND `universe` = :universe AND `start_time` >= :since AND `start_time` <= :now
+            GROUP BY `owner`, FLOOR(`start_time` / 3600);",
+            [':universe' => $universe, ':since' => $since, ':now' => $now],
+        ) as $row) {
+            $peak[(int) $row['owner']] = max($peak[(int) $row['owner']] ?? 0, (int) $row['n']);
+        }
+
+        return array_map(static fn(array $row): array => [
+            'id' => (int) $row['owner'],
+            'name' => (string) $row['name'],
+            'launches' => (int) $row['n'],
+            'peak' => $peak[(int) $row['owner']] ?? 0,
+        ], $rows);
     }
 
     /** The /24 prefix of an IPv4 address or the /64 prefix of an IPv6 address as hex, '' when empty or not an address. */

@@ -145,12 +145,12 @@ final class UniAttacksFields
             'bash_war_exempt' => [
                 'type' => ConfigFieldSchema::TYPE_CHECKBOX,
                 'transform' => 'bool',
-                'default' => true,
+                'default' => false,
             ],
             'honor_pair_cap' => [
                 'type' => ConfigFieldSchema::TYPE_NUMBER,
                 'transform' => 'int',
-                'default' => 0,
+                'default' => 3,
                 'min' => 0,
             ],
         ];

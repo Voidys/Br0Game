@@ -45,7 +45,7 @@ class FleetStep3Controller extends AbstractGameController
             $this->fleetFunctions()->gotoFleetPage(0);
         }
         try {
-            $variables = (new FleetDispatch($this->db, $this->configs, $this->state))->dispatch();
+            $variables = (new FleetDispatch($this->db, $this->configs, $this->state, $this->fleetCaps))->dispatch();
         } catch (FleetDispatchRefused $refused) {
             $this->printMessage($refused->getMessage(), $refused->buttons);
         }
