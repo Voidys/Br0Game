@@ -401,6 +401,15 @@ CREATE TABLE `%PREFIX%honor_fights` (
   KEY `time` (`time`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+CREATE TABLE `%PREFIX%user_devices` (
+  `user_id` int(11) unsigned NOT NULL,
+  `device_hash` char(64) NOT NULL,
+  `first_seen` int(11) unsigned NOT NULL,
+  `last_seen` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`user_id`, `device_hash`),
+  KEY `device` (`device_hash`)
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 CREATE TABLE `%PREFIX%log_fleets` (
   `id` bigint(11) unsigned NOT NULL,
   `group` varchar(15) NOT NULL DEFAULT '0',
