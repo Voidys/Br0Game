@@ -58,4 +58,32 @@ final readonly class ResourceCost
 
         return $result;
     }
+
+    /**
+     * All four resources keyed by resource id in the order metal, crystal, deuterium, energy: the shape of
+     * `$pricelist[$id]['cost']`.
+     *
+     * @return array<int, float>
+     */
+    public function toArray(): array
+    {
+        return [
+            RESOURCE_METAL => $this->metal,
+            RESOURCE_CRYSTAL => $this->crystal,
+            RESOURCE_DEUT => $this->deuterium,
+            RESOURCE_ENERGY => $this->energy,
+        ];
+    }
+
+    /** Metal plus crystal (`cost[901] + cost[902]`), the base of the structure points and debris. */
+    public function metalCrystal(): float
+    {
+        return $this->metal + $this->crystal;
+    }
+
+    /** Metal plus crystal plus deuterium (`cost[901] + cost[902] + cost[903]`), the base of the statistic points. */
+    public function metalCrystalDeuterium(): float
+    {
+        return $this->metal + $this->crystal + $this->deuterium;
+    }
 }

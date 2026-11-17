@@ -120,4 +120,18 @@ final readonly class Element
     {
         return $this->requirements[$elementId] ?? null;
     }
+
+    /**
+     * Fuel consumption of the first drive with a non-zero value (drive 1, 2, then 3), 0 when the element has none.
+     */
+    public function baseConsumption(): float
+    {
+        foreach ([1, 2, 3] as $drive) {
+            if ($this->consumption($drive) != 0) {
+                return $this->consumption($drive);
+            }
+        }
+
+        return 0.0;
+    }
 }

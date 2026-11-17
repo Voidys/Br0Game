@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
+use App\Game\Core\Cache;
 use App\Game\Core\GameUtilities;
+use App\Game\Core\Universe;
 use App\Game\Model\ElementCatalog;
 use App\Tests\Support\GameTestCase;
 
@@ -137,5 +139,116 @@ final class ElementCatalogTest extends GameTestCase
 
         $this->state->PLANET['metal'] = '20';
         $this->assertSame(20.0, $this->planet()->metal);
+    }
+
+    public function testWholeTablesKeepShapeAndOrderOfTheArrays(): void
+    {
+        $catalog = $this->catalog();
+        $state = $this->state;
+
+        $this->assertSame($state->resource, $catalog->columnMap());
+        $this->assertSame(array_keys($state->resource), array_keys($catalog->columnMap()));
+        $this->assertEquals($state->requeriments, $catalog->requirementMap());
+        $this->assertSame(array_keys($state->requeriments), array_keys($catalog->requirementMap()));
+        $this->assertEquals(array_map('array_values', $state->reslist['allow']), $catalog->allowedMap());
+        $this->assertEquals(array_map('array_values', $state->reslist['ship_type']), $catalog->shipTypes());
+        $this->assertEquals(array_map('array_values', $state->reslist['resstype']), $catalog->resourceTypes());
+        foreach (ElementCatalog::GROUPS as $group) {
+            $this->assertEquals(array_values($state->reslist[$group]), $catalog->groupMap()[$group]);
+        }
+        $this->assertSame(['metal', 'crystal'], $catalog->columns([RESOURCE_METAL, RESOURCE_CRYSTAL]));
+        $this->assertSame(RESOURCE_DEUT, $catalog->idOfColumn('deuterium'));
+        $this->assertNull($catalog->idOfColumn('no_such_column'));
+        $this->assertNull($catalog->find(999999));
+        $this->assertSame([], $catalog->requirements(999999));
+        foreach ($state->resource as $id => $column) {
+            foreach ([1, 3] as $type) {
+                $this->assertSame(in_array($id, $state->reslist['allow'][$type]), $catalog->isAllowedOn($id, $type));
+            }
+            foreach ($state->reslist['ship_type'] as $type => $ids) {
+                $this->assertSame(isset($ids[$id]), $catalog->isShipType($id, (string) $type));
+            }
+        }
+        $this->assertTrue($catalog->isResource(RESOURCE_ENERGY));
+        $this->assertFalse($catalog->isResource(1));
+        foreach ($state->resource as $id => $column) {
+            $this->assertSame($id, array_search($column, $state->resource, true));
+            $this->assertSame($id, $catalog->idOfColumn($column));
+        }
+    }
+
+    public function testShortcutsAndHelpersMatchTheArrays(): void
+    {
+        $catalog = $this->catalog();
+        $state = $this->state;
+
+        foreach ($state->resource as $id => $column) {
+            $price = $state->pricelist[$id] ?? [];
+            $caps = $state->CombatCaps[$id] ?? [];
+            $grid = $state->ProdGrid[$id] ?? [];
+
+            $this->assertSame($catalog->get($id)->cost, $catalog->cost($id));
+            $this->assertSame($catalog->get($id)->combat, $catalog->combat($id));
+            $this->assertEquals((float) ($price['factor'] ?? 0), $catalog->factor($id));
+            $this->assertEquals((float) ($price['capacity'] ?? 0), $catalog->capacity($id));
+            $this->assertSame(isset($price['max']) ? (int) $price['max'] : null, $catalog->maxLevel($id));
+
+            $costArray = $catalog->cost($id)->toArray();
+            $this->assertSame([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT, RESOURCE_ENERGY], array_keys($costArray));
+            foreach ($costArray as $resId => $amount) {
+                $this->assertEquals((float) ($price['cost'][$resId] ?? 0), $amount);
+            }
+            $this->assertEquals(
+                (float) ($price['cost'][901] ?? 0) + (float) ($price['cost'][902] ?? 0),
+                $catalog->cost($id)->metalCrystal(),
+            );
+            $this->assertEquals(
+                (float) ($price['cost'][901] ?? 0) + (float) ($price['cost'][902] ?? 0) + (float) ($price['cost'][903] ?? 0),
+                $catalog->cost($id)->metalCrystalDeuterium(),
+            );
+
+            // AllianceDepot::baseConsumption(): first non-empty consumption1..3
+            $expected = 0.0;
+            foreach (['consumption1', 'consumption2', 'consumption3'] as $key) {
+                if (!empty($price[$key])) {
+                    $expected = (float) $price[$key];
+                    break;
+                }
+            }
+            $this->assertEquals($expected, $catalog->get($id)->baseConsumption(), "$id base consumption");
+
+            foreach ($catalog->all() as $targetId => $_) {
+                $this->assertSame((int) ($caps['sd'][$targetId] ?? 0), $catalog->combat($id)->rapidFireAgainst($targetId));
+            }
+
+            foreach (['production', 'storage'] as $kind) {
+                $expectedFormulas = [];
+                foreach ($grid[$kind] ?? [] as $resId => $formula) {
+                    // the arrays only hold null or non-empty formulas, so isset() and "non-empty" mean the same
+                    $this->assertNotSame('', $formula, "$id $kind $resId is an empty formula");
+                    if ($formula !== null) {
+                        $expectedFormulas[$resId] = (string) $formula;
+                    }
+                }
+                $this->assertSame($expectedFormulas, $kind === 'production' ? $catalog->production($id) : $catalog->storage($id));
+                foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT, RESOURCE_ENERGY] as $resId) {
+                    $this->assertSame(
+                        isset($grid[$kind][$resId]) ? (string) $grid[$kind][$resId] : null,
+                        $kind === 'production' ? $catalog->productionFormula($id, $resId) : $catalog->storageFormula($id, $resId),
+                    );
+                }
+            }
+            $this->assertEquals($state->requeriments[$id] ?? [], $catalog->requirements($id));
+        }
+    }
+
+    public function testFromVarsDataEqualsTheStateBuiltCatalog(): void
+    {
+        $vars = (new Cache($this->db, $this->state))->getData('vars');
+        $universe = (new Universe($this->state))->current();
+
+        $this->assertEquals($this->catalog(), ElementCatalog::fromVarsData($vars, $universe));
+        // an unknown universe falls back to the defaults of universe 0
+        $this->assertEquals(ElementCatalog::fromVarsData($vars, 0), ElementCatalog::fromVarsData($vars, 987654));
     }
 }

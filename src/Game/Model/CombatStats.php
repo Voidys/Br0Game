@@ -21,6 +21,12 @@ final readonly class CombatStats
         public array $rapidFire,
     ) {}
 
+    /** Rapidfire shots against a target element (`$CombatCaps[$id]['sd'][$target] ?? 0`). */
+    public function rapidFireAgainst(int $target): int
+    {
+        return $this->rapidFire[$target] ?? 0;
+    }
+
     /**
      * @param array<string, mixed> $caps entry of `$CombatCaps`
      */

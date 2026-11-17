@@ -29,6 +29,7 @@ final class ElementCatalog
      * @param array<int, list<int>>      $allowed    planet type => building ids
      * @param array<string, list<int>>   $shipTypes  civil, military, recycler, unknown => ship ids
      * @param array<int, list<int>>      $resourceTypes resource type (1 tradable, 2 energy, 3 none) => resource ids
+     * @param array<int, array<int, int>> $requirementMap element id => [required id => level] in game data order
      */
     private function __construct(
         private readonly array $elements,
@@ -36,6 +37,7 @@ final class ElementCatalog
         private readonly array $allowed,
         private readonly array $shipTypes,
         private readonly array $resourceTypes,
+        private readonly array $requirementMap = [],
     ) {}
 
     /**
@@ -71,6 +73,13 @@ final class ElementCatalog
         $resourceTypes = [];
         foreach (is_array($reslist['resstype'] ?? null) ? $reslist['resstype'] : [] as $type => $ids) {
             $resourceTypes[(int) $type] = self::intList($ids);
+        }
+
+        $requirementMap = [];
+        foreach ($requeriments as $elementId => $required) {
+            foreach (is_array($required) ? $required : [] as $requiredId => $level) {
+                $requirementMap[(int) $elementId][(int) $requiredId] = (int) $level;
+            }
         }
 
         $elements = [];
@@ -123,7 +132,44 @@ final class ElementCatalog
             );
         }
 
-        return new self($elements, $groups, $allowed, $shipTypes, $resourceTypes);
+        return new self($elements, $groups, $allowed, $shipTypes, $resourceTypes, $requirementMap);
+    }
+
+    /**
+     * Catalog of one universe straight from the "vars" cache data (`Cache::getData('vars')`: universe id => the six
+     * arrays), without the state: universe 0 holds the defaults, the universe's own rows override them, then the
+     * fixed resources are added exactly like GameData::load() does (901 metal, 902 crystal, 903 deuterium, 911
+     * energy; groups `ressources` and `resstype` 1 tradable, 2 energy, 3 none).
+     *
+     * @param array<int, array<string, mixed>> $vars vars cache data by universe id (must contain 0)
+     */
+    public static function fromVarsData(array $vars, int $universe): self
+    {
+        $data = $vars[0] ?? [];
+        if (isset($vars[$universe])) {
+            $data = array_replace_recursive($data, $vars[$universe]);
+        }
+
+        $resource = is_array($data['resource'] ?? null) ? $data['resource'] : [];
+        $resource[RESOURCE_METAL] = 'metal';
+        $resource[RESOURCE_CRYSTAL] = 'crystal';
+        $resource[RESOURCE_DEUT] = 'deuterium';
+        $resource[RESOURCE_ENERGY] = 'energy';
+
+        $reslist = is_array($data['reslist'] ?? null) ? $data['reslist'] : [];
+        $reslist['ressources'] = [RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT, RESOURCE_ENERGY];
+        $reslist['resstype'][1] = [RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT];
+        $reslist['resstype'][2] = [RESOURCE_ENERGY];
+        $reslist['resstype'][3] = [];
+
+        return self::fromArrays(
+            $resource,
+            $reslist,
+            is_array($data['pricelist'] ?? null) ? $data['pricelist'] : [],
+            is_array($data['CombatCaps'] ?? null) ? $data['CombatCaps'] : [],
+            is_array($data['ProdGrid'] ?? null) ? $data['ProdGrid'] : [],
+            is_array($data['requeriments'] ?? null) ? $data['requeriments'] : [],
+        );
     }
 
     /** Catalog of the game data currently loaded in the state. */
@@ -207,6 +253,190 @@ final class ElementCatalog
     public function resourceIds(int $resourceType): array
     {
         return $this->resourceTypes[$resourceType] ?? [];
+    }
+
+    /** Element or null for an id the game data does not know (the tolerant counterpart of get()). */
+    public function find(int $id): ?Element
+    {
+        return $this->elements[$id] ?? null;
+    }
+
+    /**
+     * Columns of the given element ids, in the order of the given ids (list, not keyed by id).
+     *
+     * @param list<int> $ids
+     * @return list<string>
+     * @throws \OutOfBoundsException for an unknown id
+     */
+    public function columns(array $ids): array
+    {
+        return array_map(fn(int $id): string => $this->column($id), array_values($ids));
+    }
+
+    /**
+     * The whole element id => column table in game data order: exactly the shape of `$resource` (including 901, 902,
+     * 903, 911). For code that needs the full map (`User::fromState()`, `Planet::fromState()`, reverse lookups).
+     *
+     * @return array<int, string>
+     */
+    public function columnMap(): array
+    {
+        return array_map(static fn(Element $element): string => $element->column, $this->elements);
+    }
+
+    /** Element id of a database column (`array_search($column, $resource)`), null when no element uses it. */
+    public function idOfColumn(string $column): ?int
+    {
+        foreach ($this->elements as $id => $element) {
+            if ($element->column === $column) {
+                return $id;
+            }
+        }
+
+        return null;
+    }
+
+    /** Base cost (`$pricelist[$id]['cost']`). @throws \OutOfBoundsException for an unknown id */
+    public function cost(int $id): ResourceCost
+    {
+        return $this->get($id)->cost;
+    }
+
+    /** Combat values and rapidfire table (`$CombatCaps[$id]`). @throws \OutOfBoundsException for an unknown id */
+    public function combat(int $id): CombatStats
+    {
+        return $this->get($id)->combat;
+    }
+
+    /** Cost growth factor per level (`$pricelist[$id]['factor']`). */
+    public function factor(int $id): float
+    {
+        return $this->get($id)->factor;
+    }
+
+    /** Max level (`$pricelist[$id]['max']`), null when the data sets none. */
+    public function maxLevel(int $id): ?int
+    {
+        return $this->get($id)->maxLevel;
+    }
+
+    /** Cargo capacity of a ship (`$pricelist[$id]['capacity']`). */
+    public function capacity(int $id): float
+    {
+        return $this->get($id)->capacity;
+    }
+
+    /**
+     * Production formulas of an element by resource id, only the non-empty ones (`$ProdGrid[$id]['production']`
+     * entries that are set and not empty).
+     *
+     * @return array<int, string>
+     */
+    public function production(int $id): array
+    {
+        return $this->get($id)->production;
+    }
+
+    /**
+     * Storage formulas of an element by resource id, only the non-empty ones (`$ProdGrid[$id]['storage']`).
+     *
+     * @return array<int, string>
+     */
+    public function storage(int $id): array
+    {
+        return $this->get($id)->storage;
+    }
+
+    /** `$ProdGrid[$id]['production'][$resourceId]`, null when the element does not produce the resource. */
+    public function productionFormula(int $id, int $resourceId): ?string
+    {
+        return $this->get($id)->productionFormula($resourceId);
+    }
+
+    /** `$ProdGrid[$id]['storage'][$resourceId]`, null when the element does not store the resource. */
+    public function storageFormula(int $id, int $resourceId): ?string
+    {
+        return $this->get($id)->storageFormula($resourceId);
+    }
+
+    /**
+     * Requirements of one element, required id => level (`$requeriments[$id] ?? []`); empty for an element without
+     * requirements or an unknown id.
+     *
+     * @return array<int, int>
+     */
+    public function requirements(int $id): array
+    {
+        return $this->requirementMap[$id] ?? [];
+    }
+
+    /**
+     * The whole requirement table, element id => [required id => level], in game data order: the exact shape of
+     * `$requeriments` (only elements that have requirements). For `TechTree::build()`.
+     *
+     * @return array<int, array<int, int>>
+     */
+    public function requirementMap(): array
+    {
+        return $this->requirementMap;
+    }
+
+    /**
+     * All flat groups at once, group => ids (`ElementCatalog::GROUPS`), in game data order.
+     *
+     * @return array<string, list<int>>
+     */
+    public function groupMap(): array
+    {
+        return $this->groups;
+    }
+
+    /**
+     * Buildings per planet type (`$reslist['allow']`: 1 planet, 3 moon), for loops over every type.
+     *
+     * @return array<int, list<int>>
+     */
+    public function allowedMap(): array
+    {
+        return $this->allowed;
+    }
+
+    /**
+     * Ships per ship type (`$reslist['ship_type']`: unknown, civil, military, recycler), for loops over every type.
+     *
+     * @return array<string, list<int>>
+     */
+    public function shipTypes(): array
+    {
+        return $this->shipTypes;
+    }
+
+    /**
+     * Resource ids per resource type (`$reslist['resstype']`: 1 tradable, 2 energy, 3 none).
+     *
+     * @return array<int, list<int>>
+     */
+    public function resourceTypes(): array
+    {
+        return $this->resourceTypes;
+    }
+
+    /** `in_array($id, $reslist['allow'][$planetType])`: the building can be built on that planet type. */
+    public function isAllowedOn(int $id, int $planetType): bool
+    {
+        return in_array($id, $this->allowed[$planetType] ?? [], true);
+    }
+
+    /** `isset($reslist['ship_type'][$shipType][$id])`: the ship is of that type (civil, military, recycler, unknown). */
+    public function isShipType(int $id, string $shipType): bool
+    {
+        return in_array($id, $this->shipTypes[$shipType] ?? [], true);
+    }
+
+    /** One of the resources 901, 902, 903, 911 (`$reslist['ressources']`). */
+    public function isResource(int $id): bool
+    {
+        return in_array($id, $this->groups['ressources'], true);
     }
 
     public function isBuilding(int $id): bool
