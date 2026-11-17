@@ -45,7 +45,7 @@ final class DiscordTest extends TestCase
         self::assertSame('https://discord.com/api/webhooks/1/abc', $this->requests[0]['url']);
         self::assertContains('Content-type: application/json', $this->requests[0]['options']['headers']);
         self::assertSame(
-            ['content' => "**cron**\n```successful: 1\nlist: [1,2]\n```", 'username' => 'Br0Game', 'tts' => false, 'embeds' => []],
+            ['content' => "**cron**\n```successful: 1\nlist: [1,2]\n```", 'username' => 'Br0Game', 'tts' => false, 'allowed_mentions' => ['parse' => []], 'embeds' => []],
             json_decode($this->requests[0]['options']['body'], true),
         );
     }

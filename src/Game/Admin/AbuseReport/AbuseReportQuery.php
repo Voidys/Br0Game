@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Game\Admin\AbuseReport;
 
 use App\Game\Core\Database;
+use App\Game\Core\FleetString;
+use App\Game\Model\ElementCatalog;
 
 /**
  * Read-only queries behind the admin "Abuse report" (audit F-02, F-15, F-16, F-19 and the operator checklist): one-sided
@@ -16,7 +18,11 @@ use App\Game\Core\Database;
  * 1 deuterium = metDeut. With the defaults that is 1 : 1.5 : 3.
  *
  * Linked accounts: two players count as linked when they share the same non-empty users.user_lastip or a multi group
- * (multi_to_users); a group both players were marked as known/allowed in is reported as "known".
+ * (multi_to_users); a group both players were marked as known/allowed in is reported as "known". A shared /24 IPv4 (or
+ * /64 IPv6) prefix of user_lastip with different addresses is only a weaker "same subnet" marker (`subnet`).
+ *
+ * Transfers: transports and holds count with their cargo; transfer missions (ships handed over) count with their cargo
+ * plus the ships at their build cost (the log keeps the fleet string), so the ship value needs the element catalog.
  */
 final class AbuseReportQuery
 {
@@ -32,10 +38,13 @@ final class AbuseReportQuery
     /** value ratio between the two sides of a pair that is flagged (the market's push tolerance of 30 %) */
     public const TRADE_OUTLIER_RATIO = 1.3;
 
+    /** cap of the directed pairs / transfer log rows read before the pair filter (the output stays capped by LIMIT) */
+    private const MAX_SOURCE_ROWS = 5000;
+
     private const DEFAULT_MET_DEUT = 3.0;
     private const DEFAULT_CRYS_DEUT = 2.0;
 
-    public function __construct(private readonly Database $db) {}
+    public function __construct(private readonly Database $db, private readonly ?ElementCatalog $elements = null) {}
 
     /**
      * @return array{
@@ -78,8 +87,9 @@ final class AbuseReportQuery
     }
 
     /**
-     * Pairs where transports/holds (not recalled) of the window carried at least MIN_TRANSFER_VALUE one way and at most
-     * MAX_RETURN_SHARE of that value came back, biggest net flow first.
+     * Pairs where transports/holds/transfers (not recalled) of the window carried at least MIN_TRANSFER_VALUE one way and
+     * at most MAX_RETURN_SHARE of that value came back, biggest net flow first. Transfer missions add their ships at build
+     * cost to the value.
      *
      * @param array{metal: float, crystal: float, deuterium: float} $weights
      * @return list<array<string, mixed>> from, to, count, sent, back, backCount, net, last (timestamp) + link flags and names
@@ -87,29 +97,74 @@ final class AbuseReportQuery
     private function transfers(int $universe, int $since, array $weights): array
     {
         $value = sprintf('SUM(`resource_metal` + `resource_crystal` * %F + `resource_deuterium` * %F)', $weights['crystal'], $weights['deuterium']);
-        // Database::select() only accepts statements starting with SELECT, so the per-direction sums are a derived table used twice
-        $flow = "SELECT `owner` AS a, `target_owner` AS b, COUNT(*) AS n, $value AS v, MAX(`start_time`) AS last
-                FROM %%LOG_FLEETS%%
-                WHERE `universe` = :universe AND `mission` IN (:transport, :hold) AND `owner` <> `target_owner` AND `target_owner` > 0
-                    AND `hasCanceled` = 0 AND `start_time` >= :since
-                GROUP BY `owner`, `target_owner`";
-        $sql = "SELECT f.a AS `from`, f.b AS `to`, f.n AS `count`, f.v AS sent, f.last, COALESCE(r.v, 0) AS back, COALESCE(r.n, 0) AS backCount,
-                f.v - COALESCE(r.v, 0) AS net
-            FROM ($flow) f LEFT JOIN ($flow) r ON r.a = f.b AND r.b = f.a
-            WHERE f.v >= :minValue AND COALESCE(r.v, 0) <= f.v * :maxShare
-            ORDER BY net DESC
-            LIMIT " . self::LIMIT . ';';
+        // flow[from][to] = [count, value, last]
+        $flow = [];
+        $add = static function (int $from, int $to, int $count, float $value, int $last) use (&$flow): void {
+            $entry = $flow[$from][$to] ?? [0, 0.0, 0];
+            $flow[$from][$to] = [$entry[0] + $count, $entry[1] + $value, max($entry[2], $last)];
+        };
 
-        $rows = $this->db->select($sql, [
-            ':universe' => $universe,
-            ':transport' => MISSION_TRANSPORT,
-            ':hold' => MISSION_HOLD,
-            ':since' => $since,
-            ':minValue' => self::MIN_TRANSFER_VALUE,
-            ':maxShare' => self::MAX_RETURN_SHARE,
-        ]);
+        $pairs = $this->db->select(
+            "SELECT `owner` AS a, `target_owner` AS b, COUNT(*) AS n, $value AS v, MAX(`start_time`) AS last
+            FROM %%LOG_FLEETS%%
+            WHERE `universe` = :universe AND `mission` IN (:transport, :hold) AND `owner` <> `target_owner` AND `target_owner` > 0
+                AND `hasCanceled` = 0 AND `start_time` >= :since
+            GROUP BY `owner`, `target_owner` ORDER BY v DESC LIMIT " . self::MAX_SOURCE_ROWS . ';',
+            [':universe' => $universe, ':transport' => MISSION_TRANSPORT, ':hold' => MISSION_HOLD, ':since' => $since],
+        );
+        foreach ($pairs as $row) {
+            $add((int) $row['a'], (int) $row['b'], (int) $row['n'], (float) $row['v'], (int) $row['last']);
+        }
 
-        return $this->withLinks($rows, 'from', 'to', $universe);
+        $transfers = $this->db->select(
+            'SELECT `owner`, `target_owner`, `ships`, `start_time`, `resource_metal`, `resource_crystal`, `resource_deuterium`
+            FROM %%LOG_FLEETS%%
+            WHERE `universe` = :universe AND `mission` = :transfer AND `owner` <> `target_owner` AND `target_owner` > 0
+                AND `hasCanceled` = 0 AND `start_time` >= :since
+            ORDER BY `start_time` DESC LIMIT ' . self::MAX_SOURCE_ROWS . ';',
+            [':universe' => $universe, ':transfer' => MISSION_TRANSFER, ':since' => $since],
+        );
+        foreach ($transfers as $row) {
+            $cargo = (float) $row['resource_metal'] + (float) $row['resource_crystal'] * $weights['crystal'] + (float) $row['resource_deuterium'] * $weights['deuterium'];
+            $add((int) $row['owner'], (int) $row['target_owner'], 1, $cargo + $this->shipValue((string) $row['ships'], $weights), (int) $row['start_time']);
+        }
+
+        $rows = [];
+        foreach ($flow as $from => $targets) {
+            foreach ($targets as $to => [$count, $sent, $last]) {
+                $back = $flow[$to][$from] ?? [0, 0.0, 0];
+                if ($sent >= self::MIN_TRANSFER_VALUE && $back[1] <= $sent * self::MAX_RETURN_SHARE) {
+                    $rows[] = [
+                        'from' => $from, 'to' => $to, 'count' => $count, 'sent' => $sent, 'last' => $last,
+                        'back' => $back[1], 'backCount' => $back[0], 'net' => $sent - $back[1],
+                    ];
+                }
+            }
+        }
+        usort($rows, static fn(array $x, array $y): int => $y['net'] <=> $x['net']);
+
+        return $this->withLinks(array_slice($rows, 0, self::LIMIT), 'from', 'to', $universe);
+    }
+
+    /**
+     * Build cost of a fleet string ("id,count;id,count") in metal units; unknown ids and a missing catalog count as 0.
+     *
+     * @param array{metal: float, crystal: float, deuterium: float} $weights
+     */
+    private function shipValue(string $ships, array $weights): float
+    {
+        if ($this->elements === null || $ships === '') {
+            return 0.0;
+        }
+        $value = 0.0;
+        foreach ((new FleetString())->unserialize($ships) as $id => $count) {
+            $cost = $this->elements->find((int) $id)?->cost;
+            if ($cost !== null) {
+                $value += ($cost->metal + $cost->crystal * $weights['crystal'] + $cost->deuterium * $weights['deuterium']) * (float) $count;
+            }
+        }
+
+        return $value;
     }
 
     /**
@@ -264,7 +319,7 @@ final class AbuseReportQuery
     /**
      * @param list<int> $opponentIds
      * @param array{metal: float, crystal: float, deuterium: float} $weights
-     * @return list<array{id: int, name: string, loot: float, ip: bool, multi: bool, multiKnown: bool}>
+     * @return list<array{id: int, name: string, loot: float, ip: bool, subnet: bool, multi: bool, multiKnown: bool}>
      */
     private function opponents(array $opponentIds, string $reportId, array $weights, int $userId, int $universe): array
     {
@@ -298,7 +353,7 @@ final class AbuseReportQuery
     }
 
     /**
-     * Adds the names and the link flags (ip, multi, multiKnown) of the two players in every row.
+     * Adds the names and the link flags (ip, subnet, multi, multiKnown) of the two players in every row.
      *
      * @param list<array<string, mixed>> $rows
      * @return list<array<string, mixed>>
@@ -354,18 +409,32 @@ final class AbuseReportQuery
 
     /**
      * @param array{names: array<int, string>, ips: array<int, string>, groups: array<int, array<int, bool>>} $links
-     * @return array{ip: bool, multi: bool, multiKnown: bool}
+     * @return array{ip: bool, subnet: bool, multi: bool, multiKnown: bool}
      */
     private function compare(array $links, int $a, int $b): array
     {
         $ipA = $links['ips'][$a] ?? '';
-        $ip = $ipA !== '' && $ipA === ($links['ips'][$b] ?? '');
+        $ipB = $links['ips'][$b] ?? '';
+        $ip = $ipA !== '' && $ipA === $ipB;
+        $prefix = $this->subnetPrefix($ipA);
+        $subnet = !$ip && $prefix !== '' && $prefix === $this->subnetPrefix($ipB);
         $shared = array_intersect_key($links['groups'][$a] ?? [], $links['groups'][$b] ?? []);
         $known = $shared !== [];
         foreach (array_keys($shared) as $multiId) {
             $known = $known && $links['groups'][$a][$multiId] && $links['groups'][$b][$multiId];
         }
 
-        return ['ip' => $ip, 'multi' => $shared !== [], 'multiKnown' => $known];
+        return ['ip' => $ip, 'subnet' => $subnet, 'multi' => $shared !== [], 'multiKnown' => $known];
+    }
+
+    /** The /24 prefix of an IPv4 address or the /64 prefix of an IPv6 address as hex, '' when empty or not an address. */
+    private function subnetPrefix(string $ip): string
+    {
+        $packed = $ip === '' ? false : @inet_pton($ip);
+        if ($packed === false) {
+            return '';
+        }
+
+        return bin2hex(substr($packed, 0, strlen($packed) === 4 ? 3 : 8));
     }
 }

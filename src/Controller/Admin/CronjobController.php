@@ -74,6 +74,10 @@ class CronjobController extends AbstractAdminController
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
+        if (($this->state->requestServer['REQUEST_METHOD'] ?? '') !== 'POST') {
+            // GET only shows the form (action=edit is exempt from the GET token rules); changes need POST (with token)
+            return $this->ShowCronjobDetail($post_id);
+        }
         $post_name = $this->http()->_GP('name', '');
         $post_min = $this->checkPostData('min', 59);
         $post_hours = $this->checkPostData('hours', 23);

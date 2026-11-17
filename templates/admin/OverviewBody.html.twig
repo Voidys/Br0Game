@@ -13,6 +13,17 @@
   {% else %}
     <div class="notice notice--success">{{ icon('circle-check') }}<div>{{ LNG.adm_dash_all_good }}</div></div>
   {% endif %}
+  {% if unprotected %}
+    <div class="notice notice--warning" role="alert">
+      {{ icon('triangle-alert') }}
+      <div>
+        <strong>{{ LNG.adm_dash_unprotected }}</strong>
+        <ul>
+          {% for line in unprotected %}<li>{{ line }}</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
 
   <div class="stats">
     <a class="stat" href="admin?page=search&amp;search=online">

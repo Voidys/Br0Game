@@ -19,7 +19,7 @@ final class AbuseReportQueryTest extends GameTestCase
     /** @return array<string, mixed> */
     private function query(int $days = 7): array
     {
-        return (new AbuseReportQuery($this->db))->report(1, $days, self::NOW);
+        return (new AbuseReportQuery($this->db, $this->elements()))->report(1, $days, self::NOW);
     }
 
     /** @param array<string, mixed> $values */
@@ -104,8 +104,51 @@ final class AbuseReportQueryTest extends GameTestCase
 
         $this->assertCount(1, $transfers);
         $this->assertFalse($transfers[0]['ip']);
+        $this->assertFalse($transfers[0]['subnet']);
         $this->assertTrue($transfers[0]['multi']);
         $this->assertTrue($transfers[0]['multiKnown']);
+    }
+
+    public function testShipTransferIsValuedAtBuildCostWithCargo(): void
+    {
+        [$a] = $this->createPlayer(['user_lastip' => '10.5.5.5']);
+        [$b] = $this->createPlayer(['user_lastip' => '10.5.5.77']);
+        $a = (int) $a['id'];
+        $b = (int) $b['id'];
+        $cost = $this->elements()->get(202)->cost;
+        $weights = (new AbuseReportQuery($this->db))->weights(1);
+        $each = $cost->metal + $cost->crystal * $weights['crystal'] + $cost->deuterium * $weights['deuterium'];
+        $this->assertGreaterThan(0.0, $each);
+
+        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => MISSION_TRANSFER, 'ships' => '202,10', 'resource_metal' => 100]);
+        // a recalled transfer is ignored
+        $this->logFleet(['owner' => $a, 'target_owner' => $b, 'mission' => MISSION_TRANSFER, 'ships' => '202,10', 'hasCanceled' => 1]);
+
+        $transfers = $this->query()['transfers'];
+
+        $this->assertCount(1, $transfers);
+        $this->assertSame($a, (int) $transfers[0]['from']);
+        $this->assertSame(1, (int) $transfers[0]['count']);
+        $this->assertEqualsWithDelta(10 * $each + 100, $transfers[0]['sent'], 0.01);
+        $this->assertFalse($transfers[0]['ip']);
+        $this->assertTrue($transfers[0]['subnet'], 'same /24 with different addresses is the weaker marker');
+    }
+
+    public function testSubnetPrefixLinksIpv4AndIpv6(): void
+    {
+        [$a] = $this->createPlayer(['user_lastip' => '2001:db8:1:2:aaaa::1']);
+        [$b] = $this->createPlayer(['user_lastip' => '2001:db8:1:2:bbbb::9']);
+        [$c] = $this->createPlayer(['user_lastip' => '2001:db8:1:3::1']);
+        $this->logFleet(['owner' => (int) $a['id'], 'target_owner' => (int) $b['id'], 'resource_metal' => 5000]);
+        $this->logFleet(['owner' => (int) $a['id'], 'target_owner' => (int) $c['id'], 'resource_metal' => 4000]);
+
+        $byTarget = [];
+        foreach ($this->query()['transfers'] as $row) {
+            $byTarget[(int) $row['to']] = $row;
+        }
+
+        $this->assertTrue($byTarget[(int) $b['id']]['subnet']);
+        $this->assertFalse($byTarget[(int) $c['id']]['subnet']);
     }
 
     public function testRepeatedSkewedTradesAreFlagged(): void

@@ -14,7 +14,9 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
  *
  * - state-changing requests (every unsafe method, plus the GET links of CsrfPolicy::GET_RULES) use the
  *   "game_actions" token bucket;
- * - expensive reads (galaxy, player card, search, statistics, battle hall, battle reports, records) use "game_reads".
+ * - expensive reads (galaxy, player card, search, statistics, battle hall, battle reports, records, and the read-only
+ *   AJAX modes of the fleet steps and the message player search) use "game_reads";
+ * - visitors without a login are limited per client IP ("game_anonymous") on the public pages (battle reports, board).
  *
  * A page counts once, in the reads bucket when it is one of the expensive pages, otherwise in the actions bucket
  * when it changes state. Everything else (overview, menus, plain reads) is not limited. Buckets and the
@@ -22,8 +24,14 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
  */
 final class GameRateLimits
 {
-    /** lower-case page names of the expensive read pages */
-    private const EXPENSIVE_PAGES = ['galaxy', 'playercard', 'search', 'statistics', 'battlehall', 'raport', 'records'];
+    /** lower-case page names ("page") or page and mode ("page:mode") of the expensive reads */
+    private const EXPENSIVE_PAGES = [
+        'galaxy', 'playercard', 'search', 'statistics', 'battlehall', 'raport', 'records',
+        'fleetstep1:checktarget', 'fleetstep2:checkresources', 'messages:loaduser',
+    ];
+
+    /** pages (lower case) that can be opened without a login */
+    private const ANONYMOUS_PAGES = [['game', 'raport'], ['account', 'board']];
 
     private const LIMITED_AREAS = ['game', 'account'];
 
@@ -32,6 +40,8 @@ final class GameRateLimits
         private readonly RateLimiterFactoryInterface $actions,
         #[Autowire(service: 'limiter.game_reads')]
         private readonly RateLimiterFactoryInterface $reads,
+        #[Autowire(service: 'limiter.game_anonymous')]
+        private readonly RateLimiterFactoryInterface $anonymous,
         private readonly CsrfPolicy $policy,
         #[Autowire('%app.game_rate_limit.enabled%')]
         private readonly bool $enabled,
@@ -53,7 +63,7 @@ final class GameRateLimits
             return null;
         }
 
-        if ($area === 'game' && in_array($page, self::EXPENSIVE_PAGES, true)) {
+        if ($area === 'game' && $this->isExpensive($request, $page)) {
             $factory = $this->reads;
         } elseif ($this->policy->requiresToken($request)) {
             $factory = $this->actions;
@@ -67,5 +77,37 @@ final class GameRateLimits
         }
 
         return max(1, $limit->getRetryAfter()->getTimestamp() - time());
+    }
+
+    /**
+     * Counts a request of a visitor without a login against his IP, for the public pages only (battle reports, board).
+     *
+     * @phpstan-impure
+     * @return int|null null = allowed (or not covered); otherwise the seconds until the next request is accepted (at least 1)
+     */
+    public function checkAnonymous(Request $request, ?string $ip): ?int
+    {
+        if (!$this->enabled || $ip === null || !$this->policy->isGameRequest($request)) {
+            return null;
+        }
+        if (!in_array($this->policy->areaAndPage($request), self::ANONYMOUS_PAGES, true)) {
+            return null;
+        }
+        $limit = $this->anonymous->create($ip)->consume();
+        if ($limit->isAccepted()) {
+            return null;
+        }
+
+        return max(1, $limit->getRetryAfter()->getTimestamp() - time());
+    }
+
+    private function isExpensive(Request $request, string $page): bool
+    {
+        if (in_array($page, self::EXPENSIVE_PAGES, true)) {
+            return true;
+        }
+        $mode = $this->policy->queryValue($request, 'mode');
+
+        return $mode !== null && in_array($page . ':' . $mode, self::EXPENSIVE_PAGES, true);
     }
 }

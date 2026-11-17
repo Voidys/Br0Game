@@ -23,9 +23,12 @@ parameters:
     app.game_rate_limit.read_burst: 60
     app.game_rate_limit.read_interval: '1 second'
     app.game_rate_limit.read_amount: 2
+    app.game_rate_limit.anonymous_burst: 30
+    app.game_rate_limit.anonymous_interval: '2 seconds'
     # board: votes and posts+comments one account may make per day (sliding window)
     app.board_votes_per_day: 200
     app.board_writes_per_day: 50
+    app.alliance_applications_per_day: 10
     app.table_prefix: '%env(TABLE_PREFIX)%'
     # Content-Security-Policy: CSP_MODE=enforce|report|off (default enforce); in "enforce" mode only these
     # areas (game, login, account, admin, install) are enforced, the others are report-only until verified

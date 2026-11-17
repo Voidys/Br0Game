@@ -139,6 +139,7 @@ class Discord
             'content' => $message,
             'username' => (string) $this->configs->get()->game_name,
             'tts' => false,
+            'allowed_mentions' => ['parse' => []],
             'embeds' => [],
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }

@@ -193,6 +193,9 @@ class AllianceController extends AbstractGameController
             $allianceResult = $applications->applicationTarget($allianceId);
 
             if (!empty($text)) {
+                if (!$this->rateLimits->allowAllianceApplication((int) $this->state->USER['id'])) {
+                    throw AllianceException::message($LNG['al_apply_rate_limited'], $LNG['sys_forward'], '?page=alliance');
+                }
                 $applications->submit($allianceId, $text);
 
                 $this->printMessage(AllianceText::html($LNG, 'al_request_confirmation_message'), [[
@@ -594,7 +597,7 @@ class AllianceController extends AbstractGameController
             if (!empty($newRank['rankName'])) {
                 $ranks->create($this->allianceData, $this->rights, $newRank);
             } elseif (!empty($delete)) {
-                $ranks->delete($this->allianceData, $delete);
+                $ranks->delete($this->allianceData, $this->rights, $delete);
             } else {
                 $ranks->update($this->allianceData, $this->rights, $rankData);
             }

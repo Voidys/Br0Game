@@ -85,7 +85,27 @@ class OverviewController extends AbstractAdminController
             'cronjobs' => count($cronjobs),
         ];
 
+        $unprotected = [];
+        if ($USER['authlevel'] >= AUTH_ADM) {
+            if (!$config->transport_push_check || (float) $config->transport_push_limit <= 0) {
+                $unprotected[] = $LNG['adm_dash_unprotected_push'];
+            }
+            if ((int) $config->honor_pair_cap === 0) {
+                $unprotected[] = $LNG['adm_dash_unprotected_honor'];
+            }
+            if ($config->bash_war_exempt) {
+                $unprotected[] = $LNG['adm_dash_unprotected_bash'];
+            }
+            if (!$config->depot_cost_real_consumption) {
+                $unprotected[] = $LNG['adm_dash_unprotected_depot'];
+            }
+            if ((int) $config->market_push_tolerance > 10) {
+                $unprotected[] = $LNG['adm_dash_unprotected_market'];
+            }
+        }
+
         $this->assign([
+            'unprotected'       => $unprotected,
             'Messages'          => $Message,
             'stats'             => $stats,
             'system'            => $system,

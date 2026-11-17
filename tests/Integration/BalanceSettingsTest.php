@@ -149,6 +149,21 @@ final class BalanceSettingsTest extends GameTestCase
         $this->assertSame(2, $this->honorFights((int) $d['id']));
     }
 
+    public function testHonorPairCapAlsoCoversMultiFights(): void
+    {
+        $this->setUniverseConfig(['honor_pair_cap' => 1]);
+        [$a, $d] = $this->honorPair();
+        $honor = new HonorPoints($this->db, $this->configs, $this->state);
+        $attackers = [1 => ['player' => ['id' => $a['id'], 'username' => $a['username']], 'unit' => [202 => 10]]];
+        $defenders = [2 => ['player' => ['id' => $d['id'], 'username' => $d['username']], 'unit' => [202 => 10]]];
+
+        $honor->calculate_honorpoints_multi($attackers, $defenders, 1000000, 1000000);
+        $this->assertSame(1, $this->honorFights((int) $a['id']));
+        $honor->calculate_honorpoints_multi($attackers, $defenders, 1000000, 1000000);
+        $this->assertSame(1, $this->honorFights((int) $a['id']));
+        $this->assertSame(1, $this->honorFights((int) $d['id']));
+    }
+
     /** @var list<int> fleets created by dispatches */
     private array $fleetIds = [];
 
@@ -168,7 +183,7 @@ final class BalanceSettingsTest extends GameTestCase
      *
      * @param array<string, mixed> $config universe settings
      */
-    private function transport(array $config, bool $toOwnPlanet = false, bool $receiverSentBack = false): ?string
+    private function transport(array $config, bool $toOwnPlanet = false, int $returnedMetal = 0, int $sentBeforeMetal = 0, string $sentBeforeShips = '', int $sentBeforeMission = MISSION_TRANSPORT): ?string
     {
         $lng = new Language($this->configs, 'en');
         $lng->includeData(['L18N', 'INGAME', 'TECH', 'FLEET', 'CUSTOM']);
@@ -184,11 +199,15 @@ final class BalanceSettingsTest extends GameTestCase
         [$user, $planet] = $this->createPlayer([], [$resource[203] => 20, 'metal' => 1e6, 'crystal' => 1e6, 'deuterium' => 1e6]);
         [$other, $otherPlanet] = $this->createPlayer();
         $target = $toOwnPlanet ? $this->createPlanetFor($user) : $otherPlanet;
-        if ($receiverSentBack) {
-            $this->db->insert(
-                'INSERT INTO %%LOG_FLEETS%% SET id = :id, `group` = 0, universe = 1, mission = :m, owner = :o, target_owner = :t, start_id = 0, end_id = 0, ships = \'202,1\', start_time = :st, arrival_time = :st, resource_metal = 5000, hasCanceled = 0;',
-                [':id' => mt_rand(100000000, 900000000), ':m' => MISSION_TRANSPORT, ':o' => $other['id'], ':t' => $user['id'], ':st' => $this->state->runtime->timestamp - 3 * ONE_DAY],
-            );
+        $log = fn(int $from, int $to, int $mission, string $ships, int $metal) => $this->db->insert(
+            'INSERT INTO %%LOG_FLEETS%% SET id = :id, `group` = 0, universe = 1, mission = :m, owner = :o, target_owner = :t, start_id = 0, end_id = 0, ships = :s, start_time = :st, arrival_time = :st, resource_metal = :metal, hasCanceled = 0;',
+            [':id' => mt_rand(100000000, 900000000), ':m' => $mission, ':o' => $from, ':t' => $to, ':s' => $ships, ':st' => $this->state->runtime->timestamp - 3 * ONE_DAY, ':metal' => $metal],
+        );
+        if ($returnedMetal > 0) {
+            $log((int) $other['id'], (int) $user['id'], MISSION_TRANSPORT, '202,1', $returnedMetal);
+        }
+        if ($sentBeforeMetal > 0 || $sentBeforeShips !== '') {
+            $log((int) $user['id'], (int) $other['id'], $sentBeforeMission, $sentBeforeShips ?: '202,1', $sentBeforeMetal);
         }
         $this->state->USER = $user;
         $this->state->PLANET = $planet;
@@ -246,9 +265,59 @@ final class BalanceSettingsTest extends GameTestCase
         $this->assertSame($this->state->LNG['fl_push_guard'], $message);
     }
 
-    public function testTransportIsAllowedWhenTheReceiverSentResourcesBack(): void
+    public function testTransportIsAllowedWhenTheReceiverSentAnEqualValueBack(): void
     {
-        $this->assertNull($this->transport(['transport_push_check' => 1, 'transport_push_limit' => 1000], false, true));
+        $this->assertNull($this->transport(['transport_push_check' => 1, 'transport_push_limit' => 1000], false, 100000));
+    }
+
+    public function testAOneUnitReturnDoesNotUnlockTheGuard(): void
+    {
+        $message = $this->transport(['transport_push_check' => 1, 'transport_push_limit' => 1000], false, 1);
+        $this->assertSame($this->state->LNG['fl_push_guard'], $message);
+    }
+
+    public function testEarlierOutgoingTransfersCountWithTheirShips(): void
+    {
+        // 20 large cargos handed over earlier are worth more than the limit, so even a small transport is refused
+        $config = ['transport_push_check' => 1, 'transport_push_limit' => 150000];
+        $message = $this->transport($config, false, 0, 0, '203,20', MISSION_TRANSFER);
+        $this->assertSame($this->state->LNG['fl_push_guard'], $message);
+    }
+
+    public function testTransferIsCheckedByThePushGuard(): void
+    {
+        $this->setUniverseConfig(['transport_push_check' => 1, 'transport_push_limit' => 1000]);
+        $this->expectException(FleetDispatchRefused::class);
+        $this->transferGuard()();
+    }
+
+    public function testTransferPassesWithTheGuardOffByDefault(): void
+    {
+        // the in-memory settings of earlier tests persist: back to the schema defaults
+        $this->setUniverseConfig(['transport_push_check' => false, 'transport_push_limit' => 0]);
+        $this->transferGuard()();
+        $this->addToAssertionCount(1);
+    }
+
+    /** @return \Closure runs the push guard for a transfer of 20 large cargos to another player */
+    private function transferGuard(): \Closure
+    {
+        [$user] = $this->createPlayer();
+        [$other] = $this->createPlayer();
+        $this->state->USER = $user;
+        $dispatch = new FleetDispatch($this->db, $this->configs, $this->state);
+        $set = function (string $property, mixed $value) use ($dispatch): void {
+            $reflection = new \ReflectionProperty($dispatch, $property);
+            $reflection->setValue($dispatch, $value);
+        };
+        $set('targetMission', MISSION_TRANSFER);
+        $set('targetPlayerData', $other);
+        $set('fleetResource', [901 => 0, 902 => 0, 903 => 0]);
+        $set('fleetArray', [203 => 20]);
+
+        $check = new \ReflectionMethod($dispatch, 'checkPushGuard');
+
+        return static fn() => $check->invoke($dispatch);
     }
 
     public function testTransportBelowTheLimitIsAllowed(): void

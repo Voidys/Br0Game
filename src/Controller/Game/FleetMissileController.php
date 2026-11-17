@@ -53,51 +53,74 @@ class FleetMissileController extends AbstractGameController
             $this->redirectTo('game?page=galaxy');
         }
 
-        $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $missileCount       = $PLANET['interplanetary_misil'];
         $targetGalaxy       = $this->http()->_GP('galaxy', 0);
         $targetSystem       = $this->http()->_GP('system', 0);
         $targetPlanet       = $this->http()->_GP('planet', 0);
         $targetType         = $this->http()->_GP('type', 0);
-        $anz                = min($this->http()->_GP('SendMI', 0), $missileCount);
+        $requested          = $this->http()->_GP('SendMI', 0);
         $primaryTarget      = $this->http()->_GP('Target', 0);
 
-        $target = $this->findTarget($targetGalaxy, $targetSystem, $targetPlanet, $targetType);
+        $planet = $this->state->PLANET;
+        $sent = null;
 
-        $error = $this->launchError($target, $targetGalaxy, $primaryTarget, $missileCount, $anz);
+        // Serialise parallel launches of the same player (user row, then planet row, like FleetDispatch), so the bash
+        // limit and the missile stock are checked against the state the previous launch left behind.
+        $error = $this->db->transactional(function () use ($requested, $targetGalaxy, $targetSystem, $targetPlanet, $targetType, $primaryTarget, $planet, &$sent): string {
+            $this->state->PLANET = $planet;
+            $LNG = $this->state->LNG;
+            $this->db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $this->state->USER['id']]);
+            $locked = $this->db->selectSingle('SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;', [':planetId' => $this->state->PLANET['id']]);
+            if (!empty($locked)) {
+                $this->state->PLANET = array_merge($this->state->PLANET, $locked);
+            }
 
-        // without a target there is nothing to check protections against: report the first failing precondition
-        if (empty($target) && $error != "") {
-            $this->printMessage($error);
-        }
+            $missileCount = $this->state->PLANET['interplanetary_misil'];
+            $anz          = min($requested, $missileCount);
 
-        if ($this->configs->get()->adm_attack == 1 && $target['authattack'] > $this->state->USER['authlevel']) {
-            $error = $LNG['fl_admin_attack'];
-        } elseif ($target['urlaubs_modus']) {
-            $error = $LNG['fl_in_vacation_player'];
-        }
+            $target = $this->findTarget($targetGalaxy, $targetSystem, $targetPlanet, $targetType);
 
-        if ($error == "" && $target['id_owner'] == $this->state->USER['id']) {
-            $error = $LNG['ma_own_planet'];
-        }
+            $error = $this->launchError($target, $targetGalaxy, $primaryTarget, $missileCount, $anz);
 
-        $this->loadOwnPoints();
+            // without a target there is nothing to check protections against: report the first failing precondition
+            if (empty($target) && $error != "") {
+                return $error;
+            }
 
-        $protectionError = $this->protectionError($target);
-        if ($protectionError !== null) {
-            $error = $protectionError;
-        }
+            if ($this->configs->get()->adm_attack == 1 && $target['authattack'] > $this->state->USER['authlevel']) {
+                $error = $LNG['fl_admin_attack'];
+            } elseif ($target['urlaubs_modus']) {
+                $error = $LNG['fl_in_vacation_player'];
+            }
 
-        if ($error == "" && $this->fleetFunctions()->checkBash((int) $target['planetID'])) {
-            $error = $LNG['fl_bash_protection'];
-        }
+            if ($error == "" && $target['id_owner'] == $this->state->USER['id']) {
+                $error = $LNG['ma_own_planet'];
+            }
+
+            $this->loadOwnPoints();
+
+            $protectionError = $this->protectionError($target);
+            if ($protectionError !== null) {
+                $error = $protectionError;
+            }
+
+            if ($error == "" && $this->fleetFunctions()->checkBash((int) $target['planetID'])) {
+                $error = $LNG['fl_bash_protection'];
+            }
+
+            if ($error == "") {
+                $this->launch($target, $targetGalaxy, $targetSystem, $targetPlanet, $targetType, $primaryTarget, $anz);
+                $sent = (int) $anz;
+            }
+
+            return $error;
+        });
 
         if ($error != "") {
             $this->printMessage($error);
         }
 
-        $this->launch($target, $targetGalaxy, $targetSystem, $targetPlanet, $targetType, $primaryTarget, $anz);
+        $this->launchMessage($targetGalaxy, $targetSystem, $primaryTarget, (int) $sent);
     }
 
     /**
@@ -213,19 +236,15 @@ class FleetMissileController extends AbstractGameController
     }
 
     /**
-     * Sends the missile fleet (mission 10, not recallable) to the target and ends the request with the "missiles sent" message
-     * and a redirect to the target system after 3 seconds.
+     * Sends the missile fleet (mission 10, not recallable) to the target.
      *
      * @param array<string, mixed> $target from findTarget()
      */
-    private function launch(array $target, mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $targetType, mixed $primaryTarget, mixed $anz): never
+    private function launch(array $target, mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $targetType, mixed $primaryTarget, mixed $anz): void
     {
         $PLANET = $this->state->PLANET;
-        $LNG = $this->state->LNG;
 
         $Duration       = $this->fleetFunctions()->getMIPDuration($PLANET['system'], $targetSystem);
-
-        $DefenseLabel   = ($primaryTarget == 0) ? $LNG['ma_all'] : $LNG['tech'][$primaryTarget];
 
         $fleetArray     = [INTERPLANETARY_MISSILE => $anz];
 
@@ -262,6 +281,15 @@ class FleetMissileController extends AbstractGameController
             $primaryTarget,
             1, // missiles cannot be recalled
         );
+    }
+
+    /**
+     * Ends the request with the "missiles sent" message and a redirect to the target system after 3 seconds.
+     */
+    private function launchMessage(mixed $targetGalaxy, mixed $targetSystem, mixed $primaryTarget, int $anz): never
+    {
+        $LNG = $this->state->LNG;
+        $DefenseLabel   = ($primaryTarget == 0) ? $LNG['ma_all'] : $LNG['tech'][$primaryTarget];
         $url = 'game?page=galaxy&galaxy=' . $targetGalaxy . '&system=' . $targetSystem;
         // the amount is numeric, the texts are translations (trusted markup)
         $this->printMessage(new \Twig\Markup('<b>' . (int) $anz . '</b>' . $LNG['ma_missiles_sended'] . $DefenseLabel, 'UTF-8'), [[

@@ -50,7 +50,7 @@ class MissionCaseDestruction extends AbstractBattleMission
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
 
         $combatResult = $battleHandler->engine->fight($setup->fleetAttack, $setup->fleetDefend, $this->_fleet['universe']);
-        $reportID = md5(uniqid('', true) . $this->state->runtime->timestamp);
+        $reportID = bin2hex(random_bytes(16));
         if (!$combatResult) {
             $this->cancelFight($setup->userAttack, $setup->userDefend, $targetPlanet);
             return;
@@ -216,6 +216,7 @@ class MissionCaseDestruction extends AbstractBattleMission
             `end_id` = :planetId,
             `mission` = IF(`mission` = :dest, :att, `mission`)
             WHERE `end_id` = :moonId
+            AND `mission` NOT IN (' . MISSION_PIRATEBASE_ATTACK . ',' . MISSION_PIRATEBASE_SPY . ',' . MISSION_PIRATEBASE_RECYCLING . ')
             AND `id` != :fleetId;';
 
         $db->update($sql, [

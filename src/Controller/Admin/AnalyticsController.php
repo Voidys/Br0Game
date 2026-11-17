@@ -57,9 +57,17 @@ class AnalyticsController extends AbstractAdminController
         $db = $this->db;
 
         if (isset($this->state->requestPost['user_name']) && isset($this->state->requestPost['userListSubmit'])) {
+            $userId = (int) $this->state->requestPost['user_name'];
+            $target = $db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userID AND `universe` = :universe;', [
+                ':userID' => $userId,
+                ':universe' => $this->universe()->getEmulated(),
+            ], 'id');
+            if (empty($target) || !$this->mayActOn($userId)) {
+                $this->deny();
+            }
             $sql = 'UPDATE %%USERS%% SET `enable_analytics` = 1 WHERE `id` = :userID;';
             $db->update($sql, [
-                ':userID' => $this->state->requestPost['user_name'],
+                ':userID' => $userId,
             ]);
         } else {
             if (isset($this->state->requestPost['analyse_name']) && isset($this->state->requestPost['analysedUsersSubmit'])) {

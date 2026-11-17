@@ -53,7 +53,7 @@ class SupportController extends AbstractAdminController
     {
         //TODO: temporary fix for 2Moons 1.7TO1.6 PageClass Wrapper
         $ACTION = $this->http()->_GP('mode', 'show');
-        if ($ACTION !== "show" && is_callable([$this, $ACTION])) {
+        if (in_array($ACTION, ['view', 'send'], true)) {
             return $this->{$ACTION}();
         }
 

@@ -73,7 +73,7 @@ class FleetDealerController extends AbstractGameController
             $this->backToDealer($LNG['tr_exchange_error']);
         }
 
-        $tradeCharge = 1 - ($this->configs->get()->trade_charge / 100);
+        $tradeCharge = 1 - (min(max((float) $this->configs->get()->trade_charge, 0), 90) / 100);
         $resources = [
             RESOURCE_METAL => $Count * $e->cost($shipID)->metal * $tradeCharge,
             RESOURCE_CRYSTAL => $Count * $e->cost($shipID)->crystal * $tradeCharge,

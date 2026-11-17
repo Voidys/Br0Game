@@ -90,7 +90,8 @@ class FlyingFleetsTable
     {
         if ($this->IsPhalanx && $acsID <= 0) {
             $where = '(fleet.`start_id` = :planetId AND fleet.`start_type` = :type AND fleet.`mission` != :stay) OR'
-                . ' (fleet.`end_id` = :planetId AND fleet.`end_type` = :type AND fleet.`mission` != :rec AND fleet.`mission` != :trade AND fleet.`status` IN (:outward, :return))';
+                . ' (fleet.`end_id` = :planetId AND fleet.`end_type` = :type AND fleet.`mission` != :rec AND fleet.`mission` != :trade AND fleet.`status` IN (:outward, :return)'
+                . ' AND fleet.`mission` NOT IN (' . MISSION_PIRATEBASE_ATTACK . ',' . MISSION_PIRATEBASE_SPY . ',' . MISSION_PIRATEBASE_RECYCLING . '))';
 
             $param = [
                 ':planetId' => $this->planetId,
@@ -129,7 +130,7 @@ class FlyingFleetsTable
             ->leftJoin('fleet', $this->db->table('USERS'), 'ownuser', 'ownuser.`id` = fleet.`owner`')
             ->leftJoin('fleet', $this->db->table('USERS'), 'targetuser', 'targetuser.`id` = fleet.`target_owner`')
             ->leftJoin('fleet', $this->db->table('PLANETS'), 'ownplanet', 'ownplanet.`id` = fleet.`start_id`')
-            ->leftJoin('fleet', $this->db->table('PLANETS'), 'targetplanet', 'targetplanet.`id` = fleet.`end_id`')
+            ->leftJoin('fleet', $this->db->table('PLANETS'), 'targetplanet', 'targetplanet.`id` = fleet.`end_id` AND fleet.`mission` NOT IN (' . MISSION_PIRATEBASE_ATTACK . ',' . MISSION_PIRATEBASE_SPY . ',' . MISSION_PIRATEBASE_RECYCLING . ')')
             ->where($where)
             ->orderBy('fleet.`id`');
         foreach ($param as $name => $value) {
@@ -710,7 +711,7 @@ class FlyingFleetsTable
         $USER = $this->state->USER;
         $elements = $this->elements();
         $SpyTech        = $USER[$elements->column(106)];
-        $Owner          = $fleetRow['owner'] == $this->userId;
+        $Owner          = $fleetRow['owner'] == $this->userId && !$this->IsPhalanx;
         $FleetRec       = explode(';', $fleetRow['ships']);
         $FleetPopup     = '<a href="#" data-tooltip-content="<table class=\'tip-table\'>';
         $textForBlind   = '';

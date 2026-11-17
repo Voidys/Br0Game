@@ -17,8 +17,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Per-account request budget of the game and account areas (see GameRateLimits). Runs after the firewall
- * (priority 4 < 8), so the logged-in account is known; visitors are not limited here.
+ * Per-account (visitors: per-IP) request budget of the game and account areas (see GameRateLimits). Runs after the firewall
+ * (priority 4 < 8), so the logged-in account is known; visitors are limited per IP on the public pages only.
  *
  * Over the limit: script calls (fetch/XHR) get a JSON 429 right away. Page loads continue to the normal game
  * controller wrapper (GameControllerListener), which boots the game and shows the translated, themed message page
@@ -41,11 +41,10 @@ final class RateLimitListener
             return;
         }
         $user = $this->tokens->getToken()?->getUser();
-        if (!$user instanceof Account) {
-            return;
-        }
         $request = $event->getRequest();
-        $retry = $this->limits->check($request, $user->getId());
+        $retry = $user instanceof Account
+            ? $this->limits->check($request, $user->getId())
+            : $this->limits->checkAnonymous($request, $request->getClientIp());
         if ($retry === null) {
             return;
         }

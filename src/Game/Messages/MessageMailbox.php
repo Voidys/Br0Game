@@ -289,10 +289,11 @@ class MessageMailbox
             INNER JOIN %%USERS_SETTINGS%% us ON u.`id` = us.`user_id`
             WHERE u.`username` LIKE :searchtext 
               AND u.`universe` = :universe 
-              AND us.`settings_blockPM` = 0;";
+              AND us.`settings_blockPM` = 0
+            LIMIT 20;";
 
         return $this->db->select($sql, [
-            ':searchtext'   => '%' . $searchtext . '%',
+            ':searchtext'   => '%' . addcslashes($searchtext, '%_\\') . '%',
             ':universe'     => $this->universe()->current(),
         ]);
     }

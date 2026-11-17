@@ -312,6 +312,14 @@ class RegisterController extends AbstractAccountController
 
             if ($Count == 0) {
                 $referralID = 0;
+            } else {
+                // the recruiter has reached ref_max_referals: the new player registers without the referral link
+                $referred = (int) $db->selectSingle('SELECT COUNT(*) AS anz FROM %%USERS%% WHERE `ref_id` = :referralID;', [
+                    ':referralID' => $referralID,
+                ], 'anz');
+                if ($referred >= (int) $config->ref_max_referals) {
+                    $referralID = 0;
+                }
             }
         } else {
             $referralID = 0;

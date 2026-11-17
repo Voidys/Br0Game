@@ -29,6 +29,12 @@ final class AuthRateLimits
         private readonly RateLimiterFactoryInterface $boardVotes,
         #[Autowire(service: 'limiter.board_writes')]
         private readonly RateLimiterFactoryInterface $boardWrites,
+        #[Autowire(service: 'limiter.ticket_hour')]
+        private readonly RateLimiterFactoryInterface $ticketHour,
+        #[Autowire(service: 'limiter.ticket_day')]
+        private readonly RateLimiterFactoryInterface $ticketDay,
+        #[Autowire(service: 'limiter.alliance_applications')]
+        private readonly RateLimiterFactoryInterface $allianceApplications,
     ) {}
 
     /** Registration attempts (successful or not) per client IP. */
@@ -65,6 +71,19 @@ final class AuthRateLimits
     public function allowBoardWrite(int $accountId): bool
     {
         return $this->boardWrites->create((string) $accountId)->consume()->isAccepted();
+    }
+
+    /** New support tickets (not answers) per account: 3 per hour and 10 per day; one count per created ticket. */
+    public function allowTicket(int $accountId): bool
+    {
+        return $this->ticketHour->create((string) $accountId)->consume()->isAccepted()
+            && $this->ticketDay->create((string) $accountId)->consume()->isAccepted();
+    }
+
+    /** Alliance applications per account and day (app.alliance_applications_per_day). */
+    public function allowAllianceApplication(int $accountId): bool
+    {
+        return $this->allianceApplications->create((string) $accountId)->consume()->isAccepted();
     }
 
     /** Admin password prompt attempts per client IP and account. */

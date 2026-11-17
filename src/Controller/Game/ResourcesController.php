@@ -66,6 +66,9 @@ class ResourcesController extends AbstractGameController
             $this->state->PLANET = $db->selectSingle($sql, $param);
 
             foreach ($this->state->requestPost['prod'] as $resourceId => $Value) {
+                if ($e->find((int) $resourceId) === null) {
+                    continue;
+                }
                 $FieldName = $e->column($resourceId) . '_porcent';
                 if (!isset($this->state->PLANET[$FieldName]) || !in_array($Value, range(0, 10))) {
                     continue;

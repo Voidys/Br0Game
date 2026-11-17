@@ -48,7 +48,7 @@ class SearchController extends AbstractGameController
         $qb->andWhere($column . ' LIKE :searchTextLike')
             ->setParameter('universe', $universe)
             ->setParameter('searchText', $searchText)
-            ->setParameter('searchTextLike', '%' . $searchText . '%')
+            ->setParameter('searchTextLike', '%' . addcslashes($searchText, '%_\\') . '%')
             ->orderBy('(IF(' . $column . ' = :searchText, 1, 0) + IF(' . $column . ' LIKE :searchTextLike, 1, 0))', 'DESC')
             ->addOrderBy($column, 'ASC');
         if ($maxResult !== -1) {

@@ -236,17 +236,19 @@ class MessagesController extends AbstractGameController
             $receivers = [$receivers];
         }
 
-        $sql = "SELECT p.`galaxy`, p.`system`, p.`planet`, u.`id`, u.`username`, u.`id_planet`, us.`settings_blockPM`
-            FROM %%PLANETS%% as p, %%USERS%% as u 
-            INNER JOIN %%USERS_SETTINGS%% us on us.`user_id` = u.`id` 
-            WHERE u.`id` = :receiverId AND p.`id` = u.`id_planet`;";
+        $receiverIds = array_slice(array_values(array_unique(array_filter(array_map('intval', $receivers)))), 0, \App\Game\Messages\MessageComposer::MAX_RECIPIENTS);
 
         $receiverList = [];
-        foreach ($receivers as $receiver) {
-            $receiverRecord = $db->selectSingle($sql, [
-                ':receiverId'   => $receiver,
-            ]);
-            $receiverList[$receiverRecord['id']] = $receiverRecord;
+        if ($receiverIds !== []) {
+            $sql = "SELECT p.`galaxy`, p.`system`, p.`planet`, u.`id`, u.`username`, u.`id_planet`, us.`settings_blockPM`
+                FROM %%USERS%% as u
+                INNER JOIN %%USERS_SETTINGS%% us ON us.`user_id` = u.`id`
+                INNER JOIN %%PLANETS%% as p ON p.`id` = u.`id_planet`
+                WHERE u.`id` IN (" . implode(',', $receiverIds) . ") AND u.`universe` = :universe;";
+
+            foreach ($db->select($sql, [':universe' => $this->universe()->current()]) as $receiverRecord) {
+                $receiverList[$receiverRecord['id']] = $receiverRecord;
+            }
         }
 
         $this->addScript('message.js');

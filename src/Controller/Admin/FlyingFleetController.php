@@ -48,6 +48,9 @@ class FlyingFleetController extends AbstractAdminController
             $lock = $this->http()->_GP('lock', 0);
             $SQL = ($lock == 0) ? null : "ADM_LOCK";
 
+            if (!$this->mayActOnFleetOwner((int) $id)) {
+                $this->deny();
+            }
             $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = :lock WHERE `fleetID` = :id AND `fleetID` IN (SELECT `id` FROM %%FLEETS%% WHERE `universe` = :universe);", [
                 ':lock' => $SQL,
                 ':id' => $id,
@@ -167,6 +170,17 @@ class FlyingFleetController extends AbstractAdminController
         ];
     }
 
+    /** May the acting admin act on the owner of the fleet (own fleets included; unknown fleets are refused). */
+    private function mayActOnFleetOwner(int $fleetID): bool
+    {
+        $owner = $this->db->selectSingle('SELECT `owner` FROM %%FLEETS%% WHERE `id` = :id AND `universe` = :universe;', [
+            ':id' => $fleetID,
+            ':universe' => $this->universe()->getEmulated(),
+        ], 'owner');
+
+        return !empty($owner) && $this->mayActOn((int) $owner, true);
+    }
+
     /**
      * Sends one fleet back. Uses the same function as for the user
      *
@@ -179,10 +193,15 @@ class FlyingFleetController extends AbstractAdminController
 
         $sql = "SELECT u.`id` FROM %%USERS%% u
             JOIN %%FLEETS%% f ON f.`owner` = u.`id`
-            WHERE f.`id` = :id;";
+            WHERE f.`id` = :id AND f.`universe` = :universe;";
         $USER = $db->selectSingle($sql, [
             ':id' => $fleetID,
+            ':universe' => $this->universe()->getEmulated(),
         ]);
+
+        if (empty($USER) || !$this->mayActOn((int) $USER['id'], true)) {
+            $this->deny();
+        }
 
         $this->fleetFunctions()->sendFleetBack($USER, $fleetID);
     }
@@ -196,7 +215,7 @@ class FlyingFleetController extends AbstractAdminController
     {
         $db = $this->db;
 
-        $sql = "SELECT f.`id`, f.`group`, f.`return_time` FROM %%FLEETS%% f
+        $sql = "SELECT f.`id`, f.`owner`, f.`group`, f.`return_time` FROM %%FLEETS%% f
             JOIN %%USERS%% u ON u.`id` = f.`target_owner`
             WHERE f.`mission` IN (:attack, :acs, :destruction) AND f.`universe` = :universe
               AND u.`onlinetime` > :inactive AND f.`status` <> :fleetState;";
@@ -210,6 +229,9 @@ class FlyingFleetController extends AbstractAdminController
         ]);
 
         foreach ($fleets as $fleet) {
+            if (!$this->mayActOn((int) $fleet['owner'], true)) {
+                continue;
+            }
             if ($fleet['group'] > 0) {
                 $sql = "DELETE %%AKS%%, %%USERS_TO_ACS%%
                     FROM %%AKS%%

@@ -7,7 +7,7 @@ namespace App\Game\Core;
  * BASH_TIME (config bash_per_user / bash_per_planet), counting solo attacks and distinct ACS groups.
  *
  * Collaborators: Database (LOG_FLEETS, USERS, PLANETS, DIPLO), Singleton (current user, request time), FleetString.
- * Rules: inactive targets and targets in a declared, accepted war older than a day are never bash-protected;
+ * Rules: inactive targets and targets in a declared, accepted war older than a day (unless attacker and target owner are linked by IP or multi group) are never bash-protected;
  * single espionage probe fleets (ship 210) do not count as attacks. Interplanetary missile attacks count like attacks
  * unless the universe setting bash_count_missiles is off.
  */
@@ -62,7 +62,8 @@ class BashRules
             ':allyD' => $targetAllianceId,
         ]);
 
-        if ($config->bash_war_exempt && !empty($War) && ($War['accept'] == 1 && $War['request_time'] < $this->state->runtime->timestamp - ONE_DAY)) {
+        if ($config->bash_war_exempt && !empty($War) && ($War['accept'] == 1 && $War['request_time'] < $this->state->runtime->timestamp - ONE_DAY)
+            && !(new AccountLinks($this->db))->linked((int) $USER['id'], (int) $PlanetOwner, false)) {
             return false;
         }
 

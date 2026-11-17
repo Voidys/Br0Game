@@ -1182,3 +1182,19 @@ Technical changes per migration step, newest last.
 ## 151. Typed player and planet rows
 
 - `$USER` / `$PLANET` stay arrays at runtime (in-place writes and copy semantics unchanged) but are typed for static analysis: open array shapes `UserRow` / `PlanetRow` in `phpstan.dist.neon` (known columns with their real types, further keys open), declared on `Singleton` (`USER` read-typed, write `array<string, mixed>` for the guest row). PHPStan level 6 green without baseline additions; documented in `docs/game-data-model.md`.
+
+## 152. Audit round 3
+
+- Admin: ban form writes exactly the id the staff boundary checked (no `ban_id`/`unban_id` split); account bans flag the players in every universe and revoke the account's sessions; the in-game gate also refuses players of a banned account. Message list, flying fleets and analytics respect `mayActOn` (no reading staff PMs, no recalling/locking higher staff fleets, fleet return scoped to the universe); support modes whitelisted; quick-editor password-only changes are logged; universe create and cronjob edit change state on POST only.
+- Request layer: `CsrfPolicy` compares query values the way `HTTP::_GP` reads them (NUL stripped, trimmed, case-folded), so padded `action`/`mode` no longer skip GET rules; `?mode=` dispatches only methods without required parameters; unknown `?uni=` falls back to the default universe instead of a 500.
+- Players: alliance ranks enforce the hierarchy server-side (no editing/deleting/assigning away ranks that carry rights the actor lacks or the own rank); Discord webhooks send `allowed_mentions: none`; PM composer receivers capped, loaded in one universe-scoped query; recipient/player search escapes LIKE wildcards, autocomplete limited to 20; alliance info scoped to the universe.
+- Economy: abandoning a colony with running research no longer moves its paid cost to the main planet on cancel; repair dock actions need dock level ≥ 1 server-side; multi-player fights apply the honor pair cap and the 1-vs-1 neutrality rules (ally, buddy, inactive defender); unknown `prod[]` ids are ignored.
+- Fleets: missile launch serialised (user → planet lock, bash check and missile stock inside the transaction); phalanx never shows the owner view of the scanned player's fleets; pirate-base fleets no longer match planets with the same numeric id (phalanx list, target name, moon destruction re-homing).
+
+## 153. Audit round 2 follow-ups (DS_AUDIT2)
+
+- Push guard (`transport_push_check`): covers transfers (ships valued at cost), compares the 7-day value balance of the pair (sent − returned, this fleet included) against `transport_push_limit` instead of "any return delivery"; defaults unchanged. Admin overview warns about every protection that is off.
+- ACS recall rolls back completely when a member's event was claimed (group survives); MIP arrival locks the target planet and deducts with `GREATEST(0, …)`; market purchase locks the seller planet; honor pair cap counts under user-row locks; missile slot exemption explicit (`MISSION_MISSILE`).
+- Rate limits: anonymous `raport`/`board` per IP (`game_anonymous`, 30 + 1/2 s); read-only ajax modes (`fleetStep1:checkTarget`, `fleetStep2:checkResources`, `messages:loadUser`) in the reads bucket; tickets 3/h, 10/day, max 5 open; alliance applications 10/day; PM receivers ignore non-scalar ids.
+- `trade_charge` bounded 0–90 % (float fields clamp min/max); `ref_max_referals` enforced at registration; rights page writes admin log entries; abuse report includes transfers (ships at cost), explains its thresholds and marks shared /24 (/64) subnets; reports without participant lists are reduced for outsiders, report ids from `random_bytes`.
+- Collusion guards (`AccountLinks`: shared IP, multi group, optionally alliance/buddy): rebuild protection only after losses to at least one unlinked opponent; the war bash exemption does not apply between linked accounts.

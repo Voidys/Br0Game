@@ -3,7 +3,8 @@
 {% macro links(row) %}
   {% if row.ip %}<span class="badge badge--danger">{{ LNG.abuse_link_ip }}</span>{% endif %}
   {% if row.multi %}<span class="badge {{ row.multiKnown ? 'badge--muted' : 'badge--warn' }}">{{ row.multiKnown ? LNG.abuse_link_multi_known : LNG.abuse_link_multi }}</span>{% endif %}
-  {% if not row.ip and not row.multi %}<span class="muted">-</span>{% endif %}
+  {% if row.subnet %}<span class="badge badge--muted">{{ LNG.abuse_link_subnet }}</span>{% endif %}
+  {% if not row.ip and not row.multi and not row.subnet %}<span class="muted">-</span>{% endif %}
 {% endmacro %}
 <div class="stack">
   <form action="" method="get" class="card">
@@ -20,6 +21,8 @@
       </div>
     </div>
   </form>
+
+  <p class="muted small">{{ LNG.format('abuse_thresholds', minTransfer, returnShare ~ ' %', minTrades, outlierPercent ~ ' %') }}</p>
 
   <section class="card">
     <header class="card__head">
@@ -124,7 +127,7 @@
               <td class="nowrap">{{ row.grantedDate }}</td>
               <td>
                 {% for o in row.opponents %}
-                  {{ _self.player(o.id, o.name) }}{% if o.ip or o.multi %} <span class="badge {{ o.ip or not o.multiKnown ? 'badge--danger' : 'badge--muted' }}">{{ LNG.abuse_linked }}</span>{% endif %}{% if not loop.last %}, {% endif %}
+                  {{ _self.player(o.id, o.name) }}{% if o.ip or o.multi %} <span class="badge {{ o.ip or not o.multiKnown ? 'badge--danger' : 'badge--muted' }}">{{ LNG.abuse_linked }}</span>{% elseif o.subnet %} <span class="badge badge--muted">{{ LNG.abuse_link_subnet }}</span>{% endif %}{% if not loop.last %}, {% endif %}
                 {% else %}<span class="muted">-</span>{% endfor %}
               </td>
               <td class="num">{{ pretty_number(row.loot) }}</td>

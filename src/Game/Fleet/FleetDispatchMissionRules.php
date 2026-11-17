@@ -100,9 +100,9 @@ trait FleetDispatchMissionRules
 
     /**
      * Anti-push guard (audit F-02, off by default): with the universe setting transport_push_check on and
-     * transport_push_limit above 0, a transport or hold to another player whose cargo is worth more than the limit
-     * (deuterium units at the current market ratios) is refused unless that player sent resources back to the sender
-     * within the last 7 days.
+     * transport_push_limit above 0, a transport, hold or transfer to another player is refused when, over the last
+     * 7 days, the value sent to that player (cargo, plus the ships of transfers; deuterium units at the current market
+     * ratios, this fleet included) exceeds the value that player sent back by more than the limit.
      */
     private function checkPushGuard(): void
     {
@@ -110,39 +110,58 @@ trait FleetDispatchMissionRules
         $limit = (float) $config->transport_push_limit;
         if (
             !$config->transport_push_check || $limit <= 0
-            || ($this->targetMission != MISSION_TRANSPORT && $this->targetMission != MISSION_HOLD)
+            || !in_array($this->targetMission, [MISSION_TRANSPORT, MISSION_HOLD, MISSION_TRANSFER])
             || ($this->targetPlayerData['id'] ?? 0) == $this->state->USER['id']
         ) {
             return;
         }
 
         $market = new \App\Game\Core\MarketManager($this->db, $this->configs, $this->state);
-        $value = $market->convertToDeutNumeric([
+        $balance = $market->convertToDeutNumeric([
             901 => $this->fleetResource[901],
             902 => $this->fleetResource[902],
             903 => $this->fleetResource[903],
         ]);
-        if ($value <= $limit) {
-            return;
+        if ($this->targetMission == MISSION_TRANSFER) {
+            $balance += $market->getFleetValue($this->fleetArray);
         }
-
-        $returned = (int) $this->db->selectSingle(
-            'SELECT COUNT(*) AS anz FROM %%LOG_FLEETS%%
-            WHERE `owner` = :target AND `target_owner` = :sender AND `mission` IN (:transport, :hold)
-              AND `start_time` > :since AND `hasCanceled` = 0
-              AND (`resource_metal` + `resource_crystal` + `resource_deuterium`) > 0;',
-            [
-                ':target' => $this->targetPlayerData['id'],
-                ':sender' => $this->state->USER['id'],
-                ':transport' => MISSION_TRANSPORT,
-                ':hold' => MISSION_HOLD,
-                ':since' => $this->state->runtime->timestamp - 7 * ONE_DAY,
-            ],
-            'anz',
-        );
-        if ($returned == 0) {
+        $senderId = (int) $this->state->USER['id'];
+        $targetId = (int) $this->targetPlayerData['id'];
+        $balance += $this->pushValue($market, $senderId, $targetId) - $this->pushValue($market, $targetId, $senderId);
+        if ($balance > $limit) {
             $this->refuse($this->state->LNG['fl_push_guard'], 'game?page=fleetTable');
         }
+    }
+
+    /** Value (deuterium units) of the transport, hold and transfer fleets $from sent to $to in the last 7 days, not cancelled. */
+    private function pushValue(\App\Game\Core\MarketManager $market, int $from, int $to): float
+    {
+        $rows = $this->db->select(
+            'SELECT `mission`, `ships`, `resource_metal`, `resource_crystal`, `resource_deuterium` FROM %%LOG_FLEETS%%
+            WHERE `owner` = :from AND `target_owner` = :to AND `mission` IN (:transport, :hold, :transfer)
+              AND `start_time` > :since AND `hasCanceled` = 0;',
+            [
+                ':from' => $from,
+                ':to' => $to,
+                ':transport' => MISSION_TRANSPORT,
+                ':hold' => MISSION_HOLD,
+                ':transfer' => MISSION_TRANSFER,
+                ':since' => $this->state->runtime->timestamp - 7 * ONE_DAY,
+            ],
+        );
+        $value = 0.0;
+        foreach ($rows as $row) {
+            $value += $market->convertToDeutNumeric([
+                901 => (float) $row['resource_metal'],
+                902 => (float) $row['resource_crystal'],
+                903 => (float) $row['resource_deuterium'],
+            ]);
+            if ((int) $row['mission'] === MISSION_TRANSFER) {
+                $value += $market->getFleetValue((new \App\Game\Core\FleetString())->unserialize((string) $row['ships']));
+            }
+        }
+
+        return $value;
     }
 
     /** Hostile missions (attack, ACS, hold, spy, destruction): admin protection, noob protection and the outlaw status for attacking stronger players. */

@@ -50,7 +50,7 @@ class ConfigFieldProcessor
         // Other types: read via HTTP::_GP
         $value = $http->_GP($fieldName, $default);
 
-        if ($type === ConfigFieldSchema::TYPE_NUMBER || $type === ConfigFieldSchema::TYPE_SLIDER) {
+        if ($type === ConfigFieldSchema::TYPE_NUMBER || $type === ConfigFieldSchema::TYPE_SLIDER || $type === ConfigFieldSchema::TYPE_FLOAT) {
             $value = min(max($value, $config['min'] ?? PHP_INT_MIN), $config['max'] ?? PHP_INT_MAX);
         }
 

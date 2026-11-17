@@ -141,7 +141,37 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
             $targetQuery->addSelect('p.`' . $e->column($elementID) . '`');
         }
 
-        return $db->fetchRow($targetQuery);
+        $target = $db->fetchRow($targetQuery);
+        if ($target === false) {
+            return false;
+        }
+
+        // lock the planet row and take the counts from the locking read (it sees the latest committed values, the
+        // joined read above may come from the event transaction's snapshot): concurrent volleys must not both spend
+        // the same interceptors/defense
+        $locked = $db->selectSingle('SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;', [
+            ':planetId' => $this->_fleet['end_id'],
+        ]);
+        if (empty($locked)) {
+            return false;
+        }
+        foreach ($elementIDs as $elementID) {
+            $column = $e->column($elementID);
+            if (array_key_exists($column, $locked)) {
+                $target[$column] = $locked[$column];
+            }
+        }
+
+        return $target;
+    }
+
+    /** Subtracts $amount of an element from the planet, never below 0. */
+    private function deduct(int|string $planetId, int $elementId, int|float|string $amount): void
+    {
+        $column = $this->elements()->column($elementId);
+        $this->db->updateRows('PLANETS', [], ['id' => $planetId], [
+            $column => 'GREATEST(0, `' . $column . '` - ' . (int) $amount . ')',
+        ]);
     }
 
     /**
@@ -163,7 +193,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         if ($targetData[$e->column(INTERCEPTOR_MISSILE)] >= $this->_fleet['ship_amount']) {
             $senderData['MSG'] 	= $senderData['LNG']['sys_irak_no_att'];
             $targetData['MSG']	= $targetData['LNG']['sys_irak_no_att'];
-            $db->updateRows('PLANETS', [], ['id' => $targetData['id']], [], [$e->column(INTERCEPTOR_MISSILE) => $this->negated($this->_fleet['ship_amount'])]);
+            $this->deduct($targetData['id'], INTERCEPTOR_MISSILE, $this->_fleet['ship_amount']);
             $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['target_owner'], $this->_fleet['owner'], INTERPLANETARY_MISSILE, $this->_fleet['ship_amount'], false);
             $this->statsHandler->updateLostAdvancedStats($this->_fleet['target_owner'], [INTERCEPTOR_MISSILE => $this->_fleet['ship_amount']]);
         } else {
@@ -198,7 +228,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
                     $senderData['MSG'] 	.= sprintf('%s (- %d)<br>', $senderData['LNG']['tech'][$Element], $destroy);
                     $targetData['MSG']	.= sprintf('%s (- %d)<br>', $targetData['LNG']['tech'][$Element], $destroy);
 
-                    $db->updateRows('PLANETS', [], ['id' => $targetData['id']], [], [$e->column($Element) => $this->negated($destroy)]);
+                    $this->deduct($targetData['id'], (int) $Element, $destroy);
                     $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['owner'], $this->_fleet['target_owner'], $Element, $destroy);
                 }
                 $this->statsHandler->updateLostAdvancedStats($this->_fleet['owner'], [INTERPLANETARY_MISSILE => $this->_fleet['ship_amount'] - $targetData[$e->column(INTERCEPTOR_MISSILE)]]);
@@ -311,15 +341,5 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         }
 
         return $destroyShips;
-    }
-
-    /** The amount with the opposite sign, for Database::updateRows() increments (numeric strings keep their digits). */
-    private function negated(int|float|string $amount): int|float|string
-    {
-        if (is_string($amount)) {
-            return str_starts_with($amount, '-') ? substr($amount, 1) : '-' . $amount;
-        }
-
-        return -$amount;
     }
 }

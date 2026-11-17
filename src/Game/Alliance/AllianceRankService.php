@@ -107,12 +107,18 @@ class AllianceRankService
     }
 
     /**
-     * Deletes a rank of the alliance; members holding it fall back to "no rank".
+     * Deletes a rank of the alliance; members holding it fall back to "no rank". Ranks out of the actor's reach
+     * (own rank, rights the actor lacks) are left alone.
      *
      * @param array<string, mixed> $alliance
+     * @param array<string, bool|int|string> $rights rights of the acting user
      */
-    public function delete(array $alliance, int|string $rankId): void
+    public function delete(array $alliance, array $rights, int|string $rankId): void
     {
+        if (!$this->canManageRank($alliance, $rights, $rankId)) {
+            return;
+        }
+
         $sql = "DELETE FROM %%ALLIANCE_RANK%% WHERE rankID = :rankID AND allianceId = :allianceId;";
         $this->db->delete($sql, [
             ':allianceId' => $alliance['id'],
@@ -140,6 +146,10 @@ class AllianceRankService
         $LNG = $this->state->LNG;
 
         foreach ($rankData as $rankId => $rowData) {
+            if (!$this->canManageRank($alliance, $rights, $rankId)) {
+                continue;
+            }
+
             if (
                 !$this->playerUtil()->isNameValid($rowData['rankName'] ?? '')
                 || mb_strlen($rowData['rankName']) > 32
@@ -205,8 +215,17 @@ class AllianceRankService
             }
         }
 
+        // current ranks of the members: a member whose rank carries a right the actor lacks cannot be changed
+        $currentRanks = [];
+        foreach ($this->db->select('SELECT id, ally_rank_id FROM %%USERS%% WHERE ally_id = :allianceId;', [':allianceId' => $alliance['id']]) as $member) {
+            $currentRanks[$member['id']] = $member['ally_rank_id'];
+        }
+
         foreach ($userRanks as $userId => $rankId) {
-            if ($userId == $alliance['ally_owner'] || !isset($assignable[$rankId])) {
+            if (
+                $userId == $alliance['ally_owner'] || !isset($assignable[$rankId])
+                || !isset($currentRanks[$userId]) || !isset($assignable[$currentRanks[$userId]])
+            ) {
                 continue;
             }
 
@@ -217,5 +236,26 @@ class AllianceRankService
                 ':userId' => (int) $userId,
             ]);
         }
+    }
+
+    /**
+     * Whether the rank belongs to the alliance, is not the actor's own rank and carries no right the actor lacks
+     * (rank hierarchy, same rule as permissionPage()'s changeableRanks).
+     *
+     * @param array<string, mixed> $alliance
+     * @param array<string, bool|int|string> $rights rights of the acting user
+     */
+    private function canManageRank(array $alliance, array $rights, int|string $rankId): bool
+    {
+        if ($this->state->USER['ally_rank_id'] == $rankId) {
+            return false;
+        }
+        foreach ($this->repository->ranksWithRights($alliance['id'], false) as $rankRow) {
+            if ($rankRow['rankID'] == $rankId) {
+                return AllianceRights::canHandOut($rankRow, $rights);
+            }
+        }
+
+        return false;
     }
 }

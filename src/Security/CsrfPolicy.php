@@ -200,12 +200,23 @@ final class CsrfPolicy
     /** @param string|list<string> $values */
     private function queryIn(Request $request, string $param, string|array $values): bool
     {
-        $given = $request->query->get($param);
+        $given = $this->queryValue($request, $param);
+
+        return $given !== null && in_array($given, array_map('strtolower', (array) $values), true);
+    }
+
+    /**
+     * A query value the way the game sees it (HTTP::_GP: line breaks unified, "\0" removed, trimmed; html-encoding
+     * does not matter for the compared names), lower-cased. Null when missing or not a scalar.
+     */
+    public function queryValue(Request $request, string $param): ?string
+    {
+        $given = $request->query->all()[$param] ?? null;
         if (!is_scalar($given)) {
-            return false;
+            return null;
         }
 
-        return in_array(strtolower((string) $given), array_map('strtolower', (array) $values), true);
+        return strtolower(trim(str_replace(["\r\n", "\r", "\0"], ["\n", "\n", ''], (string) $given)));
     }
 
     /** @param list<string> $params */

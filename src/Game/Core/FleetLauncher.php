@@ -24,9 +24,9 @@ class FleetLauncher
 
     /**
      * Number of the user's flights: all except $fleetMission (default expeditions) or, with $thisMission, only those.
-     * Used for the fleet slot and expedition slot limits.
+     * Used for the fleet slot and expedition slot limits. By rule, missile flights (MISSION_MISSILE) never occupy a fleet slot.
      */
-    public function getCurrentFleets(int $userId, int $fleetMission = 10, bool $thisMission = false): int
+    public function getCurrentFleets(int $userId, int $fleetMission = MISSION_MISSILE, bool $thisMission = false): int
     {
         if ($thisMission) {
             $sql = 'SELECT COUNT(*) as state
@@ -94,9 +94,7 @@ class FleetLauncher
         // recalls the whole group. A joiner's recall turns that joiner's own fleet only.
         $groupId = ($fleetResult['mission'] == MISSION_ATTACK) ? (int) $fleetResult['group'] : 0;
         if ($groupId !== 0 && $this->groupHasParticipants($groupId)) {
-            $this->recallGroup($groupId);
-
-            return true;
+            return $this->recallGroup($groupId);
         }
 
         $this->markFleetReturning($FleetID, $endTime);
@@ -115,30 +113,43 @@ class FleetLauncher
     /**
      * Recalls every fleet of an ACS group, each with its return time from its own start time, and only then deletes the
      * group rows (AKS, USERS_TO_ACS), all in one transaction: a failure leaves the group intact instead of a dissolved
-     * group with fleets still flying towards the attack.
+     * group with fleets still flying towards the attack. When a member could not be turned (its event was claimed in the
+     * meantime) nothing is changed at all.
+     *
+     * @return bool false when the recall was rolled back
      */
-    private function recallGroup(int $groupId): void
+    private function recallGroup(int $groupId): bool
     {
-        $this->db->transactional(function () use ($groupId): void {
-            $groupFleets = $this->db->select('SELECT `id`, `start_time` FROM %%FLEETS%% WHERE `group` = :id;', [
-                ':id' => $groupId,
-            ]);
-            foreach ($groupFleets as $groupFleet) {
-                $this->markFleetReturning(
-                    $groupFleet['id'],
-                    ($this->state->runtime->timestamp - $groupFleet['start_time']) + $this->state->runtime->timestamp,
-                );
-            }
+        // a member whose event was claimed cannot be turned: roll the whole recall back (transaction), group stays intact
+        try {
+            $this->db->transactional(function () use ($groupId): void {
+                $groupFleets = $this->db->select('SELECT `id`, `start_time` FROM %%FLEETS%% WHERE `group` = :id;', [
+                    ':id' => $groupId,
+                ]);
+                foreach ($groupFleets as $groupFleet) {
+                    $turned = $this->markFleetReturning(
+                        $groupFleet['id'],
+                        ($this->state->runtime->timestamp - $groupFleet['start_time']) + $this->state->runtime->timestamp,
+                    );
+                    if (!$turned) {
+                        throw new \DomainException('ACS member fleet already claimed by its event');
+                    }
+                }
 
-            // the group is deleted last, after all its fleets have been re-routed
-            $this->db->delete(
-                'DELETE %%AKS%%, %%USERS_TO_ACS%%
-                FROM %%AKS%%
-                LEFT JOIN %%USERS_TO_ACS%% ON `acsID` = %%AKS%%.id
-                WHERE %%AKS%%.id = :acsId;',
-                [':acsId' => $groupId],
-            );
-        });
+                // the group is deleted last, after all its fleets have been re-routed
+                $this->db->delete(
+                    'DELETE %%AKS%%, %%USERS_TO_ACS%%
+                    FROM %%AKS%%
+                    LEFT JOIN %%USERS_TO_ACS%% ON `acsID` = %%AKS%%.id
+                    WHERE %%AKS%%.id = :acsId;',
+                    [':acsId' => $groupId],
+                );
+            });
+        } catch (\DomainException) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -187,8 +198,10 @@ class FleetLauncher
 
     /**
      * Writes the return state of a recalled flight to the live tables and to the fleet log.
+     *
+     * @return bool false when the flight's event was claimed meanwhile (nothing written)
      */
-    private function markFleetReturning(int|string $recallFleetId, int|float $recallEndTime): void
+    private function markFleetReturning(int|string $recallFleetId, int|float $recallEndTime): bool
     {
         $db = $this->db;
 
@@ -210,7 +223,7 @@ class FleetLauncher
         ]);
         if ($db->rowCount() === 0) {
             // the event was claimed between the check and the update: leave the flight (and its log) alone
-            return;
+            return false;
         }
 
         $sql = 'UPDATE %%LOG_FLEETS%% SET
@@ -231,6 +244,8 @@ class FleetLauncher
             ':fleetState' => FLEET_RETURN,
             ':hasCanceled' => 1,
         ]);
+
+        return true;
     }
 
     /**

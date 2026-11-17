@@ -160,6 +160,21 @@ final class ReferralChainTest extends GameTestCase
         $this->assertSame(0, (int) $user['ref_bonus']);
     }
 
+    public function testRecruiterAtTheReferralCapIsIgnored(): void
+    {
+        $this->setUniverseConfig(['ref_max_referals' => 1]);
+        $this->configs->get(ROOT_UNI)->ref_max_referals = 1;
+        [$recruiter] = $this->createPlayer();
+
+        $first = $this->registerPlayer($this->freshAccount((int) $recruiter['id']), 'refcap1');
+        $this->assertSame((int) $recruiter['id'], (int) $first['ref_id']);
+
+        $second = $this->registerPlayer($this->freshAccount((int) $recruiter['id']), 'refcap2');
+        $this->assertNotNull($second);
+        $this->assertSame(0, (int) $second['ref_id']);
+        $this->assertSame(0, (int) $second['ref_bonus']);
+    }
+
     public function testCronjobFindsTheRecruitOncePointsAreReached(): void
     {
         [$recruiter] = $this->createPlayer();

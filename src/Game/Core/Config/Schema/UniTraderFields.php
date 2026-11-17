@@ -28,6 +28,8 @@ final class UniTraderFields
                     'type' => ConfigFieldSchema::TYPE_FLOAT,
                     'transform' => 'float',
                     'unit' => '%',
+                    'min' => 0,
+                    'max' => 90,
                     'default' => 30,
                 ],
                 'market_push_tolerance' => [

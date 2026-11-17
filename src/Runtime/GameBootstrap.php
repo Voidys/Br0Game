@@ -258,14 +258,31 @@ final class GameBootstrap
     {
         $db     = $this->db;
 
-        if ($this->state->USER['bana'] == 1) {
+        $banUntil = (int) $this->state->USER['banaday'];
+        $reason = null;
+        $banned = $this->state->USER['bana'] == 1;
+        if ($banned) {
             $sql = 'SELECT theme FROM %%USERS_BANNED%% WHERE user_id = :user_id';
             $reason = $db->selectSingle($sql, [
                 ':user_id' => $this->state->USER['id'],
             ], 'theme');
+        } else {
+            // an account ban applies to all players of the account (a ban that ran out no longer counts)
+            $account = $db->selectSingle(
+                'SELECT a.`banaday`, b.`theme` FROM %%ACCOUNTS%% a LEFT JOIN %%ACCOUNTS_BANNED%% b ON b.`account_id` = a.`id` WHERE a.`id` = :accountId AND a.`bana` = 1 AND a.`banaday` > :now;',
+                [':accountId' => $this->auth->accountId(), ':now' => $this->state->runtime->timestamp],
+            );
+            if (!empty($account)) {
+                $banned = true;
+                $banUntil = (int) $account['banaday'];
+                $reason = $account['theme'];
+            }
+        }
+
+        if ($banned) {
 
             (new ShowErrorPage())->withGameServices($this->db, $this->configs, $this->state)->showError("<font size=\"6px\">" . $LNG['css_account_banned_message'] . "</font><br><br>"
-            . $this->bannedExpireText($LNG, $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->state->USER['banaday'], $this->state->USER['timezone']), $config->forum_url) . "<br><br>"
+            . $this->bannedExpireText($LNG, $this->viewHelpers()->formatDate($LNG['php_tdformat'], $banUntil, $this->state->USER['timezone']), $config->forum_url) . "<br><br>"
             . $LNG->format('css_account_banned_reason', $reason) . "<br><br>"
             . $LNG['css_goto_homeside'], false);
         }

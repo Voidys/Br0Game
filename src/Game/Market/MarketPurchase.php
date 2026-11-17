@@ -155,8 +155,9 @@ class MarketPurchase
 
         // the seller's fleet flies back to its start planet: when that planet is gone or destroyed the trade can never settle
         // (the buyer's payment would return while the seller's ships are delivered), so the offer is void (offer row is locked)
+        // the planet row is locked last (after buyer user, buyer planet and offer), so a concurrent destruction waits for this purchase
         $sellerPlanet = $this->db->selectSingle(
-            'SELECT `id`, `destruyed` FROM %%PLANETS%% WHERE `id` = :id;',
+            'SELECT `id`, `destruyed` FROM %%PLANETS%% WHERE `id` = :id FOR UPDATE;',
             [':id' => $fleetResult['start_id']],
         );
         if (empty($sellerPlanet) || !empty($sellerPlanet['destruyed'])) {

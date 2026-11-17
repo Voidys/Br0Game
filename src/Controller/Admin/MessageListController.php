@@ -120,6 +120,15 @@ class MessageListController extends AbstractAdminController
                 $qb->andWhere('m.`message_type` = :type')->setParameter('type', $type);
             }
             $qb->andWhere('m.`message_universe` = :universe')->setParameter('universe', $this->universe()->getEmulated());
+            // staff boundary: no messages owned or sent by staff the actor may not act on (own messages stay visible)
+            $usersTable = $this->db->table('USERS');
+            foreach (['um.`user_id`' => 'ownerStaff', 'm.`message_sender`' => 'senderStaff'] as $column => $alias) {
+                $qb->andWhere('NOT EXISTS (SELECT 1 FROM ' . $usersTable . ' ' . $alias . ' WHERE ' . $alias . '.`id` = ' . $column
+                    . ' AND ' . $alias . '.`id` <> :actorId AND (' . $alias . '.`id` = :rootUser OR ' . $alias . '.`authlevel` >= :actorLevel))');
+            }
+            $qb->setParameter('actorId', (int) $this->state->USER['id'])
+                ->setParameter('rootUser', ROOT_USER)
+                ->setParameter('actorLevel', (int) $this->state->USER['authlevel']);
             if ($dateFilter !== null) {
                 $qb->andWhere($dateFilter[0]);
                 foreach ($dateFilter[1] as $name => $value) {

@@ -219,6 +219,7 @@ al_all_players: Alle Spieler
 al_alliance: Allianz
 al_alliance_closed: Diese Allianz nimmt keine neuen Mitglieder auf.
 al_alliance_full: Diese Allianz ist voll. Versuch es bei einer anderen.
+al_apply_rate_limited: "Du hast heute zu viele Bewerbungen verschickt. Versuche es morgen wieder."
 al_alliance_make: Eigene Allianz gründen
 al_alliance_min_points: Du brauchst mindestens %d Punkte, um dich bei dieser Allianz zu bewerben.
 al_alliance_search: Allianz suchen
@@ -1548,6 +1549,8 @@ ti_create_head: Neues Ticket
 ti_create_info: <p>Beschreibe dein Anliegen beim Erstellen eines Tickets bitte so genau wie möglich und wähle einen aussagekräftigen Betreff.</p><p>Eine genaue Beschreibung verkürzt die Bearbeitung und erspart beiden Seiten zeitaufwendige Rückfragen.</p><p>Bei Fragen zu deinem Account hilft die Angabe des betroffenen Accounts bei der Zuordnung und beschleunigt die Bearbeitung ebenfalls.</p>
 ti_date: Datum
 ti_error_closed: Dieses Ticket ist bereits geschlossen, du kannst nicht mehr darauf antworten.
+ti_error_too_many_open: "Du hast schon %d offene Tickets. Warte, bis eines geschlossen ist, bevor du ein neues eröffnest."
+ti_error_rate_limited: "Du eröffnest Tickets zu schnell. Bitte versuche es später erneut."
 ti_error_no_subject: Bitte gib einen Betreff ein.
 ti_from: von
 ti_header: Support-System

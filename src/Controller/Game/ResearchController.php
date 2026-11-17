@@ -106,7 +106,9 @@ class ResearchController extends AbstractGameController
             );
         }
 
-        if ($this->state->PLANET['id'] == $this->state->USER['b_tech_planet']) {
+        if (empty($costResources)) {
+            // nothing to refund (e.g. paid on an abandoned planet)
+        } elseif ($this->state->PLANET['id'] == $this->state->USER['b_tech_planet']) {
             $this->ecoObj->addResources($this->state->USER['b_tech_planet'], $costResources, $this->state->PLANET);
         } else {
             $this->ecoObj->addResources($this->state->USER['b_tech_planet'], $costResources);

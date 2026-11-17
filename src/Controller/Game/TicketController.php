@@ -35,6 +35,9 @@ class TicketController extends AbstractGameController
 {
     public static $requireModule = 'MODULE_SUPPORT';
 
+    /** open (not closed) tickets one player may have before new ones are refused */
+    public const MAX_OPEN_TICKETS = 5;
+
     private $ticketObj;
 
     public function initialize(): void
@@ -125,6 +128,16 @@ class TicketController extends AbstractGameController
                     'url' => '#',
                     'action' => 'history-back',
                 ]]);
+            }
+
+            $open = (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%TICKETS%% WHERE `ownerID` = :ownerID AND `status` != 2 AND `categoryID` != 9;', [
+                ':ownerID' => $USER['id'],
+            ], 'c');
+            if ($open >= self::MAX_OPEN_TICKETS) {
+                $this->printMessage($LNG->format('ti_error_too_many_open', self::MAX_OPEN_TICKETS));
+            }
+            if (!$this->rateLimits->allowTicket((int) $USER['id'])) {
+                $this->printMessage($LNG['ti_error_rate_limited']);
             }
 
             $ticketID = $this->ticketObj->createTicket($USER['id'], $categoryID, $subject);

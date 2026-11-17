@@ -63,6 +63,7 @@ class BattleHandler
      * before. Skipped while `rebuild_protection_locked_until` (set to one month after a trigger) is still running.
      * Side effects: UPDATE users (rebuild_protection = fight time, rebuild_protection_attackers = JSON of the
      * attacker user ids, rebuild_protection_locked_until = +1 month).
+     * No protection when every opponent is linked to the loser (AccountLinks incl. alliance and buddies).
      * @param array<int, array{totalUnits:int|float, totalCapacity:int|float}> $currentTotalFleetState per user id, before the fight.
      * @param BattleResult $combatResult result of BattleEngineInterface::fight().
      * @param int $combatTime fight timestamp.
@@ -76,6 +77,8 @@ class BattleHandler
         $noobProtectionPoints = min($noobProtectionPoints, 5000);
 
         $attacker = $losses->userIds(BattleSide::Attacker);
+        $defender = $losses->userIds(BattleSide::Defender);
+        $links = new \App\Game\Core\AccountLinks($db);
 
         $noobProtection = $noobProtectionPoints * 1000;
         foreach ($currentTotalFleetState as $userID => $state) {
@@ -90,6 +93,19 @@ class BattleHandler
 
             if (($lostUnits > 0 && $lostUnits > $noobProtection && ($lostUnits / $state['totalUnits']) > 0.7)
                 || ($lostCapacity > 0 && $lostCapacity > $noobProtection && ($lostCapacity / $state['totalCapacity']) > 0.8)) {
+                // no protection when every opponent is linked to the loser (IP, multi group, alliance, buddy): feeding fleets
+                $opponents = in_array($userID, $defender) ? $attacker : $defender;
+                $unlinked = false;
+                foreach ($opponents as $opponent) {
+                    if (!$links->linked((int) $userID, (int) $opponent, true)) {
+                        $unlinked = true;
+                        break;
+                    }
+                }
+                if (!$unlinked) {
+                    continue;
+                }
+
                 $sql = "UPDATE %%USERS%% SET `rebuild_protection` = :someTime, `rebuild_protection_attackers` = :attackers, `rebuild_protection_locked_until` = :someTimeLater
                 WHERE `id` = :userID;";
                 $db->update($sql, [

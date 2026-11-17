@@ -495,6 +495,10 @@ class OverviewController extends AbstractGameController
                 // Re-home research queued on the abandoned planet to the main planet and persist it
                 if (!empty($this->state->USER['b_tech_queue'])) {
                     $TechQueue = StoredData::decode($this->state->USER['b_tech_queue']);
+                    if ($this->state->USER['b_tech_planet'] == $PLANET['id'] && isset($TechQueue[0])) {
+                        // the running research was paid from the abandoned planet: nothing to refund on the main planet (empty cost)
+                        $TechQueue[0][5] = [];
+                    }
                     foreach ($TechQueue as $ID => $ListIDArray) {
                         if ($ListIDArray[4] == $PLANET['id']) {
                             $TechQueue[$ID][4] = $this->state->USER['id_planet'];

@@ -354,7 +354,9 @@ class QuickEditorController extends AbstractAdminController
 
         if ($values !== []) {
             $this->db->updateRows('USERS', $values, ['id' => $id, 'universe' => $this->universe()->getEmulated()]);
+        }
 
+        if ($values !== [] || $newPasswordHash !== null) {
             $LOG = new Log($this->db, $this->configs, $this->state, 1);
             $LOG->target = $id;
             $LOG->old = $old;

@@ -63,7 +63,7 @@ trait PageModeDispatch
         }
         $method = new \ReflectionMethod($this, $mode);
 
-        return $method->isPublic() && !$method->isStatic() && $method->getDeclaringClass()->getName() === static::class;
+        return $method->isPublic() && !$method->isStatic() && $method->getNumberOfRequiredParameters() === 0 && $method->getDeclaringClass()->getName() === static::class;
     }
 
     /** Error page of the area; must end the request. */

@@ -137,10 +137,16 @@ class HonorPoints
         }
 
         $now = $this->state->runtime->timestamp;
+        // battles run inside the event transaction: locking both user rows (ascending id, one fixed order) serialises
+        // count + insert per pair; the count below is a locking read so it sees fights committed by the other transaction
+        $this->db->select('SELECT `id` FROM %%USERS%% WHERE `id` IN (:a, :d) ORDER BY `id` FOR UPDATE;', [
+            ':a' => $attacker,
+            ':d' => $defender,
+        ]);
         $this->db->delete('DELETE FROM %%HONOR_FIGHTS%% WHERE `time` < :old;', [':old' => $now - ONE_DAY]);
         $count = (int) $this->db->selectSingle(
             'SELECT COUNT(*) AS anz FROM %%HONOR_FIGHTS%%
-            WHERE ((`attacker` = :a AND `defender` = :d) OR (`attacker` = :d AND `defender` = :a)) AND `time` >= :since;',
+            WHERE ((`attacker` = :a AND `defender` = :d) OR (`attacker` = :d AND `defender` = :a)) AND `time` >= :since FOR UPDATE;',
             [':a' => $attacker, ':d' => $defender, ':since' => $now - ONE_DAY],
             'anz',
         );
@@ -209,8 +215,15 @@ class HonorPoints
             'attackersH' => [],
             'defendersH' => [],
         ];
+        // Players that are neutral against every opponent (ally, buddy, inactive defender, honor_pair_cap) get nothing
+        $neutral = $this->neutralPlayers($playerData, $attackerHonorpointsChange > 0 || $defenderHonorpointsChange > 0);
+
         // Distribute honorpoints to players
         foreach ($playerData as $playerID => $data) {
+            if (isset($neutral[$playerID])) {
+                $result[$data['side'] . 'sH'][$data['username']] = 0;
+                continue;
+            }
             $fullpoints = 0;
             $pointsChange = 0;
             if ($data['side'] == 'attacker') {
@@ -244,6 +257,73 @@ class HonorPoints
         }
 
         return $result;
+    }
+
+    /**
+     * Multi fights: a player is neutral when each (attacker, defender) pair they are part of is neutral (same alliance, buddies,
+     * inactive defender, or the honor_pair_cap reached; a pair is only counted towards the cap when honor is awarded).
+     *
+     * @param array<int|string, array<string, mixed>> $playerData per-player data of collectSide() (side)
+     * @return array<int, true> neutral player ids
+     */
+    private function neutralPlayers(array $playerData, bool $awarded): array
+    {
+        $attackerIds = [];
+        $defenderIds = [];
+        foreach ($playerData as $playerID => $data) {
+            if ($data['side'] == 'attacker') {
+                $attackerIds[] = (int) $playerID;
+            } else {
+                $defenderIds[] = (int) $playerID;
+            }
+        }
+
+        $honorablePlayers = [];
+        foreach ($attackerIds as $attacker) {
+            foreach ($defenderIds as $defender) {
+                if ($this->pairIsNeutral($attacker, $defender) || ($awarded && $this->pairCapReached($attacker, $defender))) {
+                    continue;
+                }
+                $honorablePlayers[$attacker] = true;
+                $honorablePlayers[$defender] = true;
+            }
+        }
+
+        $neutral = [];
+        foreach (array_merge($attackerIds, $defenderIds) as $playerID) {
+            if (!isset($honorablePlayers[$playerID])) {
+                $neutral[$playerID] = true;
+            }
+        }
+
+        return $neutral;
+    }
+
+    /** Same neutrality rules as calculate_honorpoints_single(): inactive defender, same alliance, buddies. */
+    private function pairIsNeutral(int $attacker, int $defender): bool
+    {
+        $sql = 'SELECT `ally_id`, `onlinetime` FROM %%USERS%% WHERE `id` = :id;';
+        $attackerUser = $this->db->selectSingle($sql, [':id' => $attacker]);
+        $defenderUser = $this->db->selectSingle($sql, [':id' => $defender]);
+        if (empty($attackerUser) || empty($defenderUser)) {
+            return true;
+        }
+
+        if (
+            $this->state->runtime->timestamp - INACTIVE > $defenderUser['onlinetime']
+            || ($attackerUser['ally_id'] == $defenderUser['ally_id'] && $attackerUser['ally_id'] != 0)
+        ) {
+            return true;
+        }
+
+        $buddy = $this->db->selectSingle(
+            'SELECT count(*) as anz FROM %%BUDDY%%
+            WHERE (`sender` = :attacker AND `owner` = :defender) OR (`sender` = :defender AND `owner` = :attacker);',
+            [':attacker' => $attacker, ':defender' => $defender],
+            'anz',
+        );
+
+        return $buddy > 0;
     }
 
     /**

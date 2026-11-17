@@ -76,7 +76,7 @@ HTML;
 
         $reportData = $battleHandler->GenerateReport($combatResult, $reportInfo, EXPO_FIGHT, $fleetAttack, $fleetDefend, $battleHandler->engine->getName());
         $reportData['time']	= $this->fleet['stay_time'];
-        $reportID = md5(uniqid('', true) . $this->state->runtime->timestamp);
+        $reportID = bin2hex(random_bytes(16));
 
         $this->storeReport($battleHandler, $reportData, $reportID);
 

@@ -73,7 +73,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
 
         $combatResult = $battleHandler->engine->fight($fleetAttack, $fleetDefend, $this->_fleet['universe']);
-        $reportID = md5(uniqid('', true) . $this->state->runtime->timestamp);
+        $reportID = bin2hex(random_bytes(16));
         if (!$combatResult) {
             $this->cancelFight($userAttack, $userDefend, [
                 'name' => $LNG['type_planet_4'],

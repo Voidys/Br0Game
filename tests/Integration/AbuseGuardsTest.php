@@ -56,6 +56,9 @@ final class AbuseGuardsTest extends GameTestCase
             self::container()->get(\App\Security\AuthRateLimits::class),
             self::container()->get(\App\Runtime\CanonicalUrl::class),
         );
+        if ($class === \App\Controller\Game\TicketController::class) {
+            $controller->initialize();
+        }
         ob_start();
         try {
             $controller->$method();
@@ -168,6 +171,36 @@ final class AbuseGuardsTest extends GameTestCase
         $this->state->USER = $sender;
         $composer = new MessageComposer($this->db, $this->configs, $this->state);
         $this->assertSame([(int) $ok['id']], $composer->deliverableReceivers([$ok['id'], $blocked['id'], $blocker['id'], 99999999, 'x', $ok['id']]));
+    }
+
+    public function testRequestedIdsIgnoresNestedArraysAndJunk(): void
+    {
+        $composer = new MessageComposer($this->db, $this->configs, $this->state);
+        $this->assertSame([5, 7], $composer->requestedIds([[1, 2], '5', ' 7 ', 'x', '-3', '1.5', null, 5]));
+        $this->assertSame([], $composer->requestedIds(['to' => [9]]));
+    }
+
+    public function testTicketCapsAndOpenLimit(): void
+    {
+        [$user, $planet] = $this->createPlayer();
+        self::container()->get('limiter.ticket_hour')->create((string) $user['id'])->reset();
+        self::container()->get('limiter.ticket_day')->create((string) $user['id'])->reset();
+        $input = ['message' => 'help', 'subject' => 's', 'category' => 1];
+
+        $out = $this->call(\App\Controller\Game\TicketController::class, 'send', $user, $planet, $input);
+        $this->assertStringNotContainsString($this->lng['ti_error_rate_limited'], $out);
+        $this->call(\App\Controller\Game\TicketController::class, 'send', $user, $planet, $input);
+        $this->call(\App\Controller\Game\TicketController::class, 'send', $user, $planet, $input);
+        $out = $this->call(\App\Controller\Game\TicketController::class, 'send', $user, $planet, $input);
+        $this->assertStringContainsString($this->lng['ti_error_rate_limited'], $out);
+
+        // three open tickets exist; two more reach the open cap, which refuses before the limiter is consumed
+        for ($i = 0; $i < 2; $i++) {
+            $this->db->insert('INSERT INTO %%TICKETS%% SET ownerID = :o, universe = 1, categoryID = 1, subject = \'x\', time = :t;', [':o' => $user['id'], ':t' => time()]);
+        }
+        self::container()->get('limiter.ticket_hour')->create((string) $user['id'])->reset();
+        $out = $this->call(\App\Controller\Game\TicketController::class, 'send', $user, $planet, $input);
+        $this->assertStringContainsString(htmlspecialchars($this->lng->format('ti_error_too_many_open', 5), ENT_QUOTES), $out);
     }
 
     public function testEmptyAllianceAdminActionShowsTheOverview(): void

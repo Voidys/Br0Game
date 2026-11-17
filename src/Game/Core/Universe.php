@@ -180,6 +180,11 @@ class Universe
             }
         }
 
+        // unknown universe ids (e.g. ?uni=99) fall back to the default universe
+        if (!$this->exists($universe)) {
+            $universe = ROOT_UNI;
+        }
+
         return $universe;
     }
 

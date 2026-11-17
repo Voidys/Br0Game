@@ -20,6 +20,7 @@ namespace App\Controller\Admin;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Database;
 use App\Game\Core\HTTP;
+use App\Game\Core\Log;
 use App\Game\Core\Singleton;
 use App\Game\Core\StoredData;
 use App\Game\Core\Universe;
@@ -85,10 +86,18 @@ class RightsController extends AbstractAdminController
         }
 
         if ($this->state->requestPost['action'] == 'send') {
+            $oldRights = StoredData::tryDecode((string) $db->selectSingle('SELECT `rights` FROM %%USERS%% WHERE `id` = :userID;', [':userID' => $id], 'rights'));
+            $newRights = array_map('intval', $this->state->requestPost['rights']);
             $db->update("UPDATE %%USERS%% SET `rights` = :rights WHERE `id` = :userID;", [
                 ':rights'   => StoredData::encode(array_map('intval', $this->state->requestPost['rights'])),
                 ':userID'   => $id,
             ]);
+            // admin log (type 1, player change): the page rights before and after, one flat key per page
+            $LOG = new Log($this->db, $this->configs, $this->state, '1');
+            $LOG->target = $id;
+            $LOG->old = $oldRights;
+            $LOG->new = $newRights;
+            $LOG->save();
         }
 
         $Rights = $db->selectSingle("SELECT rights FROM %%USERS%% WHERE id = :userID;", [
@@ -157,10 +166,18 @@ class RightsController extends AbstractAdminController
             $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=users');
         }
 
+        $oldAuthlevel = $db->selectSingle('SELECT `authlevel` FROM %%USERS%% WHERE `id` = :userID;', [':userID' => $id], 'authlevel');
         $db->update("UPDATE %%USERS%% SET `authlevel` = :authlevel WHERE `id` = :userID;", [
             ':userID'   => $id,
             ':authlevel' => $authlevel,
         ]);
+
+        // admin log (type 1, player change) with the old and new authlevel
+        $LOG = new Log($this->db, $this->configs, $this->state, '1');
+        $LOG->target = $id;
+        $LOG->old = ['authlevel' => (int) $oldAuthlevel];
+        $LOG->new = ['authlevel' => (int) $authlevel];
+        $LOG->save();
         $this->message($LNG['ad_authlevel_succes'], '?page=rights&mode=users');
     }
 

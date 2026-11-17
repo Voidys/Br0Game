@@ -29,7 +29,7 @@ class MessageComposer
     public const MAX_TEXT_LENGTH = 5000;
 
     /**
-     * The distinct valid user ids of the request, in request order (non-numeric and non-positive entries dropped).
+     * The distinct valid user ids of the request, in request order (nested arrays, non-numeric and non-positive entries dropped).
      *
      * @return list<int>
      */
@@ -37,6 +37,9 @@ class MessageComposer
     {
         $ids = [];
         foreach ((array) $receiver as $receiverID) {
+            if (!is_int($receiverID) && !(is_string($receiverID) && ctype_digit(trim($receiverID)))) {
+                continue;
+            }
             $id = (int) $receiverID;
             if ($id > 0) {
                 $ids[$id] = $id;

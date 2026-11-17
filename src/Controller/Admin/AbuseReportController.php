@@ -25,7 +25,7 @@ class AbuseReportController extends AbstractAdminController
         $now = $this->state->runtime->timestamp;
         $days = (int) $this->http()->_GP('days', AbuseReportQuery::DEFAULT_DAYS);
 
-        $report = (new AbuseReportQuery($this->db))->report((int) $this->universe()->getEmulated(), $days, $now);
+        $report = (new AbuseReportQuery($this->db, $this->elements()))->report((int) $this->universe()->getEmulated(), $days, $now);
 
         $date = fn(int $time): string => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $time, $this->state->USER['timezone'] ?? null);
         foreach (['transfers', 'trades'] as $section) {

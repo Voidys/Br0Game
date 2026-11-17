@@ -92,7 +92,7 @@ class RaportController extends AbstractGameController
     }
 
     /**
-     * Combat report (request: raport = report id from RW). Participants (attacker or defender id lists; old reports without lists count as everybody),
+     * Combat report (request: raport = report id from RW). Participants (attacker or defender id lists; old reports without lists have no participants),
      * admins and members of the alliances of participants see the full report; everybody else only a reduced one with the participants' names
      * (from TOPKB_USERS). Renders the template for the battle engine stored with the report (`rust` or classic). Unknown ids end in a message.
      */
@@ -164,7 +164,7 @@ class RaportController extends AbstractGameController
     }
 
     /**
-     * Decides what the viewer may see: participants (attacker or defender id lists, empty lists from before r2484 count as everybody),
+     * Decides what the viewer may see: participants (attacker or defender id lists, empty lists from before r2484 list nobody),
      * admins (also treated as defenders) and members of the alliances of any participant get the full report.
      *
      * @param array<string, mixed> $reportData RW row with the attacker and defender id lists
@@ -175,11 +175,11 @@ class RaportController extends AbstractGameController
         $USER = $this->state->USER;
         $db = $this->db;
 
-        // empty is BC for pre r2484
+        // an empty id list (reports from before r2484) lists no participant: such reports are not public
         $attackers = explode(",", $reportData['attacker']);
         $defenders = explode(",", $reportData['defender']);
-        $isAttacker = empty($reportData['attacker']) || in_array($USER['id'], $attackers);
-        $isDefender = empty($reportData['defender']) || in_array($USER['id'], $defenders);
+        $isAttacker = in_array((string) $USER['id'], $attackers, true);
+        $isDefender = in_array((string) $USER['id'], $defenders, true);
         if (array_key_exists('authlevel', $USER) && $USER['authlevel'] > 0) {
             $isDefender = true;
         }

@@ -32,10 +32,11 @@ class AllianceRepository
     /** @return array<string, mixed>|null the alliance row, null when it does not exist */
     public function find(int|string $allianceId): ?array
     {
-        $sql = 'SELECT * FROM %%ALLIANCE%% WHERE id = :allianceId;';
+        $sql = 'SELECT * FROM %%ALLIANCE%% WHERE id = :allianceId AND ally_universe = :universe;';
 
         return $this->db->selectSingle($sql, [
             ':allianceId' => $allianceId,
+            ':universe' => $this->universe()->current(),
         ]) ?: null;
     }
 

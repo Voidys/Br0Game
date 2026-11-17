@@ -55,6 +55,11 @@ class RepairdockController extends AbstractGameController
         $e = $this->elements();
         $db = $this->db;
 
+        if (($PLANET[$e->column(REPAIR_DOCK)] ?? 0) < 1) {
+            // the requirement is enforced here, not only in the template (also covers moons)
+            $this->printMessage($LNG['bd_repairdock_required']);
+        }
+
         $sql = "SELECT * FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID;";
         $wreckfield = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
 

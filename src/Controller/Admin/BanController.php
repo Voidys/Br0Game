@@ -380,7 +380,7 @@ class BanController extends AbstractAdminController
      */
     private function readBanForm(array $row): array
     {
-        $id = $this->http()->_GP('ban_id', 0);
+        $id = $row['id'];
         $Name = $this->http()->_GP('ban_name', '', true);
         $reas = $this->http()->_GP('why', '', true);
         $days = $this->http()->_GP('days', 0);
@@ -483,7 +483,7 @@ class BanController extends AbstractAdminController
         $BannedUntil = $form['until'];
         $mail = "";//$ACCOUNT['email'];
 
-        $sql = "SELECT au.user_id AS id, u.username 
+        $sql = "SELECT au.user_id AS id, u.username, u.universe 
                     FROM %%ACCOUNTS_TO_USERS%% au 
                     JOIN %%USERS%% u ON u.`id` = au.`user_id` 
                     WHERE au.`account_id` = :account_id;";
@@ -492,6 +492,7 @@ class BanController extends AbstractAdminController
         $this->storeAccountBanRecords($bannedAccount, $users, $id, $Name, $reas, $admin, $BannedUntil, $mail);
 
         $this->flagBannedAccount($id, $users, $BannedUntil);
+        $this->sessions()->revokeAccountSessions((int) $id);
 
         $this->message($LNG['bo_the_player'] . $Name . $LNG['bo_banned'], '?page=ban');
     }
@@ -531,7 +532,7 @@ class BanController extends AbstractAdminController
                     ':author'   => $admin,
                     ':mail'     => $mail,
                     ':user_id'  => $user['id'],
-                    ':universe' => $this->universe()->getEmulated(),
+                    ':universe' => $user['universe'],
                 ]);
             }
         } else {
@@ -557,7 +558,7 @@ class BanController extends AbstractAdminController
                     ':time'     => $this->state->runtime->timestamp,
                     ':longer'   => $BannedUntil,
                     ':author'   => $admin,
-                    ':universe' => $this->universe()->getEmulated(),
+                    ':universe' => $user['universe'],
                     ':mail'     => $mail,
                 ]);
             }
@@ -587,7 +588,7 @@ class BanController extends AbstractAdminController
             $db->update($sql, [
                 ':bannedUntil' => $BannedUntil,
                 ':user_id'     => $user['id'],
-                ':universe'    => $this->universe()->getEmulated(),
+                ':universe'    => $user['universe'],
             ]);
             if (isset($this->state->requestPost['vacat'])) {
                 $planetDummy = [];

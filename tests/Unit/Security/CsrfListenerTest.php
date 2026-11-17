@@ -207,6 +207,33 @@ final class CsrfListenerTest extends TestCase
         self::assertFalse($this->dispatch($this->request('GET', 'game_admin_overview'))->hasResponse());
     }
 
+    /** @return iterable<string, array{string}> */
+    public static function disguisedActions(): iterable
+    {
+        yield 'leading space' => [' sendfleetback'];
+        yield 'trailing space' => ['sendfleetback '];
+        yield 'trailing nul byte' => ["sendfleetback\0"];
+        yield 'nul byte inside' => ["send\0fleetback"];
+        yield 'upper and lower case' => ['SendFleetBack'];
+        yield 'line break around' => ["\nsendfleetback\r\n"];
+    }
+
+    #[DataProvider('disguisedActions')]
+    public function testActionNamesNeedTheTokenLikeTheGameReadsThem(string $action): void
+    {
+        $plain = $this->dispatch($this->request('GET', 'game_game_fleettable', ['action' => 'sendfleetback', 'fleetid' => '3']));
+        $disguised = $this->dispatch($this->request('GET', 'game_game_fleettable', ['action' => $action, 'fleetid' => '3']));
+
+        self::assertSame(403, $plain->getResponse()?->getStatusCode());
+        self::assertSame(403, $disguised->getResponse()?->getStatusCode(), 'the game trims and lower-cases the action, so must the policy');
+    }
+
+    public function testArrayActionDoesNotMatchAndOtherActionsStayFree(): void
+    {
+        self::assertFalse($this->dispatch($this->request('GET', 'game_game_fleettable', ['action' => ['sendfleetback']]))->hasResponse());
+        self::assertFalse($this->dispatch($this->request('GET', 'game_game_fleettable', ['action' => 'other']))->hasResponse());
+    }
+
     public function testControllersOutsideTheGameAreNotChecked(): void
     {
         $event = $this->dispatch($this->request('POST', 'wiki_sso', controller: \stdClass::class . '::__invoke'));

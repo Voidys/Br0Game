@@ -56,7 +56,7 @@ class MissionCaseAttack extends AbstractBattleMission
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
 
         $combatResult = $battleHandler->engine->fight($setup->fleetAttack, $setup->fleetDefend, $this->_fleet['universe']);
-        $reportID = md5(uniqid('', true) . $this->state->runtime->timestamp);
+        $reportID = bin2hex(random_bytes(16));
         if (!$combatResult) {
             $this->cancelFight($setup->userAttack, $setup->userDefend, $targetPlanet);
             return;

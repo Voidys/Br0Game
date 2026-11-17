@@ -87,7 +87,10 @@ class UniverseController extends AbstractAdminController
                 }
                 break;
             case 'create':
-                $this->createUniverse();
+                // state change: POST only (the policy exempts action=create from the GET token rules, the news editor shows a form there)
+                if (($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST') {
+                    $this->createUniverse();
+                }
                 break;
         }
 

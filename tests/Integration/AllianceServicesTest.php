@@ -346,25 +346,42 @@ final class AllianceServicesTest extends GameTestCase
     {
         [$owner, $alliance] = $this->foundAlliance('RNM', 'Rank Names');
         $ranks = $this->services($owner)->ranks();
+        $rank = $this->rank($alliance, 'Named');
 
         self::assertSame(AllianceException::MESSAGE, $this->exitOf(fn() => $ranks->create($alliance, AllianceRights::all(true), ['rankName' => str_repeat('x', 33)]))->kind);
-        self::assertSame(AllianceException::MESSAGE, $this->exitOf(fn() => $ranks->update($alliance, AllianceRights::all(true), [1 => ['rankName' => str_repeat('x', 33)]]))->kind);
+        self::assertSame(AllianceException::MESSAGE, $this->exitOf(fn() => $ranks->update($alliance, AllianceRights::all(true), [$rank => ['rankName' => str_repeat('x', 33)]]))->kind);
     }
 
     public function testRankUpdateLeavesRightsTheActorLacksUntouched(): void
     {
         [, $alliance] = $this->foundAlliance('UPD', 'Update Alliance');
-        $managerRank = $this->rank($alliance, 'Manager', ['RANKS']);
+        $managerRank = $this->rank($alliance, 'Manager', ['RANKS', 'MEMBERLIST']);
         $manager = $this->join($this->player(), $alliance, $managerRank);
         $target = $this->rank($alliance, 'Target', ['KICK', 'MEMBERLIST']);
+        $low = $this->rank($alliance, 'Low');
+        $rights = $this->rights($manager, $alliance);
+        $ranks = $this->services($manager)->ranks();
 
-        $this->services($manager)->ranks()->update($alliance, $this->rights($manager, $alliance), [$target => ['rankName' => 'Renamed']]);
-
+        // a rank carrying a right the manager lacks (KICK) is out of reach: neither renamed nor stripped
+        $ranks->update($alliance, $rights, [$target => ['rankName' => 'Renamed']]);
         $row = $this->db->selectSingle('SELECT * FROM %%ALLIANCE_RANK%% WHERE rankID = :r;', [':r' => $target]);
+        self::assertSame('Target', $row['rankName']);
+        self::assertEquals(1, $row['KICK']);
+        self::assertEquals(1, $row['MEMBERLIST']);
+
+        // the own rank is out of reach too
+        $ranks->update($alliance, $rights, [$managerRank => ['rankName' => 'Boss']]);
+        self::assertSame('Manager', $this->db->selectSingle('SELECT rankName FROM %%ALLIANCE_RANK%% WHERE rankID = :r;', [':r' => $managerRank], 'rankName'));
+
+        // a lower rank can be renamed, only rights the manager holds are written
+        $ranks->update($alliance, $rights, [$low => ['rankName' => 'Renamed', '7' => '1']]);
+        $row = $this->db->selectSingle('SELECT * FROM %%ALLIANCE_RANK%% WHERE rankID = :r;', [':r' => $low]);
         self::assertSame('Renamed', $row['rankName']);
-        self::assertEquals(1, $row['KICK'], 'KICK is not held by the manager: untouched');
-        self::assertEquals(1, $row['MEMBERLIST'], 'MEMBERLIST is not held by the manager: untouched');
-        self::assertEquals(0, $row['RANKS']);
+        self::assertEquals(0, $row['KICK'], 'KICK is not held by the manager');
+
+        // deleting the out-of-reach rank is refused
+        $ranks->delete($alliance, $rights, $target);
+        self::assertSame(1, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%ALLIANCE_RANK%% WHERE rankID = :r;', [':r' => $target], 'c'));
     }
 
     public function testPermissionPageMarksOwnAndOutOfReachRanksAsUnchangeable(): void
@@ -391,10 +408,10 @@ final class AllianceServicesTest extends GameTestCase
         $foreignRank = $this->rank($other, 'Foreign');
         $member = $this->join($this->player(), $alliance, $rank);
 
-        $this->services($owner)->ranks()->delete($alliance, $foreignRank);
+        $this->services($owner)->ranks()->delete($alliance, AllianceRights::all(true), $foreignRank);
         self::assertSame(1, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%ALLIANCE_RANK%% WHERE rankID = :r;', [':r' => $foreignRank], 'c'), 'a rank of another alliance survives');
 
-        $this->services($owner)->ranks()->delete($alliance, $rank);
+        $this->services($owner)->ranks()->delete($alliance, AllianceRights::all(true), $rank);
         self::assertSame(0, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%ALLIANCE_RANK%% WHERE rankID = :r;', [':r' => $rank], 'c'));
         self::assertSame(0, (int) $this->loadUser((int) $member['id'])['ally_rank_id']);
     }

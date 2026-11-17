@@ -216,6 +216,7 @@ al_all_players: All players
 al_alliance: Alliance
 al_alliance_closed: This alliance is not accepting new members.
 al_alliance_full: This alliance is full. Try another one.
+al_apply_rate_limited: "You have sent too many applications today. Try again tomorrow."
 al_alliance_make: Create your own alliance
 al_alliance_min_points: 'You need at least %d points to apply to this alliance.'
 al_alliance_search: Search Alliances
@@ -1425,6 +1426,8 @@ ti_create_head: Create Ticket
 ti_create_info: "<p>When creating a support Ticket, please describe your issue with maximum detail!</p>\r\n<p>A detailed description shortens the time to resolution and avoids a time-consuming back-and-forth.</p>\r\n<p>For issues related to accounts, providing relevant account details helps with ticket assignment and shortens processing time.</p>"
 ti_date: Date
 ti_error_closed: This ticket is already closed, so it cannot be answered.
+ti_error_too_many_open: "You already have %d open tickets. Wait until one is closed before opening another."
+ti_error_rate_limited: "You are opening tickets too quickly. Please try again later."
 ti_error_no_subject: Please enter a subject.
 ti_from: by
 ti_header: Support system

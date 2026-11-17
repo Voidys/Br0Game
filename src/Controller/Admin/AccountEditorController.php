@@ -15,8 +15,6 @@
  * @link https://github.com/jkroepke/2Moons
  */
 
-# Actions not logged: Planet-Edit, Alliance-Edit
-
 namespace App\Controller\Admin;
 
 use App\Game\Admin\AccountEditor\AlliancesTab;

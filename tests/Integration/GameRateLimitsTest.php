@@ -33,7 +33,7 @@ final class GameRateLimitsTest extends GameTestCase
             new InMemoryStorage(),
         );
 
-        return new GameRateLimits($bucket($actionBurst, 1), $bucket($readBurst, 2), self::container()->get(CsrfPolicy::class), $enabled);
+        return new GameRateLimits($bucket($actionBurst, 1), $bucket($readBurst, 2), $bucket(3, 1), self::container()->get(CsrfPolicy::class), $enabled);
     }
 
     /**
@@ -96,6 +96,34 @@ final class GameRateLimitsTest extends GameTestCase
         // refill
         usleep(1_050_000);
         $this->assertNull($limits->check($galaxy, 42));
+    }
+
+    public function testReadOnlyAjaxModesCountInTheReadsBucket(): void
+    {
+        $limits = $this->limits();
+        $check = $this->request('game_game_fleetstep1', \App\Controller\Game\FleetStep1Controller::class, 'GET', ['mode' => ' checkTarget']);
+        for ($i = 0; $i < 8; $i++) {
+            $this->assertNull($limits->check($check, 42), "read $i");
+        }
+        $this->assertNotNull($limits->check($check, 42));
+        // the same page without the mode is not a read of this kind
+        $plain = $this->request('game_game_fleetstep1', \App\Controller\Game\FleetStep1Controller::class, 'GET');
+        $this->assertNull($limits->check($plain, 42));
+    }
+
+    public function testAnonymousPublicPagesAreLimitedPerIp(): void
+    {
+        $limits = $this->limits();
+        $report = $this->request('game_game_raport', \App\Controller\Game\RaportController::class, 'GET', ['raport' => 'x']);
+        for ($i = 0; $i < 3; $i++) {
+            $this->assertNull($limits->checkAnonymous($report, '10.0.0.1'), "hit $i");
+        }
+        $this->assertNotNull($limits->checkAnonymous($report, '10.0.0.1'));
+        $this->assertNull($limits->checkAnonymous($report, '10.0.0.2'));
+        // other pages are not covered
+        $overview = $this->request('game_game_overview', OverviewController::class, 'GET');
+        $this->assertNull($limits->checkAnonymous($overview, '10.0.0.1'));
+        $this->assertNull($this->limits(false)->checkAnonymous($report, '10.0.0.1'));
     }
 
     public function testStateChangingGetLinkIsAnAction(): void

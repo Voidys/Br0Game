@@ -58,6 +58,27 @@ framework:
             rate:
                 interval: '%app.game_rate_limit.read_interval%'
                 amount: '%app.game_rate_limit.read_amount%'
+        # visitors without a login, per client IP, on the public pages (battle reports, board)
+        game_anonymous:
+            policy: token_bucket
+            limit: '%app.game_rate_limit.anonymous_burst%'
+            rate:
+                interval: '%app.game_rate_limit.anonymous_interval%'
+                amount: 1
+        # open support tickets are capped by TicketController itself; new tickets per account and hour / day
+        ticket_hour:
+            policy: sliding_window
+            limit: 3
+            interval: '1 hour'
+        ticket_day:
+            policy: sliding_window
+            limit: 10
+            interval: '1 day'
+        # alliance applications per account and day
+        alliance_applications:
+            policy: sliding_window
+            limit: '%app.alliance_applications_per_day%'
+            interval: '1 day'
         # board votes and posts/comments per account and day (AuthRateLimits::allowBoardVote / allowBoardWrite)
         board_votes:
             policy: sliding_window
