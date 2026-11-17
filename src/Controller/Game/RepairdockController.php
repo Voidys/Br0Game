@@ -94,24 +94,7 @@ class RepairdockController extends AbstractGameController
             $ships = $this->remainingWrecks($ships, $ElementQueue, $this->orderRate($wreckfield, $PLANET));
         }
 
-        $elementIDs = $e->ids('fleet');
-        $elementList = [];
-        foreach ($elementIDs as $elementID) {
-            if (!isset($ships[$elementID])) {
-                continue;
-            }
-
-            $elementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $elementID);
-            $maxBuildable = floor($ships[$elementID] * $this->getRepairRate($PLANET[$e->column(REPAIR_DOCK)]));
-
-            $elementList[$elementID] = [
-                'id' => $elementID,
-                'available' => $PLANET[$e->column($elementID)],
-                'elementTime' => $elementTime,
-                'maxBuildable' => floatToString($maxBuildable),
-                'wrecks' => $ships[$elementID],
-            ];
-        }
+        $elementList = $this->repairableShips($ships);
         $SolarEnergy = round((($PLANET['temp_max'] + 160) / 6) * $this->configs->get()->energy_multiplier, 1);
 
         $busy = !empty($ElementQueue);
@@ -130,6 +113,41 @@ class RepairdockController extends AbstractGameController
         ]);
 
         return $this->render('game/page.repairdock.default.html.twig');
+    }
+
+    /**
+     * The ships of the wreck field as element rows (stock, build time, how many can be repaired at the dock's rate).
+     *
+     * @param array<int, int|float> $ships wreck counts by ship id
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function repairableShips(array $ships): array
+    {
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $e = $this->elements();
+
+        $elementIDs = $e->ids('fleet');
+        $elementList = [];
+        foreach ($elementIDs as $elementID) {
+            if (!isset($ships[$elementID])) {
+                continue;
+            }
+
+            $elementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $elementID);
+            $maxBuildable = floor($ships[$elementID] * $this->getRepairRate($PLANET[$e->column(REPAIR_DOCK)]));
+
+            $elementList[$elementID] = [
+                'id' => $elementID,
+                'available' => $PLANET[$e->column($elementID)],
+                'elementTime' => $elementTime,
+                'maxBuildable' => floatToString($maxBuildable),
+                'wrecks' => $ships[$elementID],
+            ];
+        }
+
+        return $elementList;
     }
 
     /**

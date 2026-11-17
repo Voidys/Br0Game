@@ -12,6 +12,7 @@ namespace App\Game\Model;
  */
 final class Numeric
 {
+    /** Returns the value as int or float, keeping its numeric type; non-numeric values give 0. */
     public static function of(mixed $value): int|float
     {
         if (is_int($value) || is_float($value)) {

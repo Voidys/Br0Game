@@ -14,6 +14,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
  */
 final class AuthRateLimits
 {
+    /** Takes one limiter factory per limited form, wired by service id (see "rate_limiter" in framework.yaml). */
     public function __construct(
         #[Autowire(service: 'limiter.registration')]
         private readonly RateLimiterFactoryInterface $registration,

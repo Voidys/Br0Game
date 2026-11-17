@@ -508,11 +508,59 @@ class FlyingFleetsTable
         return $EventString;
     }
 
-    /** All other missions: own fleets by status, foreign ones as ACS call, stay, good or bad visit. @param array<string, mixed> $c see eventText() */
-    private function flightEventText(array $c): string
+    /**
+     * Foreign fleet of a flight event: ACS call for outward attacks, otherwise stay, good or bad visit.
+     *
+     * @param array<string, mixed> $c see eventText()
+     */
+    private function foreignFlightEventText(array $c): string
     {
         $MissionType = $c['mission'];
         $GoodMissions = [MISSION_TRANSPORT, MISSION_HOLD];
+        [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target']];
+        $LNG = $this->state->LNG;
+
+        if (($MissionType == MISSION_ATTACK || $MissionType == MISSION_PIRATEBASE_ATTACK || $MissionType == MISSION_ACS) && $Status == FLEET_OUTWARD) {
+            $EventString = $LNG->format(
+                'cff_mission_acs',
+                $FleetContent,
+                $StartType,
+                $fleetRow['own_planetname'],
+                GetStartAddressLink($fleetRow, $FleetType),
+                $TargetType,
+                $fleetRow['target_planetname'],
+                GetTargetAddressLink($fleetRow, $FleetType),
+                $FleetCapacity,
+            );
+        } else {
+            if ($Status == FLEET_HOLD) {
+                $Message    = 'cff_mission_target_stay';
+            } elseif (in_array($MissionType, $GoodMissions)) {
+                $Message    = 'cff_mission_target_good';
+            } else {
+                $Message    = 'cff_mission_target_bad';
+            }
+
+            $EventString = $LNG->format(
+                $Message,
+                $FleetContent,
+                $this->buildHostileFleetPlayerLink($fleetRow),
+                $StartType,
+                $fleetRow['own_planetname'],
+                GetStartAddressLink($fleetRow, $FleetType),
+                $TargetType,
+                $fleetRow['target_planetname'],
+                GetTargetAddressLink($fleetRow, $FleetType),
+                $FleetCapacity,
+            );
+        }
+
+        return $EventString;
+    }
+
+    /** All other missions: own fleets by status, foreign ones as ACS call, stay, good or bad visit. @param array<string, mixed> $c see eventText() */
+    private function flightEventText(array $c): string
+    {
         [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType, $Owner, $textKey] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target'], $c['owner'], $c['textKey']];
         $LNG = $this->state->LNG;
 
@@ -555,40 +603,7 @@ class FlyingFleetsTable
                 );
             }
         } else {
-            if (($MissionType == MISSION_ATTACK || $MissionType == MISSION_PIRATEBASE_ATTACK || $MissionType == MISSION_ACS) && $Status == FLEET_OUTWARD) {
-                $EventString = $LNG->format(
-                    'cff_mission_acs',
-                    $FleetContent,
-                    $StartType,
-                    $fleetRow['own_planetname'],
-                    GetStartAddressLink($fleetRow, $FleetType),
-                    $TargetType,
-                    $fleetRow['target_planetname'],
-                    GetTargetAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity,
-                );
-            } else {
-                if ($Status == FLEET_HOLD) {
-                    $Message    = 'cff_mission_target_stay';
-                } elseif (in_array($MissionType, $GoodMissions)) {
-                    $Message    = 'cff_mission_target_good';
-                } else {
-                    $Message    = 'cff_mission_target_bad';
-                }
-
-                $EventString = $LNG->format(
-                    $Message,
-                    $FleetContent,
-                    $this->buildHostileFleetPlayerLink($fleetRow),
-                    $StartType,
-                    $fleetRow['own_planetname'],
-                    GetStartAddressLink($fleetRow, $FleetType),
-                    $TargetType,
-                    $fleetRow['target_planetname'],
-                    GetTargetAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity,
-                );
-            }
+            $EventString = $this->foreignFlightEventText($c);
         }
 
         return $EventString;

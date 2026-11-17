@@ -503,6 +503,22 @@ final class AbuseReportQuery
      */
     private function tradeGraph(int $universe, int $since, array $weights): array
     {
+        $edges = $this->tradeEdges($universe, $since, $weights);
+        $clusters = $this->strongClusters($edges);
+
+        return $this->describeClusters($clusters, $universe);
+    }
+
+    /**
+     * Value moved between players: edge[lo][hi] = [flows, value lo -> hi, value hi -> lo], from transfers, completed
+     * market trades and attack loot (see tradeGraph()).
+     *
+     * @param array{metal: float, crystal: float, deuterium: float} $weights
+     *
+     * @return array<int, array<int, array{0: int, 1: float, 2: float}>>
+     */
+    private function tradeEdges(int $universe, int $since, array $weights): array
+    {
         $limit = self::GRAPH_MAX_SOURCE_ROWS;
         // edge[lo][hi] = [flows, value lo -> hi, value hi -> lo]
         $edges = [];
@@ -561,6 +577,19 @@ final class AbuseReportQuery
             $add((int) $row['target_owner'], (int) $row['owner'], (int) $row['n'], (float) $row['v']);
         }
 
+        return $edges;
+    }
+
+    /**
+     * Connected components (union-find) over the edges that reach the flow and value thresholds, biggest total value
+     * first, at most GRAPH_MAX_CLUSTERS. Each cluster has its player ids, total value, flows and most one-sided edge.
+     *
+     * @param array<int, array<int, array{0: int, 1: float, 2: float}>> $edges
+     *
+     * @return list<array{ids: array<int, true>, value: float, flows: int, top: array{from: int, to: int, net: float, value: float, share: float}|null}>
+     */
+    private function strongClusters(array $edges): array
+    {
         // union-find over the edges that reach the thresholds
         $parent = [];
         $find = static function (int $x) use (&$parent): int {
@@ -605,6 +634,19 @@ final class AbuseReportQuery
         usort($clusters, static fn(array $x, array $y): int => $y['value'] <=> $x['value']);
         $clusters = array_slice($clusters, 0, self::GRAPH_MAX_CLUSTERS);
 
+        return $clusters;
+    }
+
+    /**
+     * Adds member names, the IP/subnet/multi/device link flags between the members and the names of the top edge to
+     * each cluster.
+     *
+     * @param list<array<string, mixed>> $clusters result of strongClusters()
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function describeClusters(array $clusters, int $universe): array
+    {
         $allIds = [];
         foreach ($clusters as $cluster) {
             array_push($allIds, ...array_keys($cluster['ids']));

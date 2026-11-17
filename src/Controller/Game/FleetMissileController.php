@@ -87,26 +87,7 @@ class FleetMissileController extends AbstractGameController
                 return $error;
             }
 
-            if ($this->configs->get()->adm_attack == 1 && $target['authattack'] > $this->state->USER['authlevel']) {
-                $error = $LNG['fl_admin_attack'];
-            } elseif ($target['urlaubs_modus']) {
-                $error = $LNG['fl_in_vacation_player'];
-            }
-
-            if ($error == "" && $target['id_owner'] == $this->state->USER['id']) {
-                $error = $LNG['ma_own_planet'];
-            }
-
-            $this->loadOwnPoints();
-
-            $protectionError = $this->protectionError($target);
-            if ($protectionError !== null) {
-                $error = $protectionError;
-            }
-
-            if ($error == "" && $this->fleetFunctions()->checkBash((int) $target['planetID'])) {
-                $error = $LNG['fl_bash_protection'];
-            }
+            $error = $this->targetRestrictionError($target, $error);
 
             if ($error == "") {
                 // last check: a refused launch must not use up the daily quota (audit F-14)
@@ -126,6 +107,41 @@ class FleetMissileController extends AbstractGameController
         }
 
         $this->launchMessage($targetGalaxy, $targetSystem, $primaryTarget, (int) $sent);
+    }
+
+    /**
+     * Checks the (existing) target against admin attack level, vacation mode, own planet, protections and the bash
+     * limit. Returns the error text of the first failing check that overrides the earlier $error, "" when launching is
+     * allowed.
+     *
+     * @param array<string, mixed> $target
+     */
+    private function targetRestrictionError(array $target, string $error): string
+    {
+        $LNG = $this->state->LNG;
+
+        if ($this->configs->get()->adm_attack == 1 && $target['authattack'] > $this->state->USER['authlevel']) {
+            $error = $LNG['fl_admin_attack'];
+        } elseif ($target['urlaubs_modus']) {
+            $error = $LNG['fl_in_vacation_player'];
+        }
+
+        if ($error == "" && $target['id_owner'] == $this->state->USER['id']) {
+            $error = $LNG['ma_own_planet'];
+        }
+
+        $this->loadOwnPoints();
+
+        $protectionError = $this->protectionError($target);
+        if ($protectionError !== null) {
+            $error = $protectionError;
+        }
+
+        if ($error == "" && $this->fleetFunctions()->checkBash((int) $target['planetID'])) {
+            $error = $LNG['fl_bash_protection'];
+        }
+
+        return $error;
     }
 
     /**

@@ -73,6 +73,10 @@ class HallOfFameController extends AbstractAdminController
         return $this->render('admin/HallOfFamePage.html.twig');
     }
 
+    /**
+     * Imports the uploaded hall-of-fame JSON file into the universe. Problems (no or too large file, invalid
+     * content) and success are reported through the flash message instead of an exception.
+     */
     private function doImport(int $uni): void
     {
         $LNG = $this->state->LNG;

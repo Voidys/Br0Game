@@ -116,13 +116,7 @@ class BattleSimulatorController extends AbstractGameController
             $debris[$elementID] = $combatResult->debris->total($elementID);
         }
 
-        $stealResourceInformation = $LNG->format(
-            'bs_steal_raport',
-            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $e->capacity(SHIP_SMALL_CARGO))),
-            $LNG['tech'][SHIP_SMALL_CARGO],
-            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $e->capacity(SHIP_LARGE_CARGO))),
-            $LNG['tech'][SHIP_LARGE_CARGO],
-        );
+        $stealResourceInformation = $this->stealInformation($capacityNeeded);
 
         $reportInfo = $this->simulationReportInfo($debris, $stealResource, $this->moonChance($debris), $stealResourceInformation);
 
@@ -130,6 +124,21 @@ class BattleSimulatorController extends AbstractGameController
         unset($reportData['repaired']);
 
         $this->sendJSON($this->storeReport($reportData, $battleHandler->engine->getName(), $simMarker));
+    }
+
+    /** The text about how many small and large cargos the plunder of the defending planet would need. */
+    private function stealInformation(float|int $capacityNeeded): string
+    {
+        $e = $this->elements();
+        $LNG = $this->state->LNG;
+
+        return $LNG->format(
+            'bs_steal_raport',
+            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $e->capacity(SHIP_SMALL_CARGO))),
+            $LNG['tech'][SHIP_SMALL_CARGO],
+            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $e->capacity(SHIP_LARGE_CARGO))),
+            $LNG['tech'][SHIP_LARGE_CARGO],
+        );
     }
 
     /**

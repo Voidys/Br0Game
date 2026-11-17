@@ -34,31 +34,7 @@ class OverviewController extends AbstractAdminController
     {
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
-        $Message = [];
-        if ($USER['authlevel'] >= AUTH_ADM) {
-            if (file_exists($this->state->runtime->rootPath . 'update.php')) {
-                $Message[] = $LNG->format('ow_file_detected', 'update.php');
-            }
-
-            if (file_exists($this->state->runtime->rootPath . 'webinstall.php')) {
-                $Message[] = $LNG->format('ow_file_detected', 'webinstall.php');
-            }
-
-            if (file_exists('var/ENABLE_INSTALL_TOOL')) {
-                $Message[] = $LNG->format('ow_file_detected', 'var/ENABLE_INSTALL_TOOL');
-            }
-
-            if (!$this->canonicalUrl->canBuildLinks()) {
-                $Message[] = $LNG['ow_default_uri_missing'];
-            }
-
-            // runtime data lives in var/ (game caches, sessions, logs)
-            foreach (['var/game', 'var/sessions', 'var/log'] as $dir) {
-                if (!is_writable($this->state->runtime->rootPath . $dir)) {
-                    $Message[] = $LNG->format('ow_dir_not_writable', $dir);
-                }
-            }
-        }
+        $Message = $USER['authlevel'] >= AUTH_ADM ? $this->setupNotices() : [];
 
         // dashboard figures of the emulated universe
         $universe = $this->universe()->getEmulated();
@@ -85,24 +61,7 @@ class OverviewController extends AbstractAdminController
             'cronjobs' => count($cronjobs),
         ];
 
-        $unprotected = [];
-        if ($USER['authlevel'] >= AUTH_ADM) {
-            if (!$config->transport_push_check || (float) $config->transport_push_limit <= 0) {
-                $unprotected[] = $LNG['adm_dash_unprotected_push'];
-            }
-            if ((int) $config->honor_pair_cap === 0) {
-                $unprotected[] = $LNG['adm_dash_unprotected_honor'];
-            }
-            if ($config->bash_war_exempt) {
-                $unprotected[] = $LNG['adm_dash_unprotected_bash'];
-            }
-            if (!$config->depot_cost_real_consumption) {
-                $unprotected[] = $LNG['adm_dash_unprotected_depot'];
-            }
-            if ((int) $config->market_push_tolerance > 10) {
-                $unprotected[] = $LNG['adm_dash_unprotected_market'];
-            }
-        }
+        $unprotected = $USER['authlevel'] >= AUTH_ADM ? $this->unprotectedWarnings($config) : [];
 
         $this->assign([
             'unprotected'       => $unprotected,
@@ -114,5 +73,69 @@ class OverviewController extends AbstractAdminController
         ]);
 
         return $this->render('admin/OverviewBody.html.twig');
+    }
+
+    /**
+     * Setup notices for admins: leftover update.php / webinstall.php / var/ENABLE_INSTALL_TOOL, missing canonical URL
+     * and var/ directories that are not writable.
+     *
+     * @return list<string>
+     */
+    private function setupNotices(): array
+    {
+        $LNG = $this->state->LNG;
+        $Message = [];
+        if (file_exists($this->state->runtime->rootPath . 'update.php')) {
+            $Message[] = $LNG->format('ow_file_detected', 'update.php');
+        }
+
+        if (file_exists($this->state->runtime->rootPath . 'webinstall.php')) {
+            $Message[] = $LNG->format('ow_file_detected', 'webinstall.php');
+        }
+
+        if (file_exists('var/ENABLE_INSTALL_TOOL')) {
+            $Message[] = $LNG->format('ow_file_detected', 'var/ENABLE_INSTALL_TOOL');
+        }
+
+        if (!$this->canonicalUrl->canBuildLinks()) {
+            $Message[] = $LNG['ow_default_uri_missing'];
+        }
+
+        // runtime data lives in var/ (game caches, sessions, logs)
+        foreach (['var/game', 'var/sessions', 'var/log'] as $dir) {
+            if (!is_writable($this->state->runtime->rootPath . $dir)) {
+                $Message[] = $LNG->format('ow_dir_not_writable', $dir);
+            }
+        }
+
+        return $Message;
+    }
+
+    /**
+     * Warnings for disabled or weakened abuse protections of the universe config.
+     *
+     * @return list<string>
+     */
+    private function unprotectedWarnings(object $config): array
+    {
+        $LNG = $this->state->LNG;
+        $unprotected = [];
+        if (!$config->transport_push_check || (float) $config->transport_push_limit <= 0) {
+            $unprotected[] = $LNG['adm_dash_unprotected_push'];
+        }
+        if ((int) $config->honor_pair_cap === 0) {
+            $unprotected[] = $LNG['adm_dash_unprotected_honor'];
+        }
+        if ($config->bash_war_exempt) {
+            $unprotected[] = $LNG['adm_dash_unprotected_bash'];
+        }
+        if (!$config->depot_cost_real_consumption) {
+            $unprotected[] = $LNG['adm_dash_unprotected_depot'];
+        }
+        if ((int) $config->market_push_tolerance > 10) {
+            $unprotected[] = $LNG['adm_dash_unprotected_market'];
+        }
+
+        return $unprotected;
     }
 }

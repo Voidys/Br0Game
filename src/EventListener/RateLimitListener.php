@@ -34,6 +34,10 @@ final class RateLimitListener
         private readonly TranslatorInterface $translator,
     ) {}
 
+    /**
+     * Counts the request against the game limits (per account when logged in, else per client IP). When the limit is
+     * hit, JSON-expecting requests get a 429 answer right away; page loads only get RETRY_AFTER set on the request.
+     */
     #[AsEventListener(event: KernelEvents::REQUEST, priority: 4)]
     public function onRequest(RequestEvent $event): void
     {

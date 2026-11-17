@@ -106,8 +106,6 @@ class TicketController extends AbstractGameController
     public function send()
     {
         $USER = $this->state->USER;
-        $LNG = $this->state->LNG;
-        $config = $this->configs->get();
         $ticketID = $this->http()->_GP('id', 0);
         $categoryID = $this->http()->_GP('category', 0);
         $message = $this->http()->_GP('message', '', true);
@@ -122,69 +120,99 @@ class TicketController extends AbstractGameController
         }
 
         if (empty($ticketID)) {
-            if (empty($subject)) {
-                $this->printMessage($LNG['ti_error_no_subject'], [[
-                    'label' => $LNG['sys_back'],
-                    'url' => '#',
-                    'action' => 'history-back',
-                ]]);
-            }
-
-            $open = (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%TICKETS%% WHERE `ownerID` = :ownerID AND `status` != 2 AND `categoryID` != 9;', [
-                ':ownerID' => $USER['id'],
-            ], 'c');
-            if ($open >= self::MAX_OPEN_TICKETS) {
-                $this->printMessage($LNG->format('ti_error_too_many_open', self::MAX_OPEN_TICKETS));
-            }
-            if (!$this->rateLimits->allowTicket((int) $USER['id'])) {
-                $this->printMessage($LNG['ti_error_rate_limited']);
-            }
-
-            $ticketID = $this->ticketObj->createTicket($USER['id'], $categoryID, $subject);
-
-            if (isset($config->discord_tickets_hook) && !empty($config->discord_tickets_hook)) {
-                $this->discord()->sendMessage($config->discord_tickets_hook, 'New ingame ticket created', [
-                    'Universe' => $this->universe()->current(),
-                    'Ticket-ID' => '[' . $ticketID . '](' . $this->state->runtime->protocol . $this->state->runtime->httpHost . '/admin?page=support&mode=view&id=' . $ticketID . ')',
-                    'User' => $USER['username'] . ' (' . $USER['id'] . ')',
-                    'Subject' => $subject,
-                    'Message' => $message,
-                ]);
-            }
+            $ticketID = $this->createNewTicket($categoryID, $subject, $message);
         } else {
-            $db = $this->db;
-
-            $sql = 'SELECT `status`, `subject` 
-                FROM %%TICKETS%% 
-                WHERE `ticketID` = :ticketID AND `ownerID` = :ownerID AND `categoryID` != 9;';
-            $ticket = $db->selectSingle($sql, [
-                ':ticketID' => $ticketID,
-                ':ownerID' => $USER['id'],
-            ]);
-
-            if (empty($ticket)) {
-                $this->printMessage($LNG->format('ti_not_exist', $ticketID), [[
-                    'label' => $LNG['sys_back'],
-                    'url' => 'game?page=ticket',
-                ]]);
-            }
-            $subject = 'RE: ' . $ticket['subject'];
-
-            if ($ticket['status'] == 2) {
-                $this->printMessage($LNG['ti_error_closed']);
-            } elseif (isset($config->discord_tickets_hook) && !empty($config->discord_tickets_hook)) {
-                $this->discord()->sendMessage($config->discord_tickets_hook, 'New ticket reply', [
-                    'Universe' => $this->universe()->current(),
-                    'Ticket-ID' => '[' . $ticketID . '](' . $this->state->runtime->protocol . $this->state->runtime->httpHost . '/admin?page=support&mode=view&id=' . $ticketID . ')',
-                    'User' => $USER['username'] . ' (' . $USER['id'] . ')',
-                    'Subject' => $subject,
-                    'Message' => $message,
-                ]);
-            }
+            $subject = $this->replySubject($ticketID, $message);
         }
 
         $this->ticketObj->createAnswer($ticketID, $USER['id'], $USER['username'], $subject, $message, 0);
         $this->redirectTo('game?page=ticket&mode=view&id=' . $ticketID);
+    }
+
+    /**
+     * Validates and creates a new ticket (subject required, open-ticket and rate limits) and notifies the Discord hook.
+     * Violations end the request with a message. Returns the new ticket id.
+     */
+    private function createNewTicket(mixed $categoryID, string $subject, string $message): int
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        $config = $this->configs->get();
+
+        if (empty($subject)) {
+            $this->printMessage($LNG['ti_error_no_subject'], [[
+                'label' => $LNG['sys_back'],
+                'url' => '#',
+                'action' => 'history-back',
+            ]]);
+        }
+
+        $open = (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%TICKETS%% WHERE `ownerID` = :ownerID AND `status` != 2 AND `categoryID` != 9;', [
+            ':ownerID' => $USER['id'],
+        ], 'c');
+        if ($open >= self::MAX_OPEN_TICKETS) {
+            $this->printMessage($LNG->format('ti_error_too_many_open', self::MAX_OPEN_TICKETS));
+        }
+        if (!$this->rateLimits->allowTicket((int) $USER['id'])) {
+            $this->printMessage($LNG['ti_error_rate_limited']);
+        }
+
+        $ticketID = $this->ticketObj->createTicket($USER['id'], $categoryID, $subject);
+
+        if (isset($config->discord_tickets_hook) && !empty($config->discord_tickets_hook)) {
+            $this->discord()->sendMessage($config->discord_tickets_hook, 'New ingame ticket created', [
+                'Universe' => $this->universe()->current(),
+                'Ticket-ID' => '[' . $ticketID . '](' . $this->state->runtime->protocol . $this->state->runtime->httpHost . '/admin?page=support&mode=view&id=' . $ticketID . ')',
+                'User' => $USER['username'] . ' (' . $USER['id'] . ')',
+                'Subject' => $subject,
+                'Message' => $message,
+            ]);
+        }
+
+        return $ticketID;
+    }
+
+    /**
+     * Checks that the ticket belongs to the player, is no debug ticket and not closed (violations end the request with a
+     * message), notifies the Discord hook about the reply and returns the answer subject `RE: <ticket subject>`.
+     */
+    private function replySubject(mixed $ticketID, string $message): string
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        $config = $this->configs->get();
+
+        $db = $this->db;
+
+        $sql = 'SELECT `status`, `subject` 
+            FROM %%TICKETS%% 
+            WHERE `ticketID` = :ticketID AND `ownerID` = :ownerID AND `categoryID` != 9;';
+        $ticket = $db->selectSingle($sql, [
+            ':ticketID' => $ticketID,
+            ':ownerID' => $USER['id'],
+        ]);
+
+        if (empty($ticket)) {
+            $this->printMessage($LNG->format('ti_not_exist', $ticketID), [[
+                'label' => $LNG['sys_back'],
+                'url' => 'game?page=ticket',
+            ]]);
+        }
+        $subject = 'RE: ' . $ticket['subject'];
+
+        if ($ticket['status'] == 2) {
+            $this->printMessage($LNG['ti_error_closed']);
+        } elseif (isset($config->discord_tickets_hook) && !empty($config->discord_tickets_hook)) {
+            $this->discord()->sendMessage($config->discord_tickets_hook, 'New ticket reply', [
+                'Universe' => $this->universe()->current(),
+                'Ticket-ID' => '[' . $ticketID . '](' . $this->state->runtime->protocol . $this->state->runtime->httpHost . '/admin?page=support&mode=view&id=' . $ticketID . ')',
+                'User' => $USER['username'] . ' (' . $USER['id'] . ')',
+                'Subject' => $subject,
+                'Message' => $message,
+            ]);
+        }
+
+        return $subject;
     }
 
     /**

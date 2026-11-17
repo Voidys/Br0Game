@@ -39,6 +39,25 @@ final class ElementCatalog
     ) {}
 
     /**
+     * Casts the requirement table to int => [int => int].
+     *
+     * @param array<int, array<int, mixed>> $requeriments element id => [required id => level]
+     *
+     * @return array<int, array<int, int>>
+     */
+    private static function castRequirements(array $requeriments): array
+    {
+        $requirementMap = [];
+        foreach ($requeriments as $elementId => $required) {
+            foreach (is_array($required) ? $required : [] as $requiredId => $level) {
+                $requirementMap[(int) $elementId][(int) $requiredId] = (int) $level;
+            }
+        }
+
+        return $requirementMap;
+    }
+
+    /**
      * Builds the catalog from the six game data arrays of the state.
      *
      * @param array<int, string>                $resource     element id => column
@@ -73,12 +92,7 @@ final class ElementCatalog
             $resourceTypes[(int) $type] = self::intList($ids);
         }
 
-        $requirementMap = [];
-        foreach ($requeriments as $elementId => $required) {
-            foreach (is_array($required) ? $required : [] as $requiredId => $level) {
-                $requirementMap[(int) $elementId][(int) $requiredId] = (int) $level;
-            }
-        }
+        $requirementMap = self::castRequirements($requeriments);
 
         $elements = [];
         foreach ($resource as $id => $column) {

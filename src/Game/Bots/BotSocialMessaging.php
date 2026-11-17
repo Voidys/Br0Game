@@ -120,37 +120,12 @@ class BotSocialMessaging
         $config = $this->configs->get($uni);
         $delay = max(0, (int) ($config->bot_reply_delay_hours ?? 3)) * 3600;
 
-        // the bot's inbox is users_to_messages (a message can have several receivers; message_owner is only the first)
-        $rows = $db->select(
-            'SELECT m.message_id, m.message_group, m.message_sender, m.message_subject, m.message_text, m.message_time
-             FROM %%MESSAGES%% m
-             INNER JOIN %%USERS_TO_MESSAGES%% um ON um.message_id = m.message_id AND um.user_id = :bot
-             LEFT JOIN %%BOT_RELATIONS%% r ON r.bot_id = :bot4 AND r.player_id = m.message_sender
-             WHERE m.message_type = :type AND m.message_universe = :uni
-               AND m.message_id > COALESCE(r.last_handled_message_id, CAST(:last AS UNSIGNED)) AND m.message_sender > 0 AND m.message_sender <> :bot2
-               AND um.sender_id IS NOT NULL AND um.sender_id <> :bot3
-               AND um.deleted_at IS NULL AND m.message_deleted IS NULL AND m.message_time <= :minAge
-               AND NOT EXISTS (SELECT 1 FROM %%BOT_PLAYERS%% b WHERE b.user_id = m.message_sender)
-             ORDER BY m.message_id ASC LIMIT 300;',
-            [':bot' => $bot, ':bot2' => $bot, ':bot3' => $bot, ':bot4' => $bot, ':type' => MESSAGE_TYPE_USER, ':uni' => $uni, ':last' => (int) ($ctx['row']['last_message_id'] ?? 0), ':minAge' => $now - 30],
-        );
+        $rows = $this->unhandledMessages($ctx, $now);
         if (empty($rows)) {
             return false;
         }
 
-        $bySender = [];
-        foreach ($rows as $row) {
-            $bySender[(int) $row['message_sender']][] = $row;
-        }
-        $senderId = 0;
-        $oldest = PHP_INT_MAX;
-        foreach ($bySender as $id => $list) {
-            $age = min(array_map(static fn(array $m): int => (int) $m['message_time'], $list));
-            if ($age <= $now - $delay && $age < $oldest) {
-                $oldest = $age;
-                $senderId = $id;
-            }
-        }
+        [$senderId, $bySender] = $this->pickDueSender($rows, $now, $delay);
         if ($senderId === 0) {
             return false;
         }
@@ -174,47 +149,7 @@ class BotSocialMessaging
         } elseif ($blocked || mt_rand(1, 100) > $chance) {
             $this->botLog->log($bot, $uni, 'reply', 'skipped #' . $senderId . ' (' . count($msgs) . ' msg, ' . ($blocked ? 'dm block' : 'roll') . ')');
         } else {
-            $numbered = [];
-            $combined = '';
-            foreach ($msgs as $i => $m) {
-                $body = self::plain((string) $m['message_text'], 400);
-                $subj = self::plain((string) $m['message_subject'], 100);
-                $numbered[] = ($i + 1) . '. Subject: ' . $subj . ' | Message: ' . $body;
-                $combined .= ' ' . $body;
-            }
-            $combined = trim($combined);
-            $subjectPlain = self::plain((string) $msgs[0]['message_subject'], 200);
-            $lang = self::detectLanguage($combined, $ctx['persona']['language'] ?? 'de');
-            $text = null;
-
-            $tone = match ($stance) {
-                'hostile' => 'You dislike this player (curt, cold, may warn them off, but no insults or real threats).',
-                'friendly' => 'You like this player (warm and friendly).',
-                default => 'You have no strong feelings about this player.',
-            };
-            $prompt = 'Another player wrote you ' . count($msgs) . " private message(s), oldest first:\n" . implode("\n", $numbered)
-                . "\nRelationship: " . $this->relations->summary($relation) . '. ' . $tone
-                . "\nYour situation: " . $this->situation($ctx)
-                . "\nWrite ONE reply that answers all messages, in " . ($lang === 'de' ? 'German' : 'English') . ', max 400 characters.';
-            $llm = $this->persona->ask($uni, $bot, self::systemPrompt($ctx, 400), $prompt, 300);
-            if ($llm !== null) {
-                $clean = BotPersona::cleanText($llm, 400);
-                if (BotPersona::looksBroken($clean)) {
-                    $this->botLog->log($bot, $uni, 'llm_error', 'reply rejected');
-                } else {
-                    $text = $clean;
-                }
-            }
-            if ($text === null) {
-                $text = self::cannedReply($combined, $lang, $ctx['persona'], $stance);
-            }
-
-            $group = !empty($msgs[0]['message_group']) ? (string) $msgs[0]['message_group'] : null;
-            $replied = $this->send($ctx, $senderId, 'Re: ' . self::trimSubject($subjectPlain), $text, $group);
-            if ($replied) {
-                $this->relations->markBotMessage($bot, $senderId, $uni);
-            }
-            $this->botLog->log($bot, $uni, 'reply', ($replied ? 'to #' : 'skipped #') . $senderId . ' (' . count($msgs) . ' msg, ' . $stance . ')' . ($llm !== null ? ' llm' : ''));
+            $replied = $this->answerMessages($ctx, $senderId, $msgs, $relation, $stance);
         }
 
         // handled: advance the sender's pointer and mark read
@@ -222,6 +157,119 @@ class BotSocialMessaging
         $in = implode(',', $ids);
         $db->update('UPDATE %%MESSAGES%% SET message_unread = 0 WHERE message_id IN (' . $in . ') AND message_owner = :bot;', [':bot' => $bot]);
         $db->update('UPDATE %%USERS_TO_MESSAGES%% SET message_unread = 0 WHERE message_id IN (' . $in . ') AND user_id = :bot;', [':bot' => $bot]);
+
+        return $replied;
+    }
+
+    /**
+     * The bot's unhandled player messages (see stepReply()), oldest first, at most 300.
+     *
+     * @param array<string, mixed> $ctx bot context built by BotSocial::act()
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function unhandledMessages(array $ctx, int $now): array
+    {
+        $db = $this->db;
+        $bot = $ctx['bot'];
+        $uni = $ctx['uni'];
+
+        // the bot's inbox is users_to_messages (a message can have several receivers; message_owner is only the first)
+        return $db->select(
+            'SELECT m.message_id, m.message_group, m.message_sender, m.message_subject, m.message_text, m.message_time
+             FROM %%MESSAGES%% m
+             INNER JOIN %%USERS_TO_MESSAGES%% um ON um.message_id = m.message_id AND um.user_id = :bot
+             LEFT JOIN %%BOT_RELATIONS%% r ON r.bot_id = :bot4 AND r.player_id = m.message_sender
+             WHERE m.message_type = :type AND m.message_universe = :uni
+               AND m.message_id > COALESCE(r.last_handled_message_id, CAST(:last AS UNSIGNED)) AND m.message_sender > 0 AND m.message_sender <> :bot2
+               AND um.sender_id IS NOT NULL AND um.sender_id <> :bot3
+               AND um.deleted_at IS NULL AND m.message_deleted IS NULL AND m.message_time <= :minAge
+               AND NOT EXISTS (SELECT 1 FROM %%BOT_PLAYERS%% b WHERE b.user_id = m.message_sender)
+             ORDER BY m.message_id ASC LIMIT 300;',
+            [':bot' => $bot, ':bot2' => $bot, ':bot3' => $bot, ':bot4' => $bot, ':type' => MESSAGE_TYPE_USER, ':uni' => $uni, ':last' => (int) ($ctx['row']['last_message_id'] ?? 0), ':minAge' => $now - 30],
+        );
+    }
+
+    /**
+     * Groups the messages by sender and picks the sender whose oldest message is the most overdue (older than the reply
+     * delay). Returns the sender id (0 when nobody is due) and the messages grouped by sender id.
+     *
+     * @param list<array<string, mixed>> $rows
+     *
+     * @return array{0: int, 1: array<int, list<array<string, mixed>>>}
+     */
+    private function pickDueSender(array $rows, int $now, int $delay): array
+    {
+        $bySender = [];
+        foreach ($rows as $row) {
+            $bySender[(int) $row['message_sender']][] = $row;
+        }
+        $senderId = 0;
+        $oldest = PHP_INT_MAX;
+        foreach ($bySender as $id => $list) {
+            $age = min(array_map(static fn(array $m): int => (int) $m['message_time'], $list));
+            if ($age <= $now - $delay && $age < $oldest) {
+                $oldest = $age;
+                $senderId = $id;
+            }
+        }
+
+        return [$senderId, $bySender];
+    }
+
+    /**
+     * Writes ONE reply to all messages of a sender (LLM with the messages numbered plus the relation, else a canned
+     * reply), sends it, notes it in the relation and logs the outcome. Returns true when the reply was sent.
+     *
+     * @param array<string, mixed>       $ctx    bot context built by BotSocial::act()
+     * @param list<array<string, mixed>> $msgs   the sender's unhandled messages, oldest first
+     * @param array<string, mixed>       $relation
+     */
+    private function answerMessages(array $ctx, int $senderId, array $msgs, array $relation, string $stance): bool
+    {
+        $bot = $ctx['bot'];
+        $uni = $ctx['uni'];
+        $numbered = [];
+        $combined = '';
+        foreach ($msgs as $i => $m) {
+            $body = self::plain((string) $m['message_text'], 400);
+            $subj = self::plain((string) $m['message_subject'], 100);
+            $numbered[] = ($i + 1) . '. Subject: ' . $subj . ' | Message: ' . $body;
+            $combined .= ' ' . $body;
+        }
+        $combined = trim($combined);
+        $subjectPlain = self::plain((string) $msgs[0]['message_subject'], 200);
+        $lang = self::detectLanguage($combined, $ctx['persona']['language'] ?? 'de');
+        $text = null;
+
+        $tone = match ($stance) {
+            'hostile' => 'You dislike this player (curt, cold, may warn them off, but no insults or real threats).',
+            'friendly' => 'You like this player (warm and friendly).',
+            default => 'You have no strong feelings about this player.',
+        };
+        $prompt = 'Another player wrote you ' . count($msgs) . " private message(s), oldest first:\n" . implode("\n", $numbered)
+            . "\nRelationship: " . $this->relations->summary($relation) . '. ' . $tone
+            . "\nYour situation: " . $this->situation($ctx)
+            . "\nWrite ONE reply that answers all messages, in " . ($lang === 'de' ? 'German' : 'English') . ', max 400 characters.';
+        $llm = $this->persona->ask($uni, $bot, self::systemPrompt($ctx, 400), $prompt, 300);
+        if ($llm !== null) {
+            $clean = BotPersona::cleanText($llm, 400);
+            if (BotPersona::looksBroken($clean)) {
+                $this->botLog->log($bot, $uni, 'llm_error', 'reply rejected');
+            } else {
+                $text = $clean;
+            }
+        }
+        if ($text === null) {
+            $text = self::cannedReply($combined, $lang, $ctx['persona'], $stance);
+        }
+
+        $group = !empty($msgs[0]['message_group']) ? (string) $msgs[0]['message_group'] : null;
+        $replied = $this->send($ctx, $senderId, 'Re: ' . self::trimSubject($subjectPlain), $text, $group);
+        if ($replied) {
+            $this->relations->markBotMessage($bot, $senderId, $uni);
+        }
+        $this->botLog->log($bot, $uni, 'reply', ($replied ? 'to #' : 'skipped #') . $senderId . ' (' . count($msgs) . ' msg, ' . $stance . ')' . ($llm !== null ? ' llm' : ''));
 
         return $replied;
     }
