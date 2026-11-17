@@ -8,7 +8,7 @@
   <h2>{{ LNG.ins_done_checklist }}</h2>
   <ol class="install-todo">
     <li><strong>{{ LNG.ins_done_login }}</strong> {{ LNG.ins_done_login_info|replace({'%s': adminName}) }}<br><a href="{{ adminUrl|e('html_attr') }}">{{ adminUrl }}</a></li>
-    <li><strong>{{ LNG.ins_done_cron }}</strong> {{ LNG.ins_done_cron_info }}<pre class="install-code">{{ cronLine }}</pre></li>
+    <li><strong>{{ LNG.ins_done_cron }}</strong> {{ LNG.ins_done_cron_info }}<pre class="install-code">{{ cronLine }}</pre><a href="{{ cronDocsUrl|e('html_attr') }}" target="_blank" rel="noopener">{{ LNG.ins_done_cron_help }}</a></li>
     <li><strong>{{ LNG.ins_done_locked }}</strong> {{ LNG.ins_done_locked_info }}</li>
     <li><strong>{{ LNG.ins_done_https }}</strong> {{ https ? LNG.ins_done_https_ok : LNG.ins_done_https_info }}</li>
     <li><strong>{{ LNG.ins_done_settings }}</strong> {{ LNG.ins_done_settings_info }}</li>

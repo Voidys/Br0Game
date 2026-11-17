@@ -1061,6 +1061,9 @@ adm_dash_credits: Autorzy
 adm_dash_project: Strona projektu
 adm_confirm: Czy na pewno?
 adm_dash_cron_locked: 'Cronjob zablokowany (już nie działa): %s'
+adm_dash_cron_never: "Cronjob jeszcze nigdy się nie uruchomił. Floty, statystyki i inne zadania w tle na niego czekają."
+adm_dash_cron_stale: "Cronjob ostatnio uruchomił się %s (powinien działać co minutę). Floty, statystyki i inne zadania w tle na niego czekają."
+adm_dash_cron_help: "Jak skonfigurować cronjob"
 adm_dash_next_cron: Następny cronjob
 adm_dash_cron_count: aktywne cronjoby
 adm_unsaved_hint: Zmiany zaczną obowiązywać po zapisaniu.

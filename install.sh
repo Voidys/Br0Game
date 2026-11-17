@@ -338,6 +338,8 @@ next_steps_server() {
     say "2. HTTPS: get a certificate (for example certbot --nginx / --apache) and serve the game over https."
     say "3. Cron: run  crontab -e  as the web server's user (or yours) and add"
     say "     * * * * * cd $ABS_DIR && php bin/console app:cron:run --quiet"
+    say "   Without it fleets never arrive and nothing progresses. Help, also for hosting panels:"
+    say "     https://github.com/Voidys/Br0Game/blob/main/docs/INSTALL.md#7-set-up-the-cron-job"
     say "4. Open $url/ (the game) and $url/admin to log in as the administrator."
     say "Details, updating and backups: $ABS_DIR/docs/INSTALL.md"
 }

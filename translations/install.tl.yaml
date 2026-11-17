@@ -166,6 +166,7 @@ ins_done_login: Mag-log in sa administration.
 ins_done_login_info: 'Naka-log in ka na bilang "%s". Sa susunod, gamitin ito:'
 ins_done_cron: I-set up ang cron job (kailangan).
 ins_done_cron_info: 'Kung wala ito, walang uusad sa laro (fleet, pila ng gusali, statistics). Idagdag ang linyang ito sa crontab ng user ng web server (crontab -e) o gumawa ng cron job gamit ito sa hosting panel mo:'
+ins_done_cron_help: "Paano i-set up ang cron job (pati sa hosting panel)"
 ins_done_locked: Naka-lock na ngayon ang install tool.
 ins_done_locked_info: Walang makakapagpatakbo ulit ng wizard. Para mag-update sa susunod, sundin ang upgrade section ng dokumentasyon.
 ins_done_https: Gumamit ng HTTPS.

@@ -166,6 +166,7 @@ ins_done_login: Melde dich in der Administration an.
 ins_done_login_info: 'Du bisd scho als "%s" angemeldet. Des nägschte Mal nutz:'
 ins_done_cron: Cronjob einrichte (erforderlich).
 ins_done_cron_info: 'Ohne den geht im Spiel nix voran (Flodde, Bauschleife, Schdadischdike). Trag die Zeile in die Crontab vom Webserver-Benutzer ei (crontab -e) odder leg im Hosting-Panel ei Cronjob damit an:'
+ins_done_cron_help: "So richtest du den Cronjob ein (auch im Hosting-Panel)"
 ins_done_locked: Des Installationstool is jetzt gesperrt.
 ins_done_locked_info: Niemand kann den Assistende nochemal ausführe. Fer spätere Updates folg dem Update-Abschnitt der Dokumentation.
 ins_done_https: HTTPS verwende.

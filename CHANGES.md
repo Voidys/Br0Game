@@ -1240,3 +1240,13 @@ Technical changes per step, newest last (started with the migration to PHP 8.4, 
 ## 158. Release 1.26.3
 
 - `install/VERSION` 1.26.3 (tag `v1.26.3`): path routes in every area, game enums, `PlayerUtil` replaced by services, typed `Singleton` state, `_GP` input layer gone, faster request path (cached universe config, fewer queries, galaxy without reload, tooltip templates, compressed/cached assets) (steps 156–157); README now names the `public/` document root for script installs too has a performance section (page/job numbers before → now) and screenshots (gallery retaken on the current UI); INSTALL troubleshooting covers 403 on `/install/` (wrong document root); admin bot spawn has a "mixed (all profiles)" option (`BotSpawner::spawnMixed()`, shared with the installer). Upgrading runs migrations 1794902700–1794902900 (applied automatically by the upgrade check).
+
+## 159. Cron hints and a README for non-technical readers
+
+- Admin home page warns when the cron job never ran or its last run is over 5 minutes old (`OverviewController::cronWarning()`, keys `adm_dash_cron_never`/`_stale`/`_help` in all admin locales), with a link to the cron section of `docs/INSTALL.md` (`InstallService::CRON_DOCS_URL`).
+- Cron help link on the installer's last page (`ins_done_cron_help`, all install locales), in `app:install`'s summary and in `install.sh`'s closing steps.
+- README reworked for non-technical readers: what the game is, a hosting check (PHP 8.4, database, cron every minute, warning about 15-minute cron plans), plain-language ZIP steps, "After installing" and "Something does not work?" sections, performance numbers moved below the setup parts; outdated lines fixed (seven themes, 16 locales, voting module, php-cs-fixer config, "Admin → Information", files to keep on ZIP updates).
+
+## 160. Release 1.26.4
+
+- `install/VERSION` 1.26.4 (tag `v1.26.4`): cron warning on the admin home page with setup help, cron help links in the installer, `app:install` and `install.sh`, README reworked for non-technical readers (step 159). No database migrations.

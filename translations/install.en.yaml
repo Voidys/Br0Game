@@ -191,6 +191,7 @@ ins_done_login: 'Log in to the administration.'
 ins_done_login_info: 'You are already logged in as "%s". Next time use:'
 ins_done_cron: 'Set up the cron job (required).'
 ins_done_cron_info: 'Without it nothing in the game progresses (fleets, building queues, statistics). Add this line to the crontab of the web server user (crontab -e) or create a cron job with it in your hosting panel:'
+ins_done_cron_help: "How to set up the cron job (also in a hosting panel)"
 ins_done_locked: 'The install tool is now locked.'
 ins_done_locked_info: 'Nobody can run the wizard again. To update later, follow the upgrade section of the documentation.'
 ins_done_https: 'Use HTTPS.'

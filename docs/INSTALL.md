@@ -24,9 +24,9 @@ Download `br0game-<version>.zip` **only** from the
 `br0game-<version>.zip.sha256` file too. The checksum proves the file was not damaged or changed on the way. Compare
 it with your own calculation:
 
-* Windows (Command Prompt): `certutil -hashfile br0game-1.26.3.zip SHA256`
-* macOS: `shasum -a 256 br0game-1.26.3.zip`
-* Linux: `sha256sum -c br0game-1.26.3.zip.sha256` (both files in the same folder; it prints `OK`)
+* Windows (Command Prompt): `certutil -hashfile br0game-1.26.4.zip SHA256`
+* macOS: `shasum -a 256 br0game-1.26.4.zip`
+* Linux: `sha256sum -c br0game-1.26.4.zip.sha256` (both files in the same folder; it prints `OK`)
 
 On Windows and macOS, compare the printed value with the one in the `.sha256` file by eye. If they differ, download
 again and do not use the file.
@@ -92,7 +92,8 @@ cd /home/you/br0game && php bin/console app:cron:run --quiet
 ```
 
 Some panels want only the program and arguments, then use `/usr/bin/php8.4 /home/you/br0game/bin/console app:cron:run --quiet`.
-After a few minutes the admin panel (Information → health checks) should show the cron as running.
+After a few minutes the admin panel (Information → health checks) should show the cron as running. As long as the
+cron has never run or its last run is more than 5 minutes old, the admin home page shows a warning with a link to this section.
 
 The minute cron also runs the cronjob `fleets`, which processes due fleet events (arrivals, returns), so fleets
 advance at least once a minute without anyone loading a page. For on-time arrivals (important for PvP) a server
@@ -137,7 +138,7 @@ Useful options (`bash install.sh --help` lists everything):
 
 ```sh
 bash install.sh --mode server --dir /var/www/br0game          # skip the menu
-bash install.sh --version v1.26.3 ...                          # a specific release (default: latest)
+bash install.sh --version v1.26.4 ...                          # a specific release (default: latest)
 bash install.sh --dry-run --mode server --dir /tmp/x --yes    # show what would happen
 # unattended, secrets from the environment:
 BR0GAME_DB_PASSWORD=... BR0GAME_ADMIN_PASSWORD=... bash install.sh --mode server --dir /var/www/br0game --yes \

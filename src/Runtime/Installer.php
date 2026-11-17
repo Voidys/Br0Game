@@ -653,6 +653,7 @@ final class Installer
             'botsCreated' => $botsCreated,
             'botError' => $botError,
             'docsUrl' => InstallService::DOCS_URL,
+            'cronDocsUrl' => InstallService::CRON_DOCS_URL,
             'https' => $this->state->runtime->https,
         ]);
         $this->show('ins_step8');

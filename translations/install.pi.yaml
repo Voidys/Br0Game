@@ -162,6 +162,7 @@ ins_done_login: Melde dich in der Administration an.
 ins_done_login_info: 'Du bist bereits als "%s" angemeldet. Das nächste Mal nutze:'
 ins_done_cron: Cronjob einrichten (erforderlich).
 ins_done_cron_info: 'Ohne ihn geht im Spiel nichts voran (Flotten, Bauschleifen, Statistiken). Trage diese Zeile in die Crontab des Webserver-Benutzers ein (crontab -e) oder lege im Hosting-Panel einen Cronjob damit an:'
+ins_done_cron_help: "So richtest du den Cronjob ein (auch im Hosting-Panel)"
 ins_done_locked: Das Installationstool ist jetzt gesperrt.
 ins_done_locked_info: Niemand kann den Assistenten erneut ausführen. Für spätere Updates folge dem Update-Abschnitt der Dokumentation.
 ins_done_https: HTTPS verwenden.

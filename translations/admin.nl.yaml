@@ -1061,6 +1061,9 @@ adm_dash_credits: Credits
 adm_dash_project: Projectpagina
 adm_confirm: Weet je het zeker?
 adm_dash_cron_locked: 'Cronjob vergrendeld (draait niet meer): %s'
+adm_dash_cron_never: "De cronjob heeft nog nooit gedraaid. Vloten, statistieken en andere achtergrondtaken wachten erop."
+adm_dash_cron_stale: "De cronjob draaide voor het laatst op %s (hij zou elke minuut moeten draaien). Vloten, statistieken en andere achtergrondtaken wachten erop."
+adm_dash_cron_help: "Zo stel je de cronjob in"
 adm_dash_next_cron: Volgende cronjob
 adm_dash_cron_count: actieve cronjobs
 adm_unsaved_hint: Wijzigingen gaan in zodra je opslaat.

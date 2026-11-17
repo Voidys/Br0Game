@@ -1061,6 +1061,9 @@ adm_dash_credits: Crédits
 adm_dash_project: Page du projet
 adm_confirm: Êtes-vous sûr ?
 adm_dash_cron_locked: 'Cronjob verrouillé (ne s''exécute plus) : %s'
+adm_dash_cron_never: "Le cronjob ne s'est encore jamais exécuté. Les flottes, les statistiques et les autres tâches de fond l'attendent."
+adm_dash_cron_stale: "Le cronjob s'est exécuté pour la dernière fois le %s (il devrait tourner chaque minute). Les flottes, les statistiques et les autres tâches de fond l'attendent."
+adm_dash_cron_help: "Comment configurer le cronjob"
 adm_dash_next_cron: Prochain cronjob
 adm_dash_cron_count: cronjobs actifs
 adm_unsaved_hint: Les modifications prennent effet une fois enregistrées.

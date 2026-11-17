@@ -1061,6 +1061,9 @@ adm_dash_credits: เครดิต
 adm_dash_project: หน้าโครงการ
 adm_confirm: คุณแน่ใจหรือไม่?
 adm_dash_cron_locked: 'Cronjob ถูกล็อก (ไม่ทำงานแล้ว): %s'
+adm_dash_cron_never: "Cron job ยังไม่เคยทำงานเลย กองยาน สถิติ และงานเบื้องหลังอื่น ๆ กำลังรอมันอยู่"
+adm_dash_cron_stale: "Cron job ทำงานครั้งล่าสุดเมื่อ %s (ควรทำงานทุกนาที) กองยาน สถิติ และงานเบื้องหลังอื่น ๆ กำลังรอมันอยู่"
+adm_dash_cron_help: "วิธีตั้งค่า cron job"
 adm_dash_next_cron: Cronjob ถัดไป
 adm_dash_cron_count: cronjob ที่ใช้งานอยู่
 adm_unsaved_hint: การเปลี่ยนแปลงจะมีผลเมื่อคุณบันทึก

@@ -166,6 +166,7 @@ ins_done_login: 登录管理后台。
 ins_done_login_info: 你已以“%s”身份登录。下次请使用：
 ins_done_cron: 设置计划任务（必需）。
 ins_done_cron_info: 没有它，游戏中的任何内容都不会推进（舰队、建造队列、统计数据）。请将此行添加到 Web 服务器用户的 crontab（crontab -e）中，或在主机面板中用它创建计划任务：
+ins_done_cron_help: "如何设置计划任务（包括在主机面板中）"
 ins_done_locked: 安装工具现已锁定。
 ins_done_locked_info: 任何人都无法再次运行向导。今后更新时，请参阅文档中的升级部分。
 ins_done_https: 使用 HTTPS。

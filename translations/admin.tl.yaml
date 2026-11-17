@@ -1061,6 +1061,9 @@ adm_dash_credits: Mga kredito
 adm_dash_project: Homepage ng proyekto
 adm_confirm: Sigurado ka ba?
 adm_dash_cron_locked: 'Naka-lock ang cronjob (hindi na tumatakbo): %s'
+adm_dash_cron_never: "Hindi pa kailanman tumakbo ang cron job. Hinihintay ito ng mga fleet, estadistika at iba pang background na gawain."
+adm_dash_cron_stale: "Huling tumakbo ang cron job noong %s (dapat itong tumakbo bawat minuto). Hinihintay ito ng mga fleet, estadistika at iba pang background na gawain."
+adm_dash_cron_help: "Paano i-set up ang cron job"
 adm_dash_next_cron: Susunod na cronjob
 adm_dash_cron_count: aktibong cronjob
 adm_unsaved_hint: Magkakabisa ang mga pagbabago kapag na-save mo na.

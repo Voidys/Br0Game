@@ -1,11 +1,12 @@
 {% include 'admin/overall_header.html.twig' %}
 <div class="stack">
-  {% if Messages %}
+  {% if Messages or cronWarning %}
     <div class="notice notice--danger" role="alert">
       {{ icon('triangle-alert') }}
       <div>
         <strong>{{ LNG.adm_dash_attention }}</strong>
         <ul>
+          {% if cronWarning %}<li>{{ cronWarning }} <a href="{{ cronDocsUrl|e('html_attr') }}" target="_blank" rel="noopener">{{ LNG.adm_dash_cron_help }}</a></li>{% endif %}
           {% for Message in Messages %}<li>{{ Message }}</li>{% endfor %}
         </ul>
       </div>

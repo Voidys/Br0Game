@@ -162,6 +162,7 @@ ins_done_login: Zaloguj się do administracji.
 ins_done_login_info: 'Jesteś już zalogowany jako „%s”. Następnym razem użyj:'
 ins_done_cron: Skonfiguruj cronjob (wymagane).
 ins_done_cron_info: 'Bez niego nic w grze nie postępuje (floty, kolejki budowy, statystyki). Dodaj tę linię do crontab użytkownika serwera WWW (crontab -e) lub utwórz z nią cronjob w panelu hostingu:'
+ins_done_cron_help: "Jak skonfigurować cronjob (także w panelu hostingu)"
 ins_done_locked: Narzędzie instalacyjne jest teraz zablokowane.
 ins_done_locked_info: Nikt nie może ponownie uruchomić kreatora. Aby zaktualizować później, postępuj według sekcji aktualizacji w dokumentacji.
 ins_done_https: Używaj HTTPS.

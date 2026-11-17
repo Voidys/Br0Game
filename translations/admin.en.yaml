@@ -1162,6 +1162,9 @@ adm_dash_credits: Credits
 adm_dash_project: Project homepage
 adm_confirm: Are you sure?
 adm_dash_cron_locked: 'Cronjob locked (no longer running): %s'
+adm_dash_cron_never: "The cron job has never run. Fleets, statistics and other background jobs wait for it."
+adm_dash_cron_stale: "The cron job last ran on %s (it should run every minute). Fleets, statistics and other background jobs wait for it."
+adm_dash_cron_help: "How to set up the cron job"
 adm_dash_next_cron: Next cronjob
 adm_dash_cron_count: active cronjobs
 adm_unsaved_hint: Changes take effect once you save.

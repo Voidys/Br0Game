@@ -1061,6 +1061,9 @@ adm_dash_credits: Авторы
 adm_dash_project: Сайт проекта
 adm_confirm: Вы уверены?
 adm_dash_cron_locked: 'Cronjob заблокирован (больше не выполняется): %s'
+adm_dash_cron_never: "Cronjob ещё ни разу не запускался. Флоты, статистика и другие фоновые задачи ждут его."
+adm_dash_cron_stale: "Cronjob последний раз запускался %s (он должен запускаться каждую минуту). Флоты, статистика и другие фоновые задачи ждут его."
+adm_dash_cron_help: "Как настроить cronjob"
 adm_dash_next_cron: Следующий cronjob
 adm_dash_cron_count: активных cronjob
 adm_unsaved_hint: Изменения вступят в силу после сохранения.

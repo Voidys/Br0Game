@@ -26,15 +26,26 @@ in alliances.
 > 2Moons and SteemNova. Codeberg does not allow AI-assisted coding, so the project moved here. Issues, pull requests
 > and releases go to this repository.
 
+## What is this?
+
+Br0Game is a space strategy game in the style of the classic browser games: players build up planets, research
+technologies, send fleets, trade and fight together in alliances. Everything happens in the browser, on a phone too.
+
+You run it yourself: put it on your own web space or server, and you have your own game for friends or a community.
+You decide the speed, the rules and who may join. It is free and open source.
+
 ## Contents
 
 - [Highlights](#highlights)
 - [Screenshots](#screenshots)
 - [Features](#features)
-- [Performance](#performance)
+- [Can my hosting run it?](#can-my-hosting-run-it)
 - [Quick start](#quick-start)
+- [After installing](#after-installing)
+- [Something does not work?](#something-does-not-work)
 - [Requirements](#requirements)
 - [Running a server](#running-a-server)
+- [Performance](#performance)
 - [Development](#development)
 - [Battle engines](#battle-engines)
 - [Tech stack](#tech-stack)
@@ -47,10 +58,11 @@ The game rules are the same as before; everything around them is new.
 
 | | |
 | --- | --- |
-| **81 game bugs fixed** | **3 critical** (a jump gate SQL injection, a repair dock duplication race, a cleaner that deleted every player), **11 high**, **26 medium**, **7 low-medium**, **34 low**. All are documented in [docs/GAMEBUGS.md](docs/GAMEBUGS.md) |
-| **Pages up to 65 % faster** | A typical game page needs about 30 % less time and half the queries (40 → 20). The empire view went from 116 to 28 queries and the galaxy from 71 to 25. With the recommended production settings, pages take about half their old time ([details below](#performance)) |
-| **Up to 96 % faster background jobs** | The statistics cronjob went from 4375 to 66 queries, the records build is 96 % faster, and the resource update is 56 % faster |
-| **Lighter downloads** | Static images are served as WebP (53.7 MB → 12.7 MB). Shipped scripts shrank from 3.1 MB to 512 KB, and the HTML of the galaxy and building pages roughly halved |
+| **81 game bugs fixed** | Including **3 critical** ones: a jump gate security hole, a way to duplicate ships at the repair dock, and a cleanup job that could delete every player. All of them are listed in [docs/GAMEBUGS.md](docs/GAMEBUGS.md) |
+| **Pages up to 65 % faster** | A typical game page loads about 30 % faster and asks the database half as often. With the recommended server settings, pages take about half their old time ([numbers](#performance)) |
+| **Background jobs up to 96 % faster** | Statistics, records and resource updates need a fraction of the time, so even large servers stay quick |
+| **Lighter downloads** | Images as WebP (53.7 MB → 12.7 MB), scripts 3.1 MB → 512 KB, the biggest pages about half their size |
+| **Easy to set up** | A setup wizard in the browser, a ready-to-upload ZIP, and help in the admin panel when something is missing |
 
 ## Screenshots
 
@@ -70,34 +82,190 @@ All of them are in [`public/styles/resource/images/login/screens/`](public/style
 - **Modern interface:**
   - top bar with resources and a classic side menu, which becomes a drawer on phones;
   - every in-game page works on a phone;
-  - nine themes, popups as modals, clean URLs (`/game` instead of `game.php`).
+  - seven themes, popups as modals, clean web addresses (`/game/fleet` instead of `game.php?page=fleet`).
 - **Community:**
   - a built-in board with posts, votes and threaded comments;
   - news with drafts, scheduling and images;
-  - a team page managed in the admin panel.
+  - a team page managed in the admin panel;
+  - optional voting for your game on toplists, with rewards (off by default).
 - **Admin panel:**
-  - rebuilt with a dashboard, tabs, a maintenance page and full translations;
+  - a dashboard that warns you when something needs attention (for example a missing cron job);
   - a mini CMS for rules, imprint and privacy texts, and a GDPR privacy policy filled from the game settings;
-  - a detailed server information page with health checks, database facts and game statistics.
+  - a server information page with health checks, database facts and game statistics.
 - **Bots** (optional, off by default):
-  - bot players per universe with five default profiles: office worker, jobless, shift worker, lunatic and noob;
-  - they play locally with %-rolls and their own personalities, so no two build the same;
-  - an optional LLM (OpenAI, Claude, OpenCode Go, DeepSeek, OpenRouter) gives them names, chat and alliance life;
-  - set up under **Admin → Bots**.
-- **Easy install:**
-  - a setup wizard with speed presets, registration and bot options;
-  - a command line installer and an install script;
-  - a ready-to-upload release ZIP.
+  - bot players fill a young universe; five ready-made personalities: office worker, jobless, shift worker, lunatic and noob;
+  - they play on their own, no extra service needed; no two build the same;
+  - optionally an AI service (OpenAI, Claude, OpenCode Go, DeepSeek, OpenRouter) gives them names, chat and alliance life;
+  - start them in the setup wizard or later under **Admin → Bots**.
+- **Languages:** 14 languages, all complete: German, English, Spanish, French, Dutch, Polish, Portuguese, Russian,
+  Ukrainian, Turkish, Thai, Filipino, Vietnamese and Chinese, plus two fun variants (Ogerfränkisch and pirate German).
 - **Privacy and security:**
-  - login on Symfony Security, and autoescaping in every template;
-  - the installer generates the app secret;
-  - Google Analytics and the voting feature were removed.
+  - no Google services: no Analytics, and a self-hosted bot check instead of reCAPTCHA;
+  - modern login (Symfony Security), protection against cross-site scripting in every page;
+  - the installer creates all secrets for you.
 
 The full list, step by step, is in the **[changelog](CHANGES.md)**.
 
+## Can my hosting run it?
+
+Most web hosts that offer current PHP can. Check these four points in your hosting panel or ask your host:
+
+| You need | Why | Where to look |
+| --- | --- | --- |
+| **PHP 8.4** | The game is written in PHP | "PHP version" or "PHP settings" |
+| **A MySQL or MariaDB database** (MySQL 8.4 / MariaDB 10.11) | Stores players, planets and fleets | "Databases" |
+| **Cron jobs every minute** | Fleets, building queues and statistics are processed in the background | "Cron jobs", "Scheduled tasks" |
+| **About 1 GB of space** | Mostly theme images | Your hosting plan |
+
+Also good to have: HTTPS (a free "Let's Encrypt" certificate, offered by almost every host) and the option to choose
+the folder your domain points to ("document root").
+
+> **Watch out:** some cheap plans allow cron jobs only every 15 minutes or not at all. The game needs one every minute,
+> otherwise fleets arrive late and the game feels stuck. Check this before you buy.
+
+## Quick start
+
+Pick the way that fits you. The **[install guide](docs/INSTALL.md)** walks through each one in detail, written for
+non-technical readers too.
+
+| Way | For whom | You need |
+| --- | --- | --- |
+| [**ZIP download**](#1-zip-download) | Ordinary web hosting, no command line | Your hosting panel and an FTP program or file manager |
+| [**Install script**](#2-install-script) | A VPS or server you log into with SSH | Git, PHP 8.4, Composer (the script checks and helps) |
+| [**DDEV**](#3-ddev-try-it-on-your-pc) | Trying it on your own PC | Docker and DDEV |
+
+### 1. ZIP download
+
+1. **Download** `br0game-<version>.zip` from the [latest release](https://github.com/Voidys/Br0Game/releases/latest).
+   Download only from that page. *Optional but recommended:* also download the `.sha256` file and
+   [check that the ZIP is undamaged](docs/INSTALL.md#1-download-and-check-the-file).
+2. **Upload** the ZIP to your web space and unpack it there (most file managers in hosting panels can do this; it is
+   much faster than uploading the unpacked files). The ZIP is about 80 MB, mostly theme artwork.
+3. **Point your domain to the `public/` folder.** In the hosting panel look for "Domains" and "Document root" (also
+   called "Web root") and set it to the `public` folder inside the unpacked folder, for example `br0game/public`.
+   This keeps passwords and program files out of reach of visitors. [Why and how](docs/INSTALL.md#4-point-the-domain-to-the-public-folder).
+4. **Create an empty database** in the hosting panel and write down its host (often `localhost`), name, user and password.
+5. **Open `https://your-domain/install/`** and follow the wizard. It checks your hosting, asks for the database
+   details, the game name, speed and your admin account. Do this right after uploading: until it is finished,
+   anyone who opens the page could set the game up.
+6. **Set up the cron job.** The last wizard page shows a line like
+   `cd /path/to/br0game && php bin/console app:cron:run --quiet`. Create a cron job in your hosting panel that runs it
+   **every minute**. Without it fleets never arrive and nothing progresses.
+   [Step-by-step help for hosting panels](docs/INSTALL.md#7-set-up-the-cron-job).
+7. **Turn on HTTPS** in the hosting panel, if it is not on yet.
+
+### 2. Install script
+
+Download it, read it, then run it. Please don't pipe it into a shell.
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/Voidys/Br0Game/main/install.sh
+less install.sh
+bash install.sh                 # interactive menu
+bash install.sh --help          # all options, e.g. --mode server --dir /var/www/br0game --dry-run
+```
+
+The script:
+- checks PHP, its extensions and Composer, with install hints for apt, dnf and pacman;
+- fetches the latest release and installs the dependencies;
+- runs the command line installer or points you to the web wizard;
+- prints the remaining steps at the end.
+
+It never runs `sudo` by itself. You can also run the installer directly:
+
+```sh
+php bin/console app:install     # asks for everything, or pass --no-interaction with options (see --help)
+```
+
+Then:
+- set your web server's **document root to the `public/` folder** of the install directory, not the project folder
+  itself ([nginx example](docs/nginx.md); Apache: `DocumentRoot …/public` with `AllowOverride All`);
+- add the **cron job** that runs every minute:
+  `* * * * * cd /path/to/br0game && php bin/console app:cron:run --quiet` (`crontab -e` as the web server's user;
+  [details](docs/INSTALL.md#7-set-up-the-cron-job));
+- turn on HTTPS, for example with certbot.
+
+### 3. DDEV (try it on your PC)
+
+```sh
+git clone https://github.com/Voidys/Br0Game.git
+cd Br0Game
+ddev start
+ddev composer install
+```
+
+Then open **https://br0game.ddev.site/install/**. DDEV runs the cron job by itself.
+
+## After installing
+
+1. **Log in** at `https://your-domain/` with the admin account from the wizard. The admin panel is at
+   `https://your-domain/admin`.
+2. **Look at the admin home page.** It says "All good" or lists what still needs attention, for example a cron job
+   that is not running yet, or the web address that e-mails need for their links.
+3. **Check the settings** under **Admin → Settings**: game name, universe speed, registration, and e-mail (needed for
+   password resets and account activation).
+4. **Optional:** add bots under **Admin → Bots** so the universe does not feel empty, write the rules and imprint
+   under **Admin → Content**, post a first news entry.
+5. **Invite your players.** They register on the start page.
+
+Keep backups of the database and of `config/game.php` ([how](docs/INSTALL.md#backups)).
+
+## Something does not work?
+
+| What you see | Most likely cause |
+| --- | --- |
+| **"403 Forbidden"** on `/install/` or every page | The domain points to the project folder instead of `public/` ([step 3](#1-zip-download)) |
+| **Fleets never arrive**, buildings don't finish, statistics don't update | The cron job is not running. The admin home page warns about this ([help](docs/INSTALL.md#7-set-up-the-cron-job)) |
+| **White page or "Error 500"** right after uploading | Often a missing PHP extension or an older PHP version. The error log is in `var/log/` |
+| **Pages show without design**, or every page except the start page gives 404 | The web server ignores the `.htaccess` file (Apache: `AllowOverride All`; nginx: see [nginx.md](docs/nginx.md)) |
+| **"Not writable"** in the wizard | The web server needs write access to `var/`, `config/` and `public/uploads/` (folders 775, files 664 in the file manager) |
+| **The wizard says it is closed** | The game is already installed, or `var/` is not writable |
+
+More answers: [troubleshooting in the install guide](docs/INSTALL.md#troubleshooting). Still stuck?
+[Open an issue](https://github.com/Voidys/Br0Game/issues).
+
+## Requirements
+
+The technical list for server admins:
+
+| | |
+| --- | --- |
+| PHP | 8.4 with `curl`, `gd`, `intl`, `mbstring`, `mysql` (pdo_mysql), `xml`, `zip`, `opcache` (recommended), `openssl` (for SMTP with TLS) |
+| Database | MySQL 8.4 or MariaDB 10.11 |
+| Web server | nginx or Apache with the document root on `public/` ([nginx example with WebP delivery](docs/nginx.md)) |
+| Cron | One job every minute (see [Quick start](#quick-start)) |
+| Composer | Only for the script and git installs; the release ZIP already contains `vendor/` |
+| Battles | The fast Rust engine needs Linux x86_64 with glibc ≥ 2.30 and PHP's `proc_open`. Everywhere else the PHP engine is used automatically, with the same results |
+
+## Running a server
+
+- **Cron:** the game's background jobs (fleets, statistics, cleanup, bots…) run every minute:
+
+  ```
+  * * * * * cd /path/to/br0game && php bin/console app:cron:run --quiet
+  ```
+
+  On a server you control, an extra fleet loop makes arrivals exact to the second ([details](docs/INSTALL.md#7-set-up-the-cron-job)).
+- **Health check:** **Admin → Information** shows ok/warning/error checks for:
+  - PHP, its extensions and OPcache;
+  - writable folders, pending migrations and cron;
+  - the battle engine, HTTPS and mail.
+- **Updates:** back up first ([how](docs/INSTALL.md#backups)).
+  - ZIP installs: replace all files **except** `config/`, `.env.local`, `var/`, `public/uploads/` and `stats/`
+    ([step by step](docs/INSTALL.md#updating)).
+  - Git or script installs: `git pull && composer install --no-dev -o`, or `bash install.sh --dir .`.
+  - Database changes are applied automatically on the next page load.
+- **Performance:** OPcache settings (`validate_timestamps=0`), preloading and an authoritative class map are described in
+  [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
+- **Security:** see the checklist in [docs/INSTALL.md#security-checklist](docs/INSTALL.md#security-checklist):
+  - HTTPS on;
+  - the document root on `public/`;
+  - `config/game.php` kept private;
+  - a strong admin password.
+
 ## Performance
 
-Compared with the code before the performance work. Game results are unchanged: every change was checked with crawl
+The numbers behind "faster", compared with the code before the performance work. Game results are unchanged: every change was checked with crawl
 diffs of all pages, and the statistics and resource routines were checked by running old and new code side by side.
 The method and the raw numbers are in [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
 
@@ -153,110 +321,6 @@ the ratios of both rounds.
   - WebP images;
   - theme artwork 139 → 83 MB.
 
-## Quick start
-
-Pick the way that fits you. **[docs/INSTALL.md](docs/INSTALL.md)** walks through each one, written for non-technical
-readers too.
-
-| Way | For whom | You need |
-| --- | --- | --- |
-| [**ZIP download**](#1-zip-download) | Shared hosting or a simple server, no command line | A web host with PHP 8.4, MySQL/MariaDB and cron |
-| [**Install script**](#2-install-script) | A VPS or server with SSH | Git, PHP 8.4, Composer (the script checks and helps) |
-| [**DDEV**](#3-ddev-try-it-on-your-pc) | Trying it on your own PC | Docker and DDEV |
-
-### 1. ZIP download
-
-1. Download `br0game-<version>.zip` and its `.sha256` file from the
-   [latest release](https://github.com/Voidys/Br0Game/releases/latest). Download only from that page.
-2. Check the file:
-
-   ```sh
-   sha256sum -c br0game-1.26.3.zip.sha256            # Linux
-   shasum -a 256 br0game-1.26.3.zip                  # macOS: compare with the .sha256 file
-   certutil -hashfile br0game-1.26.3.zip SHA256      # Windows: compare with the .sha256 file
-   ```
-
-3. Upload and extract it. Set your domain's **document root to the `public/` folder**.
-4. Create an empty database in your hosting panel.
-5. Open `https://your-domain/install/` and follow the wizard. Run it right after uploading: until it is finished,
-   anyone who opens the page could set the game up.
-6. Add the cron job the last wizard page shows you.
-
-The ZIP is about 80 MB, mostly theme artwork. If your host's file manager can extract archives, upload the ZIP and
-unpack it on the server instead of uploading the files over FTP.
-
-### 2. Install script
-
-Download it, read it, then run it. Please don't pipe it into a shell.
-
-```sh
-curl -fsSLO https://raw.githubusercontent.com/Voidys/Br0Game/main/install.sh
-less install.sh
-bash install.sh                 # interactive menu
-bash install.sh --help          # all options, e.g. --mode server --dir /var/www/br0game --dry-run
-```
-
-The script:
-- checks PHP, its extensions and Composer, with install hints for apt, dnf and pacman;
-- fetches the latest release and installs the dependencies;
-- runs the command line installer or points you to the web wizard.
-
-It never runs `sudo` by itself. You can also run the installer directly:
-
-```sh
-php bin/console app:install     # asks for everything, or pass --no-interaction with options (see --help)
-```
-
-Then set your web server's **document root to the `public/` folder** of the install directory, not the project
-folder itself ([nginx example](docs/nginx.md); Apache: `DocumentRoot …/public` with `AllowOverride All`), and add the
-cron job (see [Running a server](#running-a-server)).
-
-### 3. DDEV (try it on your PC)
-
-```sh
-git clone https://github.com/Voidys/Br0Game.git
-cd Br0Game
-ddev start
-ddev composer install
-```
-
-Then open **https://br0game.ddev.site/install/**. DDEV runs the cronjobs by itself.
-
-## Requirements
-
-| | |
-| --- | --- |
-| PHP | 8.4 with `curl`, `gd`, `intl`, `mbstring`, `mysql` (pdo_mysql), `xml`, `zip`, `opcache` (recommended), `openssl` (for SMTP with TLS) |
-| Database | MySQL 8.4 or MariaDB 10.11 |
-| Web server | nginx or Apache with the document root on `public/` ([nginx example with WebP delivery](docs/nginx.md)) |
-| Cron | One job every minute (see below) |
-| Composer | Only for the script and git installs; the release ZIP already contains `vendor/` |
-| Battles | The Rust engine needs Linux x86_64 with glibc ≥ 2.30. Everywhere else the PHP engine is used automatically |
-
-## Running a server
-
-- **Cron:** the game's background jobs (statistics, cleanup, bots…) run every minute.
-
-  ```
-  * * * * * cd /path/to/br0game && php bin/console app:cron:run --quiet
-  ```
-
-- **Health check:** **Admin → Game info** shows ok/warning/error checks for:
-  - PHP, its extensions and OPcache;
-  - writable folders, pending migrations and cron;
-  - the battle engine, HTTPS and mail.
-- **Updates:**
-  - Git or script installs: `git pull && composer install --no-dev -o`.
-  - ZIP installs: back up the database and `config/game.php`, then replace the files except `config/` and `var/`.
-  - Database migrations run automatically on the next page load. Details: [docs/INSTALL.md#updating](docs/INSTALL.md#updating).
-- **Performance:** OPcache settings (`validate_timestamps=0`), preloading and an authoritative class map are described in
-  [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
-- **Security:** see the checklist in [docs/INSTALL.md#security-checklist](docs/INSTALL.md#security-checklist):
-  - HTTPS on;
-  - the document root on `public/`;
-  - `config/game.php` kept private;
-  - a strong admin password.
-
 ## Development
 
 Local development uses [DDEV](https://ddev.readthedocs.io/) (see [Quick start](#3-ddev-try-it-on-your-pc)).
@@ -264,8 +328,7 @@ Local development uses [DDEV](https://ddev.readthedocs.io/) (see [Quick start](#
 ```sh
 ddev exec bin/console lint:twig templates                                   # template syntax
 ddev exec bin/console lint:container                                        # service container
-ddev composer exec php-cs-fixer fix                                         # new code: PER Coding Style
-ddev composer exec php-cs-fixer fix -- --config=.php-cs-fixer.legacy.php   # legacy game code: PSR-12
+ddev exec vendor/bin/php-cs-fixer fix                                       # code style: PER Coding Style
 ```
 
 - **Testing:** PHPUnit (`tests/Unit` needs no database, `tests/Integration` runs against a dedicated database `db_test`):
@@ -323,10 +386,10 @@ The game uses the first engine that is available:
 | Backend | PHP 8.4, Symfony 8.1 (routing, Security login, sessions, DI container, console), the game logic in `src/Game/` |
 | Templates | Twig with autoescaping (`templates/{login,game,account,admin,install}`) |
 | Frontend | Plain CSS in cascade layers and native ES modules (`public/styles/`, `public/scripts/`), no jQuery, no CSS framework |
-| Themes | Nine skins in `public/styles/theme/`; they only set colours and artwork, the layout is shared |
+| Themes | Seven skins in `public/styles/theme/`; they only set colours and artwork, the layout is shared |
 | Database | MySQL 8.4 or MariaDB 10.11; schema in `install/install.sql`, changes as migrations in `install/migrations/` |
 | Charts | Reduced Chart.js 4 build (`public/scripts/lib/chart.js`, rebuild with `sh tools/chartjs/build.sh`) |
-| Translations | `translations/<domain>.<locale>.yaml` (German and English complete, several others) |
+| Translations | `translations/<domain>.<locale>.yaml`, 16 complete locales (14 languages and two fun variants) |
 
 ## Thanks
 

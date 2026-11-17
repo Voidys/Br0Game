@@ -166,6 +166,7 @@ ins_done_login: Đăng nhập vào trang quản trị.
 ins_done_login_info: 'Bạn đã đăng nhập với tên "%s". Lần sau hãy dùng:'
 ins_done_cron: Thiết lập cron job (bắt buộc).
 ins_done_cron_info: 'Không có nó, mọi thứ trong trò chơi sẽ không tiến triển (hạm đội, hàng đợi công trình, thống kê). Thêm dòng này vào crontab của người dùng máy chủ web (crontab -e) hoặc tạo cron job với nó trong bảng điều khiển hosting:'
+ins_done_cron_help: "Cách thiết lập cron job (cả trong bảng điều khiển hosting)"
 ins_done_locked: Công cụ cài đặt hiện đã bị khóa.
 ins_done_locked_info: Không ai có thể chạy lại trình hướng dẫn. Để cập nhật sau này, hãy làm theo phần nâng cấp trong tài liệu.
 ins_done_https: Hãy dùng HTTPS.

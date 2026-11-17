@@ -19,6 +19,7 @@ namespace App\Controller\Admin;
 
 use App\Game\Enum\AuthLevel;
 use App\Routing\GameRoute;
+use App\Runtime\InstallService;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Admin dashboard: security notices, player and universe statistics, system and cron status. */
@@ -50,6 +51,7 @@ class OverviewController extends AbstractAdminController
         if ($USER['authlevel'] >= AuthLevel::Admin->value && $stuckCronjobs !== []) {
             $Message[] = $LNG->format('adm_dash_cron_locked', implode(', ', array_column($stuckCronjobs, 'name')));
         }
+        $cronWarning = $USER['authlevel'] >= AuthLevel::Admin->value ? $this->cronWarning() : null;
         $config = $this->configs->get($universe);
         $uniStatusLabels = [0 => 'se_uni_status_regopen_gameopen', 1 => 'se_uni_status_regclosed_gameclosed', 2 => 'se_uni_status_regopen_gameclosed', 3 => 'se_uni_status_regclosed_gameopen'];
         $system = [
@@ -66,6 +68,8 @@ class OverviewController extends AbstractAdminController
         $this->assign([
             'unprotected'       => $unprotected,
             'Messages'          => $Message,
+            'cronWarning'       => $cronWarning,
+            'cronDocsUrl'       => InstallService::CRON_DOCS_URL,
             'stats'             => $stats,
             'system'            => $system,
             'nextCronTime'      => $system['nextCron'] ? $this->viewHelpers()->formatDate($LNG['php_tdformat'], (int) $system['nextCron']['nextTime'], $USER['timezone']) : '–',
@@ -73,6 +77,25 @@ class OverviewController extends AbstractAdminController
         ]);
 
         return $this->render('admin/OverviewBody.html.twig');
+    }
+
+    /**
+     * Warning when the cron job is not running: it never ran, or its last run is more than 5 minutes ago (it should run
+     * every minute). Null when it runs.
+     */
+    private function cronWarning(): ?string
+    {
+        $LNG = $this->state->LNG;
+        $last = $this->db->selectSingle('SELECT MAX(executionTime) AS t FROM %%CRONJOBS_LOG%%;', [], 't');
+        $lastTs = $last ? strtotime((string) $last) : false;
+        if ($lastTs === false) {
+            return $LNG['adm_dash_cron_never'];
+        }
+        if ($this->state->runtime->timestamp - $lastTs > 300) {
+            return $LNG->format('adm_dash_cron_stale', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $lastTs, $this->state->USER['timezone']));
+        }
+
+        return null;
     }
 
     /**

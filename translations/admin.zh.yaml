@@ -1061,6 +1061,9 @@ adm_dash_credits: 致谢
 adm_dash_project: 项目主页
 adm_confirm: 确定吗？
 adm_dash_cron_locked: 计划任务已锁定（不再运行）：%s
+adm_dash_cron_never: "计划任务从未运行过。舰队、统计和其他后台任务都在等待它。"
+adm_dash_cron_stale: "计划任务上次运行于 %s（它应该每分钟运行一次）。舰队、统计和其他后台任务都在等待它。"
+adm_dash_cron_help: "如何设置计划任务"
 adm_dash_next_cron: 下一个计划任务
 adm_dash_cron_count: 个活动的计划任务
 adm_unsaved_hint: 更改将在保存后生效。

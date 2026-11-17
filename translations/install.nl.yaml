@@ -166,6 +166,7 @@ ins_done_login: Log in op het beheer.
 ins_done_login_info: 'Je bent al ingelogd als "%s". Gebruik de volgende keer:'
 ins_done_cron: Stel de cronjob in (verplicht).
 ins_done_cron_info: 'Zonder deze job gaat er in het spel niets verder (vloten, bouwwachtrijen, statistieken). Voeg deze regel toe aan de crontab van de webserver-gebruiker (crontab -e) of maak er een cronjob mee aan in je hostingpaneel:'
+ins_done_cron_help: "Zo stel je de cronjob in (ook in een hostingpaneel)"
 ins_done_locked: De installatietool is nu vergrendeld.
 ins_done_locked_info: Niemand kan de wizard opnieuw uitvoeren. Om later bij te werken, volg je de upgradesectie van de documentatie.
 ins_done_https: Gebruik HTTPS.

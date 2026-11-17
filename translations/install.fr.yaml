@@ -162,6 +162,7 @@ ins_done_login: Connectez-vous à l'administration.
 ins_done_login_info: 'Vous êtes déjà connecté en tant que « %s ». La prochaine fois, utilisez :'
 ins_done_cron: Configurez le cronjob (obligatoire).
 ins_done_cron_info: 'Sans lui, rien n''avance dans le jeu (flottes, files de construction, statistiques). Ajoutez cette ligne à la crontab de l''utilisateur du serveur web (crontab -e) ou créez un cronjob avec elle dans le panneau de votre hébergeur :'
+ins_done_cron_help: "Comment configurer le cronjob (aussi dans un panneau d'hébergement)"
 ins_done_locked: L'outil d'installation est maintenant verrouillé.
 ins_done_locked_info: Personne ne peut relancer l'assistant. Pour mettre à jour plus tard, suivez la section de mise à jour de la documentation.
 ins_done_https: Utilisez HTTPS.

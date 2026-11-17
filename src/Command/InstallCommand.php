@@ -324,6 +324,7 @@ final class InstallCommand extends Command
             ['Admin login' => $baseUrl . '/admin'],
             ['Administrator' => $payload['admin']['name']],
             ['Cron line (required)' => $this->installer->cronLine()],
+            ['Cron setup help' => InstallService::CRON_DOCS_URL],
         );
         $io->listing(array_filter([
             $payload['baseUrl'] === '' ? 'WARNING: no --base-url given, so DEFAULT_URI is not set: registration and password-reset mails are not sent until you set DEFAULT_URI in .env.local.' : null,

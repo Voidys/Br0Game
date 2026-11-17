@@ -162,6 +162,7 @@ ins_done_login: Yönetime giriş yap.
 ins_done_login_info: 'Zaten "%s" olarak giriş yaptın. Bir dahaki sefere şunu kullan:'
 ins_done_cron: Cronjob'u kur (zorunlu).
 ins_done_cron_info: 'Bunsuz oyunda hiçbir şey ilerlemez (filolar, inşaat kuyrukları, istatistikler). Bu satırı web sunucusu kullanıcısının crontab''ına ekle (crontab -e) veya hosting panelinde bununla bir cronjob oluştur:'
+ins_done_cron_help: "Cronjob nasıl kurulur (barındırma panelinde de)"
 ins_done_locked: Kurulum aracı artık kilitli.
 ins_done_locked_info: Hiç kimse sihirbazı yeniden çalıştıramaz. Daha sonra güncellemek için belgelerdeki güncelleme bölümünü izle.
 ins_done_https: HTTPS kullan.

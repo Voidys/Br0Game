@@ -1061,6 +1061,9 @@ adm_dash_credits: Credits
 adm_dash_project: Projektseite
 adm_confirm: Bist du sicher?
 adm_dash_cron_locked: 'Cronjob gesperrt (läuft nicht mehr): %s'
+adm_dash_cron_never: "Der Cronjob ist noch nie gelaufen. Flotten, Statistiken und andere Hintergrundaufgaben warten auf ihn."
+adm_dash_cron_stale: "Der Cronjob ist zuletzt am %s gelaufen (er sollte jede Minute laufen). Flotten, Statistiken und andere Hintergrundaufgaben warten auf ihn."
+adm_dash_cron_help: "So richtest du den Cronjob ein"
 adm_dash_next_cron: Nächster Cronjob
 adm_dash_cron_count: aktive Cronjobs
 adm_unsaved_hint: Änderungen werden erst mit Speichern übernommen.

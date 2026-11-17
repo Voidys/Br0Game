@@ -162,6 +162,7 @@ ins_done_login: Inicia sesión en la administración.
 ins_done_login_info: 'Ya has iniciado sesión como "%s". La próxima vez usa:'
 ins_done_cron: Configura el cronjob (obligatorio).
 ins_done_cron_info: 'Sin él nada avanza en el juego (flotas, colas de construcción, estadísticas). Añade esta línea al crontab del usuario del servidor web (crontab -e) o crea un cronjob con ella en el panel de tu hosting:'
+ins_done_cron_help: "Cómo configurar el cronjob (también en un panel de hosting)"
 ins_done_locked: La herramienta de instalación está ahora bloqueada.
 ins_done_locked_info: Nadie puede volver a ejecutar el asistente. Para actualizar más adelante, sigue la sección de actualización de la documentación.
 ins_done_https: Usa HTTPS.

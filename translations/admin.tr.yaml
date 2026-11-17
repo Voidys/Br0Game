@@ -1061,6 +1061,9 @@ adm_dash_credits: Emeği geçenler
 adm_dash_project: Proje ana sayfası
 adm_confirm: Emin misin?
 adm_dash_cron_locked: 'Cronjob kilitli (artık çalışmıyor): %s'
+adm_dash_cron_never: "Cronjob henüz hiç çalışmadı. Filolar, istatistikler ve diğer arka plan işleri onu bekliyor."
+adm_dash_cron_stale: "Cronjob en son %s tarihinde çalıştı (her dakika çalışması gerekir). Filolar, istatistikler ve diğer arka plan işleri onu bekliyor."
+adm_dash_cron_help: "Cronjob nasıl kurulur"
 adm_dash_next_cron: Sonraki cronjob
 adm_dash_cron_count: aktif cronjob
 adm_unsaved_hint: Değişiklikler kaydettiğinde geçerli olur.

@@ -1061,6 +1061,9 @@ adm_dash_credits: Ghi công
 adm_dash_project: Trang dự án
 adm_confirm: Bạn có chắc chắn không?
 adm_dash_cron_locked: 'Cronjob bị khóa (không còn chạy): %s'
+adm_dash_cron_never: "Cron job chưa từng chạy. Hạm đội, thống kê và các tác vụ nền khác đang chờ nó."
+adm_dash_cron_stale: "Cron job chạy lần cuối lúc %s (lẽ ra phải chạy mỗi phút). Hạm đội, thống kê và các tác vụ nền khác đang chờ nó."
+adm_dash_cron_help: "Cách thiết lập cron job"
 adm_dash_next_cron: Cronjob tiếp theo
 adm_dash_cron_count: cronjob đang hoạt động
 adm_unsaved_hint: Thay đổi có hiệu lực sau khi bạn lưu.
