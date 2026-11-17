@@ -107,7 +107,7 @@ class SQLDumper
                 . " --user=" . escapeshellarg($database['user'])
                 . " --no-tablespaces --no-create-db --order-by-primary --add-drop-table --comments --complete-insert --hex-blob "
                 . escapeshellarg($database['databasename']) . " -- " . implode(' ', $dbTables)
-                . " 2>&1 1> " . escapeshellarg($filePath)
+                . " 2>&1 1> " . escapeshellarg($filePath),
             );
         } finally {
             unlink($optionFile);
@@ -147,7 +147,7 @@ class SQLDumper
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on ".date("Y-d-m H:i:s"));
+-- Dump completed on " . date("Y-d-m H:i:s"));
         fclose($fp);
 
         return filesize($filePath) !== 0;
@@ -196,23 +196,23 @@ class SQLDumper
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;\n\n");
 
-        $createTable	= $db->nativeQuery("SHOW CREATE TABLE `".$dbTable."`");
-        $createTableSql = isset($createTable['Create Table']) ?
-            $createTable['Create Table'] : (
+        $createTable	= $db->nativeQuery("SHOW CREATE TABLE `" . $dbTable . "`");
+        $createTableSql = isset($createTable['Create Table'])
+            ? $createTable['Create Table'] : (
                 #old mysql clients
-                isset($createTable[0]['Create Table']) ?
-                    $createTable[0]['Create Table'] :
-                    false
+                isset($createTable[0]['Create Table'])
+                    ? $createTable[0]['Create Table']
+                    : false
             );
 
         if ($createTableSql === false) {
-            throw new Exception("Error after executing SHOW CREATE TABLE ".$dbTable."! Can't find key 'Create Table' in the results. Available data: \n\n".print_r($createTable, true));
+            throw new Exception("Error after executing SHOW CREATE TABLE " . $dbTable . "! Can't find key 'Create Table' in the results. Available data: \n\n" . print_r($createTable, true));
         }
 
-        fwrite($fp, $createTableSql.';');
+        fwrite($fp, $createTableSql . ';');
         fwrite($fp, "\n\n/*!40101 SET character_set_client = @saved_cs_client */;");
 
-        $sql = "SELECT COUNT(*) as state FROM `".$dbTable."`;";
+        $sql = "SELECT COUNT(*) as state FROM `" . $dbTable . "`;";
 
         $count	= $db->nativeQuery($sql);
         if ($count[0]['state'] == 0) {
@@ -252,23 +252,23 @@ UNLOCK TABLES;
         $integerTypes	= ['tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'decimal', 'float', 'double', 'real'];
         $numColumns	= [];
         $firstRow	= true;
-        $columnsData	= $db->nativeQuery("SHOW COLUMNS FROM `".$dbTable."`");
+        $columnsData	= $db->nativeQuery("SHOW COLUMNS FROM `" . $dbTable . "`");
         $columnNames	= [];
         foreach ($columnsData as $columnData) {
             $columnNames[]	= $columnData['Field'];
             foreach ($integerTypes as $type) {
-                if (strpos($columnData['Type'], $type.'(') !== false) {
+                if (strpos($columnData['Type'], $type . '(') !== false) {
                     $numColumns[]	= $columnData['Field'];
                     break;
                 }
             }
         }
 
-        $insertInto	= "INSERT INTO `{$dbTable}` (`".implode("`, `", $columnNames)."`) VALUES\r\n";
+        $insertInto	= "INSERT INTO `{$dbTable}` (`" . implode("`, `", $columnNames) . "`) VALUES\r\n";
 
         fwrite($fp, $insertInto);
         $i = 0;
-        $tableData	= $db->select("SELECT * FROM `".$dbTable."`");
+        $tableData	= $db->select("SELECT * FROM `" . $dbTable . "`");
         foreach ($tableData as $tableRow) {
             $rowData = [];
             $i++;
@@ -291,7 +291,7 @@ UNLOCK TABLES;
                     $rowData[]	= $value === null ? 'NULL' : $db->quote($value);
                 }
             }
-            fwrite($fp, "(".implode(", ", $rowData).")");
+            fwrite($fp, "(" . implode(", ", $rowData) . ")");
         }
     }
 
@@ -307,7 +307,7 @@ UNLOCK TABLES;
         if ($this->canNative('mysql')) {
             $database	= [];
             $database = $this->db->getConnectionConfig();
-            $sqlDump	= shell_exec("mysql --host='".escapeshellarg($database['host'])."' --port=".((int) $database['port'])." --user='".escapeshellarg($database['user'])."' --password='".escapeshellarg($database['userpw'])."' '".escapeshellarg($database['databasename'])."' < ".escapeshellarg($filePath)." 2>&1 1> /dev/null");
+            $sqlDump	= shell_exec("mysql --host='" . escapeshellarg($database['host']) . "' --port=" . ((int) $database['port']) . " --user='" . escapeshellarg($database['user']) . "' --password='" . escapeshellarg($database['userpw']) . "' '" . escapeshellarg($database['databasename']) . "' < " . escapeshellarg($filePath) . " 2>&1 1> /dev/null");
             if (strlen($sqlDump) !== 0) { #mysql error
                 throw new Exception($sqlDump);
             }

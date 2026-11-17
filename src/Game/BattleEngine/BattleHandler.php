@@ -88,8 +88,8 @@ class BattleHandler
             $lostUnits = $losses->userValue(BattleSide::Attacker, $userID) + $losses->userValue(BattleSide::Defender, $userID);
             $lostCapacity = $losses->userCapacity(BattleSide::Attacker, $userID) + $losses->userCapacity(BattleSide::Defender, $userID);
 
-            if (($lostUnits > 0 && $lostUnits > $noobProtection && ($lostUnits / $state['totalUnits']) > 0.7) ||
-                ($lostCapacity > 0 && $lostCapacity > $noobProtection && ($lostCapacity / $state['totalCapacity']) > 0.8)) {
+            if (($lostUnits > 0 && $lostUnits > $noobProtection && ($lostUnits / $state['totalUnits']) > 0.7)
+                || ($lostCapacity > 0 && $lostCapacity > $noobProtection && ($lostCapacity / $state['totalCapacity']) > 0.8)) {
                 $sql = "UPDATE %%USERS%% SET `rebuild_protection` = :someTime, `rebuild_protection_attackers` = :attackers, `rebuild_protection_locked_until` = :someTimeLater
                 WHERE `id` = :userID;";
                 $db->update($sql, [
@@ -160,7 +160,7 @@ class BattleHandler
     private function reportHeader(BattleResult $combatResult, array $reportInfo): array
     {
         $DATA = [];
-        $DATA['mode'] = (int)$reportInfo['moonDestroy'];
+        $DATA['mode'] = (int) $reportInfo['moonDestroy'];
         $DATA['time'] = $reportInfo['thisFleet']['arrival_time'];
         $DATA['start'] = [$reportInfo['thisFleet']['start_galaxy'], $reportInfo['thisFleet']['start_system'], $reportInfo['thisFleet']['start_planet'], $reportInfo['thisFleet']['start_type']];
         $DATA['koords'] = [$reportInfo['thisFleet']['end_galaxy'], $reportInfo['thisFleet']['end_system'], $reportInfo['thisFleet']['end_planet'], $reportInfo['thisFleet']['end_type']];
@@ -171,12 +171,12 @@ class BattleHandler
         $DATA['duration'] = $combatResult->duration;
         $DATA['moon'] = [
             'moonName'            => $reportInfo['moonName'],
-            'moonChance'          => (int)$reportInfo['moonChance'],
-            'additionalChance'    => (int)$reportInfo['additionalChance'],
-            'moonDestroyChance'   => (int)$reportInfo['moonDestroyChance'],
-            'moonDestroySuccess'  => (int)$reportInfo['moonDestroySuccess'],
-            'fleetDestroyChance'  => (int)$reportInfo['fleetDestroyChance'],
-            'fleetDestroySuccess' => (int)$reportInfo['fleetDestroySuccess'],
+            'moonChance'          => (int) $reportInfo['moonChance'],
+            'additionalChance'    => (int) $reportInfo['additionalChance'],
+            'moonDestroyChance'   => (int) $reportInfo['moonDestroyChance'],
+            'moonDestroySuccess'  => (int) $reportInfo['moonDestroySuccess'],
+            'fleetDestroyChance'  => (int) $reportInfo['fleetDestroyChance'],
+            'fleetDestroySuccess' => (int) $reportInfo['fleetDestroySuccess'],
         ];
         $DATA['repaired'] = $combatResult->repaired;
         $DATA['wreckfield'] = $combatResult->wreckfield;
@@ -513,7 +513,7 @@ class BattleHandler
         $stealResource[$firstResource] = min(
             $capacity / 3, //one third of capacity
             $planetResource[$firstResource] / 2 * $factorHonorPoints, //half of metal
-            max(0, $planetResource[$firstResource] - $protected[$firstResource]) //leave protected amount
+            max(0, $planetResource[$firstResource] - $protected[$firstResource]), //leave protected amount
         );
         $capacity -= $stealResource[$firstResource];
 
@@ -521,7 +521,7 @@ class BattleHandler
         $stealResource[$secondResource] = min(
             $capacity / 2, //half of rest capacity (= one third or more)
             $planetResource[$secondResource] / 2 * $factorHonorPoints, //half of crystal
-            max(0, $planetResource[$secondResource] - $protected[$secondResource]) //leave protected amount
+            max(0, $planetResource[$secondResource] - $protected[$secondResource]), //leave protected amount
         );
         $capacity -= $stealResource[$secondResource];
 
@@ -529,7 +529,7 @@ class BattleHandler
         $stealResource[$thirdResource] = min(
             $capacity, //rest capacity (= one third or more)
             $planetResource[$thirdResource] / 2 * $factorHonorPoints, //half of deut
-            max(0, $planetResource[$thirdResource] - $protected[$thirdResource]) //leave protected amount
+            max(0, $planetResource[$thirdResource] - $protected[$thirdResource]), //leave protected amount
         );
         $capacity -= $stealResource[$thirdResource];
 
@@ -538,7 +538,7 @@ class BattleHandler
         $stealResource[$firstResource] += min(
             $capacity / 2, //half of rest capacity
             $planetResource[$firstResource] / 2 * $factorHonorPoints - $stealResource[$firstResource], //half of metal minus already stolen
-            max(0, $planetResource[$firstResource] - $stealResource[$firstResource] - $protected[$firstResource]) //leave protected amount
+            max(0, $planetResource[$firstResource] - $stealResource[$firstResource] - $protected[$firstResource]), //leave protected amount
         );
         $capacity -= $stealResource[$firstResource] - $oldMetalBooty;
 
@@ -546,7 +546,7 @@ class BattleHandler
         $stealResource[$secondResource] += min(
             $capacity, //other half of rest capacity (or more)
             $planetResource[$secondResource] / 2 * $factorHonorPoints - $stealResource[$secondResource], //half of crystal minus already stolen
-            max(0, $planetResource[$secondResource] - $stealResource[$secondResource] - $protected[$secondResource]) //leave protected amount
+            max(0, $planetResource[$secondResource] - $stealResource[$secondResource] - $protected[$secondResource]), //leave protected amount
         );
 
         $stealResource[$firstResource] = floor(max(0, $stealResource[$firstResource]));
@@ -638,7 +638,7 @@ class BattleHandler
         $low  = 0;
         $high = max(
             $shipCapacity,
-            (int)ceil(array_sum($targetResource) / $shipCapacity) * $shipCapacity
+            (int) ceil(array_sum($targetResource) / $shipCapacity) * $shipCapacity,
         );
 
         while (!$this->canStealHalf($high, $targetResource)) {

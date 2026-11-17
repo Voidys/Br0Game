@@ -347,11 +347,11 @@ class RegisterController extends AbstractAccountController
         $LNG = $this->state->LNG;
         $config = $this->configs->get($universe);
 
-$LNG->includeData(['PUBLIC']);
-$senderName = $LNG['registerWelcomePMSenderName'];
-$subject 	= $LNG['registerWelcomePMSubject'];
-$message 	= $LNG->format('registerWelcomePMText', $config->game_name);
+        $LNG->includeData(['PUBLIC']);
+        $senderName = $LNG['registerWelcomePMSenderName'];
+        $subject 	= $LNG['registerWelcomePMSubject'];
+        $message 	= $LNG->format('registerWelcomePMText', $config->game_name);
 
-$this->playerUtil()->sendMessage($userID, 1, $senderName, MESSAGE_TYPE_GAME, $subject, $message, $this->state->runtime->timestamp, 1, $universe);
+        $this->playerUtil()->sendMessage($userID, 1, $senderName, MESSAGE_TYPE_GAME, $subject, $message, $this->state->runtime->timestamp, 1, $universe);
     }
 }

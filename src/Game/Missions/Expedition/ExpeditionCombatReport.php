@@ -149,7 +149,8 @@ HTML;
             $reportID,
             $attackClass,
             $LNG['sys_mess_attack_report'],
-            $LNG->format('sys_adress_planet',
+            $LNG->format(
+                'sys_adress_planet',
                 $this->fleet['end_galaxy'],
                 $this->fleet['end_system'],
                 $this->fleet['end_planet'],

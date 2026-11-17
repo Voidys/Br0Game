@@ -167,7 +167,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
             $this->_fleet['arrival_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
 
         $this->statsHandler->setTimestamp($this->_fleet['owner'], AdvancedStatsEnum::FIRST_ESPIONAGE, $this->_fleet['arrival_time']);
@@ -266,8 +266,8 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         if (isset($spyData[400])) {
             foreach ($spyData[400] as $elementID => $amount) {
                 if (
-                    !($elementID == INTERCEPTOR_MISSILE) and
-                    !($elementID == INTERPLANETARY_MISSILE)
+                    !($elementID == INTERCEPTOR_MISSILE)
+                    and !($elementID == INTERPLANETARY_MISSILE)
                 ) {
                     $dangerValue += $CombatCaps[$elementID]['attack'] * $amount;
                 }
@@ -293,16 +293,16 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         // ships
         if (isset($spyData[200]) && $fleetIntoDebris > 0) {
             foreach ($spyData[200] as $elementID => $amount) {
-                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL] +
-                    $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $fleetIntoDebris / 100) * $amount;
+                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL]
+                    + $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $fleetIntoDebris / 100) * $amount;
             }
         }
 
         // defence
         if (isset($spyData[400]) && $defIntoDebris > 0) {
             foreach ($spyData[400] as $elementID => $amount) {
-                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL] +
-                    $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $defIntoDebris / 100) * $amount;
+                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL]
+                    + $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $defIntoDebris / 100) * $amount;
             }
         }
 
@@ -340,7 +340,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      * Counter-espionage chance in percent (OGame rule): min(round(2^(target tech - sender tech) * probes *
      * ships on the base * 0.0025), 100).
      */
-    private function getDetectionChance(int $senderSpyTech, int $targetSpyTech, int $fleetAmount, int $totalShipDefCount) : int
+    private function getDetectionChance(int $senderSpyTech, int $targetSpyTech, int $fleetAmount, int $totalShipDefCount): int
     {
         // $targetChance = random_int(0, min(($fleetAmount / 4) * ($targetSpyTech / $senderSpyTech), 100));
 
@@ -359,7 +359,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      * defense/buildings/research). Always includes resources (900).
      * @return array<int, array<int>> class id (900 resources, 200 ships, 400 defense, 0 buildings, 100 research) => element ids.
      */
-    private function getClassIDs($fleetAmount, $senderSpyTech, $targetSpyTech) : array
+    private function getClassIDs($fleetAmount, $senderSpyTech, $targetSpyTech): array
     {
         $reslist = $this->state->reslist;
         $classIDs = [];

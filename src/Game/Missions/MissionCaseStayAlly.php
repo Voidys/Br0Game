@@ -86,7 +86,7 @@ class MissionCaseStayAlly extends MissionFunctions implements MissionInterface
             $Message,
             $this->_fleet['return_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
 
         $this->RestoreFleet();

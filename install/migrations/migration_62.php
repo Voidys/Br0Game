@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
@@ -218,7 +218,7 @@ foreach ($modulsResult as $row) {
     $modules = & Singleton::load()->modules;
     $rows = [];
     foreach ($modules as $moduleKey => $moduleName) {
-        $rows[] = '('.$row['uni'].', '.$moduleKey.', "'.$moduleName.'", '.(isset($moduls[$moduleKey]) ? $moduls[$moduleKey] : 1).')';
+        $rows[] = '(' . $row['uni'] . ', ' . $moduleKey . ', "' . $moduleName . '", ' . (isset($moduls[$moduleKey]) ? $moduls[$moduleKey] : 1) . ')';
     }
     $sql = 'INSERT INTO `%PREFIX%config_universe_modules` VALUES ' . implode(',', $rows);
     $db->insert(str_replace('%PREFIX%', DB_PREFIX, $sql));

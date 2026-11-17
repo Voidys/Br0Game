@@ -329,7 +329,7 @@ class MarketManager
             return $this->ratioFromVolume(
                 (float) $trades['metal'],
                 (float) $trades['deuterium'],
-                $this->getStoredRatios()['metDeutRatio']
+                $this->getStoredRatios()['metDeutRatio'],
             );
         });
     }
@@ -341,7 +341,7 @@ class MarketManager
             return $this->ratioFromVolume(
                 (float) $trades['crystal'],
                 (float) $trades['deuterium'],
-                $this->getStoredRatios()['crysDeutRatio']
+                $this->getStoredRatios()['crysDeutRatio'],
             );
         });
     }
@@ -462,9 +462,9 @@ class MarketManager
         $pricelist = $this->state->pricelist;
 
         $totalCostArray = [
-                901 => 0,
-                902 => 0,
-                903 => 0,
+            901 => 0,
+            902 => 0,
+            903 => 0,
         ];
 
         foreach ($fleetArray as $ship => $count) {
@@ -491,8 +491,8 @@ class MarketManager
 				LEFT JOIN %%STATPOINTS%% s ON s.`id_owner` = u.`id` AND s.`stat_type` = 1
 				WHERE u.`id` = :playerID AND u.`universe` = :universe;";
         $query = $db->selectSingle($sql, [
-                ':universe'	=> $this->universe()->current(),
-                ':playerID'	=> $playerid,
+            ':universe'	=> $this->universe()->current(),
+            ':playerID'	=> $playerid,
         ]);
 
         if (!$query) {

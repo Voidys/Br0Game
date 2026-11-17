@@ -9,7 +9,6 @@ use App\Game\Core\Singleton;
 use App\Game\Missions\MissionFunctions;
 use App\Game\Core\FleetFunctions;
 
-
 /**
  * PHP battle engine (the OGame-style per-ship simulation, fallback when the Rust engine is unavailable).
  * Every ship is an individual object with attack/shield/armor; up to MAX_ATTACK_ROUNDS rounds in which every
@@ -19,7 +18,6 @@ use App\Game\Core\FleetFunctions;
  */
 class BattleEngineSteemNova extends AbstractBattleEngine
 {
-
     private $dsAvailable = false;
     private int $minScale = 1;
     public function __construct(\App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -415,7 +413,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
                     if ($fleetID == 0 && $this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) && $STARTDEF[$element] > $amount) {
                         $lost = $STARTDEF[$element] - $amount;
 
-                        $wreckfield[$element] = floor($lost * (1-($config->fleet_debris_percentage / 100)));
+                        $wreckfield[$element] = floor($lost * (1 - ($config->fleet_debris_percentage / 100)));
                         $defendingPlayer['lost'] += $pricelist[$element]['cost'][901] * $lost;
                         $defendingPlayer['lost'] += $pricelist[$element]['cost'][902] * $lost;
                     }
@@ -426,7 +424,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
                     $lost = $STARTDEF[$element] - $amount;
                     $giveback = 0;
                     if ($lost > 10) {
-                        $giveback = ceil($lost*(rand(60, 80)/100));
+                        $giveback = ceil($lost * (rand(60, 80) / 100));
                     } else {
                         for ($i = 0; $i < $lost; $i++) {
                             if (rand(1, 100) <= 70) {
@@ -498,13 +496,13 @@ class BattleEngineSteemNova extends AbstractBattleEngine
      */
     private function wreckfieldAllowed(array $planetFleet, int|float $lostValue, object $config): bool
     {
-        return !(!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) ||
-            $planetFleet['player']['id'] === 0 ||
-            !isset($planetFleet['currentTotalFleetState']['totalUnits']) ||
-            $planetFleet['currentTotalFleetState']['totalUnits'] <= 0 ||
-            (!empty($planetFleet['player']['wreckfield_cooldown_until']) && $planetFleet['player']['wreckfield_cooldown_until'] > $this->state->runtime->timestamp) ||
-            $lostValue < $config->wreckfield_min_units ||
-            $lostValue / $planetFleet['currentTotalFleetState']['totalUnits'] < ($config->wreckfield_min_percent / 100));
+        return !(!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK)
+            || $planetFleet['player']['id'] === 0
+            || !isset($planetFleet['currentTotalFleetState']['totalUnits'])
+            || $planetFleet['currentTotalFleetState']['totalUnits'] <= 0
+            || (!empty($planetFleet['player']['wreckfield_cooldown_until']) && $planetFleet['player']['wreckfield_cooldown_until'] > $this->state->runtime->timestamp)
+            || $lostValue < $config->wreckfield_min_units
+            || $lostValue / $planetFleet['currentTotalFleetState']['totalUnits'] < ($config->wreckfield_min_percent / 100));
     }
 
     /** Fleet data without the per-ship arrays (only needed while fighting, never read from the report rounds). */
@@ -616,7 +614,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
             'attack' => $attack['attack'],
             'defense' => $defense['attack'],
             'attackShield' => $defense['shield'],
-            'defShield' => $attack['shield']
+            'defShield' => $attack['shield'],
         ];
     }
 
@@ -781,7 +779,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
                             'shield' => $thisShield,
                             'armor' => $thisArmor,
                             'att' => $thisAtt,
-                            'explode' => false
+                            'explode' => false,
                         ];
                     }
                     $attArray[$fleetID][$element]['def'] += $fleets[$fleetID]['units'][$iter]['armor'];

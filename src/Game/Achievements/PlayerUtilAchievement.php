@@ -64,11 +64,11 @@ class PlayerUtilAchievement
             } elseif ($uniType == UNIVERSE_CIRCULAR) {
                 $max_distance = $this->fleetFunctions()->getTargetDistance(
                     [1,1,1],
-                    [1 + $max_gala_distance,1,1]
+                    [1 + $max_gala_distance,1,1],
                 );
                 $distance = $this->fleetFunctions()->getTargetDistance(
                     [$hpGala,1,1],
-                    [$galaxy,1,1]
+                    [$galaxy,1,1],
                 );
                 if ($max_distance <= $distance) {
                     $this->achievement()->setAchievement($userId, 40);
@@ -93,7 +93,7 @@ class PlayerUtilAchievement
             $statbuidler = new Statbuilder($this->db, $this->configs, $this->state);
             $sql = "SELECT * FROM %%PLANETS%% WHERE id_owner = :userId and destruyed = 0;";
             $planets = $db->select($sql, [
-                ':userId'   => $planetData['id_owner']
+                ':userId'   => $planetData['id_owner'],
             ]);
             $biggestPlanet = 0;
             $biggestPlanetPoints = 99999;
@@ -123,7 +123,7 @@ class PlayerUtilAchievement
         if (!$this->achievement()->checkAchievement($planetData['id_owner'], 49)) {
             $sql = "SELECT creation_time FROM %%PLANETS%% WHERE id = :planetID;";
             $planet_creation_time = $db->selectSingle($sql, [
-                ':planetID'   => $planetId
+                ':planetID'   => $planetId,
             ], 'creation_time');
             if ($this->state->runtime->timestamp - $planet_creation_time <= 60) {
                 $this->achievement()->setAchievement($planetData['id_owner'], 49);
@@ -183,7 +183,7 @@ class PlayerUtilAchievement
 			AND `time` > :sixHours;";
         $attacks = $db->select($sql, [
             ':user'			=> $userID,
-            ':sixHours'		=> $this->state->runtime->timestamp - TIME_6_HOURS
+            ':sixHours'		=> $this->state->runtime->timestamp - TIME_6_HOURS,
         ]);
         if ($attacks) {
             foreach ($attacks as $attack) {
@@ -205,7 +205,7 @@ class PlayerUtilAchievement
 			AND `time` > :sixHours;";
         $attacks = $db->select($sql, [
             ':user'			=> $userID,
-            ':sixHours'		=> $this->state->runtime->timestamp - TIME_6_HOURS
+            ':sixHours'		=> $this->state->runtime->timestamp - TIME_6_HOURS,
         ]);
         if ($attacks) {
             foreach ($attacks as $attack) {

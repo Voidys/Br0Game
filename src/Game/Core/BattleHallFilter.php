@@ -169,7 +169,7 @@ class BattleHallFilter
         $this->assembleDiplomacyFilter($qb, $this->_diplomacy);
 
         $top = $db->fetchAll(
-            $qb->orderBy('topkb.units', 'DESC')->addOrderBy('topkb.time', 'ASC')->setMaxResults($limit)
+            $qb->orderBy('topkb.units', 'DESC')->addOrderBy('topkb.time', 'ASC')->setMaxResults($limit),
         );
 
         return $top;

@@ -125,7 +125,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $targetUser,
             $targetPlanet,
             true,
-            $this->_fleet['arrival_time']
+            $this->_fleet['arrival_time'],
         );
 
         $targetPlanet = $this->addHoldFleets($targetPlanet);
@@ -280,7 +280,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $this->_fleet['arrival_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
 
         $this->statsHandler->setTimestamp($this->_fleet['owner'], AdvancedStatsEnum::FIRST_ESPIONAGE, $this->_fleet['arrival_time']);
@@ -303,12 +303,12 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         ]);
 
         $targetUser = $db->selectSingle($sql, [
-            ':userId'   => $this->_fleet['target_owner']
+            ':userId'   => $this->_fleet['target_owner'],
         ]);
 
         $sql = 'SELECT `name`, `planet_type` FROM %%PLANETS%% WHERE `id` = :planetId;';
         $senderPlanet = $db->selectSingle($sql, [
-            ':planetId' => $this->_fleet['start_id']
+            ':planetId' => $this->_fleet['start_id'],
         ]);
 
         return [$senderUser, $targetUser, $senderPlanet];
@@ -444,7 +444,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
                 $wreckPlanetID = $db->selectSingle(
                     "SELECT `id` FROM %%PLANETS%% WHERE `id_luna` = :moonId;",
                     [':moonId' => $this->_fleet['end_id']],
-                    'id'
+                    'id',
                 ) ?: $wreckPlanetID;
             }
             $sql = "SELECT `repair_order` FROM %%PLANET_WRECKFIELD%%
@@ -473,7 +473,8 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
     {
         $LNG = $this->getLanguage($targetUser['lang']);
 
-        $sourceLink = $LNG->format('sys_mess_spy_link',
+        $sourceLink = $LNG->format(
+            'sys_mess_spy_link',
             $senderPlanet['name'],
             $senderUser['username'],
             $this->_fleet['start_galaxy'],
@@ -481,7 +482,8 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $this->_fleet['start_planet'],
         );
 
-        $targetLink = $LNG->format('sys_mess_spy_link',
+        $targetLink = $LNG->format(
+            'sys_mess_spy_link',
             $targetPlanet['name'],
             $LNG['type_planet_short_' . $targetPlanet['planet_type']],
             $this->_fleet['end_galaxy'],
@@ -489,7 +491,8 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $this->_fleet['end_planet'],
         );
 
-        $targetMessage = $LNG->format('sys_mess_spy_ennemyfleet_' . $senderPlanet['planet_type'],
+        $targetMessage = $LNG->format(
+            'sys_mess_spy_ennemyfleet_' . $senderPlanet['planet_type'],
             $sourceLink,
             $targetLink,
         );
@@ -504,7 +507,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $this->_fleet['arrival_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
     }
 
@@ -555,8 +558,8 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         if (isset($spyData[400])) {
             foreach ($spyData[400] as $elementID => $amount) {
                 if (
-                    !($elementID == INTERCEPTOR_MISSILE) and
-                    !($elementID == INTERPLANETARY_MISSILE)
+                    !($elementID == INTERCEPTOR_MISSILE)
+                    and !($elementID == INTERPLANETARY_MISSILE)
                 ) {
                     $dangerValue += $CombatCaps[$elementID]['attack'] * $amount;
                 }
@@ -582,16 +585,16 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         // ships
         if (isset($spyData[200]) && $fleetIntoDebris > 0) {
             foreach ($spyData[200] as $elementID => $amount) {
-                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL] +
-                    $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $fleetIntoDebris / 100) * $amount;
+                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL]
+                    + $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $fleetIntoDebris / 100) * $amount;
             }
         }
 
         // defence
         if (isset($spyData[400]) && $defIntoDebris > 0) {
             foreach ($spyData[400] as $elementID => $amount) {
-                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL] +
-                    $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $defIntoDebris / 100) * $amount;
+                $recycleValue += (($pricelist[$elementID]['cost'][RESOURCE_METAL]
+                    + $pricelist[$elementID]['cost'][RESOURCE_CRYSTAL]) * $defIntoDebris / 100) * $amount;
             }
         }
 

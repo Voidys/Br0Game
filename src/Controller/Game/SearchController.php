@@ -101,7 +101,7 @@ class SearchController extends AbstractGameController
             'a.username',
             $universe,
             $searchText,
-            $maxResult
+            $maxResult,
         ));
 
         return $this->planetRows($searchResult);
@@ -127,7 +127,7 @@ class SearchController extends AbstractGameController
             'a.name',
             $universe,
             $searchText,
-            $maxResult
+            $maxResult,
         ));
 
         return $this->planetRows($searchResult);
@@ -178,7 +178,7 @@ class SearchController extends AbstractGameController
             $column,
             $universe,
             $searchText,
-            $maxResult
+            $maxResult,
         ));
 
         $searchList = [];

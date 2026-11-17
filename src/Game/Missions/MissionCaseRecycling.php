@@ -93,7 +93,8 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
             ':planetId' => $this->_fleet['start_id'],
         ], 'name');
 
-        $Message = $LNG->format('sys_recy_mess',
+        $Message = $LNG->format(
+            'sys_recy_mess',
             $planetName,
             GetStartAddressLink($this->_fleet, ''),
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_metal']),
@@ -101,7 +102,7 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
             $LNG['tech'][RESOURCE_CRYSTAL],
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
-            $LNG['tech'][RESOURCE_DEUT]
+            $LNG['tech'][RESOURCE_DEUT],
         );
 
         $this->playerUtil()->sendMessage(
@@ -114,7 +115,7 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
             $this->_fleet['return_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
 
         $this->RestoreFleet();

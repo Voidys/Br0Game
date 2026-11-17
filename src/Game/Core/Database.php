@@ -97,7 +97,7 @@ class Database
             "mysql:host=" . $database['host'] . ";port=" . $database['port'] . ";dbname=" . $database['databasename'],
             $database['user'],
             $database['userpw'],
-            [PDO::MYSQL_ATTR_INIT_COMMAND => self::INIT_COMMAND]
+            [PDO::MYSQL_ATTR_INIT_COMMAND => self::INIT_COMMAND],
         );
         //error behaviour
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -343,8 +343,10 @@ class Database
                 $e->getMessage() . "<br><br>Query-Code: " . str_replace(
                     array_keys($params),
                     array_values($params),
-                    $qry
-                ), $errorCode, $e
+                    $qry,
+                ),
+                $errorCode,
+                $e,
             );
         }
 

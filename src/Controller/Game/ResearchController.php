@@ -155,7 +155,7 @@ class ResearchController extends AbstractGameController
                         ->select($this->elements()->column(university), $this->elements()->column(RESEARCH_LABORATORY), 'id')
                         ->from($db->table('PLANETS'))
                         ->where('id = :id')
-                        ->setParameter('id', $ListIDArray[self::QUEUE_PLANET_ID])
+                        ->setParameter('id', $ListIDArray[self::QUEUE_PLANET_ID]),
                 );
             } else {
                 $CPLANET = $this->state->PLANET;
@@ -229,7 +229,7 @@ class ResearchController extends AbstractGameController
                             ->select($this->elements()->column(university), $this->elements()->column(RESEARCH_LABORATORY), 'id')
                             ->from($db->table('PLANETS'))
                             ->where('id = :id')
-                            ->setParameter('id', $ListIDArray[self::QUEUE_PLANET_ID])
+                            ->setParameter('id', $ListIDArray[self::QUEUE_PLANET_ID]),
                     );
                 } else {
                     $CPLANET = $PLANET;

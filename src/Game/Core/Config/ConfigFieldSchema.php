@@ -52,9 +52,9 @@ class ConfigFieldSchema
     /**
      * Basic config fields with metadata
      *
-     * Each entry in the returned array represents a category having multiple 
+     * Each entry in the returned array represents a category having multiple
      * configuration keys and their options.
-     * The category keys and config keys are used for translation keys in the 
+     * The category keys and config keys are used for translation keys in the
      * format: se_{category_key} and se_{category_key}_info for tooltips.
      * Example structure:
      *
@@ -105,9 +105,9 @@ class ConfigFieldSchema
     /**
      * All config fields with metadata (universe-specific)
      *
-     * Each entry in the returned array represents a category having multiple 
+     * Each entry in the returned array represents a category having multiple
      * configuration keys and their options.
-     * The category keys and config keys are used for translation keys in the 
+     * The category keys and config keys are used for translation keys in the
      * format: se_{category_key} and se_{category_key}_info for tooltips.
      * Example structure:
      *

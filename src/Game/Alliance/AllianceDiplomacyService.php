@@ -392,7 +392,8 @@ class AllianceDiplomacyService
                 $alliance['ally_tag'],
                 fn(array|\ArrayAccess $lang): array => [
                     $lang['al_diplo_war'],
-                    $lang->formatHtml('al_diplo_war_mes',
+                    $lang->formatHtml(
+                        'al_diplo_war_mes',
                         "[" . $alliance['ally_tag'] . "] " . $alliance['ally_name'],
                         "[" . $targetAlliance['ally_tag'] . "] " . $targetAlliance['ally_name'],
                         $lang['al_diplo_level'][$level],
@@ -406,7 +407,8 @@ class AllianceDiplomacyService
                 $alliance['ally_tag'],
                 fn(array|\ArrayAccess $lang): array => [
                     $lang['al_diplo_ask'],
-                    $lang->formatHtml('al_diplo_ask_mes',
+                    $lang->formatHtml(
+                        'al_diplo_ask_mes',
                         $lang['al_diplo_level'][$level],
                         "[" . $alliance['ally_tag'] . "] " . $alliance['ally_name'],
                         "[" . $targetAlliance['ally_tag'] . "] " . $targetAlliance['ally_name'],

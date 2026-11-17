@@ -24,8 +24,7 @@ class AdvancedStatsHandler
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,
         protected \App\Game\Core\Singleton $state,
-    ) {
-    }
+    ) {}
 
     /**
      * Adds $value to the counter (inserts it on first use; atomic upsert). The universe is looked up from the player.
@@ -33,7 +32,7 @@ class AdvancedStatsHandler
      * @param int|float|string $value amount to add; the column is an integer (bigint), so fractions (e.g. debris
      *        values) are cut off toward zero, explicitly (an implicit float-to-int conversion is deprecated).
      */
-    public function increment(int $userId, AdvancedStatsEnum|null $statKey, int|float|string $value = 1): void
+    public function increment(int $userId, ?AdvancedStatsEnum $statKey, int|float|string $value = 1): void
     {
         if ($statKey == null) {
             return;
@@ -56,7 +55,7 @@ class AdvancedStatsHandler
     /**
      * Sets the counter to an absolute value (upsert).
      */
-    public function setValue(int $userId, AdvancedStatsEnum|null $statKey, int|float $value): void
+    public function setValue(int $userId, ?AdvancedStatsEnum $statKey, int|float $value): void
     {
         if ($statKey == null) {
             return;
@@ -81,7 +80,7 @@ class AdvancedStatsHandler
      * first-achiever list.
      * @param int|null $timestamp event time; default now.
      */
-    public function setTimestamp(int $userId, AdvancedStatsEnum|null $statKey, ?int $timestamp = null): void
+    public function setTimestamp(int $userId, ?AdvancedStatsEnum $statKey, ?int $timestamp = null): void
     {
         $timestamp ??= $this->state->runtime->timestamp;
         if ($statKey == null) {
@@ -117,7 +116,7 @@ class AdvancedStatsHandler
     /**
      * Current counter value, 0 when the player never got that stat (or $statKey is null).
      */
-    public function getValue(int $userId, AdvancedStatsEnum|null $statKey): int|float
+    public function getValue(int $userId, ?AdvancedStatsEnum $statKey): int|float
     {
         if ($statKey == null) {
             return 0;
@@ -157,7 +156,7 @@ class AdvancedStatsHandler
                     ->select('DISTINCT `timestamp`')
                     ->from($this->db->table('ADVANCED_STATS_HISTORY'))
                     ->orderBy('timestamp', 'DESC')
-                    ->setMaxResults(1)
+                    ->setMaxResults(1),
             ) ?: 0);
             $query->from($this->db->table('ADVANCED_STATS_HISTORY'))
                 ->where('userId = :userId')
@@ -174,7 +173,7 @@ class AdvancedStatsHandler
             $stats[strtolower($enum->name)] = 0;
         }
         foreach ($result as $row) {
-            $stats[strtolower($row['statkey'])] = (float)$row['statvalue'];
+            $stats[strtolower($row['statkey'])] = (float) $row['statvalue'];
         }
 
         return $stats;
@@ -199,7 +198,7 @@ class AdvancedStatsHandler
             $stats[strtolower($enum->name)] = 0;
         }
         foreach ($result as $row) {
-            $stats[strtolower($row['statkey'])] = (float)$row['statvalue'];
+            $stats[strtolower($row['statkey'])] = (float) $row['statvalue'];
         }
 
         return $stats;
@@ -317,7 +316,7 @@ class AdvancedStatsHandler
                 ->andWhere('statkey IN (:names)')
                 ->groupBy('statkey')
                 ->setParameter('userIds', array_values($userIds), ArrayParameterType::INTEGER)
-                ->setParameter('names', array_map(static fn(AdvancedStatsEnum $enum): string => $enum->name, $statKeys), ArrayParameterType::STRING)
+                ->setParameter('names', array_map(static fn(AdvancedStatsEnum $enum): string => $enum->name, $statKeys), ArrayParameterType::STRING),
         );
 
         $stats = [];
@@ -326,7 +325,7 @@ class AdvancedStatsHandler
         }
 
         foreach ($result as $row) {
-            $stats[strtolower($row['statkey'])] = (float)$row['summed_value'];
+            $stats[strtolower($row['statkey'])] = (float) $row['summed_value'];
         }
 
         return $stats;

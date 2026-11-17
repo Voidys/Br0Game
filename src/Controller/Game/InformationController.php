@@ -252,13 +252,13 @@ class InformationController extends AbstractGameController
             $leave->set('`last_jump_time`', ':jumptime')
                 ->where('id = :planetID')
                 ->setParameter('jumptime', $this->state->runtime->timestamp)
-                ->setParameter('planetID', $this->state->PLANET['id'])
+                ->setParameter('planetID', $this->state->PLANET['id']),
         );
         $db->execute(
             $arrive->set('`last_jump_time`', ':jumptime')
                 ->where('id = :targetID')
                 ->setParameter('jumptime', $this->state->runtime->timestamp)
-                ->setParameter('targetID', $TargetPlanet)
+                ->setParameter('targetID', $TargetPlanet),
         );
     }
 

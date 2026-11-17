@@ -99,7 +99,7 @@ class DailyCronjob extends AbstractCronjobTask
                     WHERE urlaubs_modus = 1 AND onlinetime < :inactive AND bana = 0 AND universe = :universe;";
             $players = $this->db->select($sql, [
                 ':inactive' => $this->state->runtime->timestamp - INACTIVE_LONG,
-                ':universe' => $universe
+                ':universe' => $universe,
             ]);
             $db = $this->db;
             foreach ($players as $player) {
@@ -122,12 +122,12 @@ class DailyCronjob extends AbstractCronjobTask
             $sql = "SELECT u.id FROM %%USERS%% AS u WHERE urlaubs_modus = 0 AND onlinetime < :inactive AND universe = :universe;";
             $players = $db->select($sql, [
                 ':inactive' => $this->state->runtime->timestamp - INACTIVE,
-                ':universe' => $universe
+                ':universe' => $universe,
             ]);
             foreach ($players as $player) {
                 $sql = 'SELECT id, ally_id FROM %%USERS%% WHERE id = :userId;';
                 $userData = $db->selectSingle($sql, [
-                    ':userId'   => $player['id']
+                    ':userId'   => $player['id'],
                 ]);
                 $this->playerUtil()->removeFromAlliance($userData);
                 $this->playerUtil()->removeFromBuddy($player['id']);
@@ -229,7 +229,7 @@ class DailyCronjob extends AbstractCronjobTask
 
         $sql = "DELETE FROM %%ACCOUNTS_VALID%% WHERE date < :threeDays;";
         $db->delete($sql, [
-            ':threeDays' => $this->state->runtime->timestamp - TIME_72_HOURS
+            ':threeDays' => $this->state->runtime->timestamp - TIME_72_HOURS,
         ]);
     }
 }

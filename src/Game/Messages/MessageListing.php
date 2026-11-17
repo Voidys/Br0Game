@@ -316,7 +316,7 @@ class MessageListing
                     ->where('`message_id` IN (:messageIds)')
                     ->andWhere('`user_id` = :userID')
                     ->setParameter('messageIds', array_map('intval', $MessagesID), ArrayParameterType::INTEGER)
-                    ->setParameter('userID', $USER['id'])
+                    ->setParameter('userID', $USER['id']),
             );
         }
 
@@ -357,7 +357,7 @@ class MessageListing
                 ->select('id', 'mess')
                 ->from($this->db->table('FLEETS'))
                 ->where('id IN (:fleetIds)')
-                ->setParameter('fleetIds', array_values($fleetIds), ArrayParameterType::INTEGER)
+                ->setParameter('fleetIds', array_values($fleetIds), ArrayParameterType::INTEGER),
         );
         $stateById = [];
         foreach ($fleets as $fleet) {

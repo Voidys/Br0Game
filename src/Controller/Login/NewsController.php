@@ -60,7 +60,7 @@ final class NewsController extends AbstractLoginController
                 ->addOrderBy('date', 'DESC')
                 ->addOrderBy('id', 'DESC')
                 ->setFirstResult(($page - 1) * self::PER_PAGE)
-                ->setMaxResults(self::PER_PAGE)
+                ->setMaxResults(self::PER_PAGE),
         );
         $newsList = [];
         foreach ($rows as $row) {

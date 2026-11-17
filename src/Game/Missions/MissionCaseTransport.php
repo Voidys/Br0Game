@@ -58,10 +58,10 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
         $sql = 'SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetId;';
 
         $startPlanetName	= $db->selectSingle($sql, [
-            ':planetId'	=> $this->_fleet['start_id']
+            ':planetId'	=> $this->_fleet['start_id'],
         ], 'name');
 
-        $targetPlanetName = $targetPlanet ? (string)$targetPlanet['name'] : null;
+        $targetPlanetName = $targetPlanet ? (string) $targetPlanet['name'] : null;
 
         /**
          * If target exists, deploy resources.
@@ -81,7 +81,7 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
         if (!$startPlanetName) {
             $sql = 'SELECT `id_planet`, `galaxy`, `system`, `planet` FROM %%USERS%% WHERE `id` = :id;';
             $originUser = $db->selectSingle($sql, [
-                ':id'	=> $this->_fleet['owner']
+                ':id'	=> $this->_fleet['owner'],
             ]);
 
             $this->UpdateFleet('start_id', $originUser['id_planet']);
@@ -103,7 +103,8 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
     {
         $LNG			= $this->getLanguage(null, $this->_fleet['owner']);
 
-        $Message		= $LNG->format('sys_tran_mess_owner',
+        $Message		= $LNG->format(
+            'sys_tran_mess_owner',
             $startPlanetName,
             GetStartAddressLink($this->_fleet, ''),
             $LNG['type_planet_' . $this->_fleet['end_type']],
@@ -114,7 +115,7 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
             $LNG['tech'][RESOURCE_CRYSTAL],
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
-            $LNG['tech'][RESOURCE_DEUT]
+            $LNG['tech'][RESOURCE_DEUT],
         );
 
         $this->playerUtil()->sendMessage(
@@ -127,7 +128,7 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
             $this->_fleet['arrival_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
 
         if ($this->_fleet['target_owner'] != $this->_fleet['owner']) {
@@ -142,7 +143,8 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
     private function notifyReceiver(string|false|null $startPlanetName, string $targetPlanetName): void
     {
         $LNG			= $this->getLanguage(null, $this->_fleet['target_owner']);
-        $Message        = $LNG->format('sys_tran_mess_user',
+        $Message        = $LNG->format(
+            'sys_tran_mess_user',
             $startPlanetName,
             GetStartAddressLink($this->_fleet, ''),
             $targetPlanetName,
@@ -152,7 +154,7 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
             $LNG['tech'][RESOURCE_CRYSTAL],
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
-            $LNG['tech'][RESOURCE_DEUT]
+            $LNG['tech'][RESOURCE_DEUT],
         );
 
         $new = [];
@@ -183,7 +185,7 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
             $this->_fleet['arrival_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
     }
 
@@ -218,7 +220,7 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
             $this->_fleet['return_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
 
         $this->RestoreFleet();

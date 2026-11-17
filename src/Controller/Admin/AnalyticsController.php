@@ -97,7 +97,7 @@ class AnalyticsController extends AbstractAdminController
                 ->where('`authlevel` = 0')
                 ->andWhere('`universe` = :uni')
                 ->setParameter('uni', $this->universe()->getEmulated())
-                ->orderBy($ORDER, 'ASC')
+                ->orderBy($ORDER, 'ASC'),
         );
         foreach ($userList as $a) {
             $userSelect['List'] .= '<option value="' . $a['id'] . '">' . GameEscaping::escape((string) $a['username'], 'UTF-8') . '&nbsp;&nbsp;(ID:&nbsp;' . $a['id'] . ')' . (($a['enable_analytics'] == '1') ? '&nbsp;(tracked)' : '') . '</option>';
@@ -111,7 +111,7 @@ class AnalyticsController extends AbstractAdminController
                 ->where('`enable_analytics` = 1')
                 ->andWhere('`universe` = :uni')
                 ->setParameter('uni', $this->universe()->getEmulated())
-                ->orderBy($ORDER2, 'ASC')
+                ->orderBy($ORDER2, 'ASC'),
         );
         foreach ($userListBan as $b) {
             $userSelect['ListBan'] .= '<option value="' . $b['id'] . '">' . GameEscaping::escape((string) $b['username'], 'UTF-8') . '&nbsp;&nbsp;(ID:&nbsp;' . $b['id'] . ')</option>';

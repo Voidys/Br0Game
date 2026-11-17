@@ -189,17 +189,17 @@ class MessageListController extends AbstractAdminController
                         'm.`message_text`',
                         'm.`message_type`',
                         'um.`deleted_at` AS message_deleted',
-                        'um.`created_at` AS message_time'
+                        'um.`created_at` AS message_time',
                     )
                     ->from($db->table('MESSAGES'), 'm')
                     ->leftJoin('m', $db->table('USERS_TO_MESSAGES'), 'um', 'm.`message_id` = um.`message_id`')
                     ->leftJoin('um', $db->table('USERS'), 'u', 'um.`user_id` = u.`id`')
-                    ->leftJoin('m', $db->table('USERS'), 'us', 'm.`message_sender` = us.`id`')
+                    ->leftJoin('m', $db->table('USERS'), 'us', 'm.`message_sender` = us.`id`'),
             )
                 ->orderBy('m.`message_time`', 'DESC')
                 ->addOrderBy('m.`message_id`', 'DESC')
                 ->setFirstResult(($page - 1) * $perSide)
-                ->setMaxResults($perSide - 1)
+                ->setMaxResults($perSide - 1),
         );
 
         foreach ($messageRaw as $messageRow) {

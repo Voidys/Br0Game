@@ -180,14 +180,14 @@ class BattleEngineRust extends AbstractBattleEngine
             $ships = [];
             foreach ($fleet->units as $unit => $amount) {
                 $ships[] = [
-                    'shipid'    => (int)$unit,
+                    'shipid'    => (int) $unit,
                     'attack'    => $CombatCaps[$unit]['attack'] * $techs->attackMultiplier(),
                     'hull'      => ($pricelist[$unit]['cost'][901] + $pricelist[$unit]['cost'][902]) / 10 * $techs->armorMultiplier(),
                     'shield'    => $CombatCaps[$unit]['shield'] * $techs->shieldMultiplier(),
-                    'bigshield' => (bool)$CombatCaps[$unit]['bigshield'],
+                    'bigshield' => (bool) $CombatCaps[$unit]['bigshield'],
                     'stun'      => $CombatCaps[$unit]['stun'],
-                    'explode'   => floor((int)$unit / 100) == 2 ? 0.7 : 0, //TODO: move to database
-                    'amount'    => (int)$amount,
+                    'explode'   => floor((int) $unit / 100) == 2 ? 0.7 : 0, //TODO: move to database
+                    'amount'    => (int) $amount,
                     'rapidfire' => $CombatCaps[$unit]['sd'] ?? new \stdClass(),
                 ];
             }
@@ -260,13 +260,13 @@ class BattleEngineRust extends AbstractBattleEngine
             $this->recordFightStats($statsHandler, $attackers, $defenders, $debris, $totalLost, $unitsLost);
         }
 
-        if (!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) ||
-            $defenders[0]->userId() === 0 ||
-            !isset($defenders[0]->currentTotalFleetState['totalUnits']) ||
-            $defenders[0]->currentTotalFleetState['totalUnits'] <= 0 ||
-            (!empty($defenders[0]->player['wreckfield_cooldown_until']) && $defenders[0]->player['wreckfield_cooldown_until'] > $this->state->runtime->timestamp) ||
-            $defendingPlayer['lost'] < $config->wreckfield_min_units ||
-            $defendingPlayer['lost'] / $defenders[0]->currentTotalFleetState['totalUnits'] < ($config->wreckfield_min_percent / 100)) {
+        if (!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK)
+            || $defenders[0]->userId() === 0
+            || !isset($defenders[0]->currentTotalFleetState['totalUnits'])
+            || $defenders[0]->currentTotalFleetState['totalUnits'] <= 0
+            || (!empty($defenders[0]->player['wreckfield_cooldown_until']) && $defenders[0]->player['wreckfield_cooldown_until'] > $this->state->runtime->timestamp)
+            || $defendingPlayer['lost'] < $config->wreckfield_min_units
+            || $defendingPlayer['lost'] / $defenders[0]->currentTotalFleetState['totalUnits'] < ($config->wreckfield_min_percent / 100)) {
             $wreckfield = [];
         }
 

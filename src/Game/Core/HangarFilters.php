@@ -110,7 +110,7 @@ class HangarFilters
     {
         return array_values(array_filter(
             $filters,
-            static fn($item) => in_array($item, self::GROUPS, true)
+            static fn($item) => in_array($item, self::GROUPS, true),
         ));
     }
 

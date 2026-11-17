@@ -204,8 +204,8 @@ class BuildFunctions
 
         foreach ($this->elements()->get($element)->requirements as $reqElement => $eleLevel) {
             if (
-                ($user->has($reqElement) && $user->level($reqElement) < $eleLevel) ||
-                ($planet->has($reqElement) && $planet->level($reqElement) < $eleLevel)
+                ($user->has($reqElement) && $user->level($reqElement) < $eleLevel)
+                || ($planet->has($reqElement) && $planet->level($reqElement) < $eleLevel)
             ) {
                 return false;
             }
@@ -246,9 +246,8 @@ class BuildFunctions
         ?array $elementPrice = null,
         bool $forDestroy = false,
         ?int $forLevel = null,
-        int $maxQueueIndex = 0
-    ): float
-    {
+        int $maxQueueIndex = 0,
+    ): float {
         return $this->buildingTimeFor(
             $this->models()->user($USER),
             $this->models()->planet($PLANET),
@@ -280,9 +279,8 @@ class BuildFunctions
         ?array $elementPrice = null,
         bool $forDestroy = false,
         ?int $forLevel = null,
-        int $maxQueueIndex = 0
-    ): float
-    {
+        int $maxQueueIndex = 0,
+    ): float {
         $elements = $this->elements();
         $config = $this->configs->get($user->universe);
 
@@ -393,9 +391,8 @@ class BuildFunctions
         array $USER,
         array $PLANET,
         int $Element,
-        ?array $elementPrice = null
-    ): bool
-    {
+        ?array $elementPrice = null,
+    ): bool {
         return $this->isBuyableFor($this->models()->user($USER), $this->models()->planet($PLANET), $Element, $elementPrice);
     }
 

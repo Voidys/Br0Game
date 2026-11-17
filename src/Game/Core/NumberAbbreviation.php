@@ -26,6 +26,7 @@
  *
  * JS receives the same abbreviation list via numberSuffixes from templates/game/layout.base.html.twig.
  */
+
 namespace App\Game\Core;
 
 /**

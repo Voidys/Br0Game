@@ -34,7 +34,7 @@ class DumpCronjob extends AbstractCronjobTask
     {
         $prefixCounts	= strlen($this->db->getTablePrefix());
         $dbTables		= [];
-        $tableNames		= $this->db->nativeQuery('SHOW TABLE STATUS FROM '.$this->db->getDatabaseName().';');
+        $tableNames		= $this->db->nativeQuery('SHOW TABLE STATUS FROM ' . $this->db->getDatabaseName() . ';');
 
         foreach ($tableNames as $table) {
             if ($this->db->getTablePrefix() == substr($table['Name'], 0, $prefixCounts)) {
@@ -46,8 +46,8 @@ class DumpCronjob extends AbstractCronjobTask
             throw new Exception('No tables found for dump.');
         }
 
-        $fileName	= 'br0gameBackup_'.date('d_m_Y_H_i_s', $this->state->runtime->timestamp).'.sql';
-        $filePath	= 'var/backups/'.$fileName;
+        $fileName	= 'br0gameBackup_' . date('d_m_Y_H_i_s', $this->state->runtime->timestamp) . '.sql';
+        $filePath	= 'var/backups/' . $fileName;
 
         $dump	= new SQLDumper($this->db, $this->configs, $this->state);
         $dump->dumpTablesToFile($dbTables, $filePath);

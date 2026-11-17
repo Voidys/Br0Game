@@ -116,7 +116,8 @@ class BattleSimulatorController extends AbstractGameController
             $debris[$elementID] = $combatResult->debris->total($elementID);
         }
 
-        $stealResourceInformation = $LNG->format('bs_steal_raport',
+        $stealResourceInformation = $LNG->format(
+            'bs_steal_raport',
             $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity'])),
             $LNG['tech'][SHIP_SMALL_CARGO],
             $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity'])),

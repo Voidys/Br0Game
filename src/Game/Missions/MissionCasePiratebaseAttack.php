@@ -139,7 +139,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         foreach ($incomingFleets as $fleetID => $fleetDetail) {
             $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
             $player = $db->selectSingle($sql, [
-                ':userId'   => $fleetDetail['owner']
+                ':userId'   => $fleetDetail['owner'],
             ]);
 
             $fleetAttack[$fleetID] = new BattleFleet(
@@ -216,7 +216,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
             ':time'         => $this->_fleet['arrival_time'],
             ':attackers'    => implode(',', array_keys($userAttack)),
             ':defenders'    => implode(',', array_keys($userDefend)),
-            ':battleengine' => $battleHandler->engine->getName()
+            ':battleengine' => $battleHandler->engine->getName(),
         ]);
     }
 
@@ -257,10 +257,11 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
                     $reportID,
                     $class[$i],
                     $LNG['sys_mess_attack_report'],
-                    $LNG->format('sys_adress_planet',
+                    $LNG->format(
+                        'sys_adress_planet',
                         $this->_fleet['end_galaxy'],
                         $this->_fleet['end_system'],
-                        $this->_fleet['end_planet']
+                        $this->_fleet['end_planet'],
                     ),
                     $LNG['type_planet_short_' . $this->_fleet['end_type']],
                     $LNG['sys_lost'],
@@ -281,7 +282,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
                     $LNG['tech'][901],
                     $this->viewHelpers()->prettyNumber($debris[901]),
                     $LNG['tech'][902],
-                    $this->viewHelpers()->prettyNumber($debris[902])
+                    $this->viewHelpers()->prettyNumber($debris[902]),
                 );
 
                 $this->playerUtil()->sendMessage(
@@ -294,7 +295,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
                     $this->_fleet['arrival_time'],
                     1,
                     $this->_fleet['universe'],
-                    $this->_fleet['end_id']
+                    $this->_fleet['end_id'],
                 );
             }
             $i++;
@@ -371,7 +372,8 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
             foreach ($data as $userID => $userName) {
                 $LNG = $this->getLanguage(null, $userID);
 
-                $message = $LNG->format('sys_mess_attack_cancel',
+                $message = $LNG->format(
+                    'sys_mess_attack_cancel',
                     $targetPlanet['name'],
                     GetTargetAddressLink($this->_fleet),
                 );
@@ -386,7 +388,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
                     $this->state->runtime->timestamp,
                     1,
                     $this->_fleet['universe'],
-                    $this->_fleet['end_id']
+                    $this->_fleet['end_id'],
                 );
             }
         }
@@ -427,7 +429,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
                         WHERE `id` = :fleetId;';
 
                     $db->delete($sql, [
-                        ':fleetId'  => $fleetID
+                        ':fleetId'  => $fleetID,
                     ]);
                 }
 

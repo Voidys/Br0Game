@@ -96,7 +96,7 @@ class MessageComposer
             $valid[(int) $row['id']] = true;
         }
 
-        return array_values(array_filter($ids, static fn (int $id): bool => isset($valid[$id])));
+        return array_values(array_filter($ids, static fn(int $id): bool => isset($valid[$id])));
     }
 
     /** Whether the message is in the current player's (not deleted) mailbox, i.e. may be forwarded by them. */

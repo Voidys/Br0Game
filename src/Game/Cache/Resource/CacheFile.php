@@ -40,7 +40,7 @@ class CacheFile
      */
     public function store($Key, array $Value)
     {
-        return PhpArrayFile::write($this->path.'cache.'.$Key.'.php', $Value);
+        return PhpArrayFile::write($this->path . 'cache.' . $Key . '.php', $Value);
     }
 
     /**
@@ -50,7 +50,7 @@ class CacheFile
      */
     public function open($Key)
     {
-        return PhpArrayFile::read($this->path.'cache.'.$Key.'.php') ?? false;
+        return PhpArrayFile::read($this->path . 'cache.' . $Key . '.php') ?? false;
     }
 
     /**
@@ -58,10 +58,10 @@ class CacheFile
      */
     public function flush($Key)
     {
-        if (!file_exists($this->path.'cache.'.$Key.'.php')) {
+        if (!file_exists($this->path . 'cache.' . $Key . '.php')) {
             return false;
         }
 
-        return unlink($this->path.'cache.'.$Key.'.php');
+        return unlink($this->path . 'cache.' . $Key . '.php');
     }
 }

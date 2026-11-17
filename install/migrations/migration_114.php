@@ -4,7 +4,7 @@
  * Migration 114: Convert config and config_universe tables to key-value format
  */
 
-require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 use PSpell\Config;
 use App\Game\Core\Config\ConfigFieldSchema;
@@ -71,7 +71,7 @@ class Migration_114
             }
             $db->insert('INSERT INTO `%%CONFIG%%` (`key`, `value`) VALUES (:key, :value);', [
                 ':key' => $fieldname,
-                ':value' => $value
+                ':value' => $value,
             ]);
         }
 
@@ -87,7 +87,7 @@ class Migration_114
                 $db->insert('INSERT INTO `%%CONFIG_UNIVERSE%%` (`uni`, `key`, `value`) VALUES (:uni, :key, :value);', [
                     ':uni' => $uni,
                     ':key' => $fieldname,
-                    ':value' => $value
+                    ':value' => $value,
                 ]);
             }
         }

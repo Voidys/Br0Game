@@ -522,7 +522,7 @@ class SearchController extends AbstractAdminController
             $filtered($db->qb()->select(...$SpecifyItems))
                 ->orderBy($orderColumn, strtoupper((string) $OrderBY) === 'DESC' ? 'DESC' : 'ASC')
                 ->setFirstResult($INI)
-                ->setMaxResults($Limit)
+                ->setMaxResults($Limit),
         );
         $CountQuery = $db->fetchRow($filtered($db->qb()->select('COUNT(' . $SpecifyItems[0] . ') AS total')));
 
@@ -615,31 +615,31 @@ class SearchController extends AbstractAdminController
         $yes = new \Twig\Markup('<span class="badge badge--ok">' . $LNG['one_is_yes_1'] . '</span>', 'UTF-8');
         $no = new \Twig\Markup('<span class="muted">' . $LNG['one_is_yes_0'] . '</span>', 'UTF-8');
 
-    if ($Table === 'USERS') {
-        if (isset($this->state->requestQuery['search']) && $this->state->requestQuery['search'] == 'online') {
-            $WhileResult['onlinetime'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['onlinetime']);
-        } else {
-            $WhileResult['onlinetime'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['onlinetime'], $USER['timezone']);
+        if ($Table === 'USERS') {
+            if (isset($this->state->requestQuery['search']) && $this->state->requestQuery['search'] == 'online') {
+                $WhileResult['onlinetime'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['onlinetime']);
+            } else {
+                $WhileResult['onlinetime'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['onlinetime'], $USER['timezone']);
+            }
+            $WhileResult['register_time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['register_time'], $USER['timezone']);
+            $WhileResult['authlevel'] = $LNG['se_rank'][$WhileResult['authlevel']];
+            $WhileResult['bana'] = $WhileResult['bana'] == '1' ? $yes : $no;
+            $WhileResult['urlaubs_modus'] = $WhileResult['urlaubs_modus'] == '1' ? $yes : $no;
         }
-        $WhileResult['register_time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['register_time'], $USER['timezone']);
-        $WhileResult['authlevel'] = $LNG['se_rank'][$WhileResult['authlevel']];
-        $WhileResult['bana'] = $WhileResult['bana'] == '1' ? $yes : $no;
-        $WhileResult['urlaubs_modus'] = $WhileResult['urlaubs_modus'] == '1' ? $yes : $no;
-    }
 
-    if ($Table === 'USERS_BANNED') {
-        $WhileResult['time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['time'], $USER['timezone']);
-        $WhileResult['longer'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['longer'], $USER['timezone']);
-    }
+        if ($Table === 'USERS_BANNED') {
+            $WhileResult['time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['time'], $USER['timezone']);
+            $WhileResult['longer'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['longer'], $USER['timezone']);
+        }
 
-    if ($Table === 'ALLIANCE') {
-        $WhileResult['ally_register_time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['ally_register_time'], $USER['timezone']);
-    }
+        if ($Table === 'ALLIANCE') {
+            $WhileResult['ally_register_time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['ally_register_time'], $USER['timezone']);
+        }
 
-    if ($Table === 'PLANETS') {
-        $WhileResult['last_update'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['last_update']);
-        $WhileResult['id_luna'] = $WhileResult['id_luna'] > 0 ? $yes : $no;
-    }
+        if ($Table === 'PLANETS') {
+            $WhileResult['last_update'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['last_update']);
+            $WhileResult['id_luna'] = $WhileResult['id_luna'] > 0 ? $yes : $no;
+        }
 
         return $WhileResult;
     }
@@ -653,29 +653,29 @@ class SearchController extends AbstractAdminController
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
 
-    $actions = [];
-    if ($canInfo) {
-        $actions[] = ['type' => 'edit', 'edit' => 'player', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
-    }
-    if ($Table === 'USERS' && $isAdmin && $WhileResult['id'] != $USER['id'] && $WhileResult['id'] != ROOT_USER) {
-        $actions[] = [
-            'type' => 'delete',
-            'href' => '?page=search&delete=user&user=' . $WhileResult['id'],
-            'confirm' => $LNG['ul_sure_you_want_dlte'] . ' ' . $WhileResult['username'] . '?',
-            'label' => $LNG['button_delete'],
-        ];
-    }
-    if ($canEditPlanet) {
-        $actions[] = ['type' => 'edit', 'edit' => 'planet', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
-    }
-    if ($Table === 'PLANETS' && $isAdmin) {
-        $actions[] = [
-            'type' => 'delete',
-            'href' => '?page=search&delete=planet&planet=' . $WhileResult['id'],
-            'confirm' => $LNG['se_confirm_planet'] . ' ' . $WhileResult['name'],
-            'label' => $LNG['button_delete'],
-        ];
-    }
+        $actions = [];
+        if ($canInfo) {
+            $actions[] = ['type' => 'edit', 'edit' => 'player', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
+        }
+        if ($Table === 'USERS' && $isAdmin && $WhileResult['id'] != $USER['id'] && $WhileResult['id'] != ROOT_USER) {
+            $actions[] = [
+                'type' => 'delete',
+                'href' => '?page=search&delete=user&user=' . $WhileResult['id'],
+                'confirm' => $LNG['ul_sure_you_want_dlte'] . ' ' . $WhileResult['username'] . '?',
+                'label' => $LNG['button_delete'],
+            ];
+        }
+        if ($canEditPlanet) {
+            $actions[] = ['type' => 'edit', 'edit' => 'planet', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
+        }
+        if ($Table === 'PLANETS' && $isAdmin) {
+            $actions[] = [
+                'type' => 'delete',
+                'href' => '?page=search&delete=planet&planet=' . $WhileResult['id'],
+                'confirm' => $LNG['se_confirm_planet'] . ' ' . $WhileResult['name'],
+                'label' => $LNG['button_delete'],
+            ];
+        }
 
         return $actions;
     }

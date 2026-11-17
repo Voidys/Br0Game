@@ -77,9 +77,8 @@ class AccountUtil
         ?string $userLanguage = null,
         int $authlevel = 0,
         ?string $userIpAddress = null,
-        string $timezone = "Europe/Berlin"
-    ): int
-    {
+        string $timezone = "Europe/Berlin",
+    ): int {
         $db = $this->db;
 
         $params = [
@@ -136,7 +135,7 @@ class AccountUtil
         $db = $this->db;
         $sql = 'SELECT `id` FROM %%ACCOUNTS%% WHERE `id` = :accountId;';
         $userData = $db->selectSingle($sql, [
-            ':accountId'   => $accountId
+            ':accountId'   => $accountId,
         ]);
 
         if (empty($userData)) {
@@ -145,23 +144,23 @@ class AccountUtil
 
         $sql = 'DELETE FROM %%ACCOUNTS%% WHERE `id` = :accountId;';
         $db->delete($sql, [
-            ':accountId'   => $accountId
+            ':accountId'   => $accountId,
         ]);
 
         $sql = 'DELETE FROM %%ACCOUNTS_TO_USERS%% WHERE `account_id` = :accountId;';
         $db->delete($sql, [
-            ':accountId'   => $accountId
+            ':accountId'   => $accountId,
         ]);
 
         $sql = 'DELETE FROM %%ACCOUNTS_BANNED%% WHERE `account_id` = :accountId;';
         $db->delete($sql, [
-            ':accountId'   => $accountId
+            ':accountId'   => $accountId,
         ]);
 
         // account-level leftovers (board posts are kept as public content)
         foreach (['LOSTPASSWORD' => 'accountID', 'RECAPTCHA' => 'accountId', 'SESSION' => 'accountID'] as $table => $column) {
             $db->delete('DELETE FROM %%' . $table . '%% WHERE `' . $column . '` = :accountId;', [
-                ':accountId'   => $accountId
+                ':accountId'   => $accountId,
             ]);
         }
 
@@ -314,7 +313,7 @@ class AccountUtil
 
         $sql = 'SELECT `accountname` FROM %%ACCOUNTS%% WHERE `id` = :accountId;';
         $accName = $db->selectSingle($sql, [
-            ':accountId'   => $accountId
+            ':accountId'   => $accountId,
         ], 'accountname');
 
         $sql = 'INSERT INTO %%ACCOUNTS_BANNED%% SET

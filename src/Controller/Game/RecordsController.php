@@ -144,7 +144,7 @@ class RecordsController extends AbstractGameController
                 ->select(...$selected_tech)
                 ->from($db->table('USERS'))
                 ->where('id = :userId')
-                ->setParameter('userId', $this->state->USER['id'])
+                ->setParameter('userId', $this->state->USER['id']),
         );
     }
 
@@ -166,7 +166,7 @@ class RecordsController extends AbstractGameController
                 ->select(...$select_buildings)
                 ->from($db->table('PLANETS'))
                 ->where('id_owner = :userId')
-                ->setParameter('userId', $this->state->USER['id'])
+                ->setParameter('userId', $this->state->USER['id']),
         );
     }
 

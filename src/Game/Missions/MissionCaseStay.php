@@ -64,7 +64,7 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             INNER JOIN %%USERS_SETTINGS%% as s ON s.`user_id` = u.`id` 
             WHERE u.`id` = :userId;';
         $senderUser = $db->selectSingle($sql, [
-            ':userId'   => $this->_fleet['owner']
+            ':userId'   => $this->_fleet['owner'],
         ]);
 
         $fleetArray = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
@@ -90,13 +90,13 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             [
                 $this->_fleet['start_galaxy'],
                 $this->_fleet['start_system'],
-                $this->_fleet['start_planet']
+                $this->_fleet['start_planet'],
             ],
             [
                 $this->_fleet['end_galaxy'],
                 $this->_fleet['end_system'],
-                $this->_fleet['end_planet']
-            ]
+                $this->_fleet['end_planet'],
+            ],
         );
 
         $consumption = $this->fleetFunctions()->getFleetConsumption(
@@ -104,7 +104,7 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             $duration,
             $distance,
             $senderUser,
-            $SpeedFactor
+            $SpeedFactor,
         );
 
         // Refund half of the fuel that was really paid at dispatch (fall back to a recomputation for old fleets)
@@ -140,7 +140,8 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             $stationShips .= "<br>" . $LNG['tech'][$shipID] . ": " . $amount;
         }
 
-        $TargetMessage = $LNG->format('sys_stat_mess',
+        $TargetMessage = $LNG->format(
+            'sys_stat_mess',
             $startPlanetName,
             GetStartAddressLink($this->_fleet, ''),
             $LNG['type_planet_' . $this->_fleet['end_type']],
@@ -164,7 +165,7 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             $TargetMessage,
             $this->_fleet['arrival_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
     }
 
@@ -196,7 +197,8 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             $stationShips .= "<br>" . $LNG['tech'][$shipID] . ": " . $amount;
         }
 
-        $Message = $LNG->format('sys_fleet_return',
+        $Message = $LNG->format(
+            'sys_fleet_return',
             $LNG['type_planet_' . $this->_fleet['start_type']],
             $targetPlanet['name'],
             GetStartAddressLink($this->_fleet, ''),
@@ -218,7 +220,7 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             $Message,
             $this->_fleet['return_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
 
         $this->RestoreFleet();

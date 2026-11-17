@@ -31,7 +31,8 @@ class SpyReport
         }
 
         $spyTime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $reportData['time'], $USER['timezone'], $LNG);
-        return $LNG->format('sys_mess_spy_report_details_' . $reportData['targetPlanet']['planet_type'],
+        return $LNG->format(
+            'sys_mess_spy_report_details_' . $reportData['targetPlanet']['planet_type'],
             $reportData['targetPlanet']['name'],
             $reportData['targetUserName'],
             $reportData['targetPlanet']['galaxy'],
@@ -56,7 +57,8 @@ class SpyReport
         }
 
         $spyTime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $reportData['time'], $USER['timezone'], $LNG);
-        $title = $LNG->format('sys_mess_spy_report_details_' . $reportData['targetPlanet']['planet_type'],
+        $title = $LNG->format(
+            'sys_mess_spy_report_details_' . $reportData['targetPlanet']['planet_type'],
             $reportData['targetPlanet']['name'],
             $reportData['targetUserName'],
             $reportData['targetPlanet']['galaxy'],

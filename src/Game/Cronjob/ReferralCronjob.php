@@ -68,9 +68,10 @@ class ReferralCronjob extends AbstractCronjobTask
 
             $db->update($sql, [':userId' => $user['id']]);
 
-            $Message = $LNG->format('sys_refferal_text',
+            $Message = $LNG->format(
+                'sys_refferal_text',
                 $user['username'],
-                $this->viewHelpers()->prettyNumber($userConfig->ref_minpoints)
+                $this->viewHelpers()->prettyNumber($userConfig->ref_minpoints),
             );
             $this->playerUtil()->sendMessage(
                 $user['ref_id'],
@@ -79,7 +80,7 @@ class ReferralCronjob extends AbstractCronjobTask
                 MESSAGE_TYPE_SYSTEM,
                 $LNG->format('sys_refferal_title', $user['username']),
                 $Message,
-                $this->state->runtime->timestamp
+                $this->state->runtime->timestamp,
             );
         }
 

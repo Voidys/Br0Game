@@ -77,7 +77,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
             INNER JOIN %%USERS_SETTINGS%% us ON us.`user_id` = u.`id` 
             WHERE u.`id` = :userId;';
         $senderData	= $db->selectSingle($sql, [
-            ':userId'	=> $this->_fleet['owner']
+            ':userId'	=> $this->_fleet['owner'],
         ]);
 
         if (
@@ -184,7 +184,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
                     $this->_fleet['ship_amount'],
                     $targetDefensive,
                     $primaryTarget,
-                    $targetData[$resource[INTERCEPTOR_MISSILE]]
+                    $targetData[$resource[INTERCEPTOR_MISSILE]],
                 );
 
                 $result		= array_filter($result);
@@ -229,7 +229,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
             $this->_fleet['arrival_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
 
         $this->playerUtil()->sendMessage(
@@ -242,7 +242,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
             $this->_fleet['arrival_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
     }
 
@@ -271,9 +271,14 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
      * @param array<int,int> $targetDefensive defense id => amount on the planet (interceptors removed).
      * @return array<int,int> destroyed amount by defense id.
      */
-    private function calculateMIPAttack(int $TargetDefTech, int $OwnerAttTech, int $missiles, array $targetDefensive, 
-        int $firstTarget, int $defenseMissles): array
-    {
+    private function calculateMIPAttack(
+        int $TargetDefTech,
+        int $OwnerAttTech,
+        int $missiles,
+        array $targetDefensive,
+        int $firstTarget,
+        int $defenseMissles,
+    ): array {
         $pricelist = $this->state->pricelist;
         $CombatCaps = $this->state->CombatCaps;
         $destroyShips = [];
@@ -294,7 +299,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
 
         foreach ($targetDefensive as $element => $count) {
             if ($element == 0) {
-                throw new \Exception("Unknown error. Please report this error at https://github.com/Voidys/Br0Game/issues. Debuginforations:<br><br>".json_encode([$TargetDefTech, $OwnerAttTech, $missiles, $targetDefensive, $firstTarget, $defenseMissles]));
+                throw new \Exception("Unknown error. Please report this error at https://github.com/Voidys/Br0Game/issues. Debuginforations:<br><br>" . json_encode([$TargetDefTech, $OwnerAttTech, $missiles, $targetDefensive, $firstTarget, $defenseMissles]));
             }
             $elementStructurePoints = ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]) * (1 + 0.1 * $TargetDefTech) / 10;
             $destroyCount           = floor($totalAttack / $elementStructurePoints);

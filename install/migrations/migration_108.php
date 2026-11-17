@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 define('MODE', 'UPGRADE');
 define('ROOT_PATH', str_replace('\\', '/', dirname(__FILE__)) . '/');
@@ -116,20 +116,20 @@ try {
 
 
         foreach ($reslist['fleet'] as $element) {
-            $advanced_stats_dest += $stats[strtolower('DESTROYED_'.$element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-            $advanced_stats_lost += $stats[strtolower('LOST_'.$element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-            $advanced_stats_met += $stats[strtolower('DESTROYED_'.$element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($fleetIntoDebris / 100);
-            $advanced_stats_met += $stats[strtolower('LOST_'.$element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($fleetIntoDebris / 100);
-            $advanced_stats_cris += $stats[strtolower('DESTROYED_'.$element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($fleetIntoDebris / 100);
-            $advanced_stats_cris += $stats[strtolower('LOST_'.$element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($fleetIntoDebris / 100);
+            $advanced_stats_dest += $stats[strtolower('DESTROYED_' . $element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+            $advanced_stats_lost += $stats[strtolower('LOST_' . $element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+            $advanced_stats_met += $stats[strtolower('DESTROYED_' . $element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($fleetIntoDebris / 100);
+            $advanced_stats_met += $stats[strtolower('LOST_' . $element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($fleetIntoDebris / 100);
+            $advanced_stats_cris += $stats[strtolower('DESTROYED_' . $element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($fleetIntoDebris / 100);
+            $advanced_stats_cris += $stats[strtolower('LOST_' . $element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($fleetIntoDebris / 100);
         }
         foreach ($reslist['defense'] as $element) {
-            $advanced_stats_dest += $stats[strtolower('DESTROYED_'.$element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-            $advanced_stats_lost += $stats[strtolower('LOST_'.$element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-            $advanced_stats_met += $stats[strtolower('DESTROYED_'.$element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($defIntoDebris / 100);
-            $advanced_stats_met += $stats[strtolower('LOST_'.$element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($defIntoDebris / 100);
-            $advanced_stats_cris += $stats[strtolower('DESTROYED_'.$element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($defIntoDebris / 100);
-            $advanced_stats_cris += $stats[strtolower('LOST_'.$element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($defIntoDebris / 100);
+            $advanced_stats_dest += $stats[strtolower('DESTROYED_' . $element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+            $advanced_stats_lost += $stats[strtolower('LOST_' . $element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+            $advanced_stats_met += $stats[strtolower('DESTROYED_' . $element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($defIntoDebris / 100);
+            $advanced_stats_met += $stats[strtolower('LOST_' . $element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($defIntoDebris / 100);
+            $advanced_stats_cris += $stats[strtolower('DESTROYED_' . $element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($defIntoDebris / 100);
+            $advanced_stats_cris += $stats[strtolower('LOST_' . $element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($defIntoDebris / 100);
         }
 
         $stats[strtolower(AdvancedStatsEnum::DESUNITS_REAL->name)] = $advanced_stats_dest;
@@ -194,20 +194,20 @@ try {
         $reslist = $varsData['reslist'];
 
         foreach ($reslist['fleet'] as $element) {
-            $advanced_stats_dest += $stats[strtolower('DESTROYED_'.$element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-            $advanced_stats_lost += $stats[strtolower('LOST_'.$element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-            $advanced_stats_met += $stats[strtolower('DESTROYED_'.$element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($fleetIntoDebris / 100);
-            $advanced_stats_met += $stats[strtolower('LOST_'.$element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($fleetIntoDebris / 100);
-            $advanced_stats_cris += $stats[strtolower('DESTROYED_'.$element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($fleetIntoDebris / 100);
-            $advanced_stats_cris += $stats[strtolower('LOST_'.$element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($fleetIntoDebris / 100);
+            $advanced_stats_dest += $stats[strtolower('DESTROYED_' . $element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+            $advanced_stats_lost += $stats[strtolower('LOST_' . $element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+            $advanced_stats_met += $stats[strtolower('DESTROYED_' . $element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($fleetIntoDebris / 100);
+            $advanced_stats_met += $stats[strtolower('LOST_' . $element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($fleetIntoDebris / 100);
+            $advanced_stats_cris += $stats[strtolower('DESTROYED_' . $element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($fleetIntoDebris / 100);
+            $advanced_stats_cris += $stats[strtolower('LOST_' . $element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($fleetIntoDebris / 100);
         }
         foreach ($reslist['defense'] as $element) {
-            $advanced_stats_dest += $stats[strtolower('DESTROYED_'.$element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-            $advanced_stats_lost += $stats[strtolower('LOST_'.$element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-            $advanced_stats_met += $stats[strtolower('DESTROYED_'.$element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($defIntoDebris / 100);
-            $advanced_stats_met += $stats[strtolower('LOST_'.$element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($defIntoDebris / 100);
-            $advanced_stats_cris += $stats[strtolower('DESTROYED_'.$element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($defIntoDebris / 100);
-            $advanced_stats_cris += $stats[strtolower('LOST_'.$element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($defIntoDebris / 100);
+            $advanced_stats_dest += $stats[strtolower('DESTROYED_' . $element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+            $advanced_stats_lost += $stats[strtolower('LOST_' . $element)] * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+            $advanced_stats_met += $stats[strtolower('DESTROYED_' . $element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($defIntoDebris / 100);
+            $advanced_stats_met += $stats[strtolower('LOST_' . $element)] * $pricelist[$element]['cost'][RESOURCE_METAL] * ($defIntoDebris / 100);
+            $advanced_stats_cris += $stats[strtolower('DESTROYED_' . $element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($defIntoDebris / 100);
+            $advanced_stats_cris += $stats[strtolower('LOST_' . $element)] * $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * ($defIntoDebris / 100);
         }
 
         $stats[strtolower(AdvancedStatsEnum::DESUNITS_REAL->name)] = $advanced_stats_dest;
@@ -245,10 +245,10 @@ try {
         $db->insert($sqlBulk, $params);
     }
 
-    $sql = "RENAME TABLE " . DB_PREFIX . "advanced_stats TO " . DB_PREFIX . "advanced_stats_old, " .
-        DB_PREFIX . "advanced_stats_history TO " . DB_PREFIX . "advanced_stats_history_old, " .
-        DB_PREFIX . "advanced_stats_new TO " . DB_PREFIX . "advanced_stats, " .
-        DB_PREFIX . "advanced_stats_history_new TO " . DB_PREFIX . "advanced_stats_history;";
+    $sql = "RENAME TABLE " . DB_PREFIX . "advanced_stats TO " . DB_PREFIX . "advanced_stats_old, "
+        . DB_PREFIX . "advanced_stats_history TO " . DB_PREFIX . "advanced_stats_history_old, "
+        . DB_PREFIX . "advanced_stats_new TO " . DB_PREFIX . "advanced_stats, "
+        . DB_PREFIX . "advanced_stats_history_new TO " . DB_PREFIX . "advanced_stats_history;";
     $db->query($sql);
 } catch (\Throwable $th) {
     error_log('Error: ' . $th->getMessage() . '.');

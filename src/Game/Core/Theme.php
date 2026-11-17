@@ -45,7 +45,7 @@ class Theme
 
     public function isHome()
     {
-        $this->template		= \App\Runtime\ProjectPaths::ROOT.'public/styles/home/';
+        $this->template		= \App\Runtime\ProjectPaths::ROOT . 'public/styles/home/';
         $this->customtpls	= [];
     }
 
@@ -55,7 +55,7 @@ class Theme
      */
     public function setUserTheme($Theme, $cssTheme = null)
     {
-        if (!file_exists(\App\Runtime\ProjectPaths::ROOT.'public/styles/theme/'.$Theme.'/style.cfg')) {
+        if (!file_exists(\App\Runtime\ProjectPaths::ROOT . 'public/styles/theme/' . $Theme . '/style.cfg')) {
             return false;
         }
 
@@ -71,7 +71,7 @@ class Theme
 
     public function getTheme()
     {
-        return './styles/theme/'.$this->imageSkin.'/';
+        return './styles/theme/' . $this->imageSkin . '/';
     }
 
     /** URL of an image of the image theme (`gebaeude/229.gif`): own folder, artwork sets, common (see ThemeAssets) */
@@ -91,8 +91,8 @@ class Theme
     public function setStyleSettings()
     {
         $THEMESETTINGS = [];
-        if (file_exists(\App\Runtime\ProjectPaths::ROOT.'public/styles/theme/'.$this->skin.'/settings.cfg')) {
-            require(\App\Runtime\ProjectPaths::ROOT.'public/styles/theme/'.$this->skin.'/settings.cfg');
+        if (file_exists(\App\Runtime\ProjectPaths::ROOT . 'public/styles/theme/' . $this->skin . '/settings.cfg')) {
+            require(\App\Runtime\ProjectPaths::ROOT . 'public/styles/theme/' . $this->skin . '/settings.cfg');
         }
 
         $this->THEMESETTINGS	= array_merge([
@@ -152,7 +152,7 @@ class Theme
 
     public function getThemeCssPath()
     {
-        return './styles/theme/'.$this->cssSkin.'/theme.css';
+        return './styles/theme/' . $this->cssSkin . '/theme.css';
     }
 
     public function getCssThemeName()
@@ -177,7 +177,7 @@ class Theme
 
         $meta = [];
 
-        $skins = glob(\App\Runtime\ProjectPaths::ROOT.'public/styles/theme/*/style.cfg');
+        $skins = glob(\App\Runtime\ProjectPaths::ROOT . 'public/styles/theme/*/style.cfg');
         foreach ($skins as $cfgPath) {
 
             $theme = basename(dirname($cfgPath));

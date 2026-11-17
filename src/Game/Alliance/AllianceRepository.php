@@ -81,7 +81,7 @@ class AllianceRepository
                     ->where('allianceId = :allianceId')
                     ->andWhere('rankID = :ally_rank_id')
                     ->setParameter('allianceId', $alliance['id'])
-                    ->setParameter('ally_rank_id', $user['ally_rank_id'])
+                    ->setParameter('ally_rank_id', $user['ally_rank_id']),
             );
         }
 
@@ -182,7 +182,7 @@ class AllianceRepository
                 ->addSelect(...array_values(AllianceRights::AVAILABLE))
                 ->from($this->db->table('ALLIANCE_RANK'))
                 ->where('allianceId = :allianceId')
-                ->setParameter('allianceId', $allianceId)
+                ->setParameter('allianceId', $allianceId),
         );
     }
 

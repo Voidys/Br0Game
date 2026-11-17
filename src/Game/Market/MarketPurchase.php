@@ -518,7 +518,8 @@ class MarketPurchase
             ':fleetId' => $fleetResult['id'],
         ]);
         // To customer
-        $Message = $LNG->format('market_msg_trade_bought',
+        $Message = $LNG->format(
+            'market_msg_trade_bought',
             sprintf(
                 '%s:%s:%s',
                 $isFleetTrade ? $fleetResult['start_galaxy'] : $target['marketplace_galaxy'],

@@ -184,7 +184,7 @@ class NotesController extends AbstractGameController
                     ->where('id IN (:noteIds)')
                     ->andWhere('owner = :userID')
                     ->setParameter('noteIds', $deleteIds, ArrayParameterType::INTEGER)
-                    ->setParameter('userID', $USER['id'])
+                    ->setParameter('userID', $USER['id']),
             );
         }
         $this->redirectTo('game?page=notes');

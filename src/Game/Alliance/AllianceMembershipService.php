@@ -202,7 +202,7 @@ class AllianceMembershipService
                     ->where('allianceID = :allianceId')
                     ->andWhere('rankID = :rankId')
                     ->setParameter('allianceId', $alliance['id'])
-                    ->setParameter('rankId', $kickUser['ally_rank_id'])
+                    ->setParameter('rankId', $kickUser['ally_rank_id']),
             );
             if ($kickRank && !AllianceRights::canHandOut($kickRank, $rights)) {
                 throw AllianceException::home();

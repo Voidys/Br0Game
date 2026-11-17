@@ -276,7 +276,7 @@ class StatisticsController extends AbstractGameController
                 'r.DIPLOMATIC AS is_diplo',
                 'buddy.id AS buddy',
                 'd.level AS diploLevel',
-                's.honor_title'
+                's.honor_title',
             )
             ->from($db->table('STATPOINTS'), 's')
             ->innerJoin('s', $db->table('USERS'), 'u', 'u.id = s.id_owner')
@@ -355,7 +355,7 @@ class StatisticsController extends AbstractGameController
                 ->setParameter('universe', $this->universe()->current())
                 ->orderBy($Order)
                 ->setFirstResult($start)
-                ->setMaxResults(100)
+                ->setMaxResults(100),
         );
 
         $rows = [];

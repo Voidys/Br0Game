@@ -70,7 +70,8 @@ class AlliancePages
                 && $data['ally_request_notallow'] == 0
                 && $data['ally_max_members'] > $data['ally_members'],
             'ally_request_min_points' => $userPoints >= $data['ally_request_min_points'],
-            'ally_request_min_points_info' => $LNG->format('al_requests_min_points',
+            'ally_request_min_points_info' => $LNG->format(
+                'al_requests_min_points',
                 $this->viewHelpers()->prettyNumber($data['ally_request_min_points']),
             ),
             'show' => $stats['show'],

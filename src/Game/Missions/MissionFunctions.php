@@ -133,7 +133,7 @@ class MissionFunctions
             $sql = 'UPDATE %%FLEETS_EVENT%% SET `time` = :time WHERE `fleetID` = :fleetId;';
             $this->db->update($sql, [
                 ':time'     => $this->eventTime,
-                ':fleetId'  => $this->_fleet['id']
+                ':fleetId'  => $this->_fleet['id'],
             ]);
         }
 
@@ -264,7 +264,8 @@ class MissionFunctions
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);
         $LNG->includeData(['INGAME']);
 
-        $Message = $LNG->format('sys_recy_gotten',
+        $Message = $LNG->format(
+            'sys_recy_gotten',
             GetTargetAddressLink($this->_fleet, ''),
             $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_METAL]),
             $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_CRYSTAL]),
@@ -274,9 +275,10 @@ class MissionFunctions
             $LNG['tech'][RESOURCE_CRYSTAL],
         );
         $Message .= '<br>';
-        $Message .= $LNG->format('bs_derbis_raport',
+        $Message .= $LNG->format(
+            'bs_derbis_raport',
             $this->viewHelpers()->prettyNumber(ceil(array_sum($remainingGoods) / $pricelist[SHIP_RECYCLER]['capacity'])),
-            $LNG['tech'][SHIP_RECYCLER]
+            $LNG['tech'][SHIP_RECYCLER],
         );
 
         $this->playerUtil()->sendMessage(
@@ -289,7 +291,7 @@ class MissionFunctions
             $this->_fleet['arrival_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
     }
 
@@ -304,7 +306,7 @@ class MissionFunctions
             INNER JOIN %%USERS_SETTINGS%% us ON us.`user_id` = u.`id`
             WHERE u.`id` = :userId FOR UPDATE;';
         $targetUser = $this->db->selectSingle($sql, [
-            ':userId'   => $userId
+            ':userId'   => $userId,
         ]);
         $sql = "SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;";
         $planet = $this->db->selectSingle($sql, [
@@ -339,7 +341,7 @@ class MissionFunctions
             ':metal'        => $this->_fleet['resource_metal'],
             ':crystal'      => $this->_fleet['resource_crystal'],
             ':deuterium'    => $this->_fleet['resource_deuterium'],
-            ':planetId'     => $planetId
+            ':planetId'     => $planetId,
         ];
 
         foreach ($fleetData as $shipId => $shipAmount) {
@@ -376,7 +378,7 @@ class MissionFunctions
             ':metal'        => $this->_fleet['resource_metal'],
             ':crystal'      => $this->_fleet['resource_crystal'],
             ':deuterium'    => $this->_fleet['resource_deuterium'],
-            ':planetId'     => ($onStart == true ? $this->_fleet['start_id'] : $this->_fleet['end_id'])
+            ':planetId'     => ($onStart == true ? $this->_fleet['start_id'] : $this->_fleet['end_id']),
         ]);
 
         $this->UpdateFleet('resource_metal', '0');
@@ -430,7 +432,7 @@ class MissionFunctions
             WHERE `id` = :fleetId';
 
         $this->db->delete($sql, [
-            ':fleetId'  => $this->_fleet['id']
+            ':fleetId'  => $this->_fleet['id'],
         ]);
     }
 
@@ -444,7 +446,7 @@ class MissionFunctions
         if (is_null($language) && !is_null($userID)) {
             $sql = 'SELECT `lang` FROM %%USERS_SETTINGS%% WHERE `user_id` = :userId;';
             $language = $this->db->selectSingle($sql, [
-                ':userId' => $userID
+                ':userId' => $userID,
             ], 'lang');
         }
 
@@ -490,7 +492,8 @@ class MissionFunctions
             ':planetId'	=> $this->_fleet['end_id'],
         ], 'name');
 
-        $Message = $LNG->format('sys_fleet_won',
+        $Message = $LNG->format(
+            'sys_fleet_won',
             $planetNameEnd,
             GetTargetAddressLink($this->_fleet, ''),
             $planetNameStart,
@@ -500,7 +503,7 @@ class MissionFunctions
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
             $LNG['tech'][RESOURCE_CRYSTAL],
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
-            $LNG['tech'][RESOURCE_DEUT]
+            $LNG['tech'][RESOURCE_DEUT],
         );
 
         $fleetArray = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
@@ -537,7 +540,7 @@ class MissionFunctions
             $this->_fleet['return_time'],
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
     }
 
@@ -548,8 +551,9 @@ class MissionFunctions
     {
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);
 
-        $message = $LNG->format('sys_mess_piratebase_gone',
-            GetTargetAddressLink($this->_fleet, '')
+        $message = $LNG->format(
+            'sys_mess_piratebase_gone',
+            GetTargetAddressLink($this->_fleet, ''),
         );
 
         $this->playerUtil()->sendMessage(
@@ -562,7 +566,7 @@ class MissionFunctions
             $this->state->runtime->timestamp,
             1,
             $this->_fleet['universe'],
-            $this->_fleet['end_id']
+            $this->_fleet['end_id'],
         );
     }
 

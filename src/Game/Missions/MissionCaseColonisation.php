@@ -66,7 +66,7 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
             $message,
             $this->_fleet['arrival_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
 
         $this->setState(FLEET_RETURN);
@@ -90,13 +90,13 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
             $this->_fleet['universe'],
             $this->_fleet['end_galaxy'],
             $this->_fleet['end_system'],
-            $this->_fleet['end_planet']
+            $this->_fleet['end_planet'],
         );
         $isPositionFree = $this->playerUtil()->isPositionFree(
             $this->_fleet['universe'],
             $this->_fleet['end_galaxy'],
             $this->_fleet['end_system'],
-            $this->_fleet['end_planet']
+            $this->_fleet['end_planet'],
         );
 
         if (!$isPositionFree || !$checkPosition) {
@@ -110,9 +110,10 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
                 $maxPlanetCount = $this->playerUtil()->maxPlanetCount($senderUser);
 
                 if ($currentPlanetCount >= $maxPlanetCount) {
-                    $message = $LNG->format('sys_colo_maxcolo',
+                    $message = $LNG->format(
+                        'sys_colo_maxcolo',
                         GetTargetAddressLink($this->_fleet, ''),
-                        $maxPlanetCount
+                        $maxPlanetCount,
                     );
                 } else {
                     try {
@@ -124,7 +125,7 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
                             $this->_fleet['owner'],
                             $LNG['fcp_colony'],
                             false,
-                            $senderUser['authlevel']
+                            $senderUser['authlevel'],
                         );
                     } catch (\Throwable $exception) {
                         // a parallel colonisation took the position between the check and the insert (unique position key)
@@ -212,7 +213,8 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
             $remainingShips .= "<br>" . $LNG['tech'][$shipID] . ": " . $amount;
         }
 
-        $Message = $LNG->format('sys_fleet_return',
+        $Message = $LNG->format(
+            'sys_fleet_return',
             $LNG['type_planet_' . $this->_fleet['start_type']],
             $startPlanet['name'],
             GetStartAddressLink($this->_fleet, ''),
@@ -234,7 +236,7 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
             $Message,
             $this->_fleet['return_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
 
         $this->RestoreFleet();

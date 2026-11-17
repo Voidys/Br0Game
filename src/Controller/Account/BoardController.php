@@ -68,7 +68,7 @@ class BoardController extends AbstractAccountController
         $order = $this->postOrder($sort);
 
         $total = (int) $this->db->fetchValue(
-            $filter($this->db->qb()->select('COUNT(*) AS c')->from($this->db->table('BOARD_POSTS'), 'p'))
+            $filter($this->db->qb()->select('COUNT(*) AS c')->from($this->db->table('BOARD_POSTS'), 'p')),
         );
         $pages = max(1, (int) ceil($total / self::PER_PAGE));
         $page = min($page, $pages);
@@ -153,11 +153,11 @@ class BoardController extends AbstractAccountController
                     ->from($this->db->table('BOARD_POSTS'), 'p')
                     ->leftJoin('p', $this->db->table('ACCOUNTS'), 'a', 'a.id = p.account_id')
                     ->leftJoin('p', $this->db->table('BOARD_VOTES'), 'v', 'v.account_id = :me AND v.target_type = 1 AND v.target_id = p.id')
-                    ->setParameter('me', $this->accountId())
+                    ->setParameter('me', $this->accountId()),
             )
                 ->orderBy($order . ', p.id DESC')
                 ->setFirstResult($offset)
-                ->setMaxResults(self::PER_PAGE)
+                ->setMaxResults(self::PER_PAGE),
         );
     }
 

@@ -26,7 +26,7 @@ class DefensesTab extends AccountEditorTab
                     ->select(...$fields)
                     ->from($db->table('PLANETS'))
                     ->where('`id` = :planetID')
-                    ->setParameter('planetID', $id)
+                    ->setParameter('planetID', $id),
             );
             $afterDef = [];
             if (isset($this->state->requestPost['add'])) {

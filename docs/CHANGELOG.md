@@ -1167,3 +1167,7 @@ Technical changes per migration step, newest last.
 
 - New read-only admin page `abuseReport` (Moderation → Abuse report, right `ShowAbuseReportPage`): one-sided transports/holds between player pairs, repeated market trades with ratio outliers, rebuild-protection grants with the opponents' loot, recalls at or after arrival — each with shared-IP / multi-group markers (audit F-02, F-15, F-16, F-19). Values in metal units at the stored market ratios; every query limited to 100 rows (~0.2 s on 667k fleet log rows, no new index).
 - Tests: `AbuseReportQueryTest`.
+
+## 149. PER-CS everywhere
+
+- One code style for all PHP (`src`, `tests`, `config`, `install`, `bin`, `public`): `.php-cs-fixer.dist.php` with `@PER-CS` + short arrays; the separate legacy PSR-12 config is removed. 119 files reformatted (formatting only: tests, PHPStan, lint and the page crawl are unchanged).

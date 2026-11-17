@@ -62,7 +62,7 @@ class Cronjob
 
         $cronjobClassName = $db->selectSingle($sql, [
             ':isActive' => 1,
-            ':cronjobId' => $cronjobID
+            ':cronjobId' => $cronjobID,
         ], 'class');
 
         if (empty($cronjobClassName)) {
@@ -96,7 +96,7 @@ class Cronjob
             $db->insert('INSERT INTO %%CRONJOBS_LOG%% SET `cronjobId` = :cronjobId, `executionTime` = :executionTime, `lockToken` = :lockToken', [
                 ':cronjobId' => $cronjobID,
                 ':executionTime' => $this->db->formatDate($this->state->runtime->timestamp),
-                ':lockToken' => $lockToken
+                ':lockToken' => $lockToken,
             ]);
 
             (new Discord($this->configs, $this->state))->sendLog($cronjobClassName, ['successful' => true]);
@@ -126,7 +126,7 @@ class Cronjob
 
         $cronjobResult = $this->db->select($sql, [
             ':isActive' => 1,
-            ':time' => $this->state->runtime->timestamp
+            ':time' => $this->state->runtime->timestamp,
         ]);
 
         $cronjobList = [];
@@ -145,7 +145,7 @@ class Cronjob
     {
         $sql = 'SELECT MAX(executionTime) as executionTime FROM %%CRONJOBS_LOG%% INNER JOIN %%CRONJOBS%% USING(cronjobId) WHERE name = :cronjobName;';
         $lastTime = $this->db->selectSingle($sql, [
-            ':cronjobName' => $cronjobName
+            ':cronjobName' => $cronjobName,
         ], 'executionTime');
 
         if (empty($lastTime)) {
@@ -165,7 +165,7 @@ class Cronjob
         if (!empty($cronjobID)) {
             $sql = 'SELECT cronjobID, min, hours, dom, month, dow FROM %%CRONJOBS%% WHERE cronjobID = :cronjobId;';
             $cronjobResult = $db->select($sql, [
-                ':cronjobId' => $cronjobID
+                ':cronjobId' => $cronjobID,
             ]);
         } else {
             $sql = 'SELECT cronjobID, min, hours, dom, month, dow FROM %%CRONJOBS%%;';

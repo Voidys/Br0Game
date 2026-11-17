@@ -30,7 +30,8 @@ class AllianceMessenger
         foreach ($this->repository->messageReceivers($allianceId, $USER['ally_id'], false, true) as $receiver) {
             $lang = $this->playerUtil()->getLanguage($receiver['lang']);
 
-            $applyMessage = $lang->formatHtml('al_new_apply',
+            $applyMessage = $lang->formatHtml(
+                'al_new_apply',
                 $USER['id'],
                 $USER['username'],
                 $USER['username'],
@@ -58,7 +59,8 @@ class AllianceMessenger
             }
             $lang = $this->playerUtil()->getLanguage($receiver['lang']);
 
-            $applyMessage = $lang->formatHtml('al_leaving_msg',
+            $applyMessage = $lang->formatHtml(
+                'al_leaving_msg',
                 $USER['id'],
                 $USER['username'],
                 $USER['username'],

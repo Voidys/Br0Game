@@ -204,25 +204,25 @@ class RightsController extends AbstractAdminController
         }
 
         $this->assign([
-                'Selector'               => [
-                    0 => $LNG['se_rank'][0],
-                    1 => $LNG['se_rank'][1],
-                    2 => $LNG['se_rank'][2],
-                    3 => $LNG['se_rank'][3],
-                ],
-                'UserList'               => new \Twig\Markup($UserList, 'UTF-8'),
-                'ad_authlevel_title'     => $LNG['ad_authlevel_title'],
-                'bo_select_title'        => $LNG['bo_select_title'],
-                'button_submit'          => $LNG['button_submit'],
-                'button_deselect'        => $LNG['button_deselect'],
-                'button_filter'          => $LNG['button_filter'],
-                'ad_authlevel_insert_id' => $LNG['ad_authlevel_insert_id'],
-                'ad_authlevel_auth'      => $LNG['ad_authlevel_auth'],
-                'ad_authlevel_aa'        => $LNG['ad_authlevel_aa'],
-                'ad_authlevel_oo'        => $LNG['ad_authlevel_oo'],
-                'ad_authlevel_mm'        => $LNG['ad_authlevel_mm'],
-                'ad_authlevel_jj'        => $LNG['ad_authlevel_jj'],
-                'ad_authlevel_tt'        => $LNG['ad_authlevel_tt'],
+            'Selector'               => [
+                0 => $LNG['se_rank'][0],
+                1 => $LNG['se_rank'][1],
+                2 => $LNG['se_rank'][2],
+                3 => $LNG['se_rank'][3],
+            ],
+            'UserList'               => new \Twig\Markup($UserList, 'UTF-8'),
+            'ad_authlevel_title'     => $LNG['ad_authlevel_title'],
+            'bo_select_title'        => $LNG['bo_select_title'],
+            'button_submit'          => $LNG['button_submit'],
+            'button_deselect'        => $LNG['button_deselect'],
+            'button_filter'          => $LNG['button_filter'],
+            'ad_authlevel_insert_id' => $LNG['ad_authlevel_insert_id'],
+            'ad_authlevel_auth'      => $LNG['ad_authlevel_auth'],
+            'ad_authlevel_aa'        => $LNG['ad_authlevel_aa'],
+            'ad_authlevel_oo'        => $LNG['ad_authlevel_oo'],
+            'ad_authlevel_mm'        => $LNG['ad_authlevel_mm'],
+            'ad_authlevel_jj'        => $LNG['ad_authlevel_jj'],
+            'ad_authlevel_tt'        => $LNG['ad_authlevel_tt'],
         ]);
 
         return $this->render($template);

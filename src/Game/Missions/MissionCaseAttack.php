@@ -14,6 +14,7 @@
  * @version 1.8.0
  * @link https://github.com/jkroepke/2Moons
  */
+
 namespace App\Game\Missions;
 
 use App\Game\AdvancedStats\AdvancedStatsEnum;

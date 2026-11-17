@@ -64,22 +64,22 @@ class FlyingFleetHandler
     public static function missionClasses(): array
     {
         return [
-        MISSION_ATTACK                  => MissionCaseAttack::class,
-        MISSION_ACS                     => MissionCaseACS::class,
-        MISSION_TRANSPORT               => MissionCaseTransport::class,
-        MISSION_STATION                 => MissionCaseStay::class,
-        MISSION_HOLD                    => MissionCaseStayAlly::class,
-        MISSION_SPY                     => MissionCaseSpy::class,
-        MISSION_COLONISATION            => MissionCaseColonisation::class,
-        MISSION_RECYCLING               => MissionCaseRecycling::class,
-        MISSION_DESTRUCTION             => MissionCaseDestruction::class,
-        MISSION_MISSILE                 => MissionCaseMIP::class,
-        MISSION_EXPEDITION              => MissionCaseExpedition::class,
-        MISSION_TRADE                   => MissionCaseTrade::class,
-        MISSION_TRANSFER                => MissionCaseTransfer::class,
-        MISSION_PIRATEBASE_ATTACK       => MissionCasePiratebaseAttack::class,
-        MISSION_PIRATEBASE_SPY          => MissionCasePiratebaseSpy::class,
-        MISSION_PIRATEBASE_RECYCLING    => MissionCasePiratebaseRecycling::class,
+            MISSION_ATTACK                  => MissionCaseAttack::class,
+            MISSION_ACS                     => MissionCaseACS::class,
+            MISSION_TRANSPORT               => MissionCaseTransport::class,
+            MISSION_STATION                 => MissionCaseStay::class,
+            MISSION_HOLD                    => MissionCaseStayAlly::class,
+            MISSION_SPY                     => MissionCaseSpy::class,
+            MISSION_COLONISATION            => MissionCaseColonisation::class,
+            MISSION_RECYCLING               => MissionCaseRecycling::class,
+            MISSION_DESTRUCTION             => MissionCaseDestruction::class,
+            MISSION_MISSILE                 => MissionCaseMIP::class,
+            MISSION_EXPEDITION              => MissionCaseExpedition::class,
+            MISSION_TRADE                   => MissionCaseTrade::class,
+            MISSION_TRANSFER                => MissionCaseTransfer::class,
+            MISSION_PIRATEBASE_ATTACK       => MissionCasePiratebaseAttack::class,
+            MISSION_PIRATEBASE_SPY          => MissionCasePiratebaseSpy::class,
+            MISSION_PIRATEBASE_RECYCLING    => MissionCasePiratebaseRecycling::class,
         ];
     }
 

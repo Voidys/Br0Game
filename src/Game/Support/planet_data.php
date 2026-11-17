@@ -30,7 +30,7 @@ $planetData	= [
     12	=> ['temp' => random_int(-10, 30), 'avgTemp' => 10,	'fields' => random_int(125, 186), 'avgFields' => 156,	'image' => ['normaltemp' => random_int(1, 7), 'wasser' => random_int(1, 9)]],
     13	=> ['temp' => random_int(-50, -10), 'avgTemp' => -30,	'fields' => random_int(114, 172), 'avgFields' => 143,	'image' => ['eis' => random_int(1, 10)]],
     14	=> ['temp' => random_int(-90, -50), 'avgTemp' => -70,	'fields' => random_int(100, 168), 'avgFields' => 134,	'image' => ['eis' => random_int(1, 10), 'gas' => random_int(1, 8)]],
-    15	=> ['temp' => random_int(-130, -90), 'avgTemp' => -110,	'fields' => random_int(90, 164), 'avgFields' => 127,	'image' => ['eis' => random_int(1, 10), 'gas' => random_int(1, 8)]]
+    15	=> ['temp' => random_int(-130, -90), 'avgTemp' => -110,	'fields' => random_int(90, 164), 'avgFields' => 127,	'image' => ['eis' => random_int(1, 10), 'gas' => random_int(1, 8)]],
 ];
 
 if (!function_exists('getAllPlanetPictures')) {

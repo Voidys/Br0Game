@@ -51,7 +51,7 @@ class ConfigPlanetsController extends AbstractAdminController
         if ($action != "send") {
             return;
         }
-$db = $this->db;
+        $db = $this->db;
         $sql = "SELECT * FROM %%PLANET_DATA%% WHERE universe = :universe ORDER BY planet_position ASC";
         $planetDataDefault = $db->select($sql, [
             ':universe' => 0,

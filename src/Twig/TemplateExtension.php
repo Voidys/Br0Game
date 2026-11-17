@@ -140,7 +140,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
     {
         $out = preg_replace_callback(
             '/\sonclick\s*=\s*(["\'])\s*(?:return\s+)?Dialog\.(Playercard|PM|Buddy|info|ach)\(\s*(\d+)(?:(?!\1).)*\1/is',
-            static fn (array $m): string => ' data-action="dialog-' . strtolower($m[2]) . '" data-id="' . $m[3] . '"',
+            static fn(array $m): string => ' data-action="dialog-' . strtolower($m[2]) . '" data-id="' . $m[3] . '"',
             (string) $html,
         );
 

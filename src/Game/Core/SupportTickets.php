@@ -50,7 +50,7 @@ class SupportTickets
             ':universe'		=> $this->universe()->current(),
             ':categoryId'	=> $categoryID,
             ':subject'		=> $subject,
-            ':time'			=> $this->state->runtime->timestamp
+            ':time'			=> $this->state->runtime->timestamp,
         ]);
 
         $id = $db->lastInsertId();
@@ -79,7 +79,7 @@ class SupportTickets
             ':ownerName'	=> $ownerName,
             ':subject'		=> $subject,
             ':message'		=> $message,
-            ':time'			=> $this->state->runtime->timestamp
+            ':time'			=> $this->state->runtime->timestamp,
         ]);
 
         $answerId = $db->lastInsertId();
@@ -88,7 +88,7 @@ class SupportTickets
 
         $db->update($sql, [
             ':status'	=> $status,
-            ':ticketId'	=> $ticketID
+            ':ticketId'	=> $ticketID,
         ]);
 
         return $answerId;

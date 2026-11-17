@@ -65,14 +65,14 @@ class Discord
 
         $this->send(
             $config->discord_exceptions_hook,
-            '**' . $message . '**' . PHP_EOL .
-            '```' .
-            'User-Info: ' . $ErrSource . ' ' . $ErrName . PHP_EOL .
-            'File: ' . $exception->getFile() . PHP_EOL .
-            'Line: ' . $exception->getLine() . PHP_EOL .
-            'URL: ' . $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->requestServer['REQUEST_URI'] . PHP_EOL .
-            'Debug Backtrace: ' . PHP_EOL . htmlspecialchars($exception->getTraceAsString()) .
-            '```'
+            '**' . $message . '**' . PHP_EOL
+            . '```'
+            . 'User-Info: ' . $ErrSource . ' ' . $ErrName . PHP_EOL
+            . 'File: ' . $exception->getFile() . PHP_EOL
+            . 'Line: ' . $exception->getLine() . PHP_EOL
+            . 'URL: ' . $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->requestServer['REQUEST_URI'] . PHP_EOL
+            . 'Debug Backtrace: ' . PHP_EOL . htmlspecialchars($exception->getTraceAsString())
+            . '```',
         );
     }
 
@@ -88,7 +88,7 @@ class Discord
             return;
         }
 
-        $data = $data ?? (array)$exception;
+        $data = $data ?? (array) $exception;
         $message = '**' . $title . '**' . PHP_EOL . '```';
         foreach ($data ?? [] as $key => $row) {
             if (is_array($row)) {

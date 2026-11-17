@@ -44,7 +44,7 @@ class ConfigUniController extends AbstractAdminController
 
         // Schema laden
         $schema = new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_UNI, $this->state, $this->configs);
-if (!empty($this->state->requestPost)) {
+        if (!empty($this->state->requestPost)) {
             $this->saveConfig($config, $schema);
         }
 

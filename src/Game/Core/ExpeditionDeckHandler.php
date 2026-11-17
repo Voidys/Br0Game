@@ -59,7 +59,8 @@ class ExpeditionDeckHandler
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,
         protected \App\Game\Core\Singleton $state,
-        int $userId, int $universe,
+        int $userId,
+        int $universe,
     ) {
         $this->userId = $userId;
         $this->universe = $universe;
@@ -223,7 +224,7 @@ class ExpeditionDeckHandler
         $db->insert($sql, [
             ':user_id' => $this->userId,
             ':universe' => $this->universe,
-            ':deck_array' => json_encode($this->deckArray)
+            ':deck_array' => json_encode($this->deckArray),
         ]);
     }
 

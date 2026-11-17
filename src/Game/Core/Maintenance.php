@@ -46,7 +46,7 @@ class Maintenance
 
         $sql = 'UPDATE %%PLANETS%% SET eco_hash = :ecoHash;';
         $this->db->update($sql, [
-            ':ecoHash' => ''
+            ':ecoHash' => '',
         ]);
         clearstatcache();
 

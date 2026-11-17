@@ -77,11 +77,11 @@ class ConfigFieldProcessor
     private static function applyTransform(mixed $value, string $transform): mixed
     {
         return match ($transform) {
-            'int' => (int)$value,
-            'float' => (float)$value,
-            'string' => (string)$value,
-            'bool' => (bool)$value,
-            'int_multiply_2500' => (int)$value * 2500,
+            'int' => (int) $value,
+            'float' => (float) $value,
+            'string' => (string) $value,
+            'bool' => (bool) $value,
+            'int_multiply_2500' => (int) $value * 2500,
             default => $value,
         };
     }
@@ -92,10 +92,10 @@ class ConfigFieldProcessor
     public static function applyTypeTransform(mixed $value, string $transform): mixed
     {
         return match ($transform) {
-            'int', 'int_multiply_2500' => (int)$value,
-            'float' => (float)$value,
-            'string' => (string)$value,
-            'bool' => (bool)$value,
+            'int', 'int_multiply_2500' => (int) $value,
+            'float' => (float) $value,
+            'string' => (string) $value,
+            'bool' => (bool) $value,
             default => $value,
         };
     }

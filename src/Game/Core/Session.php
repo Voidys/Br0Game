@@ -235,9 +235,9 @@ class Session
             WHERE id = :userId;';
 
             $db->update($sql, [
-            ':userAddress'   => $userIpAddress,
-            ':lastActivity'  => $this->manager->gameState()->runtime->timestamp,
-            ':userId'        => $this->data['userId'],
+                ':userAddress'   => $userIpAddress,
+                ':lastActivity'  => $this->manager->gameState()->runtime->timestamp,
+                ':userId'        => $this->data['userId'],
             ]);
 
             // Remove multisessions
@@ -256,8 +256,8 @@ class Session
             WHERE id = :accountId;';
 
             $db->update($sql, [
-            ':lastActivity'     => $this->manager->gameState()->runtime->timestamp,
-            ':accountId'        => $this->data['accountId'],
+                ':lastActivity'     => $this->manager->gameState()->runtime->timestamp,
+                ':accountId'        => $this->data['accountId'],
             ]);
 
             // Remove multisessions
@@ -417,7 +417,7 @@ class Session
                 ->having('count(DISTINCT mu.`userID`) >= :usersSize')
                 ->orderBy('anz', 'ASC')
                 ->setParameter('userIds', array_map('intval', array_column($multis, 'id')), \Doctrine\DBAL\ArrayParameterType::INTEGER)
-                ->setParameter('usersSize', count($multis))
+                ->setParameter('usersSize', count($multis)),
         );
 
         $sql = "SELECT * FROM %%MULTI%%

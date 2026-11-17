@@ -42,7 +42,7 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
         $sql = 'SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetId;';
 
         $startPlanetName	= $db->selectSingle($sql, [
-            ':planetId'	=> $this->_fleet['start_id']
+            ':planetId'	=> $this->_fleet['start_id'],
         ], 'name');
 
         $fleet = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
@@ -65,7 +65,8 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
     {
         $LNG			= $this->getLanguage(null, $this->_fleet['owner']);
 
-        $Message		= $LNG->format('sys_tran_mess_owner',
+        $Message		= $LNG->format(
+            'sys_tran_mess_owner',
             $startPlanetName,
             GetStartAddressLink($this->_fleet, ''),
             $targetPlanet['name'],
@@ -76,12 +77,12 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
             $LNG['tech'][RESOURCE_CRYSTAL],
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
-            $LNG['tech'][RESOURCE_DEUT]
+            $LNG['tech'][RESOURCE_DEUT],
         );
 
 
         foreach ($fleet as $elementID => $amount) {
-            $Message   	.= '<br>'.$LNG['tech'][$elementID].': '.$this->viewHelpers()->prettyNumber($amount);
+            $Message   	.= '<br>' . $LNG['tech'][$elementID] . ': ' . $this->viewHelpers()->prettyNumber($amount);
         }
 
         $this->playerUtil()->sendMessage(
@@ -93,7 +94,7 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $Message,
             $this->_fleet['arrival_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
     }
 
@@ -107,7 +108,8 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
     private function reportToTargetOwner(string|false|null $startPlanetName, array $targetPlanet, array $fleet): void
     {
         $LNG			= $this->getLanguage(null, $this->_fleet['target_owner']);
-        $Message        = $LNG->format('sys_tran_mess_user',
+        $Message        = $LNG->format(
+            'sys_tran_mess_user',
             $startPlanetName,
             GetStartAddressLink($this->_fleet, ''),
             $targetPlanet['name'],
@@ -117,11 +119,11 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
             $LNG['tech'][RESOURCE_CRYSTAL],
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
-            $LNG['tech'][RESOURCE_DEUT]
+            $LNG['tech'][RESOURCE_DEUT],
         );
 
         foreach ($fleet as $elementID => $amount) {
-            $Message   	.= '<br>'.$LNG['tech'][$elementID].': '.$this->viewHelpers()->prettyNumber($amount);
+            $Message   	.= '<br>' . $LNG['tech'][$elementID] . ': ' . $this->viewHelpers()->prettyNumber($amount);
         }
 
         $this->playerUtil()->sendMessage(
@@ -133,7 +135,7 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $Message,
             $this->_fleet['arrival_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
     }
 
@@ -165,7 +167,8 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $stationShips .= "<br>" . $LNG['tech'][$shipID] . ": " . $amount;
         }
 
-        $Message = $LNG->format('sys_fleet_return',
+        $Message = $LNG->format(
+            'sys_fleet_return',
             $LNG['type_planet_' . $this->_fleet['start_type']],
             $targetPlanet['name'],
             GetStartAddressLink($this->_fleet, ''),
@@ -187,7 +190,7 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $Message,
             $this->_fleet['return_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
 
         $this->RestoreFleet();

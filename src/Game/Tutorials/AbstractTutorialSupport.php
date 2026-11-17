@@ -107,8 +107,8 @@ abstract class AbstractTutorialSupport
         $goals = [];
         foreach ($this->tutorialGoals as $goalRow) {
             $elementID = $goalRow['elementID'];
-            if ((array_key_exists($resource[$elementID], $this->user) || array_key_exists($resource[$elementID], $this->planet)) &&
-                !$this->buildFunctions()->isEnabled($elementID)) {
+            if ((array_key_exists($resource[$elementID], $this->user) || array_key_exists($resource[$elementID], $this->planet))
+                && !$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
 
@@ -204,9 +204,7 @@ abstract class AbstractTutorialSupport
      * Goals backed by server facts must never be fulfilled by a request, so the default is a no-op.
      * Only steps whose completion genuinely is a click (link steps) override this.
      */
-    public function fullfillGoalByRequest(int $goal): void
-    {
-    }
+    public function fullfillGoalByRequest(int $goal): void {}
 
     /**
      * Lists all enabled rewards
@@ -228,8 +226,8 @@ abstract class AbstractTutorialSupport
         $rewards = [];
         foreach ($this->tutorialRewards as $rewardRow) {
             $elementID = $rewardRow['elementID'];
-            if ((array_key_exists($resource[$elementID], $this->user) || array_key_exists($resource[$elementID], $this->planet)) &&
-                !$this->buildFunctions()->isEnabled($elementID)) {
+            if ((array_key_exists($resource[$elementID], $this->user) || array_key_exists($resource[$elementID], $this->planet))
+                && !$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
 

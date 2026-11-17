@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Game\BattleEngine;
 
 use App\Game\Core\Singleton;
@@ -125,7 +126,7 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
      * Guard against running out of memory mid-fight.
      * @return bool false once the process uses more than 90% of memory_limit (unlimited limits always pass).
      */
-    protected function checkMemoryUsage() : bool
+    protected function checkMemoryUsage(): bool
     {
         try {
             // ini_parse_quantity understands K/M/G suffixes in any case and plain byte values

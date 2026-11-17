@@ -109,7 +109,7 @@ class AccountDataController extends AbstractAdminController
                 ->join('u', $db->table('ACCOUNTS_TO_USERS'), 'au', 'au.`user_id` = u.`id`')
                 ->join('au', $db->table('ACCOUNTS'), 'ac', 'ac.`id` = au.`account_id`')
                 ->where('u.`id` = :userID')
-                ->setParameter('userID', $id_u)
+                ->setParameter('userID', $id_u),
         );
 
         if (!isset($UserQuery['user_ua'])) {
@@ -335,7 +335,7 @@ class AccountDataController extends AbstractAdminController
                 ->select(...$planetColumns)
                 ->from($db->table('PLANETS'))
                 ->where('`id_owner` = :userID')
-                ->setParameter('userID', $id_u)
+                ->setParameter('userID', $id_u),
         );
 
         $planetRows = [];

@@ -60,9 +60,9 @@ class LinkTutorialSupport extends AbstractTutorialSupport
                     // no community Discord configured: plain text, the goal is fulfilled automatically (listGoals())
                     return $text;
                 }
-                $goal = $this->state->runtime->httpPath.'game?page=tutorial&mode=fullfill&goal='.$elementID;
+                $goal = $this->state->runtime->httpPath . 'game?page=tutorial&mode=fullfill&goal=' . $elementID;
                 // opens the link in a new tab and reports the goal as fulfilled (action "tutorial-link", scripts/game/tutorial.js)
-                return '<a class="tutorial-link" href="'.htmlspecialchars($link, ENT_QUOTES).'" data-action="tutorial-link" data-goal="'.htmlspecialchars($goal, ENT_QUOTES).'" target="_blank" rel="noopener">'.$text.'</a>';
+                return '<a class="tutorial-link" href="' . htmlspecialchars($link, ENT_QUOTES) . '" data-action="tutorial-link" data-goal="' . htmlspecialchars($goal, ENT_QUOTES) . '" target="_blank" rel="noopener">' . $text . '</a>';
 
             default:
                 return 'unknown';
@@ -108,8 +108,8 @@ class LinkTutorialSupport extends AbstractTutorialSupport
         foreach ($this->tutorialGoals as $goalRow) {
             $elementID = $goalRow['elementID'];
 
-            if ($goalRow['enabled'] == 0 ||
-                $goalRow['skipped'] == 1) {
+            if ($goalRow['enabled'] == 0
+                || $goalRow['skipped'] == 1) {
                 continue;
             }
 

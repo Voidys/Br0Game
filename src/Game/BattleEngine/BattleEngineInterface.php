@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Game\BattleEngine;
 
 /**
@@ -22,7 +23,7 @@ interface BattleEngineInterface
         array $defenders,
         int $universe,
         bool $sim = false,
-        int $simTries = 1
+        int $simTries = 1,
     ): BattleResult|false;
 
     /**
@@ -39,7 +40,7 @@ interface BattleEngineInterface
         array &$defenders,
         int $universe,
         bool $sim = false,
-        int $simTries = 1
+        int $simTries = 1,
     ): array|false;
 
     public function getName(): string;

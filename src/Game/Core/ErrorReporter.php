@@ -210,7 +210,7 @@ class ErrorReporter
         $errorText .= str_replace(
             $this->state->runtime->rootPath,
             '/',
-            htmlspecialchars(str_replace('\\', '/', $exception->getTraceAsString()))
+            htmlspecialchars(str_replace('\\', '/', $exception->getTraceAsString())),
         ) . "\r\n";
 
         if (is_writable('var/log/game.log')) {

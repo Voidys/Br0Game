@@ -77,7 +77,7 @@ class ViewHelpers
             $minute,
             $LNG['short_minute'],
             $second,
-            $LNG['short_second']
+            $LNG['short_second'],
         );
     }
 
@@ -125,7 +125,7 @@ class ViewHelpers
         }
 
         if (!is_numeric($decimal)) {
-            $decimal = ((int)(((int)$number != $number) && $key != 0 && $number != 0 && $number < 100));
+            $decimal = ((int) (((int) $number != $number) && $key != 0 && $number != 0 && $number < 100));
         }
         return $this->prettyNumber($negate * $number, $decimal) . ($key !== 0 ? '&nbsp;' . $unit[$key] : '');
     }
@@ -170,7 +170,7 @@ class ViewHelpers
                 $date->setTimestamp($time);
             } else {
                 // PHP < 5.3
-                $tempDate = getdate((int)$time);
+                $tempDate = getdate((int) $time);
                 $date->setDate($tempDate['year'], $tempDate['mon'], $tempDate['mday']);
                 $date->setTime($tempDate['hours'], $tempDate['minutes'], $tempDate['seconds']);
             }

@@ -75,7 +75,7 @@ class InactiveMailCronjob extends AbstractCronjobTask
                 $LNG			= $langObjects[$user['lang']];
                 $this->state->LNG = $LNG; // the last mailed language stays the active one (as before)
 
-                $MailSubject	= $LNG->format('spec_mail_inactive_title', $userConfig->game_name.' - '.$userConfig->uni_name);
+                $MailSubject	= $LNG->format('spec_mail_inactive_title', $userConfig->game_name . ' - ' . $userConfig->uni_name);
                 $MailRAW		= $LNG->getTemplate('email_inactive');
 
                 $MailContent	= str_replace([
@@ -85,7 +85,7 @@ class InactiveMailCronjob extends AbstractCronjobTask
                     '{HTTPPATH}',
                 ], [
                     $user['username'],
-                    $userConfig->game_name.' - '.$userConfig->uni_name,
+                    $userConfig->game_name . ' - ' . $userConfig->uni_name,
                     $this->viewHelpers()->formatDate($LNG['php_tdformat'], $user['onlinetime'], $user['timezone']),
                     $this->state->runtime->httpPath,
                 ], $MailRAW);
@@ -94,7 +94,7 @@ class InactiveMailCronjob extends AbstractCronjobTask
 
                 $sql	= 'UPDATE %%USERS_SETTINGS%% SET `inactive_mail` = 1 WHERE `user_id` = :userId;';
                 $this->db->update($sql, [
-                    ':userId'	=> $user['id']
+                    ':userId'	=> $user['id'],
                 ]);
             }
         }

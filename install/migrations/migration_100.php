@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Game\Core\Database;
 
@@ -34,7 +34,7 @@ try {
             ':forwarder_id'     => null,
             ':message_unread'   => $message['message_unread'],
             ':created_at'       => $message['message_time'],
-            ':deleted_at'       => $message['message_deleted']
+            ':deleted_at'       => $message['message_deleted'],
         ]);
 
         // sender
@@ -46,7 +46,7 @@ try {
                 ':forwarder_id'     => null,
                 ':message_unread'   => 0,
                 ':created_at'       => $message['message_time'],
-                ':deleted_at'       => null
+                ':deleted_at'       => null,
             ]);
         }
     }

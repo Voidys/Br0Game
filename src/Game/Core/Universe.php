@@ -75,7 +75,7 @@ class Universe
             $this->availableUniverses(),
             static function ($id) use ($universe) {
                 return (int) $id !== (int) $universe;
-            }
+            },
         ));
     }
 
@@ -102,7 +102,7 @@ class Universe
     public function setEmulated($universeId)
     {
         if (!$this->exists($universeId)) {
-            throw new Exception('Unknown universe ID: '.$universeId);
+            throw new Exception('Unknown universe ID: ' . $universeId);
         }
 
         $session	= $this->sessionManager()->load();
@@ -168,7 +168,7 @@ class Universe
             }
         } else {
             if ($this->state->runtime->httpRoot != $this->state->runtime->httpBase) {
-                (new HTTP($this->state))->redirectTo($this->state->runtime->protocol.$this->state->runtime->httpHost.$this->state->runtime->httpBase.$this->state->runtime->httpFile, true);
+                (new HTTP($this->state))->redirectTo($this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpBase . $this->state->runtime->httpFile, true);
             }
             if ($this->state->runtime->mode == 'LOGIN') {
                 if (isset($this->state->requestInput['uni'])) {

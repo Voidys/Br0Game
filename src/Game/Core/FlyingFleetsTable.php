@@ -58,8 +58,7 @@ class FlyingFleetsTable
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,
         protected \App\Game\Core\Singleton $state,
-    ) {
-    }
+    ) {}
 
     public function setUser(int $userId): void
     {
@@ -169,7 +168,7 @@ class FlyingFleetsTable
                     [
                         ':phalanx_log_id' => $phalanxLogID,
                         ':fleet_id'       => $fleetRow['id'],
-                    ]
+                    ],
                 );
             }
 
@@ -183,7 +182,7 @@ class FlyingFleetsTable
                 $ACSDone[$fleetRow['group']]      = true;
                 $FleetData[$fleetRow['arrival_time'] . sprintf('%010d', $fleetRow['id'])] = $this->buildFleetEventTable(
                     $fleetRow,
-                    0
+                    0,
                 );
             }
 
@@ -202,7 +201,7 @@ class FlyingFleetsTable
             ) {
                 $FleetData[$fleetRow['stay_time'] . sprintf('%010d', $fleetRow['id'])] = $this->buildFleetEventTable(
                     $fleetRow,
-                    2
+                    2,
                 );
             }
 
@@ -210,7 +209,7 @@ class FlyingFleetsTable
             if ($fleetRow['stay_time'] > $this->state->runtime->timestamp && $fleetRow['mission'] == $MissionsOK) {
                 $FleetData[$fleetRow['stay_time'] . sprintf('%010d', $fleetRow['id'])] = $this->buildFleetEventTable(
                     $fleetRow,
-                    2
+                    2,
                 );
             }
 
@@ -221,7 +220,7 @@ class FlyingFleetsTable
             if ($fleetRow['return_time'] > $this->state->runtime->timestamp) {
                 $FleetData[$fleetRow['return_time'] . sprintf('%010d', $fleetRow['id'])] = $this->buildFleetEventTable(
                     $fleetRow,
-                    1
+                    1,
                 );
             }
 
@@ -409,22 +408,24 @@ class FlyingFleetsTable
         $LNG = $this->state->LNG;
 
         if ($Status == FLEET_OUTWARD) {
-            $EventString = $LNG->format($textKey('cff_mission_own_recy_0'),
+            $EventString = $LNG->format(
+                $textKey('cff_mission_own_recy_0'),
                 $FleetContent,
                 $StartType,
                 $fleetRow['own_planetname'],
                 GetStartAddressLink($fleetRow, $FleetType),
                 GetTargetAddressLink($fleetRow, $FleetType),
-                $FleetCapacity
+                $FleetCapacity,
             );
         } else {
-            $EventString = $LNG->format($textKey('cff_mission_own_recy_1'),
+            $EventString = $LNG->format(
+                $textKey('cff_mission_own_recy_1'),
                 $FleetContent,
                 GetTargetAddressLink($fleetRow, $FleetType),
                 $StartType,
                 $fleetRow['own_planetname'],
                 GetStartAddressLink($fleetRow, $FleetType),
-                $FleetCapacity
+                $FleetCapacity,
             );
         }
 
@@ -438,17 +439,19 @@ class FlyingFleetsTable
         $LNG = $this->state->LNG;
 
         if ($Owner) {
-            $EventString = $LNG->format($textKey('cff_mission_own_mip'),
+            $EventString = $LNG->format(
+                $textKey('cff_mission_own_mip'),
                 $fleetRow['ship_amount'],
                 $StartType,
                 $fleetRow['own_planetname'],
                 GetStartAddressLink($fleetRow, $FleetType),
                 $TargetType,
                 $fleetRow['target_planetname'],
-                GetTargetAddressLink($fleetRow, $FleetType)
+                GetTargetAddressLink($fleetRow, $FleetType),
             );
         } else {
-            $EventString = $LNG->format('cff_mission_target_mip',
+            $EventString = $LNG->format(
+                'cff_mission_target_mip',
                 $fleetRow['ship_amount'],
                 $this->buildHostileFleetPlayerLink($fleetRow),
                 $StartType,
@@ -456,7 +459,7 @@ class FlyingFleetsTable
                 GetStartAddressLink($fleetRow, $FleetType),
                 $TargetType,
                 $fleetRow['target_planetname'],
-                GetTargetAddressLink($fleetRow, $FleetType)
+                GetTargetAddressLink($fleetRow, $FleetType),
             );
         }
 
@@ -470,31 +473,34 @@ class FlyingFleetsTable
         $LNG = $this->state->LNG;
 
         if ($Status == FLEET_OUTWARD) {
-            $EventString = $LNG->format($textKey('cff_mission_own_expo_0'),
+            $EventString = $LNG->format(
+                $textKey('cff_mission_own_expo_0'),
                 $FleetContent,
                 $StartType,
                 $fleetRow['own_planetname'],
                 GetStartAddressLink($fleetRow, $FleetType),
                 GetTargetAddressLink($fleetRow, $FleetType),
-                $FleetCapacity
+                $FleetCapacity,
             );
         } elseif ($Status == FLEET_HOLD) {
-            $EventString = $LNG->format($textKey('cff_mission_own_expo_2'),
+            $EventString = $LNG->format(
+                $textKey('cff_mission_own_expo_2'),
                 $FleetContent,
                 $StartType,
                 $fleetRow['own_planetname'],
                 GetStartAddressLink($fleetRow, $FleetType),
                 GetTargetAddressLink($fleetRow, $FleetType),
-                $FleetCapacity
+                $FleetCapacity,
             );
         } else {
-            $EventString = $LNG->format($textKey('cff_mission_own_expo_1'),
+            $EventString = $LNG->format(
+                $textKey('cff_mission_own_expo_1'),
                 $FleetContent,
                 GetTargetAddressLink($fleetRow, $FleetType),
                 $StartType,
                 $fleetRow['own_planetname'],
                 GetStartAddressLink($fleetRow, $FleetType),
-                $FleetCapacity
+                $FleetCapacity,
             );
         }
 
@@ -511,7 +517,8 @@ class FlyingFleetsTable
 
         if ($Owner == true) {
             if ($Status == FLEET_OUTWARD) {
-                $EventString  = $LNG->format($textKey('cff_mission_own_0'),
+                $EventString  = $LNG->format(
+                    $textKey('cff_mission_own_0'),
                     $FleetContent,
                     $StartType,
                     $fleetRow['own_planetname'],
@@ -519,10 +526,11 @@ class FlyingFleetsTable
                     $TargetType,
                     $fleetRow['target_planetname'],
                     GetTargetAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity
+                    $FleetCapacity,
                 );
             } elseif ($Status == FLEET_RETURN) {
-                $EventString  = $LNG->format($textKey('cff_mission_own_1'),
+                $EventString  = $LNG->format(
+                    $textKey('cff_mission_own_1'),
                     $FleetContent,
                     $TargetType,
                     $fleetRow['target_planetname'],
@@ -530,10 +538,11 @@ class FlyingFleetsTable
                     $StartType,
                     $fleetRow['own_planetname'],
                     GetStartAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity
+                    $FleetCapacity,
                 );
             } else {
-                $EventString  = $LNG->format($textKey('cff_mission_own_2'),
+                $EventString  = $LNG->format(
+                    $textKey('cff_mission_own_2'),
                     $FleetContent,
                     $StartType,
                     $fleetRow['own_planetname'],
@@ -541,12 +550,13 @@ class FlyingFleetsTable
                     $TargetType,
                     $fleetRow['target_planetname'],
                     GetTargetAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity
+                    $FleetCapacity,
                 );
             }
         } else {
             if (($MissionType == MISSION_ATTACK || $MissionType == MISSION_PIRATEBASE_ATTACK || $MissionType == MISSION_ACS) && $Status == FLEET_OUTWARD) {
-                $EventString = $LNG->format('cff_mission_acs',
+                $EventString = $LNG->format(
+                    'cff_mission_acs',
                     $FleetContent,
                     $StartType,
                     $fleetRow['own_planetname'],
@@ -554,7 +564,7 @@ class FlyingFleetsTable
                     $TargetType,
                     $fleetRow['target_planetname'],
                     GetTargetAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity
+                    $FleetCapacity,
                 );
             } else {
                 if ($Status == FLEET_HOLD) {
@@ -575,7 +585,7 @@ class FlyingFleetsTable
                     $TargetType,
                     $fleetRow['target_planetname'],
                     GetTargetAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity
+                    $FleetCapacity,
                 );
             }
         }
@@ -601,7 +611,7 @@ class FlyingFleetsTable
                     WHERE uta.`userID` = :userId AND f.`id` = :fleetId;";
                 $friend = $db->selectSingle($sql, [
                     ':userId'   => $this->state->USER['id'],
-                    ':fleetId'  => $fleetRow['id']
+                    ':fleetId'  => $fleetRow['id'],
                 ], 'count');
                 if ($Owner == true) {
                     $FleetClass = 'colorMission2Own';

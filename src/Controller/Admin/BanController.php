@@ -244,7 +244,7 @@ class BanController extends AbstractAdminController
                 ->where("`bana` = '1'")
                 ->andWhere('`universe` = :universe')
                 ->setParameter('universe', $this->universe()->getEmulated())
-                ->orderBy($ORDER2, 'ASC')
+                ->orderBy($ORDER2, 'ASC'),
         );
         foreach ($userListBan as $user) {
             $html .= '<option value="' . $user['id'] . '">' . GameEscaping::escape((string) $user['username'], 'UTF-8') . '&nbsp;&nbsp;(ID:&nbsp;' . $user['id'] . ')</option>';
@@ -301,7 +301,7 @@ class BanController extends AbstractAdminController
                 ->select('`accountname`', '`id`')
                 ->from($db->table('ACCOUNTS'))
                 ->where("`bana` = '1'")
-                ->orderBy($ORDER2, 'ASC')
+                ->orderBy($ORDER2, 'ASC'),
         );
         foreach ($accountListBan as $account) {
             $html .= '<option value="' . $account['id'] . '">' . GameEscaping::escape((string) $account['accountname'], 'UTF-8') . '&nbsp;&nbsp;(ID:&nbsp;' . $account['id'] . ')</option>';

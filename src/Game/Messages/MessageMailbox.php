@@ -185,7 +185,7 @@ class MessageMailbox
                 ->where('`user_id` = :userID')
                 ->andWhere('`message_id` IN (:ids)')
                 ->setParameter('userID', $USER['id'])
-                ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER)
+                ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER),
         );
     }
 
@@ -236,7 +236,7 @@ class MessageMailbox
                 ->andWhere('`message_id` IN (:ids)')
                 ->setParameter('timestamp', $this->state->runtime->timestamp)
                 ->setParameter('userId', $USER['id'])
-                ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER)
+                ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER),
         );
     }
 

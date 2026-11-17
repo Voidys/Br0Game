@@ -76,7 +76,7 @@ class QuickEditorController extends AbstractAdminController
                 ->addSelect('`name`', '`id_owner`', '`planet_type`', '`galaxy`', '`system`', '`planet`', '`destruyed`', '`diameter`', '`field_current`', '`field_max`', '`temp_min`', '`temp_max`', '`metal`', '`crystal`', '`deuterium`')
                 ->from($db->table('PLANETS'))
                 ->where('`id` = :planetID')
-                ->setParameter('planetID', $id)
+                ->setParameter('planetID', $id),
         );
 
         if ($action == 'send') {
@@ -145,7 +145,7 @@ class QuickEditorController extends AbstractAdminController
                 ->addSelect('`username`', '`authlevel`', '`galaxy`', '`system`', '`planet`', '`id_planet`', '`authattack`')
                 ->from($db->table('USERS'))
                 ->where('`id` = :userID')
-                ->setParameter('userID', $id)
+                ->setParameter('userID', $id),
         );
         // the password belongs to the account, so every player of the account (all universes) must rank below the actor
         $accountTop = (int) $db->selectSingle(

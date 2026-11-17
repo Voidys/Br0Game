@@ -565,7 +565,7 @@ class FleetTableController extends AbstractGameController
                     ->from($db->table('PLANETS'), 'p')
                     ->leftJoin('p', $db->table('USERS'), 'u', 'u.id = p.id_owner')
                     ->where('p.id IN (:ids)')
-                    ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER)
+                    ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER),
             );
 
             foreach ($watchLevels as $levelRow) {

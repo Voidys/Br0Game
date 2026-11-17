@@ -375,7 +375,7 @@ const NOT_IMPLEMENTED_ACHIEVEMENTS = [
     46,
     50,
     53,
-    54
+    54,
 ];
 
 //battle

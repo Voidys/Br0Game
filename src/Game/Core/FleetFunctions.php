@@ -48,7 +48,7 @@ class FleetFunctions
         4 => 40,
         3 => 30,
         2 => 20,
-        1 => 10
+        1 => 10,
     ];
 
     private function math(): FleetMath
@@ -289,7 +289,7 @@ class FleetFunctions
         int $fleetGroup = 0,
         int $missileTarget = 0,
         int $cannotCancel = 0,
-        float $consumption = 0.0
+        float $consumption = 0.0,
     ): int {
         return $this->launcher()->sendFleet(
             $fleetArray,
@@ -313,7 +313,7 @@ class FleetFunctions
             $fleetGroup,
             $missileTarget,
             $cannotCancel,
-            $consumption
+            $consumption,
         );
     }
 
@@ -356,7 +356,7 @@ class FleetFunctions
                 str_replace($this->state->requestServer["DOCUMENT_ROOT"], '.', $temp[0]['file']),
                 $temp[0]['line'],
                 $Code,
-                (isset($LNG['fl_send_error'][$Code]) ? $LNG['fl_send_error'][$Code] : '')
+                (isset($LNG['fl_send_error'][$Code]) ? $LNG['fl_send_error'][$Code] : ''),
             );
             throw new \App\Game\Core\EndOfRequest();
         }

@@ -73,7 +73,7 @@ class LanguageCatalog
      */
     private function sorted(array $languages): array
     {
-        uksort($languages, fn (string $a, string $b): int => [$this->isFun($a), $a] <=> [$this->isFun($b), $b]);
+        uksort($languages, fn(string $a, string $b): int => [$this->isFun($a), $a] <=> [$this->isFun($b), $b]);
 
         return $languages;
     }

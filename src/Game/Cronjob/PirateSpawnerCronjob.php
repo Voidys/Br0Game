@@ -15,7 +15,6 @@ use App\Game\Core\Universe;
  */
 class PirateSpawnerCronjob extends AbstractCronjobTask
 {
-
     public function __construct(
         \App\Game\Core\Database $db,
         \App\Game\Core\ConfigRegistry $configs,

@@ -33,8 +33,8 @@ class LanguageBuildCache implements BuildCacheInterface
      */
     public function buildCache(): array
     {
-        if (!is_dir(\App\Runtime\ProjectPaths::CACHE.'languages/')) {
-            mkdir(\App\Runtime\ProjectPaths::CACHE.'languages/');
+        if (!is_dir(\App\Runtime\ProjectPaths::CACHE . 'languages/')) {
+            mkdir(\App\Runtime\ProjectPaths::CACHE . 'languages/');
         }
 
         // Selectable languages and their metadata: config/languages.yaml (formerly LANG.cfg per pack)
@@ -64,7 +64,7 @@ class LanguageBuildCache implements BuildCacheInterface
         foreach ($files as $file) {
             $name = strtoupper(basename($file, '.' . $lang . '.yaml'));
             $data = Yaml::parseFile($file);
-            \App\Game\Cache\Resource\PhpArrayFile::write(\App\Runtime\ProjectPaths::CACHE.'languages/'.$lang.'-'.$name, $data);
+            \App\Game\Cache\Resource\PhpArrayFile::write(\App\Runtime\ProjectPaths::CACHE . 'languages/' . $lang . '-' . $name, $data);
         }
     }
 }

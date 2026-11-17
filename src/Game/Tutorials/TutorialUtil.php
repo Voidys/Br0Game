@@ -127,7 +127,7 @@ class TutorialUtil
             'last' => !$supportClass->hasNext(),
             'skippable' => $tutorialStep['skippable'],
             'order' => $tutorialStep['order'],
-            'id' => $tutorialStep['id']
+            'id' => $tutorialStep['id'],
         ];
         return $tutorial;
     }

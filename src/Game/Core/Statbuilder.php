@@ -101,7 +101,7 @@ class Statbuilder
                 $userData['id'],
                 $userData['ally_id'],
                 self::STAT_TYPE_USER,
-                $userData['universe']
+                $userData['universe'],
             );
 
             if (!isset($universeData[$userData['universe']])) {
@@ -177,27 +177,27 @@ class Statbuilder
      */
     private function fillUserPoints(StatPoints $statPoints, array $userData, array $buildScore, array $fleetPoints, array $defensePoints, array $techPoints, array $honorData): void
     {
-        $statPoints->build_count = (int)$buildScore['count'];
-        $statPoints->build_points = (int)$buildScore['points'];
-        $statPoints->fleet_count = (int)$fleetPoints['count'];
-        $statPoints->fleet_points = (int)$fleetPoints['points'];
-        $statPoints->defs_count = (int)$defensePoints['count'];
-        $statPoints->defs_points = (int)$defensePoints['points'];
-        $statPoints->tech_count = (int)$techPoints['count'];
-        $statPoints->tech_points = (int)$techPoints['points'];
+        $statPoints->build_count = (int) $buildScore['count'];
+        $statPoints->build_points = (int) $buildScore['points'];
+        $statPoints->fleet_count = (int) $fleetPoints['count'];
+        $statPoints->fleet_points = (int) $fleetPoints['points'];
+        $statPoints->defs_count = (int) $defensePoints['count'];
+        $statPoints->defs_points = (int) $defensePoints['points'];
+        $statPoints->tech_count = (int) $techPoints['count'];
+        $statPoints->tech_points = (int) $techPoints['points'];
 
         $statPoints->honor_points = $honorData['honor_points'];
         $statPoints->honorable_fights = $honorData['honorable_fights'];
         $statPoints->dishonorable_fights = $honorData['dishonorable_fights'];
         $statPoints->units_points = $honorData['units_points'];
 
-        $statPoints->build_old_rank = (int)$userData['old_build_rank'];
-        $statPoints->fleet_old_rank = (int)$userData['old_fleet_rank'];
-        $statPoints->defs_old_rank = (int)$userData['old_defs_rank'];
-        $statPoints->tech_old_rank = (int)$userData['old_tech_rank'];
-        $statPoints->total_old_rank = (int)$userData['old_total_rank'];
-        $statPoints->honor_old_rank = (int)$userData['old_honor_rank'];
-        $statPoints->units_old_rank = (int)$userData['old_units_rank'];
+        $statPoints->build_old_rank = (int) $userData['old_build_rank'];
+        $statPoints->fleet_old_rank = (int) $userData['old_fleet_rank'];
+        $statPoints->defs_old_rank = (int) $userData['old_defs_rank'];
+        $statPoints->tech_old_rank = (int) $userData['old_tech_rank'];
+        $statPoints->total_old_rank = (int) $userData['old_total_rank'];
+        $statPoints->honor_old_rank = (int) $userData['old_honor_rank'];
+        $statPoints->units_old_rank = (int) $userData['old_units_rank'];
     }
 
     /**
@@ -213,20 +213,20 @@ class Statbuilder
                 $userData['ally_id'],
                 0,
                 self::STAT_TYPE_ALLIANCE,
-                $userData['universe']
+                $userData['universe'],
             );
         }
 
         if ($userData['onlinetime'] >= $this->state->runtime->timestamp - INACTIVE) {
             $alliance = $allianceScores[$userData['ally_id']];
-            $alliance->build_count += (int)$buildScore['count'];
-            $alliance->build_points += (int)$buildScore['points'] ?? 0;
-            $alliance->fleet_count += (int)$fleetPoints['count'];
-            $alliance->fleet_points += (int)$fleetPoints['points'];
-            $alliance->defs_count += (int)$defensePoints['count'];
-            $alliance->defs_points += (int)$defensePoints['points'];
-            $alliance->tech_count += (int)$techPoints['count'];
-            $alliance->tech_points += (int)$techPoints['points'];
+            $alliance->build_count += (int) $buildScore['count'];
+            $alliance->build_points += (int) $buildScore['points'] ?? 0;
+            $alliance->fleet_count += (int) $fleetPoints['count'];
+            $alliance->fleet_points += (int) $fleetPoints['points'];
+            $alliance->defs_count += (int) $defensePoints['count'];
+            $alliance->defs_points += (int) $defensePoints['points'];
+            $alliance->tech_count += (int) $techPoints['count'];
+            $alliance->tech_points += (int) $techPoints['points'];
             $alliance->honor_points += $honorData['honor_points'];
             $alliance->honorable_fights += $honorData['honorable_fights'];
             $alliance->dishonorable_fights += $honorData['dishonorable_fights'];

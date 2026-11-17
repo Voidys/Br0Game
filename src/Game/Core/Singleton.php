@@ -30,8 +30,7 @@ class Singleton
     public function __construct(
         /** request time, mode, paths and URLs of this request (the former runtime constants) */
         public readonly \App\Runtime\RuntimeContext $runtime,
-    ) {
-    }
+    ) {}
 
     /**
      * Returns the stored value by reference (null for unknown names).

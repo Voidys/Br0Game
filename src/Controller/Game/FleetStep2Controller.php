@@ -411,22 +411,26 @@ class FleetStep2Controller extends AbstractGameController
                 $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetPlayerData));
 
                 if ($IsNoobProtec['StrongPlayer']) {
-                    $question = $LNG->format('fl_attack_confirm_outlaw',
+                    $question = $LNG->format(
+                        'fl_attack_confirm_outlaw',
                         $targetPlayerData['username'],
                     );
 
-                    $questionHold = $LNG->format('fl_hold_confirm_outlaw',
+                    $questionHold = $LNG->format(
+                        'fl_hold_confirm_outlaw',
                         $targetPlayerData['username'],
                     );
 
-                    $questionSpy = $LNG->format('fl_spy_confirm_outlaw',
+                    $questionSpy = $LNG->format(
+                        'fl_spy_confirm_outlaw',
                         $targetPlayerData['username'],
                     );
                     $questionList[MISSION_HOLD] = $questionHold;
                     $questionList[MISSION_SPY] = $questionSpy;
                 }
             } elseif ($targetAllianceData) {
-                $question = $LNG->format('fl_attack_confirm_diplo',
+                $question = $LNG->format(
+                    'fl_attack_confirm_diplo',
                     (($targetAllianceData['owner_2'] == $targetAllianceData['id'] && $targetAllianceData['level'] == 1) ? $LNG['al_diplo_level'][0] : $LNG['al_diplo_level'][$targetAllianceData['level']]),
                     '[' . $targetAllianceData['ally_tag'] . '] ' . $targetAllianceData['ally_name'],
                 );

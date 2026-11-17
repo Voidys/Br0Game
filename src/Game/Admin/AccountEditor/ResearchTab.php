@@ -26,7 +26,7 @@ class ResearchTab extends AccountEditorTab
                     ->select(...$fields)
                     ->from($db->table('USERS'))
                     ->where('`id` = :userID')
-                    ->setParameter('userID', $id)
+                    ->setParameter('userID', $id),
             );
             $afterResearch = [];
             if (isset($this->state->requestPost['add'])) {

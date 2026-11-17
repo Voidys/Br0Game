@@ -96,12 +96,12 @@ class CleanerCronjob extends AbstractCronjobTask
 
         $sql = 'DELETE FROM %%PLANETS%% WHERE `destruyed` < :time AND `destruyed` != 0;';
         $db->delete($sql, [
-            ':time' => $this->state->runtime->timestamp
+            ':time' => $this->state->runtime->timestamp,
         ]);
 
         $sql = 'DELETE FROM %%SESSION%% WHERE `lastonline` < :time;';
         $db->delete($sql, [
-            ':time' => $this->state->runtime->timestamp - SESSION_LIFETIME
+            ':time' => $this->state->runtime->timestamp - SESSION_LIFETIME,
         ]);
 
         $sql = 'DELETE FROM %%FLEETS_EVENT%% WHERE `fleetID` NOT IN (SELECT `id` FROM %%FLEETS%%);';
@@ -109,7 +109,7 @@ class CleanerCronjob extends AbstractCronjobTask
 
         $sql = 'DELETE FROM %%LOG_FLEETS%% WHERE `start_time` < :time;';
         $db->delete($sql, [
-            ':time' => $del_before
+            ':time' => $del_before,
         ]);
 
         $sql = 'UPDATE %%PLANETS%% SET `tf_active` = 0 WHERE `tf_active` = 1;';
@@ -117,7 +117,7 @@ class CleanerCronjob extends AbstractCronjobTask
 
         $sql = 'DELETE FROM %%PHALANX_LOG%% WHERE `phalanx_time` < :time;';
         $db->delete($sql, [
-            ':time' => $del_before
+            ':time' => $del_before,
         ]);
 
         $sql = 'DELETE FROM %%PHALANX_FLEETS%% WHERE `phalanx_log_id` NOT IN (SELECT `id` FROM %%PHALANX_LOG%%)';
@@ -125,7 +125,7 @@ class CleanerCronjob extends AbstractCronjobTask
 
         $sql = "DELETE FROM %%ADVANCED_STATS_HISTORY%% WHERE `timestamp` < :timestamp;";
         $db->delete($sql, [
-            ':timestamp' => $this->state->runtime->timestamp - (7 * 86400)
+            ':timestamp' => $this->state->runtime->timestamp - (7 * 86400),
         ]);
     }
 
@@ -157,7 +157,7 @@ class CleanerCronjob extends AbstractCronjobTask
                 ':authlevel'    => AUTH_USR,
                 ':timeDeleted'  => $del_deleted,
                 ':timeInactive' => $del_inactive,
-                ':uni'          => $uni
+                ':uni'          => $uni,
             ]);
 
             if (!empty($deleteUserIds)) {
@@ -183,7 +183,7 @@ class CleanerCronjob extends AbstractCronjobTask
 
         $deleteAccountIds = $db->select($sql, [
             ':authlevel'    => AUTH_USR,
-            ':timeDeleted'  => $del_deleted
+            ':timeDeleted'  => $del_deleted,
         ]);
 
         if (!empty($deleteAccountIds)) {
@@ -196,7 +196,7 @@ class CleanerCronjob extends AbstractCronjobTask
         $sql = "SELECT * FROM %%ACCOUNTS%% WHERE `id` NOT IN (SELECT DISTINCT(account_id) FROM %%ACCOUNTS_TO_USERS%%) AND `onlinetime` < :inactive AND `authlevel` = :authlevel;";
         $deleteAccountIds = $db->select($sql, [
             ':authlevel'    => AUTH_USR,
-            ':inactive'     => $this->state->runtime->timestamp - TIME_1_MONTH
+            ':inactive'     => $this->state->runtime->timestamp - TIME_1_MONTH,
         ]);
 
         if (!empty($deleteAccountIds)) {

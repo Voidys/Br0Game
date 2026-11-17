@@ -70,7 +70,7 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         $sql = "SELECT `marketplace_system`, `marketplace_galaxy` 
             FROM %%TRADES%% WHERE `seller_fleet_id` = :id OR `buyer_fleet_id` = :id;";
         $target = $db->selectSingle($sql, [
-            ':id' => $this->_fleet['id']
+            ':id' => $this->_fleet['id'],
         ]);
         //$this->UpdateFleet('mission', 3);
         $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
@@ -80,7 +80,7 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
         $Distance = $this->fleetFunctions()->getTargetDistance(
             [$this->_fleet['start_galaxy'], $this->_fleet['start_system'], ($config->max_planets + 2)],
-            [$target['marketplace_galaxy'], $target['marketplace_system'], ($config->max_planets + 2)]
+            [$target['marketplace_galaxy'], $target['marketplace_system'], ($config->max_planets + 2)],
         );
         $SpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $owner);
         $Duration = $this->fleetFunctions()->getMissionDuration(10, $SpeedAllMin, $Distance, $SpeedFactor, $owner);
@@ -120,12 +120,12 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         $sql = "SELECT `seller_fleet_id`, `ex_resource_type`, `ex_resource_amount`, `buy_time` 
             FROM %%TRADES%% WHERE `seller_fleet_id` = :id;";
         $tradeSeller = $db->selectSingle($sql, [
-            ':id' => $this->_fleet['id']
+            ':id' => $this->_fleet['id'],
         ]);
         $sql = "SELECT `buyer_fleet_id`, `resource_type`, `resource_amount`, `buy_time` 
             FROM %%TRADES%% WHERE `buyer_fleet_id` = :id;";
         $tradeBuyer = $db->selectSingle($sql, [
-            ':id' => $this->_fleet['id']
+            ':id' => $this->_fleet['id'],
         ]);
         if (!empty($tradeSeller)) {
             if (!empty($tradeSeller['buy_time'])) {
@@ -209,12 +209,13 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         ], 'buyer_fleet_id');
 
         if ($sellerBuy || $buyerBuy) {
-            $Message	= $LNG->format('sys_trade_mess_back_success',
+            $Message	= $LNG->format(
+                'sys_trade_mess_back_success',
                 $this->_fleet['resource_metal'],
                 $this->_fleet['resource_crystal'],
                 $this->_fleet['resource_deuterium'],
                 $planetName,
-                GetStartAddressLink($this->_fleet, '')
+                GetStartAddressLink($this->_fleet, ''),
             );
         } else {
             $Message	= $LNG->format('sys_trade_mess_back', $planetName, GetStartAddressLink($this->_fleet, ''));
@@ -229,7 +230,7 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
             $Message,
             $this->_fleet['return_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
 
         $this->RestoreFleet();
@@ -251,12 +252,13 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         // (FleetFunctions::sendFleetBack). return_time - stay_time is only
         // the scheduled leg and is too short when both markets share a system.
         $returnFlightTime = max(0, (int) $this->_fleet['arrival_time'] - (int) $this->_fleet['start_time']);
-        $Message	= $LNG->format('sys_trade_mess_arr_success',
+        $Message	= $LNG->format(
+            'sys_trade_mess_arr_success',
             $planetName,
             GetStartAddressLink($this->_fleet, ''),
             $this->_fleet['fleet_id'],
             $LNG['fl_send_back'],
-            $this->viewHelpers()->prettyTime($returnFlightTime)
+            $this->viewHelpers()->prettyTime($returnFlightTime),
         );
         $this->playerUtil()->sendMessage(
             $this->_fleet['owner'],
@@ -267,7 +269,7 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
             $Message,
             $this->_fleet['arrival_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
     }
 }

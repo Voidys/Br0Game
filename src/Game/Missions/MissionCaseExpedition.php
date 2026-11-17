@@ -97,10 +97,10 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
     private function drawExpeditionEvent(): array
     {
         $LNG = $this->LNG;
-        
+
         // Initialize deck handler
         $deckHandler = new ExpeditionDeckHandler($this->db, $this->configs, $this->state, $this->_fleet['owner'], $this->_fleet['universe']);
-        
+
         // Get Expeditions count in this system for depletion feedback
         $sql = "SELECT COUNT(*) AS total FROM %%LOG_FLEETS%% 
                 WHERE `end_galaxy` = :end_galaxy
@@ -319,7 +319,7 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
             $Message,
             $this->_fleet['stay_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
         $this->statsHandler->increment($this->_fleet['owner'], AdvancedStatsEnum::EXPO_COUNT, 1);
         $this->statsHandler->setTimestamp($this->_fleet['owner'], AdvancedStatsEnum::FIRST_EXPEDITION, $this->_fleet['stay_time']);
@@ -359,7 +359,8 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
         $planetName = $this->db->selectSingle($sql, [
             ':planetId' => $this->_fleet['start_id'],
         ], 'name');
-        $Message = $LNG->format('sys_expe_back_home',
+        $Message = $LNG->format(
+            'sys_expe_back_home',
             $planetName,
             GetStartAddressLink($this->_fleet),
             GetTargetAddressLink($this->_fleet),
@@ -370,13 +371,14 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
             || $this->_fleet['resource_crystal'] > 0
             || $this->_fleet['resource_deuterium'] > 0
         ) {
-            $Message .= '<br><br>' . $LNG->format('sys_expe_back_home_ress',
+            $Message .= '<br><br>' . $LNG->format(
+                'sys_expe_back_home_ress',
                 $this->viewHelpers()->prettyNumber($this->_fleet['resource_metal']),
                 $LNG['tech'][RESOURCE_METAL],
                 $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
                 $LNG['tech'][RESOURCE_CRYSTAL],
                 $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
-                $LNG['tech'][RESOURCE_DEUT]
+                $LNG['tech'][RESOURCE_DEUT],
             );
         }
 
@@ -425,7 +427,7 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
             $Message,
             $this->_fleet['return_time'],
             1,
-            $this->_fleet['universe']
+            $this->_fleet['universe'],
         );
 
         $this->RestoreFleet();

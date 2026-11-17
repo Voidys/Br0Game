@@ -123,10 +123,10 @@ class Language implements ArrayAccess
      */
     public function getTemplate(string $templateName): string
     {
-        if (file_exists('templates/texts/'.$this->getLanguage().'/'.$templateName.'.txt')) {
-            return $this->withCommunityLinks(file_get_contents('templates/texts/'.$this->getLanguage().'/'.$templateName.'.txt'));
+        if (file_exists('templates/texts/' . $this->getLanguage() . '/' . $templateName . '.txt')) {
+            return $this->withCommunityLinks(file_get_contents('templates/texts/' . $this->getLanguage() . '/' . $templateName . '.txt'));
         } else {
-            return '### Template "'.$templateName.'" on language "'.$this->getLanguage().'" not found! ###';
+            return '### Template "' . $templateName . '" on language "' . $this->getLanguage() . '" not found! ###';
         }
     }
 
@@ -142,14 +142,14 @@ class Language implements ArrayAccess
         ob_start();
 
         //FALLBACK
-        $path = $this->configs->gameState()->runtime->cachePath.'languages/';
+        $path = $this->configs->gameState()->runtime->cachePath . 'languages/';
 
         // A pack file that is missing although its translations exist (cache cleared or older than a new
         // domain) would leave raw keys in messages written by missions: rebuild the packs once.
         foreach ($files as $file) {
             if (
-                \App\Game\Cache\Resource\PhpArrayFile::read($path.'en-'.$file) === null
-                && file_exists(\App\Runtime\ProjectPaths::ROOT.'translations/'.strtolower($file).'.en.yaml')
+                \App\Game\Cache\Resource\PhpArrayFile::read($path . 'en-' . $file) === null
+                && file_exists(\App\Runtime\ProjectPaths::ROOT . 'translations/' . strtolower($file) . '.en.yaml')
             ) {
                 (new \App\Game\Cache\Builder\LanguageBuildCache())->buildCache();
                 break;
@@ -157,7 +157,7 @@ class Language implements ArrayAccess
         }
 
         foreach ($files as $file) {
-            $data = \App\Game\Cache\Resource\PhpArrayFile::read($path.'en-'.$file);
+            $data = \App\Game\Cache\Resource\PhpArrayFile::read($path . 'en-' . $file);
             if ($data !== null) {
                 try {
                     $this->addData($this->withGameName($data));
@@ -169,7 +169,7 @@ class Language implements ArrayAccess
 
         // Get current client language
         foreach ($files as $file) {
-            $data = \App\Game\Cache\Resource\PhpArrayFile::read($path.$this->getLanguage().'-'.$file);
+            $data = \App\Game\Cache\Resource\PhpArrayFile::read($path . $this->getLanguage() . '-' . $file);
             if ($data !== null) {
                 try {
                     $this->addData($this->withGameName($data));

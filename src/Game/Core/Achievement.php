@@ -34,11 +34,11 @@ class Achievement
         $db = $this->db;
         $sql = "SELECT * FROM %%USERS_TO_ACHIEVEMENTS%% WHERE userID = :userID;";
         $achievementList = $db->select($sql, [
-            ':userID'	=> $userID
+            ':userID'	=> $userID,
         ]);
         return $achievementList;
     }
-    
+
     /**
      * Return all Achievements.
      *
@@ -66,7 +66,7 @@ class Achievement
         $db->insert($sql, [
             ':userID'		=> $userID,
             ':achievementID' => $achievementID,
-            ':date'			=> $this->state->runtime->timestamp
+            ':date'			=> $this->state->runtime->timestamp,
         ]);
     }
 
@@ -84,7 +84,7 @@ class Achievement
         $sql = "SELECT * FROM %%USERS_TO_ACHIEVEMENTS%% WHERE userID = :userID AND achievementID = :achievementID;";
         $achievementList = $db->selectSingle($sql, [
             ':userID'		=> $userID,
-            ':achievementID' => $achievementID
+            ':achievementID' => $achievementID,
         ]);
         return !empty($achievementList);
     }

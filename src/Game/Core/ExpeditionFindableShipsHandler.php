@@ -47,7 +47,7 @@ class ExpeditionFindableShipsHandler
                     $findableByResult[] = $shipId;
                 }
             }
-            
+
             if ($findable && empty($findableByResult)) {
                 continue;
             }
@@ -73,9 +73,11 @@ class ExpeditionFindableShipsHandler
         $sql = "SELECT `ship_id`, `is_findable`, `findable_by`
             FROM %%EXPEDITION_FINDABLE_SHIPS%%
             WHERE `universe` = :universe;";
-        $rows = $this->db->select($sql, [
+        $rows = $this->db->select(
+            $sql,
+            [
                 ':universe' => $universe,
-            ]
+            ],
         );
 
         $result = $this->buildDefaultConfig($findable);
@@ -110,12 +112,14 @@ class ExpeditionFindableShipsHandler
         foreach ($reslist['fleet'] as $shipId) {
             $shipConfig = $submittedConfig[$shipId] ?? ['is_findable' => 0, 'findable_by' => []];
             $isFindable = !empty($shipConfig['is_findable']) && !empty($shipConfig['findable_by']) && is_array($shipConfig['findable_by']);
-            $db->insert($sql, [
+            $db->insert(
+                $sql,
+                [
                     ':universe' => $universe,
                     ':ship_id' => $shipId,
                     ':is_findable' => $isFindable ? 1 : 0,
                     ':findable_by' => json_encode($shipConfig['findable_by'] ?? []),
-                ]
+                ],
             );
         }
     }
@@ -130,7 +134,7 @@ class ExpeditionFindableShipsHandler
     {
         $config = $this->getConfigForUniverse($universe, true);
         $result = [];
-        
+
         foreach ($config as $findableId => $shipConfig) {
             foreach ($fleet as $finderId => $amount) {
                 if (in_array($finderId, $shipConfig['findable_by'])) {

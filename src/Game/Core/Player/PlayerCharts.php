@@ -101,7 +101,7 @@ class PlayerCharts
                     ->andWhere('`timestamp` IN (:timestamps)')
                     ->setParameter('userId', $USER['id'])
                     ->setParameter('timestamps', $timestamps, ArrayParameterType::INTEGER)
-                    ->orderBy('`stat_type`', 'ASC')
+                    ->orderBy('`stat_type`', 'ASC'),
             );
             foreach ($ownRows as $ownRow) {
                 $ownByTimestamp[$ownRow['timestamp']] ??= $ownRow;

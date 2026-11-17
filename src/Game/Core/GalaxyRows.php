@@ -17,7 +17,6 @@
 
 namespace App\Game\Core;
 
-
 /**
  * Builds the rows of the galaxy view for one system (setGalaxy()/setSystem(), then getGalaxyData()): per planet
  * position the planet, moon, debris field, owner, alliance, available missions and action buttons as seen by the
@@ -39,8 +38,7 @@ class GalaxyRows
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,
         protected \App\Game\Core\Singleton $state,
-    ) {
-    }
+    ) {}
 
     public function setGalaxy(int $Galaxy): self
     {
@@ -142,14 +140,15 @@ class GalaxyRows
         $LNG = $this->state->LNG;
 
         $lastActivity = floor(
-            ($this->state->runtime->timestamp - max($this->galaxyRow['last_update'], $this->galaxyRow['m_last_update'])) / 60
+            ($this->state->runtime->timestamp - max($this->galaxyRow['last_update'], $this->galaxyRow['m_last_update'])) / 60,
         );
 
         if ($lastActivity < 15) {
             $this->galaxyData[$this->galaxyRow['planet']]['lastActivity'] = $LNG['gl_activity'];
         } elseif ($lastActivity < 60) {
-            $this->galaxyData[$this->galaxyRow['planet']]['lastActivity'] = $LNG->format('gl_activity_inactive',
-                $lastActivity
+            $this->galaxyData[$this->galaxyRow['planet']]['lastActivity'] = $LNG->format(
+                'gl_activity_inactive',
+                $lastActivity,
             );
         } else {
             $this->galaxyData[$this->galaxyRow['planet']]['lastActivity']   = '';
@@ -215,8 +214,8 @@ class GalaxyRows
                 'missle'  => $USER['settings_mis'] == 1
                     && $this->galaxyData[$this->galaxyRow['planet']]['missions'][MISSION_MISSILE],
                 'spyReport' => $USER['settings_rep'] == 1,
-                'phalanx' => $this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) && $this->galaxyRow['urlaubs_modus'] == 0 &&
-                    $this->fleetFunctions()->allowPhalanx($this->galaxyRow['galaxy'], $this->galaxyRow['system'], $this->galaxyRow),
+                'phalanx' => $this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) && $this->galaxyRow['urlaubs_modus'] == 0
+                    && $this->fleetFunctions()->allowPhalanx($this->galaxyRow['galaxy'], $this->galaxyRow['system'], $this->galaxyRow),
             ];
         }
     }
@@ -237,9 +236,10 @@ class GalaxyRows
             'username'      => htmlspecialchars($this->galaxyRow['username'], ENT_QUOTES, "UTF-8"),
             'rank'          => $this->galaxyRow['total_rank'],
             'points'        => $this->viewHelpers()->prettyNumber($this->galaxyRow['total_points']),
-            'playerrank'    => $this->viewHelpers()->isModuleAvailable(MODULE_STATISTICS) ? $LNG->format('gl_in_the_rank',
+            'playerrank'    => $this->viewHelpers()->isModuleAvailable(MODULE_STATISTICS) ? $LNG->format(
+                'gl_in_the_rank',
                 htmlspecialchars($this->galaxyRow['username'], ENT_QUOTES, "UTF-8"),
-                $this->galaxyRow['total_rank']
+                $this->galaxyRow['total_rank'],
             ) : htmlspecialchars($this->galaxyRow['username'], ENT_QUOTES, "UTF-8"),
             'class'         => $Class,
             'isBuddy'       => $this->galaxyRow['buddy'] == 1,
@@ -289,7 +289,7 @@ class GalaxyRows
                 'name'   => htmlspecialchars($this->galaxyRow['ally_name'], ENT_QUOTES, "UTF-8"),
                 'member' => $LNG->format(
                     ($this->galaxyRow['ally_members'] == 1) ? 'gl_member_add' : 'gl_member',
-                    $this->galaxyRow['ally_members']
+                    $this->galaxyRow['ally_members'],
                 ),
                 'web'    => \App\Game\Alliance\AllianceText::httpUrlOrEmpty((string) $this->galaxyRow['ally_web']),
                 'tag'    => $this->galaxyRow['ally_tag'],
@@ -385,8 +385,8 @@ class GalaxyRows
             'id'            => $this->galaxyRow['planet_id'],
             'name'          => htmlspecialchars($this->galaxyRow['name'], ENT_QUOTES, "UTF-8"),
             'image'         => $image,
-            'phalanx'       => $this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) && $this->galaxyRow['urlaubs_modus'] == 0 &&
-                $this->fleetFunctions()->allowPhalanx($this->galaxyRow['galaxy'], $this->galaxyRow['system'], $this->galaxyRow),
+            'phalanx'       => $this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) && $this->galaxyRow['urlaubs_modus'] == 0
+                && $this->fleetFunctions()->allowPhalanx($this->galaxyRow['galaxy'], $this->galaxyRow['system'], $this->galaxyRow),
             'type'     => 1,
         ];
     }
