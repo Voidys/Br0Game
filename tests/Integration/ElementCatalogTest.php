@@ -158,15 +158,21 @@ final class ElementCatalogTest extends GameTestCase
 
     public function testUtilityAccessorsShareOneCatalogAndSnapshotCurrentRows(): void
     {
-        $this->state->USER = ['id' => '5', 'username' => 'neo'];
-        $this->state->PLANET = ['id' => '9', 'metal' => '12.5'];
+        [$user, $planet] = $this->createPlayer([], ['metal' => 12.5]);
+        $this->state->USER = $user;
+        $this->state->PLANET = $planet;
 
         $this->assertSame($this->elements(), $this->elements());
-        $this->assertSame(5, $this->player()->id);
+        $this->assertSame((int) $user['id'], $this->player()->id);
         $this->assertSame(12.5, $this->planet()->metal);
 
-        $this->state->PLANET['metal'] = '20';
+        // the snapshot follows in-place writes of the state row
+        $this->state->PLANET['metal'] = 20;
         $this->assertSame(20.0, $this->planet()->metal);
+
+        // raw DB strings are typed by the snapshot factory
+        $this->assertSame(5, $this->models()->user(['id' => '5', 'username' => 'neo'])->id);
+        $this->assertSame(12.5, $this->models()->planet(['id' => '9', 'metal' => '12.5'])->metal);
     }
 
     public function testWholeTablesKeepShapeAndOrderOfTheArrays(): void

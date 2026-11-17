@@ -109,3 +109,18 @@ They are snapshots: nothing is cached and they do not follow later changes of th
 ## Rule for new code
 
 Read element data from the catalog and player/planet values from the snapshots; do not index `$resource`, `$reslist`, `$pricelist` & co. in new code. Existing code is migrated step by step (done: `BuildFunctions`, `ResourceProduction`, the buildings, research, shipyard, empire, techtree, records and advanced stats controllers).
+
+## Player and planet rows (`$USER`, `$PLANET`)
+
+`$this->state->USER` and `$this->state->PLANET` stay arrays at runtime on purpose: the game writes them in place
+(`$this->state->PLANET['metal'] -= …`) and copies them (`$u = $this->state->USER;` then changes the copy) in many places,
+and objects would turn those copies into shared references. They are typed statically instead:
+
+- `phpstan.dist.neon` defines the open array shapes `UserRow` and `PlanetRow`: the known columns with their real types
+  (`id: int`, `galaxy: int`, `metal: int|float`, `planet_type: int|string`, …) plus `...<string, mixed>` for the remaining
+  columns (settings, tech levels, merged data). `Singleton` declares `@property-read UserRow $USER` and
+  `@property PlanetRow $PLANET`, so PHPStan checks every access. `USER` is write-typed `array<string, mixed>` because
+  visitors get a partial guest row (lang, timezone, …).
+- For reading, prefer the typed snapshots `$this->player()` / `$this->planet()` (`App\Game\Model\User` / `Planet`); they
+  are rebuilt from the current row on every call, so they always reflect in-place writes.
+- Moving a module to mutable objects is possible step by step, with tests, where a concrete reason justifies it.

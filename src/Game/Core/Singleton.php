@@ -10,8 +10,9 @@ namespace App\Game\Core;
  *
  * Typed for static analysis (PHPStan reads these; at runtime the bag stays dynamic):
  *
- * @property array<string, mixed> $USER the logged-in player's users row (+ settings), [] when nobody is logged in
- * @property array<string, mixed> $PLANET the current planet's row
+ * @property-read UserRow $USER the logged-in player's users row (+ settings); typed for reading (shape: phpstan.dist.neon)
+ * @property-write array<string, mixed> $USER written in place by the game; for visitors only a partial guest row (lang, timezone, ...)
+ * @property PlanetRow $PLANET the current planet's row (shape: phpstan.dist.neon)
  * @property \App\Game\Core\Language $LNG the active language
  * @property \App\Game\Core\Theme $THEME the player's theme
  * @property \App\Game\Model\ElementCatalog $elementCatalog typed game data (units, costs, production, ...), set by GameData::load()

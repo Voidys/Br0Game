@@ -16,6 +16,11 @@ parameters:
     symfony:
         containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
     treatPhpDocTypesAsCertain: false
+    # typed game-state rows (they stay arrays at runtime: in-place writes and copy semantics are unchanged);
+    # the known columns are typed, further keys (settings, tech levels, merged data) stay open
+    typeAliases:
+        UserRow: 'array{id: int, username: string, universe: int, authlevel: int, ally_id: int, id_planet: int, galaxy: int, system: int, planet: int, onlinetime: int, register_time: int, urlaubs_modus: int, bana: int, banaday: int, user_lastip: string, ...<string, mixed>}'
+        PlanetRow: 'array{id: int, name: string, id_owner: int, universe: int, galaxy: int, system: int, planet: int, planet_type: int|string, destruyed: int, last_update: int, id_luna: int, diameter: int, field_current: int, field_max: int, temp_min: int, temp_max: int, image: string, b_building: int|float, metal: int|float, crystal: int|float, deuterium: int|float, energy: int|float, energy_used: int|float, ...<string, mixed>}'
     # game state / config objects are dynamic bags (magic __get, ad-hoc property writes)
     universalObjectCratesClasses:
         - App\Game\Core\Singleton

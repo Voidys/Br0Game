@@ -1178,3 +1178,7 @@ Technical changes per migration step, newest last.
 - `GameData::load()` stores only `$state->elementCatalog` (built straight from the vars cache); the six arrays are no longer published. `elements()` fails clearly when game data is not loaded.
 - The catalog keeps the numeric type of the game data (`Model\Numeric`: ints stay ints, floats stay floats), so results are identical: both battle engines produce strictly identical results and Rust input JSON for three reference fleets before/after (only run times differ); 923 tests, the page crawl and the visual diff unchanged.
 - Tests read the unit data through `GameTestCase::elements()`; `ElementCatalogTest` compares against a reference loader of the raw vars cache. Fixed on the way: galaxy rows with ship ids missing from a universe (tolerant lookups), the account editor ship-delete log value.
+
+## 151. Typed player and planet rows
+
+- `$USER` / `$PLANET` stay arrays at runtime (in-place writes and copy semantics unchanged) but are typed for static analysis: open array shapes `UserRow` / `PlanetRow` in `phpstan.dist.neon` (known columns with their real types, further keys open), declared on `Singleton` (`USER` read-typed, write `array<string, mixed>` for the guest row). PHPStan level 6 green without baseline additions; documented in `docs/game-data-model.md`.
