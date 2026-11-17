@@ -149,7 +149,9 @@ class MarketManager
         $db = $this->db;
         $sql = 'SELECT
 			`ex_resource_amount` as amount,
-			seller.`resource_metal` as metal
+			seller.`resource_metal` as metal,
+			seller.`owner` as seller_id,
+			buyer.`owner` as buyer_id
 			FROM %%TRADES%%
             JOIN %%LOG_FLEETS%% seller ON seller.`id` = `seller_fleet_id`
             JOIN %%LOG_FLEETS%% buyer ON buyer.`id` = `buyer_fleet_id`
@@ -188,7 +190,9 @@ class MarketManager
         $db = $this->db;
         $sql = 'SELECT
 			`ex_resource_amount` as amount,
-			seller.`resource_crystal` as crystal
+			seller.`resource_crystal` as crystal,
+			seller.`owner` as seller_id,
+			buyer.`owner` as buyer_id
 			FROM %%TRADES%%
             JOIN %%LOG_FLEETS%% seller ON seller.`id` = `seller_fleet_id`
             JOIN %%LOG_FLEETS%% buyer ON buyer.`id` = `buyer_fleet_id`
@@ -227,7 +231,9 @@ class MarketManager
         $db = $this->db;
         $sql = 'SELECT
 			`ex_resource_amount` as amount,
-			seller.`resource_deuterium` as deuterium
+			seller.`resource_deuterium` as deuterium,
+			seller.`owner` as seller_id,
+			buyer.`owner` as buyer_id
 			FROM %%TRADES%%
             JOIN %%LOG_FLEETS%% seller ON seller.`id` = `seller_fleet_id`
             JOIN %%LOG_FLEETS%% buyer ON buyer.`id` = `buyer_fleet_id`
@@ -269,22 +275,64 @@ class MarketManager
             'deuterium' => 0,
         ];
 
-        $deutrades = $this->getMetSales($this->_restype_deuterium);
-
-        foreach ($deutrades as $trade) {
-            $allTrades['metal'] += $trade['metal'];
-            $allTrades['deuterium'] += $trade['amount'];
+        $pairs = [];
+        foreach ($this->getMetSales($this->_restype_deuterium) as $trade) {
+            $this->addPairVolume($pairs, $trade, (float) $trade['metal'], (float) $trade['amount']);
         }
-
-        $mettrades = $this->getDeutSales($this->_restype_metal);
-
-        foreach ($mettrades as $trade) {
-            $allTrades['metal'] += $trade['amount'];
-            $allTrades['deuterium'] += $trade['deuterium'];
+        foreach ($this->getDeutSales($this->_restype_metal) as $trade) {
+            $this->addPairVolume($pairs, $trade, (float) $trade['amount'], (float) $trade['deuterium']);
         }
+        [$allTrades['metal'], $allTrades['deuterium']] = $this->cappedPairVolume($pairs);
 
         $this->_mdVolume = $allTrades;
         return $allTrades;
+    }
+
+    /**
+     * Adds one trade to the volume of its pair of traders (unordered: A→B and B→A are one pair; the default row of an
+     * empty trade list is its own pair).
+     *
+     * @param array<string, array{0: float, 1: float}> $pairs pair key => [resource volume, deuterium volume]
+     * @param array<string, mixed> $trade
+     */
+    private function addPairVolume(array &$pairs, array $trade, float $resource, float $deuterium): void
+    {
+        $ids = [(int) ($trade['seller_id'] ?? 0), (int) ($trade['buyer_id'] ?? 0)];
+        sort($ids);
+        $key = implode(':', $ids);
+        $current = $pairs[$key] ?? [0.0, 0.0];
+        $pairs[$key] = [$current[0] + $resource, $current[1] + $deuterium];
+    }
+
+    /**
+     * Sums the pair volumes with each pair's weight capped at the combined deuterium volume of all other pairs, keeping
+     * the pair's own ratio: one pair of traders carries at most half of the reference, so a colluding pair cannot steer
+     * the ratio with large wash trades, and a lone pair does not move it at all (the stored ratio is used). With many
+     * independent traders this equals the plain volume sum. Only the default row of an empty trade list → plain sum.
+     *
+     * @param array<string, array{0: float, 1: float}> $pairs
+     * @return array{0: float, 1: float} resource volume, deuterium volume
+     */
+    private function cappedPairVolume(array $pairs): array
+    {
+        $real = array_filter($pairs, static fn(string $key): bool => $key !== '0:0', ARRAY_FILTER_USE_KEY);
+        if ($real === []) {
+            return [(float) array_sum(array_column($pairs, 0)), (float) array_sum(array_column($pairs, 1))];
+        }
+
+        $total = (float) array_sum(array_column($real, 1));
+        $resource = 0.0;
+        $deuterium = 0.0;
+        foreach ($real as [$pairResource, $pairDeuterium]) {
+            if ($pairDeuterium <= 0.0) {
+                continue;
+            }
+            $weight = min($pairDeuterium, $total - $pairDeuterium);
+            $resource += $pairResource * $weight / $pairDeuterium;
+            $deuterium += $weight;
+        }
+
+        return [$resource, $deuterium];
     }
 
     /**
@@ -301,19 +349,14 @@ class MarketManager
             'deuterium' => 0,
         ];
 
-        $deutrades = $this->getCrysSales($this->_restype_deuterium);
-
-        foreach ($deutrades as $trade) {
-            $allTrades['crystal'] += $trade['crystal'];
-            $allTrades['deuterium'] += $trade['amount'];
+        $pairs = [];
+        foreach ($this->getCrysSales($this->_restype_deuterium) as $trade) {
+            $this->addPairVolume($pairs, $trade, (float) $trade['crystal'], (float) $trade['amount']);
         }
-
-        $crystrades = $this->getDeutSales($this->_restype_crystal);
-
-        foreach ($crystrades as $trade) {
-            $allTrades['crystal'] += $trade['amount'];
-            $allTrades['deuterium'] += $trade['deuterium'];
+        foreach ($this->getDeutSales($this->_restype_crystal) as $trade) {
+            $this->addPairVolume($pairs, $trade, (float) $trade['amount'], (float) $trade['deuterium']);
         }
+        [$allTrades['crystal'], $allTrades['deuterium']] = $this->cappedPairVolume($pairs);
 
         $this->_cdVolume = $allTrades;
         return $allTrades;
