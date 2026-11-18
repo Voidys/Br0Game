@@ -60,7 +60,7 @@ final class MarketPurchaseTest extends GameTestCase
 
         $message = $this->buy($buyer, $planet, $fleetId);
 
-        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 5, 0), $message);
+        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 1, 0), $message);
         $this->assertEquals(1e7 - 900, $this->state->PLANET['metal'], 'the wanted metal is deducted');
         $offerFleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
         $this->assertSame(FLEET_OUTWARD, (int) $offerFleet['status']);
@@ -150,7 +150,7 @@ final class MarketPurchaseTest extends GameTestCase
 
         // without a block the public offer is bought
         $this->db->delete('DELETE FROM %%USERS_BLOCKLIST%%;');
-        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 5, 0), $this->buy($buyer, $planet, $fleetId));
+        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 1, 0), $this->buy($buyer, $planet, $fleetId));
     }
 
     public function testTheSlotCheckRunsOnTheLockedBuyerNotOnTheStaleCopy(): void
@@ -160,7 +160,7 @@ final class MarketPurchaseTest extends GameTestCase
         // no fleet slot beyond the first: the stale copy of the user still says computer_tech 5
         $this->db->update('UPDATE %%USERS%% SET computer_tech = 0 WHERE id = :id;', [':id' => $buyer['id']]);
 
-        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 5, 0), $this->buy($buyer, $planet, $first));
+        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 1, 0), $this->buy($buyer, $planet, $first));
         // the second purchase starts from the stale arrays again and must still be refused (slot used by the first)
         $this->assertSame($this->state->LNG['fl_no_slots'], $this->buy($buyer, $planet, $second));
         $this->assertSame(FLEET_HOLD, (int) $this->db->selectSingle('SELECT status FROM %%FLEETS%% WHERE id = :id;', [':id' => $second], 'status'));

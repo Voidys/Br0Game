@@ -112,7 +112,7 @@ final class MarketOfferFiltersTest extends GameTestCase
 
         // a buddy may buy
         $this->db->insert('INSERT INTO %%BUDDY%% (sender, owner, universe) VALUES (:s, :o, 1);', [':s' => $buyer['id'], ':o' => $seller['id']]);
-        $this->assertSame(sprintf($LNG['market_p_msg_sent'], 5, 0), $this->buy($buyer, $planet, $fleetId));
+        $this->assertSame(sprintf($LNG['market_p_msg_sent'], 1, 0), $this->buy($buyer, $planet, $fleetId));
     }
 
     public function testPartnerOnlyOffersAreBuyableByMembersOfTheSameAlliance(): void
@@ -121,7 +121,7 @@ final class MarketOfferFiltersTest extends GameTestCase
         $this->db->update('UPDATE %%USERS%% SET ally_id = 777 WHERE id IN (:a, :b);', [':a' => $seller['id'], ':b' => $buyer['id']]);
         $buyer['ally_id'] = 777;
 
-        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 5, 0), $this->buy($buyer, $planet, $fleetId));
+        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 1, 0), $this->buy($buyer, $planet, $fleetId));
     }
 
     public function testTheSellersFlightTimeLimitIsEnforcedAtBuyTime(): void
@@ -135,14 +135,14 @@ final class MarketOfferFiltersTest extends GameTestCase
 
         // a generous limit and no limit (0) both allow the purchase
         $this->db->update('UPDATE %%TRADES%% SET filter_flighttime = 7 * 24 * 3600 WHERE seller_fleet_id = :f;', [':f' => $fleetId]);
-        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 5, 0), $this->buy($buyer, $planet, $fleetId));
+        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 1, 0), $this->buy($buyer, $planet, $fleetId));
     }
 
     public function testNoFlightTimeLimitMeansUnlimited(): void
     {
         [, $buyer, $planet, $fleetId] = $this->offer(0, 0, 0);
 
-        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 5, 0), $this->buy($buyer, $planet, $fleetId));
+        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 1, 0), $this->buy($buyer, $planet, $fleetId));
     }
 
     public function testTheListingMarksOffersBeyondTheFlightTimeLimit(): void

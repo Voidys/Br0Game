@@ -85,8 +85,9 @@ class MarketPurchase
 
         $this->notify($fleetResult, $isFleetTrade, $marketplace, $fleetResource, $consumption, $USER_2);
 
-        $LC = $sellerFleet[202] ?? 0;
-        $HC = $sellerFleet[203] ?? 0;
+        // the cargo ships the buyer just sent (not the seller's fleet)
+        $LC = $fleetArray[202] ?? 0;
+        $HC = $fleetArray[203] ?? 0;
         return $LNG->format('market_p_msg_sent', $LC, $HC);
     }
 

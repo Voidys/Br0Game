@@ -1304,3 +1304,8 @@ Technical changes per step, newest last (started with the migration to PHP 8.4, 
 - Statistics: alliances keep their previous ranks (rank change was "-rank" for every alliance), hidden/banned players keep theirs, units on abandoned planets no longer count, records ignore banned players and hidden staff for maxima and holders, the player card shows no ranks for players the statistics hide, the rank-change tooltip no longer prints "--1" (test in `StatbuilderTest`, records golden updated).
 - Trade hold message links the right fleet id (`MissionCaseTrade`, notice `fleet_id`).
 - Notices: galaxy view (`GalaxyRows`, missing VOID_TITAN element), config schema labels in console runs (`ConfigFieldSchema` loads the TECH texts), console query timer (`Database`, `time['db']`).
+
+## 167. Installer dependency, market success message
+
+- `symfony/process` (8.1.*) is a runtime dependency: `app:install` uses it, but it only came in through php-cs-fixer (dev), so the CLI installer crashed on `composer install --no-dev` (lock: package moved from dev to runtime, same version).
+- Market purchase success message counts the buyer's cargo ships instead of the seller fleet's (`MarketPurchase`; tests `MarketPurchaseTest`, `MarketOfferFiltersTest` follow).
