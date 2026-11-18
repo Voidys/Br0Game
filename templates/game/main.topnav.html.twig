@@ -74,17 +74,26 @@
       {{ icon('trophy') }}<span><span class="topbar__label">{{ LNG.ui_rank|default('Rank') }}</span> {{ userRank > 0 ? pretty_number(userRank) : '–' }}</span>
     </a>
   {% endif %}
-  <a class="topbar__item topbar__user" href="{{ path('game_settings_show') }}" title="{{ LNG.lm_options }}">
-    {{ icon('user') }}<span class="topbar__label">{{ username }}</span>
-  </a>
-  {% if authlevel > 0 %}
-    <a class="topbar__item topbar__admin" href="./admin" title="{{ LNG.lm_administration }} ({{ version }})">
-      {{ icon('shield-alert', LNG.lm_administration) }}
-    </a>
-  {% endif %}
-  <a data-method="post" class="topbar__item topbar__logout" href="{{ path('game_logout_show') }}" title="{{ LNG.lm_logout }}">
-    {{ icon('log-out', LNG.lm_logout) }}
-  </a>
+  <div class="usermenu" data-usermenu>
+    <button type="button" class="topbar__item topbar__user usermenu__button" aria-haspopup="true" aria-expanded="false" aria-controls="usermenu-panel" aria-label="{{ LNG.ui_user_menu }}" title="{{ LNG.ui_user_menu }}">
+      {{ icon('user') }}<span class="topbar__label">{{ username }}</span>{{ icon('chevron-down') }}
+    </button>
+    <div class="usermenu__panel" id="usermenu-panel" hidden>
+      <a class="usermenu__item" href="{{ path('game_settings_show') }}">{{ icon('settings') }}<span>{{ LNG.lm_options }}</span></a>
+      {% if account_id != 0 %}
+        <a class="usermenu__item" href="{{ path('account_account_show') }}">{{ icon('user') }}<span>{{ LNG['Account'] }}</span></a>
+      {% endif %}
+      {% if isModuleAvailable(constant('MODULE_NOTICE')) and (not noobInterface or not tutorial) %}
+        <a class="usermenu__item" href="{{ path('game_notes_show') }}" data-action="popup" data-url="{{ path('game_notes_show') }}" data-width="720">{{ icon('sticky-note') }}<span>{{ LNG.lm_notes }}</span></a>
+      {% endif %}
+      <a class="usermenu__item" href="{{ path('login_data_privacy_show') }}" data-dialog data-dialog-width="820">{{ icon('shield-check') }}<span>{{ LNG.lm_dataPrivacy }}</span></a>
+      {% if authlevel > 0 %}
+        <a class="usermenu__item" href="./admin" title="{{ LNG.lm_administration }} ({{ version }})">{{ icon('shield-alert') }}<span>{{ LNG.lm_administration }}</span></a>
+      {% endif %}
+      <hr class="usermenu__sep">
+      <a data-method="post" class="usermenu__item usermenu__item--logout" href="{{ path('game_logout_show') }}">{{ icon('log-out') }}<span>{{ LNG.lm_logout }}</span></a>
+    </div>
+  </div>
 </nav>
 
 {% if not vmode %}

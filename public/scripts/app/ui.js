@@ -301,6 +301,32 @@ function sidebarToggle() {
   });
 }
 
+/** top bar user menu: button toggles the panel; Escape, outside click and activating an item close it */
+function userMenu() {
+  const root = qs('[data-usermenu]');
+  if (!root) return;
+  const button = qs('.usermenu__button', root);
+  const panel = qs('.usermenu__panel', root);
+  const setOpen = (open, refocus = false) => {
+    panel.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+    if (!open && refocus) button.focus();
+  };
+  button.addEventListener('click', () => setOpen(panel.hidden));
+  panel.addEventListener('click', (event) => {
+    if (event.target instanceof Element && event.target.closest('a')) setOpen(false);
+  });
+  document.addEventListener('click', (event) => {
+    if (!panel.hidden && !root.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !panel.hidden) setOpen(false, true);
+  });
+  root.addEventListener('focusout', (event) => {
+    if (!panel.hidden && event.relatedTarget instanceof Node && !root.contains(event.relatedTarget)) setOpen(false);
+  });
+}
+
 /** phones: the tab bar hides while a text field is focused (on-screen keyboard) */
 function tabbarKeyboard() {
   const typing = (el) => el instanceof HTMLElement && (el.matches('textarea') || (el.matches('input') && !/^(checkbox|radio|button|submit|range|color|file)$/.test(el.type)));
@@ -345,6 +371,7 @@ export function initUi() {
   selectNumberInputs();
   keepScroll();
   sidebarToggle();
+  userMenu();
   tabbarKeyboard();
   topbarHeight();
   automationReport();

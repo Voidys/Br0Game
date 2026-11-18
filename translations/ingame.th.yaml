@@ -440,6 +440,8 @@ bd_more_engine: ผลิตเพิ่ม <font class="colorPositive">%s</font
 bd_need_engine: ใช้เพิ่ม <font class="colorNegative">%s</font> %s
 bd_next_level: 'เลเวลถัดไป:'
 bd_no_lab: ไม่มีห้องวิจัยบนดาวเคราะห์ดวงนี้ คุณดูคิวได้แต่แก้ไขไม่ได้
+bd_no_lab_here: 'ดาวเคราะห์นี้ไม่มีห้องวิจัย'
+bd_on_this_planet: 'บนดาวเคราะห์นี้'
 bd_no_more_fields: ดาวเคราะห์ดวงนี้ไม่มีช่องว่างเหลือแล้ว
 bd_operating: (กำลังก่อสร้าง)
 bd_paused: หยุดชั่วคราว
@@ -1510,6 +1512,9 @@ ui_nav_universe: จักรวาล
 ui_nav_community: ชุมชน
 ui_nav_help: ช่วยเหลือ
 ui_nav_personal: ส่วนตัว
+ui_nav_rankings: 'อันดับ'
+ui_nav_sections: 'หมวด'
+ui_user_menu: 'เมนูบัญชี'
 gl_points: คะแนน
 mg_action: การกระทำ
 mg_message_type: ประเภทข้อความ

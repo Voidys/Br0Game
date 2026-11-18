@@ -434,6 +434,8 @@ bd_more_engine: Produce <font class="colorPositive">%s</font> más de %s
 bd_need_engine: Consume <font class="colorNegative">%s</font> más de %s
 bd_next_level: 'Próximo nivel:'
 bd_no_lab: No hay laboratorio de investigación en este planeta. Puedes ver la cola, pero no modificarla.
+bd_no_lab_here: 'No hay laboratorio de investigación en este planeta'
+bd_on_this_planet: 'en este planeta'
 bd_no_more_fields: No quedan casillas libres en este planeta.
 bd_operating: (En construcción)
 bd_paused: en pausa
@@ -1500,6 +1502,9 @@ ui_nav_universe: Universo
 ui_nav_community: Comunidad
 ui_nav_help: Ayuda
 ui_nav_personal: Personal
+ui_nav_rankings: 'Clasificaciones'
+ui_nav_sections: 'Secciones'
+ui_user_menu: 'Menú de cuenta'
 gl_points: Puntos
 mg_action: Acción
 mg_message_type: Tipo de mensaje

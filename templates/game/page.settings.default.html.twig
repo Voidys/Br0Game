@@ -3,17 +3,18 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_options }}{{ parent() }}{% endblock %}
 {% block content %}
-	<nav class="jumplist" aria-label="{{ LNG.op_sections|e('html_attr') }}">
-		<span class="jumplist__label">{{ LNG.op_sections }}</span>
-		<a href="#sec-account">{{ LNG.op_user_data }}</a>
-		<a href="#sec-general">{{ LNG.op_general_settings }}</a>
-		<a href="#sec-build">{{ LNG.op_build_pages }}</a>
-		<a href="#sec-galaxy">{{ LNG.op_galaxy_settings }}</a>
-		<a href="#sec-colors">{{ LNG.own_colors }}</a>
-		<a href="#sec-fleet">{{ LNG.fleetPrio }}</a>
-		<a class="jumplist__danger" href="#danger">{{ LNG.op_activate_vacation_mode }}</a>
-	</nav>
+	<div class="tabs settings-tabs" data-tabs="settings">
+	<div class="tabs__list" role="tablist" aria-label="{{ LNG.lm_options|e('html_attr') }}">
+		<button type="button" class="tabs__tab" role="tab" id="settings-tab-account" data-tab="account" aria-controls="settings-panel-account" aria-selected="true" tabindex="0">{{ LNG.op_user_data }}</button>
+		<button type="button" class="tabs__tab" role="tab" id="settings-tab-general" data-tab="general" aria-controls="settings-panel-general" aria-selected="false" tabindex="-1">{{ LNG.op_general_settings }}</button>
+		<button type="button" class="tabs__tab" role="tab" id="settings-tab-build" data-tab="build" aria-controls="settings-panel-build" aria-selected="false" tabindex="-1">{{ LNG.op_build_pages }}</button>
+		<button type="button" class="tabs__tab" role="tab" id="settings-tab-galaxy" data-tab="galaxy" aria-controls="settings-panel-galaxy" aria-selected="false" tabindex="-1">{{ LNG.op_galaxy_settings }}</button>
+		<button type="button" class="tabs__tab" role="tab" id="settings-tab-colors" data-tab="colors" aria-controls="settings-panel-colors" aria-selected="false" tabindex="-1">{{ LNG.own_colors }}</button>
+		<button type="button" class="tabs__tab" role="tab" id="settings-tab-fleet" data-tab="fleet" aria-controls="settings-panel-fleet" aria-selected="false" tabindex="-1">{{ LNG.fleetPrio }}</button>
+		<button type="button" class="tabs__tab tabs__tab--danger" role="tab" id="settings-tab-danger" data-tab="danger" aria-controls="settings-panel-danger" aria-selected="false" tabindex="-1">{{ LNG.op_vacation_delete_mode }}</button>
+	</div>
 	<form id="settings-form" action="{{ path('game_settings_send') }}" method="post">
+	<section class="tabs__panel" role="tabpanel" id="settings-panel-account" aria-labelledby="settings-tab-account" data-tab="account" tabindex="0">
 	<table class="form-table">
 		<tbody>
 				{% if userAuthlevel > 0 %}
@@ -45,6 +46,12 @@
 						<td><input id="set_discord_hook" name="discord_hook" value="{{ discord_hook }}" type="text" maxlength="150"></td>
 					</tr>
 				{% endif %}
+		</tbody>
+	</table>
+	</section>
+	<section class="tabs__panel" role="tabpanel" id="settings-panel-general" aria-labelledby="settings-tab-general" data-tab="general" tabindex="0" hidden>
+	<table class="form-table">
+		<tbody>
 				<tr>
 					<th colspan="2" id="sec-general">{{ LNG.op_general_settings }}</th>
 				</tr>
@@ -125,6 +132,12 @@
 					<td><input id="set_messagesPerPage" name="messagesPerPage" value="{{ messagesPerPage }}" type="number" min="3" max="50"></td>
 				</tr>
 
+		</tbody>
+	</table>
+	</section>
+	<section class="tabs__panel" role="tabpanel" id="settings-panel-build" aria-labelledby="settings-tab-build" data-tab="build" tabindex="0" hidden>
+	<table class="form-table">
+		<tbody>
 				<tr>
 					<th colspan="2" id="sec-build">{{ LNG.op_build_pages }}</th>
 				</tr>
@@ -158,6 +171,12 @@
 					</td>
 				</tr>
 				
+		</tbody>
+	</table>
+	</section>
+	<section class="tabs__panel" role="tabpanel" id="settings-panel-galaxy" aria-labelledby="settings-tab-galaxy" data-tab="galaxy" tabindex="0" hidden>
+	<table class="form-table">
+		<tbody>
 				<tr>
 					<th colspan="2" id="sec-galaxy">{{ LNG.op_galaxy_settings }}</th>
 				</tr>
@@ -203,10 +222,16 @@
 					<td><input id="set_galaxyMissle" name="galaxyMissle" type="checkbox" value="1" {% if galaxyMissle == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 
+		</tbody>
+	</table>
+	</section>
+	<section class="tabs__panel" role="tabpanel" id="settings-panel-colors" aria-labelledby="settings-tab-colors" data-tab="colors" tabindex="0" hidden>
+	<table class="form-table">
+		<tbody>
 				<tr>
-					<th colspan="2" id="sec-colors" data-action="toggle-rows" data-target="custom-colors-options-1" class="clickable"><span id="custom-colors-options-1-toggle">▲</span> {{ LNG.own_colors }}</th>
+					<th colspan="2">{{ LNG.own_colors }}</th>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission1Own">{{ LNG.type_mission_1_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -215,7 +240,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission2Own">{{ LNG.type_mission_2_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -224,7 +249,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission2friend">{{ LNG.type_mission_2_friend }}</label></td>
 					<td>
 						<span class="control-group">
@@ -233,7 +258,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission3Own">{{ LNG.type_mission_3_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -242,7 +267,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission4Own">{{ LNG.type_mission_4_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -251,7 +276,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission5Own">{{ LNG.type_mission_5_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -260,7 +285,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission6Own">{{ LNG.type_mission_6_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -269,7 +294,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission7Own">{{ LNG.type_mission_7_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -278,7 +303,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission7OwnReturn">{{ LNG.type_mission_7_own_return }}</label></td>
 					<td>
 						<span class="control-group">
@@ -286,7 +311,7 @@
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission8Own">{{ LNG.type_mission_8_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -295,7 +320,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission9Own">{{ LNG.type_mission_9_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -304,7 +329,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission10Own">{{ LNG.type_mission_10_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -313,7 +338,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission15Own">{{ LNG.type_mission_15_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -322,7 +347,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission16Own">{{ LNG.type_mission_16_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -331,7 +356,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMission17Own">{{ LNG.type_mission_17_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -340,7 +365,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-1">
+				<tr class="custom-colors-options-1">
 					<td><label for="set_colorMissionReturnOwn">{{ LNG.type_mission_return_own }}</label></td>
 					<td>
 						<span class="control-group">
@@ -351,9 +376,9 @@
 				</tr>
 
 				<tr>
-					<th colspan="2" data-action="toggle-rows" data-target="custom-colors-options-2" class="clickable"><span id="custom-colors-options-2-toggle">▲</span> {{ LNG.foreign_colors }}</th>
+					<th colspan="2">{{ LNG.foreign_colors }}</th>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission1Foreign">{{ LNG.type_mission_1_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -362,7 +387,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission2Foreign">{{ LNG.type_mission_2_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -371,7 +396,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission3Foreign">{{ LNG.type_mission_3_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -380,7 +405,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission4Foreign">{{ LNG.type_mission_4_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -389,7 +414,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission5Foreign">{{ LNG.type_mission_5_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -398,7 +423,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission6Foreign">{{ LNG.type_mission_6_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -407,7 +432,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission7Foreign">{{ LNG.type_mission_7_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -415,7 +440,7 @@
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission8Foreign">{{ LNG.type_mission_8_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -424,7 +449,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission9Foreign">{{ LNG.type_mission_9_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -433,7 +458,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission10Foreign">{{ LNG.type_mission_10_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -442,7 +467,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission15Foreign">{{ LNG.type_mission_15_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -451,7 +476,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission16Foreign">{{ LNG.type_mission_16_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -460,7 +485,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMission17Foreign">{{ LNG.type_mission_17_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -469,7 +494,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-2">
+				<tr class="custom-colors-options-2">
 					<td><label for="set_colorMissionReturnForeign">{{ LNG.type_mission_return_foreign }}</label></td>
 					<td>
 						<span class="control-group">
@@ -480,9 +505,9 @@
 				</tr>
 
 				<tr>
-					<th colspan="2" data-action="toggle-rows" data-target="custom-colors-options-3" class="clickable"><span id="custom-colors-options-3-toggle">▲</span> {{ LNG.general_colors }}</th>
+					<th colspan="2">{{ LNG.general_colors }}</th>
 				</tr>
-				<tr class="hidden custom-colors-options-3">
+				<tr class="custom-colors-options-3">
 					<td><label for="set_colorPositive">{{ LNG.positiv }}</label></td>
 					<td>
 						<span class="control-group">
@@ -491,7 +516,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-3">
+				<tr class="custom-colors-options-3">
 					<td><label for="set_colorNegative">{{ LNG.negativ }}</label></td>
 					<td>
 						<span class="control-group">
@@ -500,7 +525,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-3">
+				<tr class="custom-colors-options-3">
 					<td><label for="set_colorNeutral">{{ LNG.neutral }}</label></td>
 					<td>
 						<span class="control-group">
@@ -509,7 +534,7 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="hidden custom-colors-options-3">
+				<tr class="custom-colors-options-3">
 					<td><label for="set_colorStaticTimer">{{ LNG.StaticTimer }}</label></td>
 					<td>
 						<span class="control-group">
@@ -519,11 +544,17 @@
 					</td>
 				</tr>
 
+		</tbody>
+	</table>
+	</section>
+	<section class="tabs__panel" role="tabpanel" id="settings-panel-fleet" aria-labelledby="settings-tab-fleet" data-tab="fleet" tabindex="0" hidden>
+	<table class="form-table">
+		<tbody>
 				<tr>
-					<th colspan="2" id="sec-fleet" data-action="toggle-rows" data-target="custom-mission-prio" class="clickable"><span id="custom-mission-prio-toggle">▲</span> {{ LNG.fleetPrio }}</th>
+					<th colspan="2">{{ LNG.fleetPrio }}</th>
 				</tr>
 				{% for ID, score in missionPrios|default([]) %}
-					<tr class="hidden custom-mission-prio">
+					<tr class="custom-mission-prio">
 						<td><label for="prio_{{ ID }}">{{ LNG[ID] }}</label></td>
 						<td><input id="prio_{{ ID }}" min="0" max="99" type="number" name="{{ ID }}" value="{{ score }}"></td>
 					</tr>
@@ -574,14 +605,16 @@
 						<input id="set_stb_big_time" name="stb_big_time" value="{{ stb_big_time }}" type="number">
 					</td>
 				</tr>
-					</tbody>
+		</tbody>
 	</table>
+	</section>
 	<div class="settings-save">
 		<span class="hint">{{ LNG.op_save_hint }}</span>
 		<strong class="settings-dirty" data-dirty-bar data-one="{{ LNG.op_unsaved_one|e('html_attr') }}" data-many="{{ LNG.op_unsaved_many|e('html_attr') }}" role="status" hidden><span data-dirty-count></span></strong>
 		<input value="{{ LNG.op_save_changes }}" type="submit" class="btn--primary">
 	</div>
 	</form>
+	<section class="tabs__panel" role="tabpanel" id="settings-panel-danger" aria-labelledby="settings-tab-danger" data-tab="danger" tabindex="0" hidden>
 	<table class="form-table danger-zone" id="danger">
 		<tbody>
 			<tr>
@@ -601,7 +634,10 @@
 			</tr>
 		</tbody>
 	</table>
+	</section>
+	</div>
 {% endblock %}
 {% block script %}{{ parent() }}
+<script type="module" src="./scripts/app/tabs.js?v={{ asset_version }}"></script>
 <script type="module" src="./scripts/game/settings.js?v={{ asset_version }}"></script>
 {% endblock %}

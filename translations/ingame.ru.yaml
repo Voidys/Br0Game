@@ -434,6 +434,8 @@ bd_more_engine: Производит ещё <font class="colorPositive">%s</font
 bd_need_engine: Потребляет ещё <font class="colorNegative">%s</font> — %s
 bd_next_level: 'Следующий уровень:'
 bd_no_lab: На этой планете нет Исследовательской лаборатории. Очередь можно смотреть, но не менять.
+bd_no_lab_here: 'На этой планете нет исследовательской лаборатории'
+bd_on_this_planet: 'на этой планете'
 bd_no_more_fields: На этой планете не осталось свободных полей.
 bd_operating: (строится)
 bd_paused: приостановлено
@@ -1500,6 +1502,9 @@ ui_nav_universe: Вселенная
 ui_nav_community: Сообщество
 ui_nav_help: Помощь
 ui_nav_personal: Личное
+ui_nav_rankings: 'Рейтинги'
+ui_nav_sections: 'Разделы'
+ui_user_menu: 'Меню аккаунта'
 gl_points: Очки
 mg_action: Действие
 mg_message_type: Тип сообщения

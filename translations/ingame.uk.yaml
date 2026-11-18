@@ -438,6 +438,8 @@ bd_more_engine: 'Виробляє на <font class="colorPositive">%s</font> б�
 bd_need_engine: 'Споживає на <font class="colorNegative">%s</font> більше: %s'
 bd_next_level: 'Наступний рівень:'
 bd_no_lab: На цій планеті немає дослідницької лабораторії. Чергу можна переглядати, але не змінювати.
+bd_no_lab_here: 'На цій планеті немає дослідницької лабораторії'
+bd_on_this_planet: 'на цій планеті'
 bd_no_more_fields: На цій планеті не лишилося вільних полів.
 bd_operating: (Будується)
 bd_paused: на паузі
@@ -1508,6 +1510,9 @@ ui_nav_universe: Всесвіт
 ui_nav_community: Спільнота
 ui_nav_help: Допомога
 ui_nav_personal: Особисте
+ui_nav_rankings: 'Рейтинги'
+ui_nav_sections: 'Розділи'
+ui_user_menu: 'Меню акаунта'
 gl_points: Очки
 mg_action: Дія
 mg_message_type: Тип повідомлення

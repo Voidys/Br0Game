@@ -434,6 +434,8 @@ bd_more_engine: 'Produkuje o <font class="colorPositive">%s</font> więcej: %s'
 bd_need_engine: 'Zużywa o <font class="colorNegative">%s</font> więcej: %s'
 bd_next_level: 'Następny poziom:'
 bd_no_lab: Na tej planecie nie ma Laboratorium Badawczego. Kolejkę możesz oglądać, ale nie zmienisz jej.
+bd_no_lab_here: 'Brak laboratorium badawczego na tej planecie'
+bd_on_this_planet: 'na tej planecie'
 bd_no_more_fields: Na tej planecie nie ma już wolnych pól.
 bd_operating: (w budowie)
 bd_paused: wstrzymane
@@ -1500,6 +1502,9 @@ ui_nav_universe: Uniwersum
 ui_nav_community: Społeczność
 ui_nav_help: Pomoc
 ui_nav_personal: Osobiste
+ui_nav_rankings: 'Rankingi'
+ui_nav_sections: 'Sekcje'
+ui_user_menu: 'Menu konta'
 gl_points: Punkty
 mg_action: Akcje
 mg_message_type: Typ wiadomości

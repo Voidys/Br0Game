@@ -49,6 +49,13 @@ window.onPageInit(() => {
       if (current(field) !== value) names.add(field.type === 'radio' ? field.name : field);
     }
     dirty = names.size;
+    const dirtyPanels = new Set();
+    for (const [field, value] of initial) {
+      if (current(field) !== value) dirtyPanels.add(field.closest('.tabs__panel')?.dataset.tab);
+    }
+    for (const tab of document.querySelectorAll('.settings-tabs .tabs__tab')) {
+      tab.classList.toggle('has-changes', dirtyPanels.has(tab.dataset.tab));
+    }
     bar.hidden = dirty === 0;
     bar.parentElement.classList.toggle('is-dirty', dirty > 0);
     count.textContent = dirty === 1 ? bar.dataset.one : bar.dataset.many.replace('%d', dirty);
@@ -63,4 +70,13 @@ window.onPageInit(() => {
       event.returnValue = '';
     }
   });
+});
+
+/** A hidden tab panel with an invalid field (min/max) would block the submit silently: switch to its tab. */
+window.onPageInit(() => {
+  const form = document.getElementById('settings-form');
+  form?.addEventListener('invalid', (event) => {
+    const key = event.target.closest?.('.tabs__panel')?.dataset.tab;
+    if (key) document.getElementById(`settings-tab-${key}`)?.click();
+  }, true);
 });

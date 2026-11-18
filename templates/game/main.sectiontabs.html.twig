@@ -1,0 +1,12 @@
+{# Tab strip on grouped pages (groups and their gates: App\Twig\SectionGroupsExtension); hidden with fewer than two visible members. #}
+{% set stPage = (app.request.attributes.get('_page') ?: 'overview')|lower %}
+{% set stKey = stPage == 'shipyard' ? (app.request.attributes.get('kind') == 'defense' ? 'defense' : 'shipyard') : stPage %}
+{% set stGroup = section_group_of(stKey) %}
+{% set stMembers = stGroup ? section_group(stGroup, noobInterface, tutorial) : [] %}
+{% if stMembers|length >= 2 %}
+<nav class="section-tabs" aria-label="{{ LNG.ui_nav_sections }}">
+  {% for m in stMembers %}
+    <a class="section-tabs__tab" href="{{ path(m.route, m.params) }}"{% if m.key == stKey %} aria-current="page"{% endif %}>{{ icon(m.icon) }}<span>{{ LNG[m.label] }}{% if m.key == 'repairdock' and wreckfield %} <span class="nav__alert" title="!">!</span>{% endif %}</span></a>
+  {% endfor %}
+</nav>
+{% endif %}

@@ -1,9 +1,7 @@
 {% import '_macros/forms.html.twig' as forms -%}
-{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_statistics }}{{ parent() }}{% endblock %}
 {% block content %}
-{{ c.rankings_nav('statistics') }}
 <form name="stats" id="stats" method="get" action="{{ path('game_statistics_show') }}">
 	<table>
 		<tr>

@@ -434,6 +434,8 @@ bd_more_engine: Gumagawa ng karagdagang <font class="colorPositive">%s</font> %s
 bd_need_engine: Gumagamit ng karagdagang <font class="colorNegative">%s</font> %s
 bd_next_level: 'Susunod na level:'
 bd_no_lab: Walang research lab sa planetang ito. Makikita mo ang queue pero hindi mo ito mababago.
+bd_no_lab_here: 'Walang research lab sa planetang ito'
+bd_on_this_planet: 'sa planetang ito'
 bd_no_more_fields: Wala nang libreng field sa planetang ito.
 bd_operating: (Ginagawa pa)
 bd_paused: naka-pause
@@ -1500,6 +1502,9 @@ ui_nav_universe: Universe
 ui_nav_community: Community
 ui_nav_help: Tulong
 ui_nav_personal: Personal
+ui_nav_rankings: 'Mga Ranggo'
+ui_nav_sections: 'Mga Seksyon'
+ui_user_menu: 'Menu ng account'
 gl_points: Puntos
 mg_action: Aksyon
 mg_message_type: Uri ng mensahe

@@ -18,16 +18,6 @@
 <tr><td colspan="{{ colspan }}" class="empty-state-cell"><div class="empty-state"><p>{{ text }}</p>{% if action %}<a href="{{ action.url }}">{{ action.label }}</a>{% endif %}</div></td></tr>
 {% endmacro %}
 
-{# links between the ranking pages (statistics, records, advanced stats, battle hall); active = statistics|records|advanced|battlehall #}
-{% macro rankings_nav(active) %}
-<nav class="subnav" aria-label="{{ LNG.lm_statistics|e('html_attr') }}">
-	<a href="{{ path('game_statistics_show') }}"{% if active == 'statistics' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.lm_statistics }}</a>
-	{% if isModuleAvailable(constant('MODULE_RECORDS')) %}<a href="{{ path('game_records_show') }}"{% if active == 'records' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.lm_records }}</a>{% endif %}
-	<a href="{{ path('game_advanced_stats_show') }}"{% if active == 'advanced' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.advancedStats }}</a>
-	<a href="{{ path('game_battle_hall_show') }}"{% if active == 'battlehall' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.lm_topkb }}</a>
-</nav>
-{% endmacro %}
-
 {# Rank change since the last statistics update: +3 green, -2 red, a dash when unchanged. #}
 {% macro rank_delta(change) %}
 {% if change > 0 %}<span class="rank-delta colorPositive">+{{ change }}</span>{% elseif change < 0 %}<span class="rank-delta colorNegative">&minus;{{ -change }}</span>{% else %}<span class="rank-delta rank-delta--same">&ndash;</span>{% endif %}

@@ -1,9 +1,7 @@
-{% import '_macros/community.html.twig' as c -%}
 {% macro sub(key) %}{% if key starts with 'expo_found' %}found{% elseif key starts with 'expo_lost' %}lost{% elseif key starts with 'expo_first' or key starts with 'first_' %}first{% else %}count{% endif %}{% endmacro %}
 {% extends layout_template %}
 {% block title %}{{ LNG.advancedStats }}{{ parent() }}{% endblock %}
 {% block content %}
-{{ c.rankings_nav('advanced') }}
 <p class="page-intro">{{ LNG.as_intro }}</p>
 {% set groups = [
   {key: 'expo', label: LNG.expedition, rows: expo},

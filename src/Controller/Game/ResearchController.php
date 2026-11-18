@@ -419,6 +419,19 @@ class ResearchController extends AbstractGameController
         return $this->redirectToRoute('game_research_show');
     }
 
+    /** Whether the player has every research (account-level) requirement of $elementId; building requirements of the planet are ignored. */
+    private function researchRequirementsMet(int $elementId): bool
+    {
+        foreach ($this->elements()->get($elementId)->requirements as $requireID => $level) {
+            $column = $this->elements()->column($requireID);
+            if (!isset($this->state->PLANET[$column]) && ($this->state->USER[$column] ?? 0) < $level) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /** Whether the current planet has a research lab (the page offers commands only then). */
     private function hasLab(): bool
     {
@@ -577,8 +590,11 @@ class ResearchController extends AbstractGameController
                 continue;
             }
             $requirementsList = [];
-            if (!$this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementId)) {
-                if (!$this->state->USER['show_all_buildable_elements']) {
+            $accessible = $this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementId);
+            // research is account-wide: a tech that only lacks buildings of this planet (lab level) stays listed, but locked here
+            $blockedHere = !$accessible && $this->researchRequirementsMet($elementId);
+            if (!$accessible) {
+                if (!$blockedHere && !$this->state->USER['show_all_buildable_elements']) {
                     continue;
                 }
                 if ($this->elements()->get($elementId)->requirements !== []) {
@@ -625,6 +641,7 @@ class ResearchController extends AbstractGameController
                 'fade'              => $fade,
                 'max_useful_level'  => $max_useful_level,
                 'factor'            => $catchupFactor != $factor ? round((1 - $factor) * 100, 2) : null,
+                'blockedHere'       => $blockedHere,
             ];
         }
 

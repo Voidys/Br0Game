@@ -436,6 +436,8 @@ bd_more_engine: Broduziert  <span class="colorPositive">%s</span> %s mehr
 bd_need_engine: Werbraucht  <span class="colorNegative">%s</span> %s mehr
 bd_next_level: 'Nexd Lewel:'
 bd_no_lab: Auf diesem Blanedne isd gein Labor forhandne, du gannsd dir die Queue nur anschaune und sie ned ferändern.
+bd_no_lab_here: 'No research lab on this planet'
+bd_on_this_planet: 'on this planet'
 bd_no_more_fields: Blanet ausgebaud!
 bd_operating: in Arbeid
 bd_paused: bausiert
@@ -1500,6 +1502,9 @@ ui_nav_universe: Universum
 ui_nav_community: Gemeinschaft
 ui_nav_help: Hilfe
 ui_nav_personal: Persönlich
+ui_nav_rankings: 'Rankings'
+ui_nav_sections: 'Sections'
+ui_user_menu: 'Account menu'
 gl_points: Bunkte
 mg_action: Acdion
 mg_message_type: Nachrichdnedyb

@@ -198,6 +198,49 @@ a.topbar__item:hover .icon { color: var(--c-accent); }
 .topbar__user .topbar__label { color: var(--c-text); max-width: 10rem; overflow: hidden; text-overflow: ellipsis; }
 .topbar__logout:hover .icon { color: var(--c-negative); }
 
+.usermenu { position: relative; }
+.usermenu__button {
+  font: inherit;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.usermenu__button:hover,
+.usermenu__button[aria-expanded="true"] { background: var(--c-panel-2); color: #fff; }
+.usermenu__button:hover .icon,
+.usermenu__button[aria-expanded="true"] .icon { color: var(--c-accent); }
+.usermenu__button .icon:last-child { width: 0.9rem; height: 0.9rem; }
+.usermenu__button:focus-visible,
+.usermenu__item:focus-visible { outline: 0.125rem solid var(--c-accent); outline-offset: -0.125rem; }
+.usermenu__panel {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-1));
+  inset-inline-end: 0;
+  z-index: 60;
+  min-inline-size: 13rem;
+  padding: var(--space-1);
+  background: var(--c-panel);
+  border: 0.0625rem solid var(--c-border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.usermenu__panel[hidden] { display: none; }
+.usermenu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: 2.25rem;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--c-text);
+  white-space: nowrap;
+}
+.usermenu__item:hover { background: var(--c-panel-2); color: #fff; text-decoration: none; }
+.usermenu__item .icon { width: 1.15rem; height: 1.15rem; color: var(--c-muted); }
+.usermenu__item:hover .icon { color: var(--c-accent); }
+.usermenu__item--logout:hover .icon { color: var(--c-negative); }
+.usermenu__sep { margin: var(--space-1) 0; border: 0; border-block-start: 0.0625rem solid var(--c-border); }
+
 .badge {
   position: absolute;
   top: 0.15rem;
@@ -252,6 +295,23 @@ a.topbar__item:hover .icon { color: var(--c-accent); }
 }
 .nav ul { margin: 0; padding: 0; list-style: none; }
 .nav ul { display: grid; gap: var(--nav-link-gap); }
+/* ---- sidebar help row: compact icon-only links at the bottom of the side menu (main.navigation) */
+.nav ul.nav__iconrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding-inline: var(--space-2, 0.5rem);
+}
+.nav__link--icon {
+  justify-content: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  padding: 0;
+}
+.nav__link--icon .icon { display: inline-block; inline-size: 1.15rem; block-size: 1.15rem; }
+@media (max-width: 48rem) {
+  .nav__link--icon { inline-size: var(--tap-min, 2.75rem); block-size: var(--tap-min, 2.75rem); }
+}
 .nav__link {
   display: flex;
   align-items: center;
@@ -399,7 +459,7 @@ a.topbar__item:hover .icon { color: var(--c-accent); }
 @media (min-width: 40.0625rem) and (max-width: 68.75rem) {
   .topbar__universe,
   .topbar__clock,
-  .topbar__user,
+  .usermenu,
   .topbar__admin { display: none; }
   .topbar__status { flex-wrap: nowrap; }
   :is(.topbar__item, .planet-switch__step, .topbar__menu) { min-block-size: var(--tap-min); min-inline-size: var(--tap-min); }
@@ -454,6 +514,7 @@ a.topbar__item:hover .icon { color: var(--c-accent); }
   }
   .drawer-account__user { grid-column: 1; }
   .drawer-account__admin { grid-column: 2; }
+  .drawer-account__tools { grid-column: 1 / -1; display: flex; gap: var(--space-1); }
   .drawer-account__clock,
   .drawer-account__logout { grid-column: 1 / -1; }
   .drawer-account__item {
@@ -479,7 +540,7 @@ a.topbar__item:hover .icon { color: var(--c-accent); }
   .topbar__brand,
   .topbar__clock,
   .topbar__universe,
-  .topbar__user,
+  .usermenu,
   .topbar__admin,
   .topbar__logout { display: none; } /* menu = tab bar; user, admin, clock, logout live in the drawer */
   .topbar__status { min-height: var(--topbar-row); gap: 0; margin-left: 0; }
@@ -836,4 +897,17 @@ a.topbar__item:hover .icon { color: var(--c-accent); }
   .bh__list .bh__date { display: none; }
   .bh__date-inline { display: block; margin-top: 0.1rem; color: var(--c-muted, #8796a7); font-size: 0.75rem; }
   .bh__rank { width: 2.5rem; }
+}
+
+/* ---- page changes: cross-document view transition (Chromium/Safari; others ignore it). The shell parts keep their place,
+ * only the content cross-fades; no motion for players who asked for less */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  .topbar { view-transition-name: v0-topbar; }
+  .sidebar { view-transition-name: v0-sidebar; }
+  .tabbar { view-transition-name: v0-tabbar; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.15s; }
+  ::view-transition-group(v0-topbar), ::view-transition-group(v0-sidebar), ::view-transition-group(v0-tabbar) { animation: none; }
+  ::view-transition-old(v0-topbar), ::view-transition-old(v0-sidebar), ::view-transition-old(v0-tabbar) { display: none; }
+  ::view-transition-new(v0-topbar), ::view-transition-new(v0-sidebar), ::view-transition-new(v0-tabbar) { animation: none; }
 }

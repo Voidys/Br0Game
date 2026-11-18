@@ -434,6 +434,8 @@ bd_more_engine: Produceert <font class="colorPositive">%s</font> meer %s
 bd_need_engine: Verbruikt <font class="colorNegative">%s</font> meer %s
 bd_next_level: 'Volgend niveau:'
 bd_no_lab: Geen onderzoekslab op deze planeet. Je kunt de wachtrij bekijken maar niet wijzigen.
+bd_no_lab_here: 'Geen onderzoekslab op deze planeet'
+bd_on_this_planet: 'op deze planeet'
 bd_no_more_fields: Geen vrije velden meer op deze planeet.
 bd_operating: (In aanbouw)
 bd_paused: gepauzeerd
@@ -1504,6 +1506,9 @@ ui_nav_universe: Universum
 ui_nav_community: Community
 ui_nav_help: Hulp
 ui_nav_personal: Persoonlijk
+ui_nav_rankings: 'Ranglijsten'
+ui_nav_sections: 'Onderdelen'
+ui_user_menu: 'Accountmenu'
 gl_points: Punten
 mg_action: Actie
 mg_message_type: Berichttype

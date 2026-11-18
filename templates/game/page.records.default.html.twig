@@ -1,8 +1,6 @@
-{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_records }}{{ parent() }}{% endblock %}
 {% block content %}
-{{ c.rankings_nav('records') }}
 <p class="page-intro">{{ LNG.rec_intro }}</p>
 <label class="advanced-stats__toggle"><input type="checkbox" id="rec-show-empty"> {{ LNG.as_show_empty }}</label>
 <div class="table-scroll records-page">

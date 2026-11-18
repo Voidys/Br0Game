@@ -10,6 +10,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {# versions all ES modules by mtime (imported modules carry no ?v=): App\\Twig\\GameExtension::importMap #}
   {{ import_map() }}
+  {# hover prefetch of plain game pages (Chromium, ignored elsewhere): only GET pages without side effects. Excluded: links with a
+     query string (planet switch, watch), JS-driven links (post, dialogs, popups, new tabs) and pages that act on a GET
+     (logout, phalanx costs deuterium, messages mark read) #}
+  <script type="speculationrules" nonce="{{ csp_nonce() }}">
+  {"prefetch": [{
+    "where": {"and": [
+      {"or": [{"href_matches": {"pathname": "/game/*", "search": ""}}, {"href_matches": {"pathname": "/:uni/game/*", "search": ""}}]},
+      {"not": {"href_matches": {"pathname": "{/:uni}?/game/(logout|phalanx|messages){/*}?"}}},
+      {"not": {"selector_matches": "[data-method], [data-action], [data-dialog], [target], [download], .no-prefetch"}}
+    ]},
+    "eagerness": "moderate"
+  }]}
+  </script>
   <meta name="theme-color" content="#05080d">
   {% if goto %}
     <meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">

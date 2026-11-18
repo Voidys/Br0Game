@@ -3,10 +3,10 @@
 {% block title %}{{ LNG.lm_research }}{{ parent() }}{% endblock %}
 {% block pagehead %}{{ b.pagehead(LNG.lm_research, 'flask-conical', Queue|default([])) }}{% endblock %}
 {% block content %}
-	{% if not hasLab %}<div class="hidden-div">{{ LNG.bd_no_lab }}</div>{% endif %}
+	{% if not hasLab %}<div class="infobox">{{ icon('flask-conical') }}<span>{{ LNG.bd_no_lab }}</span></div>{% endif %}
 	{% include 'game/shared.buildqueue.html.twig' with {queuePage: 'research'} %}
 
-	{% if IsLabinBuild %}<div class="hidden-div">{{ LNG.bd_building_lab }}</div>{% endif %}
+	{% if IsLabinBuild %}<div class="infobox">{{ icon('triangle-alert') }}<span>{{ LNG.bd_building_lab }}</span></div>{% endif %}
 	<div>
 		<div class="planeto">
 			<span class="segmented" role="group"><button id="lab1" data-action="filter-rows" data-filter-group="lab" data-hide=".infos" data-show="#t108, #t113, #t114, #t123, #t124">{{ LNG.fm_imperial }}</button><button id="lab2" data-action="filter-rows" data-filter-group="lab" data-hide=".infos" data-show="#t109, #t106, #t110, #t111, #t120, #t121, #t122, #t199">{{ LNG.fm_military }}</button><button id="lab3" data-action="filter-rows" data-filter-group="lab" data-hide=".infos" data-show="#t114, #t115, #t117, #t118">{{ LNG.fm_engines }}</button><button id="lab4" data-action="filter-rows" data-filter-group="lab" data-hide=".infos" data-show="#t131, #t132, #t133">{{ LNG.fm_mining }}</button><button id="lab5" class="selected" data-action="filter-rows" data-filter-group="lab" data-hide=".infos">{{ LNG.fm_all }}</button></span>
@@ -17,7 +17,8 @@
 
 		{% for ID, Element in ResearchList %}
 			{% if hide_useless == 0 or Element['max_useful_level'] == 0 or Element['level'] < Element['max_useful_level'] %}
-				<div class="infos {% if Element.fade %}unavailable{% endif %}" id="t{{ ID }}">
+				{% set blocked = not hasLab or Element.blockedHere %}
+				<div class="infos{% if Element.fade %} unavailable{% endif %}{% if blocked %} is-blocked{% endif %}" id="t{{ ID }}">
 					<div class="buildn relative">
 						<a href="#" class="info-link" data-action="dialog-info" data-id="{{ ID }}" title="{{ LNG.tt_requirements }} / {{ LNG.fcm_info }}">{{ LNG.tech[ID] }} <span class="info-ico">{{ icon('info') }}</span></a>{% if Element.level != 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
 						{% if ID == watch %}
@@ -54,10 +55,14 @@
 						{% endif %}
 						{% if vacation %}
 							<span class="reason">{{ LNG.op_options_vacation_activated }}</span>
-						{% elseif Element.requirements %}
+						{% elseif Element.requirements and not Element.blockedHere %}
 							{{ b.needs(Element.requirements) }}
 						{% elseif atMax %}
 							<span class="reason">{{ LNG.bd_maxlevel }}</span>
+						{% elseif blocked %}{# no lab here, or only this planet's buildings are missing #}
+							{# researchable elsewhere in the account, not from this planet (no lab, or the lab level is too low) #}
+							<span class="reason reason--blocked">{{ icon('lock') }}{% if hasLab %}{{ LNG.bd_needs }} ({{ LNG.bd_on_this_planet }}): {{ Element.requirements|filter(r => r.own < r.count)|map((r, id) => LNG.tech[id] ~ ' ' ~ r.count)|join(', ') }}{% else %}{{ LNG.bd_no_lab_here }}{% endif %}</span>
+							<button type="button" class="build_submit" disabled>{% if Element.level == 0 and Element.levelToBuild == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
 						{% elseif IsLabinBuild %}
 							<span class="reason">{{ LNG.sys_buildlist_fail }}</span>
 						{% elseif IsFullQueue %}

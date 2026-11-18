@@ -436,6 +436,8 @@ bd_more_engine: 多产出 <font class="colorPositive">%s</font> %s
 bd_need_engine: 多消耗 <font class="colorNegative">%s</font> %s
 bd_next_level: 下一级：
 bd_no_lab: 这颗星球上没有研究实验室。你可以查看队列，但无法修改。
+bd_no_lab_here: '此星球没有研究实验室'
+bd_on_this_planet: '在此星球'
 bd_no_more_fields: 这颗星球上没有空地了。
 bd_operating: （建造中）
 bd_paused: 已暂停
@@ -1506,6 +1508,9 @@ ui_nav_universe: 宇宙
 ui_nav_community: 社区
 ui_nav_help: 帮助
 ui_nav_personal: 个人
+ui_nav_rankings: '排行榜'
+ui_nav_sections: '分区'
+ui_user_menu: '账户菜单'
 gl_points: 积分
 mg_action: 操作
 mg_message_type: 消息类型

@@ -440,6 +440,8 @@ bd_more_engine: <font class="colorPositive">%s</font> daha fazla %s üretir
 bd_need_engine: <font class="colorNegative">%s</font> daha fazla %s tüketir
 bd_next_level: 'Sonraki seviye:'
 bd_no_lab: Bu gezegende araştırma laboratuvarı yok. Kuyruğu görebilirsin ama değiştiremezsin.
+bd_no_lab_here: 'Bu gezegende araştırma laboratuvarı yok'
+bd_on_this_planet: 'bu gezegende'
 bd_no_more_fields: Bu gezegende boş alan kalmadı.
 bd_operating: (İnşa ediliyor)
 bd_paused: duraklatıldı
@@ -1510,6 +1512,9 @@ ui_nav_universe: Evren
 ui_nav_community: Topluluk
 ui_nav_help: Yardım
 ui_nav_personal: Kişisel
+ui_nav_rankings: 'Sıralamalar'
+ui_nav_sections: 'Bölümler'
+ui_user_menu: 'Hesap menüsü'
 gl_points: Puan
 mg_action: İşlem
 mg_message_type: Mesaj türü

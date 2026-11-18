@@ -434,6 +434,8 @@ bd_more_engine: Produit <font class="colorPositive">%s</font> %s de plus
 bd_need_engine: Consomme <font class="colorNegative">%s</font> %s de plus
 bd_next_level: 'Niveau suivant :'
 bd_no_lab: Aucun laboratoire de recherche sur cette planète. Tu peux consulter la file d'attente, mais pas la modifier.
+bd_no_lab_here: 'Aucun laboratoire de recherche sur cette planète'
+bd_on_this_planet: 'sur cette planète'
 bd_no_more_fields: Plus aucun emplacement libre sur cette planète.
 bd_operating: (En construction)
 bd_paused: en pause
@@ -1504,6 +1506,9 @@ ui_nav_universe: Univers
 ui_nav_community: Communauté
 ui_nav_help: Aide
 ui_nav_personal: Personnel
+ui_nav_rankings: 'Classements'
+ui_nav_sections: 'Sections'
+ui_user_menu: 'Menu du compte'
 gl_points: Points
 mg_action: Action
 mg_message_type: Type de message

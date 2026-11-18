@@ -434,6 +434,8 @@ bd_more_engine: Sản xuất thêm <font class="colorPositive">%s</font> %s
 bd_need_engine: Tiêu thụ thêm <font class="colorNegative">%s</font> %s
 bd_next_level: 'Cấp tiếp theo:'
 bd_no_lab: Hành tinh này không có phòng nghiên cứu. Bạn có thể xem hàng chờ nhưng không thể thay đổi.
+bd_no_lab_here: 'Hành tinh này không có phòng nghiên cứu'
+bd_on_this_planet: 'trên hành tinh này'
 bd_no_more_fields: Hành tinh này đã hết ô trống.
 bd_operating: (Đang xây dựng)
 bd_paused: tạm dừng
@@ -1504,6 +1506,9 @@ ui_nav_universe: Vũ trụ
 ui_nav_community: Cộng đồng
 ui_nav_help: Trợ giúp
 ui_nav_personal: Cá nhân
+ui_nav_rankings: 'Bảng xếp hạng'
+ui_nav_sections: 'Mục'
+ui_user_menu: 'Menu tài khoản'
 gl_points: Điểm
 mg_action: Thao tác
 mg_message_type: Loại tin nhắn

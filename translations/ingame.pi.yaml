@@ -436,6 +436,8 @@ bd_more_engine: Produziert <span class="colorPositive">%s</span> %s mehr
 bd_need_engine: Verbraucht <span class="colorNegative">%s</span> %s mehr
 bd_next_level: 'Next Level:'
 bd_no_lab: In diesem Hafen ist kein Wissenschaftszentrum vorhanden, du kannst dir die Queue nur anschauen und sie nicht verändern.
+bd_no_lab_here: 'No research lab on this planet'
+bd_on_this_planet: 'on this planet'
 bd_no_more_fields: Hafen ausgebaut!
 bd_operating: in Arbeit
 bd_paused: pausiert
@@ -1500,6 +1502,9 @@ ui_nav_universe: Universum
 ui_nav_community: Gemeinschaft
 ui_nav_help: Hilfe
 ui_nav_personal: Persönlich
+ui_nav_rankings: 'Rankings'
+ui_nav_sections: 'Sections'
+ui_user_menu: 'Account menu'
 gl_points: Punkte
 mg_action: Action
 mg_message_type: Nachrichtentyp

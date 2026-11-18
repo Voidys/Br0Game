@@ -440,6 +440,8 @@ bd_more_engine: Produziert <span class="colorPositive">%s</span> %s mehr
 bd_need_engine: Verbraucht <span class="colorNegative">%s</span> %s mehr
 bd_next_level: 'Nächste Stufe:'
 bd_no_lab: Auf diesem Planeten gibt es kein Forschungslabor. Du kannst die Schleife nur ansehen, aber nicht ändern.
+bd_no_lab_here: 'Kein Forschungslabor auf diesem Planeten'
+bd_on_this_planet: 'auf diesem Planeten'
 bd_no_more_fields: Auf diesem Planeten sind keine Felder mehr frei.
 bd_operating: (im Bau)
 bd_paused: pausiert
@@ -1535,6 +1537,9 @@ ui_nav_universe: Universum
 ui_nav_community: Community
 ui_nav_help: Hilfe
 ui_nav_personal: Persönlich
+ui_nav_rankings: 'Ranglisten'
+ui_nav_sections: 'Bereiche'
+ui_user_menu: 'Kontomenü'
 source_code: Quellcode
 teamMemberName: Name
 teamMemberContact: Kontakt
