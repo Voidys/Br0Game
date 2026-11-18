@@ -936,6 +936,7 @@ ma_wrong_target: Неверная цель
 market_buyable_no_enemies: Без врагов
 market_buyable_no_tech: Слишком слаб
 market_buyable_only_trade_partners: Только партнёры
+market_buyable_too_far: Слишком далеко
 market_confirm_are_you_sure: Точно?
 market_fleet: Флот
 market_info_description: Левая сторона — предложения о продаже | Правая сторона — запрашиваемая цена<br><br>&bull; Принятые предложения нельзя отменить &bull;<br>&bull; Некоторые предложения нельзя принять из-за правила пуша &bull;<br>&bull; Топливо для купленного флота оплачивает покупатель &bull;
@@ -955,6 +956,7 @@ market_p_msg_not_found: Этого предложения больше нет.
 market_p_msg_own_offer: Нельзя купить собственное предложение.
 market_p_msg_purchase_failed: Покупка не удалась. Попробуй ещё раз.
 market_p_msg_resources_error: Недостаточно ресурсов.
+market_p_msg_too_far: Это предложение слишком далеко, путь займёт больше времени, чем разрешил продавец.
 market_p_msg_sent: 'Отправлено: Малых транспортов — %s, Больших транспортов — %s'
 market_p_msg_wrong_resource_type: Это предложение запрашивает недопустимый ресурс.
 market_p_offer_type: Тип предложения

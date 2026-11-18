@@ -936,6 +936,7 @@ ma_wrong_target: Mauvaise cible
 market_buyable_no_enemies: Pas d'ennemis
 market_buyable_no_tech: Trop faible
 market_buyable_only_trade_partners: Partenaires uniquement
+market_buyable_too_far: Trop loin
 market_confirm_are_you_sure: Tu es sûr ?
 market_fleet: Flotte
 market_info_description: Côté gauche - offres de vente | Côté droit - prix demandé<br><br>&bull; Les offres acceptées ne peuvent pas être annulées &bull;<br>&bull; Certaines offres ne peuvent pas être acceptées à cause de la règle de push &bull;<br>&bull; Le carburant de la flotte achetée est payé par l'acheteur &bull;
@@ -955,6 +956,7 @@ market_p_msg_not_found: Cette offre n'existe plus.
 market_p_msg_own_offer: Tu ne peux pas acheter ta propre offre.
 market_p_msg_purchase_failed: L'achat n'a pas pu être finalisé. Réessaie.
 market_p_msg_resources_error: Tu n'as pas assez de ressources.
+market_p_msg_too_far: Cette offre est trop éloignée, le trajet durerait plus longtemps que ce que le vendeur autorise.
 market_p_msg_sent: Envoi de %s petits transporteurs et %s grands transporteurs
 market_p_msg_wrong_resource_type: Cette offre demande une ressource invalide.
 market_p_offer_type: Type d'offre

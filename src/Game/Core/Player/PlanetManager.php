@@ -492,8 +492,9 @@ class PlanetManager
                 ':planetID' => $planetId,
             ]);
         }
-        $session	= $this->sessions()->load();
-        $session->planetId      = 0;
+        // no session reset here: this also runs in console fleet processing (moon destruction), where there is no
+        // session, and for admins deleting someone else's planet; the owner abandoning a planet selects the main
+        // planet in OverviewController, and a session still pointing at a deleted planet falls back to the main one
         return true;
     }
 

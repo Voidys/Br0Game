@@ -959,6 +959,7 @@ ma_wrong_target: Falsches Ziel
 market_buyable_no_enemies: Keine Feinde
 market_buyable_no_tech: Zu schwach
 market_buyable_only_trade_partners: Nur Partner
+market_buyable_too_far: Zu weit
 market_confirm_are_you_sure: Bist du sicher?
 market_fleet: Flotte
 market_info_description: 'Linke Seite: Verkaufsangebote | Rechte Seite: Preis<br><br>&bull; Angenommene Angebote können nicht storniert werden &bull;<br>&bull; Manche Angebote können wegen der Push-Regel nicht angenommen werden &bull;<br>&bull; Den Treibstoff für eine gekaufte Flotte zahlt der Käufer &bull;'
@@ -978,6 +979,7 @@ market_p_msg_not_found: Dieses Angebot gibt es nicht mehr.
 market_p_msg_own_offer: Du kannst dein eigenes Angebot nicht kaufen.
 market_p_msg_purchase_failed: Der Kauf hat nicht geklappt. Versuch es bitte noch einmal.
 market_p_msg_resources_error: Du hast nicht genug Rohstoffe.
+market_p_msg_too_far: Dieses Angebot ist zu weit entfernt, der Flug würde länger dauern, als der Verkäufer erlaubt.
 market_p_msg_sent: 'Gesendet: %s Kleine Transporter, %s Große Transporter'
 market_p_msg_wrong_resource_type: Dieses Angebot verlangt einen ungültigen Rohstoff.
 market_p_offer_type: Art des Angebots

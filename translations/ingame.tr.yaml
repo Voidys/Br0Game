@@ -942,6 +942,7 @@ ma_wrong_target: Yanlış hedef
 market_buyable_no_enemies: Düşman yok
 market_buyable_no_tech: Çok zayıf
 market_buyable_only_trade_partners: Yalnızca ortaklar
+market_buyable_too_far: Çok uzak
 market_confirm_are_you_sure: Emin misin?
 market_fleet: Filo
 market_info_description: 'Sol taraf: satış teklifleri | Sağ taraf: istenen fiyat<br><br>&bull; Kabul edilen teklifler iptal edilemez &bull;<br>&bull; Bazı teklifler push kuralı yüzünden kabul edilemez &bull;<br>&bull; Satın alınan filonun yakıtını alıcı öder &bull;'
@@ -961,6 +962,7 @@ market_p_msg_not_found: Bu teklif artık yok.
 market_p_msg_own_offer: Kendi teklifini satın alamazsın.
 market_p_msg_purchase_failed: Satın alma gerçekleşmedi. Lütfen tekrar dene.
 market_p_msg_resources_error: Yeterli kaynağın yok.
+market_p_msg_too_far: Bu teklif çok uzakta, yolculuk satıcının izin verdiğinden uzun sürerdi.
 market_p_msg_sent: '%s Küçük Nakliye, %s Büyük Nakliye gönderildi'
 market_p_msg_wrong_resource_type: Bu teklif geçersiz bir kaynak istiyor.
 market_p_offer_type: Teklif türü

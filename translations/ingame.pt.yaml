@@ -936,6 +936,7 @@ ma_wrong_target: Alvo errado
 market_buyable_no_enemies: Sem inimigos
 market_buyable_no_tech: Demasiado fraco
 market_buyable_only_trade_partners: Apenas parceiros
+market_buyable_too_far: Longe demais
 market_confirm_are_you_sure: Tens a certeza?
 market_fleet: Frota
 market_info_description: Lado esquerdo - ofertas de venda | Lado direito - preço pedido<br><br>&bull; As ofertas aceites não podem ser canceladas &bull;<br>&bull; Algumas ofertas não podem ser aceites devido à regra de push &bull;<br>&bull; O combustível da frota comprada é pago pelo comprador &bull;
@@ -955,6 +956,7 @@ market_p_msg_not_found: Essa oferta já não existe.
 market_p_msg_own_offer: Não podes comprar a tua própria oferta.
 market_p_msg_purchase_failed: A compra não foi concluída. Tenta novamente.
 market_p_msg_resources_error: Não tens recursos suficientes.
+market_p_msg_too_far: Esta oferta está longe demais, a viagem demoraria mais do que o vendedor permite.
 market_p_msg_sent: Enviados %s Cargueiros Pequenos, %s Cargueiros Grandes
 market_p_msg_wrong_resource_type: Esta oferta pede um recurso inválido.
 market_p_offer_type: Tipo de oferta

@@ -216,7 +216,9 @@ class MarketPurchase
         $LNG = $this->state->LNG;
 
         //if not in range 1-3
-        if ($fleetResult['resource_amount'] > $fleetResult['ex_resource_amount'] || $isFleetTrade) {
+        // the buyer fleet carries the payment; for a resource offer it also has to hold the larger offered amount (the
+        // seller's goods travel back in it), a fleet offer carries no goods
+        if (!$isFleetTrade && $fleetResult['resource_amount'] > $fleetResult['ex_resource_amount']) {
             $amount['ex_resource_amount'] = $fleetResult['resource_amount'];
         } else {
             $amount['ex_resource_amount'] = $fleetResult['ex_resource_amount'];
@@ -239,6 +241,11 @@ class MarketPurchase
         $fleetStayTime = $fleetStartTime;
         $fleetEndTime = $fleetStayTime + $Duration;
 
+        $tooFar = $this->flightTimeRefusal($fleetResult, $isFleetTrade, $marketplace, $Duration);
+        if ($tooFar !== null) {
+            return $tooFar;
+        }
+
         $fleetResource = $this->offeredCargo($fleetResult, $amount);
 
         if (!$this->payTrip($fleetResource, $consumption)) {
@@ -254,6 +261,27 @@ class MarketPurchase
             'stayTime' => $fleetStayTime,
             'endTime' => $fleetEndTime,
         ];
+    }
+
+    /**
+     * The seller's flight time limit (filter_flighttime in seconds, 0 = none): neither the buyer's trip nor the seller
+     * fleet's trip to the buyer may take longer.
+     *
+     * @param array<string, mixed> $fleetResult offer row
+     * @return string|null refusal message, null when the trade is within the limit
+     */
+    private function flightTimeRefusal(array $fleetResult, bool $isFleetTrade, int|float $marketplace, int|float $buyerDuration): ?string
+    {
+        $limit = (int) $fleetResult['filter_flighttime'];
+        if ($limit <= 0) {
+            return null;
+        }
+
+        $seller = $this->db->selectSingle('SELECT * FROM %%USERS%% WHERE `id` = :userId;', [':userId' => $fleetResult['owner']]);
+        $sellerTimes = $this->sellerFleetTimes($fleetResult, $isFleetTrade, $this->fleetFunctions()->unserialize($fleetResult['ships']), $seller, (int) $marketplace);
+        $sellerDuration = max(0, $sellerTimes['arrival'] - $this->state->runtime->timestamp);
+
+        return max($buyerDuration, $sellerDuration) > $limit ? $this->state->LNG['market_p_msg_too_far'] : null;
     }
 
     /**

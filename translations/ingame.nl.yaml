@@ -936,6 +936,7 @@ ma_wrong_target: Verkeerd doel
 market_buyable_no_enemies: Geen vijanden
 market_buyable_no_tech: Te zwak
 market_buyable_only_trade_partners: Alleen partners
+market_buyable_too_far: Te ver
 market_confirm_are_you_sure: Weet je het zeker?
 market_fleet: Vloot
 market_info_description: 'Linkerkant: aanbiedingen | Rechterkant: vraagprijs<br><br>&bull; Geaccepteerde aanbiedingen kunnen niet worden geannuleerd &bull;<br>&bull; Sommige aanbiedingen kunnen vanwege de pushregel niet worden geaccepteerd &bull;<br>&bull; De koper betaalt de brandstof voor een gekochte vloot &bull;'
@@ -955,6 +956,7 @@ market_p_msg_not_found: Die aanbieding is weg.
 market_p_msg_own_offer: Je kunt je eigen aanbieding niet kopen.
 market_p_msg_purchase_failed: De aankoop is niet doorgegaan. Probeer het opnieuw.
 market_p_msg_resources_error: Je hebt niet genoeg grondstoffen.
+market_p_msg_too_far: Dit aanbod is te ver weg, de reis zou langer duren dan de verkoper toestaat.
 market_p_msg_sent: '%s kleine vrachtschepen, %s grote vrachtschepen verstuurd'
 market_p_msg_wrong_resource_type: Deze aanbieding vraagt om een ongeldige grondstof.
 market_p_offer_type: Aanbiedingstype

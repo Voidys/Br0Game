@@ -942,6 +942,7 @@ ma_wrong_target: เป้าหมายไม่ถูกต้อง
 market_buyable_no_enemies: ไม่มีศัตรู
 market_buyable_no_tech: อ่อนเกินไป
 market_buyable_only_trade_partners: เฉพาะคู่ค้า
+market_buyable_too_far: ไกลเกินไป
 market_confirm_are_you_sure: แน่ใจหรือไม่?
 market_fleet: กองเรือ
 market_info_description: 'ฝั่งซ้าย: ข้อเสนอขาย | ฝั่งขวา: ราคาที่ขอ<br><br>&bull; ข้อเสนอที่ยอมรับแล้วยกเลิกไม่ได้ &bull;<br>&bull; ข้อเสนอบางอย่างยอมรับไม่ได้เพราะกฎการพุช &bull;<br>&bull; ผู้ซื้อจ่ายค่าเชื้อเพลิงของกองเรือที่ซื้อ &bull;'
@@ -961,6 +962,7 @@ market_p_msg_not_found: ข้อเสนอนั้นหายไปแล�
 market_p_msg_own_offer: คุณซื้อข้อเสนอของตัวเองไม่ได้
 market_p_msg_purchase_failed: การซื้อไม่สำเร็จ โปรดลองอีกครั้ง
 market_p_msg_resources_error: คุณมีทรัพยากรไม่พอ
+market_p_msg_too_far: ข้อเสนอนี้อยู่ไกลเกินไป การเดินทางจะใช้เวลานานกว่าที่ผู้ขายอนุญาต
 market_p_msg_sent: ส่งยานขนส่งเล็ก %s ลำ ยานขนส่งใหญ่ %s ลำ
 market_p_msg_wrong_resource_type: ข้อเสนอนี้ขอทรัพยากรที่ไม่ถูกต้อง
 market_p_offer_type: ประเภทข้อเสนอ

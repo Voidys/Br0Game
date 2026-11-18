@@ -938,6 +938,7 @@ ma_wrong_target: 目标错误
 market_buyable_no_enemies: 无敌人
 market_buyable_no_tech: 太弱
 market_buyable_only_trade_partners: 仅限伙伴
+market_buyable_too_far: 太远
 market_confirm_are_you_sure: 确定吗？
 market_fleet: 舰队
 market_info_description: 左侧：出售的商品 | 右侧：要价<br><br>&bull; 已接受的报价无法取消 &bull;<br>&bull; 部分报价因送分规则而无法接受 &bull;<br>&bull; 购买舰队时，买家承担燃料费用 &bull;
@@ -957,6 +958,7 @@ market_p_msg_not_found: 这个报价已经没有了。
 market_p_msg_own_offer: 你不能购买自己的报价。
 market_p_msg_purchase_failed: 购买没有成功，请重试。
 market_p_msg_resources_error: 你的资源不足。
+market_p_msg_too_far: 这个报价太远了，飞行时间会超过卖家允许的上限。
 market_p_msg_sent: 已派出 %s 艘小型运输舰、%s 艘大型运输舰
 market_p_msg_wrong_resource_type: 这个报价要求的资源类型无效。
 market_p_offer_type: 报价类型

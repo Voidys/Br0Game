@@ -936,6 +936,7 @@ ma_wrong_target: Zły cel
 market_buyable_no_enemies: Bez wrogów
 market_buyable_no_tech: Za słabi
 market_buyable_only_trade_partners: Tylko partnerzy
+market_buyable_too_far: Za daleko
 market_confirm_are_you_sure: Na pewno?
 market_fleet: Flota
 market_info_description: 'Lewa strona: oferty sprzedaży | Prawa strona: cena żądana<br><br>&bull; Przyjętych ofert nie można anulować &bull;<br>&bull; Niektórych ofert nie da się przyjąć z powodu zasady pushingu &bull;<br>&bull; Paliwo za kupioną flotę płaci kupujący &bull;'
@@ -955,6 +956,7 @@ market_p_msg_not_found: Tej oferty już nie ma.
 market_p_msg_own_offer: Nie możesz kupić własnej oferty.
 market_p_msg_purchase_failed: Zakup się nie udał. Spróbuj ponownie.
 market_p_msg_resources_error: Masz za mało surowców.
+market_p_msg_too_far: Ta oferta jest zbyt daleko, podróż trwałaby dłużej, niż pozwala sprzedawca.
 market_p_msg_sent: Wysłano %s Małych Transporterów, %s Dużych Transporterów
 market_p_msg_wrong_resource_type: Ta oferta wymaga nieprawidłowego surowca.
 market_p_offer_type: Rodzaj oferty

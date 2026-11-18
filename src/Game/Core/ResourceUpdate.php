@@ -145,13 +145,22 @@ class ResourceUpdate
         $ProductionTime = ($this->st->time - $this->st->planet['last_update']);
 
         if ($this->Build && $ProductionTime > 0) {
-            $this->gameUtility(HangarQueueProcessor::class)->process($this->st);
+            // satellites (units with production) count from their finish time: those steps run inside the loop below
+            $checkpoints = $this->gameUtility(HangarQueueProcessor::class)->productionCheckpoints($this->st);
+            $hangarSince = $this->st->planet['last_update'];
+            $stepped = $checkpoints !== [];
+            if (!$stepped) {
+                $this->gameUtility(HangarQueueProcessor::class)->process($this->st);
+            }
             $this->st->planet = $this->wreckfields()->applyFinishedRepair($this->st->planet, $this->st->time, $this->st->builded, $this->st->repaired);
             $this->wreckfields()->expire($this->st->planet['id'], $this->st->time); // Option: Delete not in Umode
 
-            while (($this->Tech && $this->st->user['b_tech'] != 0 && $this->st->user['b_tech'] < $this->st->time)
+            while ($checkpoints !== []
+                    || ($this->Tech && $this->st->user['b_tech'] != 0 && $this->st->user['b_tech'] < $this->st->time)
                     || ($this->st->planet['b_building'] != 0 && $this->st->planet['b_building'] < $this->st->time)) {
-                if ($this->st->planet['b_building'] != 0 && (!$this->Tech || $this->st->user['b_tech'] == 0 || $this->st->planet['b_building'] <= $this->st->user['b_tech'])) {
+                if ($checkpoints !== [] && $checkpoints[0] <= $this->nextQueueEventTime()) {
+                    $this->advanceHangarTo(array_shift($checkpoints), $hangarSince);
+                } elseif ($this->st->planet['b_building'] != 0 && (!$this->Tech || $this->st->user['b_tech'] == 0 || $this->st->planet['b_building'] <= $this->st->user['b_tech'])) {
                     if ($this->gameUtility(BuildingQueueProcessor::class)->finishFirst($this->st)) {
                         $this->SetNextQueueElementOnTop();
                     }
@@ -163,6 +172,12 @@ class ResourceUpdate
             }
 
             $this->UpdateResource($this->st->time, $HASH);
+            if ($stepped) {
+                // the units finishing in the last step count from now: the stored production and energy follow them
+                $this->gameUtility(HangarQueueProcessor::class)->process($this->st, $hangarSince);
+                $this->st->planet['eco_hash'] = $this->CreateHash();
+                $this->ReBuildCache();
+            }
 
             if ($SAVE === true) {
                 $this->SavePlanetToDB($this->st->user, $this->st->planet);
@@ -170,6 +185,38 @@ class ResourceUpdate
         }
 
         return $this->ReturnVars();
+    }
+
+    /**
+     * Earliest finish time of a due building or research (the same "end before the target time" test as the queue loop in
+     * CalcResource()), PHP_INT_MAX when none is due.
+     */
+    private function nextQueueEventTime(): int|float
+    {
+        $next = PHP_INT_MAX;
+        if ($this->Tech && $this->st->user['b_tech'] != 0 && $this->st->user['b_tech'] < $this->st->time) {
+            $next = $this->st->user['b_tech'];
+        }
+        if ($this->st->planet['b_building'] != 0 && $this->st->planet['b_building'] < $this->st->time) {
+            $next = min($next, $this->st->planet['b_building']);
+        }
+
+        return $next;
+    }
+
+    /**
+     * Brings the resources up to $time with the unit counts valid until then, then finishes the shipyard units that fit up to
+     * $time, so units with production (solar satellites) only count from their finish time. $since is the time the elapsed
+     * build time was counted up to; it moves to $time.
+     */
+    private function advanceHangarTo(int $time, int &$since): void
+    {
+        $target = $this->st->time;
+        $this->st->time = $time;
+        $this->UpdateResource($time, true);
+        $this->gameUtility(HangarQueueProcessor::class)->process($this->st, $since);
+        $since = $time;
+        $this->st->time = $target;
     }
 
     /**

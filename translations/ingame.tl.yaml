@@ -936,6 +936,7 @@ ma_wrong_target: Maling target
 market_buyable_no_enemies: Walang kaaway
 market_buyable_no_tech: Masyadong mahina
 market_buyable_only_trade_partners: Mga partner lang
+market_buyable_too_far: Masyadong malayo
 market_confirm_are_you_sure: Sigurado ka ba?
 market_fleet: Fleet
 market_info_description: 'Kaliwang bahagi: mga alok na ibinebenta | Kanang bahagi: hinihinging presyo<br><br>&bull; Hindi na maikakansela ang mga tinanggap na alok &bull;<br>&bull; Hindi matatanggap ang ilang alok dahil sa push rule &bull;<br>&bull; Ang bumibili ang nagbabayad ng fuel para sa nabiling fleet &bull;'
@@ -955,6 +956,7 @@ market_p_msg_not_found: Wala na ang alok na iyon.
 market_p_msg_own_offer: Hindi mo mabibili ang sarili mong alok.
 market_p_msg_purchase_failed: Hindi natuloy ang pagbili. Subukan ulit.
 market_p_msg_resources_error: Kulang ang resource mo.
+market_p_msg_too_far: Masyadong malayo ang alok na ito, mas matagal ang biyahe kaysa sa pinapayagan ng nagbebenta.
 market_p_msg_sent: Naipadala ang %s Light Cargo, %s Heavy Cargo
 market_p_msg_wrong_resource_type: Humihingi ang alok na ito ng hindi valid na resource.
 market_p_offer_type: Uri ng alok

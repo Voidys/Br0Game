@@ -121,12 +121,12 @@ class MarketOfferListing
     }
 
     /**
-     * Whether the current player can buy the offer, and if not why (own offer, push prevention, diplomacy filter).
+     * Whether the current player can buy the offer, and if not why (own offer, push prevention, the seller's flight time limit, diplomacy filter).
      *
      * @param array<string, mixed> $fleetsRow offer row
      * @return array{buyable: bool, reason: string}
      */
-    private function buyability(array $fleetsRow, MarketManager $pMarket): array
+    private function buyability(array $fleetsRow, MarketManager $pMarket, int|float $sellerDuration): array
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
@@ -147,6 +147,13 @@ class MarketOfferListing
         }
         //Level 5 - enemies
         //Level 0 - 3 alliance
+        $limit = (int) $fleetsRow['filter_flighttime'];
+        if ($limit > 0 && $sellerDuration > $limit) {
+            return [
+                'buyable' => false,
+                'reason' => $LNG['market_buyable_too_far'],
+            ];
+        }
         return $this->rules->checkDiplo(
             $fleetsRow['filter_visibility'],
             $fleetsRow['level'],
@@ -196,7 +203,7 @@ class MarketOfferListing
             $fleet_str .= $LNG['shortNames'][$name] . ' x' . $amount . "\n";
         }
 
-        $buy = $this->buyability($fleetsRow, $pMarket);
+        $buy = $this->buyability($fleetsRow, $pMarket, $durations['from']);
 
         $fleetValue = $pMarket->getFleetValue($FROM_fleet);
         $askType = (int) $fleetsRow['ex_resource_type'];

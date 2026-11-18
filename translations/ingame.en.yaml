@@ -965,6 +965,7 @@ ma_wrong_target: Wrong target
 market_buyable_no_enemies: No enemies
 market_buyable_no_tech: Too weak
 market_buyable_only_trade_partners: Only partners
+market_buyable_too_far: Too far
 market_confirm_are_you_sure: Are you sure?
 market_fleet: Fleet
 market_info_description: 'Left side: sale offers | Right side: asking price<br><br>&bull; Accepted offers cannot be canceled &bull;<br>&bull; Some offers cannot be accepted due to the push rule &bull;<br>&bull; The buyer pays the fuel for a purchased fleet &bull;'
@@ -984,6 +985,7 @@ market_p_msg_not_found: That offer is gone.
 market_p_msg_own_offer: You cannot buy your own offer.
 market_p_msg_purchase_failed: The purchase didn't go through. Please try again.
 market_p_msg_resources_error: You don't have enough resources.
+market_p_msg_too_far: This offer is too far away, the trip would take longer than the seller allows.
 market_p_msg_sent: Sent %s Light Cargos, %s Heavy Cargos
 market_p_msg_wrong_resource_type: This offer asks for an invalid resource.
 market_p_offer_type: Offer type

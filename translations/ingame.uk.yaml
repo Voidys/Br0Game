@@ -940,6 +940,7 @@ ma_wrong_target: Хибна ціль
 market_buyable_no_enemies: Без ворогів
 market_buyable_no_tech: Надто слабкі
 market_buyable_only_trade_partners: Лише партнери
+market_buyable_too_far: Надто далеко
 market_confirm_are_you_sure: Ти впевнений?
 market_fleet: Флот
 market_info_description: 'Ліворуч: пропозиції продажу | Праворуч: ціна, яку просять<br><br>&bull; Прийняті пропозиції не можна скасувати &bull;<br>&bull; Деякі пропозиції не можна прийняти через правило пушингу &bull;<br>&bull; Покупець оплачує паливо для купленого флоту &bull;'
@@ -959,6 +960,7 @@ market_p_msg_not_found: Цієї пропозиції вже немає.
 market_p_msg_own_offer: Не можна купити власну пропозицію.
 market_p_msg_purchase_failed: Купівля не вдалася. Спробуй ще раз.
 market_p_msg_resources_error: Тобі не вистачає ресурсів.
+market_p_msg_too_far: Ця пропозиція надто далеко, дорога триватиме довше, ніж дозволив продавець.
 market_p_msg_sent: 'Надіслано малих транспортів: %s, великих транспортів: %s'
 market_p_msg_wrong_resource_type: Ця пропозиція вимагає недійсний ресурс.
 market_p_offer_type: Тип пропозиції

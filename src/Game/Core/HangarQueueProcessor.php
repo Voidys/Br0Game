@@ -18,13 +18,74 @@ class HangarQueueProcessor
         protected \App\Game\Core\Singleton $state,
     ) {}
 
+    /** most checkpoints one shipyard entry adds per update (more finished units are grouped into this many steps) */
+    private const MAX_CHECKPOINTS_PER_ENTRY = 48;
+
+    /**
+     * Times (ascending) at which units that change production or energy (solar satellites) finish within the update
+     * from the planet's last_update up to (excluding) $st->time, so the resource update can be advanced to them: each
+     * time is the moment the unit completes. An entry that finishes more than MAX_CHECKPOINTS_PER_ENTRY units in the
+     * interval gets evenly spaced checkpoints instead of one per unit: production is then booked with the count of the
+     * step's start, so it is too low by at most half the growth of one step. Empty (and no build time lookup) when no
+     * producing unit is queued.
+     *
+     * @return list<int>
+     */
+    public function productionCheckpoints(QueueState $st): array
+    {
+        if (empty($st->planet['b_hangar_id'])) {
+            return [];
+        }
+
+        $elements = $this->elements();
+        $queue = StoredData::decode($st->planet['b_hangar_id']);
+        $producers = array_filter($queue, static fn(array $item): bool => in_array((int) $item[0], $elements->ids('prod'), true));
+        if ($producers === []) {
+            return [];
+        }
+
+        $userModel = $this->models()->user($st->user);
+        $planetModel = $this->models()->planet($st->planet);
+        $available = $st->planet['b_hangar'] + ($st->time - $st->planet['last_update']);
+        $spent = 0;
+        $times = [];
+        foreach ($queue as $item) {
+            $unitTime = $this->buildFunctions()->buildingTimeFor($userModel, $planetModel, (int) $item[0]);
+            if ($unitTime <= 0) {
+                continue;
+            }
+            $finished = (int) min($item[1], floor(($available - $spent) / $unitTime));
+            if ($finished <= 0) {
+                break;
+            }
+            if (in_array((int) $item[0], $elements->ids('prod'), true)) {
+                $steps = min($finished, self::MAX_CHECKPOINTS_PER_ENTRY);
+                for ($step = 1; $step <= $steps; $step++) {
+                    $unit = (int) ceil($step * $finished / $steps);
+                    $time = (int) ($st->planet['last_update'] + $spent + $unit * $unitTime - $st->planet['b_hangar']);
+                    if ($time > $st->planet['last_update'] && $time < $st->time) {
+                        $times[$time] = $time;
+                    }
+                }
+            }
+            if ($finished < $item[1]) {
+                break;
+            }
+            $spent += $item[1] * $unitTime;
+        }
+        ksort($times);
+
+        return array_values($times);
+    }
+
     /**
      * Finishes the part of the shipyard queue that fits into the elapsed build time (b_hangar): completed ships are
      * added to the planet and to the built deltas, the rest stays queued. Elements with a build time of 0 complete at once.
      *
+     * @param int|null $since time up to which the elapsed build time was already counted (default: the planet's last_update)
      * @return bool false when the queue was empty
      */
-    public function process(QueueState $st)
+    public function process(QueueState $st, ?int $since = null)
     {
         $elements = $this->elements();
 
@@ -35,7 +96,7 @@ class HangarQueueProcessor
             return false;
         }
 
-        $st->planet['b_hangar']   += ($st->time - $st->planet['last_update']);
+        $st->planet['b_hangar']   += ($st->time - ($since ?? $st->planet['last_update']));
         $BuildArray = [];
         $userModel = $this->models()->user($st->user);
         $planetModel = $this->models()->planet($st->planet);

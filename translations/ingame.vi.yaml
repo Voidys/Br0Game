@@ -936,6 +936,7 @@ ma_wrong_target: Mục tiêu sai
 market_buyable_no_enemies: Không có kẻ thù
 market_buyable_no_tech: Quá yếu
 market_buyable_only_trade_partners: Chỉ đối tác
+market_buyable_too_far: Quá xa
 market_confirm_are_you_sure: Bạn có chắc không?
 market_fleet: Hạm đội
 market_info_description: 'Bên trái: chào bán | Bên phải: giá yêu cầu<br><br>&bull; Chào bán đã chấp nhận thì không hủy được &bull;<br>&bull; Một số chào bán không thể chấp nhận vì quy tắc đẩy điểm &bull;<br>&bull; Người mua trả nhiên liệu cho hạm đội đã mua &bull;'
@@ -955,6 +956,7 @@ market_p_msg_not_found: Chào bán đó đã không còn.
 market_p_msg_own_offer: Bạn không thể mua chào bán của chính mình.
 market_p_msg_purchase_failed: Giao dịch không thành công. Hãy thử lại.
 market_p_msg_resources_error: Bạn không đủ tài nguyên.
+market_p_msg_too_far: Chào bán này quá xa, chuyến đi sẽ lâu hơn mức người bán cho phép.
 market_p_msg_sent: Đã gửi %s Tàu vận tải nhẹ, %s Tàu vận tải nặng
 market_p_msg_wrong_resource_type: Chào bán này yêu cầu loại tài nguyên không hợp lệ.
 market_p_offer_type: Loại chào bán

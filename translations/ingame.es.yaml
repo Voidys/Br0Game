@@ -936,6 +936,7 @@ ma_wrong_target: Objetivo incorrecto
 market_buyable_no_enemies: Sin enemigos
 market_buyable_no_tech: Demasiado débil
 market_buyable_only_trade_partners: Solo socios
+market_buyable_too_far: Demasiado lejos
 market_confirm_are_you_sure: ¿Estás seguro?
 market_fleet: Flota
 market_info_description: 'Izquierda: ofertas de venta | Derecha: precio pedido<br><br>&bull; Las ofertas aceptadas no se pueden cancelar &bull;<br>&bull; Algunas ofertas no se pueden aceptar por la regla de pusheo &bull;<br>&bull; El comprador paga el combustible de una flota comprada &bull;'
@@ -955,6 +956,7 @@ market_p_msg_not_found: Esa oferta ya no existe.
 market_p_msg_own_offer: No puedes comprar tu propia oferta.
 market_p_msg_purchase_failed: No se pudo completar la compra. Vuelve a intentarlo.
 market_p_msg_resources_error: No tienes recursos suficientes.
+market_p_msg_too_far: Esta oferta está demasiado lejos, el viaje duraría más de lo que permite el vendedor.
 market_p_msg_sent: Enviadas %s naves pequeñas de carga, %s naves grandes de carga
 market_p_msg_wrong_resource_type: Esta oferta pide un recurso no válido.
 market_p_offer_type: Tipo de oferta
