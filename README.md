@@ -75,7 +75,14 @@ The game rules are the same as before; everything around them is new.
 | <a href="public/styles/resource/images/login/screens/08-galaxy.webp"><img src="public/styles/resource/images/login/screens/08-galaxy-720w.webp" alt="Galaxy view" width="420"></a> | <a href="public/styles/resource/images/login/screens/06-techtree.webp"><img src="public/styles/resource/images/login/screens/06-techtree-720w.webp" alt="Technology tree" width="420"></a> |
 | Galaxy | Technology tree |
 
-All of them are in [`public/styles/resource/images/login/screens/`](public/styles/resource/images/login/screens/); a running game shows them on its start page under Screenshots.
+### On phones
+
+| | | | | |
+| :---: | :---: | :---: | :---: | :---: |
+| <a href="public/styles/resource/images/login/screens/20-mobile-overview.webp"><img src="public/styles/resource/images/login/screens/20-mobile-overview-720w.webp" alt="Planet overview on a phone" width="190"></a> | <a href="public/styles/resource/images/login/screens/21-mobile-buildings.webp"><img src="public/styles/resource/images/login/screens/21-mobile-buildings-720w.webp" alt="Buildings on a phone" width="190"></a> | <a href="public/styles/resource/images/login/screens/22-mobile-galaxy.webp"><img src="public/styles/resource/images/login/screens/22-mobile-galaxy-720w.webp" alt="Galaxy view on a phone" width="190"></a> | <a href="public/styles/resource/images/login/screens/23-mobile-fleet.webp"><img src="public/styles/resource/images/login/screens/23-mobile-fleet-720w.webp" alt="Fleet dispatch on a phone" width="190"></a> | <a href="public/styles/resource/images/login/screens/24-mobile-drawer.webp"><img src="public/styles/resource/images/login/screens/24-mobile-drawer-720w.webp" alt="Open side menu on a phone" width="190"></a> |
+| Overview | Buildings | Galaxy | Fleet | Menu drawer |
+
+All of them, desktop and phone, are in [`public/styles/resource/images/login/screens/`](public/styles/resource/images/login/screens/); a running game shows them on its start page under Screenshots.
 
 ## Features
 

@@ -542,6 +542,8 @@
   @media (max-width: 40rem) {
     .content .flyingFleets, .content .flyingFleets tbody { display: block; inline-size: 100%; min-inline-size: 0; }
     .content .flyingFleets .fleet-head { display: none; }
+    /* slot header and empty-state rows span the full card width (a lone table-row in a block tbody shrinks to its content) */
+    .content .flyingFleets tr:not(.fleet-row, .fleet-head), .content .flyingFleets tr:not(.fleet-row, .fleet-head) > :is(th, td) { display: block; inline-size: 100%; box-sizing: border-box; }
     .content .flyingFleets tr.fleet-row {
       display: grid;
       grid-template-columns: 1fr 1fr;

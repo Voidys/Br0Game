@@ -282,10 +282,14 @@ body.site {
 .page--popup { padding-block: var(--space-6); }
 .page--popup .site-wrap { width: min(100% - 2rem, 34rem); }
 
-.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: var(--space-4); }
+.gallery-grid { display: grid; align-items: start; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: var(--space-4); }
 .gallery-grid a { display: block; border: 1px solid var(--nova-line); border-radius: var(--radius-sm); overflow: hidden; }
 .gallery-grid img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; transition: scale 0.25s var(--ease); }
 .gallery-grid a:hover img { scale: 1.03; }
+/* phone shots: natural portrait ratio, narrower tile, centred in its grid cell, own row after the desktop shots */
+.gallery-grid a.gallery--portrait { width: min(100%, 11rem); justify-self: center; }
+.gallery-grid a:not(.gallery--portrait) + a.gallery--portrait { grid-column-start: 1; }
+.gallery-grid a.gallery--portrait img { aspect-ratio: auto; height: auto; }
 .gallery-grid a:hover { border-color: var(--nova-accent); }
 
 /* ------------------------------------------------------------------------------------ footer */
