@@ -481,10 +481,8 @@ class BuildingsController extends AbstractGameController
                 continue;
             }
             $requirementsList = [];
+            // every element of the planet type is listed; missing requirements lock it (template: needs + greyed-out button)
             if (!$this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $Element)) {
-                if (!$this->state->USER['show_all_buildable_elements']) {
-                    continue;
-                }
                 if ($this->elements()->get($Element)->requirements !== []) {
                     foreach ($this->elements()->get($Element)->requirements as $requireID => $RedCount) {
                         $requirementsList[$requireID] = [

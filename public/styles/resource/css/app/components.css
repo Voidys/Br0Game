@@ -41,7 +41,7 @@ td.empty-state, .empty-state > td { display: table-cell; }
 /* research card that the account can research, just not from this planet (no lab / lab too low): dimmed, lock + reason, disabled button */
 .reason--blocked { display: flex; align-items: center; gap: 0.3rem; color: var(--c-muted); & .icon { inline-size: 0.9rem; block-size: 0.9rem; flex: none; } }
 .infos.is-blocked { opacity: 0.8; }
-.infos.is-blocked .build_submit:disabled { cursor: not-allowed; background: var(--c-panel-2); border-color: var(--c-border); color: var(--c-muted); box-shadow: none; }
+.build_submit.build_submit--locked:disabled { cursor: not-allowed; background: var(--c-panel-2); border-color: var(--c-border); color: var(--c-muted); box-shadow: none; }
 .hint { font-style: italic; }
 
 /* ---- tables & forms: settings, fleet, galaxy, information */

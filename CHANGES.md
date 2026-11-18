@@ -1335,3 +1335,9 @@ Technical changes per step, newest last (started with the migration to PHP 8.4, 
 - Research: techs that only lack this planet's buildings (no lab, lab too low) stay listed, locked with a reason and a disabled button (`blockedHere`, `researchRequirementsMet()`); the no-lab / lab-upgrading notices are visible infoboxes. Queue commands are still refused server-side.
 - Hover prefetch of plain game pages via speculation rules (nonce'd inline script in `layout.base`; logout, phalanx, messages, query-string and JS-driven links excluded) and a cross-document view transition (`@view-transition`, shell parts keep their place, reduced motion respected).
 - New ingame keys in all locales: `ui_nav_rankings`, `ui_nav_sections`, `ui_user_menu`, `bd_no_lab_here`, `bd_on_this_planet`.
+
+## 171. Build pages list everything, navigation extras rolled back (1.26.8)
+
+- Buildings, shipyard, defense and research always list every enabled element of the planet type; missing requirements, resources, queue space etc. keep their reason line and add a greyed-out button (`buildcard` macro `locked()`, `.build_submit--locked`); max level keeps only its reason. The "show all buildable elements" setting is gone from the settings page (column kept, no longer read).
+- Shipyard/defense without a shipyard: the list is shown locked under a "build a shipyard first" notice instead of a message page; orders are still refused (`hangar()`).
+- Rolled back the 1.26.7 speculation-rules prefetch and the cross-document view transition: hover prefetches hold the file session lock for a whole render, so clicks queued behind them while a page was loading.

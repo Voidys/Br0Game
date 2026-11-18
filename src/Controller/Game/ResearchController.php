@@ -591,12 +591,10 @@ class ResearchController extends AbstractGameController
             }
             $requirementsList = [];
             $accessible = $this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementId);
-            // research is account-wide: a tech that only lacks buildings of this planet (lab level) stays listed, but locked here
+            // research is account-wide: a tech that only lacks buildings of this planet (lab level) gets the lock + "on this planet" reason
             $blockedHere = !$accessible && $this->researchRequirementsMet($elementId);
+            // every enabled tech is listed; missing requirements lock it (template: needs + greyed-out button)
             if (!$accessible) {
-                if (!$blockedHere && !$this->state->USER['show_all_buildable_elements']) {
-                    continue;
-                }
                 if ($this->elements()->get($elementId)->requirements !== []) {
                     foreach ($this->elements()->get($elementId)->requirements as $requireID => $RedCount) {
                         $requirementsList[$requireID] = [

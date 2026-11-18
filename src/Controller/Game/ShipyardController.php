@@ -171,12 +171,15 @@ class ShipyardController extends AbstractGameController
 
     /**
      * The shipyard or defence page of the requested kind (path placeholder `kind`), after the order of the request when $withOrder is set.
+     * Without a shipyard on the planet the list is shown locked and orders are refused.
      */
     private function hangar(bool $withOrder): Response
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        if ($this->state->PLANET[$this->elements()->column(SHIPYARD)] == 0) {
+        // without a shipyard the list stays visible (every element needs one, so all are locked), orders are refused
+        $hasShipyard = $this->state->PLANET[$this->elements()->column(SHIPYARD)] != 0;
+        if (!$hasShipyard && $withOrder) {
             return $this->messageResponse($LNG['bd_shipyard_required']);
         }
 
@@ -220,6 +223,7 @@ class ShipyardController extends AbstractGameController
             'umode'       => $USER['urlaubs_modus'],
             'elementList' => $elementList,
             'NotBuilding' => $NotBuilding,
+            'hasShipyard' => $hasShipyard,
             'BuildList' => $buildList,
             'maxlength' => strlen($this->configs->get()->max_fleet_per_build),
             'mode' => $mode,
@@ -421,10 +425,8 @@ class ShipyardController extends AbstractGameController
                 continue;
             }
             $requirementsList = [];
+            // every enabled ship/defense is listed; missing requirements lock it (template: needs + greyed-out button)
             if (!$this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $Element)) {
-                if (!$USER['show_all_buildable_elements']) {
-                    continue;
-                }
                 if ($this->elements()->get($Element)->requirements !== []) {
                     foreach ($this->elements()->get($Element)->requirements as $requireID => $RedCount) {
                         $requirementsList[$requireID] = [

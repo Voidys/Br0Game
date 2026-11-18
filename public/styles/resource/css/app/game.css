@@ -898,16 +898,3 @@ a.topbar__item:hover .icon { color: var(--c-accent); }
   .bh__date-inline { display: block; margin-top: 0.1rem; color: var(--c-muted, #8796a7); font-size: 0.75rem; }
   .bh__rank { width: 2.5rem; }
 }
-
-/* ---- page changes: cross-document view transition (Chromium/Safari; others ignore it). The shell parts keep their place,
- * only the content cross-fades; no motion for players who asked for less */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition { navigation: auto; }
-  .topbar { view-transition-name: v0-topbar; }
-  .sidebar { view-transition-name: v0-sidebar; }
-  .tabbar { view-transition-name: v0-tabbar; }
-  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.15s; }
-  ::view-transition-group(v0-topbar), ::view-transition-group(v0-sidebar), ::view-transition-group(v0-tabbar) { animation: none; }
-  ::view-transition-old(v0-topbar), ::view-transition-old(v0-sidebar), ::view-transition-old(v0-tabbar) { display: none; }
-  ::view-transition-new(v0-topbar), ::view-transition-new(v0-sidebar), ::view-transition-new(v0-tabbar) { animation: none; }
-}

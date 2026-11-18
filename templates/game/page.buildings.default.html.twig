@@ -52,6 +52,7 @@
           {% if Element.factor != null and not Element.requirements and Element.buyable %}
             <span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}">{{ LNG.format('sys_catchup_short', Element.factor) }} %</span>
           {% endif %}
+          {% set canBuild = false %}
           {% if vacation %}
             <span class="reason">{{ LNG.op_options_vacation_activated }}</span>
           {% elseif Element.requirements %}
@@ -67,12 +68,14 @@
           {% elseif (isBusy.research and (ID == 6 or ID == 31)) or (isBusy.shipyard and (ID == 15 or ID == 21)) or (isBusy.repairdock and (ID == 35)) %}
             <span class="reason">{{ LNG.bd_working }}</span>
           {% else %}
+            {% set canBuild = true %}
             <form action="{{ path('game_buildings_command') }}" method="post" class="build_form">
               <input type="hidden" name="cmd" value="insert">
               <input type="hidden" name="building" value="{{ ID }}">
               <button type="submit" class="colorPositive build_submit">{% if Element.level == 0 and Element.levelToBuild == 0 %}{{ LNG.bd_build }}{% else %}{{ LNG.bd_build_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
             </form>
           {% endif %}
+          {% if not canBuild and not atMax %}{{ b.locked(Element.level == 0 and Element.levelToBuild == 0 ? LNG.bd_build : LNG.bd_build_next_level ~ (Element.levelToBuild + 1)) }}{% endif %}
 
           <div class="build-meta">
           {% if not atMax %}{{ b.time(Element.elementTime) }}{% endif %}

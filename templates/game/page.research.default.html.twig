@@ -53,6 +53,7 @@
 						{% if Element.factor != null and not Element.requirements and Element.buyable %}
 							<span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}">{{ LNG.format('sys_catchup_short', Element.factor) }} %</span>
 						{% endif %}
+						{% set canBuild = false %}
 						{% if vacation %}
 							<span class="reason">{{ LNG.op_options_vacation_activated }}</span>
 						{% elseif Element.requirements and not Element.blockedHere %}
@@ -62,7 +63,6 @@
 						{% elseif blocked %}{# no lab here, or only this planet's buildings are missing #}
 							{# researchable elsewhere in the account, not from this planet (no lab, or the lab level is too low) #}
 							<span class="reason reason--blocked">{{ icon('lock') }}{% if hasLab %}{{ LNG.bd_needs }} ({{ LNG.bd_on_this_planet }}): {{ Element.requirements|filter(r => r.own < r.count)|map((r, id) => LNG.tech[id] ~ ' ' ~ r.count)|join(', ') }}{% else %}{{ LNG.bd_no_lab_here }}{% endif %}</span>
-							<button type="button" class="build_submit" disabled>{% if Element.level == 0 and Element.levelToBuild == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
 						{% elseif IsLabinBuild %}
 							<span class="reason">{{ LNG.sys_buildlist_fail }}</span>
 						{% elseif IsFullQueue %}
@@ -70,12 +70,14 @@
 						{% elseif not Element.buyable %}
 							{{ b.missing(Element) }}
 						{% else %}
+							{% set canBuild = true %}
 							<form action="{{ path('game_research_command') }}" method="post" class="build_form">
 								<input type="hidden" name="cmd" value="insert">
 								<input type="hidden" name="tech" value="{{ ID }}">
 								<button type="submit" class="colorPositive build_submit">{% if Element.level == 0 and Element.levelToBuild == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
 							</form>
 						{% endif %}
+						{% if not canBuild and not atMax %}{{ b.locked(Element.level == 0 and Element.levelToBuild == 0 ? LNG.bd_tech : LNG.bd_tech_next_level ~ (Element.levelToBuild + 1)) }}{% endif %}
 						{% if not atMax %}<div class="build-meta">{{ b.time(Element.elementTime) }}</div>{% endif %}
 					</div>
 				</div>

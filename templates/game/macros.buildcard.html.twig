@@ -9,6 +9,11 @@
   </div>
 {% endmacro %}
 
+{# Greyed-out build button under a "why not" line: every card keeps its action, it just cannot be pressed (label = the build button text). #}
+{% macro locked(label) %}
+  <button type="button" class="build_submit build_submit--locked" disabled>{{ label }}</button>
+{% endmacro %}
+
 {# "Needs: Research Lab 15, Energy Technology 3": only the requirements that are not met yet. #}
 {% macro needs(requirements) %}
   <span class="reason">{{ LNG.bd_needs }}:

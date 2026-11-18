@@ -184,7 +184,6 @@ class SettingsController extends AbstractGameController
             'recordsOptIn'                  => $USER['records_optIn'],
             'messagesPerPage'               => $USER['messages_per_page'],
             'publish_achievement'           => $USER['publish_achievement'],
-            'show_all_buildable_elements'   => $USER['show_all_buildable_elements'],
             'missing_requirements_opacity'  => $USER['missing_requirements_opacity'],
             'missing_resources_opacity'     => $USER['missing_resources_opacity'],
             'hide_useless'                  => $USER['hide_useless'],
