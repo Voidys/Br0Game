@@ -1,4 +1,4 @@
-//! battlerust: the pr0game battle engine as a C library.
+//! battlerust: the V0Game battle engine as a C library.
 //!
 //! A port of the PHP engine `BattleEngineSteemNova` that reproduces its results bit for bit when given the same seed
 //! (own implementation of PHP's `mt_rand`, see [`rng`]). The PHP side (`BattleEngineRust`) builds the battle as JSON,

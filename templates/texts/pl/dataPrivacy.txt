@@ -49,7 +49,7 @@
 <p>Używamy wyłącznie plików cookie i pamięci przeglądarki, które są technicznie niezbędne do świadczenia usługi, o którą prosisz (§ 25 ust. 2 pkt 2 TDDDG, art. 6 ust. 1 lit. b i f RODO):</p>
 <ul>
 <li><strong>2Moons</strong>: plik cookie sesji, który utrzymuje Cię zalogowanym. Wygasa 12 godzin po Twojej ostatniej aktywności lub po wylogowaniu.</li>
-<li><strong>br0_device</strong>: losowy identyfikator urządzenia (2 lata). Dla konta przechowywany jest tylko jego hash, przez 90 dni po ostatniej wizycie, w celu wykrycia kilku kont granych z tej samej przeglądarki.</li>
+<li><strong>v0_device</strong>: losowy identyfikator urządzenia (2 lata). Dla konta przechowywany jest tylko jego hash, przez 90 dni po ostatniej wizycie, w celu wykrycia kilku kont granych z tej samej przeglądarki.</li>
 <li><strong>lang</strong>: zapamiętuje wybrany przez Ciebie język.</li>
 <li><strong>account</strong>: zapamiętuje, że z tej przeglądarki logowano się już wcześniej, aby strona startowa mogła najpierw pokazać logowanie. Nie zawiera danych osobowych.</li>
 <li>Pamięć lokalna: preferencje wyświetlania interfejsu gry (na przykład ostatnio otwarta kategoria wiadomości). Pozostają w Twojej przeglądarce i nie są do nas wysyłane.</li>

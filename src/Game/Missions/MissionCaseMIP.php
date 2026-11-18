@@ -327,7 +327,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
 
         foreach ($targetDefensive as $element => $count) {
             if ($element == 0) {
-                throw new \Exception("Unknown error. Please report this error at https://github.com/Voidys/Br0Game/issues. Debuginforations:<br><br>" . json_encode([$TargetDefTech, $OwnerAttTech, $missiles, $targetDefensive, $firstTarget, $defenseMissles]));
+                throw new \Exception("Unknown error. Please report this error at https://github.com/Voidys/V0Game/issues. Debuginforations:<br><br>" . json_encode([$TargetDefTech, $OwnerAttTech, $missiles, $targetDefensive, $firstTarget, $defenseMissles]));
             }
             $elementStructurePoints = ($e->cost($element)->metal + $e->cost($element)->crystal) * (1 + 0.1 * $TargetDefTech) / 10;
             $destroyCount           = floor($totalAttack / $elementStructurePoints);

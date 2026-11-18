@@ -49,7 +49,7 @@
 <p>Nous n'utilisons que les cookies et le stockage du navigateur strictement nécessaires à la fourniture du service que tu demandes (§ 25, paragraphe 2, n° 2, TDDDG, art. 6, paragraphe 1, points b) et f), RGPD) :</p>
 <ul>
 <li><strong>2Moons</strong> : cookie de session qui te maintient connecté. Il expire 12 heures après ta dernière activité, ou lorsque tu te déconnectes.</li>
-<li><strong>br0_device</strong> : identifiant d'appareil aléatoire (2 ans). Seul un hachage de celui-ci est stocké par compte, pendant 90 jours après la dernière visite, pour détecter plusieurs comptes joués depuis le même navigateur.</li>
+<li><strong>v0_device</strong> : identifiant d'appareil aléatoire (2 ans). Seul un hachage de celui-ci est stocké par compte, pendant 90 jours après la dernière visite, pour détecter plusieurs comptes joués depuis le même navigateur.</li>
 <li><strong>lang</strong> : mémorise la langue que tu as sélectionnée.</li>
 <li><strong>account</strong> : mémorise que ce navigateur a déjà servi à une connexion, afin que la page d'accueil affiche d'abord la connexion. Il ne contient aucune donnée personnelle.</li>
 <li>Stockage local : préférences d'affichage de l'interface du jeu (par exemple la dernière catégorie de messages ouverte). Elles restent dans ton navigateur et ne nous sont pas envoyées.</li>

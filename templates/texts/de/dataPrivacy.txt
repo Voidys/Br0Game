@@ -49,7 +49,7 @@
 <p>Wir verwenden ausschließlich Cookies und Browserspeicher, die technisch erforderlich sind, um den von Ihnen gewünschten Dienst bereitzustellen (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6 Abs. 1 lit. b und f DSGVO):</p>
 <ul>
 <li><strong>2Moons</strong>: Sitzungscookie, das Sie angemeldet hält. Es läuft 12 Stunden nach Ihrer letzten Aktivität ab, oder wenn Sie sich abmelden.</li>
-<li><strong>br0_device</strong>: zufällige Geräte-ID (2 Jahre). Pro Account wird nur ein Hash davon gespeichert, 90 Tage nach dem letzten Besuch, um mehrere Accounts am selben Browser zu erkennen.</li>
+<li><strong>v0_device</strong>: zufällige Geräte-ID (2 Jahre). Pro Account wird nur ein Hash davon gespeichert, 90 Tage nach dem letzten Besuch, um mehrere Accounts am selben Browser zu erkennen.</li>
 <li><strong>lang</strong>: speichert die gewählte Sprache.</li>
 <li><strong>account</strong>: merkt sich, dass in diesem Browser schon einmal ein Login stattgefunden hat, damit die Startseite zuerst das Login zeigt. Es enthält keine personenbezogenen Daten.</li>
 <li>Lokaler Speicher: Anzeigeeinstellungen der Spieloberfläche (etwa die zuletzt geöffnete Nachrichtenkategorie). Sie bleiben in Ihrem Browser und werden nicht an uns übertragen.</li>

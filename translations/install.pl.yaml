@@ -5,10 +5,10 @@ install_desc: "Aby włączyć narzędzie instalacyjne, utwórz plik \"var/ENABLE
 install_title: Narzędzie instalacyjne jest zablokowane
 intro_install: Przejdź do instalacji
 intro_lang: Język
-intro_text: Br0Game to najlepszy klon Ogame.<br>Br0Game to najnowsza i najbardziej stabilna wersja Xnova, jaka kiedykolwiek powstała. Cechuje ją przyjazność, elastyczność i dynamiczność, jak również najwyższa jakość obsługi. System przeprowadzi Cię przez proces instalacji lub też aktualizacji aktualnej wersji do najnowszej. Jeśli masz jakiekolwiek problemy nie wahaj się zadać pytania na naszym forum poświęconemu rozwojowi i wsparciu.<br><br>Br0Game podlega licencji GNU GPL v3. Licencje przeczytasz po kliknięciu odpowiedniego linku w menu.<br><br>Przed instalacją skrypt sprawdzi, czy twój serwer spełnia minimalne wymagania.
-intro_upgrade_head: Zainstalować Br0Game?
-intro_upgrade_text: <p>Br0Game zainstalowane, chcesz teraz sprawdzić aktualizacje?</p><p>Aktualizacje!</p>
-intro_welcome: Serdecznie witamy w Br0Game!
+intro_text: V0Game to najlepszy klon Ogame.<br>V0Game to najnowsza i najbardziej stabilna wersja Xnova, jaka kiedykolwiek powstała. Cechuje ją przyjazność, elastyczność i dynamiczność, jak również najwyższa jakość obsługi. System przeprowadzi Cię przez proces instalacji lub też aktualizacji aktualnej wersji do najnowszej. Jeśli masz jakiekolwiek problemy nie wahaj się zadać pytania na naszym forum poświęconemu rozwojowi i wsparciu.<br><br>V0Game podlega licencji GNU GPL v3. Licencje przeczytasz po kliknięciu odpowiedniego linku w menu.<br><br>Przed instalacją skrypt sprawdzi, czy twój serwer spełnia minimalne wymagania.
+intro_upgrade_head: Zainstalować V0Game?
+intro_upgrade_text: <p>V0Game zainstalowane, chcesz teraz sprawdzić aktualizacje?</p><p>Aktualizacje!</p>
+intro_welcome: Serdecznie witamy w V0Game!
 licence_accept: Możesz zainstalować ten program tylko wtedy, gdy zgadasz sie z postanowieniami licencji.
 licence_desc: Prosze przeczytać licencję, przewiń by przeczytać całą!.
 licence_head: Licencja
@@ -21,9 +21,9 @@ reg_file: Dane &raquo;%s&laquo; zapisywalne?
 reg_not_found: Nie znalazłem
 reg_not_writable: Nie zapisywalny
 reg_writable: zapisywalny
-req_desc: Br0Game sprawdzi teraz konfigurację twojego serwera. Czytaj uważnie wyniki testów nim przejdziesz dalej. Jeśli chcesz używać opcjonalnych modułów to upewnij się że dodatkowe testy mają wynik pozytywny..
+req_desc: V0Game sprawdzi teraz konfigurację twojego serwera. Czytaj uważnie wyniki testów nim przejdziesz dalej. Jeśli chcesz używać opcjonalnych modułów to upewnij się że dodatkowe testy mają wynik pozytywny..
 sql_close_reason: "Wszechświat jest w trakcie tworzenia. \nProszę czekać."
-sql_welcome: Serdecznie witamy na Br0Game v
+sql_welcome: Serdecznie witamy na V0Game v
 step1_head: Konfiguracja bazy danych
 step1_mysql_dbname: Nazwa bazy danych
 step1_mysql_dbpass: Hasło
@@ -47,7 +47,7 @@ step4_admin_name_desc: Nazwa musi mieć od 3 do 20 znaków.
 step4_admin_pass: 'Hasło:'
 step4_desc: Kreator instalacji utworzy teraz konto administratora, proszę podać hasło, nazwę użytkownika i adres email.
 step4_head: Dane administratora
-step6_desc: Zainstalowałeś prawidłowo Br0Game.
+step6_desc: Zainstalowałeś prawidłowo V0Game.
 step6_head: Gratualcje!
 title_install: Instalator
 upgrade_available: 'Dostępna jest aktualizacja bazy danych. Aktualna wersja bazy to %s i może zostać zaktualizowana do wersji %s.<br><br>Wybierz z menu wersję do której chcesz zaktualizować:'
@@ -91,18 +91,18 @@ ins_task_universe: Skonfiguruj uniwersum 1
 ins_build_start: Zbuduj bazę danych
 ins_back_database: Wróć do ustawień bazy danych
 ins_game_name: Nazwa gry
-ins_game_name_info: 'Wyświetlana w tytule, nagłówku i e-mailach. Domyślnie: Br0Game.'
+ins_game_name_info: 'Wyświetlana w tytule, nagłówku i e-mailach. Domyślnie: V0Game.'
 ins_default_theme: Domyślny motyw
 ins_default_theme_info: Motyw dla nowych kont i odwiedzających; gracze mogą go zmienić w ustawieniach.
 ins_game_name_invalid: Podaj nazwę gry o długości od 1 do 64 znaków.
 ins_theme_invalid: Nieznany motyw.
 ins_to_start: Do strony startowej
 ins_credits_head: Na ramionach gigantów
-ins_credits_text: 'Br0Game kontynuuje długą linię otwartoźródłowych gier przeglądarkowych. Szacunek dla wszystkich, którzy zbudowali ją i podtrzymywali przy życiu przed nami:'
+ins_credits_text: 'V0Game kontynuuje długą linię otwartoźródłowych gier przeglądarkowych. Szacunek dla wszystkich, którzy zbudowali ją i podtrzymywali przy życiu przed nami:'
 ins_credits_thanks: Dziękujemy, społeczności pr0game, za grę, z której ta wyrosła.
 ins_licence_note: Wolne oprogramowanie na licencji GNU AGPL v3
 ins_task_images: Optymalizuj obrazy (WebP)
-ins_db_help: Br0Game przechowuje wszystko w bazie danych MySQL lub MariaDB. Poniższe wartości otrzymasz w panelu swojego hostingu (szukaj „Bazy danych” lub „MySQL”) albo od osoby, która skonfigurowała serwer. Jeśli samodzielnie zainstalowałeś MySQL, zwykle działają wartości domyślne.
+ins_db_help: V0Game przechowuje wszystko w bazie danych MySQL lub MariaDB. Poniższe wartości otrzymasz w panelu swojego hostingu (szukaj „Bazy danych” lub „MySQL”) albo od osoby, która skonfigurowała serwer. Jeśli samodzielnie zainstalowałeś MySQL, zwykle działają wartości domyślne.
 ins_db_host: Serwer bazy danych
 ins_db_host_info: Prawie zawsze „localhost”. Niektórzy dostawcy podają nazwę typu „db1.example.com”.
 ins_db_name_info: Nazwa bazy danych dla gry. Utwórz ją najpierw w panelu hostingu lub pozwól instalatorowi ją utworzyć (patrz ramka poniżej).

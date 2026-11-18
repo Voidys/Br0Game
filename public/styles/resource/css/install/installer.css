@@ -87,7 +87,7 @@
 .site .install-actions a.button { text-decoration: none; }
 .install-upgrade { margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--nova-line); }
 
-/* credits: the games Br0Game descends from */
+/* credits: the games V0Game descends from */
 .install-credits { margin-top: var(--space-6); padding: var(--space-4); border: 1px solid var(--nova-line); border-radius: var(--radius); background: rgb(22 22 24 / 0.7); color: var(--c-muted); font-size: var(--fs-sm); }
 .install-credits h2 { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-2); color: #fff; font-size: 1rem; }
 .install-credits h2 .icon { width: 1rem; height: 1rem; color: var(--nova-accent); }

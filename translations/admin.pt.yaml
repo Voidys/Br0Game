@@ -934,7 +934,7 @@ se_smail_path: Caminho para o Sendmail / Qmail
 se_smtp: Configurações de SMTP
 se_smtp_host: 'SMTP Host:'
 se_smtp_host_info: Insira aqui o endereço do seu servidor SMTP.
-se_smtp_info: Introduza os dados do Servidor de SMTP para permitir a comunicação entre o servidor do Br0Game e os seus jogadores pelo Servidor de Email SMTP.
+se_smtp_info: Introduza os dados do Servidor de SMTP para permitir a comunicação entre o servidor do V0Game e os seus jogadores pelo Servidor de Email SMTP.
 se_smtp_pass: 'SMTP Password:'
 se_smtp_port: 'SMTP Porta:'
 se_smtp_port_info: Inserir aqui a porta do seu servidor SMTP.Normalmente a porta é 25

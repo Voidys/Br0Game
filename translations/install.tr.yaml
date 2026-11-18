@@ -5,11 +5,11 @@ install_desc: "Kurulum Aracını etkinleştirmek için dosyayı \"var/ENABLE_INS
 install_title: Kurulum Aracı kilitli
 intro_install: To installation
 intro_lang: Dil
-intro_text: 'Br0Game en iyi ogame projelerinden birisidir.<br>Br0Game mevcut gelistirilmis en yeni ve guvenilir Xnova versiyonudur. Br0Game gerek kullanim kolayligi, gerek kod esnekligi, dinamizmi, kod kalitesi ve islevleri ile goz almaktadir. Her zaman sizin beklentilerinizden daha iyi olmaya calistik. <br><br> Kurulumdaki direktifler kurulum esnasinda size rehberlik edecektir. Her sorun ve problemde, bize danismak icin kesinlikle tereddut etmeyin!<br><br>The Br0Game bir acik kod uygulamasidir ve GNU GPL v3 lisanslidir. Lisans hakkinda bilgi edinmek icin asagidaki "Lisans" linkine tiklayabilirsiniz.  <br><br> Kurulum islemine baslamadan once sisteminiz Br0Game kurmak icin gerekli ozelliklere sahip olup olmadigi test edilecektir. '
-intro_upgrade_head: Sisteminizde Br0Game mevcut kurulu mu?
-intro_upgrade_text: <p>Sisteminizde Br0Game kurulu, kolay bir guncelleme istermisiniz?</p><p>Buraya tiklayarak sisteminizin eski veritabanini bir kac tiklama ile guncelleyebilirsiniz.!</p>
-intro_welcome: Hosgeldin yeni Br0Game Kullanicisi!
-licence_accept: 'Br0Game kurulumuna devam etmek icin, lisans sartlarini kabul etmeniz gerekmektedir. '
+intro_text: 'V0Game en iyi ogame projelerinden birisidir.<br>V0Game mevcut gelistirilmis en yeni ve guvenilir Xnova versiyonudur. V0Game gerek kullanim kolayligi, gerek kod esnekligi, dinamizmi, kod kalitesi ve islevleri ile goz almaktadir. Her zaman sizin beklentilerinizden daha iyi olmaya calistik. <br><br> Kurulumdaki direktifler kurulum esnasinda size rehberlik edecektir. Her sorun ve problemde, bize danismak icin kesinlikle tereddut etmeyin!<br><br>The V0Game bir acik kod uygulamasidir ve GNU GPL v3 lisanslidir. Lisans hakkinda bilgi edinmek icin asagidaki "Lisans" linkine tiklayabilirsiniz.  <br><br> Kurulum islemine baslamadan once sisteminiz V0Game kurmak icin gerekli ozelliklere sahip olup olmadigi test edilecektir. '
+intro_upgrade_head: Sisteminizde V0Game mevcut kurulu mu?
+intro_upgrade_text: <p>Sisteminizde V0Game kurulu, kolay bir guncelleme istermisiniz?</p><p>Buraya tiklayarak sisteminizin eski veritabanini bir kac tiklama ile guncelleyebilirsiniz.!</p>
+intro_welcome: Hosgeldin yeni V0Game Kullanicisi!
+licence_accept: 'V0Game kurulumuna devam etmek icin, lisans sartlarini kabul etmeniz gerekmektedir. '
 licence_desc: Lutfen asagidaki lisans kosullarini iyice okuyunuz.
 licence_head: Lisans Kosullari
 licence_need_accept: Eger kuruluma devam etmek istiyorsaniz lisans kosullarini kabul etmelisiniz.
@@ -21,9 +21,9 @@ reg_file: Dosya &raquo;%s&laquo; Kaydedilebilir mi?
 reg_not_found: Bulunamadi
 reg_not_writable: Kaydedilemez
 reg_writable: Kaydedilebilir
-req_desc: Kuruluma baslamadan once Br0Game sistemin kurulum icin uygun olup olmadigini test edecek. Sonuclari dikkatlice okumaniz tavsiye edilir ve butun testleri gecmeden bir sonraki adima gecmeyiniz
+req_desc: Kuruluma baslamadan once V0Game sistemin kurulum icin uygun olup olmadigini test edecek. Sonuclari dikkatlice okumaniz tavsiye edilir ve butun testleri gecmeden bir sonraki adima gecmeyiniz
 sql_close_reason: "Evren kuruluyor. \nLütfen bekleyin.Oyun su an kapali"
-sql_welcome: Br0Game'a hosgeldiniz
+sql_welcome: V0Game'a hosgeldiniz
 step1_head: Kurulum veritabanini konfigure et
 step1_mysql_dbname: Veritabani
 step1_mysql_dbpass: Veritabani-Sifre
@@ -47,7 +47,7 @@ step4_admin_name_desc: 3-20 karakter arasi kullanici adi giriniz.
 step4_admin_pass: 'Admin sifresi:'
 step4_desc: Kurulum sihirbazi simdi sizin icin admin hesabi yaratacak. Asagiya kullanici adi, sifre ve mail adresinizi yaziniz.
 step4_head: Admin Hesabi
-step6_desc: Br0Game sisteminize basari ile kuruldu
+step6_desc: V0Game sisteminize basari ile kuruldu
 step6_head: Kurulum basari ile tamamlandi!
 title_install: Kurulum
 upgrade_available: 'Veritabaniniz icin gerekli guncellemeler! Veritabaninizin su anki surumu  %s ve surum %s guncellenebilir.<br><br Lutfen asagidaki menuden ilk SQL guncellemesini tiklayiniz:'
@@ -91,18 +91,18 @@ ins_task_universe: Evren 1'i kur
 ins_build_start: Veritabanını oluştur
 ins_back_database: Veritabanı ayarlarına dön
 ins_game_name: Oyun adı
-ins_game_name_info: 'Başlıkta, üst bilgide ve e-postalarda gösterilir. Varsayılan: Br0Game.'
+ins_game_name_info: 'Başlıkta, üst bilgide ve e-postalarda gösterilir. Varsayılan: V0Game.'
 ins_default_theme: Varsayılan tema
 ins_default_theme_info: Yeni hesaplar ve ziyaretçiler için tema; oyuncular ayarlarından değiştirebilir.
 ins_game_name_invalid: 1 ile 64 karakter arasında bir oyun adı gir.
 ins_theme_invalid: Bilinmeyen tema.
 ins_to_start: Başlangıç sayfasına
 ins_credits_head: Devlerin omuzlarında
-ins_credits_text: 'Br0Game, açık kaynaklı tarayıcı oyunlarının uzun bir geleneğini sürdürür. Bizden önce onu inşa eden ve yaşatan herkese saygılar:'
+ins_credits_text: 'V0Game, açık kaynaklı tarayıcı oyunlarının uzun bir geleneğini sürdürür. Bizden önce onu inşa eden ve yaşatan herkese saygılar:'
 ins_credits_thanks: Bu oyunun filizlendiği oyun için teşekkürler, pr0game topluluğu.
 ins_licence_note: GNU AGPL v3 altında özgür yazılım
 ins_task_images: Görselleri optimize et (WebP)
-ins_db_help: Br0Game her şeyi bir MySQL veya MariaDB veritabanında saklar. Aşağıdaki değerleri hosting panelinden ("Veritabanları" veya "MySQL" bölümüne bak) ya da sunucunu kuran kişiden alırsın. MySQL'i kendin kurduysan varsayılanlar genellikle çalışır.
+ins_db_help: V0Game her şeyi bir MySQL veya MariaDB veritabanında saklar. Aşağıdaki değerleri hosting panelinden ("Veritabanları" veya "MySQL" bölümüne bak) ya da sunucunu kuran kişiden alırsın. MySQL'i kendin kurduysan varsayılanlar genellikle çalışır.
 ins_db_host: Veritabanı sunucusu
 ins_db_host_info: Neredeyse her zaman "localhost". Bazı hosting firmaları "db1.example.com" gibi bir ad verir.
 ins_db_name_info: Oyun için veritabanı adı. Önce hosting panelinde oluştur veya kurulum aracının oluşturmasına izin ver (aşağıdaki kutuya bak).

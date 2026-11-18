@@ -1,6 +1,6 @@
 <div class="left">
 <h2>Thông tin hỗ trợ đa vũ trụ</h2>
-<p>Br0Game có thể hỗ trợ nhiều vũ trụ ổn định, bạn phải cấu hình máy chủ web theo yêu cầu.</p>
+<p>V0Game có thể hỗ trợ nhiều vũ trụ ổn định, bạn phải cấu hình máy chủ web theo yêu cầu.</p>
 <p>Bạn có thể xem máy chủ của mình hỗ trợ những gì ở nút "Thông tin". Nếu không chắc, tốt nhất hãy hỏi bạn bè ở công ty hosting của bạn.</p>
 <h3>Apache</h3>
 <p>Nếu bạn chạy Apache Server, bạn chỉ cần bỏ các dòng 48-51 trong tệp .htacces ở thư mục chính (xóa đường dẫn).<br>

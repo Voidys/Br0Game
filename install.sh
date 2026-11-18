@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 #
-# Br0Game installer for the command line.
+# V0Game installer for the command line.
 #
 # Download, read, then run (please do not pipe it into a shell):
 #
-#   curl -fsSLO https://raw.githubusercontent.com/Voidys/Br0Game/main/install.sh
+#   curl -fsSLO https://raw.githubusercontent.com/Voidys/V0Game/main/install.sh
 #   less install.sh
 #   bash install.sh
 #
-# What it does: checks your system, fetches Br0Game with git, installs the PHP
+# What it does: checks your system, fetches V0Game with git, installs the PHP
 # dependencies with Composer and prepares the folders. Then you either run the
 # command line installer (bin/console app:install) or open the web wizard.
 # It never uses sudo on its own; if a step needs it, it tells you why and asks.
 # Full guide: docs/INSTALL.md
 set -euo pipefail
 
-REPO_URL="https://github.com/Voidys/Br0Game.git"
-API_LATEST="https://api.github.com/repos/Voidys/Br0Game/releases/latest"
+REPO_URL="https://github.com/Voidys/V0Game.git"
+API_LATEST="https://api.github.com/repos/Voidys/V0Game/releases/latest"
 MIN_PHP="8.4.1"
 MIN_DISK_MB=900
 
-DIR="./br0game"
+DIR="./v0game"
 VERSION=""
 MODE=""
 ASSUME_YES=0
@@ -35,7 +35,7 @@ Usage: bash install.sh [options]
 
 General
   -h, --help              show this help
-  --dir <path>            target directory (default: ./br0game)
+  --dir <path>            target directory (default: ./v0game)
   --version <tag|main>    release tag such as v1.26.0, or main (default: latest release, else main)
   --mode ddev|server      ddev   = try it locally with Docker + DDEV
                           server = install on this machine (needs PHP 8.4, Composer, git)
@@ -48,16 +48,16 @@ Options for the command line installer (mode server, passed to app:install)
   --game-name <name>  --language de|en  --timezone <tz>  --speed classic|fast|blitz
   --registration open|closed  --base-url <https://...>
   --admin-name <n>  --admin-email <e>  --admin-password <pw>  --bots <0..50>
-  The admin password can instead be set in BR0GAME_ADMIN_PASSWORD, the database
-  password in BR0GAME_DB_PASSWORD (a password given as an option is visible in
+  The admin password can instead be set in V0GAME_ADMIN_PASSWORD, the database
+  password in V0GAME_DB_PASSWORD (a password given as an option is visible in
   the process list while the installer runs; the environment is safer).
   Without any of these options (and without --yes) the installer asks you.
 
 Examples
   bash install.sh                                  # menu
-  bash install.sh --mode ddev --dir ~/br0game      # local try-out
-  bash install.sh --mode server --dir /var/www/br0game --yes --db-name br0 --db-user br0 \
-       --admin-name admin --admin-email me@example.com   # password via BR0GAME_* environment
+  bash install.sh --mode ddev --dir ~/v0game      # local try-out
+  bash install.sh --mode server --dir /var/www/v0game --yes --db-name v0 --db-user v0 \
+       --admin-name admin --admin-email me@example.com   # password via V0GAME_* environment
 EOF
 }
 
@@ -265,18 +265,18 @@ prepare_dir() {
     abs_path "$DIR"
     if [ -d "$DIR" ] && [ -n "$(ls -A "$DIR" 2>/dev/null)" ]; then
         if is_checkout "$DIR"; then
-            say "$DIR already contains Br0Game $(cat "$DIR/install/VERSION")."
+            say "$DIR already contains V0Game $(cat "$DIR/install/VERSION")."
             confirm "Update it (git pull + composer install)?" y || die "nothing to do"
             UPDATE=1
         else
-            die "$DIR exists and is not empty (and not a Br0Game checkout). Choose another --dir."
+            die "$DIR exists and is not empty (and not a V0Game checkout). Choose another --dir."
         fi
     fi
 }
 
 fetch_sources() {
     resolve_version
-    say "Fetching Br0Game $VERSION into $DIR ..."
+    say "Fetching V0Game $VERSION into $DIR ..."
     run git clone --depth 1 --branch "$VERSION" "$REPO_URL" "$DIR"
 }
 
@@ -339,7 +339,7 @@ next_steps_server() {
     say "3. Cron: run  crontab -e  as the web server's user (or yours) and add"
     say "     * * * * * cd $ABS_DIR && php bin/console app:cron:run --quiet"
     say "   Without it fleets never arrive and nothing progresses. Help, also for hosting panels:"
-    say "     https://github.com/Voidys/Br0Game/blob/main/docs/INSTALL.md#7-set-up-the-cron-job"
+    say "     https://github.com/Voidys/V0Game/blob/main/docs/INSTALL.md#7-set-up-the-cron-job"
     say "4. Open $url/ (the game) and $url/admin to log in as the administrator."
     say "Details, updating and backups: $ABS_DIR/docs/INSTALL.md"
 }
@@ -359,13 +359,13 @@ mode_ddev() {
     [ "$FAILED" = 0 ] || die "install the missing tools and run the script again"
     prepare_dir
     say
-    say "This starts a local copy of Br0Game in Docker containers (web server, PHP, database)."
+    say "This starts a local copy of V0Game in Docker containers (web server, PHP, database)."
     say "Nothing is installed on your system besides the project folder; remove it with 'ddev delete'."
     confirm "Continue?" y || die "aborted"
     if [ "$UPDATE" = 1 ]; then update_sources; else fetch_sources; fi
     run ddev start --skip-confirmation 2>/dev/null || run ddev start
     if [ "$DRY_RUN" = 1 ]; then say "  [dry-run] (cd $DIR && ddev composer install)"; else (cd "$DIR" && ddev composer install); fi
-    local name="br0game"
+    local name="v0game"
     [ -f "$DIR/.ddev/config.yaml" ] && name="$(sed -n 's/^name:[[:space:]]*//p' "$DIR/.ddev/config.yaml" | head -n1)"
     head1 "Done"
     say "Open  https://$name.ddev.site/install/  in your browser. The wizard walks you through:"
@@ -416,8 +416,8 @@ mode_server() {
     if [ "$choice" = cli ]; then
         local args=(${APP_ARGS[@]+"${APP_ARGS[@]}"})
         [ -n "${DB_PASSWORD_ARG:-}" ] && args+=("--db-password=$DB_PASSWORD_ARG")
-        [ -z "${DB_PASSWORD_ARG:-}" ] && [ -n "${BR0GAME_DB_PASSWORD:-}" ] && args+=("--db-password=$BR0GAME_DB_PASSWORD")
-        [ -n "${ADMIN_PASSWORD_ARG:-}" ] && export BR0GAME_ADMIN_PASSWORD="$ADMIN_PASSWORD_ARG"
+        [ -z "${DB_PASSWORD_ARG:-}" ] && [ -n "${V0GAME_DB_PASSWORD:-}" ] && args+=("--db-password=$V0GAME_DB_PASSWORD")
+        [ -n "${ADMIN_PASSWORD_ARG:-}" ] && export V0GAME_ADMIN_PASSWORD="$ADMIN_PASSWORD_ARG"
         local noint=()
         [ "$ASSUME_YES" = 1 ] && noint=(--no-interaction)
         say "Running the installer ..."
@@ -440,7 +440,7 @@ mode_server() {
 
 # ---------------------------------------------------------------- main
 main() {
-    say "${C_B}Br0Game installer${C_0}"
+    say "${C_B}V0Game installer${C_0}"
     [ "$DRY_RUN" = 1 ] && say "(dry run: nothing is changed)"
     if [ -z "$MODE" ]; then
         [ "$ASSUME_YES" = 0 ] && [ -t 0 ] || die "give --mode ddev|server (no terminal for the menu)"

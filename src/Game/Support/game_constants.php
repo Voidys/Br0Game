@@ -6,7 +6,7 @@
  * are defined by App\Runtime\GameBootstrap::defineRequestConstants().
  */
 
-const DEFAULT_THEME = 'br0game';
+const DEFAULT_THEME = 'v0game';
 
 // For Fatal Errors!
 const DEFAULT_LANG = 'de';

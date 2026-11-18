@@ -149,7 +149,7 @@ abstract class AbstractGameController implements GameControllerInterface, \App\C
     }
 
     /**
-     * Device cookie (br0_device, created when missing) and, at most once per hour and player, the hashed device id in
+     * Device cookie (v0_device, created when missing) and, at most once per hour and player, the hashed device id in
      * USER_DEVICES (account links). Skipped for XHR and when the service is not injected.
      */
     private function trackDevice(): void

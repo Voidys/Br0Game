@@ -40,7 +40,7 @@ final class InstallService
     ];
 
     public const MIN_PASSWORD_LENGTH = 8;
-    public const DOCS_URL = 'https://github.com/Voidys/Br0Game/blob/main/docs/INSTALL.md';
+    public const DOCS_URL = 'https://github.com/Voidys/V0Game/blob/main/docs/INSTALL.md';
 
     /** step-by-step cron setup (hosting panel and crontab) in the install guide */
     public const CRON_DOCS_URL = self::DOCS_URL . '#7-set-up-the-cron-job';
@@ -605,7 +605,7 @@ final class InstallService
     {
         $LNG = $this->lng($locale);
         $values = [
-            'game_name' => trim((string) ($input['game_name'] ?? 'Br0Game')),
+            'game_name' => trim((string) ($input['game_name'] ?? 'V0Game')),
             'default_theme' => (string) ($input['default_theme'] ?? DEFAULT_THEME),
             'uni_name' => trim((string) ($input['uni_name'] ?? '')),
             'language' => (string) ($input['language'] ?? $locale),

@@ -49,7 +49,7 @@
 <p>Gumagamit lang kami ng mga cookie at browser storage na teknikal na kailangan para maibigay ang serbisyong hiniling mo (§ 25(2) no. 2 TDDDG, Art. 6(1)(b) at (f) GDPR):</p>
 <ul>
 <li><strong>2Moons</strong>: session cookie na nagpapanatili sa iyong naka-log in. Nag-e-expire ito 12 oras pagkatapos ng huling aktibidad mo, o kapag nag-log out ka.</li>
-<li><strong>br0_device</strong>: random na device ID (2 taon). Isang hash lang nito ang itinatago kada account, sa loob ng 90 araw pagkatapos ng huling bisita, para matukoy ang maraming account na nilalaro mula sa iisang browser.</li>
+<li><strong>v0_device</strong>: random na device ID (2 taon). Isang hash lang nito ang itinatago kada account, sa loob ng 90 araw pagkatapos ng huling bisita, para matukoy ang maraming account na nilalaro mula sa iisang browser.</li>
 <li><strong>lang</strong>: natatandaan ang wikang pinili mo.</li>
 <li><strong>account</strong>: natatandaan na ginamit ang browser na ito para mag-log in, para maipakita muna ng start page ang login. Walang personal na datos ito.</li>
 <li>Local storage: mga setting ng display ng interface ng laro (halimbawa ang huling binuksang kategorya ng mensahe). Nananatili ang mga ito sa browser mo at hindi ipinapadala sa amin.</li>

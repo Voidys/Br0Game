@@ -7,10 +7,10 @@ install_desc: 'Um des Installationstool zu aktiviere, erstell die Datei "var/ENA
 install_title: Des Install-Tool is gesperrt
 intro_install: Zur Installation
 intro_lang: Sprache
-intro_text: 'Br0Game is ei Open-Source-Weltraum-Schdrategiespiel im Browser: Blanede ausbaue, forsche, Flodde losschicke un sich mit hunderte Schbieler gleichzeidisch messe.<br><br>Dieser Assistend richded ei neue Installation Schridt fer Schridt ei: Er prüft deinen Server, verbindet sich mit der Datenbank un legt sie an, baud die Tabelle uff, lässt dich dein Spiel benenne un erschdellt den Administrador.'
-intro_upgrade_head: Br0Game schon installiert?
-intro_upgrade_text: <p>Du hasd Br0Game bereids installiert un willsd nur updade?</p><p>Hier kannsd du deine alde Datenbank mid wenige Klicks aktualisiere!</p>
-intro_welcome: Herzlich willkommen bei Br0Game, gell!
+intro_text: 'V0Game is ei Open-Source-Weltraum-Schdrategiespiel im Browser: Blanede ausbaue, forsche, Flodde losschicke un sich mit hunderte Schbieler gleichzeidisch messe.<br><br>Dieser Assistend richded ei neue Installation Schridt fer Schridt ei: Er prüft deinen Server, verbindet sich mit der Datenbank un legt sie an, baud die Tabelle uff, lässt dich dein Spiel benenne un erschdellt den Administrador.'
+intro_upgrade_head: V0Game schon installiert?
+intro_upgrade_text: <p>Du hasd V0Game bereids installiert un willsd nur updade?</p><p>Hier kannsd du deine alde Datenbank mid wenige Klicks aktualisiere!</p>
+intro_welcome: Herzlich willkommen bei V0Game, gell!
 licence_accept: Akzeptierschd du alle Bedingunge der Lizenzbeschdimmunge? Du kannsd die Software nur installiere, wenn du die Lizenzbeschdimmunge akzeptierschd.
 licence_desc: Bidde les die folgende Lizenzbeschdimmunge. Nuddse die Bildlaufleiste, um des ganze Dokumend anzuzeische.
 licence_head: Lizenzbeschdimmunge
@@ -23,11 +23,11 @@ reg_file: Datei »%s« beschreibbar?
 reg_not_found: Ned gefunde
 reg_not_writable: Ned beschreibbar
 reg_writable: Beschreibbar
-req_desc: Bevor die Installation weidergehe kann, prüft Br0Game dei Serverkonfiguration un deine Dateie, damit sichergestellt is, dass du Br0Game installiere un benutze kannst. Bidde les die Ergebnisse genau durch un fahr ned weiter, bevor alle erforderliche Tests bestanne sinn. Wenn du eine der Funktione, die unter den optionale Module stehe, nutze willsd, sorg dafer, dass die passende Tests auch bestanne werde.
+req_desc: Bevor die Installation weidergehe kann, prüft V0Game dei Serverkonfiguration un deine Dateie, damit sichergestellt is, dass du V0Game installiere un benutze kannst. Bidde les die Ergebnisse genau durch un fahr ned weiter, bevor alle erforderliche Tests bestanne sinn. Wenn du eine der Funktione, die unter den optionale Module stehe, nutze willsd, sorg dafer, dass die passende Tests auch bestanne werde.
 sql_close_reason: 'Des Universum wird eingerichtet.
 
   Bidde warde.'
-sql_welcome: Herzlich willkomme bei Br0Game v
+sql_welcome: Herzlich willkomme bei V0Game v
 step1_head: Datenbankzugang konfiguriere
 step1_mysql_dbname: Name der Datenbank
 step1_mysql_dbpass: Datenbank-Passwort
@@ -51,7 +51,7 @@ step4_admin_name_desc: Bidde gib ei Benutzername mit ei Länge von 3 bis 20 Zeic
 step4_admin_pass: 'Administrador-Passwort:'
 step4_desc: Der Installationsassisdend erschdellt jeds ei Administradorkonto. Bidde gib dafer ei Benutzername, ei E-Mail-Adresse un ei Passwort ei.
 step4_head: Administrador erschdelle
-step6_desc: Du hasd Br0Game erfolgreich installiert.
+step6_desc: Du hasd V0Game erfolgreich installiert.
 step6_head: Herzlichen Glückwunsch!
 title_install: Installer
 upgrade_available: Es sinn Updates fer dei Datenbank verfügbar! Die Datenbank is uff em Schdand vo Revision %s un kann durch ei Update uff Revision %s gebracht werde.
@@ -95,18 +95,18 @@ ins_task_universe: Universum 1 einrichde
 ins_build_start: Datenbank aufbaue
 ins_back_database: Zurügg zu den Datenbank-Einschtellunge
 ins_game_name: Spielname
-ins_game_name_info: 'Erscheint im Titel, in der Kopfzeile un in de E-Mails. Standard: Br0Game.'
+ins_game_name_info: 'Erscheint im Titel, in der Kopfzeile un in de E-Mails. Standard: V0Game.'
 ins_default_theme: Standard-Design
 ins_default_theme_info: Design fer neue Accounts un Besucher; Schbieler könne es in ihre Einschtellunge wechsle.
 ins_game_name_invalid: Gib ei Spielname mid 1 bis 64 Zeiche ei.
 ins_theme_invalid: Unbekannts Design.
 ins_to_start: Zur Startseide
 ins_credits_head: Uff de Schulterne von Riese
-ins_credits_text: 'Br0Game setzt ei lange Reih vo Open-Source-Browserspiele fort. Respekt an alle, die es vor uns gebaud un am Lewe gehalde hawwe:'
+ins_credits_text: 'V0Game setzt ei lange Reih vo Open-Source-Browserspiele fort. Respekt an alle, die es vor uns gebaud un am Lewe gehalde hawwe:'
 ins_credits_thanks: Danke an die pr0game-Gommunity fer des Spiel, aus dem dieses hier gewachse is.
 ins_licence_note: Freie Software unner der GNU AGPL v3
 ins_task_images: Bilder optimiere (WebP)
-ins_db_help: Br0Game speichert alles in ei MySQL- odder MariaDB-Datenbank. Die Werte unne kriesd du in deim Hosting-Panel (Bereich "Datenbanke" odder "MySQL") odder von der Person, die deinen Server eingerischt had. Had du MySQL selbst installiert, passe die Vorgabe meischtens.
+ins_db_help: V0Game speichert alles in ei MySQL- odder MariaDB-Datenbank. Die Werte unne kriesd du in deim Hosting-Panel (Bereich "Datenbanke" odder "MySQL") odder von der Person, die deinen Server eingerischt had. Had du MySQL selbst installiert, passe die Vorgabe meischtens.
 ins_db_host: Datenbankserver
 ins_db_host_info: Fasd immer "localhost". Manche Hoster nenne ei Name wie "db1.example.com".
 ins_db_name_info: Name der Datenbank fer des Spiel. Leg sie vorher im Hosting-Panel an odder lass sie vom Installer anlege (Kasdn drunner).

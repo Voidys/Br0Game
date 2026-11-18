@@ -5,10 +5,10 @@ install_desc: "Para habilitar la herramienta de instalación, la creación del a
 install_title: La herramienta de instalación está bloqueada
 intro_install: Instalación
 intro_lang: Idioma
-intro_text: Br0Game es uno de los mejores clones de OGame. <br> Br0Game es la última y más estable versión de un servidor basado en Xnova que ah sido desarrollada. Los puntos clave de Br0Game son su facilidad, estabilidad, flexibilidad, dinamismo y calidad. En Br0Game siempre esperamos a ser más que sus expectativas. <br> El sistema de instalación le guiará a través de la instalación o la actualización de una versión previa a la última. <br>  Si tiene preguntas o problemas, por favor, no dude en comunicarse en nuestro foro de desarrollo y soporte. <br> Br0Game es un proyecto de código abierto y está bajo licencia GNU GPL v3. Para conocer la licencia, por favor haga click en la opción del menú correspondiente. <br> Antes de comenzar la instalación se lleva a cabo una prueba para saber si el servidor cumple los requisitos mínimos.
-intro_upgrade_head: Br0Game ya instalado?
-intro_upgrade_text: <p>Br0Game ya está instalado y sólo desea actualizarlo?</p>Aquí usted puede actualizar su base de datos antigua con unos pocos clics</p>
-intro_welcome: Bienvenido a Br0Game!
+intro_text: V0Game es uno de los mejores clones de OGame. <br> V0Game es la última y más estable versión de un servidor basado en Xnova que ah sido desarrollada. Los puntos clave de V0Game son su facilidad, estabilidad, flexibilidad, dinamismo y calidad. En V0Game siempre esperamos a ser más que sus expectativas. <br> El sistema de instalación le guiará a través de la instalación o la actualización de una versión previa a la última. <br>  Si tiene preguntas o problemas, por favor, no dude en comunicarse en nuestro foro de desarrollo y soporte. <br> V0Game es un proyecto de código abierto y está bajo licencia GNU GPL v3. Para conocer la licencia, por favor haga click en la opción del menú correspondiente. <br> Antes de comenzar la instalación se lleva a cabo una prueba para saber si el servidor cumple los requisitos mínimos.
+intro_upgrade_head: V0Game ya instalado?
+intro_upgrade_text: <p>V0Game ya está instalado y sólo desea actualizarlo?</p>Aquí usted puede actualizar su base de datos antigua con unos pocos clics</p>
+intro_welcome: Bienvenido a V0Game!
 licence_accept: ¿Acepta todas las condiciones del contrato de licencia? Puede instalar el software sólo si acepta los términos de la licencia.
 licence_desc: Por favor, lea el siguiente acuerdo de licencia. Utilice la barra de desplazamiento para ver el documento completo.
 licence_head: Aviso Legal
@@ -21,7 +21,7 @@ reg_file: ¿Se puede escribir en el archivo &raquo;%s&laquo;?
 reg_not_found: No encontrado
 reg_not_writable: No escribible
 reg_writable: Escritura
-req_desc: Antes de que la instalación pueda continuar, Br0Game realizará algunas pruebas en la configuración de su servidor y los archivos para asegurarse de que se puede instalar y utilizar Br0Game. Por favor, lea cuidadosamente los resultados y no van más allá de todas las pruebas necesarias hasta que haya sido aprobada. Si desea utilizar cualquiera de las funciones que se enumeran en los módulos opcionales, debe asegurarse de que las pruebas adecuadas también se pasan.
+req_desc: Antes de que la instalación pueda continuar, V0Game realizará algunas pruebas en la configuración de su servidor y los archivos para asegurarse de que se puede instalar y utilizar V0Game. Por favor, lea cuidadosamente los resultados y no van más allá de todas las pruebas necesarias hasta que haya sido aprobada. Si desea utilizar cualquiera de las funciones que se enumeran en los módulos opcionales, debe asegurarse de que las pruebas adecuadas también se pasan.
 sql_close_reason: "El universo se está configurando. \nEspere por favor."
 sql_welcome: 'Bienvenido a '
 step1_head: Configurar el acceso a la base de datos
@@ -47,7 +47,7 @@ step4_admin_name_desc: Por favor, introduzca un nombre de usuario con una longit
 step4_admin_pass: 'Administrador-Contraseña:'
 step4_desc: El asistente de instalación ahora va a crear una cuenta de administrador para usted. Por favor, introduzca un nombre de usuario, una dirección de correo electrónico y contraseña.
 step4_head: Puede crear la cuenta administrador
-step6_desc: Usted ha instalado exitosamente Br0Game.
+step6_desc: Usted ha instalado exitosamente V0Game.
 step6_head: ¡Felicidades!
 title_install: Instalador
 upgrade_available: 'Hay actualizaciones disponibles para su base de datos! La base de datos está actualizada a la revisión %s y hay una actualización de la revisión %s para actualizar.<br><br>Por favor, seleccione en el menú siguiente, el primero en instalar la actualización de SQL:'
@@ -91,18 +91,18 @@ ins_task_universe: Configurar el universo 1
 ins_build_start: Construir la base de datos
 ins_back_database: Volver a los ajustes de la base de datos
 ins_game_name: Nombre del juego
-ins_game_name_info: 'Se muestra en el título, la cabecera y los correos. Predeterminado: Br0Game.'
+ins_game_name_info: 'Se muestra en el título, la cabecera y los correos. Predeterminado: V0Game.'
 ins_default_theme: Tema predeterminado
 ins_default_theme_info: Tema para cuentas nuevas y visitantes; los jugadores pueden cambiarlo en sus ajustes.
 ins_game_name_invalid: Introduce un nombre de juego de 1 a 64 caracteres.
 ins_theme_invalid: Tema desconocido.
 ins_to_start: A la página de inicio
 ins_credits_head: Sobre los hombros de gigantes
-ins_credits_text: 'Br0Game continúa una larga línea de juegos de navegador de código abierto. Respeto para todos los que lo construyeron y lo mantuvieron vivo antes que nosotros:'
+ins_credits_text: 'V0Game continúa una larga línea de juegos de navegador de código abierto. Respeto para todos los que lo construyeron y lo mantuvieron vivo antes que nosotros:'
 ins_credits_thanks: Gracias, comunidad de pr0game, por el juego del que surgió este.
 ins_licence_note: Software libre bajo la GNU AGPL v3
 ins_task_images: Optimizar imágenes (WebP)
-ins_db_help: Br0Game guarda todo en una base de datos MySQL o MariaDB. Obtienes los valores siguientes en el panel de tu hosting (busca "Bases de datos" o "MySQL") o de quien configuró tu servidor. Si instalaste MySQL tú mismo, normalmente sirven los valores predeterminados.
+ins_db_help: V0Game guarda todo en una base de datos MySQL o MariaDB. Obtienes los valores siguientes en el panel de tu hosting (busca "Bases de datos" o "MySQL") o de quien configuró tu servidor. Si instalaste MySQL tú mismo, normalmente sirven los valores predeterminados.
 ins_db_host: Servidor de base de datos
 ins_db_host_info: Casi siempre "localhost". Algunos hostings dan un nombre como "db1.example.com".
 ins_db_name_info: El nombre de la base de datos del juego. Créala primero en el panel de tu hosting o deja que el instalador la cree (consulta el recuadro de abajo).

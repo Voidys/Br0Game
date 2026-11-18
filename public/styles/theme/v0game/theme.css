@@ -1,5 +1,5 @@
 /*
- * Br0Game: night-time command console. Dark ground with a faint green tint, three surface levels
+ * V0Game: night-time command console. Dark ground with a faint green tint, three surface levels
  * (ground, panel, raised), hairline borders and one emerald accent. Calm, no glow, no glass.
  * Palette first (the shared tokens of css/app/base.css are retuned here), then elements and components.
  * Artwork comes from the "nebula" set, no images of its own.

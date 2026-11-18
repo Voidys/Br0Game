@@ -1,4 +1,4 @@
-# Installing Br0Game
+# Installing V0Game
 
 This guide starts simple and gets more technical further down. Pick your way first.
 
@@ -19,14 +19,14 @@ every minute (cron). A domain with HTTPS is strongly recommended.
 
 ### 1. Download and check the file
 
-Download `br0game-<version>.zip` **only** from the
-[Releases page](https://github.com/Voidys/Br0Game/releases) of the project. Download the matching
-`br0game-<version>.zip.sha256` file too. The checksum proves the file was not damaged or changed on the way. Compare
+Download `v0game-<version>.zip` **only** from the
+[Releases page](https://github.com/Voidys/V0Game/releases) of the project. Download the matching
+`v0game-<version>.zip.sha256` file too. The checksum proves the file was not damaged or changed on the way. Compare
 it with your own calculation:
 
-* Windows (Command Prompt): `certutil -hashfile br0game-1.26.4.zip SHA256`
-* macOS: `shasum -a 256 br0game-1.26.4.zip`
-* Linux: `sha256sum -c br0game-1.26.4.zip.sha256` (both files in the same folder; it prints `OK`)
+* Windows (Command Prompt): `certutil -hashfile v0game-1.26.4.zip SHA256`
+* macOS: `shasum -a 256 v0game-1.26.4.zip`
+* Linux: `sha256sum -c v0game-1.26.4.zip.sha256` (both files in the same folder; it prints `OK`)
 
 On Windows and macOS, compare the printed value with the one in the `.sha256` file by eye. If they differ, download
 again and do not use the file.
@@ -49,9 +49,9 @@ Hosting that cannot offer PHP 8.4, or cannot run cron jobs every minute, is not 
 
 The ZIP is large (about 80 MB, mostly theme artwork), so an FTP upload of the unpacked files takes a while. If the
 hoster's file manager supports it, upload the ZIP itself and extract it on the server ("Extract"/"Unzip"); that is much
-faster. Otherwise unpack the ZIP on your computer and upload **the content of the folder** `br0game-<version>` (including the
+faster. Otherwise unpack the ZIP on your computer and upload **the content of the folder** `v0game-<version>` (including the
 hidden file `.env`) to your web space, ideally *next to* the public folder, not inside it, for
-example `/home/you/br0game/`. Many panels can also unpack the ZIP on the server (file manager: "Extract"), which is
+example `/home/you/v0game/`. Many panels can also unpack the ZIP on the server (file manager: "Extract"), which is
 faster than uploading thousands of files.
 
 ### 4. Point the domain to the `public/` folder
@@ -60,7 +60,7 @@ The web address of your site must lead to the folder **`public/`** inside the pr
 Why: everything else (the database password in `config/game.php`, the source code, backups in `var/`) must never be
 reachable from the internet. Only `public/` is meant to be served.
 
-* In the hosting panel look for "Domains", "Document root" or "Web root" and set it to e.g. `br0game/public`.
+* In the hosting panel look for "Domains", "Document root" or "Web root" and set it to e.g. `v0game/public`.
 * If the hoster cannot change the document root: do not upload the project into the public web folder. Instead put the
   project one level above and ask the support to point the domain to `public/`, or choose different hosting. Leaving
   the project folder itself web-accessible exposes your secrets.
@@ -88,10 +88,10 @@ In the panel look for "Cron jobs" (also "Scheduled tasks", "Cronjobs"). Add a jo
 PHP 8.4 binary if the panel has several):
 
 ```
-cd /home/you/br0game && php bin/console app:cron:run --quiet
+cd /home/you/v0game && php bin/console app:cron:run --quiet
 ```
 
-Some panels want only the program and arguments, then use `/usr/bin/php8.4 /home/you/br0game/bin/console app:cron:run --quiet`.
+Some panels want only the program and arguments, then use `/usr/bin/php8.4 /home/you/v0game/bin/console app:cron:run --quiet`.
 After a few minutes the admin panel (Information → health checks) should show the cron as running. As long as the
 cron has never run or its last run is more than 5 minutes old, the admin home page shows a warning with a link to this section.
 
@@ -101,11 +101,11 @@ you control should additionally run the fleet driver every few seconds, as a sys
 (it is safe next to the cron and page requests, event claims are atomic):
 
 ```
-cd /var/www/br0game && while true; do php bin/console app:fleets:run --quiet; sleep 5; done
+cd /var/www/v0game && while true; do php bin/console app:fleets:run --quiet; sleep 5; done
 ```
 
 systemd: `ExecStart=/bin/sh -c 'while true; do php bin/console app:fleets:run --quiet; sleep 5; done'` with
-`WorkingDirectory=/var/www/br0game`, `Restart=always`. Shared hosting without long-running processes keeps the
+`WorkingDirectory=/var/www/v0game`, `Restart=always`. Shared hosting without long-running processes keeps the
 minute cron only. DDEV starts the loop by itself (daemon `fleets` in `.ddev/config.yaml`).
 
 ### 8. Turn on HTTPS
@@ -121,7 +121,7 @@ For a VPS where you are comfortable with a shell. Download the script, **read it
 into a shell.
 
 ```sh
-curl -fsSLO https://raw.githubusercontent.com/Voidys/Br0Game/main/install.sh
+curl -fsSLO https://raw.githubusercontent.com/Voidys/V0Game/main/install.sh
 less install.sh
 bash install.sh
 ```
@@ -137,12 +137,12 @@ the web wizard. At the end it prints the next steps (document root, cron line, H
 Useful options (`bash install.sh --help` lists everything):
 
 ```sh
-bash install.sh --mode server --dir /var/www/br0game          # skip the menu
+bash install.sh --mode server --dir /var/www/v0game          # skip the menu
 bash install.sh --version v1.26.4 ...                          # a specific release (default: latest)
 bash install.sh --dry-run --mode server --dir /tmp/x --yes    # show what would happen
 # unattended, secrets from the environment:
-BR0GAME_DB_PASSWORD=... BR0GAME_ADMIN_PASSWORD=... bash install.sh --mode server --dir /var/www/br0game --yes \
-    --db-name br0game --db-user br0game --admin-name admin --admin-email you@example.com --language en --speed classic
+V0GAME_DB_PASSWORD=... V0GAME_ADMIN_PASSWORD=... bash install.sh --mode server --dir /var/www/v0game --yes \
+    --db-name v0game --db-user v0game --admin-name admin --admin-email you@example.com --language en --speed classic
 ```
 
 The `--db-*`, `--game-name`, `--language`, `--timezone`, `--speed` (`classic`, `fast`, `blitz`), `--registration`
@@ -154,7 +154,7 @@ Afterwards:
   `AllowOverride All` (the `.htaccess` in `public/` does the rewriting), PHP via PHP-FPM or `mod_php` 8.4.
 * **Permissions:** the web server's user must write to `var/`, `public/uploads/`, `public/stats/`,
   `config/` (until installed) and `.env.local`. For example `sudo chgrp -R www-data var public/uploads public/stats config .env.local`.
-* **Cron** (as the web server's user or your own): `* * * * * cd /var/www/br0game && php bin/console app:cron:run --quiet`;
+* **Cron** (as the web server's user or your own): `* * * * * cd /var/www/v0game && php bin/console app:cron:run --quiet`;
   optional fleet driver every few seconds: `while true; do php bin/console app:fleets:run --quiet; sleep 5; done` (systemd/supervisor, see step 7)
 * **HTTPS:** e.g. `certbot --nginx`.
 
@@ -170,13 +170,13 @@ After a deploy or after editing the config tables by hand, clear `var/game/` (ad
 [DDEV](https://ddev.readthedocs.io/en/stable/users/install/ddev-installation/) are needed.
 
 ```sh
-git clone https://github.com/Voidys/Br0Game.git
-cd Br0Game
+git clone https://github.com/Voidys/V0Game.git
+cd V0Game
 ddev start
 ddev composer install
 ```
 
-Open `https://br0game.ddev.site/install/`. The wizard asks for the database (in DDEV: host `db`, user `db`,
+Open `https://v0game.ddev.site/install/`. The wizard asks for the database (in DDEV: host `db`, user `db`,
 password `db`, name `db`), the game settings and your administrator account. The cron job runs by itself inside DDEV.
 `bash install.sh --mode ddev` does the same steps with requirement checks. Remove everything again with `ddev delete`.
 
@@ -203,7 +203,7 @@ password `db`, name `db`), the game settings and your administrator account. The
 
 ## Backups
 
-* **Database** (the game itself): `mysqldump --single-transaction -u USER -p DBNAME > br0game-$(date +%F).sql`, or
+* **Database** (the game itself): `mysqldump --single-transaction -u USER -p DBNAME > v0game-$(date +%F).sql`, or
   "Export" in phpMyAdmin or the hosting panel. The admin panel can also create dumps into `var/backups/`.
 * **Files:** `config/game.php` and `.env.local` (credentials; keep them private) and `public/uploads/`.
   Everything else can be re-downloaded.
@@ -218,7 +218,7 @@ password `db`, name `db`), the game settings and your administrator account. The
 - [ ] Mail configured (Admin → settings), so password resets work
 - [ ] `var/ENABLE_INSTALL_TOOL` does not exist after installing
 - [ ] Production mode: `APP_ENV=prod` (the checked-in `.env` defaults to `prod`, the installer also writes `APP_ENV=prod` and `APP_DEBUG=0` to `.env.local`; only DDEV switches to `dev` through `.ddev/config.yaml`). Never set `APP_ENV=dev` on a public server: in `dev` the Symfony profiler and debug pages are reachable.
-- [ ] PHP, MySQL/MariaDB and the operating system receive updates; update Br0Game when new versions appear
+- [ ] PHP, MySQL/MariaDB and the operating system receive updates; update V0Game when new versions appear
 - [ ] Regular backups
 - [ ] Behind a reverse proxy or load balancer: `SYMFONY_TRUSTED_PROXIES` set (see below)
 - [ ] `DEFAULT_URI` in `.env.local` is your public address (the setup wizard writes it); e-mail links (password reset, account activation) use it. Without it (outside development) those mails are not sent (an error is logged per refused mail and the admin home page shows a warning): the Host header of a request is never used for links. The web installer writes it from the address you opened it at, `app:install` from `--base-url`; an existing install must add `DEFAULT_URI=https://your-domain` to `.env.local`
@@ -311,5 +311,5 @@ protection grants and late recalls for review.
 | Wizard says it is closed | The game is already installed (`config/game.php` exists), or `var/` is not writable so the unlock file cannot be created. |
 | Blank/odd after update | `php bin/console cache:clear`, empty `var/game/`. |
 
-Still stuck? Open an issue at <https://github.com/Voidys/Br0Game/issues> with the last lines of `var/log/game.log`
+Still stuck? Open an issue at <https://github.com/Voidys/V0Game/issues> with the last lines of `var/log/game.log`
 (remove passwords first).

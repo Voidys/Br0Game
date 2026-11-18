@@ -2,12 +2,12 @@
 
 enable_installtool () {
   touch var/ENABLE_INSTALL_TOOL
-  echo "Br0Game installtool enabled."
+  echo "V0Game installtool enabled."
 }
 
 disable_installtool () {
   rm var/ENABLE_INSTALL_TOOL
-  echo "Br0Game installtool disabled."
+  echo "V0Game installtool disabled."
 }
 
 if [ $# -eq 0 ] ; then

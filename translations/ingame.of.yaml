@@ -943,7 +943,7 @@ market_info_description: Linke Seite - Martblatzangebot | Rechte Seite - Gaufbet
 market_info_header: Margtplatz
 market_info_no_return: Erschdellte Margtplatzangebote gönnene ned schdorniert werden!
 market_msg_trade_bought: Deine Flodde fliegd zu %s mit %s %s, %s %s, %s %s und es kostet %s %s
-market_msg_trade_from: Br0game Margtplatz
+market_msg_trade_from: V0game Margtplatz
 market_msg_trade_sold: Deine Flodde fliegd zu %s mit %s %s, %s %s, %s %s.
 market_msg_trade_topic: Handelsstatus
 market_p_buy: Kaufen

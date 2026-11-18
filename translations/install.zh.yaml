@@ -7,10 +7,10 @@ install_desc: '要启用安装工具，请创建文件 "var/ENABLE_INSTALL_TOOL"
 install_title: 安装工具已被锁定
 intro_install: 安装
 intro_lang: 语言
-intro_text: Br0Game 是一款开源的浏览器太空战略游戏：建设你的星球、进行研究、派遣舰队，并与数百名玩家同时交战。<br><br>本向导将逐步完成全新安装：检查服务器、连接并创建数据库、建立数据表、为你的游戏命名并创建管理员账号。
-intro_upgrade_head: 已经安装过 Br0Game？
-intro_upgrade_text: <p>已经安装过 Br0Game，只想更新吗？</p><p>在这里只需点几下，即可更新现有数据库！</p>
-intro_welcome: 欢迎使用 Br0Game！
+intro_text: V0Game 是一款开源的浏览器太空战略游戏：建设你的星球、进行研究、派遣舰队，并与数百名玩家同时交战。<br><br>本向导将逐步完成全新安装：检查服务器、连接并创建数据库、建立数据表、为你的游戏命名并创建管理员账号。
+intro_upgrade_head: 已经安装过 V0Game？
+intro_upgrade_text: <p>已经安装过 V0Game，只想更新吗？</p><p>在这里只需点几下，即可更新现有数据库！</p>
+intro_welcome: 欢迎使用 V0Game！
 licence_accept: 你是否接受许可条款？只有接受后才能安装本软件。
 licence_desc: 请阅读以下许可条款。使用滚动条查看完整文档。
 licence_head: 许可条款
@@ -23,11 +23,11 @@ reg_file: 文件 &raquo;%s&laquo; 是否可写？
 reg_not_found: 未找到
 reg_not_writable: 不可写
 reg_writable: 可写
-req_desc: 在继续安装之前，Br0Game 会检查你的服务器配置和文件，确保可以正常安装和使用。请仔细阅读检测结果，在所有必需检测项都通过之前不要继续。
+req_desc: 在继续安装之前，V0Game 会检查你的服务器配置和文件，确保可以正常安装和使用。请仔细阅读检测结果，在所有必需检测项都通过之前不要继续。
 sql_close_reason: '正在设置宇宙。
 
   请稍候。'
-sql_welcome: 欢迎使用 Br0Game v
+sql_welcome: 欢迎使用 V0Game v
 step1_head: 配置数据库访问
 step1_mysql_dbname: 数据库名称
 step1_mysql_dbpass: 数据库密码
@@ -51,7 +51,7 @@ step4_admin_name_desc: 请输入 3 到 20 个字符的用户名。
 step4_admin_pass: 管理员密码：
 step4_desc: 安装向导现在将创建管理员账号。请输入用户名、电子邮件地址和密码。
 step4_head: 创建管理员
-step6_desc: 你已成功安装 Br0Game。
+step6_desc: 你已成功安装 V0Game。
 step6_head: 恭喜！
 title_install: 安装程序
 upgrade_available: 有可用的数据库更新。数据库当前版本为 %s，可更新至版本 %s。
@@ -95,18 +95,18 @@ ins_task_universe: 设置宇宙 1
 ins_build_start: 构建数据库
 ins_back_database: 返回数据库设置
 ins_game_name: 游戏名称
-ins_game_name_info: 显示在标题、页眉和电子邮件中。默认：Br0Game。
+ins_game_name_info: 显示在标题、页眉和电子邮件中。默认：V0Game。
 ins_default_theme: 默认主题
 ins_default_theme_info: 新账号和访客使用的主题；玩家可在设置中切换。
 ins_game_name_invalid: 请输入 1 到 64 个字符的游戏名称。
 ins_theme_invalid: 未知主题。
 ins_to_start: 前往起始页
 ins_credits_head: 站在巨人的肩膀上
-ins_credits_text: Br0Game 延续了一长串开源浏览器游戏的传统。向所有在我们之前创造并维系它的人致敬：
+ins_credits_text: V0Game 延续了一长串开源浏览器游戏的传统。向所有在我们之前创造并维系它的人致敬：
 ins_credits_thanks: 感谢 pr0game 社区，本游戏正是由它发展而来。
 ins_licence_note: 依据 GNU AGPL v3 发布的自由软件
 ins_task_images: 优化图片（WebP）
-ins_db_help: Br0Game 将所有数据存储在 MySQL 或 MariaDB 数据库中。以下数值可从你的主机面板获取（查找“数据库”或“MySQL”），或询问搭建服务器的人。如果你自行安装了 MySQL，默认值通常即可使用。
+ins_db_help: V0Game 将所有数据存储在 MySQL 或 MariaDB 数据库中。以下数值可从你的主机面板获取（查找“数据库”或“MySQL”），或询问搭建服务器的人。如果你自行安装了 MySQL，默认值通常即可使用。
 ins_db_host: 数据库服务器
 ins_db_host_info: 几乎总是“localhost”。部分主机会提供类似“db1.example.com”的名称。
 ins_db_name_info: 游戏所用数据库的名称。请先在主机面板中创建，或让安装程序代为创建（见下方提示框）。

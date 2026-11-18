@@ -3,7 +3,7 @@
 // Every session logs in as lt_<n>, picks an universe player and then hammers in-game pages; some actions dispatch
 // fleets through the real 3-step form flow. Plain HTTP with a cookie jar, no dependencies (Node 18+).
 //
-//   node loadtest.mjs --base https://br0game.ddev.site --players players.tsv --sessions 60 --duration 180 --think 150 --out result.json
+//   node loadtest.mjs --base https://v0game.ddev.site --players players.tsv --sessions 60 --duration 180 --think 150 --out result.json
 //
 // players.tsv: username<TAB>userId<TAB>galaxy<TAB>system<TAB>planet (one test player per line, from the seed tool).
 
@@ -12,7 +12,7 @@ import fs from 'node:fs';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce((acc, a, i, all) => (a.startsWith('--') ? [...acc, [a.slice(2), all[i + 1]]] : acc), []));
-const BASE = args.base ?? 'https://br0game.ddev.site';
+const BASE = args.base ?? 'https://v0game.ddev.site';
 const SESSIONS = Number(args.sessions ?? 50);
 const DURATION = Number(args.duration ?? 180) * 1000;
 const THINK = Number(args.think ?? 150);
@@ -49,7 +49,7 @@ class Session {
   }
 
   async request(path, { method = 'GET', form = null, label = path } = {}) {
-    const headers = { cookie: this.cookies(), 'user-agent': 'br0game-loadtest' };
+    const headers = { cookie: this.cookies(), 'user-agent': 'v0game-loadtest' };
     let body;
     if (form) {
       headers['content-type'] = 'application/x-www-form-urlencoded';

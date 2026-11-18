@@ -48,7 +48,7 @@
 <p>Solo usamos cookies y almacenamiento del navegador necesarios para prestar el servicio que solicitas:</p>
 <ul>
 <li><strong>2Moons</strong>: cookie de sesión que mantiene tu sesión iniciada. Caduca 12 horas después de tu última actividad, o cuando cierras sesión.</li>
-<li><strong>br0_device</strong>: ID de dispositivo aleatorio (2 años). Solo se guarda un hash del mismo por cuenta, durante 90 días después de la última visita, para detectar varias cuentas jugadas desde el mismo navegador.</li>
+<li><strong>v0_device</strong>: ID de dispositivo aleatorio (2 años). Solo se guarda un hash del mismo por cuenta, durante 90 días después de la última visita, para detectar varias cuentas jugadas desde el mismo navegador.</li>
 <li><strong>lang</strong>: recuerda el idioma que seleccionaste.</li>
 <li><strong>account</strong>: recuerda que este navegador se ha usado para iniciar sesión, para que la página de inicio muestre antes el inicio de sesión. No contiene datos personales.</li>
 <li>Almacenamiento local: preferencias de visualización de la interfaz del juego (por ejemplo, la última categoría de mensajes abierta). Permanecen en tu navegador y no se nos envían.</li>

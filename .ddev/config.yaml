@@ -1,4 +1,4 @@
-name: br0game
+name: v0game
 type: php
 docroot: "public"
 php_version: "8.4"

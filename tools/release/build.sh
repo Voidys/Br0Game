@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build a release ZIP of Br0Game.
+# Build a release ZIP of V0Game.
 #
 #   tools/release/build.sh <version> [--dev] [--out <dir>]
 #
@@ -10,7 +10,7 @@
 #              ignored files) instead of a clean `git archive` of the tag. For testing.
 #   --out DIR  output directory (default: dist/ in the repository, gitignored)
 #
-# Result: dist/br0game-<version>.zip and dist/br0game-<version>.zip.sha256
+# Result: dist/v0game-<version>.zip and dist/v0game-<version>.zip.sha256
 # Needs: git, tar, composer (or composer.phar), php 8.4, sha256sum, zip (or python3).
 set -euo pipefail
 
@@ -31,7 +31,7 @@ while [ $# -gt 0 ]; do
 done
 [ -n "$VERSION" ] || usage 1
 VERSION="${VERSION#v}"
-NAME="br0game-$VERSION"
+NAME="v0game-$VERSION"
 
 COMPOSER=(composer)
 command -v composer >/dev/null 2>&1 || COMPOSER=(php "$REPO/composer.phar")

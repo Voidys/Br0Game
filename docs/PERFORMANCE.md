@@ -237,7 +237,7 @@ opcache.enable=1
 opcache.validate_timestamps=0        ; reload PHP-FPM (or opcache_reset()) on every deploy
 opcache.memory_consumption=256
 opcache.max_accelerated_files=20000
-opcache.preload=/path/to/br0game/config/preload.php
+opcache.preload=/path/to/v0game/config/preload.php
 opcache.preload_user=www-data
 ```
 

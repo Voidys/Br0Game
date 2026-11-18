@@ -1,6 +1,6 @@
 <div class="left">
 <h2>Informatie over ondersteuning van meerdere universums</h2>
-<p>Br0Game kan meerdere universums ondersteunen, maar daarvoor moet je de webserver naar de vereisten configureren.</p>
+<p>V0Game kan meerdere universums ondersteunen, maar daarvoor moet je de webserver naar de vereisten configureren.</p>
 <p>Wat je server ondersteunt, vind je via de knop "Informatie". Weet je het niet zeker, vraag het dan aan de mensen van je hostingbedrijf.</p>
 <h3>Apache</h3>
 <p>Draai je een Apache-server, dan moet je alleen de regels 48-51 in het .htaccess-bestand in de hoofdmap uit commentaar halen (het commentaarteken verwijderen).<br>

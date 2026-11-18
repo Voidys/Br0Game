@@ -5,10 +5,10 @@ install_desc: "Pour activer l'outil d'installation, créez le fichier \"var/ENAB
 install_title: L'outil d'installation est verrouillé
 intro_install: Installation
 intro_lang: Language
-intro_text: 'Un des meilleurs clones Ogame : 2 Moons.<br>The latest is and 2 Moons the stablest flat rate was ever developed. 2 of Moon shines by stability, flexibility, dynamics, quality and user-friendliness. We hope always to be better than her expectations.<br><br>The installation system guides you through the install or upgrade from an older version to the latest. On questions or trouble don''t hesitate to contact us.<br><br>Br0Game is an open source project licensed under the GNU GPL v3. For the license please click on the item in the menu.<br><br>Before the installation starts, a test is conducted, if system requirements are met.'
-intro_upgrade_head: Br0Game déjà installé ?
-intro_upgrade_text: <p>Vous avez déjà installé Br0Game et souhaitez simplement le mettre à jour ?</p><p>Vous pouvez mettre à jour votre base de données existante en quelques clics !</p>
-intro_welcome: Bievenue dans Br0Game!
+intro_text: 'Un des meilleurs clones Ogame : 2 Moons.<br>The latest is and 2 Moons the stablest flat rate was ever developed. 2 of Moon shines by stability, flexibility, dynamics, quality and user-friendliness. We hope always to be better than her expectations.<br><br>The installation system guides you through the install or upgrade from an older version to the latest. On questions or trouble don''t hesitate to contact us.<br><br>V0Game is an open source project licensed under the GNU GPL v3. For the license please click on the item in the menu.<br><br>Before the installation starts, a test is conducted, if system requirements are met.'
+intro_upgrade_head: V0Game déjà installé ?
+intro_upgrade_text: <p>Vous avez déjà installé V0Game et souhaitez simplement le mettre à jour ?</p><p>Vous pouvez mettre à jour votre base de données existante en quelques clics !</p>
+intro_welcome: Bievenue dans V0Game!
 licence_accept: Acceptez-vous les termes de la licence ? Vous ne pouvez installer le logiciel que si vous les acceptez.
 licence_desc: Veuillez lire les termes de la licence ci-dessous. Utilisez la barre de défilement pour voir le document en entier.
 licence_head: Termes de la licence
@@ -21,7 +21,7 @@ reg_file: Le fichier &raquo;%s&laquo; est-il accessible en écriture ?
 reg_not_found: Non trouvé
 reg_not_writable: Non inscriptibles
 reg_writable: Inscriptibles
-req_desc: Avant de poursuivre l'installation, Br0Game va vérifier la configuration et les fichiers de votre serveur pour s'assurer qu'il peut être installé et utilisé. Lisez attentivement les résultats et ne continuez pas tant que tous les tests requis ne sont pas réussis.
+req_desc: Avant de poursuivre l'installation, V0Game va vérifier la configuration et les fichiers de votre serveur pour s'assurer qu'il peut être installé et utilisé. Lisez attentivement les résultats et ne continuez pas tant que tous les tests requis ne sont pas réussis.
 sql_close_reason: "L'univers est en train de se mettre en place. \nS'il vous plaît, attendez."
 sql_welcome: 'Bienvenue sur '
 step1_head: Configurer l'accès à la base de données
@@ -47,7 +47,7 @@ step4_admin_name_desc: Saisissez un nom d'utilisateur de 3 à 20 caractères.
 step4_admin_pass: 'Mot de passe de l''administrateur :'
 step4_desc: L'assistant d'installation va maintenant créer un compte administrateur. Veuillez saisir un nom d'utilisateur, une adresse e-mail et un mot de passe.
 step4_head: Créer l'administrateur
-step6_desc: Vous avez installé Br0Game avec succès.
+step6_desc: Vous avez installé V0Game avec succès.
 step6_head: Félicitations !
 title_install: Installeur
 upgrade_available: Des mises à jour de la base de données sont disponibles. La base de données est à la révision %s et peut être mise à jour vers la révision %s.
@@ -91,18 +91,18 @@ ins_task_universe: Configurer l'univers 1
 ins_build_start: Construire la base de données
 ins_back_database: Retour aux paramètres de la base de données
 ins_game_name: Nom du jeu
-ins_game_name_info: 'Affiché dans le titre, l''en-tête et les e-mails. Par défaut : Br0Game.'
+ins_game_name_info: 'Affiché dans le titre, l''en-tête et les e-mails. Par défaut : V0Game.'
 ins_default_theme: Thème par défaut
 ins_default_theme_info: Thème pour les nouveaux comptes et les visiteurs ; les joueurs peuvent en changer dans leurs paramètres.
 ins_game_name_invalid: Saisissez un nom de jeu de 1 à 64 caractères.
 ins_theme_invalid: Thème inconnu.
 ins_to_start: Vers la page d'accueil
 ins_credits_head: Sur les épaules de géants
-ins_credits_text: 'Br0Game poursuit une longue lignée de jeux de navigateur open source. Respect à tous ceux qui l''ont construit et maintenu en vie avant nous :'
+ins_credits_text: 'V0Game poursuit une longue lignée de jeux de navigateur open source. Respect à tous ceux qui l''ont construit et maintenu en vie avant nous :'
 ins_credits_thanks: Merci, communauté pr0game, pour le jeu dont celui-ci est issu.
 ins_licence_note: Logiciel libre sous GNU AGPL v3
 ins_task_images: Optimiser les images (WebP)
-ins_db_help: Br0Game stocke tout dans une base de données MySQL ou MariaDB. Vous obtenez les valeurs ci-dessous auprès du panneau de votre hébergeur (cherchez « Bases de données » ou « MySQL ») ou de la personne qui a configuré votre serveur. Si vous avez installé MySQL vous-même, les valeurs par défaut fonctionnent généralement.
+ins_db_help: V0Game stocke tout dans une base de données MySQL ou MariaDB. Vous obtenez les valeurs ci-dessous auprès du panneau de votre hébergeur (cherchez « Bases de données » ou « MySQL ») ou de la personne qui a configuré votre serveur. Si vous avez installé MySQL vous-même, les valeurs par défaut fonctionnent généralement.
 ins_db_host: Serveur de base de données
 ins_db_host_info: Presque toujours « localhost ». Certains hébergeurs donnent un nom comme « db1.example.com ».
 ins_db_name_info: Le nom de la base de données du jeu. Créez-la d'abord dans le panneau de votre hébergeur ou laissez l'installateur la créer (voir l'encadré ci-dessous).

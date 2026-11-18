@@ -37,7 +37,7 @@ class DisposableEmailDomainsCronjob extends AbstractCronjobTask
             $response = $this->httpClient->request('GET', self::SOURCE_URL, [
                 'timeout' => 10,
                 'max_duration' => 30,
-                'headers' => ['User-Agent' => 'Br0Game disposable-domain-list updater'],
+                'headers' => ['User-Agent' => 'V0Game disposable-domain-list updater'],
                 // https only, also after redirects
                 'on_progress' => static function (int $downloaded, int $total, array $info): void {
                     if (!str_starts_with((string) ($info['url'] ?? 'https://'), 'https://')) {

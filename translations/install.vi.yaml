@@ -7,10 +7,10 @@ install_desc: 'Để bật công cụ cài đặt, hãy tạo tệp "var/ENABLE_
 install_title: Công cụ cài đặt đang bị khóa
 intro_install: Cài đặt
 intro_lang: Ngôn ngữ
-intro_text: 'Br0Game là trò chơi chiến lược không gian mã nguồn mở chạy trên trình duyệt: xây dựng hành tinh, nghiên cứu, điều hạm đội và giao chiến với hàng trăm người chơi cùng lúc.<br><br>Trình hướng dẫn này thiết lập một bản cài đặt mới theo từng bước: kiểm tra máy chủ, kết nối và tạo cơ sở dữ liệu, tạo các bảng, đặt tên cho trò chơi và tạo tài khoản quản trị viên.'
-intro_upgrade_head: Bạn đã cài Br0Game rồi?
-intro_upgrade_text: <p>Đã cài Br0Game và chỉ muốn cập nhật?</p><p>Bạn có thể cập nhật cơ sở dữ liệu hiện có chỉ với vài cú nhấp chuột tại đây!</p>
-intro_welcome: Chào mừng đến với Br0Game!
+intro_text: 'V0Game là trò chơi chiến lược không gian mã nguồn mở chạy trên trình duyệt: xây dựng hành tinh, nghiên cứu, điều hạm đội và giao chiến với hàng trăm người chơi cùng lúc.<br><br>Trình hướng dẫn này thiết lập một bản cài đặt mới theo từng bước: kiểm tra máy chủ, kết nối và tạo cơ sở dữ liệu, tạo các bảng, đặt tên cho trò chơi và tạo tài khoản quản trị viên.'
+intro_upgrade_head: Bạn đã cài V0Game rồi?
+intro_upgrade_text: <p>Đã cài V0Game và chỉ muốn cập nhật?</p><p>Bạn có thể cập nhật cơ sở dữ liệu hiện có chỉ với vài cú nhấp chuột tại đây!</p>
+intro_welcome: Chào mừng đến với V0Game!
 licence_accept: Bạn có chấp nhận các điều khoản giấy phép không? Bạn chỉ có thể cài đặt phần mềm nếu chấp nhận.
 licence_desc: Vui lòng đọc các điều khoản giấy phép bên dưới. Dùng thanh cuộn để xem toàn bộ văn bản.
 licence_head: Điều khoản giấy phép
@@ -23,11 +23,11 @@ reg_file: Tệp &raquo;%s&laquo; có ghi được không?
 reg_not_found: Không tìm thấy
 reg_not_writable: Không ghi được
 reg_writable: Ghi được
-req_desc: Trước khi tiếp tục cài đặt, Br0Game sẽ kiểm tra cấu hình máy chủ và các tệp để đảm bảo có thể cài đặt và sử dụng. Hãy đọc kỹ kết quả và đừng tiếp tục cho đến khi mọi kiểm tra bắt buộc đều đạt.
+req_desc: Trước khi tiếp tục cài đặt, V0Game sẽ kiểm tra cấu hình máy chủ và các tệp để đảm bảo có thể cài đặt và sử dụng. Hãy đọc kỹ kết quả và đừng tiếp tục cho đến khi mọi kiểm tra bắt buộc đều đạt.
 sql_close_reason: 'Đang thiết lập vũ trụ.
 
   Vui lòng đợi.'
-sql_welcome: Chào mừng đến với Br0Game v
+sql_welcome: Chào mừng đến với V0Game v
 step1_head: Cấu hình kết nối cơ sở dữ liệu
 step1_mysql_dbname: Tên cơ sở dữ liệu
 step1_mysql_dbpass: Mật khẩu cơ sở dữ liệu
@@ -51,7 +51,7 @@ step4_admin_name_desc: Nhập tên người dùng từ 3 đến 20 ký tự.
 step4_admin_pass: 'Mật khẩu quản trị viên:'
 step4_desc: Trình cài đặt sẽ tạo tài khoản quản trị viên. Hãy nhập tên người dùng, địa chỉ email và mật khẩu.
 step4_head: Tạo quản trị viên
-step6_desc: Bạn đã cài đặt Br0Game thành công.
+step6_desc: Bạn đã cài đặt V0Game thành công.
 step6_head: Chúc mừng!
 title_install: Trình cài đặt
 upgrade_available: Có bản cập nhật cơ sở dữ liệu. Cơ sở dữ liệu đang ở revision %s và có thể được cập nhật lên revision %s.
@@ -95,18 +95,18 @@ ins_task_universe: Thiết lập vũ trụ 1
 ins_build_start: Xây dựng cơ sở dữ liệu
 ins_back_database: Quay lại cài đặt cơ sở dữ liệu
 ins_game_name: Tên trò chơi
-ins_game_name_info: 'Hiển thị ở tiêu đề, thanh đầu trang và email. Mặc định: Br0Game.'
+ins_game_name_info: 'Hiển thị ở tiêu đề, thanh đầu trang và email. Mặc định: V0Game.'
 ins_default_theme: Giao diện mặc định
 ins_default_theme_info: Giao diện cho tài khoản mới và khách; người chơi có thể đổi trong cài đặt.
 ins_game_name_invalid: Nhập tên trò chơi từ 1 đến 64 ký tự.
 ins_theme_invalid: Giao diện không tồn tại.
 ins_to_start: Đến trang chủ
 ins_credits_head: Đứng trên vai những người khổng lồ
-ins_credits_text: 'Br0Game tiếp nối một dòng dài các trò chơi trình duyệt mã nguồn mở. Xin tri ân tất cả những ai đã xây dựng và giữ cho chúng sống trước chúng tôi:'
+ins_credits_text: 'V0Game tiếp nối một dòng dài các trò chơi trình duyệt mã nguồn mở. Xin tri ân tất cả những ai đã xây dựng và giữ cho chúng sống trước chúng tôi:'
 ins_credits_thanks: Cảm ơn cộng đồng pr0game, trò chơi đã làm nền tảng cho dự án này.
 ins_licence_note: Phần mềm tự do theo GNU AGPL v3
 ins_task_images: Tối ưu hình ảnh (WebP)
-ins_db_help: Br0Game lưu toàn bộ dữ liệu trong cơ sở dữ liệu MySQL hoặc MariaDB. Bạn lấy các giá trị bên dưới từ bảng điều khiển hosting (tìm "Databases" hoặc "MySQL") hoặc từ người thiết lập máy chủ. Nếu tự cài MySQL, giá trị mặc định thường dùng được.
+ins_db_help: V0Game lưu toàn bộ dữ liệu trong cơ sở dữ liệu MySQL hoặc MariaDB. Bạn lấy các giá trị bên dưới từ bảng điều khiển hosting (tìm "Databases" hoặc "MySQL") hoặc từ người thiết lập máy chủ. Nếu tự cài MySQL, giá trị mặc định thường dùng được.
 ins_db_host: Máy chủ cơ sở dữ liệu
 ins_db_host_info: Hầu như luôn là "localhost". Một số hosting cho tên dạng "db1.example.com".
 ins_db_name_info: Tên cơ sở dữ liệu của trò chơi. Hãy tạo trước trong bảng điều khiển hosting, hoặc để trình cài đặt tạo (xem khung bên dưới).

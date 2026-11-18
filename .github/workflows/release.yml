@@ -35,13 +35,13 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/br0game-*.zip
-            dist/br0game-*.zip.sha256
+            dist/v0game-*.zip
+            dist/v0game-*.zip.sha256
           generate_release_notes: true
           body: |
             ## Installing
 
-            Download `br0game-<version>.zip` below, check it against the `.sha256` file and follow
+            Download `v0game-<version>.zip` below, check it against the `.sha256` file and follow
             [docs/INSTALL.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/INSTALL.md).
             Upgrading from an older version: replace the files except `config/` and `.env.local`,
             then open the site (database migrations run automatically).

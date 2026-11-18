@@ -934,7 +934,7 @@ se_smail_path: Chemin pour envoyer un mail / Qmail
 se_smtp: Paramètres SMTP
 se_smtp_host: 'Hôte SMTP :'
 se_smtp_host_info: Tappez l'adresse de votre serveur SMTP ici.
-se_smtp_info: Entrez votre serveur SMTP ici. Cela permet au logiciel Br0Game de communiquer avec vos joueurs à travers votre serveur SMTP.
+se_smtp_info: Entrez votre serveur SMTP ici. Cela permet au logiciel V0Game de communiquer avec vos joueurs à travers votre serveur SMTP.
 se_smtp_pass: 'Mot de passe SMTP : '
 se_smtp_port: 'PORT SMTP :'
 se_smtp_port_info: 'Tapez le port de votre serveur SMTP ici ... <br> Le Port SMTP Standard est : 25'

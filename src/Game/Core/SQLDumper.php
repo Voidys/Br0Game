@@ -162,7 +162,7 @@ class SQLDumper
      */
     private function writeDumpHeader($fp, array $database, string $gameVersion): void
     {
-        fwrite($fp, "-- MySQL dump | Br0Game dumper v{$gameVersion}
+        fwrite($fp, "-- MySQL dump | V0Game dumper v{$gameVersion}
 --
 -- Host: {$database['host']}    Database: {$database['databasename']}
 -- ------------------------------------------------------

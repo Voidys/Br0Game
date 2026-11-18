@@ -1,5 +1,5 @@
 /*
- * Br0Game UI base: design tokens, a light reset, form controls, tables and the shared components
+ * V0Game UI base: design tokens, a light reset, form controls, tables and the shared components
  * (modal, tooltip, notify, tabs, autocomplete, sortable tables). Shared by all areas.
  *
  * Everything sits in cascade layers. The game imports app/content.css into
@@ -25,7 +25,7 @@
 }
 
 @layer components {
-  /* Br0Game wordmark (game top bar, account lobby, admin): the brand name in Michroma, "0" in the accent colour */
+  /* V0Game wordmark (game top bar, account lobby, admin): the brand name in Michroma, "0" in the accent colour */
   .wordmark {
     font-family: "Michroma", system-ui, sans-serif;
     font-weight: 400;

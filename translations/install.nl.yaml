@@ -7,10 +7,10 @@ install_desc: 'Om de installatietool in te schakelen, maak je het bestand "var/E
 install_title: De installatietool is vergrendeld
 intro_install: Installeren
 intro_lang: Taal
-intro_text: 'Br0Game is een open-source ruimtestrategiespel in de browser: bouw je planeten uit, doe onderzoek, stuur vloten en vecht tegelijk met honderden spelers.<br><br>Deze wizard zet stap voor stap een nieuwe installatie op: hij controleert je server, maakt verbinding met de database en maakt die aan, bouwt de tabellen, laat je je spel een naam geven en maakt de beheerder aan.'
-intro_upgrade_head: Br0Game al geïnstalleerd?
-intro_upgrade_text: <p>Br0Game is al geïnstalleerd en je wilt alleen bijwerken?</p><p>Je kunt je bestaande database hier in een paar klikken bijwerken!</p>
-intro_welcome: Welkom bij Br0Game!
+intro_text: 'V0Game is een open-source ruimtestrategiespel in de browser: bouw je planeten uit, doe onderzoek, stuur vloten en vecht tegelijk met honderden spelers.<br><br>Deze wizard zet stap voor stap een nieuwe installatie op: hij controleert je server, maakt verbinding met de database en maakt die aan, bouwt de tabellen, laat je je spel een naam geven en maakt de beheerder aan.'
+intro_upgrade_head: V0Game al geïnstalleerd?
+intro_upgrade_text: <p>V0Game is al geïnstalleerd en je wilt alleen bijwerken?</p><p>Je kunt je bestaande database hier in een paar klikken bijwerken!</p>
+intro_welcome: Welkom bij V0Game!
 licence_accept: Accepteer je de licentievoorwaarden? Je kunt de software alleen installeren als je ze accepteert.
 licence_desc: Lees hieronder de licentievoorwaarden. Gebruik de schuifbalk om het hele document te bekijken.
 licence_head: Licentievoorwaarden
@@ -23,11 +23,11 @@ reg_file: Is het bestand &raquo;%s&laquo; schrijfbaar?
 reg_not_found: Niet gevonden
 reg_not_writable: Niet schrijfbaar
 reg_writable: Schrijfbaar
-req_desc: Voordat de installatie verder kan, controleert Br0Game je serverconfiguratie en bestanden om zeker te weten dat het spel geïnstalleerd en gebruikt kan worden. Lees de resultaten zorgvuldig en ga pas verder als alle vereiste tests zijn geslaagd.
+req_desc: Voordat de installatie verder kan, controleert V0Game je serverconfiguratie en bestanden om zeker te weten dat het spel geïnstalleerd en gebruikt kan worden. Lees de resultaten zorgvuldig en ga pas verder als alle vereiste tests zijn geslaagd.
 sql_close_reason: 'Het universum wordt ingericht.
 
   Even geduld.'
-sql_welcome: Welkom bij Br0Game v
+sql_welcome: Welkom bij V0Game v
 step1_head: Databasetoegang instellen
 step1_mysql_dbname: Databasenaam
 step1_mysql_dbpass: Databasewachtwoord
@@ -51,7 +51,7 @@ step4_admin_name_desc: Voer een gebruikersnaam van 3 tot 20 tekens in.
 step4_admin_pass: 'Beheerderswachtwoord:'
 step4_desc: De installatiewizard maakt nu een beheerdersaccount aan. Voer een gebruikersnaam, e-mailadres en wachtwoord in.
 step4_head: Beheerder aanmaken
-step6_desc: Je hebt Br0Game succesvol geïnstalleerd.
+step6_desc: Je hebt V0Game succesvol geïnstalleerd.
 step6_head: Gefeliciteerd!
 title_install: Installatie
 upgrade_available: Er zijn databaseupdates beschikbaar. De database staat op revisie %s en kan worden bijgewerkt naar revisie %s.
@@ -95,18 +95,18 @@ ins_task_universe: Universum 1 inrichten
 ins_build_start: De database opbouwen
 ins_back_database: Terug naar de databaseinstellingen
 ins_game_name: Spelnaam
-ins_game_name_info: 'Wordt getoond in de titel, de koptekst en de e-mails. Standaard: Br0Game.'
+ins_game_name_info: 'Wordt getoond in de titel, de koptekst en de e-mails. Standaard: V0Game.'
 ins_default_theme: Standaardthema
 ins_default_theme_info: Thema voor nieuwe accounts en bezoekers; spelers kunnen dit in hun instellingen wijzigen.
 ins_game_name_invalid: Voer een spelnaam van 1 tot 64 tekens in.
 ins_theme_invalid: Onbekend thema.
 ins_to_start: Naar de startpagina
 ins_credits_head: Staan op de schouders van reuzen
-ins_credits_text: 'Br0Game zet een lange traditie van open-source browserspellen voort. Respect voor iedereen die dit eerder heeft gebouwd en in leven heeft gehouden:'
+ins_credits_text: 'V0Game zet een lange traditie van open-source browserspellen voort. Respect voor iedereen die dit eerder heeft gebouwd en in leven heeft gehouden:'
 ins_credits_thanks: Dank je, pr0game-community, voor het spel waaruit dit spel is gegroeid.
 ins_licence_note: Vrije software onder de GNU AGPL v3
 ins_task_images: Afbeeldingen optimaliseren (WebP)
-ins_db_help: Br0Game slaat alles op in een MySQL- of MariaDB-database. Je vindt de onderstaande waarden in je hostingpaneel (zoek naar "Databases" of "MySQL") of bij degene die je server heeft ingericht. Als je MySQL zelf hebt geïnstalleerd, werken de standaardwaarden meestal.
+ins_db_help: V0Game slaat alles op in een MySQL- of MariaDB-database. Je vindt de onderstaande waarden in je hostingpaneel (zoek naar "Databases" of "MySQL") of bij degene die je server heeft ingericht. Als je MySQL zelf hebt geïnstalleerd, werken de standaardwaarden meestal.
 ins_db_host: Databaseserver
 ins_db_host_info: Bijna altijd "localhost". Sommige hosts geven een naam als "db1.example.com".
 ins_db_name_info: De naam van de database voor het spel. Maak hem eerst aan in je hostingpaneel, of laat het installatieprogramma hem aanmaken (zie het vak hieronder).

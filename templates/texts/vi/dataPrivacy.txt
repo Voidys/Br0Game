@@ -49,7 +49,7 @@
 <p>Chúng tôi chỉ dùng cookie và bộ nhớ trình duyệt cần thiết về mặt kỹ thuật để cung cấp dịch vụ bạn yêu cầu (§ 25(2) số 2 TDDDG, Điều 6(1)(b) và (f) GDPR):</p>
 <ul>
 <li><strong>2Moons</strong>: cookie phiên giữ cho bạn đăng nhập. Cookie hết hạn sau 12 giờ kể từ hoạt động gần nhất của bạn, hoặc khi bạn đăng xuất.</li>
-<li><strong>br0_device</strong>: ID thiết bị ngẫu nhiên (2 năm). Chỉ một bản băm của nó được lưu theo từng tài khoản, trong 90 ngày kể từ lần truy cập cuối, để phát hiện nhiều tài khoản cùng chơi từ một trình duyệt.</li>
+<li><strong>v0_device</strong>: ID thiết bị ngẫu nhiên (2 năm). Chỉ một bản băm của nó được lưu theo từng tài khoản, trong 90 ngày kể từ lần truy cập cuối, để phát hiện nhiều tài khoản cùng chơi từ một trình duyệt.</li>
 <li><strong>lang</strong>: ghi nhớ ngôn ngữ bạn đã chọn.</li>
 <li><strong>account</strong>: ghi nhớ rằng trình duyệt này đã từng được dùng để đăng nhập, để trang chủ có thể hiển thị màn hình đăng nhập trước. Cookie này không chứa dữ liệu cá nhân.</li>
 <li>Bộ nhớ cục bộ: các tùy chọn hiển thị của giao diện trò chơi (ví dụ danh mục tin nhắn đã mở gần nhất). Chúng nằm trong trình duyệt của bạn và không được gửi tới chúng tôi.</li>

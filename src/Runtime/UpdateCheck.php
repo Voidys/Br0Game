@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 final class UpdateCheck
 {
-    public const RELEASE_URL = 'https://api.github.com/repos/Voidys/Br0Game/releases/latest';
+    public const RELEASE_URL = 'https://api.github.com/repos/Voidys/V0Game/releases/latest';
     public const UPDATE_DOCS_URL = InstallService::DOCS_URL . '#updating';
 
     private const CACHE_KEY = 'admin_update_check';
@@ -82,7 +82,7 @@ final class UpdateCheck
             $response = $this->httpClient->request('GET', $this->apiUrl, [
                 'timeout' => self::TIMEOUT,
                 'max_duration' => self::TIMEOUT,
-                'headers' => ['User-Agent' => 'Br0Game-update-check', 'Accept' => 'application/vnd.github+json'],
+                'headers' => ['User-Agent' => 'V0Game-update-check', 'Accept' => 'application/vnd.github+json'],
             ]);
             $json = $response->toArray();
             $tag = (string) ($json['tag_name'] ?? '');
@@ -97,7 +97,7 @@ final class UpdateCheck
                 'checkedAt' => time(),
                 'latest' => ltrim($tag, 'vV'),
                 'name' => (string) ($json['name'] ?? $tag),
-                'url' => str_starts_with($url, 'https://') ? $url : 'https://github.com/Voidys/Br0Game/releases',
+                'url' => str_starts_with($url, 'https://') ? $url : 'https://github.com/Voidys/V0Game/releases',
                 'published' => (int) strtotime((string) ($json['published_at'] ?? '')),
                 'notes' => mb_strimwidth($notes, 0, 300, '…'),
             ];

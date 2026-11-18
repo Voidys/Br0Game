@@ -158,7 +158,7 @@ class LlmClientFactory
     private function build(string $provider, string $key, string $model, string $url): LlmClient
     {
         $runtime = $this->state->runtime;
-        $referer = $runtime->httpHost !== '' ? $runtime->protocol . $runtime->httpHost . $runtime->httpBase : 'https://br0game.local/';
+        $referer = $runtime->httpHost !== '' ? $runtime->protocol . $runtime->httpHost . $runtime->httpBase : 'https://v0game.local/';
 
         return new LlmClient(
             $this->db,
@@ -167,7 +167,7 @@ class LlmClientFactory
             $key,
             $model,
             $url,
-            'pr0game-' . substr(hash('sha256', $runtime->rootPath), 0, 24),
+            'v0game-' . substr(hash('sha256', $runtime->rootPath), 0, 24),
             $referer,
             $this->guard,
         );

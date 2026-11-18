@@ -23,12 +23,12 @@ use Symfony\Component\Process\Process;
  * Phase 2 (a child process started with --finish, because the game's database connection reads
  * .env.local when the process starts): tables, game settings, administrator, bots, lock.
  * The administrator password never appears on a command line: it is taken from --admin-password, the
- * environment variable BR0GAME_ADMIN_PASSWORD or a hidden prompt, and handed to phase 2 through its environment.
+ * environment variable V0GAME_ADMIN_PASSWORD or a hidden prompt, and handed to phase 2 through its environment.
  */
-#[AsCommand(name: 'app:install', description: 'Installs a new Br0Game (same steps as the web installer)')]
+#[AsCommand(name: 'app:install', description: 'Installs a new V0Game (same steps as the web installer)')]
 final class InstallCommand extends Command
 {
-    private const PAYLOAD_ENV = 'BR0GAME_INSTALL_PAYLOAD';
+    private const PAYLOAD_ENV = 'V0GAME_INSTALL_PAYLOAD';
 
     public function __construct(private readonly InstallService $installer, private readonly GameKernel $kernel)
     {
@@ -38,7 +38,7 @@ final class InstallCommand extends Command
     /**
      * Options of `bin/console app:install`; every option is optional and asked interactively when missing
      * (--no-interaction uses defaults or fails for required values). Secrets can also come from the environment
-     * (BR0GAME_DB_PASSWORD, BR0GAME_ADMIN_PASSWORD); --finish is the internal second phase run after the database step.
+     * (V0GAME_DB_PASSWORD, V0GAME_ADMIN_PASSWORD); --finish is the internal second phase run after the database step.
      */
     protected function configure(): void
     {
@@ -46,7 +46,7 @@ final class InstallCommand extends Command
             ->addOption('db-host', null, InputOption::VALUE_REQUIRED, 'Database host', null)
             ->addOption('db-port', null, InputOption::VALUE_REQUIRED, 'Database port', null)
             ->addOption('db-user', null, InputOption::VALUE_REQUIRED, 'Database user')
-            ->addOption('db-password', null, InputOption::VALUE_REQUIRED, 'Database password (or env BR0GAME_DB_PASSWORD)')
+            ->addOption('db-password', null, InputOption::VALUE_REQUIRED, 'Database password (or env V0GAME_DB_PASSWORD)')
             ->addOption('db-name', null, InputOption::VALUE_REQUIRED, 'Database name (created if missing)')
             ->addOption('db-prefix', null, InputOption::VALUE_REQUIRED, 'Table prefix', null)
             ->addOption('game-name', null, InputOption::VALUE_REQUIRED, 'Game name', null)
@@ -56,7 +56,7 @@ final class InstallCommand extends Command
             ->addOption('registration', null, InputOption::VALUE_REQUIRED, 'Registration: open or closed', null)
             ->addOption('admin-name', null, InputOption::VALUE_REQUIRED, 'Administrator user name')
             ->addOption('admin-email', null, InputOption::VALUE_REQUIRED, 'Administrator e-mail address')
-            ->addOption('admin-password', null, InputOption::VALUE_REQUIRED, 'Administrator password (or env BR0GAME_ADMIN_PASSWORD, or prompt)')
+            ->addOption('admin-password', null, InputOption::VALUE_REQUIRED, 'Administrator password (or env V0GAME_ADMIN_PASSWORD, or prompt)')
             ->addOption('bots', null, InputOption::VALUE_REQUIRED, 'Number of bots to create, 0 to 50 (0 = bots off)', null)
             ->addOption('base-url', null, InputOption::VALUE_REQUIRED, 'Public URL of the game, e.g. https://example.com')
             ->addOption('finish', null, InputOption::VALUE_NONE, 'Internal: second phase');
@@ -77,7 +77,7 @@ final class InstallCommand extends Command
         }
 
         if ($this->installer->isInstalled()) {
-            $io->error('Br0Game is already installed (config/game.php exists). Remove config/game.php and .env.local only if you want to start over with an empty database.');
+            $io->error('V0Game is already installed (config/game.php exists). Remove config/game.php and .env.local only if you want to start over with an empty database.');
 
             return Command::FAILURE;
         }
@@ -95,7 +95,7 @@ final class InstallCommand extends Command
             return Command::INVALID;
         }
 
-        $io->title('Br0Game installer');
+        $io->title('V0Game installer');
         $requirements = $this->installer->requirements($language);
         $this->printChecks($io, $requirements['checks']);
         if (!$requirements['passed']) {
@@ -151,7 +151,7 @@ final class InstallCommand extends Command
         $host = (string) ($input->getOption('db-host') ?? $ask('Database host', 'localhost'));
         $port = (string) ($input->getOption('db-port') ?? '3306');
         $user = (string) ($input->getOption('db-user') ?? $ask('Database user'));
-        $password = $input->getOption('db-password') ?? (getenv('BR0GAME_DB_PASSWORD') !== false ? getenv('BR0GAME_DB_PASSWORD') : null);
+        $password = $input->getOption('db-password') ?? (getenv('V0GAME_DB_PASSWORD') !== false ? getenv('V0GAME_DB_PASSWORD') : null);
         if ($password === null && $interactive) {
             $password = (string) $io->askHidden('Database password (hidden)');
         }
@@ -174,7 +174,7 @@ final class InstallCommand extends Command
      */
     private function collectGameSettings(InputInterface $input, SymfonyStyle $io, callable $ask, bool $interactive, string $language): array|int
     {
-        $gameName = (string) ($input->getOption('game-name') ?? $ask('Game name', 'Br0Game'));
+        $gameName = (string) ($input->getOption('game-name') ?? $ask('Game name', 'V0Game'));
         $timezone = (string) ($input->getOption('timezone') ?? $this->installer->defaultTimezone());
         $speed = (string) ($input->getOption('speed')
             ?? ($interactive ? $io->choice('Game speed (classic = original pace, fast ~3x, blitz up to 10x)', array_keys($this->installer->speedPresets()), 'classic') : 'classic'));
@@ -211,7 +211,7 @@ final class InstallCommand extends Command
     {
         $adminName = (string) ($input->getOption('admin-name') ?? $ask('Administrator user name'));
         $adminMail = (string) ($input->getOption('admin-email') ?? $ask('Administrator e-mail'));
-        $adminPassword = $input->getOption('admin-password') ?? (getenv('BR0GAME_ADMIN_PASSWORD') !== false ? getenv('BR0GAME_ADMIN_PASSWORD') : null);
+        $adminPassword = $input->getOption('admin-password') ?? (getenv('V0GAME_ADMIN_PASSWORD') !== false ? getenv('V0GAME_ADMIN_PASSWORD') : null);
         if ($adminPassword === null && $interactive) {
             $adminPassword = (string) $io->askHidden(sprintf('Administrator password (hidden, at least %d characters)', InstallService::MIN_PASSWORD_LENGTH));
             $confirm = (string) $io->askHidden('Repeat the password (hidden)');
@@ -319,7 +319,7 @@ final class InstallCommand extends Command
         $this->installer->lock();
         $this->installer->takeGeneratedSecret(); // stays in config/game.php, never printed
         $baseUrl = $payload['baseUrl'] !== '' ? $payload['baseUrl'] : 'https://your-domain.example';
-        $io->success('Br0Game is installed.');
+        $io->success('V0Game is installed.');
         $io->definitionList(
             ['Admin login' => $baseUrl . '/admin'],
             ['Administrator' => $payload['admin']['name']],

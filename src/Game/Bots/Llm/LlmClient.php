@@ -33,8 +33,8 @@ class LlmClient
         private readonly string $apiKey,
         private readonly string $model,
         private string $baseUrl,
-        private readonly string $installId = 'br0game',
-        private readonly string $referer = 'https://br0game.local/',
+        private readonly string $installId = 'v0game',
+        private readonly string $referer = 'https://v0game.local/',
         private readonly ?LlmUrlGuard $guard = null,
     ) {
         if (trim($this->baseUrl) === '') {
@@ -148,7 +148,7 @@ class LlmClient
             }
             if ($this->provider === 'openrouter') {
                 $headers['HTTP-Referer'] = $this->referer;
-                $headers['X-Title'] = 'pr0game';
+                $headers['X-Title'] = 'V0Game';
             }
             $body = [
                 'model' => $this->model,

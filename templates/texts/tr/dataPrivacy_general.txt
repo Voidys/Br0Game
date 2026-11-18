@@ -48,7 +48,7 @@
 <p>Yalnızca talep ettiğin hizmeti sağlamak için teknik olarak gerekli çerezleri ve tarayıcı depolamasını kullanırız:</p>
 <ul>
 <li><strong>2Moons</strong>: oturumunu açık tutan oturum çerezi. Son etkinliğinden 12 saat sonra veya çıkış yaptığında sona erer.</li>
-<li><strong>br0_device</strong>: rastgele cihaz kimliği (2 yıl). Hesap başına yalnızca hash'i, son ziyaretten sonra 90 gün saklanır; aynı tarayıcıdan oynanan birden çok hesabı tespit etmek için.</li>
+<li><strong>v0_device</strong>: rastgele cihaz kimliği (2 yıl). Hesap başına yalnızca hash'i, son ziyaretten sonra 90 gün saklanır; aynı tarayıcıdan oynanan birden çok hesabı tespit etmek için.</li>
 <li><strong>lang</strong>: seçtiğin dili hatırlar.</li>
 <li><strong>account</strong>: bu tarayıcının daha önce giriş yapmak için kullanıldığını hatırlar; böylece başlangıç sayfası önce giriş ekranını gösterebilir. Kişisel veri içermez.</li>
 <li>Yerel depolama: oyun arayüzünün görüntüleme tercihleri (örneğin en son açılan mesaj kategorisi). Bunlar tarayıcında kalır ve bize gönderilmez.</li>

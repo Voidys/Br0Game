@@ -12,13 +12,13 @@ install_desc: >-
 install_title: Das Install Tool ist gesperrt
 intro_install: Zur Installation
 intro_lang: Sprache
-intro_text: 'Br0Game ist ein Open-Source-Weltraum-Strategiespiel im Browser: Planeten ausbauen, forschen, Flotten losschicken und sich mit hunderten Spielern gleichzeitig messen.<br><br>Dieser Assistent richtet eine neue Installation Schritt für Schritt ein: Er prüft deinen Server, verbindet sich mit der Datenbank und legt sie an, baut die Tabellen auf, lässt dich dein Spiel benennen und erstellt den Administrator.'
-intro_upgrade_head: Br0Game schon installiert?
+intro_text: 'V0Game ist ein Open-Source-Weltraum-Strategiespiel im Browser: Planeten ausbauen, forschen, Flotten losschicken und sich mit hunderten Spielern gleichzeitig messen.<br><br>Dieser Assistent richtet eine neue Installation Schritt für Schritt ein: Er prüft deinen Server, verbindet sich mit der Datenbank und legt sie an, baut die Tabellen auf, lässt dich dein Spiel benennen und erstellt den Administrator.'
+intro_upgrade_head: V0Game schon installiert?
 intro_upgrade_text: >-
-  <p>Du hast Br0Game bereits installiert und möchtest einfach
+  <p>Du hast V0Game bereits installiert und möchtest einfach
   updaten?</p><p>Hier kann du deine alte Datenbank mit wenigen klicks
   aktualisieren!</p>
-intro_welcome: 'Herzlich willkommen bei Br0Game!'
+intro_welcome: 'Herzlich willkommen bei V0Game!'
 licence_accept: >-
   Akzeptieren Sie sämtliche Bedingungen der Lizenzbestimmungen? Sie können die
   Software nur installieren, wenn Sie die Lizenzbestimmungen akzeptieren.
@@ -38,9 +38,9 @@ reg_not_found: Nicht Gefunden
 reg_not_writable: Nicht Beschreibbar
 reg_writable: Beschreibbar
 req_desc: >-
-  Bevor die Installation fortgesetzt werden kann, wird Br0Game einige Tests zu
+  Bevor die Installation fortgesetzt werden kann, wird V0Game einige Tests zu
   deiner Server-Konfiguration und deinen Dateien durchführen, um
-  sicherzustellen, dass du Br0Game installieren und benutzen kannst. Bitte lies
+  sicherzustellen, dass du V0Game installieren und benutzen kannst. Bitte lies
   die Ergebnisse aufmerksam durch und fahre nicht weiter fort, bevor alle
   erforderlichen Tests bestanden sind. Falls du irgendeine der Funktionen, die
   unter den optionalen Modulen aufgeführt sind, nutzen möchtest, solltest du
@@ -48,7 +48,7 @@ req_desc: >-
 sql_close_reason: |-
   Das Universum wird eingerichtet. 
   Bitte warten.
-sql_welcome: Herzlich Willkommen zu Br0Game v
+sql_welcome: Herzlich Willkommen zu V0Game v
 step1_head: Datenbankzugang konfigurieren
 step1_mysql_dbname: Name der Datenbank
 step1_mysql_dbpass: Datenbank-Passwort
@@ -80,7 +80,7 @@ step4_desc: >-
   Der Installationsassistent erstellt nun ein Administrator-Konto für Sie. Bitte
   geben Sie dazu einen Benutzernamen, eine E-Mail-Adresse und ein Kennwort ein.
 step4_head: Administrator erstellen
-step6_desc: 'Du hast Br0Game erfolgreich installiert.'
+step6_desc: 'Du hast V0Game erfolgreich installiert.'
 step6_head: Herzlichen Glückwunsch!
 title_install: Installer
 upgrade_available: >-
@@ -134,18 +134,18 @@ ins_task_universe: 'Universum 1 einrichten'
 ins_build_start: 'Datenbank aufbauen'
 ins_back_database: 'Zurück zu den Datenbank-Einstellungen'
 ins_game_name: 'Spielname'
-ins_game_name_info: 'Erscheint im Titel, in der Kopfzeile und in E-Mails. Standard: Br0Game.'
+ins_game_name_info: 'Erscheint im Titel, in der Kopfzeile und in E-Mails. Standard: V0Game.'
 ins_default_theme: 'Standard-Design'
 ins_default_theme_info: 'Design für neue Accounts und Besucher; Spieler können es in ihren Einstellungen wechseln.'
 ins_game_name_invalid: 'Gib einen Spielnamen mit 1 bis 64 Zeichen ein.'
 ins_theme_invalid: 'Unbekanntes Design.'
 ins_to_start: 'Zur Startseite'
 ins_credits_head: 'Auf den Schultern von Riesen'
-ins_credits_text: 'Br0Game setzt eine lange Reihe von Open-Source-Browserspielen fort. Respekt an alle, die es vor uns gebaut und am Leben gehalten haben:'
+ins_credits_text: 'V0Game setzt eine lange Reihe von Open-Source-Browserspielen fort. Respekt an alle, die es vor uns gebaut und am Leben gehalten haben:'
 ins_credits_thanks: 'Danke an die pr0game-Community für das Spiel, aus dem dieses hier gewachsen ist.'
 ins_licence_note: 'Freie Software unter der GNU AGPL v3'
 ins_task_images: 'Bilder optimieren (WebP)'
-ins_db_help: 'Br0Game speichert alles in einer MySQL- oder MariaDB-Datenbank. Die Werte unten bekommst du in deinem Hosting-Panel (Bereich "Datenbanken" oder "MySQL") oder von der Person, die deinen Server eingerichtet hat. Hast du MySQL selbst installiert, passen die Vorgaben meist.'
+ins_db_help: 'V0Game speichert alles in einer MySQL- oder MariaDB-Datenbank. Die Werte unten bekommst du in deinem Hosting-Panel (Bereich "Datenbanken" oder "MySQL") oder von der Person, die deinen Server eingerichtet hat. Hast du MySQL selbst installiert, passen die Vorgaben meist.'
 ins_db_host: 'Datenbankserver'
 ins_db_host_info: 'Fast immer "localhost". Manche Hoster nennen einen Namen wie "db1.example.com".'
 ins_db_name_info: 'Name der Datenbank für das Spiel. Lege sie vorher im Hosting-Panel an oder lass sie vom Installer anlegen (Kasten darunter).'

@@ -1309,3 +1309,10 @@ Technical changes per step, newest last (started with the migration to PHP 8.4, 
 
 - `symfony/process` (8.1.*) is a runtime dependency: `app:install` uses it, but it only came in through php-cs-fixer (dev), so the CLI installer crashed on `composer install --no-dev` (lock: package moved from dev to runtime, same version).
 - Market purchase success message counts the buyer's cargo ships instead of the seller fleet's (`MarketPurchase`; tests `MarketPurchaseTest`, `MarketOfferFiltersTest` follow).
+
+## 168. Rename Br0Game → V0Game
+
+- Brand renamed everywhere except the pr0game/2Moons/SteemNova credits: texts in all locales, wordmark `V<b>0</b>Game`, installer, README/docs, composer package `voidys/v0game`, GitHub links `github.com/Voidys/V0Game` (update check, issues, source, user agents), release ZIP `v0game-<version>.zip`, env vars `V0GAME_*`, backup files `v0gameBackup_*`, LLM client headers.
+- Default theme folder `br0game` → `v0game` (`DEFAULT_THEME`, `install.sql` defaults); device cookie `br0_device` → `v0_device` (existing cookies are re-issued).
+- DDEV project `v0game` (https://v0game.ddev.site), `.ddev/apache/v0game.conf`, `.ddev/php/v0game.*.ini`.
+- Migration 1795033242: moves accounts/settings and `default_theme` from `br0game` to `v0game`, renames the game name `Br0Game`, points `source_url`/`git_issues_link` at the new repo, updates the column defaults.

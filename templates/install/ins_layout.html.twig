@@ -11,7 +11,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>{{ title|default(LNG.title_install ~ ' · Br0Game') }}</title>
+  <title>{{ title|default(LNG.title_install ~ ' · V0Game') }}</title>
   {% if goto is defined and goto %}<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">{% endif %}
   <link rel="stylesheet" href="../styles/resource/css/app/base.css?v={{ asset_version }}">
   <link rel="stylesheet" href="../styles/resource/css/login/login.css?v={{ asset_version }}">
@@ -23,7 +23,7 @@
 <body class="site site--install">
   <header class="site-header">
     <div class="site-wrap site-header__inner">
-      <span class="site-brand">{{ icon('rocket') }}<span>Br0Game · {{ LNG.title_install }}</span></span>
+      <span class="site-brand">{{ icon('rocket') }}<span>V0Game · {{ LNG.title_install }}</span></span>
       {% if Selector is defined and Selector|length > 1 %}
         <label class="site-lang">{{ icon('languages') }}<span class="visually-hidden">{{ LNG.intro_lang }}</span>
           <select data-lang-select>
@@ -64,14 +64,14 @@
         <li><a href="https://github.com/jkroepke/2Moons" target="_blank" rel="noopener"><strong>2Moons</strong></a><span>Jan-Otto Kröpke · 2009–2019</span></li>
         <li><a href="https://github.com/steemnova/steemnova" target="_blank" rel="noopener"><strong>SteemNova</strong></a><span>steemnova, IntinteDAO · 2018–2020</span></li>
         <li class="is-parent"><a href="https://codeberg.org/pr0game/pr0game" target="_blank" rel="noopener"><strong>pr0game</strong></a><span>pr0game community</span></li>
-        <li class="is-current"><strong>Br0Game</strong><span>Project Br0Game</span></li>
+        <li class="is-current"><strong>V0Game</strong><span>Project V0Game</span></li>
       </ol>
       <p class="install-credits__thanks">{{ LNG.ins_credits_thanks }}</p>
     </aside>
   </main>
 
   <footer class="site-footer">
-    <div class="site-wrap site-footer__inner"><span>© Project Br0Game</span><span>{{ LNG.ins_licence_note }}</span></div>
+    <div class="site-wrap site-footer__inner"><span>© Project V0Game</span><span>{{ LNG.ins_licence_note }}</span></div>
   </footer>
 </body>
 </html>

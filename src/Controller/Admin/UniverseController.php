@@ -347,8 +347,8 @@ class UniverseController extends AbstractAdminController
         $options = [
             'max_redirects' => 0,
             'headers' => [
-                'User-Agent' => "Mozilla/5.0 (compatible; Br0Game/" . $this->configs->get()->version
-                    . "; +https://github.com/Voidys/Br0Game)",
+                'User-Agent' => "Mozilla/5.0 (compatible; V0Game/" . $this->configs->get()->version
+                    . "; +https://github.com/Voidys/V0Game)",
                 'Accept' => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                 'Accept-Charset' => "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
                 'Accept-Language' => "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4",

@@ -28,8 +28,8 @@ gzip_vary on;
 gzip_types text/css application/javascript text/javascript application/json image/svg+xml;
 
 server {
-    server_name br0game.example;
-    root /var/www/br0game/public;
+    server_name v0game.example;
+    root /var/www/v0game/public;
 
     # Universe prefixes for static files: /uni2/styles/... -> /styles/...
     location ~ ^/uni[0-9]+/(styles|scripts)/ {

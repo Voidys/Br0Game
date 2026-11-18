@@ -3,7 +3,7 @@
 namespace App\Game\Core;
 
 /**
- * Device links between accounts: the browser carries a random device id in the cookie `br0_device`; per player only
+ * Device links between accounts: the browser carries a random device id in the cookie `v0_device`; per player only
  * sha256(device id + secret) is stored (USER_DEVICES), never the id itself. Two accounts that share a hash count as
  * linked (see AccountLinks). Rows expire after RETENTION seconds without a visit (daily cronjob).
  *
@@ -11,7 +11,7 @@ namespace App\Game\Core;
  */
 class DeviceLinks
 {
-    public const COOKIE = 'br0_device';
+    public const COOKIE = 'v0_device';
     public const COOKIE_LIFETIME = 63072000; // 2 years
     public const RECORD_INTERVAL = 3600;
     public const RETENTION = 7776000; // 90 days

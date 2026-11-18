@@ -25,7 +25,7 @@ final class DiscordTest extends TestCase
     private function discord(MockResponse $response, string $hook = 'https://discord.com/api/webhooks/1/abc'): Discord
     {
         $registry = $this->createStub(ConfigRegistry::class);
-        $config = new Config(['game_name' => 'Br0Game', 'discord_logs_hook' => $hook], $registry);
+        $config = new Config(['game_name' => 'V0Game', 'discord_logs_hook' => $hook], $registry);
         $registry->method('get')->willReturn($config);
         $http = new MockHttpClient(function (string $method, string $url, array $options) use ($response): MockResponse {
             $this->requests[] = ['method' => $method, 'url' => $url, 'options' => $options];
@@ -45,7 +45,7 @@ final class DiscordTest extends TestCase
         self::assertSame('https://discord.com/api/webhooks/1/abc', $this->requests[0]['url']);
         self::assertContains('Content-type: application/json', $this->requests[0]['options']['headers']);
         self::assertSame(
-            ['content' => "**cron**\n```successful: 1\nlist: [1,2]\n```", 'username' => 'Br0Game', 'tts' => false, 'allowed_mentions' => ['parse' => []], 'embeds' => []],
+            ['content' => "**cron**\n```successful: 1\nlist: [1,2]\n```", 'username' => 'V0Game', 'tts' => false, 'allowed_mentions' => ['parse' => []], 'embeds' => []],
             json_decode($this->requests[0]['options']['body'], true),
         );
     }

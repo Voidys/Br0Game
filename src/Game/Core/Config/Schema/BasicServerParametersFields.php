@@ -35,13 +35,13 @@ final class BasicServerParametersFields
                 'size' => 60,
                 'transform' => 'string',
                 'sanitize' => true,
-                'default' => 'Br0Game',
+                'default' => 'V0Game',
             ],
             'default_theme' => [
                 'type' => ConfigFieldSchema::TYPE_SELECT,
                 'transform' => 'string',
                 'options' => \App\Game\Core\Theme::getAvailableCssThemes(),
-                'default' => 'br0game',
+                'default' => 'v0game',
             ],
             // AGPL: players of a (modified) server can get its source code here (footer link)
             'source_url' => [
@@ -50,7 +50,7 @@ final class BasicServerParametersFields
                 'size' => 60,
                 'transform' => 'string',
                 'sanitize' => true,
-                'default' => 'https://github.com/Voidys/Br0Game',
+                'default' => 'https://github.com/Voidys/V0Game',
             ],
             'version' => [
                 'type' => ConfigFieldSchema::TYPE_NONE,
@@ -86,7 +86,7 @@ final class BasicServerParametersFields
                 'size' => 60,
                 'transform' => 'string',
                 'sanitize' => true,
-                'default' => 'https://github.com/Voidys/Br0Game/issues',
+                'default' => 'https://github.com/Voidys/V0Game/issues',
             ],
         ];
     }

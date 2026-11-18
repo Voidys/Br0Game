@@ -27,7 +27,7 @@ use App\Game\Core\SQLDumper;
 class DumpCronjob extends AbstractCronjobTask
 {
     /**
-     * Writes var/backups/br0gameBackup_<dd_mm_YYYY_HH_ii_ss>.sql with all tables of the configured prefix.
+     * Writes var/backups/v0gameBackup_<dd_mm_YYYY_HH_ii_ss>.sql with all tables of the configured prefix.
      * @throws Exception when no table with the prefix exists.
      */
     public function run(): void
@@ -46,7 +46,7 @@ class DumpCronjob extends AbstractCronjobTask
             throw new Exception('No tables found for dump.');
         }
 
-        $fileName	= 'br0gameBackup_' . date('d_m_Y_H_i_s', $this->state->runtime->timestamp) . '.sql';
+        $fileName	= 'v0gameBackup_' . date('d_m_Y_H_i_s', $this->state->runtime->timestamp) . '.sql';
         $filePath	= 'var/backups/' . $fileName;
 
         $dump	= new SQLDumper($this->db, $this->configs, $this->state);

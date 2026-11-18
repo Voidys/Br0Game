@@ -197,7 +197,7 @@ tr:
 nl:
     name: Nederlands
     tag: nl
-    author: 'Br0Game'
+    author: 'V0Game'
     date: 16.11.2026
     number_suffixes:
         - ''
@@ -216,7 +216,7 @@ nl:
 th:
     name: ไทย
     tag: th
-    author: 'Br0Game'
+    author: 'V0Game'
     date: 16.11.2026
     number_suffixes:
         - ''
@@ -235,7 +235,7 @@ th:
 tl:
     name: Filipino
     tag: fil
-    author: 'Br0Game'
+    author: 'V0Game'
     date: 16.11.2026
     number_suffixes:
         - ''
@@ -254,7 +254,7 @@ tl:
 uk:
     name: Українська
     tag: uk
-    author: 'Br0Game'
+    author: 'V0Game'
     date: 16.11.2026
     number_suffixes:
         - ''
@@ -273,7 +273,7 @@ uk:
 vi:
     name: Tiếng Việt
     tag: vi
-    author: 'Br0Game'
+    author: 'V0Game'
     date: 16.11.2026
     number_suffixes:
         - ''
@@ -292,7 +292,7 @@ vi:
 zh:
     name: 简体中文
     tag: zh-Hans
-    author: 'Br0Game'
+    author: 'V0Game'
     date: 16.11.2026
     number_suffixes:
         - ''

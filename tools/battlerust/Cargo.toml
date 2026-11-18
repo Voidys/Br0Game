@@ -3,7 +3,7 @@ name = "battlerust"
 version = "1.0.0"
 edition = "2021"
 rust-version = "1.75"
-description = "Battle engine of pr0game: a faithful port of the PHP engine (BattleEngineSteemNova) with PHP's mt_rand, exported as a C library"
+description = "Battle engine of V0Game: a faithful port of the PHP engine (BattleEngineSteemNova) with PHP's mt_rand, exported as a C library"
 license = "MIT"
 publish = false
 

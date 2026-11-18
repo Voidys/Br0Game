@@ -74,7 +74,7 @@ class DumpController extends AbstractAdminController
             return $this->messageResponse($LNG['du_not_tables_selected']);
         }
 
-        $fileName = 'br0gameBackup_' . date('d_m_Y_H_i_s', $this->state->runtime->timestamp) . '.sql';
+        $fileName = 'v0gameBackup_' . date('d_m_Y_H_i_s', $this->state->runtime->timestamp) . '.sql';
         $filePath = 'var/backups/' . $fileName;
 
         $dump = new SQLDumper($this->db, $this->configs, $this->state);

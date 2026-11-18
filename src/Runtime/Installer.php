@@ -64,7 +64,7 @@ final class Installer
         $this->assign([
             'lang'       => $LNG->getLanguage(),
             'Selector'   => $LNG->getAllowedLangs(false),
-            'title'      => $LNG['title_install'] . ' · Br0Game',
+            'title'      => $LNG['title_install'] . ' · V0Game',
             'header'     => $LNG['menu_install'],
             'canUpgrade' => $configAvailable,
         ]);
@@ -452,7 +452,7 @@ final class Installer
         $locale = $LNG->getLanguage();
         $post = $this->state->requestPost;
         $values = [
-            'game_name' => $post['game_name'] ?? 'Br0Game',
+            'game_name' => $post['game_name'] ?? 'V0Game',
             'default_theme' => $post['default_theme'] ?? DEFAULT_THEME,
             'uni_name' => $post['uni_name'] ?? '',
             'language' => $post['language'] ?? $locale,

@@ -11,12 +11,12 @@ install_desc: >-
 install_title: The installation tool is locked
 intro_install: Install
 intro_lang: Language
-intro_text: 'Br0Game is an open-source space strategy game in the browser: build up your planets, research, send fleets and fight it out with hundreds of players at the same time.<br><br>This wizard sets up a new installation step by step: it checks your server, connects to and creates the database, builds the tables, lets you name your game and creates the administrator.'
-intro_upgrade_head: Already installed Br0Game?
+intro_text: 'V0Game is an open-source space strategy game in the browser: build up your planets, research, send fleets and fight it out with hundreds of players at the same time.<br><br>This wizard sets up a new installation step by step: it checks your server, connects to and creates the database, builds the tables, lets you name your game and creates the administrator.'
+intro_upgrade_head: Already installed V0Game?
 intro_upgrade_text: >-
-  <p>Already installed Br0Game and just want to update?</p><p>You can update
+  <p>Already installed V0Game and just want to update?</p><p>You can update
   your existing database here in a few clicks!</p>
-intro_welcome: 'Welcome to Br0Game!'
+intro_welcome: 'Welcome to V0Game!'
 licence_accept: >-
   Do you accept the license terms? You can only install the software if you
   accept them.
@@ -34,14 +34,14 @@ reg_not_found: Not found
 reg_not_writable: Not writable
 reg_writable: Writable
 req_desc: >-
-  Before installation can continue, Br0Game will check your server
+  Before installation can continue, V0Game will check your server
   configuration and files to make sure it can be installed and used. Please
   read the results carefully and do not continue until all required tests
   have passed.
 sql_close_reason: |-
   The universe is being set up.
   Please wait.
-sql_welcome: Welcome to Br0Game v
+sql_welcome: Welcome to V0Game v
 step1_head: Configure database access
 step1_mysql_dbname: Database name
 step1_mysql_dbpass: Database password
@@ -70,7 +70,7 @@ step4_desc: >-
   The installation wizard will now create an administrator account. Please
   enter a username, e-mail address and password.
 step4_head: Create administrator
-step6_desc: 'You have successfully installed Br0Game.'
+step6_desc: 'You have successfully installed V0Game.'
 step6_head: Congratulations!
 title_install: Installer
 upgrade_available: >-
@@ -120,18 +120,18 @@ ins_task_universe: 'Set up universe 1'
 ins_build_start: 'Build the database'
 ins_back_database: 'Back to the database settings'
 ins_game_name: 'Game name'
-ins_game_name_info: 'Shown in the title, the header and the e-mails. Default: Br0Game.'
+ins_game_name_info: 'Shown in the title, the header and the e-mails. Default: V0Game.'
 ins_default_theme: 'Default theme'
 ins_default_theme_info: 'Theme for new accounts and visitors; players can switch in their settings.'
 ins_game_name_invalid: 'Enter a game name of 1 to 64 characters.'
 ins_theme_invalid: 'Unknown theme.'
 ins_to_start: 'To the start page'
 ins_credits_head: 'Standing on the shoulders of giants'
-ins_credits_text: 'Br0Game continues a long line of open-source browser games. Respect to everyone who built and kept it alive before us:'
+ins_credits_text: 'V0Game continues a long line of open-source browser games. Respect to everyone who built and kept it alive before us:'
 ins_credits_thanks: 'Thank you, pr0game community, for the game this one grew from.'
 ins_licence_note: 'Free software under the GNU AGPL v3'
 ins_task_images: 'Optimise images (WebP)'
-ins_db_help: 'Br0Game stores everything in a MySQL or MariaDB database. You get the values below from your hosting panel (look for "Databases" or "MySQL"), or from whoever set up your server. If you installed MySQL yourself, the defaults usually work.'
+ins_db_help: 'V0Game stores everything in a MySQL or MariaDB database. You get the values below from your hosting panel (look for "Databases" or "MySQL"), or from whoever set up your server. If you installed MySQL yourself, the defaults usually work.'
 ins_db_host: 'Database server'
 ins_db_host_info: 'Almost always "localhost". Some hosts give you a name like "db1.example.com".'
 ins_db_name_info: 'The name of the database for the game. Create it in your hosting panel first, or let the installer create it (see the box below).'

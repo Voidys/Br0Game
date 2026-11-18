@@ -1,8 +1,8 @@
 {
-    "name": "voidys/br0game",
+    "name": "voidys/v0game",
     "description": "An open source space strategy game",
     "type": "project",
-    "homepage": "https://github.com/Voidys/Br0Game",
+    "homepage": "https://github.com/Voidys/V0Game",
     "readme": "README.md",
     "license": "AGPL-3.0-only",
     "authors": [
@@ -14,13 +14,13 @@
             "name": "pr0game Community"
         },
         {
-            "name": "Br0Game contributors",
-            "homepage": "https://github.com/Voidys/Br0Game"
+            "name": "V0Game contributors",
+            "homepage": "https://github.com/Voidys/V0Game"
         }
     ],
     "support": {
-        "issues": "https://github.com/Voidys/Br0Game/issues",
-        "source": "https://github.com/Voidys/Br0Game"
+        "issues": "https://github.com/Voidys/V0Game/issues",
+        "source": "https://github.com/Voidys/V0Game"
     },
     "require": {
         "php": ">=8.4.1",

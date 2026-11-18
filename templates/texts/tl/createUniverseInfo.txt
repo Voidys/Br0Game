@@ -1,6 +1,6 @@
 <div class="left">
 <h2>Impormasyon sa suporta para sa multi universe</h2>
-<p>Kayang suportahan nang maayos ng Br0Game ang multiuniverse, pero dapat mong i-configure ang Web server ayon sa mga hinihingi.</p>
+<p>Kayang suportahan nang maayos ng V0Game ang multiuniverse, pero dapat mong i-configure ang Web server ayon sa mga hinihingi.</p>
 <p>Malalaman mo kung ano ang kayang suportahan ng server mo sa button na "Information". Kung hindi ka sigurado, pinakamabuting magtanong sa mga kakilala sa hosting company mo.</p>
 <h3>Apache</h3>
 <p>Kung Apache Server ang gamit mo, dapat mo lang alisin ang mga linya 48-51 sa .htacces file sa main directory (alisin ang route).<br>

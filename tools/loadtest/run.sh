@@ -8,7 +8,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 LABEL=${1:?label}; PLAYERS=${2:-60}; SESSIONS=${3:-60}; DURATION=${4:-180}; FLIGHTS=${5:-600}
 OUT=${OUT:-tools/loadtest/results}; mkdir -p "$OUT"
-BASE=${BASE:-https://br0game.ddev.site}
+BASE=${BASE:-https://v0game.ddev.site}
 SEED="env APP_ENV=test DATABASE_URL='mysql://db:db@db:3306/db?serverVersion=8.4.13&charset=utf8mb4' php tools/loadtest/seed.php"
 
 status() {

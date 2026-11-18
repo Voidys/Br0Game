@@ -185,7 +185,7 @@ class ErrorReporter
     URL: ' . htmlspecialchars($this->state->runtime->protocol . $this->state->runtime->httpHost . ($this->state->requestServer['REQUEST_URI'] ?? '')) . '
     PHP-Version: ' . PHP_VERSION . '
     PHP-API: ' . php_sapi_name() . '
-    Br0Game Version: ' . htmlspecialchars((string) $version) . '
+    V0Game Version: ' . htmlspecialchars((string) $version) . '
 
     Debug Backtrace:
     ' . str_replace('--', '- -', makebr(htmlspecialchars($exception->getTraceAsString()))) . '

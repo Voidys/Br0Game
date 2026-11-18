@@ -7,10 +7,10 @@ install_desc: 'Para ma-enable ang installation tool, gumawa ng file na "var/ENAB
 install_title: Naka-lock ang installation tool
 intro_install: I-install
 intro_lang: Wika
-intro_text: 'Ang Br0Game ay open-source na space strategy game sa browser: palaguin ang mga planeta mo, mag-research, magpadala ng fleet at makipaglaban sa daan-daang manlalaro nang sabay-sabay.<br><br>Ihahanda ng wizard na ito ang bagong installation hakbang-hakbang: susuriin nito ang server mo, kokonekta at gagawa ng database, bubuo ng mga table, hahayaan kang pangalanan ang laro mo at gagawa ng administrator.'
-intro_upgrade_head: Naka-install na ang Br0Game?
-intro_upgrade_text: <p>Naka-install na ang Br0Game at gusto mo lang mag-update?</p><p>Puwede mong i-update dito ang existing database mo sa ilang click lang!</p>
-intro_welcome: Maligayang pagdating sa Br0Game!
+intro_text: 'Ang V0Game ay open-source na space strategy game sa browser: palaguin ang mga planeta mo, mag-research, magpadala ng fleet at makipaglaban sa daan-daang manlalaro nang sabay-sabay.<br><br>Ihahanda ng wizard na ito ang bagong installation hakbang-hakbang: susuriin nito ang server mo, kokonekta at gagawa ng database, bubuo ng mga table, hahayaan kang pangalanan ang laro mo at gagawa ng administrator.'
+intro_upgrade_head: Naka-install na ang V0Game?
+intro_upgrade_text: <p>Naka-install na ang V0Game at gusto mo lang mag-update?</p><p>Puwede mong i-update dito ang existing database mo sa ilang click lang!</p>
+intro_welcome: Maligayang pagdating sa V0Game!
 licence_accept: Tinatanggap mo ba ang mga tuntunin ng lisensya? Puwede mo lang i-install ang software kung tatanggapin mo ang mga ito.
 licence_desc: Pakibasa ang mga tuntunin ng lisensya sa ibaba. Gamitin ang scroll bar para makita ang buong dokumento.
 licence_head: Mga tuntunin ng lisensya
@@ -23,11 +23,11 @@ reg_file: Puwede bang sulatan ang file &raquo;%s&laquo;?
 reg_not_found: Hindi nahanap
 reg_not_writable: Hindi puwedeng sulatan
 reg_writable: Puwedeng sulatan
-req_desc: Bago magpatuloy ang installation, susuriin ng Br0Game ang configuration at mga file ng server mo para masigurong maa-install at magagamit ito. Basahing mabuti ang mga resulta at huwag magpatuloy hangga't hindi pumapasa ang lahat ng kinakailangang test.
+req_desc: Bago magpatuloy ang installation, susuriin ng V0Game ang configuration at mga file ng server mo para masigurong maa-install at magagamit ito. Basahing mabuti ang mga resulta at huwag magpatuloy hangga't hindi pumapasa ang lahat ng kinakailangang test.
 sql_close_reason: 'Inihahanda ang universe.
 
   Maghintay lang.'
-sql_welcome: Maligayang pagdating sa Br0Game v
+sql_welcome: Maligayang pagdating sa V0Game v
 step1_head: I-configure ang access sa database
 step1_mysql_dbname: Pangalan ng database
 step1_mysql_dbpass: Password ng database
@@ -51,7 +51,7 @@ step4_admin_name_desc: Maglagay ng username na 3 hanggang 20 character.
 step4_admin_pass: 'Password ng administrator:'
 step4_desc: Gagawa na ngayon ang installation wizard ng administrator account. Maglagay ng username, e-mail address at password.
 step4_head: Gumawa ng administrator
-step6_desc: Matagumpay mong na-install ang Br0Game.
+step6_desc: Matagumpay mong na-install ang V0Game.
 step6_head: Congratulations!
 title_install: Installer
 upgrade_available: May available na update sa database. Nasa revision %s ang database at puwede itong i-update sa revision %s.
@@ -95,18 +95,18 @@ ins_task_universe: I-set up ang universe 1
 ins_build_start: Buuin ang database
 ins_back_database: Bumalik sa mga setting ng database
 ins_game_name: Pangalan ng laro
-ins_game_name_info: 'Lumalabas sa title, header at mga e-mail. Default: Br0Game.'
+ins_game_name_info: 'Lumalabas sa title, header at mga e-mail. Default: V0Game.'
 ins_default_theme: Default na theme
 ins_default_theme_info: Theme para sa mga bagong account at bisita; puwedeng magpalit ang mga manlalaro sa mga setting nila.
 ins_game_name_invalid: Maglagay ng pangalan ng laro na 1 hanggang 64 na character.
 ins_theme_invalid: Hindi kilalang theme.
 ins_to_start: Pumunta sa start page
 ins_credits_head: Nakatayo sa balikat ng mga higante
-ins_credits_text: 'Ipinagpapatuloy ng Br0Game ang mahabang linya ng mga open-source na browser game. Pagpupugay sa lahat ng bumuo at nagpanatili nitong buhay bago pa tayo:'
+ins_credits_text: 'Ipinagpapatuloy ng V0Game ang mahabang linya ng mga open-source na browser game. Pagpupugay sa lahat ng bumuo at nagpanatili nitong buhay bago pa tayo:'
 ins_credits_thanks: Salamat, pr0game community, sa larong pinagmulan ng larong ito.
 ins_licence_note: Libreng software sa ilalim ng GNU AGPL v3
 ins_task_images: I-optimize ang mga image (WebP)
-ins_db_help: Ang Br0Game ay nag-iimbak ng lahat sa MySQL o MariaDB database. Makukuha mo ang mga value sa ibaba sa hosting panel mo (hanapin ang "Databases" o "MySQL"), o sa nag-set up ng server mo. Kung ikaw mismo ang nag-install ng MySQL, kadalasang gumagana ang mga default.
+ins_db_help: Ang V0Game ay nag-iimbak ng lahat sa MySQL o MariaDB database. Makukuha mo ang mga value sa ibaba sa hosting panel mo (hanapin ang "Databases" o "MySQL"), o sa nag-set up ng server mo. Kung ikaw mismo ang nag-install ng MySQL, kadalasang gumagana ang mga default.
 ins_db_host: Database server
 ins_db_host_info: Halos palaging "localhost". May ibang host na nagbibigay ng pangalan gaya ng "db1.example.com".
 ins_db_name_info: Pangalan ng database para sa laro. Gawin muna ito sa hosting panel mo, o hayaang gawin ito ng installer (tingnan ang kahon sa ibaba).

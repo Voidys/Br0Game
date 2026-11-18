@@ -49,7 +49,7 @@
 <p>We gebruiken alleen cookies en browseropslag die technisch noodzakelijk zijn om de dienst te leveren die je vraagt (§ 25 lid 2 nr. 2 TDDDG, art. 6, lid 1, onder b en f AVG):</p>
 <ul>
 <li><strong>2Moons</strong>: sessiecookie waarmee je ingelogd blijft. Hij verloopt 12 uur na je laatste activiteit, of wanneer je uitlogt.</li>
-<li><strong>br0_device</strong>: willekeurige apparaat-ID (2 jaar). Alleen een hash ervan wordt per account opgeslagen, gedurende 90 dagen na het laatste bezoek, om meerdere accounts te detecteren die vanuit dezelfde browser worden gespeeld.</li>
+<li><strong>v0_device</strong>: willekeurige apparaat-ID (2 jaar). Alleen een hash ervan wordt per account opgeslagen, gedurende 90 dagen na het laatste bezoek, om meerdere accounts te detecteren die vanuit dezelfde browser worden gespeeld.</li>
 <li><strong>lang</strong>: onthoudt de taal die je hebt gekozen.</li>
 <li><strong>account</strong>: onthoudt dat deze browser is gebruikt om in te loggen, zodat de startpagina eerst de login kan tonen. Hij bevat geen persoonsgegevens.</li>
 <li>Lokale opslag: weergavevoorkeuren van de spelinterface (bijvoorbeeld de laatst geopende berichtcategorie). Ze blijven in je browser en worden niet naar ons verzonden.</li>

@@ -1,34 +1,34 @@
 <div align="center">
 
-# Br0Game
+# V0Game
 
 **An open source browser space strategy game.** Build planets, research technologies, send fleets and fight it out
 in alliances.
 
-[![CI](https://github.com/Voidys/Br0Game/actions/workflows/ci.yml/badge.svg)](https://github.com/Voidys/Br0Game/actions/workflows/ci.yml)
-[![Release build](https://github.com/Voidys/Br0Game/actions/workflows/release.yml/badge.svg)](https://github.com/Voidys/Br0Game/actions/workflows/release.yml)
-[![Latest release](https://img.shields.io/github/v/release/Voidys/Br0Game?label=release&color=blue)](https://github.com/Voidys/Br0Game/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/Voidys/Br0Game/total?color=blue)](https://github.com/Voidys/Br0Game/releases)
+[![CI](https://github.com/Voidys/V0Game/actions/workflows/ci.yml/badge.svg)](https://github.com/Voidys/V0Game/actions/workflows/ci.yml)
+[![Release build](https://github.com/Voidys/V0Game/actions/workflows/release.yml/badge.svg)](https://github.com/Voidys/V0Game/actions/workflows/release.yml)
+[![Latest release](https://img.shields.io/github/v/release/Voidys/V0Game?label=release&color=blue)](https://github.com/Voidys/V0Game/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Voidys/V0Game/total?color=blue)](https://github.com/Voidys/V0Game/releases)
 [![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0-green)](LICENSE)
 <br>
 [![PHP 8.4](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![Symfony 8.1](https://img.shields.io/badge/Symfony-8.1-000000?logo=symfony&logoColor=white)](https://symfony.com/)
 [![Twig](https://img.shields.io/badge/templates-Twig-8BC34A)](https://twig.symfony.com/)
 [![MySQL 8.4 | MariaDB 10.11](https://img.shields.io/badge/MySQL%208.4%20%7C%20MariaDB%2010.11-4479A1?logo=mysql&logoColor=white)](docs/INSTALL.md)
-[![Last commit](https://img.shields.io/github/last-commit/Voidys/Br0Game)](https://github.com/Voidys/Br0Game/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/Voidys/V0Game)](https://github.com/Voidys/V0Game/commits/main)
 
-[**Install guide**](docs/INSTALL.md) · [**Download**](https://github.com/Voidys/Br0Game/releases/latest) ·
-[Changelog](CHANGES.md) · [Report a bug](https://github.com/Voidys/Br0Game/issues)
+[**Install guide**](docs/INSTALL.md) · [**Download**](https://github.com/Voidys/V0Game/releases/latest) ·
+[Changelog](CHANGES.md) · [Report a bug](https://github.com/Voidys/V0Game/issues)
 
 </div>
 
-> **Br0Game lives on at GitHub.** It is a fork of [pr0game](https://codeberg.org/pr0game/pr0game), which grew out of
+> **V0Game lives on at GitHub.** It is a fork of [pr0game](https://codeberg.org/pr0game/pr0game), which grew out of
 > 2Moons and SteemNova. Codeberg does not allow AI-assisted coding, so the project moved here. Issues, pull requests
 > and releases go to this repository.
 
 ## What is this?
 
-Br0Game is a space strategy game in the style of the classic browser games: players build up planets, research
+V0Game is a space strategy game in the style of the classic browser games: players build up planets, research
 technologies, send fleets, trade and fight together in alliances. Everything happens in the browser, on a phone too.
 
 You run it yourself: put it on your own web space or server, and you have your own game for friends or a community.
@@ -136,20 +136,20 @@ non-technical readers too.
 
 ### 1. ZIP download
 
-1. **Download** `br0game-<version>.zip` from the [latest release](https://github.com/Voidys/Br0Game/releases/latest).
+1. **Download** `v0game-<version>.zip` from the [latest release](https://github.com/Voidys/V0Game/releases/latest).
    Download only from that page. *Optional but recommended:* also download the `.sha256` file and
    [check that the ZIP is undamaged](docs/INSTALL.md#1-download-and-check-the-file).
 2. **Upload** the ZIP to your web space and unpack it there (most file managers in hosting panels can do this; it is
    much faster than uploading the unpacked files). The ZIP is about 80 MB, mostly theme artwork.
 3. **Point your domain to the `public/` folder.** In the hosting panel look for "Domains" and "Document root" (also
-   called "Web root") and set it to the `public` folder inside the unpacked folder, for example `br0game/public`.
+   called "Web root") and set it to the `public` folder inside the unpacked folder, for example `v0game/public`.
    This keeps passwords and program files out of reach of visitors. [Why and how](docs/INSTALL.md#4-point-the-domain-to-the-public-folder).
 4. **Create an empty database** in the hosting panel and write down its host (often `localhost`), name, user and password.
 5. **Open `https://your-domain/install/`** and follow the wizard. It checks your hosting, asks for the database
    details, the game name, speed and your admin account. Do this right after uploading: until it is finished,
    anyone who opens the page could set the game up.
 6. **Set up the cron job.** The last wizard page shows a line like
-   `cd /path/to/br0game && php bin/console app:cron:run --quiet`. Create a cron job in your hosting panel that runs it
+   `cd /path/to/v0game && php bin/console app:cron:run --quiet`. Create a cron job in your hosting panel that runs it
    **every minute**. Without it fleets never arrive and nothing progresses.
    [Step-by-step help for hosting panels](docs/INSTALL.md#7-set-up-the-cron-job).
 7. **Turn on HTTPS** in the hosting panel, if it is not on yet.
@@ -159,10 +159,10 @@ non-technical readers too.
 Download it, read it, then run it. Please don't pipe it into a shell.
 
 ```sh
-curl -fsSLO https://raw.githubusercontent.com/Voidys/Br0Game/main/install.sh
+curl -fsSLO https://raw.githubusercontent.com/Voidys/V0Game/main/install.sh
 less install.sh
 bash install.sh                 # interactive menu
-bash install.sh --help          # all options, e.g. --mode server --dir /var/www/br0game --dry-run
+bash install.sh --help          # all options, e.g. --mode server --dir /var/www/v0game --dry-run
 ```
 
 The script:
@@ -181,20 +181,20 @@ Then:
 - set your web server's **document root to the `public/` folder** of the install directory, not the project folder
   itself ([nginx example](docs/nginx.md); Apache: `DocumentRoot …/public` with `AllowOverride All`);
 - add the **cron job** that runs every minute:
-  `* * * * * cd /path/to/br0game && php bin/console app:cron:run --quiet` (`crontab -e` as the web server's user;
+  `* * * * * cd /path/to/v0game && php bin/console app:cron:run --quiet` (`crontab -e` as the web server's user;
   [details](docs/INSTALL.md#7-set-up-the-cron-job));
 - turn on HTTPS, for example with certbot.
 
 ### 3. DDEV (try it on your PC)
 
 ```sh
-git clone https://github.com/Voidys/Br0Game.git
-cd Br0Game
+git clone https://github.com/Voidys/V0Game.git
+cd V0Game
 ddev start
 ddev composer install
 ```
 
-Then open **https://br0game.ddev.site/install/**. DDEV runs the cron job by itself.
+Then open **https://v0game.ddev.site/install/**. DDEV runs the cron job by itself.
 
 ## After installing
 
@@ -222,7 +222,7 @@ Keep backups of the database and of `config/game.php` ([how](docs/INSTALL.md#bac
 | **The wizard says it is closed** | The game is already installed, or `var/` is not writable |
 
 More answers: [troubleshooting in the install guide](docs/INSTALL.md#troubleshooting). Still stuck?
-[Open an issue](https://github.com/Voidys/Br0Game/issues).
+[Open an issue](https://github.com/Voidys/V0Game/issues).
 
 ## Requirements
 
@@ -242,7 +242,7 @@ The technical list for server admins:
 - **Cron:** the game's background jobs (fleets, statistics, cleanup, bots…) run every minute:
 
   ```
-  * * * * * cd /path/to/br0game && php bin/console app:cron:run --quiet
+  * * * * * cd /path/to/v0game && php bin/console app:cron:run --quiet
   ```
 
   On a server you control, an extra fleet loop makes arrivals exact to the second ([details](docs/INSTALL.md#7-set-up-the-cron-job)).
@@ -362,7 +362,7 @@ ddev exec vendor/bin/php-cs-fixer fix                                       # co
 - **Releases** ([`release.yml`](.github/workflows/release.yml)):
   - bump `install/VERSION` (year scheme `1.<yy>.<patch>`, e.g. `1.26.0`) and push a tag `v1.26.0`;
   - the workflow builds the ZIP with `tools/release/build.sh` and attaches it with its SHA256 to the GitHub release.
-- **Bugs and ideas:** [GitHub issues](https://github.com/Voidys/Br0Game/issues). Pull requests are welcome.
+- **Bugs and ideas:** [GitHub issues](https://github.com/Voidys/V0Game/issues). Pull requests are welcome.
 
 ## Battle engines
 
@@ -408,16 +408,16 @@ Based on [2Moons](https://github.com/jkroepke/2Moons), [SteemNova](https://githu
 
 **Copyright**
 - SteemNova is a fork of the open source browser game framework jkroepke/2Moons. pr0game is a fork of SteemNova, and
-  Br0Game is a fork of pr0game.
+  V0Game is a fork of pr0game.
 - Code copyright 2009-2016 Jan-Otto Kröpke, released under the MIT License.
 - Code copyright 2018 @steemnova, released under the MIT License.
 - Code copyright 2018-2020 @IntinteDAO, released under the MIT License (f66f0bf9f2d502f9cc3932e7f05e4795b3622ce6).
 - Code copyright 07.05.2020-2020 @IntinteDAO, released under the AGPLv3 License.
 - Code copyright 2022-2026 the pr0game dev team and community ([codeberg.org/pr0game/pr0game](https://codeberg.org/pr0game/pr0game)), released under the AGPLv3 License.
-- Code copyright 2026 the Br0Game contributors, released under the AGPLv3 License.
+- Code copyright 2026 the V0Game contributors, released under the AGPLv3 License.
 
 **Credits**
-- 2026 Br0Game - Br0Game contributors
+- 2026 V0Game - V0Game contributors
 - 2022-2026 pr0game - pr0game dev team and community
 - 2018-2020 SteemNova - @steemnova, @IntinteDAO
 - 2009-2019 2Moons Browsergame Engine - jkroepke
