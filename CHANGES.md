@@ -1281,3 +1281,10 @@ Technical changes per step, newest last (started with the migration to PHP 8.4, 
 ## 163. Release 1.26.5
 
 - `install/VERSION` 1.26.5 (tag `v1.26.5`): configurable session lifetime and "stay logged in", shared migration runner with admin page, optional cookie notice, stable in-game clock, redesigned combat report, rebuilt FAQ, admin link fixes, stats export in `public/stats/` (steps 161), in-game UX review fixed in all seven themes, events-first overview, one type scale and per-theme radius/border/focus consistency, admin update check (step 162). No database migrations; ZIP updates keep `public/stats/` instead of `stats/`.
+
+## 164. Console fleet runs fixed, honor ranking without N+1
+
+- `Universe::getEmulated()` falls back to the current universe (uncached) when there is no request session: `app:fleets:run` and the fleet cronjob failed every transport arrival with "No session available (console run?)" (`MissionCaseTransport` → `Log` → emulated universe) and quarantined it for 300 s (test `ConsoleEmulatedUniverseTest`).
+- `AdvancedStatsHandler::getHonorList()` joins the honorable/dishonorable fight counters instead of two queries per listed player (about 1.2 queries per player of the universe on every battle via `HonorPoints::get_honor_percent()`); same rows and order (test `HonorListTest`).
+- `AdvancedStatsHandler::increment()` remembers each player's universe per handler instead of one `SELECT universe` per counter update.
+- Effect on a seeded world (1500 players, bench of 2026-11-18): attack mission with medium fleets 524 → ~55 ms (2020 → ~155 queries), large fleets 663 → ~215 ms; 110 mixed fleet events (400 players) 6.6 → ~2.5 s (23.4k → 7k queries).

@@ -15,6 +15,8 @@ class AdvancedStatsHandler
 {
     use \App\Game\Core\GameUtilities;
 
+    /** @var array<int, int> user id => universe, a player never changes universe (saves one query per increment) */
+    private array $universeOfUser = [];
 
     public function __construct(
         protected \App\Game\Core\Database $db,
@@ -43,7 +45,7 @@ class AdvancedStatsHandler
 
         $this->db->insert($sql, [
             ':userId'       => $userId,
-            ':universe'     => $universe ?? $this->playerLookup()->getUniverse($userId),
+            ':universe'     => $universe ?? ($this->universeOfUser[$userId] ??= $this->playerLookup()->getUniverse($userId)),
             ':statkey'      => $statKey->name,
             ':statvalue'    => $value,
         ]);
@@ -235,38 +237,36 @@ class AdvancedStatsHandler
     public function getHonorList(int $universe, int $limit = 100, string $kind = 'top'): array
     {
         if ($kind == 'top') {
-            $sql = "SELECT userId, statvalue AS honorpoints 
-                    FROM %%ADVANCED_STATS%% 
-                    WHERE universe = :universe AND statkey = :hp_key
-                    ORDER BY statvalue DESC
+            $sql = "SELECT hp.userId, hp.statvalue AS honorpoints, hf.statvalue AS honorable_fights, df.statvalue AS dishonorable_fights
+                    FROM %%ADVANCED_STATS%% hp
+                    LEFT JOIN %%ADVANCED_STATS%% hf ON hf.userId = hp.userId AND hf.universe = hp.universe AND hf.statkey = :hf_key
+                    LEFT JOIN %%ADVANCED_STATS%% df ON df.userId = hp.userId AND df.universe = hp.universe AND df.statkey = :df_key
+                    WHERE hp.universe = :universe AND hp.statkey = :hp_key
+                    ORDER BY hp.statvalue DESC
                     LIMIT :limit";
         } else {
-            $sql = "SELECT userId, statvalue AS honorpoints 
-                    FROM %%ADVANCED_STATS%% 
-                    WHERE universe = :universe AND statkey = :hp_key
-                    ORDER BY statvalue ASC
+            $sql = "SELECT hp.userId, hp.statvalue AS honorpoints, hf.statvalue AS honorable_fights, df.statvalue AS dishonorable_fights
+                    FROM %%ADVANCED_STATS%% hp
+                    LEFT JOIN %%ADVANCED_STATS%% hf ON hf.userId = hp.userId AND hf.universe = hp.universe AND hf.statkey = :hf_key
+                    LEFT JOIN %%ADVANCED_STATS%% df ON df.userId = hp.userId AND df.universe = hp.universe AND df.statkey = :df_key
+                    WHERE hp.universe = :universe AND hp.statkey = :hp_key
+                    ORDER BY hp.statvalue ASC
                     LIMIT :limit";
         }
 
         $result = $this->db->select($sql, [
             ':universe' => $universe,
             ':hp_key'   => AdvancedStatsEnum::HONORPOINTS->name,
+            ':hf_key'   => AdvancedStatsEnum::HONORABLE_FIGHTS->name,
+            ':df_key'   => AdvancedStatsEnum::DISHONORABLE_FIGHTS->name,
             ':limit'    => $limit,
         ]);
 
         foreach ($result as &$row) {
-            $sql = "SELECT statvalue 
-                    FROM %%ADVANCED_STATS%% 
-                    WHERE statkey = :hp_key AND userId = :user_id";
-            $row['honorable_fights'] = (int) ($this->db->selectSingle($sql, [
-                ':hp_key'   => AdvancedStatsEnum::HONORABLE_FIGHTS->name,
-                ':user_id'  => $row['userId'],
-            ])['statvalue'] ?? 0);
-            $row['dishonorable_fights'] = (int) ($this->db->selectSingle($sql, [
-                ':hp_key'   => AdvancedStatsEnum::DISHONORABLE_FIGHTS->name,
-                ':user_id'  => $row['userId'],
-            ])['statvalue'] ?? 0);
+            $row['honorable_fights'] = (int) ($row['honorable_fights'] ?? 0);
+            $row['dishonorable_fights'] = (int) ($row['dishonorable_fights'] ?? 0);
         }
+        unset($row);
 
         if ($kind == 'top') {
             usort($result, function ($a, $b) {

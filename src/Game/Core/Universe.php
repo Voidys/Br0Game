@@ -85,6 +85,13 @@ class Universe
     public function getEmulated()
     {
         if (is_null($this->state->universeEmulated)) {
+            $request = $this->state->request ?? null;
+            if (!$request instanceof \Symfony\Component\HttpFoundation\Request || !$request->hasSession()) {
+                // console/cron (fleet events, cronjobs): nobody emulates a universe, and the current one changes per
+                // processed universe, so don't cache it
+                return $this->current();
+            }
+
             $session	= $this->sessionManager()->load();
             if (isset($session->emulatedUniverse)) {
                 $this->setEmulated($session->emulatedUniverse);
