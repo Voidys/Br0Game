@@ -195,7 +195,7 @@ class GalaxyRows
                 && $this->module(MODULE_MISSION_SPY),
             8 => $this->module(MODULE_MISSION_RECYCLE),
             9 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
-                && ($PLANET[$elements->find(SHIP_RIP)?->column] > 0 || $PLANET[$elements->find(VOID_TITAN)?->column] > 0)
+                && ($PLANET[$elements->find(SHIP_RIP)?->column] > 0 || ($PLANET[$elements->find(VOID_TITAN)?->column ?? ''] ?? 0) > 0)
                 && $this->module(MODULE_MISSION_DESTROY),
             10 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
                 && $PLANET[$elements->find(INTERPLANETARY_MISSILE)?->column] > 0

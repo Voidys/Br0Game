@@ -282,7 +282,7 @@ class Database
             throw new Exception($e->getMessage() . "<br><br>Query-Code: " . $qb->getSQL(), (int) $e->getCode(), $e);
         }
 
-        $this->state->time['db'] += microtime(true) - $start;
+        $this->state->time['db'] = ($this->state->time['db'] ?? 0.0) + microtime(true) - $start; // console runs start without the request timer
         $this->queryCounter++;
         $this->logQuery($qb->getSQL(), $qb->getParameters(), $type, $start);
         $this->rowCount = $count;
@@ -343,7 +343,7 @@ class Database
             $success = (
                 count($params) !== 0 && !isset($params[':limit']) && !isset($params[':offset'])
             ) ? $stmt->execute($params) : $stmt->execute();
-            $this->state->time['db'] += microtime(true) - $start;
+            $this->state->time['db'] = ($this->state->time['db'] ?? 0.0) + microtime(true) - $start; // console runs start without the request timer
         } catch (PDOException $e) {
             $errorCode = isset($e->errorInfo[1]) ? (int) $e->errorInfo[1] : 0;
             throw new Exception(

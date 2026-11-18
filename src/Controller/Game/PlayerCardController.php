@@ -99,8 +99,26 @@ class PlayerCardController extends AbstractGameController
             ],
             $this->honorVariables($battle_stats, $honor_data),
         );
+        if ($this->hiddenInStatistics($PlayerID)) {
+            // like the statistics page: no ranks for players the statistics hide (they are ranked last internally)
+            foreach (['total_rank', 'tech_rank', 'build_rank', 'defs_rank', 'fleet_rank'] as $key) {
+                $context[$key] = '-';
+            }
+        }
 
         return $this->render('game/page.playerCard.default.html.twig', $context);
+    }
+
+    /**
+     * Same rule as Statbuilder::isHidden(): staff at or above stat_level while the staff-hiding stat mode (1 or 2) is
+     * on, or a banned player.
+     */
+    private function hiddenInStatistics(int $playerId): bool
+    {
+        $row = $this->db->selectSingle('SELECT authlevel, bana FROM %%USERS%% WHERE id = :id;', [':id' => $playerId]);
+        $config = $this->configs->get();
+
+        return !empty($row['bana']) || (in_array($config->stat, [1, 2]) && $row['authlevel'] >= $config->stat_level);
     }
 
     /**

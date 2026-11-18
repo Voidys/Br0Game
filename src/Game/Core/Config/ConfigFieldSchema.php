@@ -140,7 +140,8 @@ class ConfigFieldSchema
             $LNG->includeData(['L18N', 'INGAME', 'ADMIN', 'PUBLIC', 'CUSTOM']);
             $this->state->LNG = $LNG;
         }
-        $LNG->includeData(['ADMIN']);
+        // the expedition and build fields use element names ($LNG['tech']), which console runs have not loaded yet
+        $LNG->includeData(['ADMIN', 'TECH']);
 
         return array_merge(
             (new Schema\UniServerParametersFields())->fields($LNG),

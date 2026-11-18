@@ -254,7 +254,7 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
             'sys_trade_mess_arr_success',
             $planetName,
             GetStartAddressLink($this->_fleet, ''),
-            $this->_fleet['fleet_id'],
+            $this->_fleet['id'],
             $LNG['fl_send_back'],
             $this->viewHelpers()->prettyTime($returnFlightTime),
         );

@@ -88,16 +88,26 @@ class StatRecords
                 ->join('p', $db->table('USERS'), 'u', 'p.id_owner = u.id')
                 ->where('p.universe = :universe')
                 ->andWhere('p.destruyed = 0')
-                ->andWhere('u.authlevel < :level');
+                ->andWhere('u.authlevel < :level')
+                ->andWhere('u.bana = 0');
         } else {
             $maxQuery->from($db->table('USERS'))
                 ->where('universe = :universe')
-                ->andWhere('authlevel < :level');
+                ->andWhere('authlevel < :level')
+                ->andWhere('bana = 0');
         }
         $max = $db->fetchRow($maxQuery->setParameter('universe', $uni)->setParameter('level', $level));
 
         $wanted = [];
         $holderQuery = $db->qb()->from($db->table($table))->where('universe = :universe')->setParameter('universe', $uni);
+        // the same players as for the maxima: no hidden staff, no banned players (they could tie the record)
+        if ($isPlanet) {
+            $holderQuery->andWhere('destruyed = 0')
+                ->andWhere('id_owner IN (SELECT id FROM ' . $db->table('USERS') . ' WHERE authlevel < :level AND bana = 0)');
+        } else {
+            $holderQuery->andWhere('authlevel < :level')->andWhere('bana = 0');
+        }
+        $holderQuery->setParameter('level', $level);
         $holderQuery->addSelect('`' . $idColumn . '` AS `id`');
         $conditions = [];
         foreach ($columns as $element => $column) {
@@ -162,7 +172,7 @@ class StatRecords
 
     /**
      * Rebuilds the records table (highest tech and building level per element and universe): clears it and writes the
-     * players holding the highest level of each element. Hidden admins (authlevel at or above stat_level) do not set records.
+     * players holding the highest level of each element. Hidden admins (authlevel at or above stat_level) and banned players do not set records.
      */
     public function buildRecords(): void
     {

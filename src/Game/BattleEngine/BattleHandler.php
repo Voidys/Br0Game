@@ -599,9 +599,17 @@ class BattleHandler
                 $remainder[$resourceID] -= $shares[$FleetID][$resourceID];
             }
         }
-        $firstFleetID = array_key_first($SortFleets);
+        // the rounding remainder goes to the first fleets that still have room (the first fleet alone could be
+        // pushed over its own capacity); the group total never exceeds the group capacity
         foreach ($remainder as $resourceID => $rest) {
-            $shares[$firstFleetID][$resourceID] += $rest;
+            foreach ($SortFleets as $FleetID => $Capacity) {
+                if ($rest <= 0) {
+                    break;
+                }
+                $give = min($rest, max(0, $Capacity - array_sum($shares[$FleetID])));
+                $shares[$FleetID][$resourceID] += $give;
+                $rest -= $give;
+            }
         }
 
         foreach ($SortFleets as $FleetID => $Capacity) {

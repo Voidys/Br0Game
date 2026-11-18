@@ -281,10 +281,11 @@ class ResourcesController extends AbstractGameController
 
         $productionList = [];
 
+        // same factor as ResourceProduction: without energy consumers nothing is throttled
         if ($this->state->PLANET['energy_used'] != 0) {
             $prodLevel = min(1, $this->state->PLANET['energy'] / abs($this->state->PLANET['energy_used']));
         } else {
-            $prodLevel = 0;
+            $prodLevel = 1;
         }
 
         $prodSelector = [];
@@ -346,7 +347,8 @@ class ResourcesController extends AbstractGameController
             if (in_array($ID, $e->resourceIds(2))) {
                 $Production *= $config->energy_multiplier;
             } else {
-                $Production *= $prodLevel * ($config->resource_multiplier / 2500);
+                // the energy factor throttles production only; consumption (fusion deuterium) is never throttled
+                $Production *= ($Production > 0 ? $prodLevel : 1) * ($config->resource_multiplier / 2500);
             }
 
             if ($ProdID == fusion_plant && $ID == RESOURCE_ENERGY) {

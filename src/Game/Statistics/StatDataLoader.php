@@ -44,7 +44,8 @@ class StatDataLoader
         }
         $Return['Alliance'] = $database->select(
             "SELECT SQL_BIG_RESULT DISTINCT a.`id`, a.`ally_universe`, s.`tech_rank` AS old_tech_rank, s.`build_rank` AS old_build_rank,
-                s.`defs_rank` AS old_defs_rank, s.`fleet_rank` AS old_fleet_rank, s.`total_rank` AS old_total_rank
+                s.`defs_rank` AS old_defs_rank, s.`fleet_rank` AS old_fleet_rank, s.`total_rank` AS old_total_rank,
+                s.`honor_rank` AS old_honor_rank, s.`units_rank` AS old_units_rank
             FROM %%ALLIANCE%% as a
             LEFT JOIN %%STATPOINTS%% as s ON s.`stat_type` = 2 AND s.`id_owner` = a.`id`
             GROUP BY a.`id`;",
@@ -147,7 +148,7 @@ class StatDataLoader
                 s.`defs_rank` AS old_defs_rank, s.`fleet_rank` AS old_fleet_rank, s.`total_rank` AS old_total_rank, s.`honor_rank` AS old_honor_rank, s.`units_rank` AS old_units_rank
             FROM %%USERS%% as u
             LEFT JOIN %%STATPOINTS%% as s ON s.`stat_type` = 1 AND s.`id_owner` = u.`id`
-            LEFT JOIN %%PLANETS%% as p ON u.`id` = p.`id_owner`
+            LEFT JOIN %%PLANETS%% as p ON u.`id` = p.`id_owner` AND p.`destruyed` = 0
             WHERE u.`universe` = :universe
             GROUP BY s.`id_owner`, u.`id`, u.`authlevel`;",
             [':universe' => $uni],

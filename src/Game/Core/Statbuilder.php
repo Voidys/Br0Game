@@ -52,6 +52,8 @@ class Statbuilder
     private array $catalogs = [];
     private StatScores $scores;
     private StatPointsWriter $writer;
+    /** @var array<int, array<string, mixed>> alliance id => its previous ranks (old_*_rank) */
+    private array $allianceOldRanks = [];
 
     /**
      * Loads the available universes and their game data (resource names, element lists, price lists from the "vars" cache) and prepares the scorer and the statpoints writer; also notes start time and memory for the run info.
@@ -87,6 +89,7 @@ class Statbuilder
     {
         $allianceScores = [];
         $userStats = (new StatDataLoader($this->db, $this->universes, $this->catalogs))->load();
+        $this->allianceOldRanks = array_column($userStats['Alliance'], null, 'id');
         $userScores = $this->setUserScoresByPlanets($userStats);
         $universeData = [];
 
@@ -105,6 +108,8 @@ class Statbuilder
             $universeData[$userData['universe']]++;
 
             if ($this->isHidden($userData)) {
+                // no points, but keep the previous ranks (the rank change of a player shown again stays right)
+                $this->copyOldRanks($statPoints, $userData);
                 $this->writer->queue($statPoints);
                 continue;
             }
@@ -192,6 +197,16 @@ class Statbuilder
         $statPoints->dishonorable_fights = $honorData['dishonorable_fights'];
         $statPoints->units_points = $honorData['units_points'];
 
+        $this->copyOldRanks($statPoints, $userData);
+    }
+
+    /**
+     * Copies the player's previous ranks (old_*_rank columns of the user row) into the StatPoints row.
+     *
+     * @param array<string, mixed> $userData user row with the old_*_rank columns
+     */
+    private function copyOldRanks(StatPoints $statPoints, array $userData): void
+    {
         $statPoints->build_old_rank = (int) $userData['old_build_rank'];
         $statPoints->fleet_old_rank = (int) $userData['old_fleet_rank'];
         $statPoints->defs_old_rank = (int) $userData['old_defs_rank'];
@@ -222,6 +237,11 @@ class Statbuilder
                 self::STAT_TYPE_ALLIANCE,
                 $userData['universe'],
             );
+            // previous ranks, like the players' (without them every alliance showed a drop by its own rank)
+            $old = $this->allianceOldRanks[$userData['ally_id']] ?? [];
+            foreach (['build', 'fleet', 'defs', 'tech', 'total', 'honor', 'units'] as $category) {
+                $allianceScores[$userData['ally_id']]->{$category . '_old_rank'} = (int) ($old['old_' . $category . '_rank'] ?? 0);
+            }
         }
 
         if ($userData['onlinetime'] >= $this->state->runtime->timestamp - INACTIVE) {

@@ -1295,3 +1295,12 @@ Technical changes per step, newest last (started with the migration to PHP 8.4, 
 - Market: fleet offers are buyable again (`MarketPurchase::planBuyerTrip` sized the buyer fleet from `resource_amount`, 0 for fleet offers, and the flight math threw); partner-only offers no longer count two alliance-less players as one alliance (`MarketRules::checkDiplo`); the seller's max flight time (`filter_flighttime`) is enforced at buy time and shown as "too far" in the listing (new keys `market_p_msg_too_far`, `market_buyable_too_far`, all locales; test `MarketOfferFiltersTest`).
 - Solar satellites finished during an update only produce from their finish time: `HangarQueueProcessor::productionCheckpoints()` + stepped resource update in `ResourceUpdate` (at most 48 steps per queue entry, unchanged path without producing units in the queue; test `HangarProductionStepsTest`).
 - Shield domes (407/408) are buildable defence again: their vars rows had class 0 and the class in `ship_type` (shifted columns, like the missiles in migration 1794787211); 409-411 get class 401 (not buildable). Migration 1795007572 + `install.sql` (test `ShieldDomeClassTest`, golden price of 407 now per unit).
+
+## 166. Mechanics checkup fixes: display, loot split, statistics, notices
+
+- Resources page: the fusion plant's deuterium burn is no longer scaled by the energy factor, and without energy consumers the factor is 1 (same rules as `ResourceProduction`).
+- Expeditions that find no ships keep their ship list for the return flight (`ExpeditionShipEvent` wrote it empty).
+- ACS loot: the rounding remainder goes to the first fleets with free capacity instead of always the first fleet (`BattleHandler`).
+- Statistics: alliances keep their previous ranks (rank change was "-rank" for every alliance), hidden/banned players keep theirs, units on abandoned planets no longer count, records ignore banned players and hidden staff for maxima and holders, the player card shows no ranks for players the statistics hide, the rank-change tooltip no longer prints "--1" (test in `StatbuilderTest`, records golden updated).
+- Trade hold message links the right fleet id (`MissionCaseTrade`, notice `fleet_id`).
+- Notices: galaxy view (`GalaxyRows`, missing VOID_TITAN element), config schema labels in console runs (`ConfigFieldSchema` loads the TECH texts), console query timer (`Database`, `time['db']`).

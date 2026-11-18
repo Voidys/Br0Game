@@ -152,12 +152,13 @@ class ExpeditionShipEvent extends ExpeditionEvent
             }
             $this->ctx->stats->updateFoundShipsAdvancedStats($this->fleet['owner'], $Found);
             $Message .= '<br><br>' . $LNG['sys_expe_back_home_ships_flound'] . $FoundShipMess;
-        }
 
-        $this->ctx->updateFleet('ships', substr($NewFleetArray, 0, -1));
-        $this->ctx->updateFleet('ship_amount', $CountTotal);
-        $this->ctx->updateFleetLog('ships', substr($NewFleetArray, 0, -1));
-        $this->ctx->updateFleetLog('ship_amount', $CountTotal);
+            // only a find changes the fleet (with nothing found the fleet was written with no ships for the return flight)
+            $this->ctx->updateFleet('ships', substr($NewFleetArray, 0, -1));
+            $this->ctx->updateFleet('ship_amount', $CountTotal);
+            $this->ctx->updateFleetLog('ships', substr($NewFleetArray, 0, -1));
+            $this->ctx->updateFleetLog('ship_amount', $CountTotal);
+        }
 
         return $Message;
     }
