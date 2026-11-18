@@ -43,8 +43,9 @@ class StatisticsController extends AbstractGameController
         $LNG = $this->state->LNG;
         $who = $this->input()->int('who', STATS_PLAYERS);
         $type = $this->input()->int('type', STATS_TYPE_POINTS);
-        $range = $this->input()->int('range', 1);
         [$Order, $Points, $Rank, $OldRank] = $this->rankColumns($type);
+        // no explicit range: open the page that holds the viewer's own rank (explicit range always wins)
+        $range = $this->input()->has('range') ? $this->input()->int('range', 1) : $this->ownRank($who, $Rank);
 
         $RangeList = [];
         $Selector = [];
@@ -69,12 +70,16 @@ class StatisticsController extends AbstractGameController
             STATS_ALLIANCES => $LNG['st_alliance'],
         ];
         $Selector['type'] = $this->typeSelector();
+        $firstRank = (int) (floor(($range - 1) / 100) * 100 + 1);
+        $lastFirstRank = (int) array_key_last($Selector['range']);
 
         return $this->render('game/page.statistics.default.html.twig', [
             'Selectors'   => $Selector,
             'who'         => $who,
             'type'        => $type,
-            'range'       => floor(($range - 1) / 100) * 100 + 1,
+            'range'       => $firstRank,
+            'rangePrev'   => $firstRank > 1 ? $firstRank - 100 : null,
+            'rangeNext'   => $firstRank < $lastFirstRank ? $firstRank + 100 : null,
             'RangeList'   => $RangeList,
             'CUser_ally'  => $this->state->USER['ally_id'],
             'CUser_id'    => $this->state->USER['id'],
@@ -91,6 +96,27 @@ class StatisticsController extends AbstractGameController
                 'member'        => $LNG['gl_short_member'],
             ],
         ]);
+    }
+
+    /**
+     * The viewer's own rank in the chosen category (the viewer's alliance for the alliance ranking), 1 when there is none
+     * (no alliance, no statistics row yet). $Rank is a fixed column name from rankColumns().
+     */
+    private function ownRank(int $who, string $Rank): int
+    {
+        $ownerId = $who === STATS_ALLIANCES ? (int) $this->state->USER['ally_id'] : (int) $this->state->USER['id'];
+        if ($ownerId <= 0) {
+            return 1;
+        }
+
+        $sql = 'SELECT ' . $Rank . ' AS ownrank FROM %%STATPOINTS%% WHERE id_owner = :ownerId AND stat_type = :statType AND universe = :universe;';
+        $rank = $this->db->selectSingle($sql, [
+            ':ownerId'  => $ownerId,
+            ':statType' => $who === STATS_ALLIANCES ? 2 : 1,
+            ':universe' => $this->universe()->current(),
+        ], 'ownrank');
+
+        return max(1, (int) $rank);
     }
 
     /** Whether the stat categories are limited by the viewer's spy tech (module active and the viewer is no staff). */

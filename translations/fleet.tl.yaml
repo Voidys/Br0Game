@@ -486,3 +486,6 @@ type_planet_short_2: D
 type_planet_short_3: B
 depot_msg_subject: "Nasuplayan ang fleet"
 depot_msg_text: "Ang fleet mo sa %s ay nasuplayan ni %s: pinahaba ang pananatili nang %s oras."
+cr_actions: "Mga aksyon ng ulat"
+cr_attack_again: "Umatake muli"
+cr_simulate: "I-simulate"

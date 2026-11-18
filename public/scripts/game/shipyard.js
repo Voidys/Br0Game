@@ -1,4 +1,4 @@
-import { qs, qsa, setVisibleInterval, clearVisibleInterval, now, getRestTimeFormat, pretty_number, pageData } from '../app/core.js';
+import { qs, qsa, setVisibleInterval, clearVisibleInterval, now, getRestTimeFormat, getFormatedDate, pretty_number, pageData } from '../app/core.js';
 import { env } from '../app/env.js';
 
 /**
@@ -124,6 +124,22 @@ function updateAvailableCounts(completedById) {
     }
 }
 
+/** "All done at <clock> (in <duration>)": remaining work of all entries ([name, count, unitTime, id, secondsLeftForCurrentUnit]) from now. */
+function showQueueDone(remaining) {
+    const line = document.getElementById('queue-done');
+    if (!line || !line.dataset.template) {
+        return;
+    }
+    let seconds = 0;
+    remaining.forEach(function (entry, index) {
+        seconds += index === 0 ? (entry[1] - 1) * entry[2] + entry[4] : entry[1] * entry[2];
+    });
+    const end = now().getTime() + seconds * 1000;
+    const sameDay = getFormatedDate(end, '[Y][m][d]') === getFormatedDate(now().getTime(), '[Y][m][d]');
+    const clock = getFormatedDate(end, sameDay ? '[H]:[i]' : '[d].[m]. [H]:[i]');
+    line.textContent = line.dataset.template.replace('%at%', clock).replace('%in%', getRestTimeFormat(seconds, true));
+}
+
 /** One refresh: replays the queue for the elapsed time, updates available counts, the queue list and the remaining time of the current batch; shows the ready text and stops when the queue is empty. */
 function BuildlistShipyard() {
     let state = consumeQueue(initialHanger + pageElapsedSeconds());
@@ -175,6 +191,8 @@ function BuildlistShipyard() {
         }
         lastFirstCount = state.remaining[0][1];
     }
+
+    showQueueDone(state.remaining);
 
     let box = document.getElementById(boxId);
     if (box) {

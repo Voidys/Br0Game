@@ -604,6 +604,8 @@ fl_already_invited: ' is al uitgenodigd.'
 fl_ammount: Schepen
 fl_arrival: Aankomst
 fl_arrival_time: Aankomsttijd
+fl_arrival_target: "Aankomst bij doel"
+fl_return_home: "Terugkeer"
 fl_attack_confirm_buddy: 'Het doelwit staat op je vriendenlijst.
 
   Weet je zeker dat je wilt aanvallen?'
@@ -1486,6 +1488,11 @@ ui_menu: Menu
 ui_rank: Rang
 ui_queue: Wachtrij
 ui_queue_free: vrij slot
+ui_planet_prev: "Vorige planeet"
+ui_planet_next: "Volgende planeet"
+ui_queue_done: "Alles klaar om %at% (over %in%)"
+ui_full_in: "Vol over"
+ui_energy_used: "Energie gebruikt"
 ui_points: Punten
 ui_close: Sluiten
 ui_storage_full: "Opslag vol: productie gestopt"
@@ -1548,6 +1555,13 @@ vt_notice_pending: Bedankt voor je stem! De beloning komt binnen zodra de site j
 vt_notice_cooldown: Je moet even wachten voordat je opnieuw op deze site kunt stemmen.
 mg_confirm_delete_one: "Dit bericht verwijderen?"
 mg_confirm_delete_bulk: "Deze berichten echt verwijderen? Dit kan niet ongedaan worden gemaakt."
+mg_quick_read_all: "Alles gelezen"
+mg_quick_delete_read: "Gelezen wissen"
+mg_quick_delete_older: "Ouder dan %d dagen wissen"
+mg_confirm_delete_read: "Alle gelezen berichten van deze categorie wissen? Favorieten blijven bewaard."
+mg_confirm_delete_older: "Alle berichten van deze categorie ouder dan %d dagen wissen? Favorieten blijven bewaard."
+mg_spy_again: "Opnieuw spioneren"
+fl_change_target: "Doel wijzigen"
 mg_group_mark: "Als gelezen markeren"
 mg_group_delete: "Verwijderen"
 mg_pick_category: "Kies hierboven een categorie om de berichten te zien."
@@ -1599,7 +1613,7 @@ fl_recall_return: "Weer thuis bij terugroepen nu"
 fl_no_fleets: "Geen vloten onderweg."
 fl_quick_fleets: "Snelle vloten"
 fl_quick_fleets_hint: "Nog niets opgeslagen. Sla hieronder onder \"Eigen vloten\" een scheepscombinatie op, dan staat die hier als snelkoppeling; je laatste missie staat hier ook."
-fl_load_hint: "Vooraf ingevuld met de voorraad van deze planeet. De vrachtknoppen stellen voor hoeveel schepen het dragen; maak leeg als je niets meestuurt."
+fl_load_hint: "De grijze waarden zijn de voorraad van deze planeet. De vrachtknoppen stellen voor hoeveel schepen het dragen; laat leeg als je niets meestuurt."
 fl_load_clear: "Leegmaken"
 fl_cargo_options_hint: "Rood betekent dat je er te weinig van hebt. Klik op een scheepspictogram om het samen met het doel voor te selecteren."
 fl_summary: "Overzicht van de verzending"
@@ -1631,3 +1645,10 @@ rs_full_in: 'Opslag vol over'
 rs_full_now: 'Vol'
 fl_prepared_gone: "Deze vloot is niet meer voorbereid (verlopen, vrijgegeven of al verstuurd). Begin opnieuw."
 gl_legend_activity: "Actief in de laatste 15 min, daarna (minuten) tot 60"
+st_rank_change: "Positiewijziging sinds de laatste update"
+st_prev_range: "Vorige 100"
+st_next_range: "Volgende 100"
+op_unsaved_one: "1 niet-opgeslagen wijziging"
+op_unsaved_many: "%d niet-opgeslagen wijzigingen"
+pl_note: "Notitie"
+pl_galaxy_view: "Tonen in het sterrenstelsel"

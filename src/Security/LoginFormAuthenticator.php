@@ -113,7 +113,7 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
         return false;
     }
 
-    /** Resets the failed-login counter, sets the plain "account" cookie (start page remembers returning players) and goes to the account lobby. */
+    /** Resets the failed-login counter, sets the plain "account" cookie (start page remembers returning players) and goes to the account lobby (enter=1: the lobby skips itself when there is only one universe to enter). */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $account = $token->getUser();
@@ -121,7 +121,7 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
             $this->connection->update($this->tables->get('accounts'), ['failed_logins' => 0], ['id' => $account->getId()]);
         }
 
-        $response = new RedirectResponse($this->directory($request) . 'account');
+        $response = new RedirectResponse($this->directory($request) . 'account?enter=1');
         // remembers that this browser played before (start page shows the login form first)
         $response->headers->setCookie(Cookie::create('account', 'account', 2147483647, '/', httpOnly: false));
 

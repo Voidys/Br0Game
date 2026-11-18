@@ -243,3 +243,6 @@ type_planet_short_2: У
 type_planet_short_3: М
 depot_msg_subject: "Флот постачено"
 depot_msg_text: "Твій флот біля %s постачив гравець %s: перебування подовжено на %s год."
+cr_actions: "Дії зі звітом"
+cr_attack_again: "Атакувати знову"
+cr_simulate: "Симулювати"

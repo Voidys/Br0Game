@@ -324,6 +324,9 @@ input.fleet-radio { width: 3.75rem; }
 }
 .cr-pill--lost { color: var(--cr-neg); }
 .cr-pill--ok { color: var(--cr-pos); }
+.cr-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-block: 0.75rem; }
+.cr-actions .button { display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; }
+.cr-fleet__name a { color: inherit; }
 .cr-notes {
 	display: grid;
 	gap: 0.3rem;

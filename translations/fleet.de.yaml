@@ -520,3 +520,6 @@ type_planet_short_2: T
 type_planet_short_3: M
 depot_msg_subject: "Flotte versorgt"
 depot_msg_text: "Deine Flotte bei %s wurde von %s versorgt: Aufenthalt um %s Std. verlängert."
+cr_actions: "Aktionen zum Bericht"
+cr_attack_again: "Erneut angreifen"
+cr_simulate: "Simulieren"

@@ -323,7 +323,23 @@ const showSearch = () => {
   loadUser();
 };
 
+/** Sends the player's spy probes to the target of a spy report (the galaxy spy action: `fleetAjax`, mission 6); code 602 asks for confirmation first. The answer comes as a toast. */
+const spyAgain = async (url, planetID) => {
+  const send = (confirmed) => {
+    const query = new URLSearchParams({ ajax: 1, mission: 6, planetID });
+    if (confirmed) query.set('confirm', 1);
+    return post(`${url}?${query}`, {}, 'json');
+  };
+  let answer = await send(false);
+  if (answer.code === 602) {
+    if (!(await Dialog.confirm(answer.mess))) return;
+    answer = await send(true);
+  }
+  NotifyBox(answer.mess, { kind: answer.code === 600 ? 'success' : 'error', top: true, ms: 3500 });
+};
+
 registerActions({
+  'msg-spy-again': (link) => spyAgain(link.dataset.url, link.dataset.planet),
   'msg-toggle-grouping': (link) => toggleGrouping(link.dataset.category, link.dataset.fav, link.dataset.url),
   'msg-fav': (link) => toggleFavourite(link.dataset.id, link.dataset.url, link.dataset.favUrl, link.dataset.nofavUrl),
   'msg-reply': (link) => {

@@ -243,3 +243,6 @@ type_planet_short_2: 残
 type_planet_short_3: 月
 depot_msg_subject: "舰队已补给"
 depot_msg_text: "你在 %s 的舰队得到了 %s 的补给：停留时间延长 %s 小时。"
+cr_actions: "战报操作"
+cr_attack_again: "再次攻击"
+cr_simulate: "模拟"

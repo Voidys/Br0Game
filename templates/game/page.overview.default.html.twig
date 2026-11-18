@@ -4,6 +4,7 @@
     <script type="module" src="scripts/game/overview.js"></script>
 
 {% endblock %}
+{% block pagehead %}<div class="page-head"><h1 class="page-head__title">{{ icon('layout-dashboard') }}<span>{{ LNG.lm_overview }}</span></h1></div>{% endblock %}
 {% block content %}
     {# event colours: a colour still at its factory default is left to the theme (--colorMission*, fallback = the default),
        a colour the player changed is emitted as a custom property and wins in every theme #}

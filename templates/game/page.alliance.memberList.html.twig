@@ -23,7 +23,7 @@
 	<tr>
 		<td class="ctr">{{ loop.index }}</td>
 		<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if memberListRow.class %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
-		<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img class="inline" src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
+		<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img class="inline" src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a>{% if userID != selfId %}&nbsp;<a href="#" data-action="dialog-buddy" data-id="{{ userID }}" title="{{ LNG.sh_buddy_request|e('html_attr') }}">{{ icon('user-plus', LNG.sh_buddy_request) }}</a>{% endif %}</td>
 		<td>{{ memberListRow.rankName }}</td>
 		<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
 		<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="{{ path('game_galaxy_show', {galaxy: memberListRow.galaxy, system: memberListRow.system}) }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
@@ -62,7 +62,7 @@
 		<tr>
 			<td class="ctr">{{ loop.index }}</td>
 			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if memberListRow.class %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
-			<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
+			<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a>{% if userID != selfId %}&nbsp;<a href="#" data-action="dialog-buddy" data-id="{{ userID }}" title="{{ LNG.sh_buddy_request|e('html_attr') }}">{{ icon('user-plus', LNG.sh_buddy_request) }}</a>{% endif %}</td>
 			<td>{{ memberListRow.rankName }}</td>
 			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
 			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="{{ path('game_galaxy_show', {galaxy: memberListRow.galaxy, system: memberListRow.system}) }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
@@ -100,7 +100,7 @@
 		<tr>
 			<td class="ctr">{{ loop.index }}</td>
 			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if memberListRow.class %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
-			<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
+			<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a>{% if userID != selfId %}&nbsp;<a href="#" data-action="dialog-buddy" data-id="{{ userID }}" title="{{ LNG.sh_buddy_request|e('html_attr') }}">{{ icon('user-plus', LNG.sh_buddy_request) }}</a>{% endif %}</td>
 			<td>{{ memberListRow.rankName }}</td>
 			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
 			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="{{ path('game_galaxy_show', {galaxy: memberListRow.galaxy, system: memberListRow.system}) }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>

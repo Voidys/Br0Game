@@ -174,12 +174,41 @@ function warningBanners() {
   });
 }
 
-/** Planet/moon dropdown: switching reloads the current page (path and query string kept) with `cp=<planet id>`. */
+/** Reloads the current page (path and query string kept) with `cp=<planet id>`. */
+function gotoPlanet(id) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('cp', id);
+  document.location = url.href;
+}
+
+/**
+ * Planet/moon dropdown: switching reloads the current page. The arrow buttons (`[data-planet-step="-1|1"]`) and the
+ * keys `[` / `]` step to the previous/next entry of the dropdown (wrapping around, ignored while typing).
+ */
 function planetSelector() {
-  on(document, 'change', '#planetSelector, [data-planet-selector]', (event, select) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('cp', select.value);
-    document.location = url.href;
+  on(document, 'change', '#planetSelector, [data-planet-selector]', (event, select) => gotoPlanet(select.value));
+
+  // phones: the closed select shows the planet name only (the coordinates push it into an ellipsis); the drawer list has them
+  const phone = window.matchMedia('(max-width: 40rem)');
+  const shortLabels = () => qsa('#planetSelector option').forEach((option) => {
+    option.label = phone.matches ? option.text.replace(/\s*\[\d+:\d+:\d+\]$/, '') : option.text;
+  });
+  shortLabels();
+  phone.addEventListener('change', shortLabels);
+
+  const step = (delta) => {
+    const options = qsa('#planetSelector option');
+    const index = options.findIndex((option) => option.selected);
+    if (options.length < 2 || index < 0) return;
+    gotoPlanet(options[(index + delta + options.length) % options.length].value);
+  };
+  on(document, 'click', '[data-planet-goto]', (event, button) => gotoPlanet(button.dataset.planetGoto));
+  on(document, 'click', '[data-planet-step]', (event, button) => step(Number(button.dataset.planetStep)));
+  document.addEventListener('keydown', (event) => {
+    if (event.ctrlKey || event.metaKey || event.altKey || (event.key !== '[' && event.key !== ']')) return;
+    const target = event.target;
+    if (target instanceof HTMLElement && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))) return;
+    step(event.key === ']' ? 1 : -1);
   });
 }
 
@@ -221,18 +250,62 @@ export async function DestroyMissiles(url) {
   qsa('.missile').forEach((input) => { input.value = ''; });
 }
 
-/** number inputs are cleared on click (players type a fresh amount) */
-function clearNumberInputs() {
-  on(document, 'click', 'input[type="number"]', (event, input) => { input.value = ''; });
+/** number inputs select their content on focus (players type a fresh amount, a click to fix a typo keeps the value) */
+function selectNumberInputs() {
+  let fresh = null;
+  on(document, 'focusin', 'input[type="number"]', (event, input) => {
+    input.select();
+    fresh = input;
+  });
+  // the mouse-up of the focusing click would collapse the selection again
+  on(document, 'mouseup', 'input[type="number"]', (event, input) => {
+    if (fresh === input) event.preventDefault();
+    fresh = null;
+  });
+}
+
+/**
+ * Forms marked `.build_form` / `[data-keep-scroll]` (build, cancel, dismantle, order) remember the scroll position
+ * in sessionStorage; the page the server redirects back to restores it, so a second build is one click away.
+ */
+function keepScroll() {
+  const KEY = 'keep-scroll';
+  document.addEventListener('submit', (event) => {
+    if (event.target instanceof HTMLFormElement && event.target.matches('.build_form, [data-keep-scroll]')) {
+      sessionStorage.setItem(KEY, JSON.stringify({ path: location.pathname, y: window.scrollY, at: Date.now() }));
+    }
+  });
+  let saved = null;
+  try {
+    saved = JSON.parse(sessionStorage.getItem(KEY));
+  } catch {
+    // unreadable value: ignore
+  }
+  sessionStorage.removeItem(KEY);
+  if (saved && saved.path === location.pathname && Date.now() - saved.at < 15000) {
+    window.scrollTo(0, saved.y);
+    window.addEventListener('load', () => window.scrollTo(0, saved.y), { once: true });
+  }
 }
 
 /** mobile: the menu button opens the sidebar as a drawer */
 function sidebarToggle() {
-  on(document, 'click', '[data-sidebar-toggle]', () => document.body.classList.toggle('sidebar-open'));
-  on(document, 'click', '.sidebar-backdrop', () => document.body.classList.remove('sidebar-open'));
+  const setOpen = (open) => {
+    document.body.classList.toggle('sidebar-open', open);
+    qsa('[data-sidebar-toggle][aria-expanded]').forEach((button) => button.setAttribute('aria-expanded', String(open)));
+  };
+  on(document, 'click', '[data-sidebar-toggle]', () => setOpen(!document.body.classList.contains('sidebar-open')));
+  on(document, 'click', '.sidebar-backdrop', () => setOpen(false));
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') document.body.classList.remove('sidebar-open');
+    if (event.key === 'Escape') setOpen(false);
   });
+}
+
+/** phones: the tab bar hides while a text field is focused (on-screen keyboard) */
+function tabbarKeyboard() {
+  const typing = (el) => el instanceof HTMLElement && (el.matches('textarea') || (el.matches('input') && !/^(checkbox|radio|button|submit|range|color|file)$/.test(el.type)));
+  document.addEventListener('focusin', (event) => { if (typing(event.target)) document.body.classList.add('kb-open'); });
+  document.addEventListener('focusout', () => document.body.classList.remove('kb-open'));
 }
 
 /** the side panel sticks below the top bar; its height varies (resource row, wrapping), so measure it */
@@ -269,8 +342,10 @@ export function initUi() {
   warningBanners();
   planetSelector();
   listFilters();
-  clearNumberInputs();
+  selectNumberInputs();
+  keepScroll();
   sidebarToggle();
+  tabbarKeyboard();
   topbarHeight();
   automationReport();
   qsa('[data-tabs]').forEach((el) => tabs(el));

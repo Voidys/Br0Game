@@ -21,6 +21,7 @@ use App\Routing\GameRoute;
 use App\Game\Enum\AuthLevel;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
+use App\Game\Enum\PlanetType;
 
 /**
  * Battle report page (/report/{raport}, also without login): renders a stored combat report for its participants.
@@ -75,6 +76,7 @@ class RaportController extends AbstractGameController
         }
 
         [$showDetails, $isDefender] = $this->detailAccess($reportData);
+        $isParticipant = $this->isParticipant($reportData);
 
         $Info = null;
         if (!$showDetails) {
@@ -107,9 +109,117 @@ class RaportController extends AbstractGameController
             'Info'          => $Info,
             'pageTitle'     => $LNG['sys_mess_attack_report'],
             'recCapacity'   => $e->capacity(SHIP_RECYCLER),
+            'actions'       => $isParticipant ? $this->participantActions($combatReport, $reportData['battleengine'] === 'rust') : null,
         ];
 
         return $this->render($reportData['battleengine'] === 'rust' ? 'game/shared.mission.raport.rust.html.twig' : 'game/shared.mission.raport.html.twig', $context);
+    }
+
+    /** Whether the viewer is an attacker or defender of the report itself (admins and alliance mates are not). */
+    private function isParticipant(array $reportData): bool
+    {
+        $id = (string) $this->state->USER['id'];
+
+        return in_array($id, explode(',', (string) $reportData['attacker']), true) || in_array($id, explode(',', (string) $reportData['defender']), true);
+    }
+
+    /**
+     * Data for the action row of a participant: the target coordinates of the report, the debris total, and a simulator
+     * prefill query (battleinput of the simulator, one slot per fleet pair) built from the first round.
+     *
+     * @param array<string, mixed> $report decoded report
+     * @return array<string, mixed>|null null when the report carries no target coordinates
+     */
+    private function participantActions(array $report, bool $rust): ?array
+    {
+        $target = $report['koords'] ?? null;
+        if (!is_array($target) || count($target) < 3) {
+            return null;
+        }
+
+        return [
+            'galaxy'  => (int) $target[0],
+            'system'  => (int) $target[1],
+            'planet'  => (int) $target[2],
+            'type'    => (int) ($target[3] ?? PlanetType::Planet->value),
+            'debris'  => array_sum($report['debris'] ?? []),
+            'moon'    => ($report['mode'] ?? 0) == 1,
+            'sim'     => $this->simulatorPrefill($report, $rust),
+        ];
+    }
+
+    /**
+     * The simulator's battleinput prefill: per slot [0 = attacker, 1 = defender] the three tech levels and the unit counts of the
+     * fleets at the start of the fight.
+     *
+     * @param array<string, mixed> $report decoded report
+     * @return array{slots: int, battleinput: array<int, array<int, array<int, int|float>>>}
+     */
+    private function simulatorPrefill(array $report, bool $rust): array
+    {
+        $start = $report['rounds'][0] ?? [];
+        $sides = [];
+        foreach (['attacker', 'defender'] as $side) {
+            $sides[] = $rust ? $this->rustFleets($start[$side . 's'] ?? []) : $this->classicFleets($start[$side] ?? [], $report['players'] ?? []);
+        }
+
+        $battleinput = [];
+        $slots = max(1, count($sides[0]), count($sides[1]));
+        for ($slot = 0; $slot < $slots; $slot++) {
+            $battleinput[$slot] = [$sides[0][$slot] ?? [], $sides[1][$slot] ?? []];
+        }
+
+        return ['slots' => $slots, 'battleinput' => $battleinput];
+    }
+
+    /**
+     * Rust report fleets of one side as simulator rows (tech levels and unit counts).
+     *
+     * @param array<int|string, mixed> $fleets
+     * @return list<array<int, int|float>>
+     */
+    private function rustFleets(array $fleets): array
+    {
+        $rows = [];
+        foreach ($fleets as $fleet) {
+            $row = [
+                MILITARY_TECH => (int) ($fleet['player']['military_tech'] ?? 0),
+                SHIELD_TECH   => (int) ($fleet['player']['shield_tech'] ?? 0),
+                DEFENCE_TECH  => (int) ($fleet['player']['defence_tech'] ?? 0),
+            ];
+            foreach ($fleet['unit'] ?? [] as $unitId => $amount) {
+                $row[(int) $unitId] = $amount;
+            }
+            $rows[] = $row;
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Classic report fleets of one side as simulator rows; the report stores the techs as percent (100 + 10 * level).
+     *
+     * @param array<int|string, mixed> $fleets
+     * @param array<int|string, mixed> $players
+     * @return list<array<int, int|float>>
+     */
+    private function classicFleets(array $fleets, array $players): array
+    {
+        $rows = [];
+        foreach ($fleets as $fleet) {
+            $tech = $players[$fleet['userID']]['tech'] ?? [100, 100, 100];
+            $row = [
+                MILITARY_TECH => (int) round(($tech[0] - 100) / 10),
+                SHIELD_TECH   => (int) round(($tech[1] - 100) / 10),
+                DEFENCE_TECH  => (int) round(($tech[2] - 100) / 10),
+            ];
+            foreach ($fleet['ships'] ?? [] as $unitId => $data) {
+                $row[(int) $unitId] = (int) ($data[0] ?? 0);
+            }
+            $rows[] = $row;
+        }
+
+        return $rows;
     }
 
     /**

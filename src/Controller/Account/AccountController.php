@@ -8,6 +8,7 @@
 
 namespace App\Controller\Account;
 
+use App\Game\Enum\AuthLevel;
 use App\Routing\GameRoute;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,6 +26,15 @@ class AccountController extends AbstractAccountController
         $ACCOUNT = $this->state->ACCOUNT;
         $newUniverses = $this->accountUtil()->get_non_player_universes($ACCOUNT['id']);
         $playerUniverses = $this->accountUtil()->get_player_universes($ACCOUNT['id']);
+
+        // right after the login (?enter=1 from the login redirect) a single, open universe is entered directly; the plain lobby URL always shows the lobby
+        if ($this->input()->int('enter') === 1 && count($playerUniverses) === 1 && empty($newUniverses)) {
+            $only = $playerUniverses[0];
+            $open = in_array($only['uni_status'], [STATUS_OPEN, STATUS_LOGIN_ONLY]) || $only['authlevel'] == AuthLevel::Admin->value;
+            if ($open) {
+                return $this->enterUniverse((int) $only['user_id'], (int) $only['uni']);
+            }
+        }
 
         return $this->render('account/page.account.default.html.twig', [
             'id'                => $ACCOUNT['id'],
@@ -57,6 +67,12 @@ class AccountController extends AbstractAccountController
             return $this->redirectToRoute('account_account_show');
         }
 
+        return $this->enterUniverse($userID, $universe);
+    }
+
+    /** Switches the session to the player and universe (admin access is dropped) and redirects to /game. */
+    private function enterUniverse(int $userID, mixed $universe): Response
+    {
         $session	= $this->sessions()->create();
         $session->userId		= $userID;
         $session->universe      = $universe;

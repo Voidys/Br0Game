@@ -549,3 +549,6 @@ type_planet_short_2: T
 type_planet_short_3: M
 depot_msg_subject: "Floddn wersorchd"
 depot_msg_text: "Deine Floddn bei %s is von %s wersorchd worn: Aufendhald um %s Schd. wersengerd."
+cr_actions: "Aggzionen zum Bericht"
+cr_attack_again: "Nochmal angreifn"
+cr_simulate: "Simulieren"

@@ -245,3 +245,6 @@ type_planet_short_2: D
 type_planet_short_3: L
 depot_msg_subject: "Frota reabastecida"
 depot_msg_text: "A tua frota em %s foi reabastecida por %s: estadia prolongada em %s h."
+cr_actions: "Ações do relatório"
+cr_attack_again: "Atacar novamente"
+cr_simulate: "Simular"

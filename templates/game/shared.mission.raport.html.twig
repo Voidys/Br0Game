@@ -14,11 +14,11 @@
 {% else %}
 	{% for Player in Raport.rounds[0].attacker %}
 		{% set PlayerInfo = Raport.players[Player.userID] %}
-		{% set heroAttackers = heroAttackers|merge([{name: PlayerInfo.name, coords: '[' ~ PlayerInfo.koords[0] ~ ':' ~ PlayerInfo.koords[1] ~ ':' ~ PlayerInfo.koords[2] ~ ']' ~ (PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null ? ' (' ~ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] ~ ')' : '')}]) %}
+		{% set heroAttackers = heroAttackers|merge([{id: Player.userID, name: PlayerInfo.name, coords: '[' ~ PlayerInfo.koords[0] ~ ':' ~ PlayerInfo.koords[1] ~ ':' ~ PlayerInfo.koords[2] ~ ']' ~ (PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null ? ' (' ~ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] ~ ')' : '')}]) %}
 	{% endfor %}
 	{% for Player in Raport.rounds[0].defender %}
 		{% set PlayerInfo = Raport.players[Player.userID] %}
-		{% set heroDefenders = heroDefenders|merge([{name: PlayerInfo.name, coords: '[' ~ PlayerInfo.koords[0] ~ ':' ~ PlayerInfo.koords[1] ~ ':' ~ PlayerInfo.koords[2] ~ ']' ~ (PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null ? ' (' ~ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] ~ ')' : '')}]) %}
+		{% set heroDefenders = heroDefenders|merge([{id: Player.userID, name: PlayerInfo.name, coords: '[' ~ PlayerInfo.koords[0] ~ ':' ~ PlayerInfo.koords[1] ~ ':' ~ PlayerInfo.koords[2] ~ ']' ~ (PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null ? ' (' ~ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] ~ ')' : '')}]) %}
 	{% endfor %}
 {% endif %}
 
@@ -56,7 +56,7 @@
 					{% set alive = 0 %}
 					{% for ShipData in Player.ships %}{% set alive = alive + ShipData[0] %}{% endfor %}
 					<section class="cr-fleet">
-						{{ cr.fleet_head(side, PlayerInfo.name, '[' ~ PlayerInfo.koords[0] ~ ':' ~ PlayerInfo.koords[1] ~ ':' ~ PlayerInfo.koords[2] ~ ']' ~ (PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null ? ' (' ~ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] ~ ')' : ''), PlayerInfo.tech, reduced, Round > 0 and alive == 0) }}
+						{{ cr.fleet_head(side, PlayerInfo.name, '[' ~ PlayerInfo.koords[0] ~ ':' ~ PlayerInfo.koords[1] ~ ':' ~ PlayerInfo.koords[2] ~ ']' ~ (PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null ? ' (' ~ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] ~ ')' : ''), PlayerInfo.tech, reduced, Round > 0 and alive == 0, reduced ? 0 : Player.userID) }}
 						<div class="cr-scroll">
 							<table class="cr-table cr-ships">
 								<thead>

@@ -397,6 +397,8 @@ class FleetTableController extends AbstractGameController
             'targetPlanet'          => $targetPlanet,
             'targetType'            => $targetType,
             'targetMission'         => $targetMission,
+            // target and mission came with the link (galaxy, spy report, message): the dispatch skips the target step
+            'directTarget'          => $targetMission > 0 && $this->input()->int('galaxy') > 0,
             'acsData'               => $acsData,
             // ?code=1: the dispatch step found no ship chosen; ?code=0: the prepared fleet is gone (expired, released or already sent)
             'notice'                => match ($this->input()->int('code', -1)) {
@@ -477,6 +479,7 @@ class FleetTableController extends AbstractGameController
                 'endTime'           => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetsRow['return_time'], $USER['timezone']),
                 'amount'            => $this->viewHelpers()->prettyNumber($fleetsRow['ship_amount']),
                 'returntime'        => $returnTime,
+                'targetRest'        => $fleetsRow['arrival_time'] - $this->state->runtime->timestamp,
                 'resttime'          => $returnTime - $this->state->runtime->timestamp,
                 'startTimestamp'    => $fleetsRow['start_time'],
                 // when a recall now would bring the fleet home (the same rule as FleetLauncher::sendFleetBack())

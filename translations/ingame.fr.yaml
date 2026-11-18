@@ -604,6 +604,8 @@ fl_already_invited: ' a déjà été invité.'
 fl_ammount: Vaisseaux
 fl_arrival: Arrivée
 fl_arrival_time: Heure d'arrivée
+fl_arrival_target: "Arrivée à la cible"
+fl_return_home: "Retour"
 fl_attack_confirm_buddy: 'La cible est dans ta liste d''amis.
 
   Vraiment attaquer ?'
@@ -1486,6 +1488,11 @@ ui_menu: Menu
 ui_rank: Rang
 ui_queue: File d'attente
 ui_queue_free: emplacement libre
+ui_planet_prev: "Planète précédente"
+ui_planet_next: "Planète suivante"
+ui_queue_done: "Tout sera terminé à %at% (dans %in%)"
+ui_full_in: "Plein dans"
+ui_energy_used: "Énergie utilisée"
 ui_points: Points
 ui_close: Fermer
 ui_storage_full: "Stockage plein : production arrêtée"
@@ -1548,6 +1555,13 @@ vt_notice_pending: Merci d'avoir voté ! La récompense arrive une fois que le s
 vt_notice_cooldown: Tu dois attendre avant de voter à nouveau sur ce site.
 mg_confirm_delete_one: "Supprimer ce message ?"
 mg_confirm_delete_bulk: "Supprimer ces messages ? Cette action est irréversible."
+mg_quick_read_all: "Tout marquer comme lu"
+mg_quick_delete_read: "Supprimer les lus"
+mg_quick_delete_older: "Supprimer de plus de %d jours"
+mg_confirm_delete_read: "Supprimer tous les messages lus de cette catégorie ? Les favoris sont conservés."
+mg_confirm_delete_older: "Supprimer tous les messages de cette catégorie de plus de %d jours ? Les favoris sont conservés."
+mg_spy_again: "Espionner à nouveau"
+fl_change_target: "Changer de cible"
 mg_group_mark: "Marquer comme lu"
 mg_group_delete: "Supprimer"
 mg_pick_category: "Choisissez une catégorie ci-dessus pour voir ses messages."
@@ -1599,7 +1613,7 @@ fl_recall_return: "De retour si rappelée maintenant"
 fl_no_fleets: "Aucune flotte en mission."
 fl_quick_fleets: "Flottes rapides"
 fl_quick_fleets_hint: "Rien d'enregistré. Enregistre une combinaison de vaisseaux sous \"Flottes perso\" plus bas : elle apparaît ici en un clic, ainsi que ta dernière mission."
-fl_load_hint: "Prérempli avec le stock de cette planète. Les boutons de fret suggèrent combien de vaisseaux le transportent ; vide-le si tu n'envoies rien."
+fl_load_hint: "Les valeurs grises sont le stock de cette planète. Les boutons de fret suggèrent combien de vaisseaux le transportent ; laisse le champ vide si tu n'envoies rien."
 fl_load_clear: "Vider"
 fl_cargo_options_hint: "Rouge : tu n'as pas assez de ce vaisseau. Clique sur une icône de vaisseau pour le présélectionner avec la cible."
 fl_summary: "Résumé de l'envoi"
@@ -1631,3 +1645,10 @@ rs_full_in: 'Stock plein dans'
 rs_full_now: 'Plein'
 fl_prepared_gone: "Cette flotte n'est plus préparée (expirée, libérée ou déjà envoyée). Recommence."
 gl_legend_activity: "Actif ces 15 dernières min, puis (minutes) jusqu'à 60"
+st_rank_change: "Évolution du classement depuis la dernière mise à jour"
+st_prev_range: "100 précédents"
+st_next_range: "100 suivants"
+op_unsaved_one: "1 modification non enregistrée"
+op_unsaved_many: "%d modifications non enregistrées"
+pl_note: "Note"
+pl_galaxy_view: "Voir dans la galaxie"

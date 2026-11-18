@@ -428,3 +428,6 @@ sys_raport_amount_error: Aucun vaisseau ni aucune défense sélectionné, ou tro
   pour la simulation.
 depot_msg_subject: "Flotte ravitaillée"
 depot_msg_text: "Ta flotte en %s a été ravitaillée par %s : séjour prolongé de %s h."
+cr_actions: "Actions du rapport"
+cr_attack_again: "Attaquer à nouveau"
+cr_simulate: "Simuler"

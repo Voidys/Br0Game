@@ -604,6 +604,8 @@ fl_already_invited: ' ya ha sido invitado.'
 fl_ammount: Naves
 fl_arrival: Llegada
 fl_arrival_time: Hora de llegada
+fl_arrival_target: "Llegada al destino"
+fl_return_home: "Regreso"
 fl_attack_confirm_buddy: 'El objetivo está en tu lista de amigos.
 
   ¿Seguro que quieres atacar?'
@@ -1482,6 +1484,11 @@ ui_menu: Menú
 ui_rank: Rango
 ui_queue: Cola
 ui_queue_free: hueco libre
+ui_planet_prev: "Planeta anterior"
+ui_planet_next: "Planeta siguiente"
+ui_queue_done: "Todo listo a las %at% (en %in%)"
+ui_full_in: "Lleno en"
+ui_energy_used: "Energía usada"
 ui_points: Puntos
 ui_close: Cerrar
 ui_storage_full: "Almacén lleno: producción detenida"
@@ -1544,6 +1551,13 @@ vt_notice_pending: ¡Gracias por votar! La recompensa llega cuando el sitio conf
 vt_notice_cooldown: Debes esperar antes de volver a votar en este sitio.
 mg_confirm_delete_one: "¿Borrar este mensaje?"
 mg_confirm_delete_bulk: "¿Borrar estos mensajes? No se puede deshacer."
+mg_quick_read_all: "Marcar todo como leído"
+mg_quick_delete_read: "Borrar leídos"
+mg_quick_delete_older: "Borrar con más de %d días"
+mg_confirm_delete_read: "¿Borrar todos los mensajes leídos de esta categoría? Los favoritos se conservan."
+mg_confirm_delete_older: "¿Borrar todos los mensajes de esta categoría con más de %d días? Los favoritos se conservan."
+mg_spy_again: "Espiar de nuevo"
+fl_change_target: "Cambiar destino"
 mg_group_mark: "Marcar como leído"
 mg_group_delete: "Borrar"
 mg_pick_category: "Elige una categoría arriba para ver sus mensajes."
@@ -1595,7 +1609,7 @@ fl_recall_return: "De vuelta si se retira ahora"
 fl_no_fleets: "No hay flotas en misión."
 fl_quick_fleets: "Flotas rápidas"
 fl_quick_fleets_hint: "Aún no hay nada guardado. Guarda una combinación de naves en \"Flotas propias\" más abajo y aparecerá aquí como atajo; tu última misión también aparece aquí."
-fl_load_hint: "Rellenado con las existencias de este planeta. Los botones de carga sugieren cuántas naves lo transportan; vacíalo si no envías nada."
+fl_load_hint: "Los valores grises son las existencias de este planeta. Los botones de carga sugieren cuántas naves lo transportan; déjalo vacío si no envías nada."
 fl_load_clear: "Vaciar"
 fl_cargo_options_hint: "Rojo significa que no tienes suficientes de esa nave. Haz clic en un icono de nave para preseleccionarla junto con el objetivo."
 fl_summary: "Resumen del envío"
@@ -1627,3 +1641,10 @@ rs_full_in: 'Almacén lleno en'
 rs_full_now: 'Lleno'
 fl_prepared_gone: "Esta flota ya no está preparada (caducó, se liberó o ya se envió). Empieza de nuevo."
 gl_legend_activity: "Activo en los últimos 15 min, luego (minutos) hasta 60"
+st_rank_change: "Cambio de puesto desde la última actualización"
+st_prev_range: "Anteriores 100"
+st_next_range: "Siguientes 100"
+op_unsaved_one: "1 cambio sin guardar"
+op_unsaved_many: "%d cambios sin guardar"
+pl_note: "Nota"
+pl_galaxy_view: "Mostrar en la galaxia"

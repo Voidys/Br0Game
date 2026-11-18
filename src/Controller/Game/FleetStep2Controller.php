@@ -28,6 +28,8 @@ use App\Game\Core\Session;
 #[\App\Controller\RequireModule('MODULE_FLEET_TABLE')]
 class FleetStep2Controller extends AbstractGameController
 {
+    use FleetTargetProtection;
+
     /**
      * Fleet dispatch step 2 (mission choice). Request: token (fleet stored by step 1; unknown tokens go back to the fleet page), galaxy/system/planet/type
      * (target), speed (percent, validated against the allowed speeds), target_mission (-1 = pick), group (public id of an alliance combat group the
@@ -97,7 +99,6 @@ class FleetStep2Controller extends AbstractGameController
         $targetMission = $this->resolveMission($targetMission, $MissionOutput['MissionSelector'], $targetPlanetData, $fleetArray, $fleetGroup);
 
         $questionList = $this->confirmationQuestions($targetPlanetData, $targetGalaxy, $targetSystem);
-
         $fleetData  = [
             'fleetroom'     => floatToString($fleet[$token]['fleetRoom']),
             'consumption'   => floatToString($consumption),
@@ -118,6 +119,7 @@ class FleetStep2Controller extends AbstractGameController
             'type' => $targetType,
             'targetName' => (string) ($targetPlanetData['name'] ?? ''),
             'targetOwner' => (string) ($targetPlanetData['owner_name'] ?? ''),
+            'protection' => $this->protectionNotice((int) ($targetPlanetData['id_owner'] ?? 0)),
             'FleetList' => $fleetArray,
         ] + $variables);
     }

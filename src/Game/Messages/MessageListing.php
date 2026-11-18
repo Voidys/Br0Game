@@ -293,6 +293,21 @@ class MessageListing
         return $receivers;
     }
 
+    /** Id of the planet or moon a stored spy report is about (for "spy again"), 0 when the report has no readable target or the planet is gone. */
+    private function spiedPlanetId(string $reportText): int
+    {
+        $target = json_decode($reportText, true)['targetPlanet'] ?? null;
+        if (!is_array($target) || !isset($target['galaxy'], $target['system'], $target['planet'], $target['planet_type'])) {
+            return 0;
+        }
+        $sql = 'SELECT `id` FROM %%PLANETS%% WHERE `universe` = :universe AND `galaxy` = :galaxy AND `system` = :system AND `planet` = :planet AND `planet_type` = :type AND `destruyed` = 0;';
+
+        return (int) $this->db->selectSingle($sql, [
+            ':universe' => $this->universe()->current(), ':galaxy' => (int) $target['galaxy'], ':system' => (int) $target['system'],
+            ':planet' => (int) $target['planet'], ':type' => (int) $target['planet_type'],
+        ], 'id');
+    }
+
     /**
      * Template data of one message row: formatted time, spy report text, recipients of private messages and the
      * user ids an answer goes to.
@@ -316,7 +331,9 @@ class MessageListing
             }
         }
         $spyTitle = '';
+        $spyPlanetId = 0;
         if ($MessageRow['message_type'] == MessageType::SpyReport->value) {
+            $spyPlanetId = $this->spiedPlanetId((string) $MessageRow['message_text']);
             ['title' => $spyTitle, 'html' => $MessageRow['message_text']] = $this->reports->titleAndHtml((string) $MessageRow['message_text']);
         }
 
@@ -336,6 +353,7 @@ class MessageListing
             'forwarded'	=> $MessageRow['message_forwarded'],
             'text'		=> $MessageRow['message_text'],
             'spyTitle'	=> $spyTitle,
+            'spyPlanetId' => $spyPlanetId,
             'grp_id'	=> empty($MessageRow['grp_id']) ? $MessageRow['message_id'] : $MessageRow['grp_id'],
             'group'		=> empty($MessageRow['message_group']) ? $MessageRow['message_id'] : $MessageRow['message_group'],
             'myself'	=> $MessageRow['message_sender'] == $USER['id'],

@@ -247,3 +247,6 @@ type_planet_short_2: CE
 type_planet_short_3: M
 depot_msg_subject: "Flota abastecida"
 depot_msg_text: "Tu flota en %s ha sido abastecida por %s: estancia alargada %s h."
+cr_actions: "Acciones del informe"
+cr_attack_again: "Atacar de nuevo"
+cr_simulate: "Simular"

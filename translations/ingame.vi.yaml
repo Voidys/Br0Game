@@ -604,6 +604,8 @@ fl_already_invited: ' đã được mời rồi.'
 fl_ammount: Tàu
 fl_arrival: Đến nơi
 fl_arrival_time: Thời gian đến
+fl_arrival_target: "Đến mục tiêu"
+fl_return_home: "Quay về"
 fl_attack_confirm_buddy: 'Mục tiêu nằm trong danh sách bạn bè của bạn.
 
   Bạn có chắc muốn tấn công không?'
@@ -1486,6 +1488,11 @@ ui_menu: Menu
 ui_rank: Hạng
 ui_queue: Hàng chờ
 ui_queue_free: ô trống
+ui_planet_prev: "Hành tinh trước"
+ui_planet_next: "Hành tinh sau"
+ui_queue_done: "Tất cả xong lúc %at% (sau %in%)"
+ui_full_in: "Đầy sau"
+ui_energy_used: "Năng lượng đã dùng"
 ui_points: Điểm
 ui_close: Đóng
 ui_storage_full: "Storage full: production stopped"
@@ -1548,6 +1555,13 @@ vt_notice_pending: Cảm ơn bạn đã bình chọn! Phần thưởng sẽ đư
 vt_notice_cooldown: Bạn phải đợi trước khi bình chọn lại trang này.
 mg_confirm_delete_one: "Xóa tin nhắn này?"
 mg_confirm_delete_bulk: "Thực sự xóa các tin nhắn này? Không thể hoàn tác."
+mg_quick_read_all: "Đánh dấu tất cả đã đọc"
+mg_quick_delete_read: "Xóa tin đã đọc"
+mg_quick_delete_older: "Xóa tin cũ hơn %d ngày"
+mg_confirm_delete_read: "Xóa tất cả tin nhắn đã đọc của mục này? Tin yêu thích được giữ lại."
+mg_confirm_delete_older: "Xóa tất cả tin nhắn của mục này cũ hơn %d ngày? Tin yêu thích được giữ lại."
+mg_spy_again: "Do thám lại"
+fl_change_target: "Đổi mục tiêu"
 mg_group_mark: "Đánh dấu đã đọc"
 mg_group_delete: "Xóa"
 mg_pick_category: "Chọn một danh mục ở trên để xem tin nhắn."
@@ -1599,7 +1613,7 @@ fl_recall_return: "Về đến nếu triệu hồi bây giờ"
 fl_no_fleets: "Không có hạm đội nào đang làm nhiệm vụ."
 fl_quick_fleets: "Hạm đội nhanh"
 fl_quick_fleets_hint: "Chưa lưu gì. Hãy lưu một tổ hợp tàu ở \"Hạm đội tùy chỉnh\" bên dưới, nó sẽ hiện ở đây dưới dạng lối tắt một lần bấm; nhiệm vụ gần nhất của bạn cũng hiện ở đây."
-fl_load_hint: "Điền sẵn theo kho của hành tinh này. Các nút vận tải gợi ý cần bao nhiêu tàu để chở; xóa nếu bạn không gửi gì kèm theo."
+fl_load_hint: "Giá trị màu xám là kho của hành tinh này. Các nút vận tải gợi ý cần bao nhiêu tàu để chở; để trống nếu bạn không gửi gì kèm theo."
 fl_load_clear: "Xóa"
 fl_cargo_options_hint: "Màu đỏ nghĩa là bạn không đủ loại tàu đó. Bấm biểu tượng tàu để chọn sẵn cùng với mục tiêu."
 fl_summary: "Tóm tắt lệnh gửi"
@@ -1631,3 +1645,10 @@ rs_full_in: 'Kho đầy sau'
 rs_full_now: 'Đầy'
 fl_prepared_gone: "Hạm đội này không còn được chuẩn bị (hết hạn, đã giải phóng hoặc đã gửi). Hãy bắt đầu lại."
 gl_legend_activity: "Hoạt động trong 15 phút qua, sau đó hiện (phút) đến 60"
+st_rank_change: "Thay đổi thứ hạng kể từ lần cập nhật gần nhất"
+st_prev_range: "100 trước"
+st_next_range: "100 tiếp theo"
+op_unsaved_one: "1 thay đổi chưa lưu"
+op_unsaved_many: "%d thay đổi chưa lưu"
+pl_note: "Ghi chú"
+pl_galaxy_view: "Hiện trong thiên hà"

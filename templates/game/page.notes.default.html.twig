@@ -2,7 +2,7 @@
 {% block title %}{{ LNG.lm_notes }}{{ parent() }}{% endblock %}
 {% block content %}
 <form action="{{ path('game_notes_delete') }}" method="post">
-	<table>
+	<table class="notes-table">
 		<tr>
 			<th colspan="4">{{ LNG.nt_notes }}</th>
 		</tr>

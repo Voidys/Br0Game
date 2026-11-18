@@ -459,9 +459,11 @@
   .content .fleet-select td[aria-sort="descending"] .sort-link::after { opacity: 1; }
   .content .fleet-select td[aria-sort="ascending"] .sort-link::after { opacity: 1; border-block-start: 0; border-block-end: 0.35em solid currentColor; }
   .content .fleet-select .control-group { gap: 0.375rem; }
-  @media (max-width: 40rem) {
+  @media (max-width: 64rem) {
     .content .fleet-select .fl-col-speed, .content .fleet-select .fl-col-cap { display: none; }
     .content .fleet-select .ship-meta { display: flex; flex-wrap: wrap; gap: 0 0.75rem; }
+  }
+  @media (max-width: 40rem) {
     .content .fleet-select td:not(:first-child) { white-space: normal; }
     .content .fleet-select td.num:has(.control-group) { white-space: nowrap; }
     .content .fleet-select .fleet-amount { inline-size: 3.75rem; padding-inline: 0.25rem; }
@@ -471,6 +473,21 @@
     .content .fleet-bonus :is(th, td) { white-space: normal; overflow-wrap: anywhere; hyphens: auto; letter-spacing: 0; }
   }
   .content .fleet-select .ship-meta .icon { inline-size: 0.875em; block-size: 0.875em; vertical-align: -0.1em; }
+  /* the sortable headers may wrap on tablets so the table never outgrows its form */
+  @media (max-width: 64rem) {
+    .content .fleet-select .fleet-select__head > td:not(.fl-col-exp) { white-space: normal; overflow-wrap: break-word; vertical-align: bottom; }
+    .content .fleet-select .fleet-select__head .sort-link { white-space: inherit; text-align: inherit; }
+  }
+  @media (max-width: 40rem) {
+    .content .fleet-select .fleet-amount { inline-size: 2.75rem; }
+    .content .fleet-select :is(td, th):not(.fleet-select__foot, .quick-fleets, .form-actions) { padding-inline: 0.25rem; }
+    .content .fleet-select td.num:has(.control-group) { padding-inline: 0.125rem; }
+    .content .fleet-select .control-group > button.link { padding-inline: 0.3125rem; font-size: 0.75rem; }
+    .content .fleet-select .fleet-select__head .sort-link { padding-inline: 0; }
+    .content .fleet-select .fleet-select__head > td.fl-col-exp { white-space: normal; }
+    .content .fleet-select .fleet-select__head > td.num:not(.fl-col-exp) { white-space: nowrap; }
+    .content .fleet-select .fleet-select__head > td.num:not(.fl-col-exp) .sort-link { white-space: nowrap; }
+  }
   input.fleet-amount::placeholder { color: var(--c-muted, #8796a7); opacity: 0.55; }
   .content input[aria-invalid="true"] { border-color: var(--c-negative, #f05252); outline-color: var(--c-negative, #f05252); }
   .content #target-error { margin-block-start: 0.375rem; }
@@ -517,13 +534,18 @@
   /* flying fleets on phones: one card per fleet (countdown first, recall at the bottom) */
   .content .flyingFleets .fl-mission .tooltip { font-weight: 600; }
   .content .flyingFleets .empty-state { padding-block: 0.75rem; }
+  /* carried resources: one short number per resource, icon in front (full amount in the title) */
+  .content .flyingFleets .fl-res { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .content .flyingFleets .fl-res__item { display: block; }
+  .content .flyingFleets .fl-res__item.is-zero { opacity: 0.45; }
+  .content .flyingFleets .fl-res__item img { inline-size: 1rem; block-size: auto; margin-inline-end: 0.25rem; vertical-align: -0.05em; }
   @media (max-width: 40rem) {
     .content .flyingFleets, .content .flyingFleets tbody { display: block; inline-size: 100%; min-inline-size: 0; }
     .content .flyingFleets .fleet-head { display: none; }
     .content .flyingFleets tr.fleet-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-areas: "mission time" "from to" "dep arr" "amount act";
+      grid-template-areas: "mission time" "from to" "dep arr" "res res" "amount act";
       gap: 0.25rem 0.75rem;
       padding: 0.5rem 0.625rem;
       border-block-end: 0.0625rem solid var(--c-border, #233142);
@@ -539,6 +561,9 @@
     .content .flyingFleets .fl-dep { grid-area: dep; }
     .content .flyingFleets .fl-arr { grid-area: arr; }
     .content .flyingFleets .fl-amount { grid-area: amount; }
+    .content .flyingFleets .fl-res { grid-area: res; display: flex; flex-wrap: wrap; gap: 0.125rem 0.875rem; }
+    .content .flyingFleets .fl-res::before { flex-basis: 100%; }
+    .content .flyingFleets .fl-res__item { display: inline-block; }
     .content .flyingFleets .fl-act { grid-area: act; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.375rem; }
     .content .flyingFleets .fl-act form { margin: 0; }
     .content .flyingFleets [data-label]::before { content: attr(data-label); display: block; color: var(--c-muted, inherit); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -769,4 +794,82 @@
   .content .msg-toggle { display: inline-grid; }
   .content .msg-toggle .icon:last-child, .content .msg-toggle.is-collapsed .icon:first-child { display: none; }
   .content .msg-toggle.is-collapsed .icon:last-child { display: inline-block; }
+
+  /* ------------------------------------------------------------------ statistics selectors: one row on phones
+     the labels become screen-reader text, the selects share the width (the range select keeps room for prev/next) */
+  @media (max-width: 40rem) {
+    .content .stats-filter { flex-wrap: nowrap; gap: 0.375rem; }
+    .content table:has(.rank-delta-col) :is(th, td) { padding-inline: 0.25rem; }
+    .content .stats-filter .control-group { flex: 1 1 0; min-inline-size: 0; }
+    .content .stats-filter .control-group:last-child { flex-grow: 1.8; }
+    .content .stats-filter .control-group label {
+      position: absolute;
+      flex: none;
+      inline-size: 0.0625rem;
+      block-size: 0.0625rem;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .content .stats-filter .control-group select { padding-inline: 0.375rem; text-overflow: ellipsis; }
+    .content .stats-filter .control-group .button { margin-inline-start: 0.125rem; padding-inline: 0.5rem; min-inline-size: 2.25rem; justify-content: center; }
+  }
+
+  /* ------------------------------------------------------------------ empire on phones: label column stays, header wraps */
+  @media (max-width: 40rem) {
+    .content .empire-head > :first-child { white-space: normal; overflow-wrap: break-word; font-size: 0.6875rem; letter-spacing: 0; line-height: 1.2; }
+    .content .table-scroll:not(.is-fit) .empire-head > th:first-child { z-index: 3; }
+    .content .empire-table tr > :first-child:not([colspan]) { inline-size: 6.5rem; min-inline-size: 6.5rem; max-inline-size: 6.5rem; overflow-wrap: break-word; hyphens: auto; }
+  }
+
+  /* ------------------------------------------------------------------ settings, notes, simulator: no sideways page scroll on phones */
+  @media (max-width: 40rem) {
+    /* controls may shrink below their intrinsic width (long option lists) instead of widening the table */
+    :is(.content, .modal) table.form-table td :is(select, input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"], [type="reset"], [type="hidden"], [type="color"])):not(.control-group *) { min-inline-size: 0; max-inline-size: 100%; }
+    :is(.content, .modal) table.form-table td { overflow-wrap: anywhere; }
+    /* the sticky save bar sits above the bottom tab bar */
+    .content .settings-save { inset-block-end: calc(var(--tabbar-h, 0px) + env(safe-area-inset-bottom, 0px) + 0.25rem); }
+    .content .notes-table :is(th, td) { padding-inline: 0.375rem; }
+    .content .notes-table td, .content .notes-table .hint { overflow-wrap: anywhere; }
+    .content .notes-table .hint { display: block; margin-block-start: 0.25rem; }
+    .content .notes-table :is(th, td).num { white-space: normal; }
+    .content .sim .sim-table :is(th, td):first-child { overflow-wrap: anywhere; hyphens: auto; }
+    .content .sim .sim-table :is(th, td).num { white-space: normal; overflow-wrap: anywhere; }
+  }
+
+  /* ------------------------------------------------------------------ messages on phones: chips, quick actions and filters are one scrollable row each,
+     so the first message sits on the first screen */
+  @media (max-width: 40rem) {
+    .content .msg-title { margin-block-end: 0.375rem; }
+    .content .msg-cats, .content .msg-quick, .content .msg-prefs, .content .msg-filters {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 0.375rem;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+      padding-block-end: 0.25rem;
+    }
+    .content .msg-cats::-webkit-scrollbar, .content .msg-quick::-webkit-scrollbar, .content .msg-prefs::-webkit-scrollbar, .content .msg-filters::-webkit-scrollbar { display: none; }
+    .content .msg-cats > *, .content .msg-quick > *, .content .msg-prefs > *, .content .msg-filters > * { flex: none; scroll-snap-align: start; white-space: nowrap; }
+    .content .msg-cat { block-size: auto; min-block-size: 2.5rem; padding-block: 0.25rem; }
+    .content .msg-cat .msg-cat__name { white-space: nowrap; overflow: visible; }
+    .content .msg-quick { margin-block-start: 0.25rem; }
+    .content .msg-quick button { min-block-size: 2.5rem; }
+    .content .msg-prefs { margin-block: 0.125rem 0.375rem; }
+    .content .msg-prefs label { min-block-size: 2rem; }
+    .content .msg-toolbar { gap: 0.375rem; }
+    .content .msg-search { flex: 1 1 100%; }
+    .content .msg-filters { margin-inline-start: 0; max-inline-size: 100%; }
+    /* select all + action + confirm on one row */
+    .content .msg-bulk { flex-wrap: nowrap; gap: 0.5rem; padding-block: 0.25rem; }
+    .content .msg-bulk .msg-bulk-form { flex: 1 1 auto; flex-wrap: nowrap; min-inline-size: 0; gap: 0.375rem; }
+    .content .msg-bulk .msg-bulk-form select { flex: 1 1 0; min-inline-size: 0; }
+    .content .msg-bulk .msg-select-all { flex: none; }
+    .content .msg-bulk .msg-pages { flex: none; overflow-x: auto; max-inline-size: 100%; }
+    .content .msg-toolbar { padding-block: 0.25rem; }
+    .content .msg-title { font-size: 1rem; margin-block-end: 0.25rem; }
+  }
 }

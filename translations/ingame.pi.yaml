@@ -606,6 +606,8 @@ fl_already_invited: ' wurde bereits eingeladen.'
 fl_ammount: Anzahl
 fl_arrival: Ankunft(Zurück)
 fl_arrival_time: Ankunftszeit
+fl_arrival_target: "Ankunft(Ziel)"
+fl_return_home: "Rückkehr"
 fl_attack_confirm_buddy: Das Ziel ist auf Deiner Buddy-Liste. Möchtst Du den Angriff wirklich durchführen?
 fl_attack_confirm_diplo: Es wurde ein Pakt (%s) mit der Allianz %s und Deiner Allianz geschlossen. Möchtst Du den Angriff wirklich durchführen?
 fl_attack_confirm_outlaw: Wenn du %s angreifst, wirst du für 7 Tage zum Gesetzlosen.
@@ -1482,6 +1484,11 @@ ui_menu: Menü
 ui_rank: Platz
 ui_queue: Bauliste
 ui_queue_free: freier Platz
+ui_planet_prev: "Vorheriger Planet"
+ui_planet_next: "Nächster Planet"
+ui_queue_done: "Alles fertig um %at% (in %in%)"
+ui_full_in: "Voll in"
+ui_energy_used: "Energie verbraucht"
 ui_points: Punkte
 ui_close: Schließen
 ui_storage_full: "Storage full: production stopped"
@@ -1544,6 +1551,13 @@ vt_notice_pending: Danke fürs Voten! Die Belohnung kommt, sobald die Seite dein
 vt_notice_cooldown: Du musst noch warten, bevor du auf dieser Seite erneut voten kannst.
 mg_confirm_delete_one: "Send this message to Davy Jones?"
 mg_confirm_delete_bulk: "Really sink these messages? There be no fishing them back."
+mg_quick_read_all: "Alle gelesen"
+mg_quick_delete_read: "Gelesene löschen"
+mg_quick_delete_older: "Älter als %d Tage löschen"
+mg_confirm_delete_read: "Alle gelesenen Nachrichten dieser Kategorie löschen? Favoriten bleiben erhalten."
+mg_confirm_delete_older: "Alle Nachrichten dieser Kategorie, die älter als %d Tage sind, löschen? Favoriten bleiben erhalten."
+mg_spy_again: "Erneut spionieren"
+fl_change_target: "Ziel ändern"
 mg_group_mark: "Mark as read, matey"
 mg_group_delete: "Sink"
 mg_pick_category: "Pick a category above to see yer messages."
@@ -1595,7 +1609,7 @@ fl_recall_return: "Wieder im Hafen bei Rückruf jetzt"
 fl_no_fleets: "Keine Flotten auf Fahrt."
 fl_quick_fleets: "Schnellflotten"
 fl_quick_fleets_hint: "Noch nichts gespeichert. Speichere unten unter \"Eigene Flotten\" eine Schiffskombination, dann erscheint sie hier als Ein-Klick-Abkürzung; auch dein letzter Kaperzug steht hier."
-fl_load_hint: "Mit dem Bestand dieses Planeten vorausgefüllt. Die Fracht-Knöpfe schlagen vor, wie viele Schiffe das tragen; leeren, wenn du keine Beute mitschickst."
+fl_load_hint: "Die grauen Werte sind der Bestand dieses Planeten. Die Fracht-Knöpfe schlagen vor, wie viele Schiffe das tragen; leer lassen, wenn du keine Beute mitschickst."
 fl_load_clear: "Leeren"
 fl_cargo_options_hint: "Rot heißt: Von diesem Schiff hast du nicht genug. Klick auf ein Schiffssymbol, um es samt Ziel vorzuwählen."
 fl_summary: "Zusammenfassung"
@@ -1627,3 +1641,10 @@ rs_full_in: 'Lager voll in'
 rs_full_now: 'Voll'
 fl_prepared_gone: "Diese Flotte liegt nicht mehr bereit (abgelaufen, freigegeben oder schon ausgelaufen). Fang neu an."
 gl_legend_activity: "In den letzten 15 Min. an Deck, danach (Minuten) bis 60"
+st_rank_change: "Platzänderung seit dem letzten Update"
+st_prev_range: "Vorherige 100"
+st_next_range: "Nächste 100"
+op_unsaved_one: "1 ungespeicherte Änderung"
+op_unsaved_many: "%d ungespeicherte Änderungen"
+pl_note: "Notiz"
+pl_galaxy_view: "In der Galaxie zeigen"

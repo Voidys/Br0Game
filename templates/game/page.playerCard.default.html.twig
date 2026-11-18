@@ -13,6 +13,8 @@
 	<div class="pcard-head__actions">
 		<a class="button" href="#" data-action="dialog-pm" data-id="{{ id }}">{{ icon('mail') }}{{ LNG.pl_message }}</a>
 		<a class="button" href="#" data-action="dialog-buddy" data-id="{{ id }}">{{ icon('user-plus') }}{{ LNG.pl_buddy }}</a>
+		<a class="button" href="{{ path('game_galaxy_show', {galaxy: galaxy, system: system}) }}">{{ icon('orbit') }}{{ LNG.pl_galaxy_view }}</a>
+		<a class="button" href="{{ path('game_notes_new') }}">{{ icon('sticky-note') }}{{ LNG.pl_note }}</a>
 	</div>
 	{% endif %}
 </header>

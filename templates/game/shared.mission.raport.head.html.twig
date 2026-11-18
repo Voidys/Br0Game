@@ -1,4 +1,5 @@
 {# Result hero, summary and notes of a combat report. Expects Raport, Info, recCapacity and the party lists heroAttackers/heroDefenders ({name, coords}). #}
+{% import 'game/shared.mission.raport.macros.html.twig' as cr %}
 {% set reduced = Info is defined and Info is not null %}
 {% set won = Raport.result == constant('ATTACKER') ? 'attacker' : (Raport.result == constant('DEFENDER') ? 'defender' : 'draw') %}
 {% set debrisTotal = array_sum(Raport.debris) %}
@@ -11,7 +12,7 @@
 				<h2 class="cr-party__role" id="cr-party-{{ side }}">{{ icon(won == side ? 'trophy' : (won == 'draw' ? 'handshake' : 'skull')) }}{{ side == 'attacker' ? LNG.sys_attack_attacker_pos : LNG.sys_attack_defender_pos }}</h2>
 				<ul class="cr-party__names">
 					{% for party in parties %}
-					<li><strong>{{ party.name }}</strong>{% if party.coords and not reduced %} <span class="cr-coords">{{ party.coords }}</span>{% endif %}</li>
+					<li><strong>{{ cr.player_name(party.name, party.id ?? 0) }}</strong>{% if party.coords and not reduced %} <span class="cr-coords">{{ party.coords }}</span>{% endif %}</li>
 					{% endfor %}
 				</ul>
 				<p class="cr-party__loss"><span class="cr-label">{{ LNG.cr_losses }}</span> {% set lostUnits = Raport['units'][side == 'attacker' ? 0 : 1] %}<strong class="{{ lostUnits > 0 ? 'cr-loss' : 'cr-none' }}">{% if lostUnits > 0 %}&minus;{% endif %}{{ pretty_number(lostUnits) }}</strong> <span class="cr-unit">{{ LNG.sys_units }}</span></p>
@@ -70,4 +71,13 @@
 		{% if Raport.additionalInfo %}<li>{{ icon('info') }}<span>{{ Raport.additionalInfo }}</span></li>{% endif %}
 		{% if Raport.wreckfield_created %}<li>{{ icon('hammer') }}<span>{{ LNG.sys_wreckfield }}</span></li>{% endif %}
 	</ul>
+	{% endif %}
+
+	{% if actions %}
+	<nav class="cr-actions" aria-label="{{ LNG.cr_actions|e('html_attr') }}">
+		{% if actions.debris > 0 %}<a class="button" href="{{ path('game_fleet_table_show', {galaxy: actions.galaxy, system: actions.system, planet: actions.planet, planettype: 2, target_mission: 8}) }}">{{ icon('refresh-cw') }}{{ LNG.type_mission_8 }}</a>{% endif %}
+		{% if not actions.moon %}<a class="button" href="{{ path('game_fleet_table_show', {galaxy: actions.galaxy, system: actions.system, planet: actions.planet, planettype: actions.type, target_mission: 1}) }}">{{ icon('swords') }}{{ LNG.cr_attack_again }}</a>{% endif %}
+		<a class="button" href="{{ path('game_galaxy_show', {galaxy: actions.galaxy, system: actions.system}) }}">{{ icon('orbit') }}{{ LNG.pl_galaxy_view }}</a>
+		<a class="button" href="{{ path('game_battle_simulator_show', actions.sim) }}">{{ icon('crosshair') }}{{ LNG.cr_simulate }}</a>
+	</nav>
 	{% endif %}

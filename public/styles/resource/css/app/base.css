@@ -273,6 +273,12 @@
     list-style: none;
     font-variant-numeric: tabular-nums;
   }
+  .build-queue__total {
+    margin: 0 0 var(--space-1);
+    font-size: var(--fs-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--c-muted);
+  }
   .build-queue__item {
     position: relative;
     display: grid;

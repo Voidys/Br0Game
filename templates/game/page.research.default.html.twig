@@ -1,6 +1,7 @@
 {% extends layout_template %}
 {% import 'game/macros.buildcard.html.twig' as b %}
 {% block title %}{{ LNG.lm_research }}{{ parent() }}{% endblock %}
+{% block pagehead %}{{ b.pagehead(LNG.lm_research, 'flask-conical', Queue|default([])) }}{% endblock %}
 {% block content %}
 	{% if not hasLab %}<div class="hidden-div">{{ LNG.bd_no_lab }}</div>{% endif %}
 	{% include 'game/shared.buildqueue.html.twig' with {queuePage: 'research'} %}

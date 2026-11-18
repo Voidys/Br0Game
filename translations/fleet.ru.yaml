@@ -243,3 +243,6 @@ type_planet_short_2: ПО
 type_planet_short_3: Л
 depot_msg_subject: "Флот снабжён"
 depot_msg_text: "Твой флот у %s снабжён игроком %s: пребывание продлено на %s ч."
+cr_actions: "Действия с докладом"
+cr_attack_again: "Атаковать снова"
+cr_simulate: "Симулировать"

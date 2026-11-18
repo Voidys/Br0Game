@@ -249,3 +249,6 @@ type_planet_short_2: EA
 type_planet_short_3: A
 depot_msg_subject: "Filo ikmal edildi"
 depot_msg_text: "%s konumundaki filon %s tarafından ikmal edildi: kalış %s sa. uzatıldı."
+cr_actions: "Rapor eylemleri"
+cr_attack_again: "Tekrar saldır"
+cr_simulate: "Simüle et"

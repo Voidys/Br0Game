@@ -606,6 +606,8 @@ fl_already_invited: ' 已经被邀请过了。'
 fl_ammount: 舰船
 fl_arrival: 抵达
 fl_arrival_time: 抵达时间
+fl_arrival_target: "抵达目标"
+fl_return_home: "返回"
 fl_attack_confirm_buddy: '目标在你的好友列表中。
 
   确定要攻击吗？'
@@ -1488,6 +1490,11 @@ ui_menu: 菜单
 ui_rank: 排名
 ui_queue: 队列
 ui_queue_free: 空闲栏位
+ui_planet_prev: "上一个星球"
+ui_planet_next: "下一个星球"
+ui_queue_done: "全部完成于 %at%（%in% 后）"
+ui_full_in: "距离满仓"
+ui_energy_used: "已用能源"
 ui_points: 积分
 ui_close: 关闭
 ui_storage_full: "Storage full: production stopped"
@@ -1550,6 +1557,13 @@ vt_notice_pending: 感谢投票！网站确认你的投票后，奖励才会发�
 vt_notice_cooldown: 在此网站再次投票前，你需要等待。
 mg_confirm_delete_one: "删除这条消息？"
 mg_confirm_delete_bulk: "确定删除这些消息？此操作无法撤销。"
+mg_quick_read_all: "全部标为已读"
+mg_quick_delete_read: "删除已读"
+mg_quick_delete_older: "删除超过%d天的"
+mg_confirm_delete_read: "删除此分类中所有已读消息？收藏的消息将保留。"
+mg_confirm_delete_older: "删除此分类中超过%d天的所有消息？收藏的消息将保留。"
+mg_spy_again: "再次侦查"
+fl_change_target: "更改目标"
 mg_group_mark: "标记为已读"
 mg_group_delete: "删除"
 mg_pick_category: "请在上方选择一个分类以查看消息。"
@@ -1601,7 +1615,7 @@ fl_recall_return: "现在召回的返回时间"
 fl_no_fleets: "没有执行任务的舰队。"
 fl_quick_fleets: "快捷舰队"
 fl_quick_fleets_hint: "尚未保存任何内容。在下方“自定义舰队”中保存舰船组合，它会在这里成为一键快捷方式；你的上一次任务也会显示在这里。"
-fl_load_hint: "已按本星球库存预填。货运按钮会建议所需舰船数量；不携带资源时请清空。"
+fl_load_hint: "灰色数值为本星球的库存。货运按钮会建议所需舰船数量；不携带资源时请留空。"
 fl_load_clear: "清空"
 fl_cargo_options_hint: "红色表示该舰船数量不足。点击舰船图标即可连同目标一起预选。"
 fl_summary: "派遣概要"
@@ -1633,3 +1647,10 @@ rs_full_in: '仓库将满于'
 rs_full_now: '已满'
 fl_prepared_gone: "这支舰队已不再处于待派遣状态（已过期、已释放或已派出）。请重新开始。"
 gl_legend_activity: "最近 15 分钟内活跃，之后显示（分钟）至 60"
+st_rank_change: "自上次更新以来的排名变化"
+st_prev_range: "上一页 100"
+st_next_range: "下一页 100"
+op_unsaved_one: "1 项未保存的更改"
+op_unsaved_many: "%d 项未保存的更改"
+pl_note: "笔记"
+pl_galaxy_view: "在星系中显示"

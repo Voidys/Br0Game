@@ -3,22 +3,29 @@
  * island #resource-tickers ({tickers: [{available, limit, production, valueElem}]}), initResourceTickers()
  * starts one ticker per entry; elements are matched by data-ticker="current_<name>" (or the legacy #id).
  */
-import { qsa, now, pretty_number, shortly_number, setVisibleInterval, pageData } from './core.js';
+import { qsa, now, pretty_number, shortly_number, setVisibleInterval, pageData, getRestTimeFormat } from './core.js';
 
-/** Writes the live amount into the element's tooltip HTML (`.res_current` part, or the whole tooltip text); `full` marks the storage-full state, `amount` null leaves the number as is. */
-function updateTooltip(element, amount, full) {
-  const content = element.getAttribute('data-tooltip-content') ?? '';
-  if (!content.startsWith('<')) {
-    if (amount !== null) element.setAttribute('data-tooltip-content', pretty_number(amount));
-    return;
-  }
+/**
+ * Refreshes the tooltip HTML of a resource (`[data-ticker-tip]`): the live amount (`.res_current`, skipped when `amount` is
+ * null), and the "full in" row (`.res_full`): time until the storage limit at the current production, or the full text
+ * (the element's data-full-text) once it is reached.
+ */
+function updateTooltip(element, amount, full, limit, production) {
   const holder = document.createElement('div');
-  holder.innerHTML = content;
+  holder.innerHTML = element.getAttribute('data-tooltip-content') ?? '';
   const current = holder.querySelector('.res_current');
   if (current) {
     if (amount !== null) current.textContent = pretty_number(amount);
-    current.classList.toggle('res_current_warn', element.classList.contains('res_current_warn'));
     current.classList.toggle('colorNegative', full);
+  }
+  const row = holder.querySelector('.res_full');
+  if (row && limit > 0 && production > 0) {
+    if (full) {
+      row.textContent = element.dataset.fullText ?? '';
+    } else if (amount !== null) {
+      const value = row.querySelector('.res_full_val');
+      if (value) value.textContent = getRestTimeFormat((limit - amount) / (production / 3600), true);
+    }
   }
   element.setAttribute('data-tooltip-content', holder.innerHTML);
 }
@@ -58,16 +65,19 @@ export function resourceTicker(config, init) {
     if (element.classList.contains('res_current_max')) continue;
     if (amount < limit) {
       if (amount >= limit * 0.9) element.classList.add('res_current_warn');
-      if (window.viewShortlyNumber || element.classList.contains('tooltip')) {
-        updateTooltip(element, amount, false);
+      if (window.viewShortlyNumber || element.classList.contains('resource__value--short')) {
         element.innerHTML = shortly_number(amount, true);
       } else {
         element.innerHTML = pretty_number(amount);
       }
     } else {
       element.classList.add('colorNegative', 'res_current_max');
-      updateTooltip(element, null, true);
     }
+  }
+
+  const full = limit > 0 && amount >= limit;
+  for (const tip of qsa(`[data-ticker-tip="${config.valueElem}"]`)) {
+    updateTooltip(tip, full ? null : amount, full, limit, parseFloat(config.production));
   }
 }
 

@@ -20,14 +20,18 @@
     {% endif %}
   </a>
   <label class="visually-hidden" for="planetSelector">{{ LNG.ui_planet|default('Planet') }}</label>
+  <button type="button" class="planet-switch__step" data-planet-step="-1" title="{{ LNG.ui_planet_prev }} ([)" aria-label="{{ LNG.ui_planet_prev }}">{{ icon('chevron-left') }}</button>
   <select id="planetSelector" class="planet-switch__select">
     {{ forms.html_options({'options': PlanetSelect, 'selected': current_pid}) }}
   </select>
+  <button type="button" class="planet-switch__step" data-planet-step="1" title="{{ LNG.ui_planet_next }} (])" aria-label="{{ LNG.ui_planet_next }}">{{ icon('chevron-right') }}</button>
 </div>
 
 <ul class="resources" aria-label="{{ LNG.lm_resources|default('Resources') }}">
   {% for resourceID, resourceData in resourceTable %}
-    <li class="resource resource--{{ resourceData.name }}"{% if resourceData.max is defined and resourceData.max is not null and resourceData.current is not null and resourceData.current >= resourceData.max %} title="{{ LNG.ui_storage_full }}"{% endif %}>
+    {% set tipFull = resourceData.current is defined and resourceData.current is not null and resourceData.max is defined and resourceData.max is not null and resourceData.current >= resourceData.max %}
+    {% set tipHtml %}{% if resourceData.current is not defined or resourceData.current is null %}<div>{{ LNG.tech[resourceID] }}</div><div class="res_current{% if resourceData.max + resourceData.used < 0 %} colorNegative{% endif %}">{{ pretty_number(resourceData.max + resourceData.used) }}</div><div class="res_max colorPositive">{{ pretty_number(resourceData.max) }}</div><div class="res_rate">{{ LNG.ui_energy_used }}: {{ pretty_number(-resourceData.used) }}</div>{% else %}<div>{{ LNG.tech[resourceID] }}</div><div class="res_current{% if tipFull %} colorNegative{% endif %}">{{ pretty_number(resourceData.current) }}</div>{% if resourceData.max is defined and resourceData.max is not null %}<div class="res_max colorPositive">{{ pretty_number(resourceData.max) }}</div>{% endif %}{% if resourceData.production is defined %}<div class="res_rate {{ resourceData.production < 0 ? 'colorNegative' : 'colorPositive' }}">{{ resourceData.production < 0 ? '' : '+' }}{{ pretty_number(resourceData.production) }}/h</div>{% if resourceData.max is defined and resourceData.max is not null and resourceData.production > 0 %}<div class="res_full">{% if tipFull %}{{ LNG.ui_storage_full }}{% else %}{{ LNG.ui_full_in }}: <span class="res_full_val"></span>{% endif %}</div>{% endif %}{% endif %}{% endif %}{% endset %}
+    <li class="resource resource--{{ resourceData.name }} tooltip" data-tooltip-content="{{ tipHtml|e('html') }}"{% if resourceData.current is defined and resourceData.current is not null %} data-ticker-tip="current_{{ resourceData.name }}" data-full-text="{{ LNG.ui_storage_full }}"{% endif %}>
       <a class="resource__icon"{% if noobInterface %} href="#" data-action="dialog-info" data-id="{{ resourceID }}"{% endif %}>
         <img src="{{ theme_asset('images/' ~ resourceData.name ~ '.gif') }}" alt="" width="32" height="22">
       </a>
@@ -39,9 +43,8 @@
           <span class="resource__value{% if free < 0 %} colorNegative{% endif %}">{{ pretty_number(free) }}<span class="resource__max"> / {{ pretty_number(resourceData.max) }}</span></span>
         {% else %}
           {% set full = (resourceData.max is defined and resourceData.max is not null) and resourceData.current >= resourceData.max %}
-          {% set tip %}<div>{{ LNG.tech[resourceID] }}</div><div class="res_current{% if full %} colorNegative{% endif %}">{{ pretty_number(resourceData.current) }}</div>{% if resourceData.max is defined and resourceData.max is not null %}<div class="res_max colorPositive">{{ pretty_number(resourceData.max) }}</div>{% endif %}{% endset %}
           <span class="resource__value resource__value--full res_current{% if full %} colorNegative{% endif %}" id="current_{{ resourceData.name }}" data-ticker="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}">{{ shortlyNumber ? shortly_number(resourceData.current) : pretty_number(resourceData.current) }}</span>
-          <span class="resource__value resource__value--short res_current tooltip{% if full %} colorNegative{% endif %}" data-ticker="current_{{ resourceData.name }}" data-tooltip-content="{{ tip|e('html') }}">{{ shortly_number(resourceData.current, null, true) }}</span>
+          <span class="resource__value resource__value--short res_current{% if full %} colorNegative{% endif %}" data-ticker="current_{{ resourceData.name }}">{{ shortly_number(resourceData.current, null, true) }}</span>
           {% if resourceData.max is defined and resourceData.max is not null %}
             <span class="resource__max res_max" id="max_{{ resourceData.name }}" data-real="{{ resourceData.max }}">{{ pretty_number(resourceData.max) }}</span>
             <span class="resource__max resource__max--short">/ {{ shortly_number(resourceData.max, null, true) }}</span>

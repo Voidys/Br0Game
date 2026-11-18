@@ -1,4 +1,4 @@
-import { qs, qsa, now, pad, pretty_number, getRestTimeFormat, setVisibleInterval, NotifyBox, pageData } from '../app/core.js';
+import { qs, qsa, now, pad, pretty_number, shortly_number, getRestTimeFormat, setVisibleInterval, NotifyBox, pageData } from '../app/core.js';
 import { Dialog } from '../app/dialog.js';
 import { registerActions } from '../app/actions.js';
 import { env } from '../app/env.js';
@@ -79,9 +79,11 @@ document.addEventListener('fleet:amounts', showValues);
 
 /** Number of large (25000 capacity) and small (5000 capacity) cargos needed for the typed resources; rounds up and adds one more when the remainder is above 80 % / 50 % of a ship. Base capacities, techs are not applied. */
 const updateButtons = () => {
-  const total = ['met_storage', 'krist_storage', 'deut_storage']
-    .map((name) => parseInt(field(name).value.replace(/\D/g, ''), 10))
-    .reduce((sum, amount) => sum + (Number.isNaN(amount) ? 0 : amount), 0);
+  const names = ['met_storage', 'krist_storage', 'deut_storage'];
+  const typed = names.map((name) => parseInt(field(name).value.replace(/\D/g, ''), 10));
+  // nothing typed: the buttons size the fleet for the whole stock (the placeholders); the form itself then sends 0
+  const amounts = typed.every(Number.isNaN) ? names.map((name) => Number(field(name).dataset.stock) || 0) : typed;
+  const total = amounts.reduce((sum, amount) => sum + (Number.isNaN(amount) ? 0 : amount), 0);
   let gts = Math.ceil(total / 25000);
   let kts = Math.ceil(total / 5000);
   if (total / 25000 - gts > 0.8) {
@@ -111,12 +113,15 @@ const setAmount = (button) => {
   showValues();
 };
 
-/** Prefills the "carry resources" fields with the planet's current stock, hooks them to updateButtons() and the small/large cargo buttons to setAmount(). */
+/** Shows the planet's current stock (short number) as placeholder of the "carry resources" fields (empty = 0), hooks them to updateButtons() and the small/large cargo buttons to setAmount(). */
 const initStorage = () => {
   for (const [name, resource] of [['met_storage', 'metal'], ['krist_storage', 'crystal'], ['deut_storage', 'deuterium']]) {
     field(name).addEventListener('input', updateButtons);
-    field(name).value = parseInt(byId(`current_${resource}`).getAttribute('data-real'));
+    const stock = parseInt(byId(`current_${resource}`).getAttribute('data-real'), 10) || 0;
+    field(name).dataset.stock = stock;
+    field(name).placeholder = String(shortly_number(stock, true)).replace(/&nbsp;/g, ' ');
   }
+  updateButtons();
   for (const id of ['gt_select', 'kt_select']) {
     byId(id).addEventListener('click', (event) => setAmount(event.currentTarget));
   }

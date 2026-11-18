@@ -27,3 +27,18 @@
 
 {# "Time: 34m 35s" (the language strings differ in whether they carry a colon). #}
 {% macro time(seconds) %}<span class="build-time">{{ LNG.fgf_time|trim|trim(':')|trim }}: <span class="statictime" timestamp="{{ seconds }}"></span></span>{% endmacro %}
+
+{# Phone page head (layout.full block pagehead, shown <= 40rem only): title, plus the running queue entry with its countdown when there is one. #}
+{% macro pagehead(title, iconName, queue) %}
+  <div class="page-head">
+    <h1 class="page-head__title">{{ icon(iconName) }}<span>{{ title }}</span></h1>
+    {% if queue is not empty %}
+      {% set active = queue|first %}
+      <span class="page-head__queue" title="{{ LNG.tech[active.element] }} {{ active.level }}">
+        <span class="page-head__queue-name">{{ LNG.tech[active.element] }} {{ active.level }}</span>
+        <span class="countdown" data-time="{{ active.resttime }}"></span>
+        {% if queue|length > 1 %}<span class="page-head__queue-more">+{{ queue|length - 1 }}</span>{% endif %}
+      </span>
+    {% endif %}
+  </div>
+{% endmacro %}

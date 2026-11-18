@@ -1,6 +1,7 @@
 {% extends layout_template %}
 {% import 'game/macros.buildcard.html.twig' as b %}
 {% block title %}{{ LNG.lm_buildings }}{{ parent() }}{% endblock %}
+{% block pagehead %}{{ b.pagehead(LNG.lm_buildings, 'building-2', Queue|default([])) }}{% endblock %}
 {% block content %}
   {% include 'game/shared.buildqueue.html.twig' with {queuePage: 'buildings'} %}
 

@@ -1,6 +1,7 @@
 {% extends layout_template %}
 {% import 'game/macros.buildcard.html.twig' as b %}
 {% block title %}{% if mode == "defense" %}{{ LNG.lm_defenses }}{% else %}{{ LNG.lm_shipshard }}{% endif %}{{ parent() }}{% endblock %}
+{% block pagehead %}{{ b.pagehead(mode == 'defense' ? LNG.lm_defenses : LNG.lm_shipshard, mode == 'defense' ? 'shield' : 'rocket', []) }}{% endblock %}
 {% block content %}
 
 	{% if not NotBuilding %}
@@ -12,13 +13,14 @@
 			<div class="text-center">
 				<div id="bx" class="z"></div>
 				<div class="ship">
-					<form action="{{ path('game_shipyard_order', {kind: mode == 'defense' ? 'defense' : 'shipyard'}) }}" method="post" >
+					<form action="{{ path('game_shipyard_order', {kind: mode == 'defense' ? 'defense' : 'shipyard'}) }}" method="post" data-keep-scroll>
 						<input type="hidden" name="action" value="delete">
 						<div >
 							<select name="auftr[]" id="auftr" multiple class="shipl"><option>&nbsp;</option></select><br><br>{{ LNG.bd_cancel_warning }}<br><input class="z" type="submit" value="{{ LNG.bd_cancel_send }}" />
 						</div>
 					</form>
-					<br><span id="timeleft" data-umode="{{ umode }}"></span><br><br>
+					<br><span id="timeleft" data-umode="{{ umode }}"></span><br>
+					<span id="queue-done" class="build-queue__total" data-template="{{ LNG.ui_queue_done }}"></span><br><br>
 				</div>
 			</div><br>
 		{% else %}
@@ -103,7 +105,7 @@
 				{% elseif not Element.buyable %}
 					{{ b.missing(Element) }}
 				{% else %}
-					<form action="{{ path('game_shipyard_order', {kind: mode == 'defense' ? 'defense' : 'shipyard'}) }}" method="post" id="s{{ ID }}">
+					<form action="{{ path('game_shipyard_order', {kind: mode == 'defense' ? 'defense' : 'shipyard'}) }}" method="post" id="s{{ ID }}" data-keep-scroll>
 						<span class="control-group">
 							<input type="number" name="fmenge[{{ ID }}]" id="input_{{ ID }}" maxlength="{{ maxlength }}" value="0" min="0" tabindex="{{ null }}" aria-label="{{ LNG.tech[ID] }}">
 							<input type="button" value="{{ LNG.bd_max_ships }}" data-action="fill-input" data-target="input_{{ ID }}" data-value="{{ Element.maxBuildable }}" title="{{ LNG.bd_max_ships_long }}: {{ pretty_number(Element.maxBuildable) }}">

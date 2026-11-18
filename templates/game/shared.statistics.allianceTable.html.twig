@@ -1,5 +1,7 @@
+{% import '_macros/community.html.twig' as c -%}
 <tr>
 	<th class="num">{{ LNG.st_position }}</th>
+	<th class="num rank-delta-col" title="{{ LNG.st_rank_change|e('html_attr') }}">&plusmn;</th>
 	<th>{{ LNG.st_alliance }}</th>
 	<th class="num">{{ LNG.st_members }}</th>
 	<th class="num">{{ LNG.st_points }}</th>
@@ -8,6 +10,7 @@
 {% for RangeInfo in RangeList %}
 <tr>
 	<td class="num">{% set tt_rank %}{% if RangeInfo.ranking == 0 %}<span class='color-star'>*</span>{% elseif RangeInfo.ranking < 0 %}<span class='colorNegative'>{{ RangeInfo.ranking }}</span>{% elseif RangeInfo.ranking > 0 %}<span class='color-green'>+{{ RangeInfo.ranking }}</span>{% endif %}{% endset %}<a class="tooltip" data-tooltip-content="{{ tt_rank|e('html_attr') }}">{{ RangeInfo.rank }}</a></td>
+	<td class="num rank-delta-col">{{ c.rank_delta(RangeInfo.ranking) }}</td>
 	<td><a href="{{ path('game_alliance_info', {id: RangeInfo.id}) }}"{% if RangeInfo.id == CUser_ally %} class="colorPositive"{% endif %}>{{ RangeInfo.name }}</a></td>
 	<td class="num">{{ RangeInfo.members }}</td>
 	<td class="num">{{ RangeInfo.points }}</td>

@@ -606,6 +606,8 @@ fl_already_invited: ' wurde bereids  eingeladne.'
 fl_ammount: Anzahl
 fl_arrival: Angunft(Zurück)
 fl_arrival_time: Angunftszeit
+fl_arrival_target: "Angunft(Ziel)"
+fl_return_home: "Rückkehr"
 fl_attack_confirm_buddy: Das Ziel isd uff Deiner BuddyLischde - Möchtschd Du wirglich die Brügel rausschmeißne?
 fl_attack_confirm_diplo: Es wurde ein Bakt (%s) mid der Allianz %s und Deiner Allianz geschlossne und alles. Möchtschd Du den Angriff wirglich durchführen?
 fl_attack_confirm_outlaw: Wenn du %s angreifst, wirst du für 7 Tage zum Gesetzlosen.
@@ -1482,6 +1484,11 @@ ui_menu: Menü
 ui_rank: Platz
 ui_queue: Bauliste
 ui_queue_free: freier Platz
+ui_planet_prev: "Vorheriger Planet"
+ui_planet_next: "Nächster Planet"
+ui_queue_done: "Alles fertig um %at% (in %in%)"
+ui_full_in: "Voll in"
+ui_energy_used: "Energie verbraucht"
 ui_points: Punkte
 ui_close: Schließen
 ui_storage_full: "Storage full: production stopped"
@@ -1544,6 +1551,13 @@ vt_notice_pending: Danke fers Voten! Die Belohnung kummt, sobald die Seid deinen
 vt_notice_cooldown: Du musst warde, bevor du uff dieser Seid erneut voten kannsd.
 mg_confirm_delete_one: "Dia Nachricht löschn?"
 mg_confirm_delete_bulk: "Die Nachrichtn wirklich löschn? Des geht nimmer zrück."
+mg_quick_read_all: "Alle gelesen"
+mg_quick_delete_read: "Gelesene löschen"
+mg_quick_delete_older: "Älter als %d Tage löschen"
+mg_confirm_delete_read: "Alle gelesenen Nachrichten dieser Kategorie löschen? Favoriten bleiben erhalten."
+mg_confirm_delete_older: "Alle Nachrichten dieser Kategorie, die älter als %d Tage sind, löschen? Favoriten bleiben erhalten."
+mg_spy_again: "Erneut spionieren"
+fl_change_target: "Ziel ändern"
 mg_group_mark: "Als gelesn markiern"
 mg_group_delete: "Löschn"
 mg_pick_category: "Such dir oben a Kategorie aus, dann siggst die Nachrichtn."
@@ -1595,7 +1609,7 @@ fl_recall_return: "Widder dehaam bei Rückruf etz"
 fl_no_fleets: "Kaa Flodde unnerwegs."
 fl_quick_fleets: "Schnellflodde"
 fl_quick_fleets_hint: "Noch nix gespeichert. Speicher unne unner \"Eigene Flodde\" a Schiffskombi, nacha steht se do als Ei-Klick-Abkürzung; dei letzte Mission aa."
-fl_load_hint: "Mit dem Bestand vo dem Planeten vorausgfüllt. Die Fracht-Knöpf schlogn vor, wie viel Schiff des dragn; leern, wenn nix mitgschickt werd."
+fl_load_hint: "Die grauen Werte san da Bestand vo dem Planeten. Die Fracht-Knöpf schlogn vor, wie viel Schiff des dragn; leer lossn, wenn nix mitgschickt werd."
 fl_load_clear: "Leern"
 fl_cargo_options_hint: "Rot haßt: Vo dem Schiff hast ned gnua. Klick auf a Schiffssymbol, zum Vorwähln samt Ziel."
 fl_summary: "Zammfassung"
@@ -1627,3 +1641,10 @@ rs_full_in: 'Lager voll in'
 rs_full_now: 'Voll'
 fl_prepared_gone: "Die Flodde is nemmer vorbereit (abgloffn, freigebn oder scho verschiggt). Fang bidde nei o."
 gl_legend_activity: "In de letzdn 15 Min. aktiv, dann (Minudn) bis 60"
+st_rank_change: "Blatzänderung seid em lädschdn Abdäid"
+st_prev_range: "Vorherige 100"
+st_next_range: "Nächsde 100"
+op_unsaved_one: "1 ungeschbeicherde Änderung"
+op_unsaved_many: "%d ungeschbeicherde Änderungen"
+pl_note: "Nodiz"
+pl_galaxy_view: "In der Galaxie zeing"

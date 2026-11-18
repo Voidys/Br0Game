@@ -8,6 +8,7 @@
   <div class="fleet-summary__item">
     <span class="fleet-summary__label">{{ LNG.fl_destiny }}</span>
     <strong id="sum-target">[{{ galaxy }}:{{ system }}:{{ planet }}] {{ LNG["type_planet_#{type}"] }}</strong>
+    {% if changeTargetUrl is defined %}<a class="fleet-summary__sub" href="{{ changeTargetUrl }}">{{ icon('pencil') }} {{ LNG.fl_change_target }}</a>{% endif %}
     {% if targetName is defined and targetName != '' %}<span class="fleet-summary__sub">{{ targetName }}{% if targetOwner != '' %} · {{ targetOwner }}{% endif %}</span>{% endif %}
   </div>
   <div class="fleet-summary__item fleet-summary__item--fleet">
@@ -25,5 +26,9 @@
   <div class="fleet-summary__item">
     <span class="fleet-summary__label">{{ LNG.fl_flying_arrival }}</span>
     <strong id="sum-eta">-</strong>
+  </div>
+  <div class="fleet-summary__item" id="sum-return-item"{% if mission is defined and mission == 4 %} hidden{% endif %}>
+    <span class="fleet-summary__label">{{ LNG.fl_return_home }}</span>
+    <strong id="sum-return">-</strong>
   </div>
 </div>

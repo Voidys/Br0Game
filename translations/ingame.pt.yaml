@@ -604,6 +604,8 @@ fl_already_invited: ' já foi convidado.'
 fl_ammount: Naves
 fl_arrival: Chegada
 fl_arrival_time: Hora de chegada
+fl_arrival_target: "Chegada ao destino"
+fl_return_home: "Regresso"
 fl_attack_confirm_buddy: 'O alvo está na tua lista de amigos.
 
   Tens a certeza de que queres atacar?'
@@ -1486,6 +1488,11 @@ ui_menu: Menu
 ui_rank: Posição
 ui_queue: Fila
 ui_queue_free: vaga livre
+ui_planet_prev: "Planeta anterior"
+ui_planet_next: "Próximo planeta"
+ui_queue_done: "Tudo pronto às %at% (em %in%)"
+ui_full_in: "Cheio em"
+ui_energy_used: "Energia usada"
 ui_points: Pontos
 ui_close: Fechar
 ui_storage_full: "Armazém cheio: produção parada"
@@ -1548,6 +1555,13 @@ vt_notice_pending: Obrigado por votares! A recompensa chega depois de o site con
 vt_notice_cooldown: Tens de esperar antes de votar novamente neste site.
 mg_confirm_delete_one: "Apagar esta mensagem?"
 mg_confirm_delete_bulk: "Apagar mesmo estas mensagens? Não é possível desfazer."
+mg_quick_read_all: "Marcar tudo como lido"
+mg_quick_delete_read: "Apagar lidas"
+mg_quick_delete_older: "Apagar com mais de %d dias"
+mg_confirm_delete_read: "Apagar todas as mensagens lidas desta categoria? Os favoritos são mantidos."
+mg_confirm_delete_older: "Apagar todas as mensagens desta categoria com mais de %d dias? Os favoritos são mantidos."
+mg_spy_again: "Espiar novamente"
+fl_change_target: "Alterar destino"
 mg_group_mark: "Marcar como lida"
 mg_group_delete: "Apagar"
 mg_pick_category: "Escolhe uma categoria acima para ver as mensagens."
@@ -1599,7 +1613,7 @@ fl_recall_return: "De volta se chamada agora"
 fl_no_fleets: "Nenhuma frota em missão."
 fl_quick_fleets: "Frotas rápidas"
 fl_quick_fleets_hint: "Nada guardado ainda. Guarda uma combinação de naves em \"Frotas próprias\" abaixo e ela aparece aqui como atalho; a tua última missão também aparece aqui."
-fl_load_hint: "Preenchido com o stock deste planeta. Os botões de carga sugerem quantas naves o levam; limpa se não enviares nada."
+fl_load_hint: "Os valores cinzentos são o stock deste planeta. Os botões de carga sugerem quantas naves o levam; deixa vazio se não enviares nada."
 fl_load_clear: "Limpar"
 fl_cargo_options_hint: "Vermelho significa que não tens naves suficientes. Clica num ícone de nave para a pré-selecionar com o destino."
 fl_summary: "Resumo do envio"
@@ -1631,3 +1645,10 @@ rs_full_in: 'Armazém cheio em'
 rs_full_now: 'Cheio'
 fl_prepared_gone: "Esta frota já não está preparada (expirou, foi libertada ou já foi enviada). Começa de novo."
 gl_legend_activity: "Ativo nos últimos 15 min, depois (minutos) até 60"
+st_rank_change: "Alteração de posição desde a última atualização"
+st_prev_range: "Anteriores 100"
+st_next_range: "Próximos 100"
+op_unsaved_one: "1 alteração não guardada"
+op_unsaved_many: "%d alterações não guardadas"
+pl_note: "Nota"
+pl_galaxy_view: "Mostrar na galáxia"

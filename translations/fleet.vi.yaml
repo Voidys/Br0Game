@@ -243,3 +243,6 @@ type_planet_short_2: MV
 type_planet_short_3: MT
 depot_msg_subject: "Hạm đội được tiếp tế"
 depot_msg_text: "Hạm đội của bạn tại %s đã được %s tiếp tế: thời gian đóng quân kéo dài thêm %s giờ."
+cr_actions: "Thao tác với báo cáo"
+cr_attack_again: "Tấn công lại"
+cr_simulate: "Mô phỏng"

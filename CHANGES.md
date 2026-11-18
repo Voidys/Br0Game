@@ -1316,3 +1316,13 @@ Technical changes per step, newest last (started with the migration to PHP 8.4, 
 - Default theme folder `br0game` → `v0game` (`DEFAULT_THEME`, `install.sql` defaults); device cookie `br0_device` → `v0_device` (existing cookies are re-issued).
 - DDEV project `v0game` (https://v0game.ddev.site), `.ddev/apache/v0game.conf`, `.ddev/php/v0game.*.ini`.
 - Migration 1795033242: moves accounts/settings and `default_theme` from `br0game` to `v0game`, renames the game name `Br0Game`, points `source_url`/`git_issues_link` at the new repo, updates the column defaults.
+
+## 169. QoL pass and phone shell
+
+- Fixes: flying-fleet columns relabelled (arrival at target / return, they showed swapped meanings) + target countdown; number inputs select on focus instead of clearing (`ui.js`).
+- Build pages keep the scroll position after build/cancel/order (sessionStorage); queue header "all done at … (in …)" for building/research/shipyard; resource tooltip with +X/h and live "full in", opens on tap; planet prev/next buttons and `[` / `]` keys.
+- Fleet: target step skipped when target + mission come with the link (`direct=1`, step 2 revalidates, "change target" link); return time on the send step; noob/strong protection and empty-cargo checks before sending (`FleetTargetProtection` trait, same rules as dispatch); "spy again" on spy reports; resource inputs empty with the stock as placeholder (step 2 "selected resources" hidden when nothing was typed); carried resources column on flying fleets.
+- Messages: one-click mark all read / delete read / delete older than 7 or 30 days (`MessageMailbox` actions `deletereadtype`, `deleteolder7/30`, favourites kept).
+- Login enters the only universe directly (`account?enter=1`; the plain lobby URL always shows the lobby).
+- Statistics open on the 100-block with the own rank, prev/next 100, rank-change column, selectors in one row on phones; settings unsaved-changes counter + leave warning; player card galaxy/note actions; buddy icons in stats and member lists; combat report: player names link to the card, participant actions (recycle, attack again, galaxy, simulate via `battleinput`).
+- Phone shell (≤40rem): compact top bar (planet row scrolls away, resources stay), bottom tab bar (`main.tabbar.html.twig`: overview/buildings/galaxy/fleet/menu), drawer with planet list and account block, sticky page head with the running queue entry, denser build cards, 44 px tap targets; tablet top bar in one row. Overflow fixes for fleet, settings, simulator, notes; empire with sticky label column and folded charts; message chips scroll in one row.

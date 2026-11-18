@@ -23,7 +23,9 @@ function initGroups() {
   fitWatch();
   for (const target of GROUPS) {
     const stored = localStorage.getItem(target);
-    showGroup(target, stored === null ? FOLDED_BY_DEFAULT.includes(target) : stored === 'true');
+    // phones: the charts start folded so the planet table is on the first screen (the toggle row opens them)
+    const foldedByDefault = FOLDED_BY_DEFAULT.includes(target) || (target === 'chart' && window.matchMedia('(max-width: 40rem)').matches);
+    showGroup(target, stored === null ? foldedByDefault : stored === 'true');
   }
   on(document, 'click', '[data-toggle-rows]', (event, el) => {
     const target = el.dataset.toggleRows;

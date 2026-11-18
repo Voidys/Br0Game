@@ -13,7 +13,7 @@
   <div class="flyingFleets-scroll">
   <table class="flyingFleets">
     <tr>
-      <th colspan="9">
+      <th colspan="10">
         <div class="fleet-slots">
         <div class="transparent fleet-slot fleet-slot--start">{{ LNG.fl_fleets }} {{ activeFleetSlots }} / {{ maxFleetSlots }}</div>
         <div class="transparent fleet-slot fleet-slot--center">{{ LNG.fl_planets }} {{ currentPlanetCount }} / {{ maxPlanetCount }}</div>
@@ -26,10 +26,11 @@
       <td class="fleet-col-id ctr">{{ LNG.fl_number }}</td>
       <td class="fleet-col-mission ctr">{{ LNG.fl_mission }}</td>
       <td class="num">{{ LNG.fl_ammount }}</td>
+      <td class="num">{{ LNG.fl_resources }}</td>
       <td class="ctr">{{ LNG.fl_beginning }}</td>
-      <td class="ctr">{{ LNG.fl_departure }}</td>
+      <td class="ctr">{{ LNG.fl_arrival_target }}</td>
       <td class="ctr">{{ LNG.fl_destiny }}</td>
-      <td class="ctr">{{ LNG.fl_arrival }}</td>
+      <td class="ctr">{{ LNG.fl_return_home }}</td>
       <td class="ctr">{{ LNG.fl_objective }}</td>
       <td class="act">{{ LNG.fl_order }}</td>
     </tr>
@@ -56,15 +57,23 @@
           <td class="num fl-amount" data-label="{{ LNG.fl_ammount }}"><a class="tooltip_sticky"
                  data-tooltip-content="{{ tt_ships|e('html_attr') }}">{{ FlyingFleetRow.amount }}</a>
           </td>
+          <td class="num fl-res" data-label="{{ LNG.fl_resources }}">
+            {% if FlyingFleetRow.metal + FlyingFleetRow.crystal + FlyingFleetRow.deuterium > 0 %}
+              {% for resKey, resId in {metal: 901, crystal: 902, deuterium: 903} %}
+                {% set resAmount = attribute(FlyingFleetRow, resKey) %}
+                <span class="fl-res__item{% if resAmount <= 0 %} is-zero{% endif %}" title="{{ LNG['tech'][resId] }}: {{ pretty_number(resAmount) }}"><img src="{{ theme_asset('images/' ~ resKey ~ '.gif') }}" alt="{{ LNG['tech'][resId] }}" width="16" height="11">{{ shortly_number(resAmount, null, true) }}</span>
+              {% endfor %}
+            {% else %}-{% endif %}
+          </td>
           <td class="ctr fl-from" data-label="{{ LNG.fl_beginning }}"><a
               href="{{ path('game_galaxy_show', {galaxy: FlyingFleetRow.startGalaxy, system: FlyingFleetRow.startSystem}) }}">[{{ FlyingFleetRow.startGalaxy }}:{{ FlyingFleetRow.startSystem }}:{{ FlyingFleetRow.startPlanet }}]({{ LNG["type_planet_short_#{FlyingFleetRow.startType}"] }})</a></td>
-          <td class="ctr fl-dep{% if FlyingFleetRow.state == 0 %} fleet-active-time{% endif %}" data-label="{{ LNG.fl_departure }}">{{ FlyingFleetRow.startTime }}</td>
+          <td class="ctr fl-dep{% if FlyingFleetRow.state == 0 %} fleet-active-time{% endif %}" data-label="{{ LNG.fl_arrival_target }}">{{ FlyingFleetRow.startTime }}{% if FlyingFleetRow.state == 0 and FlyingFleetRow.mission != 4 and FlyingFleetRow.targetRest > 0 %}<br><span class="hint">(<span class="fleets fl-target-eta" data-fleet-time="{{ FlyingFleetRow.targetRest }}">{{ getRestTimeFormat(FlyingFleetRow.targetRest) }}</span>)</span>{% endif %}</td>
           <td class="ctr fl-to" data-label="{{ LNG.fl_destiny }}"><a
               href="{{ path('game_galaxy_show', {galaxy: FlyingFleetRow.endGalaxy, system: FlyingFleetRow.endSystem}) }}">[{{ FlyingFleetRow.endGalaxy }}:{{ FlyingFleetRow.endSystem }}:{{ FlyingFleetRow.endPlanet }}]({{ LNG["type_planet_short_#{FlyingFleetRow.endType}"] }})</a></td>
             {% if FlyingFleetRow.mission == 4 and FlyingFleetRow.state == 0 %}
-              <td class="ctr fl-arr" data-label="{{ LNG.fl_arrival }}">-</td>
+              <td class="ctr fl-arr" data-label="{{ LNG.fl_return_home }}">-</td>
             {% else %}
-              <td class="ctr fl-arr{% if FlyingFleetRow.state != 0 %} fleet-active-time{% endif %}" data-label="{{ LNG.fl_arrival }}">{{ FlyingFleetRow.endTime }}</td>
+              <td class="ctr fl-arr{% if FlyingFleetRow.state != 0 %} fleet-active-time{% endif %}" data-label="{{ LNG.fl_return_home }}">{{ FlyingFleetRow.endTime }}</td>
             {% endif %}
           <td id="fleettime_{{ loop.index }}" class="fleets ctr fl-time" data-label="{{ LNG.fl_objective }}"
               data-fleet-end-time="{{ FlyingFleetRow.returntime }}"
@@ -90,12 +99,12 @@
         </tr>
           {% else %}
         <tr>
-          <td colspan="9"><div class="empty-state empty-state--inline">{{ icon('rocket') }}<p>{{ LNG.fl_no_fleets }}</p></div></td>
+          <td colspan="10"><div class="empty-state empty-state--inline">{{ icon('rocket') }}<p>{{ LNG.fl_no_fleets }}</p></div></td>
         </tr>
       {% endfor %}
       {% if maxFleetSlots == activeFleetSlots %}
         <tr>
-          <td colspan="9">{{ LNG.fl_no_more_slots }}</td>
+          <td colspan="10">{{ LNG.fl_no_more_slots }}</td>
         </tr>
       {% endif %}
   </table>
@@ -109,6 +118,7 @@
     <input type="hidden" name="planet" value="{{ targetPlanet }}">
     <input type="hidden" name="type" value="{{ targetType }}">
     <input type="hidden" name="target_mission" value="{{ targetMission }}">
+    {% if directTarget %}<input type="hidden" name="direct" value="1">{% endif %}
     <table class="fleet-select">
       <tr>
         <th colspan="5">{{ LNG.fl_new_mission_title }}{% if targetMission > 0 %}: {{ LNG["type_mission_#{targetMission}"] }} [{{ targetGalaxy }}:{{ targetSystem }}:{{ targetPlanet }}]{% endif %}</th>

@@ -604,6 +604,8 @@ fl_already_invited: ' został już zaproszony.'
 fl_ammount: Statki
 fl_arrival: Przylot
 fl_arrival_time: Czas przylotu
+fl_arrival_target: "Przylot do celu"
+fl_return_home: "Powrót"
 fl_attack_confirm_buddy: 'Cel jest na twojej liście znajomych.
 
   Na pewno chcesz zaatakować?'
@@ -1482,6 +1484,11 @@ ui_menu: Menu
 ui_rank: Ranga
 ui_queue: Kolejka
 ui_queue_free: wolny slot
+ui_planet_prev: "Poprzednia planeta"
+ui_planet_next: "Następna planeta"
+ui_queue_done: "Wszystko gotowe o %at% (za %in%)"
+ui_full_in: "Pełny za"
+ui_energy_used: "Zużyta energia"
 ui_points: Punkty
 ui_close: Zamknij
 ui_storage_full: "Magazyn pełny: produkcja wstrzymana"
@@ -1544,6 +1551,13 @@ vt_notice_pending: Dzięki za głos! Nagroda pojawi się po potwierdzeniu głosu
 vt_notice_cooldown: Musisz poczekać, zanim ponownie zagłosujesz na tę stronę.
 mg_confirm_delete_one: "Usunąć tę wiadomość?"
 mg_confirm_delete_bulk: "Na pewno usunąć te wiadomości? Tego nie można cofnąć."
+mg_quick_read_all: "Oznacz wszystkie jako przeczytane"
+mg_quick_delete_read: "Usuń przeczytane"
+mg_quick_delete_older: "Usuń starsze niż %d dni"
+mg_confirm_delete_read: "Usunąć wszystkie przeczytane wiadomości z tej kategorii? Ulubione zostaną zachowane."
+mg_confirm_delete_older: "Usunąć wszystkie wiadomości z tej kategorii starsze niż %d dni? Ulubione zostaną zachowane."
+mg_spy_again: "Szpieguj ponownie"
+fl_change_target: "Zmień cel"
 mg_group_mark: "Oznacz jako przeczytane"
 mg_group_delete: "Usuń"
 mg_pick_category: "Wybierz powyżej kategorię, aby zobaczyć jej wiadomości."
@@ -1595,7 +1609,7 @@ fl_recall_return: "Powrót po odwołaniu teraz"
 fl_no_fleets: "Brak flot w misji."
 fl_quick_fleets: "Szybkie floty"
 fl_quick_fleets_hint: "Nic jeszcze nie zapisano. Zapisz zestaw statków w \"Własne floty\" poniżej, a pojawi się tu jako skrót; ostatnia misja też."
-fl_load_hint: "Wstępnie wypełnione zasobami tej planety. Przyciski ładunku podpowiadają, ile statków to uniesie; wyczyść, jeśli nic nie wysyłasz."
+fl_load_hint: "Szare wartości to zasoby tej planety. Przyciski ładunku podpowiadają, ile statków to uniesie; zostaw puste, jeśli nic nie wysyłasz."
 fl_load_clear: "Wyczyść"
 fl_cargo_options_hint: "Czerwony oznacza, że brakuje Ci tego statku. Kliknij ikonę statku, aby wybrać go razem z celem."
 fl_summary: "Podsumowanie wysyłki"
@@ -1627,3 +1641,10 @@ rs_full_in: 'Magazyn pełny za'
 rs_full_now: 'Pełny'
 fl_prepared_gone: "Ta flota nie jest już przygotowana (wygasła, została zwolniona lub już wysłana). Zacznij od nowa."
 gl_legend_activity: "Aktywny w ostatnich 15 min, potem (minuty) do 60"
+st_rank_change: "Zmiana pozycji od ostatniej aktualizacji"
+st_prev_range: "Poprzednie 100"
+st_next_range: "Następne 100"
+op_unsaved_one: "1 niezapisana zmiana"
+op_unsaved_many: "Niezapisane zmiany: %d"
+pl_note: "Notatka"
+pl_galaxy_view: "Pokaż w galaktyce"

@@ -243,3 +243,6 @@ type_planet_short_2: V
 type_planet_short_3: M
 depot_msg_subject: "Vloot bevoorraad"
 depot_msg_text: "Je vloot bij %s is bevoorraad door %s: verblijf %s u verlengd."
+cr_actions: "Acties bij het rapport"
+cr_attack_again: "Opnieuw aanvallen"
+cr_simulate: "Simuleren"

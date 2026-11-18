@@ -11,9 +11,26 @@
 
 <aside class="sidebar" id="sidebar" aria-label="{{ LNG.ui_menu|default('Menu') }}">
   <button type="button" class="sidebar__close icon-button" data-sidebar-toggle aria-label="{{ LNG.ui_close }}">{{ icon('x') }}<span>{{ LNG.ui_close }}</span></button>
+  <div class="drawer-head">
+    <details class="drawer-planets">
+      <summary>{{ icon('globe') }}<span class="drawer-planets__current">{{ PlanetSelect[current_pid]|default(LNG.ui_planet) }}</span>{{ icon('chevron-down') }}</summary>
+      <ul>
+        {% for pid, pname in PlanetSelect %}
+          <li><button type="button" class="drawer-planets__item" data-planet-goto="{{ pid }}"{% if pid == current_pid %} aria-current="true"{% endif %}>{{ pname }}</button></li>
+        {% endfor %}
+      </ul>
+    </details>
+    <div class="drawer-account">
+      <a class="drawer-account__item drawer-account__user" href="{{ path('game_settings_show') }}">{{ icon('user') }}<span>{{ username }}</span></a>
+      {% if authlevel > 0 %}<a class="drawer-account__item drawer-account__admin" href="./admin" title="{{ LNG.lm_administration }}">{{ icon('shield-alert', LNG.lm_administration) }}</a>{% endif %}
+      <span class="drawer-account__item drawer-account__clock" title="{{ LNG.ui_server_time|default('Server time') }}">{{ icon('clock') }}<span class="servertime">{{ serverClock|default('') }}</span></span>
+      <a data-method="post" class="drawer-account__item drawer-account__logout" href="{{ path('game_logout_show') }}" title="{{ LNG.lm_logout }}">{{ icon('log-out', LNG.lm_logout) }}<span>{{ LNG.lm_logout }}</span></a>
+    </div>
+  </div>
   {% include 'game/main.navigation.html.twig' %}
 </aside>
 <div class="sidebar-backdrop" aria-hidden="true"></div>
+{% include 'game/main.tabbar.html.twig' %}
 
 <main class="content" id="content">
   {% if hasAdminAccess %}
@@ -43,6 +60,7 @@
     <div class="infobox">{{ icon('moon') }}<span>{{ vacation }}</span></div>
   {% endif %}
 
+  {% block pagehead %}{% endblock %}
   {% block content %}{% endblock %}
 </main>
 

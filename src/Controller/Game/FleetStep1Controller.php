@@ -25,6 +25,8 @@ use App\Game\Core\Universe;
 #[\App\Controller\RequireModule('MODULE_FLEET_TABLE')]
 class FleetStep1Controller extends AbstractGameController
 {
+    use FleetTargetProtection;
+
     /** Prepared fleets (tokens) kept per session; each open fleet page uses one. */
     private const MAX_PREPARED_FLEETS = 20;
 
@@ -77,7 +79,7 @@ class FleetStep1Controller extends AbstractGameController
         if (($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST') {
             return $this->redirectToRoute('game_fleet_step1_show', $this->selectionQuery($Fleet, [
                 'galaxy' => $targetGalaxy, 'system' => $targetSystem, 'planet' => $targetPlanet, 'type' => $targetType,
-                'target_mission' => $mission,
+                'target_mission' => $mission, 'direct' => $this->input()->int('direct'),
             ]));
         }
         // validate before anything is stored: a refused fleet must not occupy a token
@@ -85,6 +87,14 @@ class FleetStep1Controller extends AbstractGameController
             return $unavailable;
         }
         $token = $this->storeFleet($Fleet, $FleetRoom);
+
+        // target and mission already chosen (galaxy / report / message link): straight on to the mission step, which validates everything again
+        if ($mission > 0 && $this->input()->int('direct') === 1) {
+            return $this->redirectToRoute('game_fleet_step2_show', [
+                'token' => $token, 'galaxy' => $targetGalaxy, 'system' => $targetSystem, 'planet' => $targetPlanet, 'type' => $targetType,
+                'target_mission' => $mission, 'speed' => 10, 'group' => 0,
+            ]);
+        }
 
         $shortcutList = $this->GetUserShotcut();
         $colonyList = $this->GetColonyList();
@@ -118,7 +128,7 @@ class FleetStep1Controller extends AbstractGameController
      * GET parameters of the step-1 url for a posted selection: the target fields, the preset cargo and ship<id> = count per chosen ship.
      *
      * @param array<int, int|string> $fleet ship id => count
-     * @param array<string, int> $target galaxy, system, planet, type, target_mission
+     * @param array<string, int> $target galaxy, system, planet, type, target_mission, direct
      * @return array<string, int|string>
      */
     private function selectionQuery(array $fleet, array $target): array
@@ -478,7 +488,7 @@ class FleetStep1Controller extends AbstractGameController
     }
 
     /**
-     * XHR check of the entered target (request: galaxy, system, planet, planet_type, kolo = colony ship in the fleet). Answers JSON: `OK` or the error text
+     * XHR check of the entered target (request: galaxy, system, planet, planet_type, kolo = colony ship in the fleet, optional mission: a hostile mission against a noob protected or too strong player is refused with the text of the final check). Answers JSON: `OK` or the error text
      * for: same planet, no own pirate base (position max_planets + 3) or empty pirate debris, expedition without expedition tech or free slot (position
      * max_planets + 1), otherwise a missing moon/planet (a planet is fine with a colony ship), vacation mode, admin attack protection (`adm_attack`),
      * destroyed planet and an empty debris field.
@@ -511,7 +521,21 @@ class FleetStep1Controller extends AbstractGameController
             $error = $this->checkExpeditionTarget();
         }
 
+        if ($error === null && in_array($this->input()->int('mission'), self::PROTECTED_MISSIONS, true)) {
+            $error = $this->protectionNotice($this->targetOwnerId($targetGalaxy, $targetSystem, $targetPlanet)) ?: null;
+        }
+
         return $this->jsonResponse($error ?? 'OK');
+    }
+
+    /** Owner id of the planet at the position (0 when nothing is there, e.g. an expedition position). */
+    private function targetOwnerId(int $galaxy, int $system, int $planet): int
+    {
+        $sql = 'SELECT `id_owner` FROM %%PLANETS%% WHERE `universe` = :universe AND `galaxy` = :galaxy AND `system` = :system AND `planet` = :planet AND `planet_type` = 1;';
+
+        return (int) $this->db->selectSingle($sql, [
+            ':universe' => $this->universe()->current(), ':galaxy' => $galaxy, ':system' => $system, ':planet' => $planet,
+        ], 'id_owner');
     }
 
     /**

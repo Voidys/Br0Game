@@ -13,10 +13,10 @@
 	{% set heroDefenders = [{name: Info[1]}] %}
 {% else %}
 	{% for fleet in Raport.rounds[0].attackers %}
-		{% set heroAttackers = heroAttackers|merge([{name: fleet.player.username, coords: '[' ~ fleet.fleetDetail.start_galaxy ~ ':' ~ fleet.fleetDetail.start_system ~ ':' ~ fleet.fleetDetail.start_planet ~ ']' ~ (fleet.fleetDetail.start_type is defined and fleet.fleetDetail.start_type is not null ? ' (' ~ LNG["type_planet_short_#{fleet.fleetDetail.start_type}"] ~ ')' : '')}]) %}
+		{% set heroAttackers = heroAttackers|merge([{id: fleet.player.id ?? 0, name: fleet.player.username, coords: '[' ~ fleet.fleetDetail.start_galaxy ~ ':' ~ fleet.fleetDetail.start_system ~ ':' ~ fleet.fleetDetail.start_planet ~ ']' ~ (fleet.fleetDetail.start_type is defined and fleet.fleetDetail.start_type is not null ? ' (' ~ LNG["type_planet_short_#{fleet.fleetDetail.start_type}"] ~ ')' : '')}]) %}
 	{% endfor %}
 	{% for fleet in Raport.rounds[0].defenders %}
-		{% set heroDefenders = heroDefenders|merge([{name: fleet.player.username, coords: '[' ~ fleet.fleetDetail.start_galaxy ~ ':' ~ fleet.fleetDetail.start_system ~ ':' ~ fleet.fleetDetail.start_planet ~ ']' ~ (fleet.fleetDetail.start_type is defined and fleet.fleetDetail.start_type is not null ? ' (' ~ LNG["type_planet_short_#{fleet.fleetDetail.start_type}"] ~ ')' : '')}]) %}
+		{% set heroDefenders = heroDefenders|merge([{id: fleet.player.id ?? 0, name: fleet.player.username, coords: '[' ~ fleet.fleetDetail.start_galaxy ~ ':' ~ fleet.fleetDetail.start_system ~ ':' ~ fleet.fleetDetail.start_planet ~ ']' ~ (fleet.fleetDetail.start_type is defined and fleet.fleetDetail.start_type is not null ? ' (' ~ LNG["type_planet_short_#{fleet.fleetDetail.start_type}"] ~ ')' : '')}]) %}
 	{% endfor %}
 {% endif %}
 
@@ -60,7 +60,7 @@
 					{% set stunnedAny = 0 %}
 					{% for ShipData in ships %}{% set alive = alive + ShipData.amount %}{% set stunnedAny = stunnedAny + ShipData.stunned %}{% endfor %}
 					<section class="cr-fleet">
-						{{ cr.fleet_head(side, fleet.player.username, '[' ~ fleet.fleetDetail.start_galaxy ~ ':' ~ fleet.fleetDetail.start_system ~ ':' ~ fleet.fleetDetail.start_planet ~ ']' ~ (fleet.fleetDetail.start_type is defined and fleet.fleetDetail.start_type is not null ? ' (' ~ LNG["type_planet_short_#{fleet.fleetDetail.start_type}"] ~ ')' : ''), [fleet.player.military_tech * 10 + 100, fleet.player.shield_tech * 10 + 100, fleet.player.defence_tech * 10 + 100], reduced, Round > 0 and alive == 0) }}
+						{{ cr.fleet_head(side, fleet.player.username, '[' ~ fleet.fleetDetail.start_galaxy ~ ':' ~ fleet.fleetDetail.start_system ~ ':' ~ fleet.fleetDetail.start_planet ~ ']' ~ (fleet.fleetDetail.start_type is defined and fleet.fleetDetail.start_type is not null ? ' (' ~ LNG["type_planet_short_#{fleet.fleetDetail.start_type}"] ~ ')' : ''), [fleet.player.military_tech * 10 + 100, fleet.player.shield_tech * 10 + 100, fleet.player.defence_tech * 10 + 100], reduced, Round > 0 and alive == 0, reduced ? 0 : (fleet.player.id ?? 0)) }}
 						<div class="cr-scroll">
 							<table class="cr-table cr-ships">
 								<thead>

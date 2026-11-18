@@ -5,6 +5,11 @@
 #}
 {% set queueLength = Queue|length %}
 {% if queueSlots > 0 %}
+  {% if queueLength > 0 and umode == 0 %}
+    {% set totalTime = 0 %}
+    {% for List in Queue %}{% set totalTime = totalTime + (loop.first ? List.resttime : List.time) %}{% endfor %}
+    <p class="build-queue__total">{{ LNG.ui_queue_done|replace({'%at%': (Queue|last).display, '%in%': '<span class="countdown" data-time="' ~ totalTime ~ '"></span>'})|raw }}</p>
+  {% endif %}
   <ol id="buildlist" class="build-queue" aria-label="{{ LNG.ui_queue|default('Queue') }}">
     {% set ctime = 0 %}
     {% for List in Queue %}

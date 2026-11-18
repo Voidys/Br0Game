@@ -610,6 +610,8 @@ fl_already_invited: ' zaten davet edildi.'
 fl_ammount: Gemiler
 fl_arrival: Varış
 fl_arrival_time: Varış zamanı
+fl_arrival_target: "Hedefe varış"
+fl_return_home: "Dönüş"
 fl_attack_confirm_buddy: 'Hedef arkadaş listende.
 
   Gerçekten saldırmak istiyor musun?'
@@ -1492,6 +1494,11 @@ ui_menu: Menü
 ui_rank: Sıra
 ui_queue: Kuyruk
 ui_queue_free: boş yuva
+ui_planet_prev: "Önceki gezegen"
+ui_planet_next: "Sonraki gezegen"
+ui_queue_done: "Hepsi %at% saatinde bitecek (%in% sonra)"
+ui_full_in: "Dolmasına"
+ui_energy_used: "Kullanılan enerji"
 ui_points: Puan
 ui_close: Kapat
 ui_storage_full: "Storage full: production stopped"
@@ -1554,6 +1561,13 @@ vt_notice_pending: Oy verdiğin için teşekkürler! Ödül, site oyunu onaylad�
 vt_notice_cooldown: Bu siteye tekrar oy vermeden önce beklemen gerekiyor.
 mg_confirm_delete_one: "Bu mesaj silinsin mi?"
 mg_confirm_delete_bulk: "Bu mesajlar gerçekten silinsin mi? Bu geri alınamaz."
+mg_quick_read_all: "Tümünü okundu işaretle"
+mg_quick_delete_read: "Okunanları sil"
+mg_quick_delete_older: "%d günden eskileri sil"
+mg_confirm_delete_read: "Bu kategorideki tüm okunmuş mesajlar silinsin mi? Favoriler korunur."
+mg_confirm_delete_older: "Bu kategorideki %d günden eski tüm mesajlar silinsin mi? Favoriler korunur."
+mg_spy_again: "Tekrar casusluk yap"
+fl_change_target: "Hedefi değiştir"
 mg_group_mark: "Okundu olarak işaretle"
 mg_group_delete: "Sil"
 mg_pick_category: "Mesajları görmek için yukarıdan bir kategori seç."
@@ -1605,7 +1619,7 @@ fl_recall_return: "Şimdi çağrılırsa dönüş"
 fl_no_fleets: "Görevde filo yok."
 fl_quick_fleets: "Hızlı filolar"
 fl_quick_fleets_hint: "Henüz kayıtlı bir şey yok. Aşağıdaki \"Özel filolar\" bölümünde bir gemi kombinasyonu kaydet, burada tek tıkla görünsün; son görevin de burada çıkar."
-fl_load_hint: "Bu gezegenin stoğuyla önceden dolduruldu. Kargo düğmeleri kaç geminin taşıyacağını önerir; hiçbir şey göndermiyorsan temizle."
+fl_load_hint: "Gri değerler bu gezegenin stoğudur. Kargo düğmeleri kaç geminin taşıyacağını önerir; hiçbir şey göndermiyorsan boş bırak."
 fl_load_clear: "Temizle"
 fl_cargo_options_hint: "Kırmızı, o gemiden yeterince olmadığı anlamına gelir. Bir gemi simgesine tıklayarak hedefle birlikte seç."
 fl_summary: "Gönderim özeti"
@@ -1637,3 +1651,10 @@ rs_full_in: 'Depo dolana dek'
 rs_full_now: 'Dolu'
 fl_prepared_gone: "Bu filo artık hazır değil (süresi doldu, serbest bırakıldı veya zaten gönderildi). Baştan başla."
 gl_legend_activity: "Son 15 dk aktif, sonra (dakika) 60'a kadar"
+st_rank_change: "Son güncellemeden bu yana sıralama değişimi"
+st_prev_range: "Önceki 100"
+st_next_range: "Sonraki 100"
+op_unsaved_one: "1 kaydedilmemiş değişiklik"
+op_unsaved_many: "%d kaydedilmemiş değişiklik"
+pl_note: "Not"
+pl_galaxy_view: "Galakside göster"

@@ -27,3 +27,8 @@
 	<a href="{{ path('game_battle_hall_show') }}"{% if active == 'battlehall' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.lm_topkb }}</a>
 </nav>
 {% endmacro %}
+
+{# Rank change since the last statistics update: +3 green, -2 red, a dash when unchanged. #}
+{% macro rank_delta(change) %}
+{% if change > 0 %}<span class="rank-delta colorPositive">+{{ change }}</span>{% elseif change < 0 %}<span class="rank-delta colorNegative">&minus;{{ -change }}</span>{% else %}<span class="rank-delta rank-delta--same">&ndash;</span>{% endif %}
+{% endmacro %}

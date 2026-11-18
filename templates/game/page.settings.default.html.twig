@@ -578,6 +578,7 @@
 	</table>
 	<div class="settings-save">
 		<span class="hint">{{ LNG.op_save_hint }}</span>
+		<strong class="settings-dirty" data-dirty-bar data-one="{{ LNG.op_unsaved_one|e('html_attr') }}" data-many="{{ LNG.op_unsaved_many|e('html_attr') }}" role="status" hidden><span data-dirty-count></span></strong>
 		<input value="{{ LNG.op_save_changes }}" type="submit" class="btn--primary">
 	</div>
 	</form>

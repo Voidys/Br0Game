@@ -343,6 +343,7 @@ class AllianceController extends AbstractGameController
             'mainList' => $lists->mainAlliances($this->allianceData),
             'wingList' => $lists->wingAlliances($this->allianceData),
             'al_users_list' => $this->state->LNG->format('al_users_list', count($memberList)),
+            'selfId' => $this->state->USER['id'],
             'timezone' => $this->state->USER['timezone'],
             'ShortStatus' => $lists->shortStatus(),
         ]);

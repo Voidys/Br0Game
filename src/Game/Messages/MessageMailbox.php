@@ -82,7 +82,8 @@ class MessageMailbox
      * Runs a bulk action of the message list form. Unknown actions do nothing; bulk actions on a selection without a
      * valid message id do nothing either (the controller redirects back in every case).
      *
-     * Actions: readall, readtypeall, readmarked, deleteall, deletetypeall, deletemarked, deleteunmarked. "deleteunmarked"
+     * Actions: readall, readtypeall, readmarked, deleteall, deletetypeall, deletemarked, deleteunmarked, deletereadtype (read
+     * messages of the category), deleteolder7 / deleteolder30 (messages of the category older than that many days). "deleteunmarked"
      * without a selection means "delete the whole category", and "...typeall" of the category ALL means "...all".
      *
      * @param string               $action     requested action
@@ -121,6 +122,13 @@ class MessageMailbox
                 break;
             case 'deletemarked':
                 $this->deleteSelection($this->validIds($messageIDs));
+                break;
+            case 'deletereadtype':
+                $this->deleteFiltered($MessCategory, true, 0);
+                break;
+            case 'deleteolder7':
+            case 'deleteolder30':
+                $this->deleteFiltered($MessCategory, false, (int) substr($action, 11));
                 break;
             case 'deleteunmarked':
                 $this->deleteUnselected($MessCategory, is_array($messageIDs) ? $this->validIds($messageIDs) : []);
@@ -219,6 +227,40 @@ class MessageMailbox
             ':userID' => $USER['id'],
             ':messCategory' => $MessCategory,
         ]);
+    }
+
+    /**
+     * Deletes the non-favourite messages of a category (all categories for ALL), optionally only the read ones and/or only
+     * those older than a number of days.
+     *
+     * @param bool $readOnly  only messages that were already read
+     * @param int  $olderDays only messages older than this many days (0 = no age filter)
+     */
+    private function deleteFiltered(mixed $MessCategory, bool $readOnly, int $olderDays): void
+    {
+        $USER = $this->state->USER;
+        $sql = "UPDATE %%USERS_TO_MESSAGES%% um
+                    INNER JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`
+                    SET um.`deleted_at` = :timestamp
+                    WHERE um.`user_id` = :userID
+                      AND um.`message_favorite` = 0
+                      AND um.`deleted_at` IS NULL";
+        $params = [
+            ':timestamp' => $this->state->runtime->timestamp,
+            ':userID' => $USER['id'],
+        ];
+        if ($MessCategory != MessageType::All->value) {
+            $sql .= ' AND m.`message_type` = :messCategory';
+            $params[':messCategory'] = $MessCategory;
+        }
+        if ($readOnly) {
+            $sql .= ' AND um.`message_unread` = 0';
+        }
+        if ($olderDays > 0) {
+            $sql .= ' AND m.`message_time` < :olderThan';
+            $params[':olderThan'] = $this->state->runtime->timestamp - $olderDays * 86400;
+        }
+        $this->db->update($sql . ';', $params);
     }
 
     /** @param list<int|string> $ids validated message ids */

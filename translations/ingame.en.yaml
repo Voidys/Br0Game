@@ -630,6 +630,8 @@ fl_already_invited: ' has already been invited.'
 fl_ammount: Ships
 fl_arrival: Arrival
 fl_arrival_time: Arrival time
+fl_arrival_target: "Arrival at target"
+fl_return_home: "Return"
 fl_attack_confirm_buddy: |-
   The target is on your friends list.
   Are you sure you want to attack?
@@ -1517,6 +1519,11 @@ ui_menu: Menu
 ui_rank: Rank
 ui_queue: Queue
 ui_queue_free: free slot
+ui_planet_prev: "Previous planet"
+ui_planet_next: "Next planet"
+ui_queue_done: "All done at %at% (in %in%)"
+ui_full_in: "Full in"
+ui_energy_used: "Energy used"
 ui_points: Points
 ui_close: Close
 ui_storage_full: "Storage full: production stopped"
@@ -1580,6 +1587,13 @@ vt_notice_pending: "Thanks for voting! The reward arrives after the site has con
 vt_notice_cooldown: "You have to wait before voting on this site again."
 mg_confirm_delete_one: "Delete this message?"
 mg_confirm_delete_bulk: "Really delete these messages? This cannot be undone."
+mg_quick_read_all: "Mark all read"
+mg_quick_delete_read: "Delete read"
+mg_quick_delete_older: "Delete older than %d days"
+mg_confirm_delete_read: "Delete all read messages of this category? Favourites are kept."
+mg_confirm_delete_older: "Delete all messages of this category older than %d days? Favourites are kept."
+mg_spy_again: "Spy again"
+fl_change_target: "Change target"
 mg_group_mark: "Mark as read"
 mg_group_delete: "Delete"
 mg_pick_category: "Pick a category above to see its messages."
@@ -1631,7 +1645,7 @@ fl_recall_return: "Home again if recalled now"
 fl_no_fleets: "No fleets on mission."
 fl_quick_fleets: "Quick fleets"
 fl_quick_fleets_hint: "Nothing saved yet. Save a ship combination under \"Custom fleets\" below and it appears here as a one-click shortcut; your last mission shows up here too."
-fl_load_hint: "Prefilled with this planet's stock. The cargo buttons suggest how many ships carry it; clear it if you send nothing along."
+fl_load_hint: "The grey values are this planet's stock. The cargo buttons suggest how many ships carry it; leave a field empty to send nothing along."
 fl_load_clear: "Clear"
 fl_cargo_options_hint: "Red means you do not have enough of that ship. Click a ship icon to preselect it together with the target."
 fl_summary: "Dispatch summary"
@@ -1663,3 +1677,10 @@ rs_full_in: 'Storage full in'
 rs_full_now: 'Full'
 fl_prepared_gone: "This fleet is no longer prepared (expired, released or already sent). Please start again."
 gl_legend_activity: "Active in the last 15 min, shown as (minutes ago) up to 60"
+st_rank_change: "Rank change since the last update"
+st_prev_range: "Previous 100"
+st_next_range: "Next 100"
+op_unsaved_one: "1 unsaved change"
+op_unsaved_many: "%d unsaved changes"
+pl_note: "Note"
+pl_galaxy_view: "Show in galaxy"

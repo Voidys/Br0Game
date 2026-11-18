@@ -604,6 +604,8 @@ fl_already_invited: ' ay naimbitahan na.'
 fl_ammount: Mga Barko
 fl_arrival: Pagdating
 fl_arrival_time: Oras ng pagdating
+fl_arrival_target: "Pagdating sa target"
+fl_return_home: "Pagbalik"
 fl_attack_confirm_buddy: 'Nasa listahan ng mga kaibigan mo ang target.
 
   Sigurado ka bang aatake ka?'
@@ -1482,6 +1484,11 @@ ui_menu: Menu
 ui_rank: Rank
 ui_queue: Queue
 ui_queue_free: libreng slot
+ui_planet_prev: "Nakaraang planeta"
+ui_planet_next: "Susunod na planeta"
+ui_queue_done: "Tapos na lahat sa %at% (sa loob ng %in%)"
+ui_full_in: "Puno sa"
+ui_energy_used: "Nagamit na enerhiya"
 ui_points: Puntos
 ui_close: Isara
 ui_storage_full: "Storage full: production stopped"
@@ -1544,6 +1551,13 @@ vt_notice_pending: Salamat sa pag-vote! Darating ang reward pagkatapos kumpirmah
 vt_notice_cooldown: Kailangan mo pang maghintay bago ulit mag-vote sa site na ito.
 mg_confirm_delete_one: "Burahin ang mensaheng ito?"
 mg_confirm_delete_bulk: "Talagang burahin ang mga mensaheng ito? Hindi na ito maibabalik."
+mg_quick_read_all: "Markahan lahat bilang nabasa"
+mg_quick_delete_read: "Burahin ang nabasa"
+mg_quick_delete_older: "Burahin ang mas luma sa %d araw"
+mg_confirm_delete_read: "Burahin ang lahat ng nabasang mensahe sa kategoryang ito? Mananatili ang mga paborito."
+mg_confirm_delete_older: "Burahin ang lahat ng mensahe sa kategoryang ito na mas luma sa %d araw? Mananatili ang mga paborito."
+mg_spy_again: "Mag-espiya muli"
+fl_change_target: "Palitan ang target"
 mg_group_mark: "Markahan bilang nabasa"
 mg_group_delete: "Burahin"
 mg_pick_category: "Pumili ng kategorya sa itaas para makita ang mga mensahe."
@@ -1595,7 +1609,7 @@ fl_recall_return: "Uwi kung ibabalik ngayon"
 fl_no_fleets: "Walang fleet na nasa misyon."
 fl_quick_fleets: "Mabilis na fleet"
 fl_quick_fleets_hint: "Wala pang naka-save. Mag-save ng kombinasyon ng barko sa \"Custom fleets\" sa ibaba at lalabas ito rito bilang shortcut; lalabas din dito ang huling misyon mo."
-fl_load_hint: "Naka-prefill ng stock ng planetang ito. Ang mga cargo button ay nagmumungkahi kung ilang barko ang magdadala nito; i-clear kung walang ipapadala."
+fl_load_hint: "Ang mga kulay-abong halaga ay ang stock ng planetang ito. Ang mga cargo button ay nagmumungkahi kung ilang barko ang magdadala nito; iwanang walang laman kung walang ipapadala."
 fl_load_clear: "I-clear"
 fl_cargo_options_hint: "Pula ang ibig sabihin ay kulang ang barkong iyon. I-click ang icon ng barko para i-preselect kasama ang target."
 fl_summary: "Buod ng pagpapadala"
@@ -1627,3 +1641,10 @@ rs_full_in: 'Puno ang imbakan sa'
 rs_full_now: 'Puno'
 fl_prepared_gone: "Hindi na handa ang fleet na ito (nag-expire, na-release o naipadala na). Magsimulang muli."
 gl_legend_activity: "Aktibo sa nakaraang 15 min, pagkatapos (minuto) hanggang 60"
+st_rank_change: "Pagbabago ng ranggo mula sa huling update"
+st_prev_range: "Nakaraang 100"
+st_next_range: "Susunod na 100"
+op_unsaved_one: "1 hindi pa na-save na pagbabago"
+op_unsaved_many: "%d hindi pa na-save na pagbabago"
+pl_note: "Tala"
+pl_galaxy_view: "Ipakita sa galaxy"

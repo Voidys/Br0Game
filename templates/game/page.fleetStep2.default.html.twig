@@ -2,9 +2,9 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
-{% include 'game/shared.fleetSummary.html.twig' %}
 {% set backQuery = {galaxy: galaxy, system: system, planet: planet, type: type, target_mission: mission} %}
 {% for shipId, shipCount in FleetList %}{% set backQuery = backQuery|merge({('ship' ~ shipId): shipCount}) %}{% endfor %}
+{% include 'game/shared.fleetSummary.html.twig' with {changeTargetUrl: path('game_fleet_step1_show', backQuery)} %}
 <form action="{{ path('game_fleet_step3_show') }}" method="post" data-on-submit="check-resources" id="form" class="form-page">
 <input type="hidden" name="token" value="{{ token }}">
 {% if Exchange %}
@@ -71,7 +71,7 @@
             <td class="transparent" colspan="2"><a href="#" data-action="max-resources">{{ LNG.fl_all_resources }}</a></td>
           </tr>
           {% endif %}
-          <tr id="selectedResRow">
+          <tr id="selectedResRow"{% if not (predefinedRes['met'] ~ predefinedRes['krist'] ~ predefinedRes['deut'] matches '/[1-9]/') %} hidden{% endif %}>
             <td class="transparent" colspan="2"><a  id="selectedres" href="#" data-action="selected-resources" data="{{ predefinedRes['met'] }},{{ predefinedRes['krist'] }},{{ predefinedRes['deut'] }},{{ consumption }}">{{ LNG.fl_selected_resources }}</a></td>
           </tr>
           <tr>
@@ -79,6 +79,9 @@
           </tr>
           <tr>
             <td class="transparent" colspan="2">{{ LNG.fl_flying_arrival }}: <span id="arr_time" duration="{{ duration }}"></span></td>
+          </tr>
+          <tr>
+            <td class="transparent" colspan="2">{{ LNG.fl_return_home }}: <span id="ret_time"></span></td>
           </tr>
 				</table>
 			</td>
@@ -165,7 +168,7 @@
 		</tr>
 		{% endif %}
         <tr id="submit">
-			<td colspan="2" class="form-actions"><a class="btn-back" href="{{ path('game_fleet_step1_show', backQuery) }}">{{ icon('arrow-left') }}{{ LNG.sys_back }}</a><input value="{{ LNG.fl_send_fleet }}" type="submit" data-action="send-fleet" class="btn-send"/></td>
+			<td colspan="2" class="form-actions"><span class="reason reason--bad" id="send-notice" role="alert" hidden></span><a class="btn-back" href="{{ path('game_fleet_step1_show', backQuery) }}">{{ icon('arrow-left') }}{{ LNG.sys_back }}</a><input value="{{ LNG.fl_send_fleet }}" type="submit" data-action="send-fleet" class="btn-send"/></td>
         </tr>
 		<tr id="wait" style="display:none;">
 			<td colspan="2" class="ctr">{{ LNG.fl_sending }}</td>
@@ -181,6 +184,8 @@
 	questionList: questionList,
 	tradeMarket: tradeMarket,
 	targetMission: mission,
+	protection: protection,
+	texts: {noCargo: LNG.fl_no_noresource},
 	fleet: FleetList,
 	target: [galaxy, system, planet, type],
 	urls: {

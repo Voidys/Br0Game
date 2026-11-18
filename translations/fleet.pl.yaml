@@ -255,3 +255,6 @@ type_planet_short_2: Pz
 type_planet_short_3: M
 depot_msg_subject: "Flota zaopatrzona"
 depot_msg_text: "Twoja flota przy %s została zaopatrzona przez %s: pobyt wydłużony o %s godz."
+cr_actions: "Akcje raportu"
+cr_attack_again: "Atakuj ponownie"
+cr_simulate: "Symuluj"

@@ -155,6 +155,13 @@ const refreshSummary = () => {
   summary('duration').textContent = document.getElementById('duration').textContent;
 };
 
+/** Return time (round trip, without a stay time) in the summary bar. */
+const setSummaryReturn = (text) => {
+  if (summary('return')) {
+    summary('return').textContent = text;
+  }
+};
+
 /** Arrival time in the summary bar. */
 const setSummaryArrival = (text) => {
   if (summary('eta')) {
@@ -247,7 +254,29 @@ const selectedResources = () => {
 };
 
 /** Shows the cargo space left after fuel and the typed resources (red when overloaded), updates the trade ratio and returns the value. */
+/** Missions the dispatch checks against the noob protection rules (attack, ACS, hold, spy, destruction). */
+const PROTECTED_MISSIONS = [1, 2, 5, 6, 9];
+
+/** Step 2: disables Send with an inline notice when the dispatch would be refused anyway (protected target for a hostile mission, a transport without cargo). */
+const updateSendGate = () => {
+  const radio = document.querySelector('input[name="mission"]:checked');
+  const button = document.querySelector('.btn-send');
+  const notice = document.getElementById('send-notice');
+  if (fleetPage.step !== 2 || !radio || !button || !notice) return;
+  const mission = Number(radio.value);
+  let message = '';
+  if (fleetPage.protection && PROTECTED_MISSIONS.includes(mission)) {
+    message = fleetPage.protection;
+  } else if (mission === 3 && ['metal', 'crystal', 'deuterium'].every((name) => !(Number(field(name)?.value) > 0))) {
+    message = texts.noCargo;
+  }
+  button.disabled = message !== '';
+  notice.textContent = message;
+  notice.hidden = message === '';
+};
+
 const calculateTransportCapacity = () => {
+  updateSendGate();
   const loaded = ['metal', 'crystal', 'deuterium'].reduce((sum, name) => sum + Math.abs(field(name).value), 0);
   const transportCapacity = data.fleetroom - data.consumption - loaded;
   setSignal(document.getElementById('remainingresources'), pretty_number(transportCapacity), transportCapacity < 0 ? 'colorNegative' : 'colorPositive');
@@ -626,6 +655,7 @@ const checkTarget = () => {
     planet_type: field('type').value,
     lang: env.lang,
     kolo,
+    mission: document.querySelector('#form input[name="target_mission"]')?.value ?? -1,
   });
 
   getJSON(`${urls.checkTarget}?${query}`).then((answer) => {
@@ -773,6 +803,10 @@ const showMissionInSummary = (radio) => {
   if (summary('mission') && label) {
     summary('mission').textContent = label.textContent.trim();
     document.getElementById('sum-mission-item').hidden = false;
+    const returnItem = document.getElementById('sum-return-item');
+    if (returnItem) {
+      returnItem.hidden = Number(radio.dataset.mission) === 4;
+    }
   }
 };
 
@@ -783,11 +817,18 @@ const updateArrival = () => {
   const serverOffsetBase = new Date(current.toLocaleString('en-us', { timeZone: env.serverTimezone })).getTime();
   const localBase = new Date(current.toLocaleString('en-us', { timeZone: env.localTimezone })).getTime();
   const timeOffset = localBase - serverOffsetBase;
-  const nd = new Date(now().getTime() + timeOffset + parseInt(arrival.getAttribute('duration')) * 1000);
-  const days = Math.floor((nd - now()) / (1000 * 60 * 60 * 24));
-  const prefix = days > 0 ? `${days}T ` : '';
-  arrival.innerText = `${prefix}${nd.getHours()}:${pad(nd.getMinutes(), 2)}:${pad(nd.getSeconds(), 2)}`;
+  const formatAt = (seconds) => {
+    const nd = new Date(now().getTime() + timeOffset + seconds * 1000);
+    const days = Math.floor((nd - now()) / (1000 * 60 * 60 * 24));
+    const prefix = days > 0 ? `${days}T ` : '';
+    return `${prefix}${nd.getHours()}:${pad(nd.getMinutes(), 2)}:${pad(nd.getSeconds(), 2)}`;
+  };
+  const duration = parseInt(arrival.getAttribute('duration'));
+  arrival.innerText = formatAt(duration);
   setSummaryArrival(arrival.innerText);
+  const back = formatAt(duration * 2);
+  document.getElementById('ret_time').innerText = back;
+  setSummaryReturn(back);
 };
 
 const coords = (link) => [link.dataset.galaxy, link.dataset.system, link.dataset.planet, link.dataset.type];
@@ -802,7 +843,7 @@ registerActions({
   'save-shortcuts': () => saveShortcuts(),
   'add-shortcut': () => addShortcut(),
   'check-resources': () => checkResources(),
-  'check-hold': (radio) => { checkHold(Number(radio.dataset.mission)); showMissionInSummary(radio); },
+  'check-hold': (radio) => { checkHold(Number(radio.dataset.mission)); showMissionInSummary(radio); updateSendGate(); },
   'calc-capacity': () => { calculateTransportCapacity(); },
   'max-trade-offer': () => maxTradeOffer(),
   'max-resource': (link) => maxResource(link.dataset.resource),
@@ -822,6 +863,10 @@ registerActions({
 });
 
 window.onPageInit(() => {
+  updateSendGate();
+  for (const name of ['metal', 'crystal', 'deuterium']) {
+    field(name)?.addEventListener('input', updateSendGate);
+  }
   if (document.getElementById('arr_time')) {
     updateArrival();
     setVisibleInterval(updateArrival, 1000);
